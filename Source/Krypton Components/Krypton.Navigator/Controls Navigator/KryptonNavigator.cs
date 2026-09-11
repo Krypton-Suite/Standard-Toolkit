@@ -53,7 +53,6 @@ public class KryptonNavigator : VisualSimple,
     private bool _allowTabSelect;
     private bool _tabHoverStarted;
     private bool _controlKryptonFormFeatures;
-    private bool _isRightToLeftLayout;
     private Form? _rtlSourceForm;
     private int _cachePageCount;
     private int _cachePageVisibleCount;
@@ -377,14 +376,14 @@ public class KryptonNavigator : VisualSimple,
     [Browsable(true)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public bool RightToLeftLayout
+    public override bool RightToLeftLayout
     {
-        get => _isRightToLeftLayout;
+        get => base.RightToLeftLayout;
         set
         {
-            if (_isRightToLeftLayout != value)
+            if (base.RightToLeftLayout != value)
             {
-                _isRightToLeftLayout = value;
+                base.RightToLeftLayout = value;
                 PerformNeedPaint(true);
             }
         }

@@ -246,7 +246,7 @@ public abstract class VisualContainerControlBase : ContainerControl,
     [Browsable(true)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public bool RightToLeftLayout
+    public virtual bool RightToLeftLayout
     {
         get => _isRightToLeftLayout;
         set
