@@ -398,7 +398,7 @@ public static class MaterializeSchemeHelper
         scheme.TextListItem = lightText;
         scheme.MenuItemText = lightText;
         scheme.MenuStripText = lightText;
-        scheme.ToolStripText = lightText;
+        scheme.ToolStripText = CommonHelper.ContrastingBlackOrWhite(scheme.ToolStripBegin);
         scheme.DisabledMenuItemText = mutedText;
         scheme.MenuMarginGradientStart = panelMid;
         scheme.MenuMarginGradientMiddle = panelRaised;

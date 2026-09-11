@@ -45,6 +45,9 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
+  * ToolStrip item text stays readable on themes where the historic ColorTable alias did not contrast with the strip (Office White, Office 2007 Black, Visual Studio 2010 variations).
+  * `KryptonWrapLabel` / `KryptonLinkWrapLabel` no longer throw `ArgumentException` (`Parameter is not valid`) from `DrawString` after a theme change. Palette fonts are cloned before assignment to `Control.Font`.
 * Implemented [#2381](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2381), logical `RightToLeftLayout` on `KryptonNavigator`
   * Header ButtonSpecs (close, context, and workspace maximize) dock to the left when both `RightToLeft` and `RightToLeftLayout` are set. The navigator copies the layout flag from the host form, matching Ribbon and Workspace. Does not enable `WS_EX_LAYOUTRTL`.
 * Implemented [#2383](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2383), RTL support for **all** `Krypton.Workspace` controls

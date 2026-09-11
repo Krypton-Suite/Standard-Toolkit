@@ -87,6 +87,9 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         RibbonQATOverflow2 = DosBlue;
 
         ToolStripBack = DosBlueDark;
+        ToolStripBegin = DosBlue;
+        ToolStripMiddle = DosBlue;
+        ToolStripEnd = DosBlueDark;
         HeaderPrimaryBack1 = DosBlueDark;
         HeaderPrimaryBack2 = DosBlue;
         HeaderText = Color.White;
