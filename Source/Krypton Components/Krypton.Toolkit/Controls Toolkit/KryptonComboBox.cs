@@ -2756,12 +2756,6 @@ public class KryptonComboBox : VisualControlBase,
             ForceControlLayout();
         }
 
-        // ToDo: Create a new API for this in a later version
-        //if (StateCommon.ComboBox.Content.SynchronizeDropDownWidth)
-        //{
-        //    DropDownWidth = Size.Width;
-        //}
-
         base.OnPaint(e);
         Paint?.Invoke(this, e!);
     }
@@ -2774,6 +2768,9 @@ public class KryptonComboBox : VisualControlBase,
     {
         // Let base class raise events
         base.OnResize(e);
+
+        // Keep the native drop-down width aligned when DropDownWidth has not been set explicitly.
+        SynchronizeNativeDropDownWidth();
 
         // We must have a layout calculation
         ForceControlLayout();
@@ -3424,10 +3421,26 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxDropDown(object? sender, EventArgs e)
     {
+        // Ensure the list uses the current control width when DropDownWidth is still tracking.
+        SynchronizeNativeDropDownWidth();
+
         _comboBox.Dropped = true;
         _hoverIndex = -1;
         Refresh();
         OnDropDown(e);
+    }
+
+    /// <summary>
+    /// Updates the inner ComboBox drop-down width to match this control when <see cref="DropDownWidth"/>
+    /// has not been assigned explicitly (WinForms-compatible tracking).
+    /// </summary>
+    private void SynchronizeNativeDropDownWidth()
+    {
+        _comboBox.DropDownWidth = _dropDownWidthSet switch
+        {
+            false => Width,
+            _ => _comboBox.DropDownWidth
+        };
     }
 
     private void OnComboBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
