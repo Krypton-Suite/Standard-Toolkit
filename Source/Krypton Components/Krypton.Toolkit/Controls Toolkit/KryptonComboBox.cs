@@ -3724,10 +3724,11 @@ public class KryptonComboBox : VisualControlBase,
     /// </summary>
     private void SynchronizeNativeDropDownWidth()
     {
-        if (!_dropDownWidthSet)
+        _comboBox.DropDownWidth = _dropDownWidthSet switch
         {
-            _comboBox.DropDownWidth = Width;
-        }
+            false => Width,
+            _ => _comboBox.DropDownWidth
+        };
     }
 
     private void OnComboBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
