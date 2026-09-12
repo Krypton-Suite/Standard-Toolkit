@@ -5219,7 +5219,7 @@ public class KryptonColorTable2010SilverDarkMode : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => Colors!.Resolve(SchemeBaseColors.ToolStripText, SchemeBaseColors.StatusStripText);
+    public override Color ToolStripText => Colors!.ResolveToolStripText(SchemeBaseColors.StatusStripText);
 
     #endregion
 
