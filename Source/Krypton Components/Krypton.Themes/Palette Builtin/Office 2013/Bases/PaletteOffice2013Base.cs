@@ -255,8 +255,6 @@ public abstract class PaletteOffice2013Base : PaletteBase
 
     #endregion
 
-    //TODO Dynamically render
-    //public static Color baseUserColor = Color.FromArgb(255, 248, 56);
     #endregion
 
     #region Identity
