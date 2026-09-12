@@ -45,6 +45,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4425](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4425), Keep KryptonComboBox drop-down width tracking control width
+  * `KryptonComboBox` keeps the drop-down list width in sync with the control when `DropDownWidth` has not been set explicitly (removed the leftover Content-palette sync TODO from [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704)).
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text stays readable on themes where the historic ColorTable alias did not contrast with the strip (Office White, Office 2007 Black, Visual Studio 2010 variations).
   * `KryptonWrapLabel` / `KryptonLinkWrapLabel` no longer throw `ArgumentException` (`Parameter is not valid`) from `DrawString` after a theme change. Palette fonts are cloned before assignment to `Control.Font`.
