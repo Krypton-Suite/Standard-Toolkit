@@ -3658,6 +3658,7 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
             case PaletteButtonSpecStyle.QuickPrint:
                 return _integratedToolbarQuickPrintNormal;
             case PaletteButtonSpecStyle.Generic:
+                // Generic button specs have no stock palette image; the consumer supplies one.
                 return null;
             default:
                 // Should never happen!

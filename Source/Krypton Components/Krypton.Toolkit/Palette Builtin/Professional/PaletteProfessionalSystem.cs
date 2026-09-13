@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -2984,6 +2984,7 @@ public class PaletteProfessionalSystem : PaletteBase
                 return state == PaletteState.Disabled ? _formToolbarButtonSpecQuickPrintDisabled : _formToolbarButtonSpecQuickPrintNormal;
 
             case PaletteButtonSpecStyle.Generic:
+                // Generic button specs have no stock palette image; the consumer supplies one.
                 return null;
             default:
                 // Should never happen!

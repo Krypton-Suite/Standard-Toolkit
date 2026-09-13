@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -3939,6 +3939,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
             case PaletteButtonSpecStyle.QuickPrint:
                 return _integratedToolbarQuickPrintNormal;
             case PaletteButtonSpecStyle.Generic:
+                // Generic button specs have no stock palette image; the consumer supplies one.
                 return null;
             default:
                 // Should never happen!
