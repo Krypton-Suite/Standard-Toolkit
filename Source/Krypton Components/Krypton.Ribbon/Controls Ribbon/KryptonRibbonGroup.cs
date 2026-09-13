@@ -22,7 +22,7 @@ namespace Krypton.Ribbon;
 [DefaultProperty(nameof(TextLine1))]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
-public class KryptonRibbonGroup : Component
+public class KryptonRibbonGroup : Component, IRibbonTranslationIdentity
 {
     #region Static Fields
     private static readonly Image _defaultGroupImage = GenericImageResources.GroupImageDefault;
@@ -30,6 +30,7 @@ public class KryptonRibbonGroup : Component
 
     #region Instance Fields
     private object? _tag;
+    private string _translationId = string.Empty;
     private bool _visible;
     private bool _allowCollapsed;
     private Image? _image;
@@ -436,6 +437,23 @@ public class KryptonRibbonGroup : Component
     [Editor(typeof(KryptonRibbonGroupContainerCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonRibbonGroupContainerCollection Items { get; }
+
+    /// <summary>
+    /// Gets or sets a stable, non-localized identity used when saving or loading ribbon translations.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Stable identity for RibbonTranslations.xml. Prefer this over collection index when groups can be reordered.")]
+    [DefaultValue("")]
+    [Localizable(false)]
+    public string TranslationId
+    {
+        get => _translationId ?? string.Empty;
+        set => _translationId = value ?? string.Empty;
+    }
+
+    private bool ShouldSerializeTranslationId() => !string.IsNullOrEmpty(TranslationId);
+
+    private void ResetTranslationId() => TranslationId = string.Empty;
 
     /// <summary>
     /// Gets and sets user-defined data associated with the object.
