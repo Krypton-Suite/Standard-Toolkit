@@ -27,10 +27,7 @@ internal class KryptonContextMenuActionList : DesignerActionList
     public KryptonContextMenuActionList(KryptonContextMenuDesigner owner)
         : base(owner.Component)
     {
-        // Remember the context menu instance
         _contextMenu = (owner.Component as KryptonContextMenu)!;
-
-        // Cache service used to notify when a property has changed
         _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
     }
     #endregion
@@ -42,13 +39,20 @@ internal class KryptonContextMenuActionList : DesignerActionList
     /// <returns>A DesignerActionItem array that contains the items in this list.</returns>
     public override DesignerActionItemCollection GetSortedActionItems()
     {
-        // Create a new collection for holding the single item we want to create
         var actions = new DesignerActionItemCollection();
 
-        // This can be null when deleting a component instance at design time
         if (_contextMenu != null)
         {
-            // Add the list of panel specific actions
+            actions.Add(new DesignerActionHeaderItem(@"Actions"));
+            actions.Add(new KryptonDesignerActionItem(
+                new DesignerVerb(@"Insert Standard Items", OnInsertStandardItems),
+                @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(
+                new DesignerVerb(@"Edit Items...", OnEditItems),
+                @"Actions"));
+            actions.Add(new DesignerActionHeaderItem(@"Data"));
+            actions.Add(new DesignerActionPropertyItem(nameof(Items), @"Items", @"Data",
+                @"Collection of menu items."));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
         }
@@ -57,7 +61,7 @@ internal class KryptonContextMenuActionList : DesignerActionList
     }
     #endregion
 
-    #region Implementation
+    #region Public
     /// <summary>
     /// Gets and sets the palette mode.
     /// </summary>
@@ -69,25 +73,28 @@ internal class KryptonContextMenuActionList : DesignerActionList
         {
             if (_contextMenu.PaletteMode != value)
             {
-                _service?.OnComponentChanged(_contextMenu, null, _contextMenu!.PaletteMode, value);
+                _service?.OnComponentChanged(_contextMenu, null, _contextMenu.PaletteMode, value);
                 _contextMenu.PaletteMode = value;
             }
         }
     }
 
-    /// <summary>Gets or sets the items.</summary>
-    /// <value>The items.</value>
-    public KryptonContextMenuCollection Items
-    {
-        get => _contextMenu.Items;
+    /// <summary>
+    /// Gets the items collection.
+    /// </summary>
+    public KryptonContextMenuCollection Items => _contextMenu.Items;
+    #endregion
 
-        set
-        {
-            if (_contextMenu.Items != value)
-            {
-                _service?.OnComponentChanged(_contextMenu, null, _contextMenu.Items, value);
-            }
-        }
-    }
+    #region Implementation
+
+    private void OnInsertStandardItems(object? sender, EventArgs e) =>
+        KryptonContextMenuDesigner.InsertStandardItems(
+            _contextMenu,
+            GetService(typeof(IDesignerHost)) as IDesignerHost,
+            _service);
+
+    private void OnEditItems(object? sender, EventArgs e) =>
+        KryptonContextMenuDesigner.EditItems(_contextMenu);
+
     #endregion
 }
