@@ -23,3 +23,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 ```
 
 The script instantiates toolbox controls, walks `TypeDescriptor` content properties, and fails if core drop targets have `IsDefault == false` or unexpected `ShouldSerializeValue == true`.
+
+## ButtonSpec FillHeight (`Probe-ButtonSpecFillHeight.ps1` / `Invoke-ButtonSpecFillHeightScreenshot.ps1`)
+
+Issue #4432: `ButtonSpec.FillHeight` stretches ButtonSpecs to the full host height (default remains centred).
+
+Requires Debug `net472` TestForm output.
+
+```cmd
+dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Probe-ButtonSpecFillHeight.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-ButtonSpecFillHeightScreenshot.ps1
+```
