@@ -4,7 +4,7 @@
 
 .DESCRIPTION
     Loads TestForm assemblies in-process (STA), shows KryptonTagInputDemo, captures the
-    window, and writes Documents/PR/tag-input-default.png (or -OutputPath).
+    window, and writes Documents/PR/3927-tag-input-default.png (or -OutputPath).
 
     # UnitTest-CI: exclude
 
@@ -25,7 +25,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Get-UnitTestRepoRoot
 $bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
 if (-not $OutputPath) {
-    $OutputPath = Join-Path $repoRoot 'Documents\PR\tag-input-default.png'
+    $OutputPath = Join-Path $repoRoot 'Documents\PR\3927-tag-input-default.png'
 }
 
 $outDir = Split-Path -Parent $OutputPath
@@ -37,7 +37,6 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.Utilities.dll'))
 $asm = [System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'TestForm.exe'))
 
 [System.Windows.Forms.Application]::EnableVisualStyles()
