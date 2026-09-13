@@ -49,6 +49,8 @@
   * Drop this control when the button is always split. `KryptonButton.ShowSplitOption` remains for the legacy opt-in. Use `KryptonDropButton` with `Splitter = false` when the whole button should open the menu. The `&Save` mnemonic fires `Click`, not the menu.
   * The chevron menu is aligned to the split (right edge by default) on `KryptonSplitButton`, `KryptonDropButton`, and `KryptonButton` with `ShowSplitOption`.
   * Design-time support reuses `KryptonDropButtonDesigner` via the string `[Designer]` attribute so modern TFMs load it from `Krypton.Toolkit.Design`.
+* Implemented [#979](https://github.com/Krypton-Suite/Standard-Toolkit/issues/979), Use designer verbs where appropriate
+  * Designer verbs on Krypton components that need collection or command actions (context menu, header, workspace, manager), matching native WinForms right-click commands.
 * Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly.
 * Implemented [#2379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2379), RTL support for **all** `Krypton.Toolkit` controls
   * Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm` (or on the control). Both flags together mirror docks, splitters, group/header captions, spin buttons, and list reading order; `RightToLeft` alone still controls text Near/Far.
