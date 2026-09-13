@@ -159,6 +159,9 @@
     <Compile Update="Feature3851RenderingDpiDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonRibbon\Feature\RibbonTranslationsDemo.Designer.cs">
+      <DependentUpon>RibbonTranslationsDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.Designer.cs">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
     </Compile>
@@ -230,6 +233,7 @@
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonRibbon\Bugs\" />
+    <Folder Include="KryptonToolkit\Bugs\" />
     <Folder Include="KryptonRibbon\Feature\" />
     <Folder Include="KryptonUtilities\Bugs\" />
     <Folder Include="KryptonWorkspace\Bugs\" />
