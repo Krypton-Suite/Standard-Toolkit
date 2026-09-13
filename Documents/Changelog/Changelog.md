@@ -49,6 +49,8 @@
   * Save/load the ribbon instance caption tree via versioned `RibbonTranslations.xml` / JSON (tabs, groups, buttons, KeyTips, tooltips, QAT, contexts, app menu, recent docs, backstage) with stream overloads for database BLOBs.
   * Overlay-only import: unknown keys are ignored, missing keys keep current values, and `TranslationId` (with `Site.Name` / index fallback) keeps files stable when items are reordered.
   * Auto Discovery of `RibbonTranslations.{ribbonKey}.{culture}.*` then shared `RibbonTranslations.{culture}.*` (exact → neutral → default, XML before JSON) on first `HandleCreated`; opt-out via `KryptonRibbon.AutoDiscoverTranslations` or `EnableAutoDiscoverTranslations`. Designer Smart Tag import/export/template/merge/culture verbs.
+* Implemented [#979](https://github.com/Krypton-Suite/Standard-Toolkit/issues/979), Use designer verbs where appropriate
+  * Designer verbs on Krypton components that need collection or command actions (context menu, header, workspace, manager), matching native WinForms right-click commands.
 * Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly.
 * Implemented [#2379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2379), RTL support for **all** `Krypton.Toolkit` controls
   * Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm` (or on the control). Both flags together mirror docks, splitters, group/header captions, spin buttons, and list reading order; `RightToLeft` alone still controls text Near/Far.

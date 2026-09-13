@@ -105,27 +105,8 @@ internal class KryptonManagerActionList : DesignerActionList
 
     #region Implementation
 
-    private void OnReset(object? sender, EventArgs e)
-    {
-        if (_manager != null)
-        {
-            DialogResult result = KryptonMessageBox.Show(
-                @"This will reset the current theme back to 'Microsoft 365 - Blue'. Do you want to continue?",
-                @"Reset Theme",
-                KryptonMessageBoxButtons.YesNo,
-                KryptonMessageBoxIcon.Question
-            );
-
-            if (result == DialogResult.Yes)
-            {
-                _manager.GlobalPaletteMode = PaletteMode.Microsoft365Blue;
-
-                _service?.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, PaletteMode.Microsoft365Blue);
-
-                //UpdateVerbStatus();
-            }
-        }
-    }
+    private void OnReset(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ResetTheme(_manager, _service);
 
     #endregion
 
@@ -146,10 +127,6 @@ internal class KryptonManagerActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(@"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Reset to Default Theme", OnReset), @"Actions"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Designer Editor Settings...", OnDesignerEditorSettings), @"Actions"));
-            
-            /*actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add language manager", OnAddLanguageManager), "Actions"));
-            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Remove language manager", OnRemoveLanguageManager), "Actions"));
-            actions.Add(new DesignerActionHeaderItem(@"Data"));*/
             actions.Add(new DesignerActionHeaderItem(@"Translations"));
             actions.Add(new DesignerActionPropertyItem(nameof(TranslationsCulture), @"UI Culture", @"Translations",
                 @"Switch the designer UI culture and load matching Translations.{culture}.* files with graceful fallback."));
@@ -357,86 +334,28 @@ internal class KryptonManagerActionList : DesignerActionList
         }
     }
 
-    private void OnMergeMissingTranslations(object? sender, EventArgs e)
-    {
-        if (_manager == null)
-        {
-            return;
-        }
+    private void OnImportTranslationsXml(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ImportTranslationsXml(_manager, _service);
 
-        try
-        {
-            using var ofd = new OpenFileDialog();
-            ofd.CheckFileExists = true;
-            ofd.CheckPathExists = true;
-            ofd.FileName = @"ToolkitTranslations";
-            ofd.Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)";
-            ofd.Title = @"Merge Missing Translations into File";
+    private void OnExportTranslationsXml(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ExportTranslationsXml(_manager);
 
-            var fileName = (ofd.ShowDialog() == DialogResult.OK) ? ofd.FileName : string.Empty;
-            if (string.IsNullOrWhiteSpace(fileName))
-            {
-                return;
-            }
+    private void OnImportTranslationsJson(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ImportTranslationsJson(_manager, _service);
 
-            var before = _manager.ToolkitStrings.AnalyzeTranslationsFromFile(fileName);
-            var after = _manager.ToolkitStrings.MergeMissingTranslationsToFile(fileName, includeDefaults: true);
-            _service?.OnComponentChanged(_manager, null, null, null);
+    private void OnExportTranslationsJson(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ExportTranslationsJson(_manager);
 
-            KryptonMessageBox.Show(
-                $@"Merged '{fileName}'.{Environment.NewLine}" +
-                $@"Previously missing: {before.MissingInFile.Count}{Environment.NewLine}" +
-                $@"Extra (ignored): {before.ExtraInFile.Count}{Environment.NewLine}" +
-                $@"After merge missing: {after.MissingInFile.Count}",
-                @"Merge Missing Translations",
-                KryptonMessageBoxButtons.OK,
-                KryptonMessageBoxIcon.Information);
-        }
-        catch (Exception exc)
-        {
-            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
-        }
-    }
+    private void OnGenerateTemplateXml(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.GenerateTemplateXml(_manager);
 
-    private void OnSwitchTranslationsCulture(object? sender, EventArgs e)
-    {
-        if (_manager == null)
-        {
-            return;
-        }
+    private void OnGenerateTemplateJson(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.GenerateTemplateJson(_manager);
 
-        try
-        {
-            using var dialog = new VisualSwitchTranslationsCultureForm();
-            if (dialog.ShowDialog() != DialogResult.OK)
-            {
-                return;
-            }
+    private void OnMergeMissingTranslations(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.MergeMissingTranslations(_manager, _service);
 
-            if (string.IsNullOrWhiteSpace(dialog.SelectedCultureName))
-            {
-                return;
-            }
-
-            var loaded = KryptonManager.TrySwitchTranslationsCulture(
-                dialog.SelectedCultureName,
-                dialog.SelectedDirectory,
-                refreshOpenForms: false);
-
-            _service?.OnComponentChanged(_manager, null, null, null);
-
-            KryptonMessageBox.Show(
-                loaded
-                    ? $@"Switched designer culture to '{dialog.SelectedCultureName}' and loaded matching translations."
-                    : $@"Switched designer culture to '{dialog.SelectedCultureName}'. No matching translations file was found; built-in defaults were restored.",
-                @"Switch Translations Culture",
-                KryptonMessageBoxButtons.OK,
-                loaded ? KryptonMessageBoxIcon.Information : KryptonMessageBoxIcon.Warning);
-        }
-        catch (Exception exc)
-        {
-            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
-        }
-    }
+    private void OnSwitchTranslationsCulture(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.SwitchTranslationsCulture(_manager, _service);
     #endregion
 }
