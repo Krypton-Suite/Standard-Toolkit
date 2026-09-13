@@ -1343,19 +1343,6 @@ public class KryptonListView : VisualControlBase,
         set => _listView.MultiSelect = value;
     }
 
-    /// <summary>Gets or sets a value indicating whether the control is laid out from right to left.</summary>
-    /// <returns>
-    /// <see langword="true" /> to indicate the <see cref="T:System.Windows.Forms.ListView" /> control is laid out from right to left; otherwise, <see langword="false" />.</returns>
-    [Category("Appearance")]
-    [Localizable(true)]
-    [DefaultValue(false)]
-    [Description("control is laid out from right to left")]
-    public bool RightToLeftLayout
-    {
-        get => _listView.RightToLeftLayout;
-        set => _listView.RightToLeftLayout = value;
-    }
-
     /// <summary>Gets or sets a value indicating whether a scroll bar is added to the control when there is not enough room to display all items.</summary>
     /// <returns>
     /// <see langword="true" /> if scroll bars are added to the control when necessary to allow the user to see all the items; otherwise, <see langword="false" />. The default is <see langword="true" />.</returns>
@@ -2645,6 +2632,16 @@ public class KryptonListView : VisualControlBase,
         {
             UpdateScrollbarManager();
         }
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        _listView.RightToLeftLayout = RightToLeftLayout;
+        base.OnRightToLeftLayoutChanged(e);
     }
     
     /// <summary>

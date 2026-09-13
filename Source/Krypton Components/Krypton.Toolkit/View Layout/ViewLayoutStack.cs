@@ -103,13 +103,18 @@ public class ViewLayoutStack : ViewComposite
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
-        // Maximum space available for the next child
         Rectangle childRectangle = ClientRectangle;
+        bool rtl = Horizontal && ToolkitRtlLayout.IsRtl(context);
 
-        // Find the last visible child
-        ViewBase? lastVisible = Reverse().FirstOrDefault(child => child.Visible);
+        ViewBase? lastVisible = null;
+        foreach (ViewBase child in this)
+        {
+            if (child.Visible)
+            {
+                lastVisible = child;
+            }
+        }
 
-        // Position each entry, with last entry filling remaining of space
         foreach (ViewBase child in this)
         {
             if (child.Visible)
@@ -119,6 +124,7 @@ public class ViewLayoutStack : ViewComposite
 
                 // Get the preferred size of the child
                 Size childSize = child.GetPreferredSize(context);
+                Point layoutLocation = childRectangle.Location;
 
                 if (Horizontal)
                 {
@@ -129,6 +135,12 @@ public class ViewLayoutStack : ViewComposite
                     {
                         // This child takes all remainder width
                         childSize.Width = childRectangle.Width;
+                    }
+                    else if (rtl)
+                    {
+                        // Pack from the right so the first child sits on the start edge
+                        layoutLocation = new Point(childRectangle.Right - childSize.Width, childRectangle.Y);
+                        childRectangle.Width -= childSize.Width;
                     }
                     else
                     {
@@ -156,7 +168,7 @@ public class ViewLayoutStack : ViewComposite
                 }
 
                 // Use the update child size as the actual space for layout
-                context.DisplayRectangle = new Rectangle(context.DisplayRectangle.Location, childSize);
+                context.DisplayRectangle = new Rectangle(layoutLocation, childSize);
 
                 // Layout child in the provided space
                 child.Layout(context);
