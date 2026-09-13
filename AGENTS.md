@@ -12,6 +12,8 @@ These are recurring issues observed when using AI coding agents and shell wrappe
 - Do not over-escape regex patterns for `rg`. A pattern like `msbuild\\.exe` can search for the wrong text. Correct example in PowerShell: `$pattern = 'msbuild\.exe'; $root = 'Scripts'; rg -n $pattern $root --glob '*.cmd'`.
 - Do not use `findstr` quoted path experiments for ordinary file reads or searches. Correct example: `$path = 'Scripts\VS2022\rebuild-build-nightly.cmd'; Select-String -LiteralPath $path -Pattern 'nightly.proj'`.
 - Do not `git clone` [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) when `..\Standard-Toolkit-Demos` already exists. Reuse that working tree: switch to `alpha` if not already on it, then create a new `alpha-…` branch from `alpha`. Clone only when the parent folder is missing (see **Standard-Toolkit-Demos**).
+- Do not pack extra nupkg files as `lib\$(TargetFramework)\` for `netX.0-windows` (NU5128: extra `net8.0-windows` folder vs nuspec `net8.0-windows7.0`). Use `_KryptonPackageLibFolder` (see **WinForms Designer Extensibility SDK**).
+- Do not `dotnet pack` after a VS 2026 build that skipped net11 without `-p:ExcludeNet11=true` on **both** restore and pack (or pack with a rebuild so net11 compiles). Otherwise NU5128 asks for `net11.0-windows7.0` lib assemblies that were never built.
 
 ## Always
 
@@ -46,6 +48,8 @@ Before considering a task complete:
 ## Project Structure & Module Organization
 
 - `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
+- Design-time projects (`Krypton.*.Design`, `Krypton.Toolkit.Design.Client`, `Krypton.Toolkit.Design.Protocol`) live in the same folder and the **DesignerSdk** solution folder. They are not packable on their own; pack copies them into consumer nupkgs (see **WinForms Designer Extensibility SDK**).
+- `Krypton.Standard.Toolkit` is the aggregate NuGet project: it bundles referenced binaries (including `Krypton.Themes.dll` and `lib\{tfm}\Design\WinForms`) into one nupkg.
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**). Library folders omit `.` from assembly names (`KryptonToolkit`, `KryptonUtilities`, not `Krypton.Toolkit`); new feature demos sit under that folder’s `Feature` subfolder and issue repros under `Bugs`.
 - [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) is a **separate** repo in the directory above this project (`..\Standard-Toolkit-Demos`), not a folder inside Standard-Toolkit. Reuse that folder if it exists (do **not** clone again); clone there only if missing. When completing a feature, add a consumer example (or **append** if one exists; do not overwrite) on a new `alpha-…` branch from `alpha` (see **Standard-Toolkit-Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
@@ -62,11 +66,57 @@ Before considering a task complete:
 
 - `Krypton.Toolkit` contains the shared infrastructure.
 - `Krypton.Interop` holds shared internal Win32/P/Invoke and net472 nullable polyfills; referenced by `Krypton.Toolkit` and consumed transitively by sibling assemblies.
-- `Krypton.Themes` holds **extra** builtin palettes (optional assembly, auto-discovered). Toolkit must **not** project-reference Themes (cycle).
+- `Krypton.Themes` holds **extra** builtin palettes (optional assembly, auto-discovered). Toolkit must **not** project-reference Themes (cycle). `Krypton.Standard.Toolkit` **does** reference Themes and must pack `Krypton.Themes.dll` into `lib\{tfm}\` so extra palettes auto-discover. Individual `Krypton.Toolkit` packages do not include Themes.
+- Out-of-process designers for modern Windows TFMs live in `Krypton.*.Design` (issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593)). Runtime libraries must not reference `Microsoft.WinForms.Designer.SDK` or ProjectReference a Design project (cycle). See **WinForms Designer Extensibility SDK**.
 - `Krypton.Ribbon` depends on `Krypton.Toolkit`.
 - `Krypton.Navigator` depends on `Krypton.Toolkit`.
 - Rendering flows through the palette and renderer abstractions.
 - New controls should integrate with the palette system rather than hardcoding appearance.
+
+## WinForms Designer Extensibility SDK
+
+Issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593). Modern Windows TFMs (`net8.0-windows` and later) load designers out-of-process via the WinForms Designer Extensibility SDK. .NET Framework still uses in-process designers inside the runtime assemblies.
+
+| Layer | TFMs | Role |
+|-------|------|------|
+| Runtime (`Krypton.Toolkit`, Ribbon, Navigator, …) | net4x + modern Windows | Controls. **No** `Microsoft.WinForms.Designer.SDK` package reference. |
+| `Krypton.*.Design` (Server) | modern Windows only | Dual-compiled designers / action lists / glyphs. SDK version is only `KryptonWinFormsDesignerSdkVersion` in `Source/Krypton Components/Directory.Build.props` (currently **1.6.0**). |
+| `Krypton.Toolkit.Design.Client` | **net472 only** | VS-hosted editors (image / folder). |
+| `Krypton.Toolkit.Design.Protocol` | Directory.Build.props TFMs | Shared DTOs and editor/endpoint name constants. |
+
+### When adding a designer (or `[Designer]` / `[Editor]` on a control)
+
+1. Dual-compile the designer `.cs` into the matching `Krypton.*.Design` project (same sources as Framework). Do **not** clone the catalogue into a `*.Server` tree or add a second copy of the designer.
+2. On the control, use `[Designer("Type, " + KryptonWinFormsDesignerSdk.AssemblyName)]` — `Krypton.Toolkit` (or the sibling runtime) on NETFRAMEWORK, `Krypton.*.Design` otherwise. Image/folder editors use `KryptonWinFormsDesignerSdk.ImageEditor` / `FolderNameEditor` / `InitialDirectoryEditor` (must stay in sync with `KryptonDesignerEditorNames`). Do **not** use `typeof(SomeDesigner)` on modern TFMs.
+3. New designers stay **internal**. `InternalsVisibleTo` (Krypton SNK) already covers Design assemblies.
+4. Modern TFMs `Compile Remove` designer sources from the runtime csproj (already patterned in Toolkit / Ribbon / Navigator / Workspace). Keep that exclude when adding files under `Designers\`.
+5. Server MEF type routing is the linked `KryptonDesignerTypeRoutingProvider.cs` (registers `ComponentDesigner` by name and full name). Do not hand-maintain a type catalogue.
+6. Design.Server assemblies are `[assembly: CLSCompliant(false)]` (SDK bases are not CLS-compliant). Do not “fix” CS3009 by making runtime types non-compliant.
+7. Keep designer code inside the C# 7.3 ceiling (**Public API → Compatibility**). SDK forks stay behind `#if KRYPTON_WINFORMS_DESIGNER_SDK` / `KryptonDesignerSdkCompat`.
+8. Set `KryptonWinFormsDesignerSdkDesignAssembly` on the runtime csproj that packs the Server DLL (Toolkit, Ribbon, Navigator, Workspace). Utilities Design assemblies are packed by `Krypton.Standard.Toolkit` only (`IsPackable=false` on Utilities). There is no `Krypton.Docking.Design` or `Krypton.Themes.Design`.
+
+### Pack layout
+
+Microsoft convention: `lib\{tfm}\Design\WinForms\Server\` (Server + Protocol) and `lib\{tfm}\Design\WinForms\` (Client + Protocol). `{tfm}` must be `_KryptonPackageLibFolder` (`netX.0-windows7.0`), defined in `Directory.Build.targets`. Packing as `netX.0-windows` raises NU5128 and puts Design assemblies where Visual Studio will not load them.
+
+`Krypton.WinFormsDesignerSdk.Package.targets` (imported by Toolkit / Ribbon / Navigator / Workspace) and `Krypton.Standard.Toolkit`’s `AddReferencedAssembliesToPackage` both copy with `Exists()`. Orchestrated pack runs `KryptonBuildDesign` first; skipping it silently omits Design/WinForms from nupkgs.
+
+`Krypton.Standard.Toolkit` must also pack `Krypton.Themes.dll` (and `.xml` / `.pdb`) into `lib\{tfm}\` next to the other suite binaries.
+
+### Validation
+
+- After packing, `Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1` — modern lib folders contain Design/WinForms assemblies and must **not** contain `Microsoft.WinForms.Designer.SDK.dll`.
+- TestForm `WinFormsDesignerSdkDemo` is a **runtime** host. `ProjectReference` does not populate `designer.deps.json`; OOP designer checks need a packed nupkg (local feed or CI).
+
+### Do not
+
+- Add `Microsoft.WinForms.Designer.SDK` to a runtime csproj, or a runtime → Design `ProjectReference` (cycle).
+- Bump `KryptonWinFormsDesignerSdkVersion` to a preview (for example 1.13.0-preview) unless a required API is missing from 1.6.0.
+- Put `*.Design.dll` in the `lib\{tfm}\` root. VS loads them only from `Design\WinForms\` and `Design\WinForms\Server\`.
+- Pack extra files with `PackagePath=lib\$(TargetFramework)\` on `netX.0-windows` (use `_KryptonPackageLibFolder`).
+- Alias `Microsoft.DotNet.DesignTools.Designers.SnapLine` — that type does not exist in SDK 1.6. Custom `SnapLines` stay Framework-only until an SDK bump provides the API.
+- Add Client `Microsoft.DotNet.DesignTools.TypeRouting` on net472 (SDK 1.6 Client does not have it). Keep assembly-qualified `[Editor]` strings.
+- Treat TestForm `ProjectReference` as proof that OOP designers load in Visual Studio.
 
 ## Built-in Palettes (Theme Catalog)
 
@@ -196,6 +246,7 @@ If the new type is a core drop target, add its `TypeName.` prefix to `$corePrefi
   - Build scripts locate MSBuild via `Scripts\Common\find-msbuild.cmd` (`vswhere.exe`, then standard install paths). Profiles: `2019`, `2022`, `current` (newest VS major 18+), or a pinned major (`18`, `19`, …). `Scripts\Current\` uses `current`. Override with `MSBUILDPATH` or `MSBUILD_PATH` pointing at `MSBuild\Current\Bin`.
 - Outputs land under `Bin\<Configuration>\<TargetFramework>\` by default; with `UseArtifactsOutput=true`, outputs land under `artifacts\bin\<Configuration>\<TargetFramework>\`.
 - Target frameworks are selected by MSBuild properties. VS2019/full MSBuild builds only .NET Framework 4.x TFMs; VS2022/full MSBuild excludes `net10.0-windows` and `net11.0-windows`; VS2026/full MSBuild excludes `net11.0-windows` unless explicitly enabled; CI or SDK-based builds can include `net472`, `net48`, `net481`, `net8.0-windows`, `net9.0-windows`, `net10.0-windows`, and `net11.0-windows` when the required SDKs are installed.
+- Extra `TfmSpecificPackageFile` items must use `_KryptonPackageLibFolder` (`netX.0-windows7.0`), not `$(TargetFramework)` (NU5128). Orchestrated pack builds Design projects (`KryptonBuildDesign`) before Pack; `Exists()` packing omits Design/WinForms if that target did not run (see **WinForms Designer Extensibility SDK**).
 - New files must use only the current Standard Toolkit BSD header. Do not add the original ComponentFactory BSD header unless the file is derived from original ComponentFactory source.
 
 ## Coding Style & Naming Conventions
@@ -712,6 +763,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Keep scripts focused on one scenario (host, drag, remerge, probe, …).
 - Existing #925 helpers: `Start-NavigatorFormIntegrationHost.ps1`, `Invoke-CaptionTabDrag.ps1`, `UnitTest-NavigatorCaptionTabRemerge.ps1`, `Get-NavigatorCaptionTabProbe.ps1`.
 - Existing #4325 helper: `UnitTest-DesignerSerializationDefaults.ps1` (`include`) — parameterless Toolbox construct must not report nested `Modified` storage (see **Designer Serialization Defaults**).
+- Existing #593 pack helper: `Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1` — after Pack, modern lib folders must contain `Design/WinForms` assemblies and must not leak `Microsoft.WinForms.Designer.SDK.dll` (see **WinForms Designer Extensibility SDK**).
 
 ## UI Screenshots / GIFs
 

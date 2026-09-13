@@ -320,6 +320,7 @@ $corePrefixes = @(
     'KryptonVScrollBar.',
     'KryptonThemeComboBox.',
     'KryptonLinkWrapLabel.',
+    'KryptonTagInput.',
     'KryptonTagInputControl.'
 )
 

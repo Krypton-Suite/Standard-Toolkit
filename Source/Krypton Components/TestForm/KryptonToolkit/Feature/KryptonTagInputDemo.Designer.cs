@@ -24,7 +24,7 @@ partial class KryptonTagInputDemo
         this.flowToolbar = new System.Windows.Forms.FlowLayoutPanel();
         this.klblTheme = new Krypton.Toolkit.KryptonLabel();
         this.kcmbTheme = new Krypton.Toolkit.KryptonThemeComboBox();
-        this.ktiTags = new Krypton.Toolkit.Utilities.KryptonTagInputControl();
+        this.ktiTags = new Krypton.Toolkit.KryptonTagInput();
         this.flowOptions = new System.Windows.Forms.FlowLayoutPanel();
         this.chkAllowDuplicates = new Krypton.Toolkit.KryptonCheckBox();
         this.chkReadOnly = new Krypton.Toolkit.KryptonCheckBox();
@@ -93,7 +93,7 @@ partial class KryptonTagInputDemo
         this.kwlblInfo.Location = new System.Drawing.Point(3, 3);
         this.kwlblInfo.Name = "kwlblInfo";
         this.kwlblInfo.Size = new System.Drawing.Size(730, 50);
-        this.kwlblInfo.Text = "KryptonTagInputControl (Utilities). Type a tag and press Enter or comma to commit. Backspace removes the last chip when the input is empty. Tab moves focus. Suggestions include Bug/Feature/Security; category colours apply to matching names. Typing 'reject' is cancelled by TagAdding.";
+        this.kwlblInfo.Text = "KryptonTagInput (#3927). Type a tag and press Enter or comma to commit. Backspace removes the last chip when the input is empty. Tab moves focus. Suggestions include Bug/Feature/Security; category colours apply to matching names. Typing 'reject' is cancelled by TagAdding.";
         // 
         // flowToolbar
         // 
@@ -134,9 +134,9 @@ partial class KryptonTagInputDemo
         this.ktiTags.Name = "ktiTags";
         this.ktiTags.Size = new System.Drawing.Size(509, 84);
         this.ktiTags.TabIndex = 2;
-        this.ktiTags.TagAdding += new System.EventHandler<Krypton.Toolkit.Utilities.KryptonTagCancelEventArgs>(this.ktiTags_TagAdding);
-        this.ktiTags.TagAdded += new System.EventHandler<Krypton.Toolkit.Utilities.KryptonTagEventArgs>(this.ktiTags_TagAdded);
-        this.ktiTags.TagRemoved += new System.EventHandler<Krypton.Toolkit.Utilities.KryptonTagEventArgs>(this.ktiTags_TagRemoved);
+        this.ktiTags.TagAdding += new System.EventHandler<Krypton.Toolkit.KryptonTagCancelEventArgs>(this.ktiTags_TagAdding);
+        this.ktiTags.TagAdded += new System.EventHandler<Krypton.Toolkit.KryptonTagEventArgs>(this.ktiTags_TagAdded);
+        this.ktiTags.TagRemoved += new System.EventHandler<Krypton.Toolkit.KryptonTagEventArgs>(this.ktiTags_TagRemoved);
         // 
         // flowOptions
         // 
@@ -285,7 +285,7 @@ partial class KryptonTagInputDemo
         this.Controls.Add(this.kryptonPanel1);
         this.Name = "KryptonTagInputDemo";
         this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-        this.Text = "KryptonTagInputControl Demo";
+        this.Text = "KryptonTagInput (#3927)";
         this.Load += new System.EventHandler(this.KryptonTagInputDemo_Load);
         ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
         this.kryptonPanel1.ResumeLayout(false);
@@ -308,7 +308,7 @@ partial class KryptonTagInputDemo
     private System.Windows.Forms.FlowLayoutPanel flowToolbar;
     private Krypton.Toolkit.KryptonLabel klblTheme;
     private Krypton.Toolkit.KryptonThemeComboBox kcmbTheme;
-    private Krypton.Toolkit.Utilities.KryptonTagInputControl ktiTags;
+    private Krypton.Toolkit.KryptonTagInput ktiTags;
     private System.Windows.Forms.FlowLayoutPanel flowOptions;
     private Krypton.Toolkit.KryptonCheckBox chkAllowDuplicates;
     private Krypton.Toolkit.KryptonCheckBox chkReadOnly;
