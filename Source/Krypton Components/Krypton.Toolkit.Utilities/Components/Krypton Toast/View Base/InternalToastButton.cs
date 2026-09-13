@@ -36,8 +36,6 @@ internal class InternalToastButton : KryptonButton
         {
             _isActionButton = value;
 
-            Anchor = AnchorStyles.Left;
-
             Invalidate();
         }
     }
@@ -50,8 +48,6 @@ internal class InternalToastButton : KryptonButton
         set
         {
             _isDismissButton = value;
-
-            Anchor = AnchorStyles.Right;
 
             Invalidate();
         }
@@ -118,7 +114,8 @@ internal class InternalToastButton : KryptonButton
 
         Text = @"{0} ({1})";
 
-        Anchor = AnchorStyles.Right;
+        // TableLayoutPanel owns placement; do not pin with Anchor (it collapses cell margins).
+        Anchor = AnchorStyles.None;
 
         AutoSize = true;
     }

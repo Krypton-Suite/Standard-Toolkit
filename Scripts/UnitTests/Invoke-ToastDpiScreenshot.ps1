@@ -57,7 +57,7 @@ function Capture-Toast {
 
     [Krypton.Toolkit.Utilities.KryptonToast]::ShowBasicNotification($data)
     [System.Windows.Forms.Application]::DoEvents()
-    Start-Sleep -Milliseconds 800
+    Start-Sleep -Milliseconds 1000
     [System.Windows.Forms.Application]::DoEvents()
 
     $toast = [System.Windows.Forms.Application]::OpenForms | Where-Object {
@@ -68,11 +68,23 @@ function Capture-Toast {
         throw "Toast form was not found (ShowCloseBox=$ShowCloseBox)."
     }
 
-    $bounds = $toast.Bounds
-    $bmp = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
-    $g = [System.Drawing.Graphics]::FromImage($bmp)
-    $g.CopyFromScreen($bounds.Location, [System.Drawing.Point]::Empty, $bounds.Size)
-    $g.Dispose()
+    $btn = $toast.Controls.Find('itbDismiss', $true) | Select-Object -First 1
+    if ($btn) {
+        $btnScreen = $btn.PointToScreen([System.Drawing.Point]::Empty)
+        $formClientScreen = $toast.PointToScreen([System.Drawing.Point]::Empty)
+        $btnRightInForm = ($btnScreen.X - $formClientScreen.X) + $btn.Width
+        $btnBottomInForm = ($btnScreen.Y - $formClientScreen.Y) + $btn.Height
+        $gapRight = $toast.ClientSize.Width - $btnRightInForm
+        $gapBottom = $toast.ClientSize.Height - $btnBottomInForm
+        Write-Host ("ShowCloseBox={0} Form.Padding={1} Client={2}x{3} GapRight={4} GapBottom={5}" -f `
+            $ShowCloseBox, $toast.Padding, $toast.ClientSize.Width, $toast.ClientSize.Height, $gapRight, $gapBottom)
+    } else {
+        Write-Host "ShowCloseBox=$ShowCloseBox — itbDismiss not found"
+    }
+
+    # Prefer control paint over screen copy so chrome/content are captured reliably.
+    $bmp = New-Object System.Drawing.Bitmap $toast.Width, $toast.Height
+    $toast.DrawToBitmap($bmp, (New-Object System.Drawing.Rectangle 0, 0, $toast.Width, $toast.Height))
     $bmp.Save($OutputPath, [System.Drawing.Imaging.ImageFormat]::Png)
     $bmp.Dispose()
     Write-Host "Wrote $OutputPath"

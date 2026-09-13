@@ -112,7 +112,7 @@ internal partial class VisualToastNUDUserInputWithProgressBarRtlAwareForm : Visu
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

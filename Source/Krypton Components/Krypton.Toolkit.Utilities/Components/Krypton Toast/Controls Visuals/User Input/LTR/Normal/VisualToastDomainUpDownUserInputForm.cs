@@ -90,7 +90,7 @@ internal partial class VisualToastDomainUpDownUserInputForm : VisualToastBaseFor
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

@@ -97,7 +97,7 @@ internal partial class VisualToastNUDUserInputForm : VisualToastBaseForm
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

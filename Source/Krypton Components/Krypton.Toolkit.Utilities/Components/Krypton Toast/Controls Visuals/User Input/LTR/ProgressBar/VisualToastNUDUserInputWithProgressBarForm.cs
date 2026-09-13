@@ -107,7 +107,7 @@ internal partial class VisualToastNUDUserInputWithProgressBarForm : VisualToastB
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

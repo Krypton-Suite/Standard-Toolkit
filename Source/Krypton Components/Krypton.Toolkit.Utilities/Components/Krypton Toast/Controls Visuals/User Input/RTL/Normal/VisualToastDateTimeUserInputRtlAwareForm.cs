@@ -107,7 +107,7 @@ internal partial class VisualToastDateTimeUserInputRtlAwareForm : VisualToastBas
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

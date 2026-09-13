@@ -103,7 +103,7 @@ internal partial class VisualToastMaskedTextBoxInputWithProgressBarForm : Visual
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

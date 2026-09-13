@@ -115,7 +115,7 @@ internal partial class VisualToastComboBoxUserInputWithProgressBarForm : VisualT
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

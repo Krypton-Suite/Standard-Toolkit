@@ -162,7 +162,7 @@ internal partial class VisualToastBasicRtlAwareForm : VisualToastBaseForm
     private void VisualToastNotificationBasicRtlAwareForm_Load(object sender, EventArgs e)
     {
         ShowCloseButton();
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
         UpdateLocation();
         ReportToastLocation();
 

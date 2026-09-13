@@ -122,7 +122,7 @@ internal partial class VisualToastTextBoxUserInputRtlAwareForm : VisualToastBase
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

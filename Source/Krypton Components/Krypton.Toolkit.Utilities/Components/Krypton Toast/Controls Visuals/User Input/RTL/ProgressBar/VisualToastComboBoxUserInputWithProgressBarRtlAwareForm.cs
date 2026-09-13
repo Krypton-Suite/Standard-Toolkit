@@ -109,7 +109,7 @@ internal partial class VisualToastComboBoxUserInputWithProgressBarRtlAwareForm :
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

@@ -105,7 +105,7 @@ internal partial class VisualToastComboBoxUserInputForm : VisualToastBaseForm
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

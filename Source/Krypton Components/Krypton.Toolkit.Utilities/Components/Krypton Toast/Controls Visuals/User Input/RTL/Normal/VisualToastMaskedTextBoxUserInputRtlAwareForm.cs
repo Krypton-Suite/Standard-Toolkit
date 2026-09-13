@@ -100,7 +100,7 @@ internal partial class VisualToastMaskedTextBoxUserInputRtlAwareForm : VisualToa
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

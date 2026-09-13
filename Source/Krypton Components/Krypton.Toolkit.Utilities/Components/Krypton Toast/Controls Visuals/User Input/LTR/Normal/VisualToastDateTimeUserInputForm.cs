@@ -100,7 +100,7 @@ internal partial class VisualToastDateTimeUserInputForm : VisualToastBaseForm
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

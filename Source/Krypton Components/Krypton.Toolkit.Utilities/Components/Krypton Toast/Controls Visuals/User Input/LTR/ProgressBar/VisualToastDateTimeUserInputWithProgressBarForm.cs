@@ -111,7 +111,7 @@ internal partial class VisualToastDateTimeUserInputWithProgressBarForm : VisualT
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

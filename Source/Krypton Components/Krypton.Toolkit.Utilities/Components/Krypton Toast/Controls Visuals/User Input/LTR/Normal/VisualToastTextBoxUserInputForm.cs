@@ -132,7 +132,7 @@ internal partial class VisualToastTextBoxUserInputForm : VisualToastBaseForm
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

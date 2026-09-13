@@ -111,7 +111,7 @@ internal partial class VisualToastDomianUpDownInputWithProgressBarForm : VisualT
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

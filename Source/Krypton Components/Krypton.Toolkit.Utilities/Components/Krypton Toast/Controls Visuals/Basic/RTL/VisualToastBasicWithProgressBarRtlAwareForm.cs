@@ -165,7 +165,7 @@ internal partial class VisualToastBasicWithProgressBarRtlAwareForm : VisualToast
     private void VisualToastNotificationBasicWithProgressBarRtlAwareForm_Load(object sender, EventArgs e)
     {
         ShowCloseButton();
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
         UpdateLocation();
 
         _timer.Start();

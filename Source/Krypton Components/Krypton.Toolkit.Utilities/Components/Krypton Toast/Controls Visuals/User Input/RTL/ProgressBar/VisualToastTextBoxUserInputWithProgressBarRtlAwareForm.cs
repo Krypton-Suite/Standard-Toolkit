@@ -113,7 +113,7 @@ internal partial class VisualToastTextBoxUserInputWithProgressBarRtlAwareForm : 
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

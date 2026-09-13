@@ -148,7 +148,7 @@ internal partial class VisualToastBasicForm : VisualToastBaseForm
     {
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

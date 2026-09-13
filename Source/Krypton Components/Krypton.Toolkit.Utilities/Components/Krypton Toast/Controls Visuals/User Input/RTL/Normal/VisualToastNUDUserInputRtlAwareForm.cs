@@ -104,7 +104,7 @@ internal partial class VisualToastNUDUserInputRtlAwareForm : VisualToastBaseForm
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

@@ -93,7 +93,7 @@ internal partial class VisualToastMaskedTextBoxUserInputForm : VisualToastBaseFo
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

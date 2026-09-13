@@ -116,7 +116,7 @@ internal partial class VisualToastDomainUpDownInputWithProgressBarRtlAwareForm :
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

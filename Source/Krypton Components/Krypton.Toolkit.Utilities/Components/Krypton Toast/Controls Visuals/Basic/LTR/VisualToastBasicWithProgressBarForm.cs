@@ -143,7 +143,7 @@ internal partial class VisualToastBasicWithProgressBarForm : VisualToastBaseForm
     {
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

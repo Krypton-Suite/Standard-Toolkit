@@ -107,7 +107,7 @@ internal partial class VisualToastComboBoxUserInputRtlAwareForm : VisualToastBas
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 

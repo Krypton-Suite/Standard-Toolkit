@@ -116,7 +116,7 @@ internal partial class VisualToastDomainUpDownUserInputRtlAwareForm : VisualToas
 
         ShowCloseButton();
 
-        ApplyBorderlessHeightPadding();
+        ApplyToastDpiLayout();
 
         UpdateLocation();
 
