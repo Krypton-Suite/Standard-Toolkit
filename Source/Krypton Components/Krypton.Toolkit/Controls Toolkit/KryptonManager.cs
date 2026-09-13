@@ -118,6 +118,7 @@ public sealed class KryptonManager : Component
     private static RenderMicrosoft365? _renderMicrosoft365;
     private static RenderMaterial? _renderMaterial;
     private static RenderRetro? _renderRetro;
+    private static RenderWindowsXPLuna? _renderWindowsXPLuna;
     private static RenderMacOSXAqua? _renderMacOSXAqua;
     private static RenderMacOS? _renderMacOS;
     private static RenderSparkle? _renderSparkle;
@@ -1479,6 +1480,208 @@ public sealed class KryptonManager : Component
     {
         switch (mode)
         {
+            case PaletteMode.ProfessionalSystem:
+                return PaletteProfessionalSystem;
+            case PaletteMode.ProfessionalOffice2003:
+                return PaletteProfessionalOffice2003;
+            case PaletteMode.Office2007Blue:
+                return PaletteOffice2007Blue;
+            // TODO: Re-enable this once completed
+            // case PaletteMode.Office2007DarkGray:
+            // return PaletteOffice2007DarkGray;
+            case PaletteMode.Office2007BlueDarkMode:
+                return PaletteOffice2007BlueDarkMode;
+            case PaletteMode.Office2007BlueLightMode:
+                return PaletteOffice2007BlueLightMode;
+            case PaletteMode.Office2007Silver:
+                return PaletteOffice2007Silver;
+            case PaletteMode.Office2007SilverDarkMode:
+                return PaletteOffice2007SilverDarkMode;
+            case PaletteMode.Office2007SilverLightMode:
+                return PaletteOffice2007SilverLightMode;
+            case PaletteMode.Office2007White:
+                return PaletteOffice2007White;
+            case PaletteMode.Office2007Black:
+                return PaletteOffice2007Black;
+            // TODO: Re-enable this once completed
+            // case PaletteMode.Office2010DarkGray:
+            // return PaletteOffice2010DarkGray;
+            case PaletteMode.Office2007BlackDarkMode:
+                return PaletteOffice2007BlackDarkMode;
+            case PaletteMode.Office2010Blue:
+                return PaletteOffice2010Blue;
+            case PaletteMode.Office2010BlueDarkMode:
+                return PaletteOffice2010BlueDarkMode;
+            case PaletteMode.Office2010BlueLightMode:
+                return PaletteOffice2010BlueLightMode;
+            case PaletteMode.Office2010Silver:
+                return PaletteOffice2010Silver;
+            case PaletteMode.Office2010SilverDarkMode:
+                return PaletteOffice2010SilverDarkMode;
+            case PaletteMode.Office2010SilverLightMode:
+                return PaletteOffice2010SilverLightMode;
+            case PaletteMode.Office2010White:
+                return PaletteOffice2010White;
+            case PaletteMode.Office2010Black:
+                return PaletteOffice2010Black;
+            case PaletteMode.Office2010BlackDarkMode:
+                return PaletteOffice2010BlackDarkMode;
+            case PaletteMode.Office2013DarkGray:
+                return PaletteOffice2013DarkGray;
+            case PaletteMode.Office2013LightGray:
+                return PaletteOffice2013LightGray;
+            case PaletteMode.Office2013White:
+                return PaletteOffice2013White;
+            case PaletteMode.SparkleBlue:
+                return PaletteSparkleBlue;
+            case PaletteMode.SparkleBlueDarkMode:
+                return PaletteSparkleBlueDarkMode;
+            case PaletteMode.SparkleBlueLightMode:
+                return PaletteSparkleBlueLightMode;
+            case PaletteMode.SparkleOrange:
+                return PaletteSparkleOrange;
+            case PaletteMode.SparkleOrangeDarkMode:
+                return PaletteSparkleOrangeDarkMode;
+            case PaletteMode.SparkleOrangeLightMode:
+                return PaletteSparkleOrangeLightMode;
+            case PaletteMode.SparklePurple:
+                return PaletteSparklePurple;
+            case PaletteMode.SparklePurpleDarkMode:
+                return PaletteSparklePurpleDarkMode;
+            case PaletteMode.SparklePurpleLightMode:
+                return PaletteSparklePurpleLightMode;
+            case PaletteMode.Microsoft365Black:
+                return PaletteMicrosoft365Black;
+            case PaletteMode.Microsoft365BlackDarkMode:
+                return PaletteMicrosoft365BlackDarkMode;
+            case PaletteMode.Microsoft365BlackDarkModeAlternate:
+                return PaletteMicrosoft365BlackDarkModeAlternate;
+            case PaletteMode.Microsoft365BlueDarkMode:
+                return PaletteMicrosoft365BlueDarkMode;
+            case PaletteMode.Microsoft365BlueLightMode:
+                return PaletteMicrosoft365BlueLightMode;
+            case PaletteMode.Microsoft365Blue:
+                return PaletteMicrosoft365Blue;
+            // TODO: Re-enable this once completed
+            // case PaletteMode.Microsoft365DarkGray:
+            // return PaletteMicrosoft365DarkGray;
+            case PaletteMode.Microsoft365Silver:
+                return PaletteMicrosoft365Silver;
+            case PaletteMode.Microsoft365SilverDarkMode:
+                return PaletteMicrosoft365SilverDarkMode;
+            case PaletteMode.Microsoft365SilverLightMode:
+                return PaletteMicrosoft365SilverLightMode;
+            case PaletteMode.Microsoft365White:
+                return PaletteMicrosoft365White;
+            case PaletteMode.VisualStudio2010Render2007:
+                return PaletteVisualStudio2010Office2007Variation;
+            case PaletteMode.VisualStudio2010Render2010:
+                return PaletteVisualStudio2010Office2010Variation;
+            case PaletteMode.VisualStudio2010Render2013:
+                return PaletteVisualStudio2010Office2013Variation;
+            case PaletteMode.VisualStudio2010Render365:
+                return PaletteVisualStudio2010Microsoft365Variation;
+            case PaletteMode.VisualStudio2022Dark:
+                return PaletteVisualStudio2022Dark;
+
+            case PaletteMode.MaterialLight:
+                return PaletteMaterialLight;
+            case PaletteMode.MaterialDark:
+                return PaletteMaterialDark;
+            case PaletteMode.MaterialLightRipple:
+                return PaletteMaterialLightRipple;
+            case PaletteMode.MaterialDarkRipple:
+                return PaletteMaterialDarkRipple;
+            case PaletteMode.MaterialLimeGreen:
+                return PaletteMaterialLimeGreen;
+            case PaletteMode.MaterialLimeGreenDark:
+                return PaletteMaterialLimeGreenDark;
+            case PaletteMode.MaterialLimeGreenRipple:
+                return PaletteMaterialLimeGreenRipple;
+            case PaletteMode.MaterialLimeGreenDarkRipple:
+                return PaletteMaterialLimeGreenDarkRipple;
+            case PaletteMode.RetroGreen:
+                return PaletteRetroGreen;
+            case PaletteMode.RetroBlue:
+                return PaletteRetroBlue;
+
+            case PaletteMode.WindowsXPLunaBlue:
+                return PaletteWindowsXPLunaBlue;
+            case PaletteMode.WindowsXPLunaOlive:
+                return PaletteWindowsXPLunaOlive;
+            case PaletteMode.WindowsXPLunaSilver:
+                return PaletteWindowsXPLunaSilver;
+
+            case PaletteMode.WindowsXPRoyale:
+                return PaletteWindowsXPRoyale;
+            case PaletteMode.WindowsXPRoyaleNoir:
+                return PaletteWindowsXPRoyaleNoir;
+            case PaletteMode.WindowsXPZune:
+                return PaletteWindowsXPZune;
+
+            case PaletteMode.MacOSXAqua:
+                return PaletteMacOSXAqua;
+
+            case PaletteMode.MacOSLight:
+                return PaletteMacOSLight;
+            case PaletteMode.MacOSDark:
+                return PaletteMacOSDark;
+
+            case PaletteMode.HighContrast:
+                return PaletteHighContrast;
+            case PaletteMode.Deuteranopia:
+                return PaletteDeuteranopia;
+            case PaletteMode.Protanopia:
+                return PaletteProtanopia;
+            case PaletteMode.Office2007HighContrast:
+                return PaletteOffice2007HighContrast;
+            case PaletteMode.Office2007Deuteranopia:
+                return PaletteOffice2007Deuteranopia;
+            case PaletteMode.Office2007Protanopia:
+                return PaletteOffice2007Protanopia;
+            case PaletteMode.Office2010HighContrast:
+                return PaletteOffice2010HighContrast;
+            case PaletteMode.Office2010Deuteranopia:
+                return PaletteOffice2010Deuteranopia;
+            case PaletteMode.Office2010Protanopia:
+                return PaletteOffice2010Protanopia;
+            case PaletteMode.Office2013HighContrast:
+                return PaletteOffice2013HighContrast;
+            case PaletteMode.Office2013Deuteranopia:
+                return PaletteOffice2013Deuteranopia;
+            case PaletteMode.Office2013Protanopia:
+                return PaletteOffice2013Protanopia;
+            case PaletteMode.SparkleHighContrast:
+                return PaletteSparkleHighContrast;
+            case PaletteMode.SparkleDeuteranopia:
+                return PaletteSparkleDeuteranopia;
+            case PaletteMode.SparkleProtanopia:
+                return PaletteSparkleProtanopia;
+            case PaletteMode.MaterialHighContrast:
+                return PaletteMaterialHighContrast;
+            case PaletteMode.MaterialDeuteranopia:
+                return PaletteMaterialDeuteranopia;
+            case PaletteMode.MaterialProtanopia:
+                return PaletteMaterialProtanopia;
+            case PaletteMode.MaterialHighContrastRipple:
+                return PaletteMaterialHighContrastRipple;
+            case PaletteMode.MaterialDeuteranopiaRipple:
+                return PaletteMaterialDeuteranopiaRipple;
+            case PaletteMode.MaterialProtanopiaRipple:
+                return PaletteMaterialProtanopiaRipple;
+            case PaletteMode.Office2007LimeGreen:
+                return PaletteOffice2007LimeGreen;
+            case PaletteMode.Office2007LimeGreenDark:
+                return PaletteOffice2007LimeGreenDark;
+            case PaletteMode.Office2010LimeGreen:
+                return PaletteOffice2010LimeGreen;
+            case PaletteMode.Office2010LimeGreenDark:
+                return PaletteOffice2010LimeGreenDark;
+            case PaletteMode.Microsoft365LimeGreen:
+                return PaletteMicrosoft365LimeGreen;
+            case PaletteMode.Microsoft365LimeGreenDark:
+                return PaletteMicrosoft365LimeGreenDark;
+
             case PaletteMode.Custom:
             case PaletteMode.Global:
                 return CurrentGlobalPalette;
@@ -2034,6 +2237,41 @@ public sealed class KryptonManager : Component
     [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
     public static PaletteBase PaletteRetroBlue => GetPaletteForMode(PaletteMode.RetroBlue);
 
+    /// <summary>
+    /// Gets the Windows XP Luna blue palette.
+    /// </summary>
+    public static PaletteWindowsXPLunaBlue PaletteWindowsXPLunaBlue =>
+        _paletteWindowsXPLunaBlue ??= new PaletteWindowsXPLunaBlue();
+
+    /// <summary>
+    /// Gets the Windows XP Luna olive palette.
+    /// </summary>
+    public static PaletteWindowsXPLunaOlive PaletteWindowsXPLunaOlive =>
+        _paletteWindowsXPLunaOlive ??= new PaletteWindowsXPLunaOlive();
+
+    /// <summary>
+    /// Gets the Windows XP Luna silver palette.
+    /// </summary>
+    public static PaletteWindowsXPLunaSilver PaletteWindowsXPLunaSilver =>
+        _paletteWindowsXPLunaSilver ??= new PaletteWindowsXPLunaSilver();
+
+    /// <summary>
+    /// Gets the Windows XP Royale palette.
+    /// </summary>
+    public static PaletteWindowsXPRoyale PaletteWindowsXPRoyale =>
+        _paletteWindowsXPRoyale ??= new PaletteWindowsXPRoyale();
+
+    /// <summary>
+    /// Gets the Windows XP Royale Noir palette.
+    /// </summary>
+    public static PaletteWindowsXPRoyaleNoir PaletteWindowsXPRoyaleNoir =>
+        _paletteWindowsXPRoyaleNoir ??= new PaletteWindowsXPRoyaleNoir();
+
+    /// <summary>
+    /// Gets the Windows XP Zune palette.
+    /// </summary>
+    public static PaletteWindowsXPZune PaletteWindowsXPZune =>
+        _paletteWindowsXPZune ??= new PaletteWindowsXPZune();
     // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
     [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
     public static PaletteBase PaletteMacOSXAqua => GetPaletteForMode(PaletteMode.MacOSXAqua);
@@ -2201,6 +2439,56 @@ public sealed class KryptonManager : Component
     /// <summary>
     /// Gets the single instance of the dark Lime Green variant Microsoft 365 palette.
     /// </summary>
+    public static PaletteMicrosoft365LimeGreenDark PaletteMicrosoft365LimeGreenDark => _paletteMicrosoft365LimeGreenDark ??= new PaletteMicrosoft365LimeGreenDark();
+
+    private static PaletteMaterialLight? _paletteMaterialLight;
+    private static PaletteMaterialDark? _paletteMaterialDark;
+    private static PaletteMaterialLightRipple? _paletteMaterialLightRipple;
+    private static PaletteMaterialDarkRipple? _paletteMaterialDarkRipple;
+    private static PaletteMaterialLimeGreen? _paletteMaterialLimeGreen;
+    private static PaletteMaterialLimeGreenDark? _paletteMaterialLimeGreenDark;
+    private static PaletteMaterialLimeGreenRipple? _paletteMaterialLimeGreenRipple;
+    private static PaletteMaterialLimeGreenDarkRipple? _paletteMaterialLimeGreenDarkRipple;
+
+    private static PaletteRetroGreen? _paletteRetroGreen;
+    private static PaletteRetroBlue? _paletteRetroBlue;
+    private static PaletteWindowsXPLunaBlue? _paletteWindowsXPLunaBlue;
+    private static PaletteWindowsXPLunaOlive? _paletteWindowsXPLunaOlive;
+    private static PaletteWindowsXPLunaSilver? _paletteWindowsXPLunaSilver;
+    private static PaletteWindowsXPRoyale? _paletteWindowsXPRoyale;
+    private static PaletteWindowsXPRoyaleNoir? _paletteWindowsXPRoyaleNoir;
+    private static PaletteWindowsXPZune? _paletteWindowsXPZune;
+    private static PaletteMacOSXAqua? _paletteMacOSXAqua;
+    private static PaletteMacOSLight? _paletteMacOSLight;
+    private static PaletteMacOSDark? _paletteMacOSDark;
+    private static PaletteHighContrast? _paletteHighContrast;
+    private static PaletteDeuteranopia? _paletteDeuteranopia;
+    private static PaletteProtanopia? _paletteProtanopia;
+    private static PaletteOffice2007HighContrast? _paletteOffice2007HighContrast;
+    private static PaletteOffice2007Deuteranopia? _paletteOffice2007Deuteranopia;
+    private static PaletteOffice2007Protanopia? _paletteOffice2007Protanopia;
+    private static PaletteOffice2010HighContrast? _paletteOffice2010HighContrast;
+    private static PaletteOffice2010Deuteranopia? _paletteOffice2010Deuteranopia;
+    private static PaletteOffice2010Protanopia? _paletteOffice2010Protanopia;
+    private static PaletteOffice2013HighContrast? _paletteOffice2013HighContrast;
+    private static PaletteOffice2013Deuteranopia? _paletteOffice2013Deuteranopia;
+    private static PaletteOffice2013Protanopia? _paletteOffice2013Protanopia;
+    private static PaletteSparkleHighContrast? _paletteSparkleHighContrast;
+    private static PaletteSparkleDeuteranopia? _paletteSparkleDeuteranopia;
+    private static PaletteSparkleProtanopia? _paletteSparkleProtanopia;
+    private static PaletteMaterialHighContrast? _paletteMaterialHighContrast;
+    private static PaletteMaterialDeuteranopia? _paletteMaterialDeuteranopia;
+    private static PaletteMaterialProtanopia? _paletteMaterialProtanopia;
+    private static PaletteMaterialHighContrastRipple? _paletteMaterialHighContrastRipple;
+    private static PaletteMaterialDeuteranopiaRipple? _paletteMaterialDeuteranopiaRipple;
+    private static PaletteMaterialProtanopiaRipple? _paletteMaterialProtanopiaRipple;
+
+    private static PaletteOffice2007LimeGreen? _paletteOffice2007LimeGreen;
+    private static PaletteOffice2007LimeGreenDark? _paletteOffice2007LimeGreenDark;
+    private static PaletteOffice2010LimeGreen? _paletteOffice2010LimeGreen;
+    private static PaletteOffice2010LimeGreenDark? _paletteOffice2010LimeGreenDark;
+    private static PaletteMicrosoft365LimeGreen? _paletteMicrosoft365LimeGreen;
+    private static PaletteMicrosoft365LimeGreenDark? _paletteMicrosoft365LimeGreenDark;
     // ToDo V120 LTS: Remove extra palette singleton accessors. Use GetPaletteForMode(PaletteMode) instead.
     [Obsolete(ExtraPaletteAccessorObsoleteMessage)]
     public static PaletteBase PaletteMicrosoft365LimeGreenDark => GetPaletteForMode(PaletteMode.Microsoft365LimeGreenDark);
@@ -2394,6 +2682,8 @@ public sealed class KryptonManager : Component
                 return RenderMaterial;
             case RendererMode.Retro:
                 return RenderRetro;
+            case RendererMode.WindowsXPLuna:
+                return RenderWindowsXPLuna;
             case RendererMode.MacOS:
                 return RenderMacOS;
             case RendererMode.OSXAqua:
@@ -2441,6 +2731,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the Retro renderer.
     /// </summary>
     public static RenderRetro RenderRetro => _renderRetro ??= new RenderRetro();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Luna renderer.
+    /// </summary>
+    public static RenderWindowsXPLuna RenderWindowsXPLuna => _renderWindowsXPLuna ??= new RenderWindowsXPLuna();
 
     /// <summary>
     /// Gets the single instance of the macOS-inspired renderer.
@@ -2586,6 +2881,140 @@ public sealed class KryptonManager : Component
         GlobalPaletteChanged?.Invoke(null, e);
     }
 
+    private static void UpdatePaletteImages(PaletteMode paletteMode)
+    {
+        switch (paletteMode)
+        {
+            case PaletteMode.Global:
+            case PaletteMode.Custom:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.GenericToolBarImages);
+                break;
+            case PaletteMode.ProfessionalSystem:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.SystemToolBarImages);
+                break;
+            case PaletteMode.ProfessionalOffice2003:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2003ToolBarImages);
+                break;
+            case PaletteMode.Office2007Blue:
+            case PaletteMode.Office2007BlueDarkMode:
+            case PaletteMode.Office2007BlueLightMode:
+            case PaletteMode.Office2007Silver:
+            case PaletteMode.Office2007SilverDarkMode:
+            case PaletteMode.Office2007SilverLightMode:
+            case PaletteMode.Office2007White:
+            case PaletteMode.Office2007Black:
+            case PaletteMode.Office2007BlackDarkMode:
+            case PaletteMode.WindowsXPLunaBlue:
+            case PaletteMode.WindowsXPLunaOlive:
+            case PaletteMode.WindowsXPLunaSilver:
+            case PaletteMode.WindowsXPRoyale:
+            case PaletteMode.Office2007LimeGreen:
+            case PaletteMode.Office2007LimeGreenDark:
+            case PaletteMode.VisualStudio2010Render2007:
+            case PaletteMode.Office2007HighContrast:
+            case PaletteMode.Office2007Deuteranopia:
+            case PaletteMode.Office2007Protanopia:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2007ToolBarImages);
+                break;
+            case PaletteMode.WindowsXPRoyaleNoir:
+            case PaletteMode.WindowsXPZune:
+                Images.ToolbarImages.SetToolBarImages(GlobalStaticVariables.Office2010ToolBarImages);
+                break;
+            case PaletteMode.Office2010Blue:
+            case PaletteMode.Office2010BlueDarkMode:
+            case PaletteMode.Office2010BlueLightMode:
+            case PaletteMode.Office2010Silver:
+            case PaletteMode.Office2010SilverDarkMode:
+            case PaletteMode.Office2010SilverLightMode:
+            case PaletteMode.Office2010White:
+            case PaletteMode.Office2010Black:
+            case PaletteMode.Office2010BlackDarkMode:
+            case PaletteMode.SparkleBlue:
+            case PaletteMode.SparkleBlueDarkMode:
+            case PaletteMode.SparkleBlueLightMode:
+            case PaletteMode.SparkleOrange:
+            case PaletteMode.SparkleOrangeDarkMode:
+            case PaletteMode.SparkleOrangeLightMode:
+            case PaletteMode.SparklePurple:
+            case PaletteMode.SparklePurpleDarkMode:
+            case PaletteMode.SparklePurpleLightMode:
+            case PaletteMode.SparkleHighContrast:
+            case PaletteMode.SparkleDeuteranopia:
+            case PaletteMode.SparkleProtanopia:
+            case PaletteMode.Office2010LimeGreen:
+            case PaletteMode.Office2010LimeGreenDark:
+            case PaletteMode.VisualStudio2010Render2010:
+            case PaletteMode.Office2010HighContrast:
+            case PaletteMode.Office2010Deuteranopia:
+            case PaletteMode.Office2010Protanopia:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
+                break;
+            case PaletteMode.Office2013DarkGray:
+            case PaletteMode.Office2013LightGray:
+            case PaletteMode.Office2013White:
+            case PaletteMode.VisualStudio2010Render2013:
+            case PaletteMode.Office2013HighContrast:
+            case PaletteMode.Office2013Deuteranopia:
+            case PaletteMode.Office2013Protanopia:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2013ToolBarImages);
+                break;
+            case PaletteMode.Microsoft365Black:
+            case PaletteMode.Microsoft365BlackDarkMode:
+            case PaletteMode.Microsoft365BlackDarkModeAlternate:
+            case PaletteMode.Microsoft365Blue:
+            case PaletteMode.Microsoft365BlueDarkMode:
+            case PaletteMode.Microsoft365BlueLightMode:
+            case PaletteMode.Microsoft365Silver:
+            case PaletteMode.Microsoft365SilverDarkMode:
+            case PaletteMode.Microsoft365SilverLightMode:
+            case PaletteMode.Microsoft365White:
+            case PaletteMode.Microsoft365LimeGreen:
+            case PaletteMode.Microsoft365LimeGreenDark:
+            case PaletteMode.VisualStudio2010Render365:
+            case PaletteMode.HighContrast:
+            case PaletteMode.Deuteranopia:
+            case PaletteMode.Protanopia:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
+                break;
+            case PaletteMode.VisualStudio2022Dark:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.VisualStudioToolBarImages);
+                break;
+            case PaletteMode.MaterialLight:
+            case PaletteMode.MaterialDark:
+            case PaletteMode.MaterialLightRipple:
+            case PaletteMode.MaterialDarkRipple:
+            case PaletteMode.MaterialLimeGreen:
+            case PaletteMode.MaterialLimeGreenDark:
+            case PaletteMode.MaterialLimeGreenRipple:
+            case PaletteMode.MaterialLimeGreenDarkRipple:
+            case PaletteMode.MaterialHighContrast:
+            case PaletteMode.MaterialDeuteranopia:
+            case PaletteMode.MaterialProtanopia:
+            case PaletteMode.MaterialHighContrastRipple:
+            case PaletteMode.MaterialDeuteranopiaRipple:
+            case PaletteMode.MaterialProtanopiaRipple:
+                // TODO create our own Material images
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
+                break;
+            case PaletteMode.RetroGreen:
+            case PaletteMode.RetroBlue:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2010ToolBarImages);
+                break;
+            case PaletteMode.MacOSXAqua:
+            case PaletteMode.MacOSLight:
+            case PaletteMode.MacOSDark:
+                Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Microsoft365ToolBarImages);
+                break;
+            default:
+                // Should not happen!
+
+                // Disable since palette mode is an enum and is not nullable
+                //Debug.Assert(paletteMode is not null);
+
+                DebugTools.NotImplemented(paletteMode.ToString());
+                break;
+        }
+    }
     private static void UpdatePaletteImages(PaletteMode paletteMode) =>
         KryptonThemeChrome.ApplyToolbarImages(paletteMode);
 
