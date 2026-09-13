@@ -23,3 +23,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 ```
 
 The script instantiates toolbox controls, walks `TypeDescriptor` content properties, and fails if core drop targets have `IsDefault == false` or unexpected `ShouldSerializeValue == true`.
+
+## ComboBox GDI+ DrawString screenshot (`Invoke-ComboBoxDrawStringScreenshot.ps1`)
+
+Issue #4424: host `Feature4339ComboBoxSimpleStyleDemo` and write `Documents/PR/4424-combobox-drawstring-v105.png`.
+
+```cmd
+dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-ComboBoxDrawStringScreenshot.ps1
+```
