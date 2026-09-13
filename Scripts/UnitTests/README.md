@@ -86,6 +86,8 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-ButtonSpecFillHeightScreenshot.ps1` | Hosts `Bug4432ButtonSpecFillHeightDemo` (#4432) and writes `Documents/PR/4432-buttonspec-fillheight-default.png` | `exclude` |
+| `Probe-ButtonSpecFillHeight.ps1` | Prints TextBox ButtonSpec client rectangles for #4432 FillHeight vs centred | `exclude` |
 | `Invoke-WinFormsDesignerSdkScreenshot.ps1` | Hosts `WinFormsDesignerSdkDemo` (#593) and writes `Documents/PR/593-winforms-designer-sdk-host.png` | `exclude` |
 | `Invoke-ThemeListViewHoverScreenshot.ps1` | Hosts `ThemeCatalogDemo` (#3870), applies a list-view hover preview, writes PNG stills under `Documents/PR/` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
