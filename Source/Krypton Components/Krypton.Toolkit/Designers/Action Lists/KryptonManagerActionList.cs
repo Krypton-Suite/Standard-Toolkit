@@ -148,7 +148,7 @@ internal class KryptonManagerActionList : DesignerActionList
     }
 
     private void OnDesignerEditorSettings(object? sender, EventArgs e) =>
-        KryptonManagerDesignerActions.ShowDesignerEditorSettings();
+        KryptonDesignerEditorTheme.ShowSettingsDialog();
 
     private void OnImportTranslationsXml(object? sender, EventArgs e) =>
         KryptonManagerDesignerActions.ImportTranslationsXml(_manager, _service);
