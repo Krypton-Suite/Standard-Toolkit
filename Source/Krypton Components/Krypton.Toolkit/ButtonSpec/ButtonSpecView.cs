@@ -75,11 +75,12 @@ public class ButtonSpecView : GlobalId,
         }
 
         // Use a view center to place button in centre of given space
-        ViewCenter = new ViewLayoutCenter(paletteMetric, metricPadding, VisualOrientation.Top)
+        var viewCenter = new ViewLayoutCenter(paletteMetric, metricPadding, VisualOrientation.Top)
         {
             ViewButton
         };
-        ViewCenter.FillHeight = buttonSpec.FillHeight;
+        viewCenter.FillHeight = ButtonSpec.FillHeight;
+        ViewCenter = viewCenter;
 
         // Create a controller for managing button behavior
         ButtonSpecViewControllers controllers = CreateController(ViewButton, needPaint, OnClick);
