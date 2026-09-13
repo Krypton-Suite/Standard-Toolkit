@@ -3180,6 +3180,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
 
             case PaletteButtonSpecStyle.Undo:
             case PaletteButtonSpecStyle.Generic:
+                // Generic button specs have no stock palette image; the consumer supplies one.
                 return null;
             default:
                 // Should never happen!

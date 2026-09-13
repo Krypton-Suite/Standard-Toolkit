@@ -45,7 +45,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
-* Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly.
+* Resolved [#4423](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4423), Documented why `GetButtonSpecImage` returns null for `PaletteButtonSpecStyle.Generic` (no stock palette glyph; consumers supply the image)
+* Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly
 * Implemented [#2379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2379), RTL support for **all** `Krypton.Toolkit` controls
   * Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm` (or on the control). Both flags together mirror docks, splitters, group/header captions, spin buttons, and list reading order; `RightToLeft` alone still controls text Near/Far.
   * `KryptonPropertyGrid` forwards `RightToLeft` into the inner grid (help pane, toolbar, reading order). Label/value columns stay native LTR: WinForms `PropertyGrid` paints left-aligned cells and does not support a mirrored list.
