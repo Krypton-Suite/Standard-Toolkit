@@ -188,6 +188,7 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\KryptonSplitButtonDemo.resx">
       <DependentUpon>KryptonSplitButtonDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\ToolkitRtlGalleryDemo.resx">
       <DependentUpon>ToolkitRtlGalleryDemo.cs</DependentUpon>
     </EmbeddedResource>
