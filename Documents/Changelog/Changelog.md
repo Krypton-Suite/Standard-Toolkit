@@ -48,6 +48,8 @@
 * Resolved [#4419](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4419), Use scaling here, to support larger screens
  * Toast notifications scale screen-edge and borderless height padding for high-DPI displays; toasts without a close box use borderless chrome.
  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Implemented [#979](https://github.com/Krypton-Suite/Standard-Toolkit/issues/979), Use designer verbs where appropriate
+  * Designer verbs on Krypton components that need collection or command actions (context menu, header, workspace, manager), matching native WinForms right-click commands.
 * Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly.
 * Implemented [#2379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2379), RTL support for **all** `Krypton.Toolkit` controls
   * Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm` (or on the control). Both flags together mirror docks, splitters, group/header captions, spin buttons, and list reading order; `RightToLeft` alone still controls text Near/Far.
