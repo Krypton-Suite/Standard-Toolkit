@@ -45,6 +45,7 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4414), Removed dead `OnNotifyMessage` overrides that filtered `WM_ERASEBKGND` without effect (`EnableNotifyMessage` was never enabled).
 * Implemented [#979](https://github.com/Krypton-Suite/Standard-Toolkit/issues/979), Use designer verbs where appropriate
   * Designer verbs on Krypton components that need collection or command actions (context menu, header, workspace, manager), matching native WinForms right-click commands.
 * Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly.
