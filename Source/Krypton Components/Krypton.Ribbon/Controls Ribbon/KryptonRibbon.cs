@@ -1014,7 +1014,7 @@ public class KryptonRibbon : VisualSimple,
     [Browsable(true)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public bool RightToLeftLayout
+    public override bool RightToLeftLayout
     {
         get => _isRightToLeftLayout;
         set
@@ -1022,7 +1022,7 @@ public class KryptonRibbon : VisualSimple,
             if (_isRightToLeftLayout != value)
             {
                 _isRightToLeftLayout = value;
-                PerformNeedPaint(true);
+                OnRightToLeftLayoutChanged(EventArgs.Empty);
             }
         }
     }

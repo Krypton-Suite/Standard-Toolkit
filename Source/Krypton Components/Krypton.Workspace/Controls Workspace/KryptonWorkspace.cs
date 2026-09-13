@@ -91,7 +91,6 @@ public class KryptonWorkspace : VisualContainerControl,
     private bool _allowResizing;
     private bool _showMaximizeButton;
     private int _splitterWidth;
-    private bool _isRightToLeftLayout;
     private Form? _rtlSourceForm;
 
     // Page level context menu items
@@ -496,14 +495,14 @@ public class KryptonWorkspace : VisualContainerControl,
     [Browsable(true)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public bool RightToLeftLayout
+    public override bool RightToLeftLayout
     {
-        get => _isRightToLeftLayout;
+        get => base.RightToLeftLayout;
         set
         {
-            if (_isRightToLeftLayout != value)
+            if (base.RightToLeftLayout != value)
             {
-                _isRightToLeftLayout = value;
+                base.RightToLeftLayout = value;
                 PerformNeedPaint(true);
             }
         }

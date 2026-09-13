@@ -7,8 +7,8 @@
 
 namespace Krypton.Toolkit;
 
-///<summary>A property grid control that supports the Krypton render.</summary>
-/// /// <seealso cref="PropertyGrid" />
+/// <summary>A property grid control that supports the Krypton render.</summary>
+/// <seealso cref="PropertyGrid" />
 [Description(@"A property grid control that supports the Krypton render.")]
 [Designer("Krypton.Toolkit.KryptonPropertyGridDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [ToolboxBitmap(typeof(PropertyGrid), "ToolboxBitmaps.KryptonPropertyGrid.bmp")]
@@ -288,6 +288,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         _propertyGrid.PropertyTabChanged += OnPropertyTabChanged;
         //_propertyGrid.PropertyChanging += OnPropertyChanging;
         _propertyGrid.PropertyValueChanged += OnPropertyValueChanged;
+        _propertyGrid.ControlAdded += OnInnerGridControlAdded;
 
         _layoutFill = new ViewLayoutFill(_propertyGrid)
         {
@@ -830,6 +831,42 @@ public class KryptonPropertyGrid : VisualControlBase,
         base.OnCausesValidationChanged(e);
     }
 
+    /// <inheritdoc />
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        SyncInnerGridRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        SyncInnerGridRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    private void SyncInnerGridRightToLeft()
+    {
+        ApplyRightToLeftTree(_propertyGrid, RightToLeft);
+    }
+
+    private void OnInnerGridControlAdded(object? sender, ControlEventArgs e)
+    {
+        if (e.Control != null)
+        {
+            ApplyRightToLeftTree(e.Control, RightToLeft);
+        }
+    }
+
+    private static void ApplyRightToLeftTree(Control parent, RightToLeft value)
+    {
+        parent.RightToLeft = value;
+        foreach (Control child in parent.Controls)
+        {
+            ApplyRightToLeftTree(child, value);
+        }
+    }
+
     /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
@@ -847,6 +884,9 @@ public class KryptonPropertyGrid : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        // Nested toolbar / help / grid panes may exist only after the handle is created.
+        SyncInnerGridRightToLeft();
     }
 
     /// <summary>
