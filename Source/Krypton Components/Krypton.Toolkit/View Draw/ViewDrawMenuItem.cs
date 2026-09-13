@@ -27,6 +27,10 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
     private VisualContextMenu? _contextMenu;
     private readonly ViewDrawMenuItemContent? _shortcutContent;
     private readonly ViewDrawMenuItemContent _subMenuContent;
+    private readonly FixedContentValue _subMenuImageValue;
+    private Image? _subMenuSource;
+    private Image? _subMenuFlipped;
+    private bool _subMenuRtl;
     private readonly FixedContentValue _fixedTextExtraText;
     private KryptonCommand? _cachedCommand;
     private readonly bool _imageColumn;
@@ -142,14 +146,14 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
 
         // SubMenu Indicator
         HasSubMenu = KryptonContextMenuItem.Items.Count > 0;
-        _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, new FixedContentValue(null, null,
-                !HasSubMenu
-                    ? _empty16x16
-                    : provider.ProviderImages.GetContextMenuSubMenuImage(),
-                KryptonContextMenuItem.Items.Count == 0
-                    ? SharedStaticVariables.TRANSPARENCY_KEY_COLOR
-                    : SharedStaticVariables.EMPTY_COLOR),
-            3);
+        _subMenuSource = !HasSubMenu
+            ? _empty16x16
+            : provider.ProviderImages.GetContextMenuSubMenuImage();
+        _subMenuImageValue = new FixedContentValue(null, null, _subMenuSource,
+            KryptonContextMenuItem.Items.Count == 0
+                ? SharedStaticVariables.TRANSPARENCY_KEY_COLOR
+                : SharedStaticVariables.EMPTY_COLOR);
+        _subMenuContent = new ViewDrawMenuItemContent(menuItemState.ItemImage.Content, _subMenuImageValue, 3);
         docker.Add(new ViewLayoutCenter(_subMenuContent), ViewDockStyle.Right);
         _subMenuContent.Enabled = ItemEnabled;
 
@@ -198,6 +202,9 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
                 _cachedCommand.PropertyChanged -= OnCommandPropertyChanged;
                 _cachedCommand = null;
             }
+
+            _subMenuFlipped?.Dispose();
+            _subMenuFlipped = null;
         }
 
         base.Dispose(disposing);
@@ -332,9 +339,10 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
             // If menu item is split into regular button and sub menu areas
             if (SplitSeparator.Draw)
             {
-                // If mouse is inside or to the right of the slip indicator,
-                // then a sub menu is required when the button is used
-                return pt.X > SplitSeparator.ClientRectangle.X;
+                // Split chrome docks opposite the start edge; after docker flip the submenu is on the start side.
+                return ToolkitRtlLayout.IsRtl(OwningControl)
+                    ? pt.X < SplitSeparator.ClientRectangle.Right
+                    : pt.X > SplitSeparator.ClientRectangle.X;
             }
 
             // Whole item is the sub menu area
@@ -412,6 +420,10 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
             {
                 // Create the actual control used to show the context menu
                 _contextMenu = new VisualContextMenu(_provider, KryptonContextMenuItem.Items, keyboardActivated);
+                if (OwningControl != null)
+                {
+                    ToolkitRtlLayout.ApplyTo(OwningControl, _contextMenu);
+                }
 
                 // Need to know when the visual control is removed
                 _contextMenu.Disposed += OnContextMenuDisposed;
@@ -466,6 +478,8 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
     public override Size GetPreferredSize([DisallowNull] ViewLayoutContext context)
     {
         Debug.Assert(context != null);
+
+        SyncSubMenuChevron(ToolkitRtlLayout.IsRtl(context));
 
         // Always update to the latest correct check state
         if (_imageCanvas != null)
@@ -600,6 +614,26 @@ internal class ViewDrawMenuItem : ViewDrawCanvas
     #endregion
 
     #region Implementation
+    private void SyncSubMenuChevron(bool rtl)
+    {
+        if (!HasSubMenu)
+        {
+            return;
+        }
+
+        if (_subMenuRtl == rtl && _subMenuImageValue.Image != null)
+        {
+            return;
+        }
+
+        _subMenuRtl = rtl;
+        _subMenuFlipped?.Dispose();
+        _subMenuFlipped = null;
+        _subMenuImageValue.Image = rtl
+            ? (_subMenuFlipped = ToolkitRtlLayout.FlipHorizontal(_subMenuSource))
+            : _subMenuSource;
+    }
+
     private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         switch (e.PropertyName)

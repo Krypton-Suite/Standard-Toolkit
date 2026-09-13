@@ -30,9 +30,11 @@ internal sealed class KryptonTagChip : KryptonHeader
     /// </summary>
     /// <param name="owner">Owning tag input control.</param>
     /// <param name="tag">Tag text shown on the chip.</param>
-    public KryptonTagChip(KryptonTagInputControl owner, string tag)
+    /// <param name="chipId">Stable identity used when duplicate tag text is allowed.</param>
+    public KryptonTagChip(KryptonTagInputControl owner, string tag, int chipId)
     {
         _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        ChipId = chipId;
 
         HeaderStyle = HeaderStyle.Secondary;
         AutoSize = true;
@@ -60,9 +62,25 @@ internal sealed class KryptonTagChip : KryptonHeader
     #region Public
 
     /// <summary>
+    /// Gets the stable identity of this chip.
+    /// </summary>
+    public int ChipId { get; }
+
+    /// <summary>
     /// Gets the tag text this chip represents.
     /// </summary>
     public string TagText => Tag as string ?? Values.Heading;
+
+    /// <summary>
+    /// Updates the displayed tag text after an atomic collection replace.
+    /// </summary>
+    /// <param name="tag">New tag text.</param>
+    public void SetTagText(string tag)
+    {
+        Tag = tag;
+        Values.Heading = tag;
+        AccessibleName = tag;
+    }
 
     /// <summary>
     /// Applies rounding, optional category colour, and close-button visibility.
@@ -101,7 +119,7 @@ internal sealed class KryptonTagChip : KryptonHeader
     {
         if (_closeSpec.Enabled == ButtonEnabled.True)
         {
-            _owner.RemoveTag(TagText);
+            _owner.RemoveChipById(ChipId);
         }
     }
 

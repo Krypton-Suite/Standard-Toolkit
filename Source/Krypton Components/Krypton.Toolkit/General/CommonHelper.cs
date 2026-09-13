@@ -427,16 +427,26 @@ public static class CommonHelper
     /// <returns>RightToLeftLayout setting.</returns>
     public static bool GetRightToLeftLayout(Control? control)
     {
-        // First check if the control itself has RightToLeftLayout (e.g., VisualSimpleBase controls)
-        if (control is VisualSimpleBase visualSimpleBase)
+        if (control == null)
         {
-            return visualSimpleBase.RightToLeftLayout;
+            return false;
         }
 
-        // For other controls that might have RightToLeftLayout (like Form, ListView, etc.)
-        // Use reflection to check if the property exists and get its value
-        var property = control?.GetType().GetProperty("RightToLeftLayout");
-        if (property != null && property.PropertyType == typeof(bool))
+        switch (control)
+        {
+            case VisualPanel visualPanel:
+                return visualPanel.RightToLeftLayout;
+            case VisualContainerControlBase visualContainer:
+                return visualContainer.RightToLeftLayout;
+            case VisualPopup visualPopup:
+                return visualPopup.RightToLeftLayout;
+            case VisualControlBase visualControl:
+                return visualControl.RightToLeftLayout;
+        }
+
+        // WinForms types that expose a bool layout flag (Form, native ListView, …).
+        var property = control.GetType().GetProperty(nameof(RightToLeftLayout));
+        if (property != null && property.PropertyType == typeof(bool) && property.GetIndexParameters().Length == 0)
         {
             if (property.GetValue(control) is bool value)
             {
@@ -444,7 +454,6 @@ public static class CommonHelper
             }
         }
 
-        // Default to left-to-right layout
         return false;
     }
 

@@ -76,6 +76,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-WorkspaceRtlLayout.ps1` | #2383 `KryptonWorkspace` logical RTL: horizontal cells pack from the right when both flags are set; nested vertical order is unchanged; XML Children order is stable | `include` |
 | `UnitTest-BorderlessFormCaption.ps1` | #2922 borderless `KryptonForm`: top-level and MDI `Dock.Fill` child have no `WS_CAPTION` after `Show`; `MdiChildActivate` still fires | `include` |
 | `UnitTest-ContextMenuSubMenuImage.ps1` | #4252 Light Gray Office 2007/2010/Microsoft 365 `GetContextMenuSubMenuImage` returns an image; all catalog palettes must not throw | `include` |
+| `UnitTest-TagInput.ps1` | `KryptonTagInput` and `KryptonTagInputControl` API: defaults, add/remove, duplicates, max tags, events, category colours | `include` |
 | `UnitTest-TagInput.ps1` | `KryptonTagInputControl` API: defaults, add/remove, duplicates, max tags, events, category colours | `include` |
 | `UnitTest-ToolStripTextContrast.ps1` | #4373 `ColorTable.ToolStripText` contrasts with `ToolStripGradientBegin` on every catalog theme | `include` |
 | `Start-AsyncFormsDemoHost.ps1` | Hosts `Feature4177AsyncFormsDemo` | n/a |
@@ -97,11 +98,14 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonTranslationsScreenshot.ps1` | Hosts `RibbonTranslationsDemo` (#4369) and writes default/German PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-ToolkitRtlScreenshot.ps1` | Hosts `RTLControlsTest` (#2379) and writes LTR/RTL PNGs under `Documents/PR/`. Also: `-Demo ToolkitRtlGalleryDemo -WindowTitle 'Toolkit RTL Gallery (#2379)' -OutputStem 2379-toolkit-rtl-gallery -SingleCapture` | `exclude` |
+| `Invoke-PropertyGridRtlScreenshot.ps1` | Hosts `ToolkitRtlGalleryDemo` on the PropertyGrid tab (#2379) and writes `Documents/PR/2379-toolkit-rtl-propertygrid.png` | `exclude` |
 | `Invoke-WorkspaceRtlScreenshot.ps1` | Hosts `WorkspaceRtlDemo` (#2383) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonCaptionPaletteScreenshot.ps1` | Hosts `Bug4061RibbonCaptionIconThemeDemo` (#3859 / #4061) and writes Office 2007 / Microsoft 365 PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-PaletteBinaryScreenshot.ps1` | Hosts `PaletteBinaryDemo` (#2117) and writes `Documents/PR/2117-bulk-xml-upgrade-demo.png` | `exclude` |
 | `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |
 | `Invoke-ListViewStateTrackingScreenshot.ps1` | Hosts `Bug4336ListViewStateTrackingDemo` (#4336) and writes hover PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/3927-tag-input-default.png` | `exclude` |
 | `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/tag-input-default.png` | `exclude` |
 | `Invoke-ToolStripTextContrastScreenshot.ps1` | Hosts `Bug4373ToolStripTextContrastDemo` (#4373) and writes Office White/Black ToolStrip PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-BorderlessMdiScreenshot.ps1` | Hosts `BorderlessMdiHostDemo` (#2922) with a Dock.Fill child and writes `Documents/PR/2922-borderless-mdi-dockfill.png` | `exclude` |

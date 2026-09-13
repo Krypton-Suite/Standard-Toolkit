@@ -21,20 +21,29 @@ public static class CommandLinkArrowHelper
     private const int DefaultSize = 32;
     private static readonly object Sync = new object();
     private static Image? _cachedDefault;
+    private static Image? _cachedDefaultRtl;
 
     /// <summary>
     /// Gets the default command-link arrow image for the current operating system.
     /// </summary>
     /// <param name="size">Target size in pixels. Defaults to 32.</param>
+    /// <param name="rightToLeft">When true, the arrow is mirrored horizontally (RTL chrome).</param>
     /// <returns>
-    /// The arrow image. The 32×32 result is cached and must not be disposed by the caller.
+    /// The arrow image. The 32×32 results are cached and must not be disposed by the caller.
     /// Other sizes are new instances owned by the caller.
     /// </returns>
-    public static Image GetDefaultArrowImage(int size = DefaultSize)
+    public static Image GetDefaultArrowImage(int size = DefaultSize, bool rightToLeft = false)
     {
         if (size != DefaultSize)
         {
-            return CreateDefaultArrowImage(size);
+            Image created = CreateDefaultArrowImage(size);
+            if (!rightToLeft)
+            {
+                return created;
+            }
+
+            created.RotateFlip(RotateFlipType.RotateNoneFlipX);
+            return created;
         }
 
         lock (Sync)
@@ -44,7 +53,19 @@ public static class CommandLinkArrowHelper
                 _cachedDefault = CreateDefaultArrowImage(DefaultSize);
             }
 
-            return _cachedDefault;
+            if (!rightToLeft)
+            {
+                return _cachedDefault;
+            }
+
+            if (_cachedDefaultRtl == null)
+            {
+                var flipped = new Bitmap(_cachedDefault);
+                flipped.RotateFlip(RotateFlipType.RotateNoneFlipX);
+                _cachedDefaultRtl = flipped;
+            }
+
+            return _cachedDefaultRtl;
         }
     }
 
