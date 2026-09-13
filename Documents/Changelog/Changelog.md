@@ -47,6 +47,8 @@
 
 * Resolved [#4425](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4425), Keep KryptonComboBox drop-down width tracking control width
   * `KryptonComboBox` keeps the drop-down list width in sync with the control when `DropDownWidth` has not been set explicitly (removed the leftover Content-palette sync TODO from [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704)).
+* Implemented [#979](https://github.com/Krypton-Suite/Standard-Toolkit/issues/979), Use designer verbs where appropriate
+  * Designer verbs on Krypton components that need collection or command actions (context menu, header, workspace, manager), matching native WinForms right-click commands.
 * Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly.
 * Implemented [#2379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/2379), RTL support for **all** `Krypton.Toolkit` controls
   * Set `RightToLeft` and `RightToLeftLayout` on the host `KryptonForm` (or on the control). Both flags together mirror docks, splitters, group/header captions, spin buttons, and list reading order; `RightToLeft` alone still controls text Near/Far.
