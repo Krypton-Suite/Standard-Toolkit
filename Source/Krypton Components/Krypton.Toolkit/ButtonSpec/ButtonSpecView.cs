@@ -79,7 +79,7 @@ public class ButtonSpecView : GlobalId,
         {
             ViewButton
         };
-        ViewCenter.FillHeight = buttonSpec.FillHeight;
+        ViewCenter.FillHeight = ButtonSpec.FillHeight;
 
         // Create a controller for managing button behavior
         ButtonSpecViewControllers controllers = CreateController(ViewButton, needPaint, OnClick);
