@@ -685,11 +685,13 @@ public class ViewLayoutMonths : ViewComposite,
 
             // Position each child within the required grid
             Size dimensions = DisplayDimensions;
+            bool rtl = ToolkitRtlLayout.IsRtl(context);
             for (int y = 0, index = 1; y < dimensions.Height; y++)
             {
                 for (var x = 0; x < dimensions.Width; x++)
                 {
-                    context.DisplayRectangle = new Rectangle(ClientLocation.X + (x * monthSize.Width) + (GAP * (x + 1)),
+                    int visualX = rtl ? (dimensions.Width - 1 - x) : x;
+                    context.DisplayRectangle = new Rectangle(ClientLocation.X + (visualX * monthSize.Width) + (GAP * (visualX + 1)),
                         ClientLocation.Y + (y * monthSize.Height) + (GAP * (y + 1)),
                         monthSize.Width, monthSize.Height);
 
