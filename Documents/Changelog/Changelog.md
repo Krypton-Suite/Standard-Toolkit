@@ -48,6 +48,8 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Resolved [#4419](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4419), Use scaling here, to support larger screens
+  * Toast notifications scale screen-edge and borderless height padding for high-DPI displays; toasts without a close box use borderless chrome, and dismiss buttons are inset from the form edge.
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text is unreadable on Office White, Office 2007 Black, and Visual Studio 2010 themes.
   * ColorTable `ToolStripText` now picks a scheme colour that contrasts with the tool-strip background (WCAG AA 4.5:1) instead of always reusing status-strip or button text.
