@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2024 - 2025. All rights reserved.
@@ -3351,6 +3351,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             case PaletteButtonSpecStyle.QuickPrint:
                 return _integratedToolbarQuickPrintNormal;
             case PaletteButtonSpecStyle.Generic:
+                // Generic button specs have no stock palette image; the consumer supplies one.
                 return null;
             default:
                 // Should never happen!
