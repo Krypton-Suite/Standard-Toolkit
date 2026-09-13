@@ -42,6 +42,7 @@ public abstract class VisualControlBase : Control,
     private readonly ToolTipManager _toolTipManager;
     private bool _isForwardingValidationFromChild;
     private int _minimumControlHeight;
+    private bool _isRightToLeftLayout;
 
     #endregion
 
@@ -59,6 +60,13 @@ public abstract class VisualControlBase : Control,
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
     public event EventHandler? GlobalPaletteChanged;
+
+    /// <summary>
+    /// Occurs when the <see cref="RightToLeftLayout"/> property changes.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the value of the RightToLeftLayout property is changed.")]
+    public event EventHandler? RightToLeftLayoutChanged;
     #endregion
 
     #region Identity
@@ -510,6 +518,34 @@ public abstract class VisualControlBase : Control,
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the layout of the control is from right to left.
+    /// </summary>
+    /// <remarks>
+    /// Same two-flag contract as <see cref="KryptonForm"/>: layout mirroring applies only when
+    /// this is <c>true</c> and <see cref="Control.RightToLeft"/> is <see cref="RightToLeft.Yes"/>.
+    /// Named to match WinForms <see cref="Form"/>; not the Toolkit <c>RightToLeftLayout</c> enum.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether the layout of the control is from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public virtual bool RightToLeftLayout
+    {
+        get => _isRightToLeftLayout;
+        set
+        {
+            if (_isRightToLeftLayout != value)
+            {
+                _isRightToLeftLayout = value;
+                OnRightToLeftLayoutChanged(EventArgs.Empty);
+            }
+        }
+    }
+
     #endregion
 
     #region Public IKryptonDebug
@@ -670,6 +706,16 @@ public abstract class VisualControlBase : Control,
 
     #region Protected Virtual
     // ReSharper disable VirtualMemberNeverOverridden.Global
+    /// <summary>
+    /// Raises the <see cref="RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected virtual void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        RightToLeftLayoutChanged?.Invoke(this, e);
+        PerformNeedPaint(true);
+    }
+
     /// <summary>
     /// Work out if this control needs to paint transparent areas.
     /// </summary>
