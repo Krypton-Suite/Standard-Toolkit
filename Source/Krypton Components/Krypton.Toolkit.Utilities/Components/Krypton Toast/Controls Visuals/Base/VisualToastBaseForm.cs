@@ -11,6 +11,13 @@ namespace Krypton.Toolkit.Utilities;
 
 internal partial class VisualToastBaseForm : KryptonForm
 {
+    #region Constants
+
+    /// <summary>Logical pixel inset from the working-area edge when auto-positioning a toast.</summary>
+    protected const int ToastScreenEdgeMargin = 5;
+
+    #endregion
+
     #region Instance Fields
 
     private KryptonToastResult _notificationResult;
@@ -104,13 +111,56 @@ internal partial class VisualToastBaseForm : KryptonForm
 
     protected KryptonToastResult ShowToastNotificationResult() => ShowToastNotificationResult(null);
 
+    /// <summary>Converts a logical padding value to device pixels for the monitor hosting this form.</summary>
+    /// <param name="logical">Padding in logical (96 DPI) pixels.</param>
+    /// <returns>The scaled padding in device pixels.</returns>
+    protected int GetScaledPadding(int logical) => LogicalToDeviceUnits(logical);
+
+    /// <summary>
+    /// Default bottom-right toast location on the primary working area, with a DPI-scaled edge margin.
+    /// </summary>
+    /// <returns>A screen location for the toast's top-left corner.</returns>
+    protected Point GetDefaultBottomRightLocation()
+    {
+        var margin = GetScaledPadding(ToastScreenEdgeMargin);
+        var workingArea = Screen.PrimaryScreen!.WorkingArea;
+
+        return new Point(workingArea.Width - Width - margin, workingArea.Height - Height - margin);
+    }
+
+    /// <summary>
+    /// Applies close-box / control-box chrome. When there is no close box the toast is borderless
+    /// so <see cref="ApplyBorderlessHeightPadding"/> can add DPI-scaled height compensation.
+    /// </summary>
+    /// <param name="showCloseBox">Whether the system close box should be shown.</param>
+    protected void ApplyCloseBoxChrome(bool showCloseBox)
+    {
+        CloseBox = showCloseBox;
+        ControlBox = showCloseBox;
+        FormBorderStyle = showCloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.None;
+    }
+
+    /// <summary>
+    /// When the toast is borderless, add DPI-scaled padding to the height so content is not clipped
+    /// on high-DPI displays.
+    /// </summary>
+    protected void ApplyBorderlessHeightPadding()
+    {
+        if (FormBorderStyle != FormBorderStyle.None)
+        {
+            return;
+        }
+
+        // Compensate for missing non-client chrome with a DPI-aware pad.
+        Height += GetScaledPadding(SharedStaticConstants.DEFAULT_PADDING);
+    }
+
     #endregion
 
     #region Implementation
 
     private void VisualToastNotificationBaseForm_Load(object sender, EventArgs e)
     {
-
     }
 
     #endregion

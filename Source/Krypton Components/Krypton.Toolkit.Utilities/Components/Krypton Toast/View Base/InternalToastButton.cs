@@ -121,14 +121,21 @@ internal class InternalToastButton : KryptonButton
         Anchor = AnchorStyles.Right;
 
         AutoSize = true;
-
-        // Use 10 pixels for padding
-        Margin = new Padding(SharedStaticConstants.DEFAULT_PADDING);
     }
 
     #endregion
 
     #region Protected
+
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+
+        // Scale button margin once the handle exists so LogicalToDeviceUnits uses the correct DPI.
+        var pad = LogicalToDeviceUnits(SharedStaticConstants.DEFAULT_PADDING);
+        Margin = new Padding(pad);
+    }
 
     protected override void OnPaint(PaintEventArgs? e)
     {
