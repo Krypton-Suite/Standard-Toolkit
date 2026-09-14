@@ -45,6 +45,9 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4419](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4419), Use scaling here, to support larger screens
+ * Toast notifications scale screen-edge and borderless height padding for high-DPI displays; toasts without a close box use borderless chrome.
+ * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#4410](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4410), Tabbed floating toolbar pages now show their toolbar/menu strip content; the tabbed container hosts its navigator on `KryptonForm.InternalPanel` so tabs and toolbars are visible after `ResumeLayout`
   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved `KryptonCustomThemeGenerator` no longer throws when a dark donor is chosen without `Krypton.Themes`. `AvailableDonorModes` / `IsAvailableDonor` expose catalog-registered donors; random seeds and the builder skip unregistered extras until Themes is present.
