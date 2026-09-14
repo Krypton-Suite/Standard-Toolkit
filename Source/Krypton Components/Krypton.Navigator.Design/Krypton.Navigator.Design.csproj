@@ -5,7 +5,7 @@
 	<PropertyGroup>
 		<RootNamespace>Krypton.Navigator</RootNamespace>
 		<AssemblyName>Krypton.Navigator.Design</AssemblyName>
-		<Description>DesignToolsServer designers for Krypton.Navigator (WinForms Designer Extensibility SDK).</Description>
+		<Description>Out-of-process DesignToolsServer designers, action lists, and glyphs for Krypton.Navigator on modern Windows TFMs (WinForms Designer Extensibility SDK). Packed under lib\{tfm}\Design\WinForms\Server\.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
