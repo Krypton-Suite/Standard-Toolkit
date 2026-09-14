@@ -27,6 +27,7 @@
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<NoWarn>1701;1702</NoWarn>
+		<Description>Optional Krypton.Navigator utilities assembly: Windows taskbar live thumbnails, caption-tab form integration, and tabbed MDI management. Included in the Krypton.Standard.Toolkit NuGet package.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
