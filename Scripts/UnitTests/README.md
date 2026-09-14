@@ -110,6 +110,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/tag-input-default.png` | `exclude` |
 | `Invoke-ToolStripTextContrastScreenshot.ps1` | Hosts `Bug4373ToolStripTextContrastDemo` (#4373) and writes Office White/Black ToolStrip PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-BorderlessMdiScreenshot.ps1` | Hosts `BorderlessMdiHostDemo` (#2922) with a Dock.Fill child and writes `Documents/PR/2922-borderless-mdi-dockfill.png` | `exclude` |
+| `Invoke-TabbedFloatingToolbarScreenshot.ps1` | Hosts a tabbed `FloatingToolbarGroup` (#4410) and writes `Documents/PR/4410-tabbed-floating-toolbar-page-content.png` | `exclude` |
 
 ## Run all CI assert tests (on demand)
 

@@ -94,16 +94,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
     {
         try
         {
-            using var ofd = new OpenFileDialog();
-            ofd.CheckFileExists = true;
-            ofd.CheckPathExists = true;
-            ofd.FileName = @"ToolkitTranslations";
-            ofd.DefaultExt = @"xml";
-            ofd.Filter = @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)";
-            ofd.Title = @"Load Translations";
-
-            var fileName = (ofd.ShowDialog() == DialogResult.OK) ? ofd.FileName : string.Empty;
-            if (string.IsNullOrWhiteSpace(fileName))
+            if (disposing && _service != null)
             {
                 _service.ComponentChanged -= OnComponentChanged;
             }

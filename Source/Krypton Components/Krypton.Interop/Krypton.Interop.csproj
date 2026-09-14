@@ -24,6 +24,7 @@
 		<AnalysisLevel>latest</AnalysisLevel>
 		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
 		<NoWarn>1701;1702</NoWarn>
+		<Description>Internal shared layer for the Krypton suite: Win32/P/Invoke helpers, DWM and taskbar interop, and net472 nullable attribute polyfills consumed by Krypton.Toolkit and sibling assemblies.</Description>
 	</PropertyGroup>
 
 	<!-- Optional CsWin32 for *new* Win32 APIs only; existing PI dual-path remains canonical. -->
