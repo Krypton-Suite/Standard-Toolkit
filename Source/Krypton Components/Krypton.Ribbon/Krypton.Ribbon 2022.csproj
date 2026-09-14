@@ -28,7 +28,7 @@
 
   <PropertyGroup>
     <PackageId>Krypton.Ribbon</PackageId>
-    <Description>This is the ribbon module.</Description>
+    <Description>Krypton Ribbon for WinForms: Office 2007/2010/2013/365-style ribbon with quick access toolbar, contextual tabs, galleries, and auto-shrinking groups, sharing the Toolkit palette and look and feel.</Description>
   </PropertyGroup>
 
   <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />

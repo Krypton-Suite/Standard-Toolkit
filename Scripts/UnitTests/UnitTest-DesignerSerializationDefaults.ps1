@@ -321,7 +321,8 @@ $corePrefixes = @(
     'KryptonThemeComboBox.',
     'KryptonLinkWrapLabel.',
     'KryptonTagInput.',
-    'KryptonTagInputControl.'
+    'KryptonTagInputControl.',
+    'KryptonLoadingCircle.'
 )
 
 $coreModified = @($modified | Where-Object {

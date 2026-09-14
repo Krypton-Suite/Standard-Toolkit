@@ -89,6 +89,12 @@
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.Designer.cs">
       <DependentUpon>KryptonTagInputControlDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.Designer.cs">
+      <DependentUpon>LoadingCircleDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.Designer.cs">
       <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>
     </Compile>

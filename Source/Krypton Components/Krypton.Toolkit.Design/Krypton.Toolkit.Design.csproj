@@ -5,7 +5,7 @@
 	<PropertyGroup>
 		<RootNamespace>Krypton.Toolkit</RootNamespace>
 		<AssemblyName>Krypton.Toolkit.Design</AssemblyName>
-		<Description>DesignToolsServer designers for Krypton.Toolkit (WinForms Designer Extensibility SDK).</Description>
+		<Description>Out-of-process DesignToolsServer designers, action lists, and glyphs for Krypton.Toolkit controls on modern Windows TFMs (WinForms Designer Extensibility SDK). Packed under lib\{tfm}\Design\WinForms\Server\.</Description>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
