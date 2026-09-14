@@ -137,6 +137,7 @@ public class KryptonRadioButton : VisualSimpleBase
             { _layoutCenter, ViewDockStyle.Left },
             { _drawContent, ViewDockStyle.Fill }
         };
+        _layoutDocker.IgnoreRightToLeftLayout = true;
 
         // Need a controller for handling mouse input
         _controller = new RadioButtonController(_drawRadioButton, _layoutDocker, NeedPaintDelegate);

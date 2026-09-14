@@ -21,7 +21,7 @@ namespace Krypton.Ribbon;
 [DesignerCategory(@"code")]
 [Description(@"Ribbon control presents a tabbed set of user options.")]
 [Docking(DockingBehavior.Never)]
-public class KryptonRibbon : VisualSimple,
+public partial class KryptonRibbon : VisualSimple,
     IMessageFilter
 {
     #region Type Definitions
@@ -298,6 +298,8 @@ public class KryptonRibbon : VisualSimple,
     {
         if (disposing)
         {
+            UnregisterTranslationAutoDiscovery();
+
             // Remember to unhook otherwise memory cannot be garbage collected
             Application.RemoveMessageFilter(this);
 
@@ -1014,7 +1016,7 @@ public class KryptonRibbon : VisualSimple,
     [Browsable(true)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public bool RightToLeftLayout
+    public override bool RightToLeftLayout
     {
         get => _isRightToLeftLayout;
         set
@@ -1022,7 +1024,7 @@ public class KryptonRibbon : VisualSimple,
             if (_isRightToLeftLayout != value)
             {
                 _isRightToLeftLayout = value;
-                PerformNeedPaint(true);
+                OnRightToLeftLayoutChanged(EventArgs.Empty);
             }
         }
     }
@@ -1995,6 +1997,8 @@ public class KryptonRibbon : VisualSimple,
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
+
+        OnHandleCreatedAutoDiscover();
 
         // Size and position of the application button and context titles will not
         // be correct in the caption area until the control handle has been created

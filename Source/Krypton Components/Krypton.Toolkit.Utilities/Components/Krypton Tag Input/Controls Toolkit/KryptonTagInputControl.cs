@@ -19,8 +19,8 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultProperty(nameof(Tags))]
 [Designer("Krypton.Toolkit.Utilities.KryptonTagInputControlDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
-[DisplayName(@"Krypton Tag Input")]
-[Description(@"Wrap-capable tag editor with themed chips, suggestions, and optional category colours.")]
+[DisplayName(@"Krypton Tag Input Control")]
+[Description(@"Utilities wrap-capable tag editor with themed header chips, suggestions, and optional category colours.")]
 [Docking(DockingBehavior.Ask)]
 public class KryptonTagInputControl : KryptonPanel
 {
@@ -30,9 +30,11 @@ public class KryptonTagInputControl : KryptonPanel
     private readonly KryptonTextBox _inputBox;
     private readonly Dictionary<string, Color> _categoryColors;
     private readonly AutoCompleteStringCollection _suggestions;
+    private readonly List<KryptonTagChip> _chips;
     private bool _readOnly;
     private bool _committing;
     private bool _suspendInputEvents;
+    private int _nextChipId;
 
     #endregion
 
@@ -103,6 +105,7 @@ public class KryptonTagInputControl : KryptonPanel
         Tags = new KryptonTagCollection(this);
         _suggestions = new AutoCompleteStringCollection();
         _categoryColors = new Dictionary<string, Color>(StringComparer.OrdinalIgnoreCase);
+        _chips = new List<KryptonTagChip>();
 
         _flow = new FlowLayoutPanel
         {
@@ -236,11 +239,12 @@ public class KryptonTagInputControl : KryptonPanel
             return false;
         }
 
+        var index = Tags.Count;
         Tags.SuspendOwnerNotify = true;
         Tags.Add(trimmed);
         Tags.SuspendOwnerNotify = false;
 
-        NotifyTagInserted(trimmed);
+        NotifyTagInserted(trimmed, index);
         return true;
     }
 
@@ -251,17 +255,18 @@ public class KryptonTagInputControl : KryptonPanel
     /// <returns>true if a tag was removed; otherwise, false.</returns>
     public bool RemoveTag(string tag)
     {
-        var existing = FindExisting(tag);
-        if (existing == null)
+        var index = FindIndex(tag);
+        if (index < 0)
         {
             return false;
         }
 
+        var existing = Tags[index];
         Tags.SuspendOwnerNotify = true;
-        Tags.Remove(existing);
+        Tags.RemoveAt(index);
         Tags.SuspendOwnerNotify = false;
 
-        NotifyTagRemoved(existing);
+        NotifyTagRemovedAt(index, existing);
         return true;
     }
 
@@ -381,19 +386,21 @@ public class KryptonTagInputControl : KryptonPanel
     /// <summary>
     /// Returns true if <paramref name="tag"/> may be inserted (static rules plus <see cref="TagAdding"/>).
     /// </summary>
-    internal bool CanAcceptTag(string tag)
+    /// <param name="tag">Proposed tag text.</param>
+    /// <param name="replacingIndex">Index being replaced, or null when inserting a new tag.</param>
+    internal bool CanAcceptTag(string tag, int? replacingIndex = null)
     {
         if (string.IsNullOrWhiteSpace(tag))
         {
             return false;
         }
 
-        if (Values.MaxTags > 0 && Tags.Count >= Values.MaxTags)
+        if (replacingIndex == null && Values.MaxTags > 0 && Tags.Count >= Values.MaxTags)
         {
             return false;
         }
 
-        if (!Values.AllowDuplicates && FindExisting(tag) != null)
+        if (!Values.AllowDuplicates && FindIndex(tag, replacingIndex) >= 0)
         {
             return false;
         }
@@ -411,23 +418,69 @@ public class KryptonTagInputControl : KryptonPanel
     /// <summary>
     /// Completes a collection insert by creating the chip and raising add events.
     /// </summary>
-    internal void NotifyTagInserted(string tag)
+    internal void NotifyTagInserted(string tag, int index)
     {
-        AddChip(tag);
+        InsertChip(index, tag);
         OnTagAdded(new KryptonTagEventArgs(tag));
         OnTagsChanged(EventArgs.Empty);
         ApplyInputVisibility();
     }
 
     /// <summary>
-    /// Completes a collection remove by disposing the chip and raising remove events.
+    /// Completes an atomic collection replace at <paramref name="index"/>.
     /// </summary>
-    internal void NotifyTagRemoved(string tag)
+    internal void NotifyTagReplaced(string previous, string tag, int index)
     {
-        RemoveChip(tag);
+        if (index >= 0 && index < _chips.Count)
+        {
+            _chips[index].SetTagText(tag);
+            ApplyChipAppearance(_chips[index]);
+        }
+
+        OnTagRemoved(new KryptonTagEventArgs(previous));
+        OnTagAdded(new KryptonTagEventArgs(tag));
+        OnTagsChanged(EventArgs.Empty);
+        ApplyInputVisibility();
+    }
+
+    /// <summary>
+    /// Completes a collection remove at a known index.
+    /// </summary>
+    internal void NotifyTagRemovedAt(int index, string tag)
+    {
+        RemoveChipAt(index);
         OnTagRemoved(new KryptonTagEventArgs(tag));
         OnTagsChanged(EventArgs.Empty);
         ApplyInputVisibility();
+    }
+
+    /// <summary>
+    /// Removes the chip with <paramref name="chipId"/> and the matching collection item.
+    /// </summary>
+    internal bool RemoveChipById(int chipId)
+    {
+        var index = -1;
+        for (var i = 0; i < _chips.Count; i++)
+        {
+            if (_chips[i].ChipId == chipId)
+            {
+                index = i;
+                break;
+            }
+        }
+
+        if (index < 0 || index >= Tags.Count)
+        {
+            return false;
+        }
+
+        var tag = Tags[index];
+        Tags.SuspendOwnerNotify = true;
+        Tags.RemoveAt(index);
+        Tags.SuspendOwnerNotify = false;
+
+        NotifyTagRemovedAt(index, tag);
+        return true;
     }
 
     /// <summary>
@@ -474,17 +527,22 @@ public class KryptonTagInputControl : KryptonPanel
     private StringComparison Comparison =>
         Values.CaseSensitive ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase;
 
-    private string? FindExisting(string tag)
+    private int FindIndex(string tag, int? skipIndex = null)
     {
-        foreach (var existing in Tags)
+        for (var i = 0; i < Tags.Count; i++)
         {
-            if (string.Equals(existing, tag, Comparison))
+            if (skipIndex.HasValue && i == skipIndex.Value)
             {
-                return existing;
+                continue;
+            }
+
+            if (string.Equals(Tags[i], tag, Comparison))
+            {
+                return i;
             }
         }
 
-        return null;
+        return -1;
     }
 
     private bool IsSuggested(string tag)
@@ -500,39 +558,39 @@ public class KryptonTagInputControl : KryptonPanel
         return false;
     }
 
-    private void AddChip(string tag)
+    private void InsertChip(int index, string tag)
     {
-        var chip = new KryptonTagChip(this, tag);
+        var chip = new KryptonTagChip(this, tag, ++_nextChipId);
         ApplyChipAppearance(chip);
+        _chips.Insert(index, chip);
         _flow.Controls.Add(chip);
+        _flow.Controls.SetChildIndex(chip, index);
         _flow.Controls.SetChildIndex(_inputBox, _flow.Controls.Count - 1);
     }
 
-    private void RemoveChip(string tag)
+    private void RemoveChipAt(int index)
     {
-        var chip = FindChip(tag);
-        if (chip == null)
+        if (index < 0 || index >= _chips.Count)
         {
             return;
         }
 
+        var chip = _chips[index];
+        _chips.RemoveAt(index);
         _flow.Controls.Remove(chip);
         chip.Dispose();
     }
 
     private void RemoveAllChips()
     {
-        var chips = _flow.Controls.OfType<KryptonTagChip>().ToArray();
-        foreach (var chip in chips)
+        foreach (var chip in _chips)
         {
             _flow.Controls.Remove(chip);
             chip.Dispose();
         }
-    }
 
-    private KryptonTagChip? FindChip(string tag) =>
-        _flow.Controls.OfType<KryptonTagChip>()
-            .FirstOrDefault(chip => string.Equals(chip.TagText, tag, Comparison));
+        _chips.Clear();
+    }
 
     private void ApplyChipAppearance(KryptonTagChip chip)
     {
@@ -543,7 +601,7 @@ public class KryptonTagInputControl : KryptonPanel
 
     private void ApplyChipAppearances()
     {
-        foreach (var chip in _flow.Controls.OfType<KryptonTagChip>())
+        foreach (var chip in _chips)
         {
             ApplyChipAppearance(chip);
         }

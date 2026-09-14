@@ -151,7 +151,7 @@ public class VisualPopup : ContainerControl
     /// Gets or sets whether popup layout packs from the reading-order start edge.
     /// </summary>
     /// <remarks>
-    /// Same two-flag contract as <see cref="VisualSimpleBase"/>: also requires
+    /// Same two-flag contract as <see cref="VisualControlBase"/>: also requires
     /// <see cref="Control.RightToLeft"/> equal to <see cref="RightToLeft.Yes"/>.
     /// Named to match WinForms <see cref="Form"/>; not the <c>RightToLeftLayout</c> enum.
     /// </remarks>

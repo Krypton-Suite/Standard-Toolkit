@@ -77,8 +77,26 @@
     <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\KryptonTagInputDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\KryptonTagInputDemo.Designer.cs">
+      <DependentUpon>KryptonTagInputDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.Designer.cs">
+      <DependentUpon>KryptonTagInputControlDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.Designer.cs">
       <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\ToolkitRtlGalleryDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\ToolkitRtlGalleryDemo.Designer.cs">
+      <DependentUpon>ToolkitRtlGalleryDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoResources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -141,6 +159,9 @@
     <Compile Update="Feature3851RenderingDpiDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonRibbon\Feature\RibbonTranslationsDemo.Designer.cs">
+      <DependentUpon>RibbonTranslationsDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.Designer.cs">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
     </Compile>
@@ -161,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\ToolkitRtlGalleryDemo.resx">
+      <DependentUpon>ToolkitRtlGalleryDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.resx">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
@@ -209,9 +233,9 @@
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonRibbon\Bugs\" />
+    <Folder Include="KryptonToolkit\Bugs\" />
     <Folder Include="KryptonRibbon\Feature\" />
     <Folder Include="KryptonUtilities\Bugs\" />
-    <Folder Include="KryptonUtilities\Feature\" />
     <Folder Include="KryptonWorkspace\Bugs\" />
   </ItemGroup>
 

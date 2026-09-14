@@ -103,17 +103,17 @@ internal static class ToolkitStringsXmlPersistence
             if (fileVersion < CurrentSupportedVersion)
             {
                 Debug.WriteLine(
-                    $@"[Krypton] Translations.xml format version '{fileVersion}' is older than supported structural version {CurrentSupportedVersion}. Import will continue best-effort.");
+                    $@"[Krypton] ToolkitTranslations.xml format version '{fileVersion}' is older than supported structural version {CurrentSupportedVersion}. Import will continue best-effort.");
             }
             else if (fileVersion > CurrentSupportedVersion)
             {
                 Debug.WriteLine(
-                    $@"[Krypton] Translations.xml format version '{fileVersion}' is newer than this toolkit ({CurrentSupportedVersion}). Unknown structure may be ignored.");
+                    $@"[Krypton] ToolkitTranslations.xml format version '{fileVersion}' is newer than this toolkit ({CurrentSupportedVersion}). Unknown structure may be ignored.");
             }
         }
         else if (!string.IsNullOrWhiteSpace(versionText))
         {
-            Debug.WriteLine($@"[Krypton] Translations.xml has unrecognised Version '{versionText}'. Import will continue best-effort.");
+            Debug.WriteLine($@"[Krypton] ToolkitTranslations.xml has unrecognised Version '{versionText}'. Import will continue best-effort.");
         }
 
         // Warn if the file's culture doesn't match the current UI culture.
@@ -125,7 +125,7 @@ internal static class ToolkitStringsXmlPersistence
                 && !String.Equals(fileCulture, currentCulture, StringComparison.OrdinalIgnoreCase))
             {
                 Debug.WriteLine(
-                    $@"[Krypton] Translations.xml was created for culture '{fileCulture}' but the current UI culture is '{currentCulture}'. Strings may not display correctly.");
+                    $@"[Krypton] ToolkitTranslations.xml was created for culture '{fileCulture}' but the current UI culture is '{currentCulture}'. Strings may not display correctly.");
             }
         }
 

@@ -12,6 +12,8 @@ These are recurring issues observed when using AI coding agents and shell wrappe
 - Do not over-escape regex patterns for `rg`. A pattern like `msbuild\\.exe` can search for the wrong text. Correct example in PowerShell: `$pattern = 'msbuild\.exe'; $root = 'Scripts'; rg -n $pattern $root --glob '*.cmd'`.
 - Do not use `findstr` quoted path experiments for ordinary file reads or searches. Correct example: `$path = 'Scripts\VS2022\rebuild-build-nightly.cmd'; Select-String -LiteralPath $path -Pattern 'nightly.proj'`.
 - Do not `git clone` [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) when `..\Standard-Toolkit-Demos` already exists. Reuse that working tree: switch to `alpha` if not already on it, then create a new `alpha-…` branch from `alpha`. Clone only when the parent folder is missing (see **Standard-Toolkit-Demos**).
+- Do not pack extra nupkg files as `lib\$(TargetFramework)\` for `netX.0-windows` (NU5128: extra `net8.0-windows` folder vs nuspec `net8.0-windows7.0`). Use `_KryptonPackageLibFolder` (see **WinForms Designer Extensibility SDK**).
+- Do not `dotnet pack` after a VS 2026 build that skipped net11 without `-p:ExcludeNet11=true` on **both** restore and pack (or pack with a rebuild so net11 compiles). Otherwise NU5128 asks for `net11.0-windows7.0` lib assemblies that were never built.
 
 ## Always
 
@@ -26,6 +28,7 @@ Before considering a task complete:
 - When a change is **breaking** for consumers, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**). The entry must follow the existing pattern in that section.
 - Add developer documentation for substantial new features (see **Feature Developer Documentation**). Keep `Documents/Development/` files **out of pull requests**.
 - Write a PR description in `Documents/PR/` for completed features and bug fixes, and use that file as the GitHub PR body. Do **not** include the PR description file in the pull request (see **Pull Request Descriptions**).
+- For completed features and bug fixes, capture a screenshot of the successful local **build log** into the local `Documents/PR/` description. Do not leave **Build log** as a placeholder, and do **not** upload or attach the image to the GitHub pull request (see **Build Log Screenshot**).
 - For UI-visible changes, capture screenshots (or a short GIF when motion is the point) into the local `Documents/PR/` description. Do not leave **Screenshots / GIFs** as a placeholder, and do **not** upload or attach the images to the GitHub pull request (see **UI Screenshots / GIFs**).
 - When UI behaviour is verified with ad-hoc PowerShell / UI Automation (mouse synthesise, screenshots, hosted `TestForm` demos), **keep those scripts under `Scripts/UnitTests/`** instead of leaving them only under `Bin/` or deleting them after the session. Prefer reusable, named scripts with a short note in `Scripts/UnitTests/README.md` (see **Unit Test Scripts**).
 
@@ -46,6 +49,8 @@ Before considering a task complete:
 ## Project Structure & Module Organization
 
 - `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
+- Design-time projects (`Krypton.*.Design`, `Krypton.Toolkit.Design.Client`, `Krypton.Toolkit.Design.Protocol`) live in the same folder and the **DesignerSdk** solution folder. They are not packable on their own; pack copies them into consumer nupkgs (see **WinForms Designer Extensibility SDK**).
+- `Krypton.Standard.Toolkit` is the aggregate NuGet project: it bundles referenced binaries (including `Krypton.Themes.dll` and `lib\{tfm}\Design\WinForms`) into one nupkg.
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**). Library folders omit `.` from assembly names (`KryptonToolkit`, `KryptonUtilities`, not `Krypton.Toolkit`); new feature demos sit under that folder’s `Feature` subfolder and issue repros under `Bugs`.
 - [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) is a **separate** repo in the directory above this project (`..\Standard-Toolkit-Demos`), not a folder inside Standard-Toolkit. Reuse that folder if it exists (do **not** clone again); clone there only if missing. When completing a feature, add a consumer example (or **append** if one exists; do not overwrite) on a new `alpha-…` branch from `alpha` (see **Standard-Toolkit-Demos**)
 - `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
@@ -62,11 +67,57 @@ Before considering a task complete:
 
 - `Krypton.Toolkit` contains the shared infrastructure.
 - `Krypton.Interop` holds shared internal Win32/P/Invoke and net472 nullable polyfills; referenced by `Krypton.Toolkit` and consumed transitively by sibling assemblies.
-- `Krypton.Themes` holds **extra** builtin palettes (optional assembly, auto-discovered). Toolkit must **not** project-reference Themes (cycle).
+- `Krypton.Themes` holds **extra** builtin palettes (optional assembly, auto-discovered). Toolkit must **not** project-reference Themes (cycle). `Krypton.Standard.Toolkit` **does** reference Themes and must pack `Krypton.Themes.dll` into `lib\{tfm}\` so extra palettes auto-discover. Individual `Krypton.Toolkit` packages do not include Themes.
+- Out-of-process designers for modern Windows TFMs live in `Krypton.*.Design` (issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593)). Runtime libraries must not reference `Microsoft.WinForms.Designer.SDK` or ProjectReference a Design project (cycle). See **WinForms Designer Extensibility SDK**.
 - `Krypton.Ribbon` depends on `Krypton.Toolkit`.
 - `Krypton.Navigator` depends on `Krypton.Toolkit`.
 - Rendering flows through the palette and renderer abstractions.
 - New controls should integrate with the palette system rather than hardcoding appearance.
+
+## WinForms Designer Extensibility SDK
+
+Issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593). Modern Windows TFMs (`net8.0-windows` and later) load designers out-of-process via the WinForms Designer Extensibility SDK. .NET Framework still uses in-process designers inside the runtime assemblies.
+
+| Layer | TFMs | Role |
+|-------|------|------|
+| Runtime (`Krypton.Toolkit`, Ribbon, Navigator, …) | net4x + modern Windows | Controls. **No** `Microsoft.WinForms.Designer.SDK` package reference. |
+| `Krypton.*.Design` (Server) | modern Windows only | Dual-compiled designers / action lists / glyphs. SDK version is only `KryptonWinFormsDesignerSdkVersion` in `Source/Krypton Components/Directory.Build.props` (currently **1.6.0**). |
+| `Krypton.Toolkit.Design.Client` | **net472 only** | VS-hosted editors (image / folder). |
+| `Krypton.Toolkit.Design.Protocol` | Directory.Build.props TFMs | Shared DTOs and editor/endpoint name constants. |
+
+### When adding a designer (or `[Designer]` / `[Editor]` on a control)
+
+1. Dual-compile the designer `.cs` into the matching `Krypton.*.Design` project (same sources as Framework). Do **not** clone the catalogue into a `*.Server` tree or add a second copy of the designer.
+2. On the control, use `[Designer("Type, " + KryptonWinFormsDesignerSdk.AssemblyName)]` — `Krypton.Toolkit` (or the sibling runtime) on NETFRAMEWORK, `Krypton.*.Design` otherwise. Image/folder editors use `KryptonWinFormsDesignerSdk.ImageEditor` / `FolderNameEditor` / `InitialDirectoryEditor` (must stay in sync with `KryptonDesignerEditorNames`). Do **not** use `typeof(SomeDesigner)` on modern TFMs.
+3. New designers stay **internal**. `InternalsVisibleTo` (Krypton SNK) already covers Design assemblies.
+4. Modern TFMs `Compile Remove` designer sources from the runtime csproj (already patterned in Toolkit / Ribbon / Navigator / Workspace). Keep that exclude when adding files under `Designers\`.
+5. Server MEF type routing is the linked `KryptonDesignerTypeRoutingProvider.cs` (registers `ComponentDesigner` by name and full name). Do not hand-maintain a type catalogue.
+6. Design.Server assemblies are `[assembly: CLSCompliant(false)]` (SDK bases are not CLS-compliant). Do not “fix” CS3009 by making runtime types non-compliant.
+7. Keep designer code inside the C# 7.3 ceiling (**Public API → Compatibility**). SDK forks stay behind `#if KRYPTON_WINFORMS_DESIGNER_SDK` / `KryptonDesignerSdkCompat`.
+8. Set `KryptonWinFormsDesignerSdkDesignAssembly` on the runtime csproj that packs the Server DLL (Toolkit, Ribbon, Navigator, Workspace). Utilities Design assemblies are packed by `Krypton.Standard.Toolkit` only (`IsPackable=false` on Utilities). There is no `Krypton.Docking.Design` or `Krypton.Themes.Design`.
+
+### Pack layout
+
+Microsoft convention: `lib\{tfm}\Design\WinForms\Server\` (Server + Protocol) and `lib\{tfm}\Design\WinForms\` (Client + Protocol). `{tfm}` must be `_KryptonPackageLibFolder` (`netX.0-windows7.0`), defined in `Directory.Build.targets`. Packing as `netX.0-windows` raises NU5128 and puts Design assemblies where Visual Studio will not load them.
+
+`Krypton.WinFormsDesignerSdk.Package.targets` (imported by Toolkit / Ribbon / Navigator / Workspace) and `Krypton.Standard.Toolkit`’s `AddReferencedAssembliesToPackage` both copy with `Exists()`. Orchestrated pack runs `KryptonBuildDesign` first; skipping it silently omits Design/WinForms from nupkgs.
+
+`Krypton.Standard.Toolkit` must also pack `Krypton.Themes.dll` (and `.xml` / `.pdb`) into `lib\{tfm}\` next to the other suite binaries.
+
+### Validation
+
+- After packing, `Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1` — modern lib folders contain Design/WinForms assemblies and must **not** contain `Microsoft.WinForms.Designer.SDK.dll`.
+- TestForm `WinFormsDesignerSdkDemo` is a **runtime** host. `ProjectReference` does not populate `designer.deps.json`; OOP designer checks need a packed nupkg (local feed or CI).
+
+### Do not
+
+- Add `Microsoft.WinForms.Designer.SDK` to a runtime csproj, or a runtime → Design `ProjectReference` (cycle).
+- Bump `KryptonWinFormsDesignerSdkVersion` to a preview (for example 1.13.0-preview) unless a required API is missing from 1.6.0.
+- Put `*.Design.dll` in the `lib\{tfm}\` root. VS loads them only from `Design\WinForms\` and `Design\WinForms\Server\`.
+- Pack extra files with `PackagePath=lib\$(TargetFramework)\` on `netX.0-windows` (use `_KryptonPackageLibFolder`).
+- Alias `Microsoft.DotNet.DesignTools.Designers.SnapLine` — that type does not exist in SDK 1.6. Custom `SnapLines` stay Framework-only until an SDK bump provides the API.
+- Add Client `Microsoft.DotNet.DesignTools.TypeRouting` on net472 (SDK 1.6 Client does not have it). Keep assembly-qualified `[Editor]` strings.
+- Treat TestForm `ProjectReference` as proof that OOP designers load in Visual Studio.
 
 ## Built-in Palettes (Theme Catalog)
 
@@ -122,7 +173,7 @@ Extra assemblies can advertise `[assembly: KryptonThemeProvider(typeof(…))]`. 
 - Do not refactor unrelated code.
 - Do not rename identifiers unless requested.
 - When adding or changing public/protected API, include scoped documentation per **Code Documentation Guidelines**; do not turn a feature or bug fix into a repo-wide documentation pass unless asked.
-- Keep accompanying artefacts (changelog, developer guide, PR description, TestForm demo, UI screenshots / GIFs) consistent with the implementation; do not leave placeholder text from templates.
+- Keep accompanying artefacts (changelog, developer guide, PR description, TestForm demo, UI screenshots / GIFs, build log screenshot) consistent with the implementation; do not leave placeholder text from templates.
 
 ## Public API
 
@@ -196,6 +247,7 @@ If the new type is a core drop target, add its `TypeName.` prefix to `$corePrefi
   - Build scripts locate MSBuild via `Scripts\Common\find-msbuild.cmd` (`vswhere.exe`, then standard install paths). Profiles: `2019`, `2022`, `current` (newest VS major 18+), or a pinned major (`18`, `19`, …). `Scripts\Current\` uses `current`. Override with `MSBUILDPATH` or `MSBUILD_PATH` pointing at `MSBuild\Current\Bin`.
 - Outputs land under `Bin\<Configuration>\<TargetFramework>\` by default; with `UseArtifactsOutput=true`, outputs land under `artifacts\bin\<Configuration>\<TargetFramework>\`.
 - Target frameworks are selected by MSBuild properties. VS2019/full MSBuild builds only .NET Framework 4.x TFMs; VS2022/full MSBuild excludes `net10.0-windows` and `net11.0-windows`; VS2026/full MSBuild excludes `net11.0-windows` unless explicitly enabled; CI or SDK-based builds can include `net472`, `net48`, `net481`, `net8.0-windows`, `net9.0-windows`, `net10.0-windows`, and `net11.0-windows` when the required SDKs are installed.
+- Extra `TfmSpecificPackageFile` items must use `_KryptonPackageLibFolder` (`netX.0-windows7.0`), not `$(TargetFramework)` (NU5128). Orchestrated pack builds Design projects (`KryptonBuildDesign`) before Pack; `Exists()` packing omits Design/WinForms if that target did not run (see **WinForms Designer Extensibility SDK**).
 - New files must use only the current Standard Toolkit BSD header. Do not add the original ComponentFactory BSD header unless the file is derived from original ComponentFactory source.
 
 ## Coding Style & Naming Conventions
@@ -692,6 +744,7 @@ Commit, push, or open a Demos pull request only when the user explicitly asks. W
 - When completing a **feature**, add or append a comprehensive demo in `TestForm` per **TestForm Demos** (include Krypton vs WinForms comparison where appropriate; do not overwrite an existing demo), and a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (clone into the parent directory if missing; see **Standard-Toolkit-Demos**)
 - When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file; if the change is breaking, also update `README.md` per **Breaking Changes (README)**
 - For UI-visible changes, capture screenshots per **UI Screenshots / GIFs** into the local `Documents/PR/` description; do not leave the template placeholder, and do not upload the images or GIFs to GitHub
+- For completed bug fixes and features, capture a build-log screenshot per **Build Log Screenshot** into the local `Documents/PR/` description; do not leave the template placeholder, and do not upload the image to GitHub
 - When adding or changing a Toolbox control, `Storage` subclass, or constructor palette/values stamping, run `Scripts/UnitTests/UnitTest-DesignerSerializationDefaults.ps1` and keep core prefixes in that script in sync (see **Designer Serialization Defaults**)
 
 ## Unit Test Scripts
@@ -703,7 +756,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Creating throwaway `.ps1` files under `Bin/` during a bug investigation is fine for the session, but **before the work is finished**, move or rewrite the keepers into `Scripts/UnitTests/` with clear names and brief `.SYNOPSIS` / `.DESCRIPTION` help.
 - Prefer extending an existing unit-test script over adding a near-duplicate.
 - Document new scripts in `Scripts/UnitTests/README.md` (purpose and a short usage example).
-- Do not check in screenshots or `Bin/` output produced by these scripts. Reviewer shots for a PR belong under `Documents/PR/` and are also not committed (see **UI Screenshots / GIFs**).
+- Do not check in screenshots or `Bin/` output produced by these scripts. Reviewer shots for a PR (UI stills/GIFs and the build-log PNG) belong under `Documents/PR/` and are also not committed (see **UI Screenshots / GIFs** and **Build Log Screenshot**).
 
 ### Conventions
 
@@ -712,6 +765,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Keep scripts focused on one scenario (host, drag, remerge, probe, …).
 - Existing #925 helpers: `Start-NavigatorFormIntegrationHost.ps1`, `Invoke-CaptionTabDrag.ps1`, `UnitTest-NavigatorCaptionTabRemerge.ps1`, `Get-NavigatorCaptionTabProbe.ps1`.
 - Existing #4325 helper: `UnitTest-DesignerSerializationDefaults.ps1` (`include`) — parameterless Toolbox construct must not report nested `Modified` storage (see **Designer Serialization Defaults**).
+- Existing #593 pack helper: `Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1` — after Pack, modern lib folders must contain `Design/WinForms` assemblies and must not leak `Microsoft.WinForms.Designer.SDK.dll` (see **WinForms Designer Extensibility SDK**).
 
 ## UI Screenshots / GIFs
 
@@ -762,13 +816,55 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 - Upload or attach screenshot or GIF files to the GitHub pull request.
 - Invent or draw substitute images. If capture is impossible (no interactive desktop), say so in **Validation** instead of faking a shot.
 
+## Build Log Screenshot
+
+When a **bug fix** or **feature** is completed, capture a screenshot of the successful local build and embed it in the local `Documents/PR/` description. Do not leave **Build log** as a placeholder. Do **not** upload, attach, or host the file on the GitHub pull request.
+
+This is separate from **UI Screenshots / GIFs**. A build-log PNG is required even when there is no UI change.
+
+### When
+
+- Completed bug fixes and features that get a `Documents/PR/` description (same trigger as **Pull Request Descriptions**).
+- Skip for comment-only work and internal refactors that skip a PR description (same policy as **Changelog**).
+
+### What to capture
+
+- One **PNG** of the build that was used for validation (affected project, TestForm, or solution; Debug unless the change is configuration-specific).
+- The image must show the build command or project name, the configuration (for example `Debug`), and the success summary (`Build succeeded` / `0 Error(s)`; include the warning count when the tool prints it).
+- One shot is enough. Do not screenshot every TFM unless the change is TFM-specific.
+
+### How
+
+1. Build the affected project (or TestForm) as recorded in **Validation**.
+2. Save a PNG as `Documents/PR/<issue-or-branch>-<short-title>-build.png`.
+   - Prefer rendering the last ~40 lines of the build output (command, project, configuration, and success summary) to a PNG with `System.Drawing` so the shot does not depend on an on-screen terminal.
+   - If a terminal window showing that build is already on-screen, `CopyFromScreen` of that window is also fine; crop to the log.
+3. Embed the image under **Validation** in the PR description (keep UI shots in **Screenshots / GIFs**):
+
+```markdown
+![Build log](./1100-scheme-strip-text-build.png)
+```
+
+### Where
+
+- Save next to the PR description as `Documents/PR/<issue-or-branch>-<short-title>-build.png` (for example `4369-ribbon-translations-build.png`).
+- The file is **local**, like the PR description: do **not** stage, commit, or push it. Do **not** leave the only copy under `Bin/` or `Logs/`.
+- Do **not** upload, attach, or host the PNG on the GitHub pull request (no `user-attachments` URLs, no drag-and-drop onto the PR, no `gh` image attach). GitHub will not display local relative paths; that is intended.
+
+### Do not
+
+- Skip the build-log screenshot for completed bugs or features, or leave the template placeholder.
+- Paste a large fenced build log instead of the screenshot. The PNG is the required artefact; **Validation** still records the build command in text.
+- Commit the PNG, or upload or attach it to the GitHub pull request.
+- Invent or draw a fake success screenshot. If a build cannot be run, say so in **Validation** instead of faking a shot.
+
 ## Commit & Pull Request Guidelines
 
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
-- PRs: clear description, linked issues, notes on breaking changes/TFM impact. UI screenshots and GIFs stay in the local `Documents/PR/` description (see **UI Screenshots / GIFs**); do not upload them to GitHub.
+- PRs: clear description, linked issues, notes on breaking changes/TFM impact. UI screenshots, GIFs, and the build-log screenshot stay in the local `Documents/PR/` description (see **UI Screenshots / GIFs** and **Build Log Screenshot**); do not upload them to GitHub.
 - If a pull request is opened or created, it must be compared with `alpha`, not `master`, `gold`, or `canary`. When using `gh pr create`, set the base branch to `alpha` (for example `--base alpha`).
 - Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); if the change is breaking, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**); add or append a `TestForm` demo for features (see **TestForm Demos**; do not overwrite an existing demo); also add a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) or append if one exists (clone into the parent directory if missing; work on an `alpha-…` branch from `alpha`; see **Standard-Toolkit-Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the Standard-Toolkit pull request (new or existing). Demos files belong only in the Demos repo. Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
-- Do not add routine validation noise to commit messages or PR descriptions. Mention checks only when they are essential context, unusual, failed, or specifically requested.
+- Do not add routine validation noise to commit messages or PR descriptions (CI check lists, analyzer dumps). The required **build log screenshot** is the exception (see **Build Log Screenshot**). Mention other checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Pull Request Descriptions
 
@@ -786,14 +882,14 @@ When a **bug fix** or **feature** is completed, create a **PR description** as a
 - Copy `Documents/PR/TEMPLATE.md` to `Documents/PR/<issue-or-branch>-<short-title>.md`, e.g. `Documents/PR/3720-foldable-dialog.md` or `Documents/PR/2444-agents-md.md`. Use the issue number when one exists.
 - One file per bug fix or feature (or the cohesive set of changes going into a single PR).
 - CRLF, UTF-8 with BOM; match the tone and structure of existing repo docs.
-- Keep the file **local**: do not stage, commit, or push it as part of the pull request. Matching screenshot PNGs and GIFs next to it are local as well (see **UI Screenshots / GIFs**).
+- Keep the file **local**: do not stage, commit, or push it as part of the pull request. Matching screenshot PNGs, GIFs, and the build-log PNG next to it are local as well (see **UI Screenshots / GIFs** and **Build Log Screenshot**).
 
 ### Opening the pull request
 
 - Use this file **as** the GitHub PR description. Do not write a second body.
 - Prefer `gh pr create --base alpha --body-file Documents/PR/<file>.md` (or the equivalent `--body-file` when updating). On Windows PowerShell, pass the path as a single argument; do not rely on shell quotes around a pasted body (see **Recent Tooling Mistakes To Avoid**).
 - Do not include this file, or any file under `Documents/Development/`, in the commits that make up a new or existing PR.
-- Do **not** upload or attach screenshot PNGs/GIFs to the GitHub pull request. Relative image links in this file are for the local draft only.
+- Do **not** upload or attach screenshot PNGs/GIFs or the build-log PNG to the GitHub pull request. Relative image links in this file are for the local draft only.
 
 ### What to include
 
@@ -804,7 +900,7 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 - **Type of change** — bug fix / feature / breaking change / docs.
 - **Changes** — notable changes grouped by area or project.
 - **Affected packages & target frameworks** — only those touched/verified.
-- **Validation** — `TestForm` demo name, [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) example name and `alpha-…` branch (or a note if clone/branch failed), manual steps, and the build command used.
+- **Validation** — `TestForm` demo name, [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) example name and `alpha-…` branch (or a note if clone/branch failed), manual steps, the build command used, and a **build log screenshot** (required; capture locally per **Build Log Screenshot**). Do not leave the template placeholder. Do not upload the image to GitHub.
 - **Screenshots / GIFs** — required for any UI change; capture them locally per **UI Screenshots / GIFs**. Do not leave the template placeholder. Remove the section only when there is no UI change. Do not upload the images or GIFs to GitHub.
 - **Changelog** — the matching `Documents/Changelog/Changelog.md` entry.
 - **Breaking changes & migration** — what consumers must update, if anything. If the change is breaking, the matching `README.md` **Breaking Changes** entry must exist and follow the existing pattern (see **Breaking Changes (README)**).
@@ -814,7 +910,7 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 
 - Do not add changelog entries or release notes inside `Documents/PR/` files — those belong in `Documents/Changelog/Changelog.md`.
 - Do not add references or index entries for `Documents/PR/` files in `Scripts/ModernBuild/README.md`.
-- Do **not** include the per-change PR description file (`Documents/PR/<issue-or-branch>-<short-title>.md`) or matching screenshot PNGs/GIFs in a new or existing pull request. Write them locally, use the Markdown as the GitHub PR body, and leave them untracked (or unstaged) relative to the PR. Do **not** upload or attach the screenshot or GIF files to GitHub. Leave `TEMPLATE.md` and `README.md` in this folder alone unless the task is to update those shared files.
+- Do **not** include the per-change PR description file (`Documents/PR/<issue-or-branch>-<short-title>.md`) or matching screenshot PNGs/GIFs (including the build-log PNG) in a new or existing pull request. Write them locally, use the Markdown as the GitHub PR body, and leave them untracked (or unstaged) relative to the PR. Do **not** upload or attach the screenshot, GIF, or build-log files to GitHub. Leave `TEMPLATE.md` and `README.md` in this folder alone unless the task is to update those shared files.
 - Do **not** include files under `Documents/Development/` in a new or existing pull request. If an existing PR already contains those files or the per-change PR description, remove them from the PR so they are no longer in the diff.
 
 ## Security & Configuration Tips

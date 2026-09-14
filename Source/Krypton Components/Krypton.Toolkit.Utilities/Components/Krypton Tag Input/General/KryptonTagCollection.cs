@@ -63,7 +63,7 @@ public class KryptonTagCollection : Collection<string>
 
         if (!SuspendOwnerNotify)
         {
-            _owner.NotifyTagInserted(trimmed);
+            _owner.NotifyTagInserted(trimmed, index);
         }
     }
 
@@ -82,21 +82,18 @@ public class KryptonTagCollection : Collection<string>
             return;
         }
 
-        if (!SuspendOwnerNotify && !_owner.CanAcceptTag(trimmed))
+        // Replacement is atomic: MaxTags is not increased, and TagAdding sees the new text
+        // before the old chip is removed.
+        if (!SuspendOwnerNotify && !_owner.CanAcceptTag(trimmed, index))
         {
             return;
-        }
-
-        if (!SuspendOwnerNotify)
-        {
-            _owner.NotifyTagRemoved(previous);
         }
 
         base.SetItem(index, trimmed);
 
         if (!SuspendOwnerNotify)
         {
-            _owner.NotifyTagInserted(trimmed);
+            _owner.NotifyTagReplaced(previous, trimmed, index);
         }
     }
 
@@ -108,7 +105,7 @@ public class KryptonTagCollection : Collection<string>
 
         if (!SuspendOwnerNotify)
         {
-            _owner.NotifyTagRemoved(removed);
+            _owner.NotifyTagRemovedAt(index, removed);
         }
     }
 
