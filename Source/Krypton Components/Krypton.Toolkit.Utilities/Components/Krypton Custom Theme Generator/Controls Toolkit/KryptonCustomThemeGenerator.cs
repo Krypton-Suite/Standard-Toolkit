@@ -33,8 +33,29 @@ public static class KryptonCustomThemeGenerator
 
     /// <summary>
     /// Gets the builtin donor modes supported by the generator.
+    /// Dark donors require <c>Krypton.Themes</c>; use <see cref="AvailableDonorModes"/> for modes that can be created now.
     /// </summary>
     public static IReadOnlyList<PaletteMode> SupportedDonorModes => _supportedDonors;
+
+    /// <summary>
+    /// Gets supported donors that are registered in the theme catalog (core always; dark extras when Themes is loaded).
+    /// </summary>
+    public static IReadOnlyList<PaletteMode> AvailableDonorModes
+    {
+        get
+        {
+            var available = new List<PaletteMode>(_supportedDonors.Length);
+            for (int i = 0; i < _supportedDonors.Length; i++)
+            {
+                if (IsAvailableDonor(_supportedDonors[i]))
+                {
+                    available.Add(_supportedDonors[i]);
+                }
+            }
+
+            return available;
+        }
+    }
 
     /// <summary>
     /// Returns whether <paramref name="mode"/> can be used as a donor.
@@ -53,6 +74,14 @@ public static class KryptonCustomThemeGenerator
 
         return false;
     }
+
+    /// <summary>
+    /// Returns whether <paramref name="mode"/> is a supported donor and currently registered in the catalog.
+    /// </summary>
+    /// <param name="mode">Palette mode to test.</param>
+    /// <returns><c>true</c> when a throwaway donor palette can be created.</returns>
+    public static bool IsAvailableDonor(PaletteMode mode) =>
+        IsSupportedDonor(mode) && KryptonThemeCatalog.TryGetDescriptor(mode, out _);
 
     /// <summary>
     /// Returns a short display name for a supported donor mode.
@@ -94,7 +123,14 @@ public static class KryptonCustomThemeGenerator
     {
         lock (_randomLock)
         {
-            PaletteMode donorMode = _supportedDonors[_random.Next(_supportedDonors.Length)];
+            // Prefer catalog-registered donors so dark extras are skipped when Krypton.Themes is absent.
+            IReadOnlyList<PaletteMode> donors = AvailableDonorModes;
+            if (donors.Count == 0)
+            {
+                donors = new[] { PaletteMode.Office2010Blue, PaletteMode.Microsoft365Blue };
+            }
+
+            PaletteMode donorMode = donors[_random.Next(donors.Count)];
             bool dark = IsDarkDonor(donorMode);
 
             float hue = NextFloat(0f, 360f);
@@ -192,6 +228,13 @@ public static class KryptonCustomThemeGenerator
             {
                 ThrowHelper.ThrowArgumentException(
                     @"DonorMode must be Office2010Blue, Office2010BlueDarkMode, Microsoft365Blue, or Microsoft365BlackDarkMode.",
+                    nameof(seed));
+            }
+
+            if (!IsAvailableDonor(seed.DonorMode))
+            {
+                ThrowHelper.ThrowArgumentException(
+                    @"Donor palette is not registered. Extra dark donors require Krypton.Themes beside the app (or use Office2010Blue / Microsoft365Blue).",
                     nameof(seed));
             }
 

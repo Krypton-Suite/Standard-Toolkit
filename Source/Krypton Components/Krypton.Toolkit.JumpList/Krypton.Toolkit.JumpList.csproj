@@ -25,6 +25,7 @@
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<NoWarn>1701;1702</NoWarn>
+		<Description>Optional bridge that applies Krypton JumpListValues to the Windows shell taskbar jump list via WPF System.Windows.Shell.JumpList from WinForms applications. Included in the Krypton.Standard.Toolkit NuGet package.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>

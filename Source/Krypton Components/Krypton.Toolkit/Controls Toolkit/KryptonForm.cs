@@ -1458,9 +1458,20 @@ public class KryptonForm : VisualForm,
 
 	/// <summary>
 	/// Next time a layout occurs the min/max/close buttons need recreating.
+	/// When the form handle already exists, recreate immediately so palette/chrome
+	/// swaps do not leave empty control-box slots until the next chrome start.
 	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
-	public void RecreateMinMaxCloseButtons() => _recreateButtons = true;
+	public void RecreateMinMaxCloseButtons()
+	{
+		_recreateButtons = true;
+
+		if (IsHandleCreated && ControlBox)
+		{
+			_buttonManager?.RecreateButtons();
+			_recreateButtons = false;
+		}
+	}
 
 	/// <summary>
 	/// Gets access to the ToolTipManager used for displaying tool tips.
@@ -2112,6 +2123,13 @@ public class KryptonForm : VisualForm,
 		ApplyLeftTrafficLightFormChromeIfNeeded();
 
 		ApplyMdiClientThemeBackColor();
+
+		// Min/max/close views must rebuild when the palette/renderer changes (#3859, #4061).
+		RecreateMinMaxCloseButtons();
+		if (IsHandleCreated && ControlBox)
+		{
+			_buttonManager?.RecreateButtons();
+		}
 
 		// Ensure the sizing grip reflects new theme immediately
 		RecalcNonClient();

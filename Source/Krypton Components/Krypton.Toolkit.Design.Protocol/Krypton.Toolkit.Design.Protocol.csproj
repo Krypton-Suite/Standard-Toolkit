@@ -5,7 +5,7 @@
 	<PropertyGroup>
 		<RootNamespace>Krypton.Toolkit.Design.Protocol</RootNamespace>
 		<AssemblyName>Krypton.Toolkit.Design.Protocol</AssemblyName>
-		<Description>JSON-RPC DTOs shared by the Visual Studio WinForms designer client and DesignToolsServer.</Description>
+		<Description>Shared JSON-RPC DTOs and editor/endpoint name constants used by the Visual Studio WinForms designer client and DesignToolsServer for Krypton type editors.</Description>
 	</PropertyGroup>
 
 </Project>
