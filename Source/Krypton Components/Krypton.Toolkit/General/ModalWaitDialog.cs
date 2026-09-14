@@ -69,6 +69,10 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
 
         _maximumProgressValue = maximumProgressValue ?? 100;
 
+        Text = KryptonManager.Strings.TitleBarStrings.ModalDialogCaption;
+       
+        SetMessage(KryptonManager.Strings.GeneralStrings.ModalDialogMessage);
+
         ShowProgressBar(_showProgressBar);
 
         UpdateProgressBarValueBounds(_minimumProgressValue, _maximumProgressValue);
@@ -92,8 +96,6 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
     {
         const int minClientWidth = 460;
         const int minClientHeight = 110;
-        const int messageLeft = 80;
-        const int messageRightMargin = 16;
 
         MinimumSize = new Size(400, 100);
 
@@ -103,11 +105,6 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
                 Math.Max(ClientSize.Width, minClientWidth),
                 Math.Max(ClientSize.Height, minClientHeight));
         }
-
-        labelMessage.AutoSize = true;
-        labelMessage.MaximumSize = new Size(ClientSize.Width - messageLeft - messageRightMargin, 0);
-        int progressHeight = kpbModalProgress.Visible ? kpbModalProgress.Height : 0;
-        labelMessage.Location = new Point(messageLeft, Math.Max(32, (ClientSize.Height - progressHeight - labelMessage.Height) / 2));
     }
 
     /// <summary>
@@ -116,7 +113,7 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
     /// <param name="message">Message to display beside the hourglass.</param>
     public void SetMessage(string message)
     {
-        labelMessage.Values.Text = message;
+        kwlMessage.Text = message;
         ConfigureLayout();
     }
     #endregion

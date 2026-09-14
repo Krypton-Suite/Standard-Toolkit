@@ -42,60 +42,90 @@ namespace Krypton.Toolkit
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelMessage = new Krypton.Toolkit.KryptonLabel();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.kpbModalProgress = new Krypton.Toolkit.KryptonProgressBar();
+            this.kwlMessage = new Krypton.Toolkit.KryptonWrapLabel();
+            this.internalKryptonLoadingCircle1 = new Krypton.Toolkit.InternalKryptonLoadingCircle();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // labelMessage
-            // 
-            this.labelMessage.AutoSize = true;
-            this.labelMessage.Location = new System.Drawing.Point(80, 36);
-            this.labelMessage.Margin = new System.Windows.Forms.Padding(4);
-            this.labelMessage.MaximumSize = new System.Drawing.Size(380, 0);
-            this.labelMessage.Name = "labelMessage";
-            this.labelMessage.Size = new System.Drawing.Size(270, 24);
-            this.labelMessage.TabIndex = 0;
-            this.labelMessage.Values.Text = "Please wait for operation to complete.";
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.labelMessage);
+            this.kryptonPanel1.Controls.Add(this.tableLayoutPanel1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
-            this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(480, 104);
+            this.kryptonPanel1.Size = new System.Drawing.Size(360, 98);
             this.kryptonPanel1.TabIndex = 1;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.kwlMessage, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.kpbModalProgress, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.internalKryptonLoadingCircle1, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(360, 98);
+            this.tableLayoutPanel1.TabIndex = 1;
             // 
             // kpbModalProgress
             // 
-            this.kpbModalProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kpbModalProgress.Location = new System.Drawing.Point(0, 104);
-            this.kpbModalProgress.Margin = new System.Windows.Forms.Padding(4);
+            this.tableLayoutPanel1.SetColumnSpan(this.kpbModalProgress, 2);
+            this.kpbModalProgress.Location = new System.Drawing.Point(3, 75);
             this.kpbModalProgress.Name = "kpbModalProgress";
-            this.kpbModalProgress.Size = new System.Drawing.Size(480, 16);
-            this.kpbModalProgress.StateCommon.Back.Color1 = System.Drawing.Color.Green;
-            this.kpbModalProgress.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
-            this.kpbModalProgress.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
+            this.kpbModalProgress.Size = new System.Drawing.Size(354, 20);
+            this.kpbModalProgress.StateNormal.Content.ShortText.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(57)))), ((int)(((byte)(91)))));
             this.kpbModalProgress.TabIndex = 12;
-            this.kpbModalProgress.Values.Text = "";
+            this.kpbModalProgress.TextBackdropColor = System.Drawing.Color.Empty;
+            this.kpbModalProgress.TextShadowColor = System.Drawing.Color.Empty;
+            // 
+            // kwlMessage
+            // 
+            this.kwlMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.kwlMessage.Location = new System.Drawing.Point(137, 0);
+            this.kwlMessage.Name = "kwlMessage";
+            this.kwlMessage.Size = new System.Drawing.Size(220, 72);
+            this.kwlMessage.Text = "Please wait for operation to complete.";
+            this.kwlMessage.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // internalKryptonLoadingCircle1
+            // 
+            this.internalKryptonLoadingCircle1.CircleValues.Color = System.Drawing.Color.Empty;
+            this.internalKryptonLoadingCircle1.CircleValues.InnerCircleRadius = 8;
+            this.internalKryptonLoadingCircle1.CircleValues.NumberSpoke = 24;
+            this.internalKryptonLoadingCircle1.CircleValues.OuterCircleRadius = 9;
+            this.internalKryptonLoadingCircle1.CircleValues.RotationSpeed = 100;
+            this.internalKryptonLoadingCircle1.CircleValues.SpokeThickness = 4;
+            this.internalKryptonLoadingCircle1.CircleValues.StylePreset = Krypton.Toolkit.InternalLoadingCircleStylePresets.IE7;
+            this.internalKryptonLoadingCircle1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.internalKryptonLoadingCircle1.Location = new System.Drawing.Point(3, 3);
+            this.internalKryptonLoadingCircle1.Name = "internalKryptonLoadingCircle1";
+            this.internalKryptonLoadingCircle1.Size = new System.Drawing.Size(128, 66);
+            this.internalKryptonLoadingCircle1.TabIndex = 13;
+            this.internalKryptonLoadingCircle1.Text = "internalKryptonLoadingCircle1";
             // 
             // ModalWaitDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(480, 120);
-            this.ControlBox = false;
-            this.Controls.Add(this.kpbModalProgress);
+            this.ClientSize = new System.Drawing.Size(360, 98);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(400, 100);
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(304, 89);
             this.Name = "ModalWaitDialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
@@ -103,15 +133,17 @@ namespace Krypton.Toolkit
             this.Text = "Processing";
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
-            this.kryptonPanel1.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private KryptonLabel labelMessage;
         private KryptonPanel kryptonPanel1;
         private KryptonProgressBar kpbModalProgress;
+        private TableLayoutPanel tableLayoutPanel1;
+        private KryptonWrapLabel kwlMessage;
+        private InternalKryptonLoadingCircle internalKryptonLoadingCircle1;
     }
 }
