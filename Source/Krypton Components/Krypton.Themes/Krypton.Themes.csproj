@@ -26,7 +26,7 @@
 
   <PropertyGroup>
     <PackageId>Krypton.Themes</PackageId>
-    <Description>Optional extra builtin palettes (Visual Studio, Material, macOS, Office 2013, Sparkle dark/light variants, gray/lime/accessibility, Materialize, and more). Auto-discovered by KryptonManager when this assembly is present. Official Sparkle Blue/Orange/Purple remain in Krypton.Toolkit.</Description>
+    <Description>Optional extra builtin Krypton palettes (Visual Studio, Material, macOS, Office 2013, Sparkle dark/light, gray/lime/accessibility, Materialize, and more). Auto-discovered by KryptonManager when this assembly is present; core Office and Sparkle Blue/Orange/Purple themes stay in Krypton.Toolkit.</Description>
   </PropertyGroup>
 
   <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />

@@ -5047,3 +5047,25 @@ public enum KryptonPaletteFileFormat
 }
 
 #endregion
+
+#region Enum InternalLoadingCircleStylePresets
+
+/// <summary>
+/// Geometry presets for <see cref="InternalKryptonLoadingCircle"/>.
+/// </summary>
+internal enum InternalLoadingCircleStylePresets
+{
+    /// <summary>Mac OS X style spoke layout.</summary>
+    MacOSX,
+
+    /// <summary>Firefox style spoke layout.</summary>
+    Firefox,
+
+    /// <summary>Internet Explorer 7 style spoke layout.</summary>
+    IE7,
+
+    /// <summary>Default custom geometry.</summary>
+    Custom
+}
+
+#endregion
