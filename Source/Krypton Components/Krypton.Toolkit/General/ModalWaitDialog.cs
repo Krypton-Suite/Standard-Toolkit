@@ -44,6 +44,7 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
     {
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
+        ConfigureLayout();
 
         // Remove redraw flicker by using double buffering
         SetStyle(ControlStyles.DoubleBuffer |
@@ -71,6 +72,7 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
         ShowProgressBar(_showProgressBar);
 
         UpdateProgressBarValueBounds(_minimumProgressValue, _maximumProgressValue);
+        ConfigureLayout();
 
         // Remove redraw flicker by using double buffering
         SetStyle(ControlStyles.DoubleBuffer |
@@ -80,6 +82,43 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
         Application.AddMessageFilter(this);
     }
 
+    #endregion
+
+    #region Implementation
+    /// <summary>
+    /// Ensures the dialog is large enough for Krypton chrome, the hourglass, and optional progress bar.
+    /// </summary>
+    private void ConfigureLayout()
+    {
+        const int minClientWidth = 460;
+        const int minClientHeight = 110;
+        const int messageLeft = 80;
+        const int messageRightMargin = 16;
+
+        MinimumSize = new Size(400, 100);
+
+        if (ClientSize.Width < minClientWidth || ClientSize.Height < minClientHeight)
+        {
+            ClientSize = new Size(
+                Math.Max(ClientSize.Width, minClientWidth),
+                Math.Max(ClientSize.Height, minClientHeight));
+        }
+
+        labelMessage.AutoSize = true;
+        labelMessage.MaximumSize = new Size(ClientSize.Width - messageLeft - messageRightMargin, 0);
+        int progressHeight = kpbModalProgress.Visible ? kpbModalProgress.Height : 0;
+        labelMessage.Location = new Point(messageLeft, Math.Max(32, (ClientSize.Height - progressHeight - labelMessage.Height) / 2));
+    }
+
+    /// <summary>
+    /// Updates the wait message and re-applies layout for longer text.
+    /// </summary>
+    /// <param name="message">Message to display beside the hourglass.</param>
+    public void SetMessage(string message)
+    {
+        labelMessage.Values.Text = message;
+        ConfigureLayout();
+    }
     #endregion
 
     #region Protected

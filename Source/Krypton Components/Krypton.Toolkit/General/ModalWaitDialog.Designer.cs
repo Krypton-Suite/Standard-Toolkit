@@ -51,8 +51,10 @@ namespace Krypton.Toolkit
             // 
             // labelMessage
             // 
-            this.labelMessage.Location = new System.Drawing.Point(88, 25);
+            this.labelMessage.AutoSize = true;
+            this.labelMessage.Location = new System.Drawing.Point(80, 36);
             this.labelMessage.Margin = new System.Windows.Forms.Padding(4);
+            this.labelMessage.MaximumSize = new System.Drawing.Size(380, 0);
             this.labelMessage.Name = "labelMessage";
             this.labelMessage.Size = new System.Drawing.Size(270, 24);
             this.labelMessage.TabIndex = 0;
@@ -65,16 +67,16 @@ namespace Krypton.Toolkit
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(421, 67);
+            this.kryptonPanel1.Size = new System.Drawing.Size(480, 104);
             this.kryptonPanel1.TabIndex = 1;
             // 
             // kpbModalProgress
             // 
             this.kpbModalProgress.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.kpbModalProgress.Location = new System.Drawing.Point(0, 55);
+            this.kpbModalProgress.Location = new System.Drawing.Point(0, 104);
             this.kpbModalProgress.Margin = new System.Windows.Forms.Padding(4);
             this.kpbModalProgress.Name = "kpbModalProgress";
-            this.kpbModalProgress.Size = new System.Drawing.Size(421, 12);
+            this.kpbModalProgress.Size = new System.Drawing.Size(480, 16);
             this.kpbModalProgress.StateCommon.Back.Color1 = System.Drawing.Color.Green;
             this.kpbModalProgress.StateDisabled.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
             this.kpbModalProgress.StateNormal.Back.ColorStyle = Krypton.Toolkit.PaletteColorStyle.OneNote;
@@ -85,13 +87,14 @@ namespace Krypton.Toolkit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(421, 67);
+            this.ClientSize = new System.Drawing.Size(480, 120);
             this.ControlBox = false;
             this.Controls.Add(this.kpbModalProgress);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(400, 100);
             this.MinimizeBox = false;
             this.Name = "ModalWaitDialog";
             this.ShowIcon = false;
