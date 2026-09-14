@@ -10,32 +10,34 @@
 namespace TestForm;
 
 /// <summary>
-/// Demo for issue #4432: <see cref="ButtonSpec.FillHeight"/> stretches ButtonSpecs to the
-/// full host height; the default remains vertically centred for compatibility.
+/// Demo for issue #4432: <see cref="ButtonSpec.FillHeight"/> and
+/// <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> on tall input hosts.
 /// </summary>
 public sealed class Bug4432ButtonSpecFillHeightDemo : KryptonForm
 {
     private readonly KryptonCheckBox _chkFillHeight;
+    private readonly KryptonCheckBox _chkStackAlongEdge;
     private readonly List<ButtonSpecAny> _toggleSpecs = new();
+    private readonly List<Control> _hosts = new();
 
     public Bug4432ButtonSpecFillHeightDemo()
     {
-        Text = @"Bug #4432 - ButtonSpec FillHeight";
+        Text = @"Bug #4432 - ButtonSpec FillHeight / Edge Arrange";
         StartPosition = FormStartPosition.CenterScreen;
-        Size = new Size(780, 560);
-        MinimumSize = new Size(640, 480);
+        Size = new Size(820, 720);
+        MinimumSize = new Size(640, 560);
 
         var lblInfo = new KryptonWrapLabel
         {
             Dock = DockStyle.Top,
             AutoSize = false,
-            Height = 96,
+            Height = 112,
             Text =
                 @"How to test issue #4432:" + Environment.NewLine +
-                @"1) Tall hosts below show a centred ButtonSpec (default) next to a FillHeight ButtonSpec." + Environment.NewLine +
-                @"2) Toggle ""Apply FillHeight to all specs"" to switch every ButtonSpec at runtime." + Environment.NewLine +
-                @"3) Resize the form or change Height — FillHeight specs should track the control height;" + Environment.NewLine +
-                @"   centred specs stay mid-control. Header / form chrome ButtonSpecs stay centred unless opted in."
+                @"1) Tall hosts show a centred Close ButtonSpec next to a FillHeight Next ButtonSpec (side-by-side)." + Environment.NewLine +
+                @"2) Toggle ""Apply FillHeight to all specs"" to stretch every ButtonSpec." + Environment.NewLine +
+                @"3) Toggle ""StackAlongEdge"" to stack same-edge ButtonSpecs vertically (host ButtonSpecEdgeArrange)." + Environment.NewLine +
+                @"4) Form chrome / headers stay side-by-side unless a host opts in."
         };
 
         _chkFillHeight = new KryptonCheckBox
@@ -46,6 +48,17 @@ public sealed class Bug4432ButtonSpecFillHeightDemo : KryptonForm
         };
         _chkFillHeight.CheckedChanged += (_, _) => ApplyFillHeight(_chkFillHeight.Checked);
 
+        _chkStackAlongEdge = new KryptonCheckBox
+        {
+            Text = @"StackAlongEdge (vertical stack on Far edge)",
+            Checked = false,
+            AutoSize = true
+        };
+        _chkStackAlongEdge.CheckedChanged += (_, _) =>
+            ApplyEdgeArrange(_chkStackAlongEdge.Checked
+                ? ButtonSpecEdgeArrange.StackAlongEdge
+                : ButtonSpecEdgeArrange.SideBySide);
+
         var toolbar = new FlowLayoutPanel
         {
             Dock = DockStyle.Top,
@@ -54,6 +67,7 @@ public sealed class Bug4432ButtonSpecFillHeightDemo : KryptonForm
             WrapContents = true
         };
         toolbar.Controls.Add(_chkFillHeight);
+        toolbar.Controls.Add(_chkStackAlongEdge);
 
         var layout = new TableLayoutPanel
         {
@@ -68,10 +82,10 @@ public sealed class Bug4432ButtonSpecFillHeightDemo : KryptonForm
             layout.RowStyles.Add(new RowStyle(SizeType.AutoSize));
         }
 
-        AddHostRow(layout, 0, @"KryptonTextBox Multiline (Height 72)", CreateTextBox(72));
-        AddHostRow(layout, 2, @"KryptonComboBox Simple (Height 96)", CreateComboBox(96));
+        AddHostRow(layout, 0, @"KryptonTextBox Multiline (Height 96)", CreateTextBox(96));
+        AddHostRow(layout, 2, @"KryptonComboBox Simple (Height 120)", CreateComboBox(120));
         AddHostRow(layout, 4, @"KryptonDateTimePicker (larger font → taller preferred height)", CreateDateTimePicker());
-        AddHostRow(layout, 6, @"KryptonMaskedTextBox AutoSize=false (Height 64)", CreateMaskedTextBox(64));
+        AddHostRow(layout, 6, @"KryptonMaskedTextBox AutoSize=false (Height 80)", CreateMaskedTextBox(80));
 
         Controls.Add(layout);
         Controls.Add(toolbar);
@@ -88,6 +102,7 @@ public sealed class Bug4432ButtonSpecFillHeightDemo : KryptonForm
         };
         layout.Controls.Add(label, 0, row);
         layout.Controls.Add(host, 0, row + 1);
+        _hosts.Add(host);
     }
 
     private KryptonTextBox CreateTextBox(int height)
@@ -173,6 +188,28 @@ public sealed class Bug4432ButtonSpecFillHeightDemo : KryptonForm
         foreach (ButtonSpecAny spec in _toggleSpecs)
         {
             spec.FillHeight = fillHeight;
+        }
+    }
+
+    private void ApplyEdgeArrange(ButtonSpecEdgeArrange arrange)
+    {
+        foreach (Control host in _hosts)
+        {
+            switch (host)
+            {
+                case KryptonTextBox textBox:
+                    textBox.ButtonSpecEdgeArrange = arrange;
+                    break;
+                case KryptonComboBox comboBox:
+                    comboBox.ButtonSpecEdgeArrange = arrange;
+                    break;
+                case KryptonDateTimePicker dateTimePicker:
+                    dateTimePicker.ButtonSpecEdgeArrange = arrange;
+                    break;
+                case KryptonMaskedTextBox maskedTextBox:
+                    maskedTextBox.ButtonSpecEdgeArrange = arrange;
+                    break;
+            }
         }
     }
 }
