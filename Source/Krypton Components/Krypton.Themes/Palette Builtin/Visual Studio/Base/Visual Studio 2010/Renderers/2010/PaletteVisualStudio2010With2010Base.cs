@@ -216,7 +216,7 @@ public abstract class PaletteVisualStudio2010With2010Base : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonVisualStudio2010With2010ColorTable? _table;
 
     private readonly ImageList _checkBoxList;
@@ -227,10 +227,8 @@ public abstract class PaletteVisualStudio2010With2010Base : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteVisualStudio2010With2010Base(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -244,10 +242,9 @@ public abstract class PaletteVisualStudio2010With2010Base : PaletteBase
 
         ThemeName = nameof(PaletteVisualStudio2010With2010Base);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -266,7 +263,6 @@ public abstract class PaletteVisualStudio2010With2010Base : PaletteBase
 
         DefineFonts();
 
-        BaseColors = scheme;
     }
 
     #endregion
