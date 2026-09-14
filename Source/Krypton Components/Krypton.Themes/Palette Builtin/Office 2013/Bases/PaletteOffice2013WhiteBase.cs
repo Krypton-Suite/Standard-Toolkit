@@ -220,7 +220,7 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     protected KryptonColorTable2013White? Table { get; set; }
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -233,10 +233,8 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteOffice2013WhiteBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -251,10 +249,9 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
         // Remember incoming sets of values
         ThemeName = nameof(PaletteOffice2013WhiteBase);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
         if (checkBoxList != null)
         {
             _checkBoxList = checkBoxList;
@@ -270,7 +267,6 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
-        BaseColors = scheme;
     }
 
     #endregion Identity
