@@ -7,43 +7,42 @@
  */
 #endregion
 
-namespace Krypton.Toolkit.Utilities;
+namespace Krypton.Toolkit;
 
 /// <summary>
-/// Expandable spinner configuration for <see cref="KryptonLoadingCircle"/>.
+/// Configuration values for <see cref="InternalKryptonLoadingCircle"/>.
 /// </summary>
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public class LoadingCircleValues : Storage
+internal class InternalLoadingCircleValues : Storage
 {
     #region Constants
 
-    private const int DEFAULT_INNER_CIRCLE_RADIUS = 8;
-    private const int DEFAULT_OUTER_CIRCLE_RADIUS = 10;
-    private const int DEFAULT_NUMBER_OF_SPOKE = 10;
-    private const int DEFAULT_SPOKE_THICKNESS = 4;
+    private const int DefaultInnerCircleRadius = 8;
+    private const int DefaultOuterCircleRadius = 10;
+    private const int DefaultNumberOfSpoke = 10;
+    private const int DefaultSpokeThickness = 4;
 
     #endregion
 
     #region Instance Fields
 
-    private readonly KryptonLoadingCircle _owner;
+    private readonly InternalKryptonLoadingCircle _owner;
     private Color _color = Color.Empty;
     private int _outerCircleRadius;
     private int _innerCircleRadius;
     private int _numberSpoke;
     private int _spokeThickness;
     private bool _active;
-    private StylePresets _stylePreset = StylePresets.Custom;
+    private InternalLoadingCircleStylePresets _stylePreset = InternalLoadingCircleStylePresets.Custom;
 
     #endregion
 
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the <see cref="LoadingCircleValues"/> class.
+    /// Initialize a new instance of the <see cref="InternalLoadingCircleValues"/> class.
     /// </summary>
-    /// <param name="owner">Owning loading circle.</param>
-    public LoadingCircleValues(KryptonLoadingCircle owner) =>
+    /// <param name="owner">Owning spinner.</param>
+    public InternalLoadingCircleValues(InternalKryptonLoadingCircle owner) =>
         _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
 
     /// <inheritdoc />
@@ -57,26 +56,20 @@ public class LoadingCircleValues : Storage
     [Browsable(false)]
     public override bool IsDefault =>
         _color.IsEmpty &&
-        _outerCircleRadius is 0 or DEFAULT_OUTER_CIRCLE_RADIUS &&
-        _innerCircleRadius is 0 or DEFAULT_INNER_CIRCLE_RADIUS &&
-        _numberSpoke is 0 or DEFAULT_NUMBER_OF_SPOKE &&
-        _spokeThickness is <= 0 or DEFAULT_SPOKE_THICKNESS &&
+        _outerCircleRadius is 0 or DefaultOuterCircleRadius &&
+        _innerCircleRadius is 0 or DefaultInnerCircleRadius &&
+        _numberSpoke is 0 or DefaultNumberOfSpoke &&
+        _spokeThickness is <= 0 or DefaultSpokeThickness &&
         !_active &&
-        _stylePreset == StylePresets.Custom;
+        _stylePreset == InternalLoadingCircleStylePresets.Custom;
 
     #endregion
 
     #region Public
 
     /// <summary>
-    /// Gets or sets the colour of the spinning spokes.
+    /// Gets or sets the spoke colour. <see cref="Color.Empty"/> uses the active palette.
     /// </summary>
-    /// <remarks>
-    /// <see cref="Color.Empty"/> (the default) resolves from the active Krypton palette
-    /// (<c>LabelNormalControl</c> content colour). Set a concrete colour to override the theme.
-    /// </remarks>
-    [Category(@"LoadingCircle")]
-    [Description(@"Spoke colour. Empty uses the active palette content colour.")]
     [DefaultValue(typeof(Color), "Empty")]
     public Color Color
     {
@@ -92,22 +85,16 @@ public class LoadingCircleValues : Storage
         }
     }
 
-    private bool ShouldSerializeColor() => !_color.IsEmpty;
-
-    private void ResetColor() => Color = Color.Empty;
-
     /// <summary>
     /// Gets or sets the outer circle radius.
     /// </summary>
-    [Category(@"LoadingCircle")]
-    [Description(@"Gets or sets the radius of outer circle.")]
     public int OuterCircleRadius
     {
         get
         {
             if (_outerCircleRadius == 0)
             {
-                _outerCircleRadius = DEFAULT_OUTER_CIRCLE_RADIUS;
+                _outerCircleRadius = DefaultOuterCircleRadius;
             }
 
             return _outerCircleRadius;
@@ -122,15 +109,13 @@ public class LoadingCircleValues : Storage
     /// <summary>
     /// Gets or sets the inner circle radius.
     /// </summary>
-    [Category(@"LoadingCircle")]
-    [Description(@"Gets or sets the radius of inner circle.")]
     public int InnerCircleRadius
     {
         get
         {
             if (_innerCircleRadius == 0)
             {
-                _innerCircleRadius = DEFAULT_INNER_CIRCLE_RADIUS;
+                _innerCircleRadius = DefaultInnerCircleRadius;
             }
 
             return _innerCircleRadius;
@@ -145,15 +130,13 @@ public class LoadingCircleValues : Storage
     /// <summary>
     /// Gets or sets the number of spokes.
     /// </summary>
-    [Category(@"LoadingCircle")]
-    [Description(@"Gets or sets the number of spoke.")]
     public int NumberSpoke
     {
         get
         {
             if (_numberSpoke == 0)
             {
-                _numberSpoke = DEFAULT_NUMBER_OF_SPOKE;
+                _numberSpoke = DefaultNumberOfSpoke;
             }
 
             return _numberSpoke;
@@ -171,10 +154,8 @@ public class LoadingCircleValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the spinner is active.
+    /// Gets or sets a value indicating whether the spinner animation is active.
     /// </summary>
-    [Category(@"LoadingCircle")]
-    [Description(@"Gets or sets whether the spinner animation is active.")]
     [DefaultValue(false)]
     public bool Active
     {
@@ -192,15 +173,13 @@ public class LoadingCircleValues : Storage
     /// <summary>
     /// Gets or sets the spoke thickness.
     /// </summary>
-    [Category(@"LoadingCircle")]
-    [Description(@"Gets or sets the thickness of a spoke.")]
     public int SpokeThickness
     {
         get
         {
             if (_spokeThickness <= 0)
             {
-                _spokeThickness = DEFAULT_SPOKE_THICKNESS;
+                _spokeThickness = DefaultSpokeThickness;
             }
 
             return _spokeThickness;
@@ -215,8 +194,6 @@ public class LoadingCircleValues : Storage
     /// <summary>
     /// Gets or sets the rotation speed. Higher is slower.
     /// </summary>
-    [Category(@"LoadingCircle")]
-    [Description(@"Gets or sets the rotation speed. Higher the slower.")]
     public int RotationSpeed
     {
         get => _owner.TimerInterval;
@@ -230,12 +207,10 @@ public class LoadingCircleValues : Storage
     }
 
     /// <summary>
-    /// Quickly sets the style to one of the presets, or a custom style if desired.
+    /// Gets or sets a geometry style preset.
     /// </summary>
-    [Category(@"LoadingCircle")]
-    [Description(@"Quickly sets the style to one of these presets, or a custom style if desired")]
-    [DefaultValue(typeof(StylePresets), "Custom")]
-    public StylePresets StylePreset
+    [DefaultValue(typeof(InternalLoadingCircleStylePresets), "Custom")]
+    public InternalLoadingCircleStylePresets StylePreset
     {
         get => _stylePreset;
         set
@@ -256,7 +231,7 @@ public class LoadingCircleValues : Storage
         _numberSpoke = 0;
         _spokeThickness = 0;
         _active = false;
-        _stylePreset = StylePresets.Custom;
+        _stylePreset = InternalLoadingCircleStylePresets.Custom;
         _owner.GenerateColoursPallet();
         _owner.GetSpokesAngles();
         _owner.Invalidate();
