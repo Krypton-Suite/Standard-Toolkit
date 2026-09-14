@@ -48,6 +48,9 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Resolved / Implemented [#4432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4432), ButtonSpecs do not cover the full height of the control
+  * `ButtonSpec.FillHeight` stretches ButtonSpecs to the full height of the host control (default remains vertically centred).
+  * `ButtonSpecEdgeArrange.StackAlongEdge` (on TextBox, ComboBox, MaskedTextBox, DateTimePicker, NumericUpDown, DomainUpDown, CalcInput) stacks same-edge ButtonSpecs vertically; default remains side-by-side.
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text is unreadable on Office White, Office 2007 Black, and Visual Studio 2010 themes.
   * ColorTable `ToolStripText` now picks a scheme colour that contrasts with the tool-strip background (WCAG AA 4.5:1) instead of always reusing status-strip or button text.

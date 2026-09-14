@@ -111,6 +111,18 @@ public class ViewLayoutCenter : ViewComposite
 
     #endregion
 
+    #region FillHeight
+    /// <summary>
+    /// Gets and sets whether children stretch to the full client height instead of being centred.
+    /// </summary>
+    /// <remarks>
+    /// Used by <see cref="ButtonSpecView"/> when <see cref="ButtonSpec.FillHeight"/> is set.
+    /// Preferred width and horizontal centring are unchanged.
+    /// </remarks>
+    public bool FillHeight { get; set; }
+
+    #endregion
+
     #region Layout
     /// <summary>
     /// Discover the preferred size of the element.
@@ -254,6 +266,13 @@ public class ViewLayoutCenter : ViewComposite
                 }
 
                 if (childPreferred.Height > ClientHeight)
+                {
+                    childPreferred.Height = ClientHeight;
+                }
+
+                // FillHeight stretches to the docked allocation (tall TextBox / ComboBox ButtonSpecs).
+                // Keep preferred width and horizontal centring (#4432).
+                if (FillHeight)
                 {
                     childPreferred.Height = ClientHeight;
                 }

@@ -36,6 +36,8 @@ public abstract class ButtonSpecManagerBase : GlobalId
     private readonly ListSpacers[] _viewSpacers;
     private readonly ButtonSpecLookup _specLookup;
     private readonly GetToolStripRenderer? _getRenderer;
+    private readonly Dictionary<int, ViewLayoutStack> _edgeStacks;
+    private ButtonSpecEdgeArrange _edgeArrange;
 
     #endregion
 
@@ -111,6 +113,8 @@ public abstract class ButtonSpecManagerBase : GlobalId
         _viewMetricPaddings = viewMetricPaddings;
         _getRenderer = getRenderer;
         NeedPaint = needPaint;
+        _edgeStacks = new Dictionary<int, ViewLayoutStack>();
+        _edgeArrange = ButtonSpecEdgeArrange.SideBySide;
 
         if (_viewMetrics != null)
         {
@@ -138,6 +142,29 @@ public abstract class ButtonSpecManagerBase : GlobalId
     /// Gets the owning control.
     /// </summary>
     public Control? Control { get; }
+
+    /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="ButtonSpecEdgeArrange.SideBySide"/> is the historic default (form chrome and
+    /// headers). <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> packs same-edge specs into a
+    /// <see cref="ViewLayoutStack"/> docked once on that edge — useful on tall input hosts.
+    /// Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    public ButtonSpecEdgeArrange EdgeArrange
+    {
+        get => _edgeArrange;
+
+        set
+        {
+            if (_edgeArrange != value)
+            {
+                _edgeArrange = value;
+                RecreateButtons();
+            }
+        }
+    }
 
     /// <summary>
     /// Gets and sets the associated tooltip manager.
@@ -732,6 +759,9 @@ public abstract class ButtonSpecManagerBase : GlobalId
 
         // All views are destroyed so clear down lookup
         _specLookup.Clear();
+
+        // Remove any edge stacks docked for StackAlongEdge mode
+        ClearEdgeStacks();
     }
 
     private void CreateAll()
@@ -830,8 +860,19 @@ public abstract class ButtonSpecManagerBase : GlobalId
 
             buttonView.ViewCenter.Orientation = DockerOrientation(viewDockerIndex);
 
-            // Insert the button view into the docker
-            AddViewToDocker(viewDockerIndex, GetDockStyle(buttonSpec), buttonView.ViewCenter, _viewMetrics != null);
+            var dockStyle = GetDockStyle(buttonSpec);
+            var edge = buttonSpec.GetEdge(_redirector);
+
+            // StackAlongEdge: one ViewLayoutStack per docker/edge; SideBySide docks each center.
+            if (_edgeArrange == ButtonSpecEdgeArrange.StackAlongEdge)
+            {
+                ViewLayoutStack stack = GetOrCreateEdgeStack(viewDockerIndex, edge, dockStyle);
+                stack.Add(buttonView.ViewCenter);
+            }
+            else
+            {
+                AddViewToDocker(viewDockerIndex, dockStyle, buttonView.ViewCenter, _viewMetrics != null);
+            }
 
             // Perform any last construction steps for button spec
             ButtonSpecCreated(buttonSpec, buttonView, viewDockerIndex);
@@ -909,6 +950,48 @@ public abstract class ButtonSpecManagerBase : GlobalId
         }
 
         return -1;
+    }
+
+    /// <summary>
+    /// Gets or creates the edge stack for StackAlongEdge mode and docks it once.
+    /// </summary>
+    private ViewLayoutStack GetOrCreateEdgeStack(int dockerIndex, RelativeEdgeAlign edge, ViewDockStyle dockStyle)
+    {
+        var key = EdgeStackKey(dockerIndex, edge);
+        if (!_edgeStacks.TryGetValue(key, out ViewLayoutStack? stack))
+        {
+            // Stack along the edge: vertical on top/bottom dockers; horizontal on side headers.
+            VisualOrientation dockerOrientation = DockerOrientation(dockerIndex);
+            var horizontal = dockerOrientation == VisualOrientation.Left
+                             || dockerOrientation == VisualOrientation.Right;
+            stack = new ViewLayoutStack(horizontal)
+            {
+                // Keep each ButtonSpec at preferred size; leftover host height stays empty.
+                FillLastChild = false
+            };
+            _edgeStacks[key] = stack;
+            AddViewToDocker(dockerIndex, dockStyle, stack, _viewMetrics != null);
+        }
+
+        return stack;
+    }
+
+    private static int EdgeStackKey(int dockerIndex, RelativeEdgeAlign edge) =>
+        (dockerIndex * 2) + (edge == RelativeEdgeAlign.Far ? 1 : 0);
+
+    private void ClearEdgeStacks()
+    {
+        foreach (ViewLayoutStack stack in _edgeStacks.Values)
+        {
+            if (stack.Parent != null && stack.Parent.Contains(stack))
+            {
+                stack.Parent.Remove(stack);
+            }
+
+            stack.Dispose();
+        }
+
+        _edgeStacks.Clear();
     }
 
     private ViewDockStyle GetDockStyle(ButtonSpec spec)

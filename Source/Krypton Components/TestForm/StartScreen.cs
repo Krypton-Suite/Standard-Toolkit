@@ -66,6 +66,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug4336ListViewStateTrackingDemo>("Bug 4336 ListView StateTracking", "Issue #4336: KryptonListView hover uses StateTracking / StateCheckedTracking instead of Win32 hot-track. Item tooltips use KryptonToolTip at the hovered item.");
         CreateButton<Bug4373ToolStripTextContrastDemo>("Bug 4373 ToolStrip Contrast", "Issue #4373: ToolStrip item text must stay readable on Office White, Office 2007 Black, and Visual Studio 2010 themes. Cycle themes or use the jump buttons; both Krypton and native strips should pass WCAG AA 4.5:1.");
         CreateButton<Bug3367KryptonTextBoxButtonSpecHoverDemo>("Bug 3367 TextBox ButtonSpec Hover", "Demo for issue #3367: ButtonSpec hover flicker on KryptonTextBox, KryptonMaskedTextBox, and KryptonForm (ImageStates.ImageNormal without Image).");
+        CreateButton<Bug4432ButtonSpecFillHeightDemo>("Bug 4432 ButtonSpec FillHeight", "Issue #4432: ButtonSpec.FillHeight stretches specs to full host height; ButtonSpecEdgeArrange.StackAlongEdge stacks same-edge specs vertically. Toggle FillHeight / StackAlongEdge and resize tall TextBox/ComboBox/DTP/MaskedTextBox.");
         CreateButton<CommandLinkButtons>("CommandLink Buttons", "No comment");
         CreateButton<ControlStylesForm>("Control Styles", string.Empty);
         CreateButton<DateTimeExample>("DateTime Example", string.Empty);
