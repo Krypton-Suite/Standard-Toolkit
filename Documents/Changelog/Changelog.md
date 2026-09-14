@@ -45,6 +45,9 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4410](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4410), Tabbed floating toolbar pages now show their toolbar/menu strip content; the tabbed container hosts its navigator on `KryptonForm.InternalPanel` so tabs and toolbars are visible after `ResumeLayout`
+  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Resolved `KryptonManagerDesigner.Dispose` no longer shows an `OpenFileDialog` (accidental paste); unhooks `ComponentChanged` safely and clears the related CS8602 warnings.
 * Implemented [#4369](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4369), A way to store `KryptonRibbon` strings into a database
   * Save/load the ribbon instance caption tree via versioned `RibbonTranslations.xml` / JSON (tabs, groups, buttons, KeyTips, tooltips, QAT, contexts, app menu, recent docs, backstage) with stream overloads for database BLOBs.
   * Overlay-only import: unknown keys are ignored, missing keys keep current values, and `TranslationId` (with `Site.Name` / index fallback) keeps files stable when items are reordered.
