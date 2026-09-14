@@ -28,7 +28,7 @@
 
   <PropertyGroup>
     <PackageId>Krypton.Navigator</PackageId>
-    <Description>This is the navigator module.</Description>
+    <Description>Krypton Navigator for WinForms: multi-mode page host (tabs, bars, headers, stacks, and related modes) for organising content with the same palette-driven look and feel as the Toolkit.</Description>
   </PropertyGroup>
 
   <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
