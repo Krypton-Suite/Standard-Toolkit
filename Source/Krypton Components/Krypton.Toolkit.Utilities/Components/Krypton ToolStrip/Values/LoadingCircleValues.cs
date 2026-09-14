@@ -21,7 +21,11 @@ public class LoadingCircleValues : Storage
     private const int DEFAULT_OUTER_CIRCLE_RADIUS = 10;
     private const int DEFAULT_NUMBER_OF_SPOKE = 10;
     private const int DEFAULT_SPOKE_THICKNESS = 4;
-    private static readonly Color DEFAULT_COLOR = Color.DarkGray;
+
+    /// <summary>
+    /// Default spoke colour is Empty so the owning control inherits from the global palette.
+    /// </summary>
+    private static readonly Color DEFAULT_COLOR = Color.Empty;
 
     #endregion
 
@@ -60,7 +64,7 @@ public class LoadingCircleValues : Storage
     /// <inheritdoc />
     [Browsable(false)]
     public override bool IsDefault =>
-        _color == DEFAULT_COLOR &&
+        !ShouldSerializeColor() &&
         _outerCircleRadius is 0 or DEFAULT_OUTER_CIRCLE_RADIUS &&
         _innerCircleRadius is 0 or DEFAULT_INNER_CIRCLE_RADIUS &&
         _numberSpoke is 0 or DEFAULT_NUMBER_OF_SPOKE &&
@@ -74,19 +78,29 @@ public class LoadingCircleValues : Storage
 
     /// <summary>
     /// Gets or sets the colour of the spinning spokes.
+    /// Use <see cref="Color.Empty"/> (the default) to inherit from the global palette
+    /// short-text colour; set an explicit colour to override the theme.
     /// </summary>
     [Category(@"LoadingCircle")]
-    [Description(@"Sets the color of spoke.")]
+    [Description(@"Spoke colour. Empty inherits the current theme text colour.")]
+    [DefaultValue(typeof(Color), "Empty")]
     public Color Color
     {
         get => _color;
         set
         {
-            _color = value;
-            _owner.GenerateColoursPallet();
-            _owner.Invalidate();
+            if (_color != value)
+            {
+                _color = value;
+                _owner.GenerateColoursPallet();
+                _owner.Invalidate();
+            }
         }
     }
+
+    private bool ShouldSerializeColor() => !_color.IsEmpty;
+
+    private void ResetColor() => Color = Color.Empty;
 
     /// <summary>
     /// Gets or sets the outer circle radius.
@@ -238,7 +252,7 @@ public class LoadingCircleValues : Storage
     /// </summary>
     public void Reset()
     {
-        _color = DEFAULT_COLOR;
+        ResetColor();
         _outerCircleRadius = 0;
         _innerCircleRadius = 0;
         _numberSpoke = 0;

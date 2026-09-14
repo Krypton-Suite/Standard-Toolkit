@@ -45,6 +45,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented, Palette-aware spoke colours for `KryptonLoadingCircle`: `CircleValues.Color` defaults to `Color.Empty` and inherits the global palette short-text colour; an explicit colour overrides the theme. The control is Toolbox-visible and refreshes on `GlobalPaletteChanged` / `PalettePaint`.
+  * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved [#4410](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4410), Tabbed floating toolbar pages now show their toolbar/menu strip content; the tabbed container hosts its navigator on `KryptonForm.InternalPanel` so tabs and toolbars are visible after `ResumeLayout`
   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved `KryptonCustomThemeGenerator` no longer throws when a dark donor is chosen without `Krypton.Themes`. `AvailableDonorModes` / `IsAvailableDonor` expose catalog-registered donors; random seeds and the builder skip unregistered extras until Themes is present.

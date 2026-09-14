@@ -11,7 +11,11 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit.Utilities;
 
-[ToolboxBitmap(typeof(BackgroundWorker)), ToolboxItem(false)]
+/// <summary>
+/// Animated spoke spinner that tracks the global Krypton palette when
+/// <see cref="LoadingCircleValues.Color"/> is <see cref="Color.Empty"/>.
+/// </summary>
+[ToolboxBitmap(typeof(BackgroundWorker)), ToolboxItem(true)]
 public partial class KryptonLoadingCircle : Control
 {
     #region Constants
@@ -44,6 +48,7 @@ public partial class KryptonLoadingCircle : Control
 
     private readonly LoadingCircleValues _values;
     private readonly Timer _timer;
+    private PaletteBase? _palette;
     private int _mProgressValue;
     private PointF _mCenterPoint;
     private Color[] _mColors;
@@ -149,6 +154,15 @@ public partial class KryptonLoadingCircle : Control
 
         _values = new LoadingCircleValues(this);
 
+        // Track the global palette so Empty spoke colour follows theme text colour.
+        _palette = KryptonManager.CurrentGlobalPalette;
+        if (_palette != null)
+        {
+            _palette.PalettePaint += OnPalettePaint;
+        }
+
+        KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
+
         GenerateColoursPallet();
         GetSpokesAngles();
         GetControlCenterPoint();
@@ -158,6 +172,29 @@ public partial class KryptonLoadingCircle : Control
         ActiveTimer();
 
         Resize += LoadingCircle_Resize;
+    }
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            Resize -= LoadingCircle_Resize;
+
+            _timer.Tick -= aTimer_Tick;
+            _timer.Stop();
+            _timer.Dispose();
+
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+                _palette = null;
+            }
+
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+        }
+
+        base.Dispose(disposing);
     }
 
     #endregion
@@ -222,6 +259,19 @@ public partial class KryptonLoadingCircle : Control
         Invalidate();
     }
 
+    /// <inheritdoc />
+    protected override void OnEnabledChanged(EventArgs e)
+    {
+        base.OnEnabledChanged(e);
+
+        // Disabled state uses a different palette text colour when Color is Empty.
+        if (_values.Color.IsEmpty)
+        {
+            GenerateColoursPallet();
+            Invalidate();
+        }
+    }
+
     // Overridden Methods ================================================
     /// <summary>
     /// Retrieves the size of a rectangular area into which a control can be fitted.
@@ -239,6 +289,34 @@ public partial class KryptonLoadingCircle : Control
     }
 
     // Methods ===========================================================
+    /// <summary>
+    /// Resolves the spoke base colour: an explicit <see cref="LoadingCircleValues.Color"/>,
+    /// otherwise the current palette short-text colour, otherwise DarkGray.
+    /// </summary>
+    /// <returns>The colour used as the lightest spoke.</returns>
+    private Color ResolveSpokeColor()
+    {
+        if (!_values.Color.IsEmpty)
+        {
+            return _values.Color;
+        }
+
+        PaletteBase? palette = _palette ?? KryptonManager.CurrentGlobalPalette;
+        if (palette != null)
+        {
+            Color paletteColor = palette.GetContentShortTextColor1(
+                PaletteContentStyle.LabelNormalControl,
+                Enabled ? PaletteState.Normal : PaletteState.Disabled);
+
+            if (!paletteColor.IsEmpty)
+            {
+                return paletteColor;
+            }
+        }
+
+        return Color.DarkGray;
+    }
+
     /// <summary>
     /// Darkens a specified color.
     /// </summary>
@@ -258,7 +336,7 @@ public partial class KryptonLoadingCircle : Control
     /// </summary>
     internal void GenerateColoursPallet()
     {
-        _mColors = GenerateColoursPallet(_values.Color, _values.Active, _values.NumberSpoke);
+        _mColors = GenerateColoursPallet(ResolveSpokeColor(), _values.Active, _values.NumberSpoke);
     }
 
     /// <summary>
@@ -451,4 +529,36 @@ public partial class KryptonLoadingCircle : Control
                 break;
         }
     }
+
+    #region Palette
+
+    private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
+    {
+        // Palette colours changed without a mode switch (custom palette paint).
+        if (_values.Color.IsEmpty)
+        {
+            GenerateColoursPallet();
+            Invalidate();
+        }
+    }
+
+    private void OnGlobalPaletteChanged(object? sender, EventArgs e)
+    {
+        if (_palette != null)
+        {
+            _palette.PalettePaint -= OnPalettePaint;
+        }
+
+        _palette = KryptonManager.CurrentGlobalPalette;
+
+        if (_palette != null)
+        {
+            _palette.PalettePaint += OnPalettePaint;
+        }
+
+        GenerateColoursPallet();
+        Invalidate();
+    }
+
+    #endregion
 }
