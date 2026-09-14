@@ -829,15 +829,17 @@ This is separate from **UI Screenshots / GIFs**. A build-log PNG is required eve
 
 ### What to capture
 
-- One **PNG** of the build that was used for validation (affected project, TestForm, or solution; Debug unless the change is configuration-specific).
-- The image must show the build command or project name, the configuration (for example `Debug`), and the success summary (`Build succeeded` / `0 Error(s)`; include the warning count when the tool prints it).
+- One **PNG** of a successful **full solution** Debug build of `Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln` (unless the change is configuration-specific, then use that configuration).
+- Do **not** substitute a single-project or TestForm-only build for the PR build-log artefact. Targeted builds are fine during development; the screenshot recorded under **Validation** must cover the entire suite solution.
+- The image must show the build command or solution name, the configuration (for example `Debug`), and the success summary (`Build succeeded` / `0 Error(s)`; include the warning count when the tool prints it). Prefer `0 Warning(s)` when practical; fix warnings introduced by the change (and small local pre-existing warnings in files already touched) before capturing.
 - One shot is enough. Do not screenshot every TFM unless the change is TFM-specific.
 
 ### How
 
-1. Build the affected project (or TestForm) as recorded in **Validation**.
+1. Build the full suite solution as recorded in **Validation**:
+   `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug`
 2. Save a PNG as `Documents/PR/<issue-or-branch>-<short-title>-build.png`.
-   - Prefer rendering the last ~40 lines of the build output (command, project, configuration, and success summary) to a PNG with `System.Drawing` so the shot does not depend on an on-screen terminal.
+   - Prefer rendering the last ~40 lines of the build output (command, solution, configuration, and success summary) to a PNG with `System.Drawing` so the shot does not depend on an on-screen terminal.
    - If a terminal window showing that build is already on-screen, `CopyFromScreen` of that window is also fine; crop to the log.
 3. Embed the image under **Validation** in the PR description (keep UI shots in **Screenshots / GIFs**):
 
@@ -854,6 +856,7 @@ This is separate from **UI Screenshots / GIFs**. A build-log PNG is required eve
 ### Do not
 
 - Skip the build-log screenshot for completed bugs or features, or leave the template placeholder.
+- Capture only an affected project / TestForm build when a full solution build is possible — the PR artefact must be the suite solution.
 - Paste a large fenced build log instead of the screenshot. The PNG is the required artefact; **Validation** still records the build command in text.
 - Commit the PNG, or upload or attach it to the GitHub pull request.
 - Invent or draw a fake success screenshot. If a build cannot be run, say so in **Validation** instead of faking a shot.

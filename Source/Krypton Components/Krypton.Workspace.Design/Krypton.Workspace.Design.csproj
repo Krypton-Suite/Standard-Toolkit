@@ -5,7 +5,7 @@
 	<PropertyGroup>
 		<RootNamespace>Krypton.Workspace</RootNamespace>
 		<AssemblyName>Krypton.Workspace.Design</AssemblyName>
-		<Description>DesignToolsServer designers for Krypton.Workspace (WinForms Designer Extensibility SDK).</Description>
+		<Description>Out-of-process DesignToolsServer designers, action lists, and glyphs for Krypton.Workspace on modern Windows TFMs (WinForms Designer Extensibility SDK). Packed under lib\{tfm}\Design\WinForms\Server\.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
