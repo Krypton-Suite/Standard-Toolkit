@@ -38,6 +38,7 @@ Delete any section that does not apply.
   1. <step>
   2. <expected result>
 - Build: `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug`
+- Build log screenshot (required; capture per AGENTS.md **Build Log Screenshot**. Save as `Documents/PR/<issue>-<short-title>-build.png`. Do not upload or attach it to the GitHub pull request.):
 
 ## Screenshots / GIFs
 
@@ -61,6 +62,10 @@ Delete any section that does not apply.
 
 - `Documents/Development/<guide>.md` (add for substantial new features; omit for trivial fixes).
 
+## Build log
+
+![Build log](./<issue>-<short-title>-build.png)
+
 ## Checklist
 
 - [ ] Builds for `net472` and is C# 7.3 compatible where required
@@ -69,5 +74,6 @@ Delete any section that does not apply.
 - [ ] TestForm demo added or updated (features / observable bug fixes)
 - [ ] `Documents/Development/` guide added (substantial features)
 - [ ] Screenshots/GIFs included (UI changes)
+- [ ] Build log screenshot included
 - [ ] Breaking-change impact and TFM notes documented above
 - [ ] New unit tests have been added

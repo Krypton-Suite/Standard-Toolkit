@@ -89,6 +89,12 @@
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.Designer.cs">
       <DependentUpon>KryptonTagInputControlDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.Designer.cs">
+      <DependentUpon>LoadingCircleDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.Designer.cs">
       <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>
     </Compile>
@@ -158,6 +164,9 @@
     </Compile>
     <Compile Update="Feature3851RenderingDpiDemo.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonRibbon\Feature\RibbonTranslationsDemo.Designer.cs">
+      <DependentUpon>RibbonTranslationsDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.Designer.cs">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
@@ -230,6 +239,7 @@
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonRibbon\Bugs\" />
+    <Folder Include="KryptonToolkit\Bugs\" />
     <Folder Include="KryptonRibbon\Feature\" />
     <Folder Include="KryptonUtilities\Bugs\" />
     <Folder Include="KryptonWorkspace\Bugs\" />

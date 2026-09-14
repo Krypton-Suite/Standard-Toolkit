@@ -21,14 +21,13 @@ public class LoadingCircleValues : Storage
     private const int DEFAULT_OUTER_CIRCLE_RADIUS = 10;
     private const int DEFAULT_NUMBER_OF_SPOKE = 10;
     private const int DEFAULT_SPOKE_THICKNESS = 4;
-    private static readonly Color DEFAULT_COLOR = Color.DarkGray;
 
     #endregion
 
     #region Instance Fields
 
     private readonly KryptonLoadingCircle _owner;
-    private Color _color;
+    private Color _color = Color.Empty;
     private int _outerCircleRadius;
     private int _innerCircleRadius;
     private int _numberSpoke;
@@ -44,11 +43,8 @@ public class LoadingCircleValues : Storage
     /// Initialize a new instance of the <see cref="LoadingCircleValues"/> class.
     /// </summary>
     /// <param name="owner">Owning loading circle.</param>
-    public LoadingCircleValues(KryptonLoadingCircle owner)
-    {
+    public LoadingCircleValues(KryptonLoadingCircle owner) =>
         _owner = owner ?? ThrowHelper.ThrowArgumentNullException(owner);
-        _color = DEFAULT_COLOR;
-    }
 
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? @"Modified" : string.Empty;
@@ -60,7 +56,7 @@ public class LoadingCircleValues : Storage
     /// <inheritdoc />
     [Browsable(false)]
     public override bool IsDefault =>
-        _color == DEFAULT_COLOR &&
+        _color.IsEmpty &&
         _outerCircleRadius is 0 or DEFAULT_OUTER_CIRCLE_RADIUS &&
         _innerCircleRadius is 0 or DEFAULT_INNER_CIRCLE_RADIUS &&
         _numberSpoke is 0 or DEFAULT_NUMBER_OF_SPOKE &&
@@ -75,18 +71,30 @@ public class LoadingCircleValues : Storage
     /// <summary>
     /// Gets or sets the colour of the spinning spokes.
     /// </summary>
+    /// <remarks>
+    /// <see cref="Color.Empty"/> (the default) resolves from the active Krypton palette
+    /// (<c>LabelNormalControl</c> content colour). Set a concrete colour to override the theme.
+    /// </remarks>
     [Category(@"LoadingCircle")]
-    [Description(@"Sets the color of spoke.")]
+    [Description(@"Spoke colour. Empty uses the active palette content colour.")]
+    [DefaultValue(typeof(Color), "Empty")]
     public Color Color
     {
         get => _color;
         set
         {
-            _color = value;
-            _owner.GenerateColoursPallet();
-            _owner.Invalidate();
+            if (_color != value)
+            {
+                _color = value;
+                _owner.GenerateColoursPallet();
+                _owner.Invalidate();
+            }
         }
     }
+
+    private bool ShouldSerializeColor() => !_color.IsEmpty;
+
+    private void ResetColor() => Color = Color.Empty;
 
     /// <summary>
     /// Gets or sets the outer circle radius.
@@ -152,7 +160,7 @@ public class LoadingCircleValues : Storage
         }
         set
         {
-            if (_numberSpoke != value && _numberSpoke > 0)
+            if (_numberSpoke != value && value > 0)
             {
                 _numberSpoke = value;
                 _owner.GenerateColoursPallet();
@@ -166,14 +174,18 @@ public class LoadingCircleValues : Storage
     /// Gets or sets a value indicating whether the spinner is active.
     /// </summary>
     [Category(@"LoadingCircle")]
-    [Description(@"Gets or sets the number of spoke.")]
+    [Description(@"Gets or sets whether the spinner animation is active.")]
+    [DefaultValue(false)]
     public bool Active
     {
         get => _active;
         set
         {
-            _active = value;
-            _owner.ActiveTimer();
+            if (_active != value)
+            {
+                _active = value;
+                _owner.ActiveTimer();
+            }
         }
     }
 
@@ -238,7 +250,7 @@ public class LoadingCircleValues : Storage
     /// </summary>
     public void Reset()
     {
-        _color = DEFAULT_COLOR;
+        _color = Color.Empty;
         _outerCircleRadius = 0;
         _innerCircleRadius = 0;
         _numberSpoke = 0;
@@ -246,6 +258,7 @@ public class LoadingCircleValues : Storage
         _active = false;
         _stylePreset = StylePresets.Custom;
         _owner.GenerateColoursPallet();
+        _owner.GetSpokesAngles();
         _owner.Invalidate();
     }
 
