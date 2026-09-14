@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonDropButton), "ToolboxBitmaps.KryptonDropButton.bmp")]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonDropButtonDesigner))]
+[Designer("Krypton.Toolkit.KryptonDropButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Raises an event when the user clicks it.")]
 public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues
@@ -174,6 +174,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(false)]
     public override bool AutoSize
     {
         get => base.AutoSize;

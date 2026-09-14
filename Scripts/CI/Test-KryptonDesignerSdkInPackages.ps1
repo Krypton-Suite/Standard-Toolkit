@@ -1,0 +1,323 @@
+﻿# Verifies packable Krypton module .nupkg files include WinForms Designer Extensibility SDK
+# assemblies under lib/<tfm>/Design/WinForms/ (issue #593).
+# Dot-source this script, then call Test-KryptonDesignerSdkInPackages after msbuild Pack.
+#
+# Parameters:
+#   -Configuration          Release, Canary, Nightly, etc. (searches artifacts/packages and Bin/Packages)
+#   -PackageSearchPaths     Additional glob paths for .nupkg files
+#   -SkipIfDesignerSdkProjectMissing  Exit 0 when Krypton.Toolkit.Design.csproj is absent
+#   -MinimumMajorVersion    Exit 0 when the evaluated toolkit major version is below this value (V110+)
+
+function Get-KryptonToolkitMajorVersionForDesignerSdk {
+    param(
+        [string]$Configuration = 'Release',
+        [string]$RepoRoot = ''
+    )
+
+    if ([string]::IsNullOrWhiteSpace($RepoRoot)) {
+        $RepoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') {
+            $env:GITHUB_WORKSPACE
+        }
+        else {
+            (Get-Location).Path
+        }
+    }
+
+    if ([string]::IsNullOrWhiteSpace($Configuration)) {
+        $Configuration = 'Release'
+    }
+
+    $proj = Join-Path $RepoRoot 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+    if (-not (Test-Path -LiteralPath $proj)) {
+        Write-Error "Krypton.Toolkit project not found at '$proj'."
+    }
+
+    $versionProperties = @('LibraryVersion', 'AssemblyVersion', 'Version')
+    foreach ($property in $versionProperties) {
+        $evaluated = (& dotnet msbuild $proj -getProperty:$property -p:Configuration=$Configuration -nologo -v:q).Trim()
+        if ($evaluated -match '^(\d+)\.') {
+            return [int]$Matches[1]
+        }
+    }
+
+    Write-Error "Could not resolve Krypton toolkit major version from MSBuild (tried: $($versionProperties -join ', '))."
+}
+
+function Test-IsModernWinFormsLibFolder {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$LibFolderName
+    )
+
+    return $LibFolderName -match '^(net[8-9]|net1[0-9])'
+}
+
+function Get-DesignerSdkPackageKind {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$PackageFileName
+    )
+
+    if ($PackageFileName -match '\.snupkg$') {
+        return $null
+    }
+
+    $packageId = [System.IO.Path]::GetFileNameWithoutExtension($PackageFileName)
+
+    $skipRoots = @(
+        'Krypton.Docking',
+        'Krypton.Themes',
+        'Krypton.Toolkit.JumpList',
+        'Krypton.Interop'
+    )
+
+    foreach ($root in $skipRoots) {
+        if ($packageId.Equals($root, [System.StringComparison]::OrdinalIgnoreCase) -or
+            $packageId.StartsWith("$root.", [System.StringComparison]::OrdinalIgnoreCase)) {
+            return $null
+        }
+    }
+
+    if ($packageId.Equals('Krypton.Standard.Toolkit', [System.StringComparison]::OrdinalIgnoreCase) -or
+        $packageId.StartsWith('Krypton.Standard.Toolkit.', [System.StringComparison]::OrdinalIgnoreCase)) {
+        return 'Standard'
+    }
+
+    $kinds = @(
+        @{ Root = 'Krypton.Workspace'; Kind = 'Workspace' },
+        @{ Root = 'Krypton.Navigator'; Kind = 'Navigator' },
+        @{ Root = 'Krypton.Ribbon'; Kind = 'Ribbon' },
+        @{ Root = 'Krypton.Toolkit'; Kind = 'Toolkit' }
+    )
+
+    foreach ($entry in $kinds) {
+        if ($packageId.Equals($entry.Root, [System.StringComparison]::OrdinalIgnoreCase) -or
+            $packageId.StartsWith("$($entry.Root).", [System.StringComparison]::OrdinalIgnoreCase)) {
+            return $entry.Kind
+        }
+    }
+
+    return $null
+}
+
+function Get-DesignerSdkExpectedRelativePaths {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Kind
+    )
+
+    $server = [System.Collections.Generic.List[string]]::new()
+    $client = @(
+        'Krypton.Toolkit.Design.Client.dll',
+        'Krypton.Toolkit.Design.Protocol.dll'
+    )
+
+    switch ($Kind) {
+        'Toolkit' {
+            [void]$server.Add('Krypton.Toolkit.Design.dll')
+            [void]$server.Add('Krypton.Toolkit.Design.Protocol.dll')
+        }
+        'Ribbon' {
+            [void]$server.Add('Krypton.Ribbon.Design.dll')
+            [void]$server.Add('Krypton.Toolkit.Design.Protocol.dll')
+        }
+        'Navigator' {
+            [void]$server.Add('Krypton.Navigator.Design.dll')
+            [void]$server.Add('Krypton.Toolkit.Design.Protocol.dll')
+        }
+        'Workspace' {
+            [void]$server.Add('Krypton.Workspace.Design.dll')
+            [void]$server.Add('Krypton.Toolkit.Design.Protocol.dll')
+        }
+        'Standard' {
+            [void]$server.Add('Krypton.Toolkit.Design.dll')
+            [void]$server.Add('Krypton.Ribbon.Design.dll')
+            [void]$server.Add('Krypton.Navigator.Design.dll')
+            [void]$server.Add('Krypton.Workspace.Design.dll')
+            [void]$server.Add('Krypton.Toolkit.Utilities.Design.dll')
+            [void]$server.Add('Krypton.Navigator.Utilities.Design.dll')
+            [void]$server.Add('Krypton.Toolkit.Design.Protocol.dll')
+        }
+        default {
+            return @()
+        }
+    }
+
+    $paths = [System.Collections.Generic.List[string]]::new()
+    foreach ($name in $server) {
+        [void]$paths.Add("Design/WinForms/Server/$name")
+    }
+    foreach ($name in $client) {
+        [void]$paths.Add("Design/WinForms/$name")
+    }
+
+    return @($paths)
+}
+
+function Test-NupkgContainsDesignerSdk {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.IO.FileInfo]$Package,
+        [Parameter(Mandatory = $true)]
+        [string]$Kind
+    )
+
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+
+    $expectedRelative = Get-DesignerSdkExpectedRelativePaths -Kind $Kind
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($Package.FullName)
+    try {
+        $entryNames = @($zip.Entries | ForEach-Object { $_.FullName.Replace('\', '/') })
+
+        $sdkLeak = @(
+            $entryNames |
+                Where-Object { $_ -match '(?i)Microsoft\.WinForms\.Designer\.SDK\.dll$' }
+        )
+        if ($sdkLeak.Count -gt 0) {
+            return @{
+                Ok      = $false
+                Message = "$($Package.Name) contains Microsoft.WinForms.Designer.SDK.dll (must not leak into consumer packages)"
+            }
+        }
+
+        $libFolders = @(
+            $entryNames |
+                ForEach-Object {
+                    if ($_ -match '^lib/([^/]+)/') { $Matches[1] }
+                } |
+                Select-Object -Unique
+        )
+
+        $modernFolders = @($libFolders | Where-Object { Test-IsModernWinFormsLibFolder -LibFolderName $_ })
+        if ($modernFolders.Count -eq 0) {
+            return @{
+                Ok      = $true
+                Message = "$($Package.Name) has no modern Windows lib folders; Designer SDK packing not required"
+            }
+        }
+
+        $missing = [System.Collections.Generic.List[string]]::new()
+        foreach ($tfm in $modernFolders) {
+            foreach ($relative in $expectedRelative) {
+                $full = "lib/$tfm/$relative"
+                $found = $entryNames | Where-Object { $_.Equals($full, [System.StringComparison]::OrdinalIgnoreCase) }
+                if (-not $found) {
+                    [void]$missing.Add($full)
+                }
+            }
+        }
+
+        if ($missing.Count -gt 0) {
+            return @{
+                Ok      = $false
+                Message = "$($Package.Name) missing Designer SDK files: $($missing -join ', ')"
+            }
+        }
+
+        return @{
+            Ok      = $true
+            Message = "$($Package.Name) contains Design/WinForms assemblies for $($modernFolders.Count) modern TFM folder(s)"
+        }
+    }
+    finally {
+        $zip.Dispose()
+    }
+}
+
+function Test-KryptonDesignerSdkInPackages {
+    param(
+        [string]$Configuration = '',
+        [string[]]$PackageSearchPaths = @(),
+        [switch]$SkipIfDesignerSdkProjectMissing,
+        [int]$MinimumMajorVersion = 0
+    )
+
+    $ErrorActionPreference = 'Stop'
+
+    $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') {
+        $env:GITHUB_WORKSPACE
+    }
+    else {
+        (Get-Location).Path
+    }
+
+    $msbuildConfiguration = if ([string]::IsNullOrWhiteSpace($Configuration)) { 'Release' } else { $Configuration }
+
+    if ($MinimumMajorVersion -gt 0) {
+        $major = Get-KryptonToolkitMajorVersionForDesignerSdk -Configuration $msbuildConfiguration -RepoRoot $repoRoot
+        if ($major -lt $MinimumMajorVersion) {
+            Write-Host "::notice:: Major version $major is below $MinimumMajorVersion; skipping WinForms Designer SDK NuGet package verification."
+            return
+        }
+    }
+
+    $designProject = Join-Path $repoRoot 'Source/Krypton Components/Krypton.Toolkit.Design/Krypton.Toolkit.Design.csproj'
+    if ($SkipIfDesignerSdkProjectMissing -and -not (Test-Path -LiteralPath $designProject)) {
+        Write-Host '::notice:: Krypton.Toolkit.Design project not present; skipping NuGet package verification.'
+        return
+    }
+
+    if (-not (Test-Path -LiteralPath $designProject)) {
+        Write-Error "Krypton.Toolkit.Design project not found at '$designProject'."
+    }
+
+    $searchPaths = [System.Collections.Generic.List[string]]::new()
+    if (-not [string]::IsNullOrWhiteSpace($Configuration)) {
+        $searchPaths.Add("artifacts/packages/$Configuration/*.nupkg")
+        $searchPaths.Add("Bin/Packages/$Configuration/*.nupkg")
+        $searchPaths.Add("Artefacts/Packages/$Configuration/*.nupkg")
+    }
+
+    foreach ($path in $PackageSearchPaths) {
+        if (-not [string]::IsNullOrWhiteSpace($path)) {
+            $searchPaths.Add($path)
+        }
+    }
+
+    if ($searchPaths.Count -eq 0) {
+        $searchPaths.Add('artifacts/packages/*/*.nupkg')
+        $searchPaths.Add('Bin/Packages/*/*.nupkg')
+        $searchPaths.Add('Artefacts/Packages/*/*.nupkg')
+    }
+
+    $packages = @()
+    foreach ($pattern in $searchPaths) {
+        $packages += Get-ChildItem -Path $pattern -ErrorAction SilentlyContinue
+    }
+
+    $packages = @($packages | Where-Object { $_ -ne $null } | Sort-Object FullName -Unique)
+
+    if ($packages.Count -eq 0) {
+        Write-Error "No .nupkg files found. Searched: $($searchPaths -join '; ')"
+    }
+
+    $requiredPackages = @()
+    foreach ($package in $packages) {
+        $kind = Get-DesignerSdkPackageKind -PackageFileName $package.Name
+        if ($null -ne $kind) {
+            $requiredPackages += [pscustomobject]@{ Package = $package; Kind = $kind }
+        }
+    }
+
+    if ($requiredPackages.Count -eq 0) {
+        Write-Error "Found $($packages.Count) .nupkg file(s), but none match packable Krypton module package IDs that must include Designer SDK assemblies."
+    }
+
+    $failures = [System.Collections.Generic.List[string]]::new()
+    foreach ($item in $requiredPackages) {
+        $result = Test-NupkgContainsDesignerSdk -Package $item.Package -Kind $item.Kind
+        if ($result.Ok) {
+            Write-Host "OK: $($result.Message)"
+            continue
+        }
+
+        $failures.Add($item.Package.Name)
+        Write-Host "::error file=$($item.Package.FullName)::$($result.Message)"
+    }
+
+    if ($failures.Count -gt 0) {
+        throw "WinForms Designer SDK NuGet verification failed for $($failures.Count) package(s): $($failures -join ', ')"
+    }
+
+    Write-Host "Verified WinForms Designer SDK assemblies in $($requiredPackages.Count) Krypton module package(s)."
+}

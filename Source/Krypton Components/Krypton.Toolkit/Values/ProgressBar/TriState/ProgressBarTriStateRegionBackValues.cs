@@ -159,7 +159,7 @@ public class ProgressBarTriStateRegionBackValues : Storage
     [Category(@"Visuals")]
     [Description(@"Background image. Null uses default.")]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

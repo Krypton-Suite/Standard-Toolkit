@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(ValueChanged))]
 [DefaultProperty(nameof(Value))]
 [DefaultBindingProperty(nameof(Value))]
-[Designer(typeof(KryptonCalcInputDesigner))]
+[Designer("Krypton.Toolkit.KryptonCalcInputDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Represents a numeric input control with integrated calculator dropdown.")]
 public class KryptonCalcInput : VisualControlBase, IContainedInputControl

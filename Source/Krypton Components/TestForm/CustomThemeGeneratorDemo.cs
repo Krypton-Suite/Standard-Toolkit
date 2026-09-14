@@ -80,7 +80,12 @@ public partial class CustomThemeGeneratorDemo : KryptonForm
         kbtnSurface.Enabled = kchkSurface.Checked;
 
         kcmbDonor.Items.Clear();
-        IReadOnlyList<PaletteMode> donors = KryptonCustomThemeGenerator.SupportedDonorModes;
+        IReadOnlyList<PaletteMode> donors = KryptonCustomThemeGenerator.AvailableDonorModes;
+        if (donors.Count == 0)
+        {
+            donors = new[] { PaletteMode.Office2010Blue, PaletteMode.Microsoft365Blue };
+        }
+
         int donorIndex = 0;
         for (int i = 0; i < donors.Count; i++)
         {
@@ -123,7 +128,12 @@ public partial class CustomThemeGeneratorDemo : KryptonForm
         }
 
         PaletteMode donor = PaletteMode.Office2010Blue;
-        IReadOnlyList<PaletteMode> donors = KryptonCustomThemeGenerator.SupportedDonorModes;
+        IReadOnlyList<PaletteMode> donors = KryptonCustomThemeGenerator.AvailableDonorModes;
+        if (donors.Count == 0)
+        {
+            donors = new[] { PaletteMode.Office2010Blue, PaletteMode.Microsoft365Blue };
+        }
+
         if (kcmbDonor.SelectedIndex >= 0 && kcmbDonor.SelectedIndex < donors.Count)
         {
             donor = donors[kcmbDonor.SelectedIndex];
@@ -184,8 +194,9 @@ public partial class CustomThemeGeneratorDemo : KryptonForm
 
         using var dialog = new SaveFileDialog
         {
-            Filter = @"Krypton Palette (*.xml)|*.xml",
-            FileName = seed.Name + @".xml",
+            Filter = KryptonPaletteFile.DialogFilter,
+            DefaultExt = KryptonPaletteFile.Extension,
+            FileName = seed.Name + @"." + KryptonPaletteFile.Extension,
             Title = @"Export generated theme"
         };
 

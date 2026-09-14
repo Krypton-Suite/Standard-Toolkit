@@ -27,6 +27,11 @@ public partial class BugReportingDialogTest : KryptonForm
         };
         
         LoadDefaultEmailConfig();
+
+        kwlblTestDescription.AutoSize = true;
+        kwlblTestDescription.MaximumSize = new Size(576, 0);
+        kwlblTestDescription.Text =
+            "Bug Reporting Dialog Test. Exception reports email the type and message only - not stack traces or the SMTP password.";
     }
 
     private void LoadDefaultEmailConfig()

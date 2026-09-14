@@ -69,7 +69,12 @@ internal partial class VisualCustomThemeBuilderForm : KryptonForm
 
         kcmbDonor.Items.Clear();
         int selected = 0;
-        IReadOnlyList<PaletteMode> donors = KryptonCustomThemeGenerator.SupportedDonorModes;
+        IReadOnlyList<PaletteMode> donors = KryptonCustomThemeGenerator.AvailableDonorModes;
+        if (donors.Count == 0)
+        {
+            donors = new[] { PaletteMode.Office2010Blue, PaletteMode.Microsoft365Blue };
+        }
+
         for (int i = 0; i < donors.Count; i++)
         {
             var item = new DonorItem(donors[i]);
@@ -275,8 +280,9 @@ internal partial class VisualCustomThemeBuilderForm : KryptonForm
             using var dialog = new SaveFileDialog
             {
                 Title = @"Export custom theme",
-                Filter = @"Krypton Palette (*.xml)|*.xml|All files (*.*)|*.*",
-                FileName = seed.Name + @".xml",
+                Filter = KryptonPaletteFile.DialogFilter,
+                DefaultExt = KryptonPaletteFile.Extension,
+                FileName = seed.Name + @"." + KryptonPaletteFile.Extension,
                 OverwritePrompt = true
             };
 

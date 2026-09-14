@@ -165,8 +165,10 @@ public class DragTargetWorkspaceCellEdge : DragTargetWorkspaceEdge
                     // Put the sequence into the place where the target cell used to be
                     parent.Children.Insert(index, sequence);
 
-                    // Add new cell to the start or the end of the new sequence?
-                    if (Edge is VisualOrientation.Left or VisualOrientation.Top)
+                    // Add new cell to the start or the end of the new sequence.
+                    // Under RTL, Left/Right map to the opposite collection end so a drop on the
+                    // physical left still appears on the visual left.
+                    if (WorkspaceRtlLayout.InsertAtCollectionStart(Edge, WorkspaceRtlLayout.IsRtl(Workspace)))
                     {
                         sequence.Children.Insert(0, cell);
                     }
@@ -181,7 +183,7 @@ public class DragTargetWorkspaceCellEdge : DragTargetWorkspaceEdge
                     var index = parent.Children!.IndexOf(Cell);
 
                     // Add new cell before or after the target cell?
-                    if (Edge is VisualOrientation.Left or VisualOrientation.Top)
+                    if (WorkspaceRtlLayout.InsertAtCollectionStart(Edge, WorkspaceRtlLayout.IsRtl(Workspace)))
                     {
                         parent.Children.Insert(index, cell);
                     }

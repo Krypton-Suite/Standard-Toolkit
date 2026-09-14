@@ -63,6 +63,16 @@ namespace Krypton.Toolkit.ResourceFiles.CommandLink {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Windows_7_CommandLink_Arrow {
+            get {
+                object obj = ResourceManager.GetObject("Windows_7_CommandLink_Arrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Windows_10_CommandLink_Arrow {
             get {
                 object obj = ResourceManager.GetObject("Windows_10_CommandLink_Arrow", resourceCulture);

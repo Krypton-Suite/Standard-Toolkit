@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonPanel), "ToolboxBitmaps.KryptonPanel.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty("PanelStyle")]
-[Designer(typeof(KryptonPanelDesigner))]
+[Designer("Krypton.Toolkit.KryptonPanelDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables you to group collections of controls.")]
 [Docking(DockingBehavior.Ask)]

@@ -410,16 +410,17 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
 
             viewToSize = _currentSize == GroupItemSize.Small ? _viewToSizeSmall : _viewToSizeMedium;
 
-            var x = ClientLocation.X;
+            var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+            var x = RibbonRtlLayout.StartX(ClientRectangle, isRtl);
             var y = ClientLocation.Y;
 
             // At design time we reserve space at the left side for the selection flap
             if (_ribbon.InDesignHelperMode)
             {
-                x += DesignTimeDraw.FlapWidth;
+                x = isRtl ? x : x + DesignTimeDraw.FlapWidth;
             }
 
-            // Position each item from left/top to right/bottom 
+            // Position each item along the reading direction
             for (var i = 0; i < Count; i++)
             {
                 ViewBase? child = this[i];
@@ -431,13 +432,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
                     Size childSize = viewToSize[child];
 
                     // Define display rectangle for the group
-                    context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
+                    context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, ClientHeight, isRtl);
 
                     // Position the element
                     this[i]?.Layout(context);
-
-                    // Move across to next position
-                    x += childSize.Width;
                 }
             }
         }

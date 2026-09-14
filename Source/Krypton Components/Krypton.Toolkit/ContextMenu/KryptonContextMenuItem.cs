@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonContextMenuItem), "ToolboxBitmaps.KryptonContextMenuItem.bmp")]
-[Designer(typeof(KryptonContextMenuItemDesigner))]
+[Designer("Krypton.Toolkit.KryptonContextMenuItemDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Text))]
@@ -290,7 +290,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase, IKryptonContex
     [DefaultValue(null)]
     [Localizable(true)]
     [Bindable(true)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

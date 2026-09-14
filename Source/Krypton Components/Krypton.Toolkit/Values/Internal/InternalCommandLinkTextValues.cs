@@ -15,7 +15,7 @@ public class InternalCommandLinkTextValues : CaptionValues
     #region Static Fields
     private const string DEFAULT_HEADING = @"Krypton Command Link Button";
     private const string DEFAULT_DESCRIPTION = @"Krypton Command Link Button ""Note Text""";
-    private static readonly Image? DEFAULT_IMAGE = GraphicsExtensions.ScaleImage(GraphicsExtensions.ExtractIcon(Libraries.Shell32, 16805, true)?.ToBitmap(), 32, 32);
+    private static readonly Image DEFAULT_IMAGE = CommandLinkArrowHelper.GetDefaultArrowImage();
     #endregion
 
     #region Instance Fields
@@ -78,7 +78,7 @@ public class InternalCommandLinkTextValues : CaptionValues
             {
                 field = value;
 
-                Image = value && DEFAULT_IMAGE is not null
+                Image = value
                     ? DEFAULT_IMAGE
                     : null;
             }
@@ -86,9 +86,24 @@ public class InternalCommandLinkTextValues : CaptionValues
     }
     public bool ShouldSerializeUseDefaultImage() => !UseDefaultImage;
     public void ResetUseDefaultImage() => UseDefaultImage = true;
+
+    /// <summary>
+    /// Applies the default command-link arrow, mirrored when <paramref name="rightToLeft"/> is true.
+    /// </summary>
+    /// <param name="rightToLeft">True when both RTL layout flags are set on the owning button.</param>
+    public void SyncDefaultArrow(bool rightToLeft)
+    {
+        if (UseDefaultImage)
+        {
+            Image = CommandLinkArrowHelper.GetDefaultArrowImage(rightToLeft: rightToLeft);
+        }
+    }
     #endregion
 
     #region Protected
+
+    /// <inheritdoc />
+    protected override Image? GetImageDefault() => DEFAULT_IMAGE;
 
     /// <inheritdoc />
     protected override string GetDescriptionDefault() => DEFAULT_DESCRIPTION;

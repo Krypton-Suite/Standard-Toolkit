@@ -157,7 +157,7 @@ public class KryptonDropZoneAppearanceValues : Storage
     [Category(@"Layout")]
     [Description(@"Custom image displayed above the drop zone text in Card layout. When null, the default UploadDocument image from DropZoneResources is used at full color. Custom images are tinted using the palette content color when UsePaletteColors is true.")]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? UploadIcon
     {
         get => _uploadIcon;

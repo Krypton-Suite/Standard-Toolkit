@@ -47,6 +47,7 @@ internal class VisualPopupGroup : VisualPopup
         // Remember references needed later
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException(ribbonGroup);
+        RibbonRtlLayout.ApplyTo(this, _ribbon);
 
         // Create a view element for drawing the group
         ViewGroup = new ViewDrawRibbonGroup(ribbon, ribbonGroup, NeedPaintDelegate)

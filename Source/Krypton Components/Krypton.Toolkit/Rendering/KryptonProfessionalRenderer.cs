@@ -45,6 +45,96 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="toolStrip">The ToolStrip being rendered.</param>
     protected void SyncToolStripFont(ToolStrip toolStrip) => ToolStripFontSync.ApplyFromColorTable(toolStrip, KCT);
 
+    /// <summary>
+    /// Paints a drop-down image margin using the color-table
+    /// <see cref="ProfessionalColorTable.ImageMarginGradientBegin"/> /
+    /// Middle / End values so custom palette TMS overrides apply on every theme.
+    /// Non-menu strips fall through to <see cref="ToolStripProfessionalRenderer"/>.
+    /// </summary>
+    /// <param name="e">Render event data.</param>
+    /// <param name="marginInset">Inset applied so the fill sits inside the menu border.</param>
+    protected void RenderImageMarginFromColorTable(ToolStripRenderEventArgs e, int marginInset)
+    {
+        if (e == null)
+        {
+            return;
+        }
+
+        if (e.ToolStrip is not (ContextMenuStrip or ToolStripDropDownMenu))
+        {
+            base.OnRenderImageMargin(e);
+            return;
+        }
+
+        Rectangle marginRect = e.AffectedBounds;
+        var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
+
+        marginRect.Y += marginInset;
+        marginRect.Height -= marginInset * 2;
+
+        if (!rtl)
+        {
+            marginRect.X += marginInset;
+        }
+        else
+        {
+            marginRect.X += marginInset / 2;
+        }
+
+        if (marginRect.Width <= 0 || marginRect.Height <= 0)
+        {
+            return;
+        }
+
+        Color begin = rtl ? KCT.ImageMarginGradientEnd : KCT.ImageMarginGradientBegin;
+        Color middle = KCT.ImageMarginGradientMiddle;
+        Color end = rtl ? KCT.ImageMarginGradientBegin : KCT.ImageMarginGradientEnd;
+        FillImageMargin(e.Graphics, marginRect, begin, middle, end);
+
+        using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
+               darkPen = new Pen(KCT.ContextMenuImageColumnBorder))
+        {
+            if (!rtl)
+            {
+                e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
+                e.Graphics.DrawLine(darkPen, marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
+            }
+            else
+            {
+                e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
+                e.Graphics.DrawLine(darkPen, marginRect.Left, marginRect.Top, marginRect.Left, marginRect.Bottom);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fills a menu image-margin rectangle with a three-stop horizontal gradient.
+    /// </summary>
+    internal static void FillImageMargin(Graphics graphics, Rectangle rect, Color begin, Color middle, Color end)
+    {
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return;
+        }
+
+        if (begin == middle && middle == end)
+        {
+            using var brush = new SolidBrush(begin);
+            graphics.FillRectangle(brush, rect);
+            return;
+        }
+
+        using var gradient = new LinearGradientBrush(rect, begin, end, LinearGradientMode.Horizontal);
+        // TileFlipX is required for InterpolationColors to honour the middle stop.
+        gradient.WrapMode = WrapMode.TileFlipX;
+        gradient.InterpolationColors = new ColorBlend
+        {
+            Colors = new[] { begin, middle, end },
+            Positions = new[] { 0f, 0.5f, 1f }
+        };
+        graphics.FillRectangle(gradient, rect);
+    }
+
     #endregion
 
     #region OnRenderItemText
@@ -101,25 +191,8 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// Raises the RenderImageMargin event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if (e == null)
-        {
-            return;
-        }
-
-        if (IsContextMenuToolStrip(e.ToolStrip))
-        {
-            using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
-            {
-                e.Graphics.FillRectangle(backBrush, e.AffectedBounds);
-            }
-
-            return;
-        }
-
-        base.OnRenderImageMargin(e);
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, 2);
     #endregion
 
     #region OnRenderMenuItemBackground

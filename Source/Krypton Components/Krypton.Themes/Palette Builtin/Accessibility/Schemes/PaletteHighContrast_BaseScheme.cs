@@ -246,7 +246,8 @@ public sealed class PaletteHighContrast_BaseScheme : KryptonColorSchemeBase
     public override Color MenuMarginGradientMiddle          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color MenuMarginGradientEnd             { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color DisabledMenuItemText              { get; set; } = SharedStaticVariables.EMPTY_COLOR;
-    public override Color MenuStripText                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ToolStripText                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTickMarks                 { get; set; } = Color.White;
     public override Color TrackBarTopTrack                  { get; set; } = Color.Black;
     public override Color TrackBarBottomTrack               { get; set; } = Color.White;

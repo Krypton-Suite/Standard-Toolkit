@@ -59,7 +59,7 @@ public class ViewDrawDropDownButton : ViewLeaf
     /// Gets or sets a custom image to render instead of the default arrow glyph.
     /// When null, the renderer-drawn arrow is used.
     /// </summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? CustomGlyph
     {
         get => _customGlyph;

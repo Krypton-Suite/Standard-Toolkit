@@ -17,7 +17,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(ItemClick))]
 [DefaultProperty(nameof(Items))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonMiniToolbarDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonMiniToolbarDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Compact formatting toolbar used with KryptonEnhancedContextMenu or on text selection.")]
 public class KryptonMiniToolbar : Component
 {

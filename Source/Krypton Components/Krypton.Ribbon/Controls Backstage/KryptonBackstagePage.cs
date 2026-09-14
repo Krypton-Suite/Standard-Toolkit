@@ -15,7 +15,7 @@ namespace Krypton.Ribbon;
 [ToolboxItem(false)]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonBackstagePageDesigner))]
+[Designer("Krypton.Ribbon.KryptonBackstagePageDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 public class KryptonBackstagePage : KryptonPanel
@@ -55,7 +55,7 @@ public class KryptonBackstagePage : KryptonPanel
     [Category(@"Backstage")]
     [Description(@"Image used in the backstage navigation list.")]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

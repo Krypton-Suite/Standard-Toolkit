@@ -43,13 +43,17 @@ internal class KryptonRadialMenuControlDesigner : ControlDesigner
         };
 
     /// <inheritdoc />
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
             if (_control == null)
             {
-                return base.AssociatedComponents;
+                return KryptonDesignerSdkCompat.Associated(base.AssociatedComponents);
             }
 
             var list = new ArrayList();
@@ -65,7 +69,7 @@ internal class KryptonRadialMenuControlDesigner : ControlDesigner
                 }
             }
 
-            return list;
+            return KryptonDesignerSdkCompat.Associated(list);
         }
     }
 

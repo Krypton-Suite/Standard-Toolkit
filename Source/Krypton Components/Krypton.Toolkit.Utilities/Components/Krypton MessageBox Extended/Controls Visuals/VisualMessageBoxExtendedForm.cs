@@ -512,7 +512,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             {
                 case ExtendedKryptonMessageBoxIcon.None:
                     // Windows XP and before will Beep, Vista and above do not!
-                    if (GlobalStaticValues.OS_MAJOR_VERSION < 6)
+                    if (SharedStaticVariables.OS_MAJOR_VERSION < 6)
                     {
                         SystemSounds.Beep.Play();
                     }
@@ -576,6 +576,18 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
                 case ExtendedKryptonMessageBoxIcon.SystemApplication:
                     _messageIcon.Image = SystemIcons.Application.ToBitmap();
                     break;
+                case ExtendedKryptonMessageBoxIcon.Custom:
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemHand:
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemQuestion:
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemExclamation:
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemAsterisk:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(icon), icon, null);
             }
         }
         else
@@ -584,7 +596,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             {
                 case ExtendedKryptonMessageBoxIcon.None:
                     // Windows XP and before will Beep, Vista and above do not!
-                    if (GlobalStaticValues.OS_MAJOR_VERSION < 6)
+                    if (SharedStaticVariables.OS_MAJOR_VERSION < 6)
                     {
                         SystemSounds.Beep.Play();
                     }
@@ -719,7 +731,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
                 break;
             case ExtendedKryptonMessageBoxIcon.None:
                 // Windows XP and before will Beep, Vista and above do not!
-                if (GlobalStaticValues.OS_MAJOR_VERSION < 6)
+                if (SharedStaticVariables.OS_MAJOR_VERSION < 6)
                 {
                     SystemSounds.Beep.Play();
                 }
@@ -1409,8 +1421,8 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         // Chrome around the content control (its own margin, the content panel padding and the input control
         // border insets). Without this the control is handed less width than was measured, so the text wraps
         // further than expected and is clipped vertically
-        Size contentChrome = new(contentControl.Margin.Horizontal + kpnlContent.Padding.Horizontal + (GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2),
-            contentControl.Margin.Vertical + kpnlContent.Padding.Vertical + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+        Size contentChrome = new(contentControl.Margin.Horizontal + kpnlContent.Padding.Horizontal + (SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2),
+            contentControl.Margin.Vertical + kpnlContent.Padding.Vertical + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
 
         Size textArea = new(textSize.Width + contentChrome.Width, textSize.Height + contentChrome.Height);
 
@@ -1434,14 +1446,14 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
 
         // Button1 is always visible
         Size button1Size = _button1.GetPreferredSize(Size.Empty);
-        Size maxButtonSize = new(Math.Max(MIN_BUTTON_WIDTH, button1Size.Width) + GlobalStaticValues.GLOBAL_BUTTON_PADDING, button1Size.Height);
+        Size maxButtonSize = new(Math.Max(MIN_BUTTON_WIDTH, button1Size.Width) + SharedStaticConstants.GLOBAL_BUTTON_PADDING, button1Size.Height);
 
         // If Button2 is visible
         if (_button2.Enabled)
         {
             numButtons++;
             Size button2Size = _button2.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button2Size.Height);
         }
 
@@ -1450,7 +1462,7 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         {
             numButtons++;
             Size button3Size = _button3.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button3Size.Height);
         }
         // If Button4 is visible
@@ -1458,55 +1470,55 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
         {
             numButtons++;
             Size button4Size = _button4.GetPreferredSize(Size.Empty);
-            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             maxButtonSize.Height = Math.Max(maxButtonSize.Height, button4Size.Height);
         }
 
         // Start positioning buttons 10 pixels from right edge
-        var right = _panelButtons.Right - GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+        var right = _panelButtons.Right - SharedStaticConstants.GLOBAL_BUTTON_PADDING;
 
         // If Button4 is visible
         if (_button4.Enabled)
         {
-            _button4.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            _button4.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _button4.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // If Button3 is visible
         if (_button3.Enabled)
         {
-            _button3.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            _button3.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _button3.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // If Button2 is visible
         if (_button2.Enabled)
         {
-            _button2.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            _button2.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _button2.Size = maxButtonSize;
-            right -= maxButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
         }
 
         // Button1 is always visible
-        _button1.Location = new Point(right - maxButtonSize.Width, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+        _button1.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
         _button1.Size = maxButtonSize;
 
         // Button area is the number of buttons with GLOBAL_BUTTON_PADDINGs between them and 10 pixels around all edges
-        var buttonsAreaWidth = maxButtonSize.Width * numButtons + GlobalStaticValues.GLOBAL_BUTTON_PADDING * (numButtons + 1);
+        var buttonsAreaWidth = maxButtonSize.Width * numButtons + SharedStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1);
 
         // The optional Copy button is anchored to the left edge, opposite the action buttons
         if (_copyButton.Enabled)
         {
             Size copyPreferredSize = _copyButton.GetPreferredSize(Size.Empty);
-            var copyButtonSize = new Size(Math.Max(maxButtonSize.Width, copyPreferredSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING), maxButtonSize.Height);
+            var copyButtonSize = new Size(Math.Max(maxButtonSize.Width, copyPreferredSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING), maxButtonSize.Height);
 
-            _copyButton.Location = new Point(GlobalStaticValues.GLOBAL_BUTTON_PADDING, GlobalStaticValues.GLOBAL_BUTTON_PADDING);
+            _copyButton.Location = new Point(SharedStaticConstants.GLOBAL_BUTTON_PADDING, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
             _copyButton.Size = copyButtonSize;
 
             // Widen the area so the Copy button never overlaps the action buttons
-            buttonsAreaWidth += copyButtonSize.Width + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2;
+            buttonsAreaWidth += copyButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2;
         }
 
         buttonsAreaWidth = MessageBoxExtendedDoNotShowAgain.LayoutInButtonBar(
@@ -1514,14 +1526,14 @@ public partial class VisualMessageBoxExtendedForm : KryptonForm
             _showOptionalCheckBox,
             _copyButton,
             _copyButton.Enabled,
-            GlobalStaticValues.GLOBAL_BUTTON_PADDING,
+            SharedStaticConstants.GLOBAL_BUTTON_PADDING,
             maxButtonSize.Height,
             buttonsAreaWidth);
 
         // Size the panel for the buttons
-        _panelButtons.Size = new Size(buttonsAreaWidth, maxButtonSize.Height + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2);
+        _panelButtons.Size = new Size(buttonsAreaWidth, maxButtonSize.Height + SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2);
 
-        return new Size(buttonsAreaWidth, maxButtonSize.Height + GlobalStaticValues.GLOBAL_BUTTON_PADDING * 2);
+        return new Size(buttonsAreaWidth, maxButtonSize.Height + SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2);
     }
 
     private void AnyKeyDown(object sender, KeyEventArgs e)

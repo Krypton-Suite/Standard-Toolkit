@@ -27,7 +27,7 @@ namespace Krypton.Navigator.Utilities;
 /// </remarks>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonNavigator))]
-[Designer(typeof(KryptonTabbedMdiManagerDesigner))]
+[Designer("Krypton.Navigator.Utilities.KryptonTabbedMdiManagerDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DefaultProperty(nameof(ParentForm))]
 [Description(@"Converts MDI child windows into a tabbed interface.")]
 public class KryptonTabbedMdiManager : Component

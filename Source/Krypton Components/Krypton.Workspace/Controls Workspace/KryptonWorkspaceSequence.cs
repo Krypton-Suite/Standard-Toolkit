@@ -18,7 +18,7 @@ namespace Krypton.Workspace;
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonWorkspaceSequence), "ToolboxBitmaps.KryptonWorkspaceSequence.bmp")]
 [TypeConverter(typeof(KryptonWorkspaceSequenceConverter))]
-[Designer(typeof(KryptonWorkspaceSequenceDesigner))]
+[Designer("Krypton.Workspace.KryptonWorkspaceSequenceDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignTimeVisible(false)]
 [DesignerCategory(@"code")]
 [DefaultProperty(nameof(Children))]

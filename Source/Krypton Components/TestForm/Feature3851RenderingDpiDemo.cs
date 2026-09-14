@@ -12,11 +12,12 @@ using Krypton.Ribbon;
 namespace TestForm;
 
 /// <summary>
-/// Interactive demo for issue #3851 (rendering, DPI and performance) and issue #4254 (QAT extra button DPI).
+/// Interactive demo for issue #3851 (rendering, DPI and performance), issue #4253 (overflow chevron metrics),
+/// and issue #4254 (QAT extra button DPI).
 /// <list type="bullet">
-/// <item>4.1 / 4.2 - the ribbon Quick Access Toolbar overflow / context-arrow glyph is exercised across
-/// every ribbon shape (theme) so it can be eyeballed at 100%, 150% and 200% DPI.</item>
-/// <item>#4254 - the overflow/customize extra button size and glyph padding scale at layout/paint time
+/// <item>4.1 / #4253 - overflow chevron geometry comes from per-theme layout metrics and is DPI-scaled;
+/// switch Office 2007 (two-tone) vs Office 2010 / OSX / macOS (unified colour) at 100%, 150% and 200% DPI.</item>
+/// <item>4.2 / #4254 - the overflow/customize extra button size and glyph padding scale at layout/paint time
 /// for QAT Above (caption mini button) and QAT Below (full bar).</item>
 /// <item>4.4 - the multiline editor button now lives in an internal fixed collection, so it never appears
 /// in the public <see cref="KryptonTextBox.ButtonSpecs"/> collection (the count stays at zero).</item>
@@ -53,7 +54,10 @@ public partial class Feature3851RenderingDpiDemo : KryptonForm
             LabelStyle = LabelStyle.NormalPanel,
             Text = "Switch themes to change the ribbon shape and watch the Quick Access Toolbar overflow / "
                  + "context-arrow glyph (top-left of the ribbon). Re-open this form on monitors at 100%, 125%, "
-                 + "150% and 200% scaling to confirm the glyph stays aligned (issue #3851, points 4.1/4.2).\r\n\r\n"
+                 + "150% and 200% scaling to confirm the glyph stays aligned (issues #3851 / #4253).\r\n\r\n"
+                 + "Issue #4253: overflow chevrons use per-theme layout metrics. Compare Office 2007 (two-tone "
+                 + "dark/light chevrons) with Office 2010, OSX Aqua, or macOS (unified colour). The chevrons "
+                 + "must stay inside the extra button at every DPI.\r\n\r\n"
                  + "Issue #4254: the extra button itself (preferred size and glyph padding) now scales at layout "
                  + "and paint time. Toggle QAT Above (caption mini button) and QAT Below (full bar) and confirm "
                  + "the overflow chevrons / customize arrow sit inside the extra button, not clipped or floating.\r\n\r\n"

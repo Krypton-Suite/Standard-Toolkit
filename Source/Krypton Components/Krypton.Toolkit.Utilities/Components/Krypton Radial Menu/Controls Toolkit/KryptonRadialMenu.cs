@@ -18,7 +18,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(Opening))]
 [DefaultProperty(nameof(Values))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonRadialMenuDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonRadialMenuDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Displays a radial shortcut menu in a popup window.")]
 public class KryptonRadialMenu : Component, IRadialMenuAppearance
 {
@@ -110,7 +110,8 @@ public class KryptonRadialMenu : Component, IRadialMenuAppearance
 
         // Prefixed StateShadow### backs; default common colour is black (historical shadow ramp).
         _stateShadowRedirect = new PaletteBackInheritRedirect(_paletteRedirect, PaletteBackStyle.ControlClient);
-        StateShadowCommon = new PaletteBack(_stateShadowRedirect, OnNeedPaint) { Color1 = Color.Black };
+        StateShadowCommon = new PaletteBack(_stateShadowRedirect, OnNeedPaint);
+        StateShadowCommon.SetFactoryColor1(Color.Black);
         StateShadowDisabled = new PaletteBack(StateShadowCommon, OnNeedPaint);
         StateShadowNormal = new PaletteBack(StateShadowCommon, OnNeedPaint);
         StateShadowTracking = new PaletteBack(StateShadowCommon, OnNeedPaint);

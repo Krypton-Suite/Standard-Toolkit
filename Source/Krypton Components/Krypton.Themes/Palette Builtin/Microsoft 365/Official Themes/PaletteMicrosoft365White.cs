@@ -326,7 +326,7 @@ public class PaletteMicrosoft365White : PaletteMicrosoft365Base
     /// Gets access to the color table instance.
     /// </summary>
     public override KryptonColorTable ColorTable =>
-        Table ??= new KryptonColorTable365White(BaseColors!.ToArray(), InheritBool.True, this);
+        Table ??= new KryptonColorTable365White(SchemeColors, InheritBool.True, this);
 
     #endregion
 

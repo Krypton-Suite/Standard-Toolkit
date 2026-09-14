@@ -21,6 +21,7 @@ namespace TestForm;
 ///   - Visible / Enabled property toggling per button
 ///   - Attaching and detaching the entire TitleBar component
 ///   - Theme switching and RTL layout
+///   - Optional <see cref="KryptonMenuStrip"/> bind into the caption (File/Edit)
 ///   - Event logging (Click, ButtonSpecInserted, ButtonSpecRemoved)
 /// </summary>
 public partial class KryptonFormTitleBarDemo : KryptonForm
@@ -29,6 +30,7 @@ public partial class KryptonFormTitleBarDemo : KryptonForm
 
     private readonly KryptonFormTitleBar _titleBar;
     private readonly KryptonCommand _saveCommand;
+    private readonly KryptonMenuStrip _sourceMenuStrip;
 
     // Individual specs kept as fields for per-button control
     private ButtonSpecAny? _specHome;
@@ -45,6 +47,7 @@ public partial class KryptonFormTitleBarDemo : KryptonForm
         InitializeComponent();
 
         _titleBar = new KryptonFormTitleBar();
+        _sourceMenuStrip = new KryptonMenuStrip();
         _saveCommand = new KryptonCommand
         {
             Text = "Save",
@@ -54,9 +57,10 @@ public partial class KryptonFormTitleBarDemo : KryptonForm
 
         WireEvents();
         BuildInitialTitleBarButtons();
+        BuildSourceMenuStrip();
 
         TitleBar = _titleBar;
-        LogEvent("Demo started — KryptonFormTitleBar attached.");
+        LogEvent("Demo started — KryptonFormTitleBar attached. Use “Bind MenuStrip” to show File/Edit in the caption.");
     }
 
     #endregion
@@ -128,6 +132,61 @@ public partial class KryptonFormTitleBarDemo : KryptonForm
         };
 
         _titleBar.ButtonSpecs.AddRange([_specHome, _specSave, _specPin, _specDrop]);
+    }
+
+    private void BuildSourceMenuStrip()
+    {
+        var fileNew = new ToolStripMenuItem("&New");
+        fileNew.ShortcutKeys = Keys.Control | Keys.N;
+        fileNew.Click += (_, _) => LogEvent("MenuStrip File → New (PerformClick forwarded from caption).");
+        var fileExit = new ToolStripMenuItem("E&xit");
+        fileExit.Click += (_, _) => LogEvent("MenuStrip File → Exit.");
+        var file = new ToolStripMenuItem("&File");
+        file.DropDownItems.AddRange([fileNew, new ToolStripSeparator(), fileExit]);
+
+        var editCopy = new ToolStripMenuItem("&Copy");
+        editCopy.Click += (_, _) => LogEvent("MenuStrip Edit → Copy.");
+        var edit = new ToolStripMenuItem("&Edit");
+        edit.DropDownItems.Add(editCopy);
+
+        _sourceMenuStrip.Items.AddRange([file, edit]);
+        _sourceMenuStrip.Dock = DockStyle.Top;
+        Controls.Add(_sourceMenuStrip);
+        _sourceMenuStrip.BringToFront();
+
+        var bindButton = new KryptonButton();
+        bindButton.Dock = DockStyle.Fill;
+        bindButton.Values.Text = "Bind MenuStrip";
+        bindButton.ToolTipValues.EnableToolTips = true;
+        bindButton.ToolTipValues.Heading = "Bind MenuStrip";
+        bindButton.ToolTipValues.Description =
+            "Assigns the KryptonMenuStrip to TitleBar.MenuStrip. The strip hides; File/Edit appear in the caption. Clicks still hit the original items.";
+        bindButton.Click += OnBindMenuStripClicked;
+        kryptonTableLayoutPanel1.Controls.Add(bindButton, 2, 4);
+    }
+
+    private void OnBindMenuStripClicked(object? sender, EventArgs e)
+    {
+        if (ReferenceEquals(_titleBar.MenuStrip, _sourceMenuStrip))
+        {
+            _titleBar.MenuStrip = null;
+            if (sender is KryptonButton button)
+            {
+                button.Values.Text = "Bind MenuStrip";
+            }
+
+            LogEvent("TitleBar.MenuStrip cleared — File/Edit returned to the client MenuStrip.");
+            return;
+        }
+
+        _titleBar.HideSourceMenuStrip = true;
+        _titleBar.MenuStrip = _sourceMenuStrip;
+        if (sender is KryptonButton buttonBind)
+        {
+            buttonBind.Values.Text = "Unbind MenuStrip";
+        }
+
+        LogEvent("TitleBar.MenuStrip bound — File/Edit in the caption; strip hidden. Ctrl+N still reaches File → New.");
     }
 
     #endregion

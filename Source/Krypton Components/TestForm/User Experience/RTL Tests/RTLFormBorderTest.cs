@@ -9,27 +9,83 @@
 
 namespace TestForm;
 
+/// <summary>
+/// Issue #2103: KryptonForm RightToLeft / RightToLeftLayout caption chrome vs native Form.
+/// </summary>
 public partial class RTLFormBorderTest : KryptonForm
 {
+    private const int ModeLeftToRight = 0;
+    private const int ModeRightToLeftOnly = 1;
+    private const int ModeRightToLeftLayout = 2;
+
     public RTLFormBorderTest()
     {
         InitializeComponent();
-
-        kchkbtnSwitchLayout.Checked = true;
+        kcmbRtlMode.SelectedIndex = ModeRightToLeftLayout;
+        ApplySelectedMode();
     }
 
     private void kchkbtnSwitchLayout_Click(object sender, EventArgs e)
     {
-        if (kchkbtnSwitchLayout.Checked)
-        {
-            RightToLeftLayout = true;
+        kcmbRtlMode.SelectedIndex = kchkbtnSwitchLayout.Checked
+            ? ModeRightToLeftLayout
+            : ModeLeftToRight;
+        ApplySelectedMode();
+    }
 
-            RightToLeft = RightToLeft.Yes;
-        }
-        else
+    private void kcmbRtlMode_SelectedIndexChanged(object sender, EventArgs e) => ApplySelectedMode();
+
+    private void kbtnOpenNativeForm_Click(object sender, EventArgs e)
+    {
+        var native = new Form
         {
-            RightToLeftLayout = false;
-            RightToLeft = RightToLeft.No;
+            Text = Text,
+            Size = Size,
+            StartPosition = FormStartPosition.CenterParent,
+            FormBorderStyle = FormBorderStyle.Sizable,
+            RightToLeft = RightToLeft,
+            RightToLeftLayout = RightToLeftLayout
+        };
+        native.Controls.Add(new Label
+        {
+            AutoSize = false,
+            Dock = DockStyle.Fill,
+            Padding = new Padding(12),
+            Text = "Native Form with the same RightToLeft / RightToLeftLayout. Compare caption glyphs, min/max/close side, and left/right resize."
+        });
+        native.Show(this);
+    }
+
+    private void ApplySelectedMode()
+    {
+        int index = kcmbRtlMode.SelectedIndex;
+        if (index < 0)
+        {
+            return;
         }
+
+        switch (index)
+        {
+            case ModeRightToLeftOnly:
+                RightToLeft = RightToLeft.Yes;
+                RightToLeftLayout = false;
+                break;
+            case ModeRightToLeftLayout:
+                RightToLeft = RightToLeft.Yes;
+                RightToLeftLayout = true;
+                break;
+            default:
+                RightToLeft = RightToLeft.No;
+                RightToLeftLayout = false;
+                break;
+        }
+
+        kchkbtnSwitchLayout.Checked = RightToLeftLayout;
+    }
+
+    private void knudCaptionIconPadding_ValueChanged(object sender, EventArgs e)
+    {
+        int extra = (int)knudCaptionIconPadding.Value;
+        CaptionIconPadding = new Padding(extra);
     }
 }

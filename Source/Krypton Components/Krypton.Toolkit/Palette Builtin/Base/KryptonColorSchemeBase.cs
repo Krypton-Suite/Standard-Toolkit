@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -249,6 +249,7 @@ public abstract class KryptonColorSchemeBase
     public abstract Color MenuMarginGradientEnd            { get; set; }
     public abstract Color DisabledMenuItemText             { get; set; }
     public abstract Color MenuStripText                    { get; set; }
+    public abstract Color ToolStripText                    { get; set; }
     public abstract Color TrackBarTickMarks                { get; set; }
     public abstract Color TrackBarTopTrack                 { get; set; }
     public abstract Color TrackBarBottomTrack              { get; set; }

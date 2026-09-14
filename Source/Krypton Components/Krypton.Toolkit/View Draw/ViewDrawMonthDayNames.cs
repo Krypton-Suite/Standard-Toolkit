@@ -114,30 +114,26 @@ public class ViewDrawMonthDayNames : ViewLeaf,
         // Content palette depends on enabled state of the control
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        // Calculate starting X position based on RTL
+        // Pack from the start edge only. Do not also reverse the day index — that cancelled
+        // RTL and left Mon–Sun looking like LTR.
         int startX = isRtl
             ? ClientRectangle.Right - _months.SizeDays.Width
             : ClientLocation.X;
 
-        // Layout the 7 day names (in RTL, reverse the order)
         var layoutRect = new Rectangle(startX, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
         for (int i = 0; i < 7; i++)
         {
-            // Calculate actual day index based on RTL
-            int actualIndex = isRtl ? (6 - i) : i;
-            int day = ((int)_months.DisplayDayOfWeek + actualIndex) % 7;
+            int day = ((int)_months.DisplayDayOfWeek + i) % 7;
 
             // Define text to be drawn
             _drawText = _months.DayNames![day];
 
-            _dayMementos[actualIndex]?.Dispose();
+            _dayMementos[i]?.Dispose();
 
-            _dayMementos[actualIndex] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this,
+            _dayMementos[i] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this,
                 VisualOrientation.Top, state);
 
-            // Move across to next day (in RTL, move backwards)
-            int step = CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
-            layoutRect.X += step;
+            layoutRect.X += CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
         }
 
         // Put back the original display value now we have finished
@@ -193,25 +189,17 @@ public class ViewDrawMonthDayNames : ViewLeaf,
             ? ClientRectangle.Right - _months.SizeDays.Width
             : ClientLocation.X;
 
-        // Draw the 7 day names (in RTL, reverse the order)
         var drawRect = new Rectangle(startX, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
         for (int i = 0; i < 7; i++)
         {
-            // Calculate actual day index based on RTL
-            int actualIndex = isRtl ? (6 - i) : i;
-            int day = ((int)_months.DisplayDayOfWeek + actualIndex) % 7;
-
-            // Draw using memento cached from the layout call
-            if (_dayMementos[actualIndex] != null)
+            if (_dayMementos[i] != null)
             {
                 context?.Renderer.RenderStandardContent.DrawContent(context, drawRect,
-                    _calendar.StateNormal.DayOfWeek.Content, _dayMementos[actualIndex]!,
+                    _calendar.StateNormal.DayOfWeek.Content, _dayMementos[i]!,
                     VisualOrientation.Top, state, true);
             }
 
-            // Move across to next day (in RTL, move backwards)
-            int step = CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
-            drawRect.X += step;
+            drawRect.X += CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
         }
     }
     #endregion

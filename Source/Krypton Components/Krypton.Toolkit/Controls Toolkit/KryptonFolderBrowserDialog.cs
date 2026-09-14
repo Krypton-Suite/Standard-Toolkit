@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 ///  'File Browser dialog' from which the user can select a Directory.
 /// </summary>
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonFolderBrowserDialogDesigner))]
+[Designer("Krypton.Toolkit.KryptonFolderBrowserDialogDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description("Displays a Kryptonised version of the standard 'File Browser dialog' from which the user can select a Directory.")]
 [ToolboxBitmap(typeof(FolderBrowserDialog), @"ToolboxBitmaps.KryptonFolderBrowserDialog.bmp")]
 [ToolboxItem(true)]
@@ -71,7 +71,7 @@ public class KryptonFolderBrowserDialog : ShellDialogWrapper, IDisposable
         /// </summary>
         [Category(@"FolderBrowsing")]
         [DefaultValue("")]
-        [Editor(typeof(KryptonInitialDirectoryEditor), typeof(UITypeEditor))]
+        [Editor(KryptonWinFormsDesignerSdk.InitialDirectoryEditor, typeof(UITypeEditor))]
         [Description(@"Gets or sets the initial directory displayed by the folder browser dialog")]
         [AllowNull]
         public string InitialDirectory

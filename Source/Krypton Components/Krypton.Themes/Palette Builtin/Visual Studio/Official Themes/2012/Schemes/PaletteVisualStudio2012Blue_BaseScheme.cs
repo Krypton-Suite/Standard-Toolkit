@@ -256,7 +256,8 @@ public sealed class PaletteVisualStudio2012Blue_BaseScheme : KryptonColorSchemeB
     public override Color MenuMarginGradientMiddle         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color MenuMarginGradientEnd            { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color DisabledMenuItemText             { get; set; } = SharedStaticVariables.EMPTY_COLOR;
-    public override Color MenuStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ToolStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTickMarks                { get; set; } = Color.FromArgb(100, 100, 100);
     public override Color TrackBarTopTrack                 { get; set; } = Color.FromArgb(204, 206, 219);
     public override Color TrackBarBottomTrack              { get; set; } = Color.FromArgb(238, 238, 238);

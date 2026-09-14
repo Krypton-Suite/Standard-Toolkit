@@ -24,6 +24,7 @@ public class PaletteInputControlContentStates : Storage,
     private Color _color1;
     internal Padding _padding;
     internal PaletteRelativeAlign _shortTextH;
+    private PaletteRelativeAlign _defaultTextH;
 
     #endregion
 
@@ -48,6 +49,7 @@ public class PaletteInputControlContentStates : Storage,
         _font = null;
         _color1 = SharedStaticVariables.EMPTY_COLOR;
         _padding = CommonHelper.InheritPadding;
+        _defaultTextH = PaletteRelativeAlign.Inherit;
         _shortTextH = PaletteRelativeAlign.Inherit;
     }
     #endregion
@@ -224,16 +226,27 @@ public class PaletteInputControlContentStates : Storage,
         }
     }
 
-    private bool ShouldSerializeTextH() => _shortTextH != PaletteRelativeAlign.Inherit;
+    /// <summary>
+    /// Sets the designer default for <see cref="TextH"/> and applies it.
+    /// </summary>
+    /// <param name="value">Alignment treated as the unset/default value.</param>
+    internal void SetDefaultTextH(PaletteRelativeAlign value)
+    {
+        _defaultTextH = value;
+        _shortTextH = value;
+    }
 
-    private void ResetTextH() => _shortTextH = PaletteRelativeAlign.Inherit;
+    private bool ShouldSerializeTextH() => _shortTextH != _defaultTextH;
+
+    private void ResetTextH() => _shortTextH = _defaultTextH;
 
     /// <summary>
     /// Gets the actual content short text horizontal alignment value.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>RelativeAlignment value.</returns>
-    public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) => ShouldSerializeTextH() ? _shortTextH : Inherit.GetContentShortTextH(state);
+    public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) =>
+        _shortTextH != PaletteRelativeAlign.Inherit ? _shortTextH : Inherit.GetContentShortTextH(state);
 
     /// <summary>
     /// Gets the actual content short text vertical alignment value.

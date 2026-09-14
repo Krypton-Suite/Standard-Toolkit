@@ -15,7 +15,7 @@ namespace Krypton.Ribbon;
 [ToolboxItem(true)]
 [DefaultEvent(nameof(SelectedPageChanged))]
 [DefaultProperty(nameof(Pages))]
-[Designer(typeof(KryptonBackstageViewDesigner))]
+[Designer("Krypton.Ribbon.KryptonBackstageViewDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Office 2010-style Backstage view surface for use with KryptonRibbon File tab.")]
 public class KryptonBackstageView : KryptonPanel

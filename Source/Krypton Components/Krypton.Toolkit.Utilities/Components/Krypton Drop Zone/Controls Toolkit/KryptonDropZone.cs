@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -494,8 +494,8 @@ public class KryptonDropZone : KryptonPanel
         }
         else
         {
-            StateCommon.Color1 = Color.WhiteSmoke;
-            StateCommon.Color2 = Color.WhiteSmoke;
+            StateCommon.SetFactoryColor1(Color.WhiteSmoke);
+            StateCommon.SetFactoryColor2(Color.WhiteSmoke);
             if (!_outerBorderPaintAttached)
             {
                 Paint += OnOuterBorderPaint;

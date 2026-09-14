@@ -87,12 +87,16 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
             // Create a new collection for both values
-            var compound = new ArrayList(base.AssociatedComponents);
+            var compound = KryptonDesignerSdkCompat.ToArrayList(base.AssociatedComponents);
 
             compound.AddRange(_ribbon!.ButtonSpecs);
             compound.AddRange(_ribbon.QATButtons);
@@ -107,7 +111,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 compound.Add(ribbonTab);
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 

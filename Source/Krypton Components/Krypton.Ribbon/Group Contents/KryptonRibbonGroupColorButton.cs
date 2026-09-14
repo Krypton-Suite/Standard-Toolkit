@@ -19,7 +19,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupColorButton), "ToolboxBitmaps.KryptonRibbonGroupColorButton.bmp")]
-[Designer(typeof(KryptonRibbonGroupColorButtonDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupColorButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultEvent(nameof(SelectedColorChanged))]
@@ -330,7 +330,7 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
     [Category(@"Appearance")]
     [Description(@"Small color button image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _imageSmall;
@@ -355,7 +355,7 @@ public class KryptonRibbonGroupColorButton : KryptonRibbonGroupItem
     [Category(@"Appearance")]
     [Description(@"Large color button image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;

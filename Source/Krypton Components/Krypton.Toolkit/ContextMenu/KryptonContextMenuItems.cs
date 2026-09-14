@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonContextMenuItems), "ToolboxBitmaps.KryptonContextMenuItems.bmp")]
-[Designer(typeof(KryptonContextMenuItemsDesigner))]
+[Designer("Krypton.Toolkit.KryptonContextMenuItemsDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Items))]

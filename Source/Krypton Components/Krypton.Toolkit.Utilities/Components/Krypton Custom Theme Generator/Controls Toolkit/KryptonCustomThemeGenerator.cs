@@ -33,8 +33,29 @@ public static class KryptonCustomThemeGenerator
 
     /// <summary>
     /// Gets the builtin donor modes supported by the generator.
+    /// Dark donors require <c>Krypton.Themes</c>; use <see cref="AvailableDonorModes"/> for modes that can be created now.
     /// </summary>
     public static IReadOnlyList<PaletteMode> SupportedDonorModes => _supportedDonors;
+
+    /// <summary>
+    /// Gets supported donors that are registered in the theme catalog (core always; dark extras when Themes is loaded).
+    /// </summary>
+    public static IReadOnlyList<PaletteMode> AvailableDonorModes
+    {
+        get
+        {
+            var available = new List<PaletteMode>(_supportedDonors.Length);
+            for (int i = 0; i < _supportedDonors.Length; i++)
+            {
+                if (IsAvailableDonor(_supportedDonors[i]))
+                {
+                    available.Add(_supportedDonors[i]);
+                }
+            }
+
+            return available;
+        }
+    }
 
     /// <summary>
     /// Returns whether <paramref name="mode"/> can be used as a donor.
@@ -53,6 +74,14 @@ public static class KryptonCustomThemeGenerator
 
         return false;
     }
+
+    /// <summary>
+    /// Returns whether <paramref name="mode"/> is a supported donor and currently registered in the catalog.
+    /// </summary>
+    /// <param name="mode">Palette mode to test.</param>
+    /// <returns><c>true</c> when a throwaway donor palette can be created.</returns>
+    public static bool IsAvailableDonor(PaletteMode mode) =>
+        IsSupportedDonor(mode) && KryptonThemeCatalog.TryGetDescriptor(mode, out _);
 
     /// <summary>
     /// Returns a short display name for a supported donor mode.
@@ -94,7 +123,14 @@ public static class KryptonCustomThemeGenerator
     {
         lock (_randomLock)
         {
-            PaletteMode donorMode = _supportedDonors[_random.Next(_supportedDonors.Length)];
+            // Prefer catalog-registered donors so dark extras are skipped when Krypton.Themes is absent.
+            IReadOnlyList<PaletteMode> donors = AvailableDonorModes;
+            if (donors.Count == 0)
+            {
+                donors = new[] { PaletteMode.Office2010Blue, PaletteMode.Microsoft365Blue };
+            }
+
+            PaletteMode donorMode = donors[_random.Next(donors.Count)];
             bool dark = IsDarkDonor(donorMode);
 
             float hue = NextFloat(0f, 360f);
@@ -137,11 +173,20 @@ public static class KryptonCustomThemeGenerator
             ThrowHelper.ThrowArgumentException(@"A hexadecimal, RGB, or named colour is required.", nameof(primaryHex));
         }
 
-        return Create(new KryptonCustomThemeSeed
+        try
         {
-            Name = name,
-            Primary = primary
-        });
+            return Create(new KryptonCustomThemeSeed
+            {
+                Name = name,
+                Primary = primary
+            });
+        }
+        catch (Exception ex)
+        {
+            KryptonExceptionHandler.CaptureException(ex);
+
+            return new KryptonCustomPaletteBase();
+        }
     }
 
     /// <summary>
@@ -172,32 +217,47 @@ public static class KryptonCustomThemeGenerator
     {
         ThrowHelper.ThrowIfNull(seed);
 
-        if (string.IsNullOrWhiteSpace(seed.Name))
+        try
         {
-            ThrowHelper.ThrowArgumentException(@"A theme display name is required.", nameof(seed));
+            if (string.IsNullOrWhiteSpace(seed.Name))
+            {
+                ThrowHelper.ThrowArgumentException(@"A theme display name is required.", nameof(seed));
+            }
+
+            if (!IsSupportedDonor(seed.DonorMode))
+            {
+                ThrowHelper.ThrowArgumentException(
+                    @"DonorMode must be Office2010Blue, Office2010BlueDarkMode, Microsoft365Blue, or Microsoft365BlackDarkMode.",
+                    nameof(seed));
+            }
+
+            if (!IsAvailableDonor(seed.DonorMode))
+            {
+                ThrowHelper.ThrowArgumentException(
+                    @"Donor palette is not registered. Extra dark donors require Krypton.Themes beside the app (or use Office2010Blue / Microsoft365Blue).",
+                    nameof(seed));
+            }
+
+            bool dark = IsDarkDonor(seed.DonorMode);
+            CustomThemeAccentSet accents = CustomThemeSchemeRemapper.BuildAccents(seed, dark);
+            PaletteBase throwaway = CreateThrowawayPalette(seed.DonorMode);
+            KryptonColorSchemeBase remapped = CustomThemeSchemeRemapper.Remap(CopyDonorScheme(throwaway), accents);
+            throwaway.ApplyScheme(remapped);
+
+            var custom = new KryptonCustomPaletteBase
+            {
+                BasePalette = throwaway
+            };
+            custom.PopulateFromBase(silent: true);
+            custom.SetPaletteName(seed.Name);
+            PatchInteractiveButtonColors(custom, accents);
+            return custom;
         }
-
-        if (!IsSupportedDonor(seed.DonorMode))
+        catch (Exception ex)
         {
-            ThrowHelper.ThrowArgumentException(
-                @"DonorMode must be Office2010Blue, Office2010BlueDarkMode, Microsoft365Blue, or Microsoft365BlackDarkMode.",
-                nameof(seed));
+            KryptonExceptionHandler.CaptureException(ex);
+            return new KryptonCustomPaletteBase();
         }
-
-        bool dark = IsDarkDonor(seed.DonorMode);
-        CustomThemeAccentSet accents = CustomThemeSchemeRemapper.BuildAccents(seed, dark);
-        PaletteBase throwaway = CreateThrowawayPalette(seed.DonorMode);
-        KryptonColorSchemeBase remapped = CustomThemeSchemeRemapper.Remap(CopyDonorScheme(throwaway), accents);
-        throwaway.ApplyScheme(remapped);
-
-        var custom = new KryptonCustomPaletteBase
-        {
-            BasePalette = throwaway
-        };
-        custom.PopulateFromBase(silent: true);
-        custom.SetPaletteName(seed.Name);
-        PatchInteractiveButtonColors(custom, accents);
-        return custom;
     }
 
     /// <summary>
@@ -220,11 +280,12 @@ public static class KryptonCustomThemeGenerator
     }
 
     /// <summary>
-    /// Exports <paramref name="palette"/> to a Krypton palette XML file.
+    /// Exports <paramref name="palette"/> to a Krypton palette file (<c>.kthemex</c> XML or optional native <c>.ktheme</c>).
     /// </summary>
     /// <param name="palette">Palette to export. Cannot be null.</param>
     /// <param name="filePath">Destination path. Cannot be empty.</param>
     /// <param name="ignoreDefaults">When <c>true</c>, omits properties that match base defaults.</param>
+    // ToDo V120 LTS: Stop writing .xml from the theme generator; destinations should be .kthemex or .ktheme.
     public static void Export(KryptonCustomPaletteBase palette, string filePath, bool ignoreDefaults = true)
     {
         ThrowHelper.ThrowIfNull(palette);

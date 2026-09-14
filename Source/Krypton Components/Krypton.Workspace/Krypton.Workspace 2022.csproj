@@ -28,7 +28,7 @@
 
   <PropertyGroup>
     <PackageId>Krypton.Workspace</PackageId>
-    <Description>This is the workspace module.</Description>
+    <Description>Krypton Workspace for WinForms: customisable multi-cell document area with drag-and-drop page layout. Each cell hosts a Krypton Navigator so pages can be split, tabbed, and rearranged by the user.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -56,6 +56,16 @@
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+    <Compile Remove="Workspace\KryptonWorkspaceDesigner.cs" />
+    <Compile Remove="Workspace\KryptonWorkspaceSequenceDesigner.cs" />
+    <Compile Remove="Workspace\KryptonWorkspaceCellDesigner.cs" />
+    <Compile Remove="Workspace\KryptonWorkspaceActionList.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Workspace.Design</KryptonWinFormsDesignerSdkDesignAssembly>
+  </PropertyGroup>
+  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
   <ItemGroup>
     <Compile Remove="Palette Demo\WorkspacePageMenuBase.cs" />
     <Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />

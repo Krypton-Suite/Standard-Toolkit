@@ -235,8 +235,20 @@ public class VisualPopupToolTip : VisualPopup
     /// <param name="position">Placement resolved from tooltip settings.</param>
     public void ShowRelativeTo([DisallowNull] Control placementControl, Point screenMousePosition,
         [DisallowNull] PopupPositionValues position) =>
+        ShowRelativeTo(placementControl, screenMousePosition, position, placementControl.ClientRectangle);
+
+    /// <summary>
+    /// Positions the tooltip using <paramref name="position"/>, with <paramref name="fallbackPlacementRectInOwningClient"/>
+    /// as the target when <see cref="PopupPositionValues.PlacementRectangle"/> is empty.
+    /// </summary>
+    /// <param name="placementControl">Hovered control used to convert client placement to screen coordinates.</param>
+    /// <param name="screenMousePosition">Screen-space cursor position.</param>
+    /// <param name="position">Placement resolved from tooltip settings.</param>
+    /// <param name="fallbackPlacementRectInOwningClient">Rectangle in <paramref name="placementControl"/> client coordinates (for example a <see cref="ListViewItem"/> bounds).</param>
+    public void ShowRelativeTo([DisallowNull] Control placementControl, Point screenMousePosition,
+        [DisallowNull] PopupPositionValues position, Rectangle fallbackPlacementRectInOwningClient) =>
         ApplyPlacementAndShow(screenMousePosition, position, placementControl,
-            placementControl.ClientRectangle);
+            fallbackPlacementRectInOwningClient);
 
     /// <summary>
     /// Shared placement aligned with WPF Popup behaviour (same rules as <see cref="ShowRelativeTo(ViewBase, Point)"/>).
@@ -265,7 +277,7 @@ public class VisualPopupToolTip : VisualPopup
                 positionPlacementRectangle = cursorBounds;
                 break;
             default:
-                // The screen, or PlacementRectangle if it is set. The PlacementRectangle is relative to the screen.
+                // PlacementRectangle is screen coordinates when set; otherwise the placement target / fallback control.
                 if (positionPlacementRectangle.IsEmpty)
                 {
                     Control? ctrl = position.PlacementTarget?.OwningControl ?? fallbackOwningControl;
@@ -278,10 +290,6 @@ public class VisualPopupToolTip : VisualPopup
                     {
                         positionPlacementRectangle = cursorBounds;
                     }
-                }
-                else
-                {
-                    positionPlacementRectangle = Screen.GetWorkingArea(controlMousePosition);
                 }
                 break;
         }

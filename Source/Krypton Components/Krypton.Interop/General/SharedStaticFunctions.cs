@@ -9,9 +9,13 @@
 
 namespace Krypton.Interop;
 
+/// <summary>
+/// A static class that contains shared functions for the Krypton Toolkit.
+/// </summary>
 public class SharedStaticFunctions
 {
     #region Methods
+
     /// <summary>
     /// Helper method that returns a generic message when a variable is null.
     /// </summary>

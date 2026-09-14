@@ -718,6 +718,135 @@ public abstract class VisualForm : Form,
 		}
 	}
 
+	/// <summary>
+	/// Caption and 3D-edge styles that an MDI client may force onto a child even when
+	/// <see cref="Form.FormBorderStyle"/> is <see cref="FormBorderStyle.None"/>.
+	/// </summary>
+	private const uint SystemCaptionStyleBits = PI.WS_.CAPTION | PI.WS_.SIZEFRAME | PI.WS_.DLGFRAME | PI.WS_.BORDER;
+
+	/// <summary>
+	/// Extended edge styles that leave a sunken/gray frame on a borderless window.
+	/// </summary>
+	private const uint SystemCaptionExStyleBits =
+		PI.WS_EX_.CLIENTEDGE | PI.WS_EX_.WINDOWEDGE | PI.WS_EX_.DLGMODALFRAME | PI.WS_EX_.STATICEDGE;
+
+	/// <summary>
+	/// Whether <c>WM_NCCALCSIZE</c> should take the custom-chrome path.
+	/// Borderless forms always intercept so the first CreateWindow layout has no caption.
+	/// MDI children also intercept immediately — <see cref="UseThemeFormChromeBorderWidth"/>
+	/// is still false until handle-created chrome runs (issue #2922).
+	/// </summary>
+	private bool ShouldInterceptNonClientCalcSize()
+	{
+		if (FormBorderStyle == FormBorderStyle.None)
+		{
+			return true;
+		}
+
+		return _themedApp && !CommonHelper.IsFormMaximized(this);
+	}
+
+	/// <summary>
+	/// True when DWM composition should hide this window until custom chrome is applied.
+	/// </summary>
+	protected bool ShouldCloakUntilChromeReady =>
+		!DesignMode && (FormBorderStyle == FormBorderStyle.None || MdiParent != null);
+
+	/// <summary>
+	/// Cloaks the window (and disables DWM NC rendering / transitions) so the system frame
+	/// cannot paint before custom chrome is ready.
+	/// </summary>
+	/// <param name="cloaked">True to hide the window from DWM; false to show it again.</param>
+	protected void SetDwmCloaked(bool cloaked)
+	{
+		if (!IsHandleCreated || IsDisposed)
+		{
+			return;
+		}
+
+		try
+		{
+			PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.Cloak, cloaked ? 1 : 0);
+			if (cloaked)
+			{
+				PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.TransitionsForceDisabled, 1);
+				PI.Dwm.WindowDisableRendering(Handle);
+			}
+		}
+		catch
+		{
+			// DWM may be unavailable (remote session, composition off).
+		}
+	}
+
+	/// <summary>
+	/// Rejects caption / 3D-edge bits while a borderless form's style is changing.
+	/// </summary>
+	private void SuppressSystemCaptionStyleChange(ref Message m)
+	{
+		if (FormBorderStyle != FormBorderStyle.None || DesignMode || m.LParam == IntPtr.Zero)
+		{
+			return;
+		}
+
+		uint mask;
+		if (m.WParam == (IntPtr)(int)PI.GWL_.STYLE)
+		{
+			mask = SystemCaptionStyleBits;
+		}
+		else if (m.WParam == (IntPtr)(int)PI.GWL_.EXSTYLE)
+		{
+			mask = SystemCaptionExStyleBits;
+		}
+		else
+		{
+			return;
+		}
+
+		var style = (PI.STYLESTRUCT)Marshal.PtrToStructure(m.LParam, typeof(PI.STYLESTRUCT))!;
+		uint stripped = style.styleNew & ~mask;
+		if (stripped == style.styleNew)
+		{
+			return;
+		}
+
+		style.styleNew = stripped;
+		Marshal.StructureToPtr(style, m.LParam, false);
+	}
+
+	/// <summary>
+	/// Removes system caption and 3D-edge styles the MDI client may have applied after handle creation.
+	/// </summary>
+	private void StripSystemCaptionStyles()
+	{
+		if (!IsHandleCreated || IsDisposed)
+		{
+			return;
+		}
+
+		var changed = false;
+		uint style = PI.GetWindowLong(Handle, PI.GWL_.STYLE);
+		uint strippedStyle = style & ~SystemCaptionStyleBits;
+		if (strippedStyle != style)
+		{
+			PI.SetWindowLong(Handle, PI.GWL_.STYLE, strippedStyle);
+			changed = true;
+		}
+
+		uint exStyle = PI.GetWindowLong(Handle, PI.GWL_.EXSTYLE);
+		uint strippedEx = exStyle & ~SystemCaptionExStyleBits;
+		if (strippedEx != exStyle)
+		{
+			PI.SetWindowLong(Handle, PI.GWL_.EXSTYLE, strippedEx);
+			changed = true;
+		}
+
+		if (changed)
+		{
+			RecalcNonClient();
+		}
+	}
+
 #if NET8_0_OR_GREATER
 		/// <summary>Gets or sets the anchoring for minimized MDI children.</summary>
 		/// <value> <c>true</c> to anchor minimized MDI children to the bottom left of the parent form; <c>false</c> to anchor to the top left of the parent form.</value>
@@ -802,16 +931,66 @@ public abstract class VisualForm : Form,
 	/// </summary>
 	/// <param name="screenPt">Screen point.</param>
 	/// <returns>Point in window coordinates.</returns>
+	/// <remarks>
+	/// Uses <see cref="PI.GetWindowRect"/> so the origin is the physical top-left of the window.
+	/// <see cref="Control.PointToClient"/> mirrors X when <c>WS_EX_LAYOUTRTL</c> is set, which
+	/// inverted left/right resize and mouse mapping for custom chrome (issue #2103).
+	/// </remarks>
 	protected Point ScreenToWindow(Point screenPt)
 	{
-		// First of all convert to client coordinates
-		Point clientPt = PointToClient(screenPt);
+		if (IsHandleCreated)
+		{
+			var windowRect = new PI.RECT();
+			if (PI.GetWindowRect(Handle, ref windowRect))
+			{
+				return new Point(screenPt.X - windowRect.left, screenPt.Y - windowRect.top);
+			}
+		}
 
-		// Now adjust to take into account the top and left borders
+		Point clientPt = PointToClient(screenPt);
 		Padding borders = RealWindowBorders;
 		clientPt.Offset(borders.Left, borders.Top);
-
 		return clientPt;
+	}
+
+	/// <summary>
+	/// Unpacks a packed mouse <c>lParam</c> into a point using signed 16-bit coordinates.
+	/// </summary>
+	/// <param name="lParam">Message <c>lParam</c>.</param>
+	/// <returns>Point with signed X/Y (required on monitors with negative origin).</returns>
+	protected static Point PointFromMessageLParam(IntPtr lParam)
+	{
+		long packed = lParam.ToInt64();
+		return new Point((short)(packed & 0xFFFF), (short)((packed >> 16) & 0xFFFF));
+	}
+
+	/// <summary>
+	/// Clears <see cref="PI.LAYOUT_.RTL"/> on a window DC so GDI drawing and <c>BitBlt</c> use physical coordinates.
+	/// </summary>
+	/// <param name="hdc">Device context from <c>GetWindowDC</c>.</param>
+	/// <returns>Previous layout flags, or <see cref="PI.GDI_ERROR"/> if they could not be read.</returns>
+	internal static uint BeginPhysicalWindowDcLayout(IntPtr hdc)
+	{
+		uint previous = PI.GetLayout(hdc);
+		if (previous != PI.GDI_ERROR && (previous & PI.LAYOUT_.RTL) != 0)
+		{
+			PI.SetLayout(hdc, previous & ~PI.LAYOUT_.RTL);
+		}
+
+		return previous;
+	}
+
+	/// <summary>
+	/// Restores layout flags saved by <see cref="BeginPhysicalWindowDcLayout"/>.
+	/// </summary>
+	/// <param name="hdc">Device context whose layout should be restored.</param>
+	/// <param name="previous">Value returned from <see cref="BeginPhysicalWindowDcLayout"/>.</param>
+	internal static void EndPhysicalWindowDcLayout(IntPtr hdc, uint previous)
+	{
+		if (previous != PI.GDI_ERROR)
+		{
+			PI.SetLayout(hdc, previous);
+		}
 	}
 
 	/// <summary>
@@ -1028,6 +1207,13 @@ public abstract class VisualForm : Form,
 		//}
 
 		base.OnHandleCreated(e);
+
+		// Issue #2922: MDI may have forced WS_CAPTION during CreateWindow. Strip it here
+		// (after Form.OnHandleCreated / UpdateStyles) so MdiChildActivate still fires.
+		if (FormBorderStyle == FormBorderStyle.None && !DesignMode)
+		{
+			StripSystemCaptionStyles();
+		}
 
 		// Update taskbar overlay icon if set
 		UpdateTaskbarOverlayIcon();
@@ -1487,17 +1673,13 @@ public abstract class VisualForm : Form,
 			}
 		}
 
-		// WM_NCCALCSIZE and other chrome messages are skipped for maximized forms and MDI children
-		// to avoid conflicting with the OS layout.
-		if (_themedApp
-			&& !CommonHelper.IsFormMaximized(this)
-			&& (MdiParent is null || UseThemeFormChromeBorderWidth))
+		// WM_NCCALCSIZE is skipped for maximized forms and MDI children with a system caption
+		// so LayoutMdi / maximize can use OS chrome. FormBorderStyle.None must still intercept
+		// from the first CreateWindow message — otherwise an MDI child flashes the system title bar
+		// before OnLoad enables custom chrome (issue #2922).
+		if (m.Msg == PI.WM_.NCCALCSIZE && ShouldInterceptNonClientCalcSize())
 		{
-			processed = m.Msg switch
-			{
-				PI.WM_.NCCALCSIZE => OnWM_NCCALCSIZE(ref m),
-				_ => processed
-			};
+			processed = OnWM_NCCALCSIZE(ref m);
 		}
 
 		// Do we need to override message processing?
@@ -1512,6 +1694,12 @@ public abstract class VisualForm : Form,
 
 			switch (m.Msg)
 			{
+				case PI.WM_.STYLECHANGING:
+					// MDI client / DefMDIChildProc may add WS_CAPTION during WM_CREATE.
+					// Strip it before the style lands so the first paint has no system caption.
+					SuppressSystemCaptionStyleChange(ref m);
+					break;
+
 				case PI.WM_.ERASEBKGND:
 					// Windows erases newly exposed regions before WM_NCPAINT/WM_PAINT.
 					// On custom chrome that fill is a black flash during max/min/restore.
@@ -1802,7 +1990,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCHITTEST(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -1825,21 +2013,16 @@ public abstract class VisualForm : Form,
 		// Cache the new active state
 		WindowActive = m.WParam == (IntPtr)1;
 
-		// The first time an MDI child gets an WM_NCACTIVATE, let it process as normal
+		// Never pass WM_NCACTIVATE to DefWndProc for MDI children: the first activate
+		// would paint the system caption/border before custom chrome is on screen (issue #2922).
+		// MDI activation still proceeds via WM_MDIACTIVATE / MdiChildActivate.
 		if ((MdiParent != null) && !_activated)
 		{
 			_activated = true;
 		}
-		else
-		{
-			// Allow default processing of activation change
-			m.Result = (IntPtr)1;
 
-			// Message processed, do not pass onto base class for processing
-			return true;
-		}
-
-		return false;
+		m.Result = (IntPtr)1;
+		return true;
 	}
 
 	/// <summary>
@@ -1892,7 +2075,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCMOUSEMOVE(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -1938,7 +2121,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCLBUTTONDOWN(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -1955,7 +2138,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCLBUTTONUP(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -1971,7 +2154,7 @@ public abstract class VisualForm : Form,
 	/// <returns>True if the message was processed; otherwise false.</returns>
 	protected virtual bool OnWM_NCRBUTTONDOWN(ref Message m)
 	{
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 		Point windowPoint = ScreenToWindow(screenPoint);
 
 		// Always route through the view first so caption tabs / button specs can handle RightClick.
@@ -1995,7 +2178,7 @@ public abstract class VisualForm : Form,
 	/// <returns>True if the message was processed; otherwise false.</returns>
 	protected virtual bool OnWM_NCRBUTTONUP(ref Message m)
 	{
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 		Point windowPoint = ScreenToWindow(screenPoint);
 
 		WindowChromeRightMouseUp(windowPoint);
@@ -2043,7 +2226,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_MOUSEMOVE(ref Message m)
 	{
 		// Extract the point in client coordinates
-		var clientPoint = new Point((int)m.LParam);
+		var clientPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to screen coordinates
 		Point screenPoint = PointToScreen(clientPoint);
@@ -2072,7 +2255,7 @@ public abstract class VisualForm : Form,
 		_trackingMouse = false;
 
 		// Extract the point in client coordinates
-		var clientPoint = new Point((int)m.LParam);
+		var clientPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to screen coordinates
 		Point screenPoint = PointToScreen(clientPoint);
@@ -2100,7 +2283,7 @@ public abstract class VisualForm : Form,
 	protected virtual bool OnWM_NCLBUTTONDBLCLK(ref Message m)
 	{
 		// Extract the point in screen coordinates
-		var screenPoint = new Point((int)m.LParam.ToInt64());
+		var screenPoint = PointFromMessageLParam(m.LParam);
 
 		// Convert to window coordinates
 		Point windowPoint = ScreenToWindow(screenPoint);
@@ -2132,6 +2315,7 @@ public abstract class VisualForm : Form,
 			// If we managed to get a device context
 			if (hDC != IntPtr.Zero)
 			{
+				uint previousLayout = BeginPhysicalWindowDcLayout(hDC);
 				try
 				{
 					// Find the rectangle that covers the client area of the form
@@ -2159,8 +2343,9 @@ public abstract class VisualForm : Form,
 						// If we managed to get a compatible bitmap
 						if (hBitmap != IntPtr.Zero)
 						{
-							// Must use the screen device context for the bitmap when drawing into the
-							// bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
+							// Draw into a display-compatible memory DC so opacity works. The window DC
+							// has LAYOUT_RTL cleared for this paint so BitBlt does not mirror glyphs
+							// (issue #2103).
 							// Select the new bitmap into the screen DC
 							IntPtr oldBitmap = PI.SelectObject(_screenDC, hBitmap);
 
@@ -2199,6 +2384,8 @@ public abstract class VisualForm : Form,
 				}
 				finally
 				{
+					EndPhysicalWindowDcLayout(hDC, previousLayout);
+
 					// Must always release the device context
 					PI.ReleaseDC(Handle, hDC);
 				}

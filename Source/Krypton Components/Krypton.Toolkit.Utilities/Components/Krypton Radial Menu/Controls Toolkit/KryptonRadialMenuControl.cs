@@ -17,7 +17,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(ItemClick))]
 [DefaultProperty(nameof(Values))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonRadialMenuControlDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonRadialMenuControlDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Displays a radial menu as a hosted control on a form or container.")]
 public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialMenuInteractionHost
 {

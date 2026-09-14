@@ -174,7 +174,7 @@ internal class KryptonGroupBoxActionList : DesignerActionList
 
     /// <summary>Gets or sets the image.</summary>
     /// <value>The image.</value>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _groupBox.Values.Image;

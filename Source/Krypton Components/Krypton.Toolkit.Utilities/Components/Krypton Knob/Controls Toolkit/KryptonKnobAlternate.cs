@@ -1353,6 +1353,20 @@ public partial class KryptonKnobAlternate : UserControl
         StateTracking.PopulateFromBase(PaletteState.Tracking);
         StatePressed.PopulateFromBase(PaletteState.Pressed);
 
+        StateCommon.Face.CaptureFactoryDefaults();
+        StateCommon.Tick.CaptureFactoryDefaults();
+        StateCommon.Indicator.CaptureFactoryDefaults();
+        StateNormal.Face.CaptureFactoryDefaults();
+        StateNormal.Tick.CaptureFactoryDefaults();
+        StateNormal.Indicator.CaptureFactoryDefaults();
+        StateDisabled.Face.CaptureFactoryDefaults();
+        StateDisabled.Tick.CaptureFactoryDefaults();
+        StateDisabled.Indicator.CaptureFactoryDefaults();
+        StateTracking.Face.CaptureFactoryDefaults();
+        StateTracking.Indicator.CaptureFactoryDefaults();
+        StatePressed.Face.CaptureFactoryDefaults();
+        StatePressed.Indicator.CaptureFactoryDefaults();
+
         BackColor = KryptonManager.CurrentGlobalPalette.ColorTable.MenuStripGradientBegin;
     }
 

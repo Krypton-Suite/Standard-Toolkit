@@ -151,12 +151,17 @@ internal class KryptonSystemMenuListener : NativeWindow
 
     private Point ScreenToWindow(Point screenPoint)
     {
-        // First of all convert to client coordinates
+        if (_form.IsHandleCreated)
+        {
+            var windowRect = new PI.RECT();
+            if (PI.GetWindowRect(_form.Handle, ref windowRect))
+            {
+                return new Point(screenPoint.X - windowRect.left, screenPoint.Y - windowRect.top);
+            }
+        }
+
         Point clientPoint = _form.PointToClient(screenPoint);
-
-        // Now adjust to take into account the top and left borders
         clientPoint.Offset(_form.RealWindowBorders.Left, _form.RealWindowBorders.Top);
-
         return clientPoint;
     }
 

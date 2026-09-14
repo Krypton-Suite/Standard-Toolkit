@@ -70,7 +70,7 @@ internal class ButtonSpecRibbonController : ButtonController
         // Note If we are on the near edge
         var isNear = buttonSpec.Edge is PaletteRelativeEdgeAlign.Near;
 
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(ribbon)))
         {
             case Keys.Tab:
             case Keys.Right:

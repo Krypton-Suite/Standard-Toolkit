@@ -182,7 +182,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Button image.")]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -308,7 +308,7 @@ public abstract class ButtonSpec : Component,
     [Category(@"ToolTip")]
     [Description(@"Button tooltip image.")]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ToolTipImage
     {
         get => _toolTipImage;

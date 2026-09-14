@@ -192,7 +192,7 @@ internal partial class VisualKryptonLogViewerForm : KryptonForm
             }
         }
 
-        File.WriteAllText(dialog.FileName, sb.ToString(), Encoding.UTF8);
+        File.WriteAllText(dialog.FileName, KryptonLogProtect.Protect(sb.ToString()), Encoding.UTF8);
     }
 
     private void kbtnClose_Click(object? sender, EventArgs e) => DialogResult = DialogResult.OK;

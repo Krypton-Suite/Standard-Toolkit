@@ -24,6 +24,11 @@ public static class KryptonDocumentGroupHelper
     /// <param name="workspace">Target workspace.</param>
     /// <param name="orientation">Horizontal creates side-by-side cells; Vertical stacks them.</param>
     /// <returns>The newly created empty cell, or null if no active cell exists.</returns>
+    /// <remarks>
+    /// The new cell is inserted after the target in <see cref="KryptonWorkspaceSequence.Children"/>
+    /// order. Under RTL layout that collection-after cell appears to the visual left of a
+    /// horizontal split. Use drag-to-edge when the drop must match a physical screen edge.
+    /// </remarks>
     public static KryptonWorkspaceCell? SplitActiveCell(KryptonWorkspace workspace, Orientation orientation)
     {
         if (workspace == null)
@@ -51,6 +56,11 @@ public static class KryptonDocumentGroupHelper
     /// <summary>
     /// Moves a page into a new sibling cell beside its current cell.
     /// </summary>
+    /// <remarks>
+    /// The new cell is inserted after the source cell in <see cref="KryptonWorkspaceSequence.Children"/>
+    /// order. Under RTL layout that collection-after cell appears to the visual left of a
+    /// horizontal split.
+    /// </remarks>
     public static KryptonWorkspaceCell? MovePageToNewCell(KryptonWorkspace workspace, KryptonPage page, Orientation orientation)
     {
         if (workspace == null)
@@ -141,6 +151,7 @@ public static class KryptonDocumentGroupHelper
             }
         }
 
+        // after: true inserts at a higher Children index (visual left under RTL horizontal packing).
         bool needsNestedSequence =
             (orientation == Orientation.Horizontal && parent.Orientation == Orientation.Vertical) ||
             (orientation == Orientation.Vertical && parent.Orientation == Orientation.Horizontal);

@@ -161,9 +161,9 @@ public struct KryptonBasicToastData
 
         CountDownTimerInterval = 1000;
 
-        BorderColor1 = GlobalStaticValues.EMPTY_COLOR;
+        BorderColor1 = SharedStaticVariables.EMPTY_COLOR;
 
-        BorderColor2 = GlobalStaticValues.EMPTY_COLOR;
+        BorderColor2 = SharedStaticVariables.EMPTY_COLOR;
 
         OptionalCheckBoxText = KryptonManager.Strings.CustomStrings.DoNotShowAgain;
 

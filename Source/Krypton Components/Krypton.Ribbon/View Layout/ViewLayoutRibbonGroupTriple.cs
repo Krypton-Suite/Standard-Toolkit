@@ -477,64 +477,73 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         // Are there any children to layout?
         if (Count > 0)
         {
-            var x = ClientLocation.X;
-            var y = ClientLocation.Y;
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var x = horizontal ? RibbonRtlLayout.StartX(ClientRectangle, isRtl) : ClientLocation.X;
+        var y = ClientLocation.Y;
 
-            // At design time we reserve space at the left side for the selection flap
-            if (_ribbon.InDesignHelperMode)
+        // At design time we reserve space at the left side for the selection flap
+        if (_ribbon.InDesignHelperMode)
+        {
+            x = isRtl ? x : x + DesignTimeDraw.FlapWidth;
+        }
+
+        // Position each item along the reading direction
+        for (var i = 0; i < Count; i++)
+        {
+            ViewBase? child = this[i];
+
+            // We only position visible items
+            if (child!.Visible)
             {
-                x += DesignTimeDraw.FlapWidth;
-            }
-
-            // Position each item from left/top to right/bottom 
-            for (var i = 0; i < Count; i++)
-            {
-                ViewBase? child = this[i];
-
-                // We only position visible items
-                if (child!.Visible)
+                // Get the cached size of this view
+                var childSize = _currentSize switch
                 {
-                    // Get the cached size of this view
-                    var childSize = _currentSize switch
+                    GroupItemSize.Small => _smallCache[child],
+                    GroupItemSize.Medium => _mediumCache[child],
+                    GroupItemSize.Large => _largeCache[child],
+                    _ => Size.Empty
+                };
+
+                if (horizontal)
+                {
+                    // Define display rectangle for the group
+                    context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, ClientHeight, isRtl, 1);
+
+                    // Position the element
+                    this[i]?.Layout(context);
+                }
+                else
+                {
+                    var align = _ribbonTriple.ItemAlignment;
+                    if (isRtl)
                     {
-                        GroupItemSize.Small => _smallCache[child],
-                        GroupItemSize.Medium => _mediumCache[child],
-                        GroupItemSize.Large => _largeCache[child],
-                        _ => Size.Empty
+                        align = align switch
+                        {
+                            RibbonItemAlignment.Near => RibbonItemAlignment.Far,
+                            RibbonItemAlignment.Far => RibbonItemAlignment.Near,
+                            _ => align
+                        };
+                    }
+
+                    // Define display rectangle for the group
+                    context.DisplayRectangle = align switch
+                    {
+                        RibbonItemAlignment.Near => new Rectangle(x, y, childSize.Width, childSize.Height),
+                        RibbonItemAlignment.Center => new Rectangle(x + ((widest - childSize.Width) / 2), y,
+                            childSize.Width, childSize.Height),
+                        RibbonItemAlignment.Far => new Rectangle(x + widest - childSize.Width, y, childSize.Width,
+                            childSize.Height),
+                        _ => context.DisplayRectangle
                     };
 
-                    if (horizontal)
-                    {
-                        // Define display rectangle for the group
-                        context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
+                    // Position the element
+                    this[i]?.Layout(context);
 
-                        // Position the element
-                        this[i]?.Layout(context);
-
-                        // Move across to next position (add 1 extra as the spacing gap)
-                        x += childSize.Width + 1;
-                    }
-                    else
-                    {
-                        // Define display rectangle for the group
-                        context.DisplayRectangle = _ribbonTriple.ItemAlignment switch
-                        {
-                            RibbonItemAlignment.Near => new Rectangle(x, y, childSize.Width, childSize.Height),
-                            RibbonItemAlignment.Center => new Rectangle(x + ((widest - childSize.Width) / 2), y,
-                                childSize.Width, childSize.Height),
-                            RibbonItemAlignment.Far => new Rectangle(x + widest - childSize.Width, y, childSize.Width,
-                                childSize.Height),
-                            _ => context.DisplayRectangle
-                        };
-
-                        // Position the element
-                        this[i]?.Layout(context);
-
-                        // Move down to next position
-                        y += childSize.Height;
-                    }
+                    // Move down to next position
+                    y += childSize.Height;
                 }
             }
+        }
         }
 
         // Update the display rectangle we allocated for use by parent

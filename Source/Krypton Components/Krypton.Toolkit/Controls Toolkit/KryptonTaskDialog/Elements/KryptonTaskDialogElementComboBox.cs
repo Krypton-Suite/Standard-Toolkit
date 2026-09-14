@@ -141,7 +141,8 @@ public class KryptonTaskDialogElementComboBox : KryptonTaskDialogElementSingleLi
 
     /// <summary>
     /// Combobox drop down style.<br/>
-    /// Note: KryptonCombox does not support the simple drop down style.
+    /// Note: task-dialog combo boxes stay single-line (<see cref="InternalComboBoxStyle.DropDown"/> /
+    /// <see cref="InternalComboBoxStyle.DropDownList"/>). Use <see cref="KryptonComboBox.DropDownStyle"/> for Simple.
     /// </summary>
     public InternalComboBoxStyle DropDownStyle 
     {

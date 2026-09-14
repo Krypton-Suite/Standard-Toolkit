@@ -16,6 +16,7 @@ namespace Krypton.Toolkit.Utilities;
 /// Only <see cref="Primary"/> is required. When <see cref="Secondary"/> or <see cref="Surface"/> are omitted,
 /// the generator derives them from the primary hue (analogous accent and a light or dark wash).
 /// Supported donors are listed on <see cref="KryptonCustomThemeGenerator.SupportedDonorModes"/>.
+/// Dark donors need <c>Krypton.Themes</c>; use <see cref="KryptonCustomThemeGenerator.AvailableDonorModes"/> at runtime.
 /// </remarks>
 public sealed class KryptonCustomThemeSeed
 {

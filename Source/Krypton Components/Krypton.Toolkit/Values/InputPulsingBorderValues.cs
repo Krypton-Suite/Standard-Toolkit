@@ -202,7 +202,7 @@ public class InputPulsingBorderValues : Storage
         set => SetLocal(ref _showWhen, value, needLayout: true);
     }
 
-    private bool ShouldSerializeShowWhen() => ShouldSerializeLocal(_showWhen, ShowWhen, _defaultShowWhen);
+    public bool ShouldSerializeShowWhen() => ShouldSerializeLocal(_showWhen, ShowWhen, _defaultShowWhen);
 
     /// <summary>
     /// Resets the ShowWhen property to its default value.
@@ -226,7 +226,7 @@ public class InputPulsingBorderValues : Storage
         set => SetLocal(ref _style, value, needLayout: true);
     }
 
-    private bool ShouldSerializeStyle() => ShouldSerializeLocal(_style, Style, _defaultStyle);
+    public bool ShouldSerializeStyle() => ShouldSerializeLocal(_style, Style, _defaultStyle);
 
     /// <summary>
     /// Resets the Style property to its default value.

@@ -27,6 +27,7 @@
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<NoWarn>1701;1702</NoWarn>
+		<Description>Optional Krypton.Navigator utilities assembly: Windows taskbar live thumbnails, caption-tab form integration, and tabbed MDI management. Included in the Krypton.Standard.Toolkit NuGet package.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -49,6 +50,10 @@
 		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+	</ItemGroup>
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+		<Compile Remove="Designers\Designer\**\*.cs" />
+		<Compile Remove="Designers\Action Lists\**\*.cs" />
 	</ItemGroup>
 
 </Project>

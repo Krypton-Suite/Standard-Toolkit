@@ -104,7 +104,8 @@ public class ToolStripProgressLoadingDemo : KryptonForm
             Height = 72,
             Text = @"Click Animate to drive every progress indicator from 0 to 100 together: the two ToolStrip " +
                    @"progress bars above, the KryptonProgressStatusStrip painted bar below, and the standalone " +
-                   @"KryptonLoadingCircle spinner (which simply spins while Active, independent of the percentage)."
+                   @"KryptonLoadingCircle spinner (which simply spins while Active, independent of the percentage). " +
+                   @"With Color.Empty the spinner spokes follow the active Krypton palette; set a concrete Color to override."
         };
         mainPanel.Controls.Add(instructions);
 
@@ -140,8 +141,8 @@ public class ToolStripProgressLoadingDemo : KryptonForm
         {
             Location = new Point(20, 20),
             Size = new Size(64, 64),
-            StylePreset = StylePresets.MacOSX,
-            Color = Color.SteelBlue
+            StylePreset = StylePresets.MacOSX
+            // Color defaults to Empty → spokes follow the active palette
         };
         loadingCircleHost.Panel.Controls.Add(_standaloneLoadingCircle);
         mainPanel.Controls.Add(loadingCircleHost);

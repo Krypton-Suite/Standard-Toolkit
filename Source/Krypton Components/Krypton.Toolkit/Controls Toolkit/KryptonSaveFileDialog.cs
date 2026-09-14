@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 ///  Displays a dialog window from which the user can select a file.
 /// </summary>
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonSaveFileDialogDesigner))]
+[Designer("Krypton.Toolkit.KryptonSaveFileDialogDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description("Displays a Kryptonised version of the standard 'SaveFile dialog window' from which the user can select a file.")]
 [ToolboxBitmap(typeof(SaveFileDialog), @"ToolboxBitmaps.KryptonSaveFileDialog.bmp")]
 [ToolboxItem(true)]

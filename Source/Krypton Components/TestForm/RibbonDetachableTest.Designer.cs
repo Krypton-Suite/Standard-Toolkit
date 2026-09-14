@@ -1,4 +1,4 @@
-namespace TestForm
+﻿namespace TestForm
 {
     partial class RibbonDetachableTest
     {
@@ -50,6 +50,9 @@ namespace TestForm
         private Krypton.Ribbon.KryptonRibbon _ribbon;
         private Krypton.Toolkit.KryptonButton _btnDetach;
         private Krypton.Toolkit.KryptonButton _btnReattach;
+        private Krypton.Toolkit.KryptonCheckBox _chkAllowDragReattach;
+        private Krypton.Toolkit.KryptonTextBox _txtFloatingTitle;
+        private Krypton.Toolkit.KryptonLabel _lblFloatingTitle;
         private Krypton.Toolkit.KryptonLabel _lblStatus;
         private Krypton.Toolkit.ButtonSpecAny _detachButton;
         private Krypton.Toolkit.ButtonSpecAny _reattachButton;

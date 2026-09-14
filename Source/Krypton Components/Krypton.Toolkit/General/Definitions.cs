@@ -4463,7 +4463,10 @@ public enum SchemeBaseColors
     ButtonTextTracking = 240,
 
     /// <summary>Text color for tree view and list box items in normal state.</summary>
-    TextListItem = 241
+    TextListItem = 241,
+
+    /// <summary>Text color for tool strips. Empty inherits the ColorTable family fallback (often StatusStripText).</summary>
+    ToolStripText = 242
 }
 
 #endregion
@@ -5013,6 +5016,56 @@ public enum KryptonThemeShieldIconStyle
 
     /// <summary>Follow the current operating system instead of the theme.</summary>
     OperatingSystem
+}
+
+#endregion
+
+#region Enum KryptonPaletteFileFormat
+
+/// <summary>
+/// Identifies how a custom palette is stored on disk or in a stream.
+/// </summary>
+public enum KryptonPaletteFileFormat
+{
+    /// <summary>
+    /// Human-readable XML (<c>KryptonPalette</c> document). Default for <c>.kthemex</c> and
+    /// legacy <c>.xml</c> files, and for <see cref="KryptonCustomPaletteBase.Export(bool)"/> byte arrays.
+    /// </summary>
+    // ToDo V120 LTS: Drop .xml from this remark. Xml remains the persist format for .kthemex and Export(bool).
+    Xml = 0,
+
+    /// <summary>
+    /// Optional KPLT <c>.ktheme</c> container with a Deflate-compressed XML payload (kind 0).
+    /// </summary>
+    PaletteCompressedXml = 1,
+
+    /// <summary>
+    /// Optional KPLT <c>.ktheme</c> container with a native persist stream and raw PNG image blobs
+    /// (kind 1). Default when exporting to a <c>.ktheme</c> path.
+    /// </summary>
+    PaletteBinary = 2
+}
+
+#endregion
+
+#region Enum InternalLoadingCircleStylePresets
+
+/// <summary>
+/// Geometry presets for <see cref="InternalKryptonLoadingCircle"/>.
+/// </summary>
+internal enum InternalLoadingCircleStylePresets
+{
+    /// <summary>Mac OS X style spoke layout.</summary>
+    MacOSX,
+
+    /// <summary>Firefox style spoke layout.</summary>
+    Firefox,
+
+    /// <summary>Internet Explorer 7 style spoke layout.</summary>
+    IE7,
+
+    /// <summary>Default custom geometry.</summary>
+    Custom
 }
 
 #endregion

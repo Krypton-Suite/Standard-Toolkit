@@ -79,7 +79,7 @@ internal sealed class FileLogSink : IKryptonLogSink
                     return;
                 }
 
-                _writer.Write(line);
+                _writer.Write(KryptonLogProtect.Protect(line));
                 if (!line.EndsWith(Environment.NewLine, StringComparison.Ordinal))
                 {
                     _writer.WriteLine();

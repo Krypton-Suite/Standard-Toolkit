@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(TextChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonRichTextBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonRichTextBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to enter text, and provides multi-line editing and password character masking.")]
 public class KryptonRichTextBox : VisualControlBase,
@@ -1984,6 +1984,26 @@ public class KryptonRichTextBox : VisualControlBase,
     }
 
     /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    /// <summary>
     /// Raises the EnabledChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -2897,6 +2917,8 @@ public class KryptonRichTextBox : VisualControlBase,
 
     NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
         KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
+
+    private void UpdateForRightToLeft() => _richTextBox.RightToLeft = RightToLeft;
 
     #endregion
 }

@@ -14,7 +14,7 @@ public interface IKryptonTaskDialogElementContentImage
     /// <summary>
     /// Image to display
     /// </summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image { get; set; }
 
     /// <summary>

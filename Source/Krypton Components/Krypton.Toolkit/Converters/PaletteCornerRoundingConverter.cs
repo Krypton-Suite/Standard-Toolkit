@@ -78,7 +78,7 @@ internal class PaletteCornerRoundingConverter : TypeConverter
     {
         if (destinationType == typeof(string) && value is PaletteCornerRounding rounding)
         {
-            return rounding.ToString();
+            return rounding.ToString(culture ?? CultureInfo.CurrentCulture);
         }
 
         return base.ConvertTo(context, culture, value, destinationType);

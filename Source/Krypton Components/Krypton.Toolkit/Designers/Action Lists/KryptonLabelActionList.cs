@@ -107,7 +107,7 @@ internal class KryptonLabelActionList : DesignerActionList
     /// <summary>
     /// Gets and sets the label image.
     /// </summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _label.Values.Image;

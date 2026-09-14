@@ -158,7 +158,7 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
     [Category(@"Appearance")]
     [Description(@"The icon image displayed in the notification bar.")]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Icon
     {
         get => _icon;
