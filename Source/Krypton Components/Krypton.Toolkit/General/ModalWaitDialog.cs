@@ -115,6 +115,13 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
     /// </summary>
     public void UpdateDialog()
     {
+        // Close()/Dispose of a modeless wait dialog (or re-entrancy via DoEvents)
+        // can leave callers invoking this after the instance is gone.
+        if (IsDisposed || Disposing)
+        {
+            return;
+        }
+
         // Remember the first time the update is called
         if (!_startTimestamped)
         {
@@ -130,10 +137,13 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
                 if (DateTime.Now.Subtract(_startTimestamp).TotalMilliseconds > DELAY_SHOWING)
                 {
                     // Make this dialog visible to the user
-                    Show();
+                    if (!IsDisposed && !Disposing)
+                    {
+                        Show();
 
-                    // Start the spin timing
-                    _spinTimestamp = DateTime.Now;
+                        // Start the spin timing
+                        _spinTimestamp = DateTime.Now;
+                    }
                 }
             }
             else
@@ -154,7 +164,10 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
         }
 
         // Let any repainting or processing events be dispatched
-        Application.DoEvents();
+        if (!IsDisposed && !Disposing)
+        {
+            Application.DoEvents();
+        }
     }
 
     /// <summary>
@@ -184,7 +197,15 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
 
     /// <summary>Updates the progress bar value.</summary>
     /// <param name="value">The value.</param>
-    public void UpdateProgressBarValue(int value) => kpbModalProgress.Value = value;
+    public void UpdateProgressBarValue(int value)
+    {
+        if (IsDisposed || Disposing || kpbModalProgress.IsDisposed)
+        {
+            return;
+        }
+
+        kpbModalProgress.Value = value;
+    }
 
     /// <summary>Updates the progress bar value bounds.</summary>
     /// <param name="minimumValue">The minimum value.</param>
