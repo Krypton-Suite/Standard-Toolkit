@@ -6,7 +6,7 @@
 		<TargetFrameworks>net472</TargetFrameworks>
 		<RootNamespace>Krypton.Toolkit.Design.Client</RootNamespace>
 		<AssemblyName>Krypton.Toolkit.Design.Client</AssemblyName>
-		<Description>Visual Studio (net472) UI for Krypton WinForms designer type editors.</Description>
+		<Description>Visual Studio-hosted (net472) client UI for Krypton WinForms designer type editors such as image and folder pickers. Packed under lib\{tfm}\Design\WinForms\ alongside Protocol.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
