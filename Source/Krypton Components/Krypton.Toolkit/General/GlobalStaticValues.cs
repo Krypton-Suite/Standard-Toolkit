@@ -121,6 +121,9 @@ public class GlobalStaticValues
 
     #region Generic
 
+    // Before any toolbar image arrays load preserialized resources (see GitHub #3330).
+    private static readonly int _preserializedResourceAssemblyResolveHook = KryptonPreserializedResourceAssemblyResolve.Register();
+
     /// <summary>The generic toolbar images</summary>
     public static Image[] GenericToolBarImages =
     [
