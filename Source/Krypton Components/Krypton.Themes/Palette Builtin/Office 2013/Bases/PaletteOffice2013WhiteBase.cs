@@ -226,9 +226,6 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
     private readonly ImageList _galleryButtonList;
     private readonly Image?[] _radioButtonArray;
 
-    //TODO rendre dynamique
-    //public static Color baseUserColor = Color.FromArgb(255, 248, 56);
-
     #endregion Instance Fields
 
     #region Identity
