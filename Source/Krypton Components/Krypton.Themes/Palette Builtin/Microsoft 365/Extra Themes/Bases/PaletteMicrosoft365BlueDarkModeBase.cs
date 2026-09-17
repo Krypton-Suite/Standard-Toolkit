@@ -3324,7 +3324,8 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
             case PaletteButtonSpecStyle.QuickPrint:
                 return _integratedToolbarQuickPrintNormal;
             case PaletteButtonSpecStyle.Generic:
-                return null!;   // TODO: Work out why is this is allowed to be null
+                // Generic button specs have no stock palette image; the consumer supplies one.
+                return null;
             default:
                 // Should never happen!
                 Debug.Assert(false);
