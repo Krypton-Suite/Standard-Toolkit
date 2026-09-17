@@ -58,9 +58,12 @@ public class KryptonButton : KryptonDropButton
         set => ButtonOrientation = value;
     }
 
-    /// <summary>Gets or sets a value indicating whether [show split option].</summary>
-    /// <value><c>true</c> if [show split option]; otherwise, <c>false</c>.</value>
-
+    /// <summary>Gets or sets a value indicating whether the split/drop-down chevron is shown.</summary>
+    /// <value><c>true</c> if the chevron is shown; otherwise, <c>false</c>.</value>
+    /// <remarks>
+    /// Prefer <see cref="KryptonSplitButton"/> when the control is always a split button.
+    /// When enabled, the drop-down is aligned to the chevron (same as <see cref="KryptonDropButton"/>).
+    /// </remarks>
     [Category(@"Visuals")]
     [DefaultValue(false)]
     [Description(@"Displays the split/dropdown option.")]
@@ -85,5 +88,13 @@ public class KryptonButton : KryptonDropButton
         get => base.Splitter;
         set => base.Splitter = value;
     }
+    #endregion
+
+    #region Protected Overrides
+    /// <inheritdoc />
+    protected override bool OpensDropDownOnNonSplitterClick => false;
+
+    /// <inheritdoc />
+    protected override bool SuppressSystemContextMenu => false;
     #endregion
 }

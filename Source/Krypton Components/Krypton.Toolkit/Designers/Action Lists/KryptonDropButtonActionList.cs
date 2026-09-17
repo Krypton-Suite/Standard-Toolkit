@@ -275,7 +275,10 @@ internal class KryptonDropButtonActionList : DesignerActionList
         {
             // Add the list of button specific actions
             actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
-            actions.Add(new DesignerActionPropertyItem(nameof(Splitter), nameof(Splitter), nameof(Appearance), @"Splitter of DropDown"));
+            if (_dropButton is not KryptonSplitButton)
+            {
+                actions.Add(new DesignerActionPropertyItem(nameof(Splitter), nameof(Splitter), nameof(Appearance), @"Splitter of DropDown"));
+            }
             actions.Add(new DesignerActionPropertyItem(nameof(ButtonStyle), nameof(ButtonStyle), nameof(Appearance), @"Button style"));
             actions.Add(new DesignerActionPropertyItem(nameof(ButtonOrientation), nameof(ButtonOrientation), nameof(Appearance), @"Button orientation"));
             actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
