@@ -64,6 +64,7 @@ namespace TestForm
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonSplitButton1 = new Krypton.Toolkit.KryptonSplitButton();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonContextMenuComboBox1 = new Krypton.Toolkit.KryptonContextMenuComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -92,6 +93,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kryptonButton2);
             this.kryptonPanel1.Controls.Add(this.kryptonButton3);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
+            this.kryptonPanel1.Controls.Add(this.kryptonSplitButton1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
@@ -350,6 +352,15 @@ namespace TestForm
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton1.Values.Text = "Normal Button";
             // 
+            // kryptonSplitButton1
+            // 
+            this.kryptonSplitButton1.KryptonContextMenu = this.kryptonContextMenu1;
+            this.kryptonSplitButton1.Location = new System.Drawing.Point(278, 171);
+            this.kryptonSplitButton1.Name = "kryptonSplitButton1";
+            this.kryptonSplitButton1.Size = new System.Drawing.Size(243, 25);
+            this.kryptonSplitButton1.TabIndex = 17;
+            this.kryptonSplitButton1.Values.Text = "KryptonSplitButton";
+            // 
             // buttonSpecAny1
             // 
             this.buttonSpecAny1.Text = "Test Text";
@@ -388,6 +399,7 @@ namespace TestForm
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private Krypton.Toolkit.KryptonButton kryptonButton1;
+        private Krypton.Toolkit.KryptonSplitButton kryptonSplitButton1;
         private Krypton.Toolkit.KryptonColorButton kcbtnDropDown;
         private Krypton.Toolkit.KryptonButton kryptonButton5;
         private Krypton.Toolkit.KryptonButton kryptonButton6;
