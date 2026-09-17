@@ -60,7 +60,7 @@ Before considering a task complete:
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 - `README.md`: Consumer-facing project overview; **Breaking Changes** lists migration notes for each major version (see **Breaking Changes (README)**)
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
-- `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`; **do not include these files in new or existing PRs**
+- `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); may be a single `.md` or a folder with `README.md` index plus chapters; not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`; **do not include these files in new or existing PRs**
 - `Documents/PR/`: One Markdown PR description per completed bug fix or feature, drafted locally and used as the GitHub PR body **only when the user explicitly asks to open a PR**; **do not include that description file in new or existing PRs** (see **Pull Request Descriptions**)
 
 ## Architecture
@@ -387,7 +387,7 @@ Validate documentation-only changes with a targeted `dotnet build` of the affect
 
 ## Feature Developer Documentation
 
-When a **new feature** is completed (not bug fixes or refactors unless they introduce a substantial new capability), add a **comprehensive developer guide** as a Markdown file under `Documents/Development/`.
+When a **new feature** is completed (not bug fixes or refactors unless they introduce a substantial new capability), add a **comprehensive developer guide** under `Documents/Development/`.
 
 ### When to write
 
@@ -406,17 +406,36 @@ Each guide should be **in-depth** and **maintainer-focused**, covering as applic
 - **Edge cases** — threading, TFM differences, breaking changes, migration notes.
 - **Validation** — how to exercise the feature in `TestForm` or a harness (link to the demo form registered in `StartScreen`), and in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing).
 
+### Single file vs multi-file guide
+
+- Prefer **one Markdown file** for a cohesive subsystem (e.g. `KryptonThemesCatalog.md`, `Krypton-Docking-Developer-Guide.md`).
+- When the feature is large (many formats, APIs, UI surfaces, and migration paths), **split** into a folder with an **index** `README.md` plus numbered or named chapters. Cross-link Previous / Index / Next at the top or bottom of each chapter.
+- The index should list packages/owners, a document map, quick-start snippets when useful, and a source-file map so maintainers know what to update.
+- Keep chapter titles stable; update the index table when adding or renaming chapters.
+- Folder name: descriptive kebab title for the feature, e.g. `Documents/Development/Krypton-Some-Feature/`.
+
 ### TestForm demo
 
 When the feature warrants user-visible validation, add or update a demo per **TestForm Demos** and reference it here. Also add a consumer example per **Standard-Toolkit-Demos** (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing; **append** if an example already exists — do not overwrite).
 
 ### File conventions
 
-- Location: `Documents/Development/`
+- Location: `Documents/Development/` (single file) or `Documents/Development/<Feature-Folder>/` (multi-file with `README.md` index).
 - Name: descriptive kebab or Pascal-style title, e.g. `Krypton-Docking-Developer-Guide.md` or `Visual-Studio-Templates-Developer-Guide.md`.
-- One feature (or cohesive subsystem) per file; cross-link related guides when helpful.
+- One feature (or cohesive subsystem) per file **or** per folder; cross-link related guides when helpful.
 - CRLF, UTF-8 with BOM; match tone and structure of existing repo docs.
 - These guides are **local working files**. Do not include them in new or existing pull requests (see **Do not include in pull requests** below).
+
+### Keeping guides current
+
+When changing behaviour covered by an existing Development guide:
+
+1. Update the matching chapter(s) or single file in the same change set as the code, or immediately after.
+2. Keep public names and APIs aligned with source; mention renames or retired identifiers only as historical migration notes.
+3. Refresh validation pointers in the guide (TestForm demos, unit-test scripts, Demos examples) when those change.
+4. Respect package ownership already documented in the guide (e.g. Toolkit vs Utilities vs Themes); do not invent cross-project references that violate architecture rules.
+5. Do **not** add a Changelog entry solely because a Development guide changed.
+6. Still leave Development files **out of** the Standard-Toolkit PR.
 
 ### Do not list in these files
 
