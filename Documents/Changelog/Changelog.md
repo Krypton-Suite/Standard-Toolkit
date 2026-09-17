@@ -45,6 +45,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4424), Replace this with the graphic DrawString to get around some drawing looking Very Poor
+  * `KryptonComboBox` edit-strip text now uses GDI+ `DrawString` so palette text hints apply and ClearType no longer looks poor on the themed background.
 * Resolved [#4425](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4425), Keep KryptonComboBox drop-down width tracking control width
   * `KryptonComboBox` keeps the drop-down list width in sync with the control when `DropDownWidth` has not been set explicitly (removed the leftover Content-palette sync TODO from [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704)).
 * Resolved [#4404](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4404), Removed obsolete Office 2013 "render dynamically" TODOs now covered by `KryptonColorSchemeBase`

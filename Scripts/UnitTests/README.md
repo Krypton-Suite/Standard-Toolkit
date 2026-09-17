@@ -96,6 +96,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |
 | `Invoke-RatingScreenshot.ps1` | Launches `TestForm.exe --demo KryptonRatingDemo` (#3928) and writes default/half PNGs plus a hover GIF under `Documents/PR/` | `exclude` |
 | `Invoke-ComboBoxSimpleStyleScreenshot.ps1` | Hosts `Feature4339ComboBoxSimpleStyleDemo` (#4339) and writes `Documents/PR/4339-combobox-simple-style.png` | `exclude` |
+| `Invoke-ComboBoxDrawStringScreenshot.ps1` | Hosts same demo in DropDownList (#4424 GDI+ edit text) and writes `Documents/PR/4424-combobox-drawstring-dropdownlist.png` | `exclude` |
 | `Invoke-TreeViewMultiSelectScreenshot.ps1` | Hosts `Bug4326TreeViewMultiSelectDemo` and writes `Documents/PR/4326-treeview-multiselect-false.png` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
