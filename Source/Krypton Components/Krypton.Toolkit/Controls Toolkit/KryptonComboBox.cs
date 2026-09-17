@@ -602,31 +602,9 @@ public class KryptonComboBox : VisualControlBase,
                             //// If not enabled or not the dropDown Style then we can draw over the text area
                             ////if (!_kryptonComboBox.Enabled || _kryptonComboBox.DropDownStyle != ComboBoxStyle.DropDown)
                         {
+                            // GDI+ DrawString so GraphicsTextHint / palette text hint apply.
+                            // TextRenderer (GDI) ignores TextRenderingHint and often looks poor on the filled edit strip.
                             using var graphicsHint = new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(states.Content.GetContentShortTextHint(state)));
-
-                            TextFormatFlags flags = TextFormatFlags.TextBoxControl | TextFormatFlags.NoPadding | TextFormatFlags.VerticalCenter;
-
-                            // Use the correct prefix setting
-                            flags |= TextFormatFlags.NoPrefix;
-
-                            // Do we need to switch drawing direction?
-                            if (RightToLeft == RightToLeft.Yes)
-                            {
-                                flags |= TextFormatFlags.RightToLeft;
-                            }
-
-                            switch (states.Content.GetContentShortTextH(state))
-                            {
-                                case PaletteRelativeAlign.Near:
-                                    flags |= TextFormatFlags.Left;
-                                    break;
-                                case PaletteRelativeAlign.Center:
-                                    flags |= TextFormatFlags.HorizontalCenter;
-                                    break;
-                                case PaletteRelativeAlign.Far:
-                                    flags |= TextFormatFlags.Right;
-                                    break;
-                            }
 
                             // Draw text using font defined by the control; fall back to Text if display text empty
                             var rectangle = new Rectangle(rect.left, rect.top,
@@ -643,19 +621,45 @@ public class KryptonComboBox : VisualControlBase,
                             {
                                 break;
                             }
-                            // Find correct text color
-                            Color textColor = states.Content.GetContentShortTextColor1(state);
-                            Font? contentShortTextFont = states.Content.GetContentShortTextFont(state);
-                            // Find correct background color
-                            Color backColor = states.PaletteBack.GetBackColor1(state);
 
-                            // TODO: Replace this with the graphic DrawString to get around some drawing looking Very Poor
+                            Color textColor = states.Content.GetContentShortTextColor1(state);
+                            Font? paletteFont = states.Content.GetContentShortTextFont(state);
+                            Font drawFont = CommonHelper.IsUsableFont(paletteFont) ? paletteFont! : Font;
+
                             var toDraw = string.IsNullOrEmpty(displayText) ? Text ?? string.Empty : displayText;
-                            TextRenderer.DrawText(g,
-                                toDraw, contentShortTextFont,
-                                rectangle,
-                                textColor, backColor,
-                                flags);
+                            bool rtl = RightToLeft == RightToLeft.Yes;
+
+                            using (var stringFormat = new StringFormat
+                            {
+                                HotkeyPrefix = HotkeyPrefix.None,
+                                Trimming = StringTrimming.None,
+                                LineAlignment = StringAlignment.Center,
+                                FormatFlags = StringFormatFlags.NoWrap
+                            })
+                            {
+                                if (rtl)
+                                {
+                                    stringFormat.FormatFlags |= StringFormatFlags.DirectionRightToLeft;
+                                }
+
+                                switch (states.Content.GetContentShortTextH(state))
+                                {
+                                    case PaletteRelativeAlign.Center:
+                                        stringFormat.Alignment = StringAlignment.Center;
+                                        break;
+                                    case PaletteRelativeAlign.Far:
+                                        stringFormat.Alignment = rtl ? StringAlignment.Near : StringAlignment.Far;
+                                        break;
+                                    default:
+                                        stringFormat.Alignment = rtl ? StringAlignment.Far : StringAlignment.Near;
+                                        break;
+                                }
+
+                                using (var foreBrush = new SolidBrush(textColor))
+                                {
+                                    g.DrawString(toDraw, drawFont, foreBrush, rectangle, stringFormat);
+                                }
+                            }
                         }
 
                         // Remove clipping settings
@@ -2975,12 +2979,6 @@ public class KryptonComboBox : VisualControlBase,
             ForceControlLayout();
         }
 
-        // ToDo: Create a new API for this in a later version
-        //if (StateCommon.ComboBox.Content.SynchronizeDropDownWidth)
-        //{
-        //    DropDownWidth = Size.Width;
-        //}
-
         base.OnPaint(e);
         Paint?.Invoke(this, e!);
     }
@@ -2993,6 +2991,9 @@ public class KryptonComboBox : VisualControlBase,
     {
         // Let base class raise events
         base.OnResize(e);
+
+        // Keep the native drop-down width aligned when DropDownWidth has not been set explicitly.
+        SynchronizeNativeDropDownWidth();
 
         // We must have a layout calculation
         ForceControlLayout();
@@ -3735,10 +3736,26 @@ public class KryptonComboBox : VisualControlBase,
 
     private void OnComboBoxDropDown(object? sender, EventArgs e)
     {
+        // Ensure the list uses the current control width when DropDownWidth is still tracking.
+        SynchronizeNativeDropDownWidth();
+
         _comboBox.Dropped = true;
         _hoverIndex = -1;
         Refresh();
         OnDropDown(e);
+    }
+
+    /// <summary>
+    /// Updates the inner ComboBox drop-down width to match this control when <see cref="DropDownWidth"/>
+    /// has not been assigned explicitly (WinForms-compatible tracking).
+    /// </summary>
+    private void SynchronizeNativeDropDownWidth()
+    {
+        _comboBox.DropDownWidth = _dropDownWidthSet switch
+        {
+            false => Width,
+            _ => _comboBox.DropDownWidth
+        };
     }
 
     private void OnComboBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);

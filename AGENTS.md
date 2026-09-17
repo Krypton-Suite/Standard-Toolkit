@@ -28,7 +28,7 @@ Before considering a task complete:
 - Update Changelog.md for completed features and bug fixes.
 - When a change is **breaking** for consumers, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**). The entry must follow the existing pattern in that section.
 - Add developer documentation for substantial new features (see **Feature Developer Documentation**). Keep `Documents/Development/` files **out of pull requests**.
-- Write a PR description in `Documents/PR/` for completed features and bug fixes, and use that file as the GitHub PR body. Do **not** include the PR description file in the pull request (see **Pull Request Descriptions**).
+- Write a PR description in `Documents/PR/` for completed features and bug fixes. Do **not** include the PR description file in the pull request. Do **not** open, create, or push a GitHub pull request unless the user explicitly asks (see **Pull Request Descriptions**). When a PR is opened with consent, use that file as the GitHub PR body.
 - For completed features and bug fixes, capture a screenshot of the successful local **build log** into the local `Documents/PR/` description. Do not leave **Build log** as a placeholder, and do **not** upload or attach the image to the GitHub pull request (see **Build Log Screenshot**).
 - For UI-visible changes, capture screenshots (or a short GIF when motion is the point) into the local `Documents/PR/` description. Do not leave **Screenshots / GIFs** as a placeholder, and do **not** upload or attach the images to the GitHub pull request (see **UI Screenshots / GIFs**).
 - When UI behaviour is verified with ad-hoc PowerShell / UI Automation (mouse synthesise, screenshots, hosted `TestForm` demos), **keep those scripts under `Scripts/UnitTests/`** instead of leaving them only under `Bin/` or deleting them after the session. Prefer reusable, named scripts with a short note in `Scripts/UnitTests/README.md` (see **Unit Test Scripts**).
@@ -62,7 +62,7 @@ Before considering a task complete:
 - `README.md`: Consumer-facing project overview; **Breaking Changes** lists migration notes for each major version (see **Breaking Changes (README)**)
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
 - `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`; **do not include these files in new or existing PRs**
-- `Documents/PR/`: One Markdown PR description per completed bug fix or feature, drafted locally and used as the GitHub PR body; **do not include that description file in new or existing PRs** (see **Pull Request Descriptions**)
+- `Documents/PR/`: One Markdown PR description per completed bug fix or feature, drafted locally and used as the GitHub PR body **only when the user explicitly asks to open a PR**; **do not include that description file in new or existing PRs** (see **Pull Request Descriptions**)
 
 ## Architecture
 
@@ -868,14 +868,15 @@ This is separate from **UI Screenshots / GIFs**. A build-log PNG is required eve
 ## Commit & Pull Request Guidelines
 
 - Commits: short, imperative subject; reference issues/PRs (e.g., `Fix autosizing (#2433)` or `2439 V100 datecell autosizing`)
+- Do **not** open, create, or push a GitHub pull request (Standard-Toolkit or Demos) unless the user explicitly asks. Completing a bug or feature means drafting the local `Documents/PR/` description and other required artefacts; it does **not** imply consent to run `gh pr create`, open a PR in the browser, or push a branch for the purpose of opening a PR. If unclear, ask first.
 - PRs: clear description, linked issues, notes on breaking changes/TFM impact. UI screenshots, GIFs, and the build-log screenshot stay in the local `Documents/PR/` description (see **UI Screenshots / GIFs** and **Build Log Screenshot**); do not upload them to GitHub.
-- If a pull request is opened or created, it must be compared with `alpha`, not `master`, `gold`, or `canary`. When using `gh pr create`, set the base branch to `alpha` (for example `--base alpha`).
-- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); if the change is breaking, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**); add or append a `TestForm` demo for features (see **TestForm Demos**; do not overwrite an existing demo); also add a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) or append if one exists (clone into the parent directory if missing; work on an `alpha-…` branch from `alpha`; see **Standard-Toolkit-Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the Standard-Toolkit pull request (new or existing). Demos files belong only in the Demos repo. Use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
+- If a pull request is opened or created (only with explicit user consent), it must be compared with `alpha`, not `master`, `gold`, or `canary`. When using `gh pr create`, set the base branch to `alpha` (for example `--base alpha`).
+- Completed bugs and features: update `Documents/Changelog/Changelog.md` (see **Changelog** above); if the change is breaking, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**); add or append a `TestForm` demo for features (see **TestForm Demos**; do not overwrite an existing demo); also add a consumer example in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) or append if one exists (clone into the parent directory if missing; work on an `alpha-…` branch from `alpha`; see **Standard-Toolkit-Demos**); write a `Documents/Development/` guide when the feature warrants in-depth maintainer docs, and a PR description in `Documents/PR/` (see **Pull Request Descriptions** below). **Do not include** `Documents/Development/` files or the per-change `Documents/PR/` description file in the Standard-Toolkit pull request (new or existing). Demos files belong only in the Demos repo. When the user explicitly asks to open a PR, use the PR description file as the GitHub PR body (`gh pr create --base alpha --body-file Documents/PR/<file>.md`).
 - Do not add routine validation noise to commit messages or PR descriptions (CI check lists, analyzer dumps). The required **build log screenshot** is the exception (see **Build Log Screenshot**). Mention other checks only when they are essential context, unusual, failed, or specifically requested.
 
 ## Pull Request Descriptions
 
-When a **bug fix** or **feature** is completed, create a **PR description** as a Markdown file in the `Documents/PR/` folder **before** the pull request is opened. The file is the reviewer-facing record: use it **as the GitHub PR body** (`gh pr create --base alpha --body-file Documents/PR/<file>.md`), and do **not** include that file in the pull request. When the pull request is opened or created, compare it with `alpha`, not `master`, `gold`, or `canary` (see **Commit & Pull Request Guidelines**).
+When a **bug fix** or **feature** is completed, create a **PR description** as a Markdown file in the `Documents/PR/` folder. The file is the reviewer-facing record for when a pull request is opened later. Do **not** include that file in the pull request. Drafting this file is **not** consent to open a GitHub PR — open, create, or push a pull request only when the user explicitly asks (see **Commit & Pull Request Guidelines**). When a PR is opened with consent, use this file **as the GitHub PR body** (`gh pr create --base alpha --body-file Documents/PR/<file>.md`) and compare with `alpha`, not `master`, `gold`, or `canary`.
 
 ### When to add
 
@@ -893,7 +894,8 @@ When a **bug fix** or **feature** is completed, create a **PR description** as a
 
 ### Opening the pull request
 
-- Use this file **as** the GitHub PR description. Do not write a second body.
+- Do **not** run `gh pr create`, open a PR in the UI, or push a branch solely to create a PR unless the user explicitly asks. Completing the local `Documents/PR/` draft does not authorize opening.
+- When the user explicitly asks to open a PR, use this file **as** the GitHub PR description. Do not write a second body.
 - Prefer `gh pr create --base alpha --body-file Documents/PR/<file>.md` (or the equivalent `--body-file` when updating). On Windows PowerShell, pass the path as a single argument; do not rely on shell quotes around a pasted body (see **Recent Tooling Mistakes To Avoid**).
 - Do not include this file, or any file under `Documents/Development/`, in the commits that make up a new or existing PR.
 - Do **not** upload or attach screenshot PNGs/GIFs or the build-log PNG to the GitHub pull request. Relative image links in this file are for the local draft only.
@@ -917,7 +919,8 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 
 - Do not add changelog entries or release notes inside `Documents/PR/` files — those belong in `Documents/Changelog/Changelog.md`.
 - Do not add references or index entries for `Documents/PR/` files in `Scripts/ModernBuild/README.md`.
-- Do **not** include the per-change PR description file (`Documents/PR/<issue-or-branch>-<short-title>.md`) or matching screenshot PNGs/GIFs (including the build-log PNG) in a new or existing pull request. Write them locally, use the Markdown as the GitHub PR body, and leave them untracked (or unstaged) relative to the PR. Do **not** upload or attach the screenshot, GIF, or build-log files to GitHub. Leave `TEMPLATE.md` and `README.md` in this folder alone unless the task is to update those shared files.
+- Do **not** include the per-change PR description file (`Documents/PR/<issue-or-branch>-<short-title>.md`) or matching screenshot PNGs/GIFs (including the build-log PNG) in a new or existing pull request. Write them locally; when the user explicitly asks to open a PR, use the Markdown as the GitHub PR body, and leave them untracked (or unstaged) relative to the PR. Do **not** upload or attach the screenshot, GIF, or build-log files to GitHub. Leave `TEMPLATE.md` and `README.md` in this folder alone unless the task is to update those shared files.
+- Do **not** open a GitHub pull request automatically after completing work. Draft the local description; wait for explicit user consent before `gh pr create` or equivalent.
 - Do **not** include files under `Documents/Development/` in a new or existing pull request. If an existing PR already contains those files or the per-change PR description, remove them from the PR so they are no longer in the diff.
 
 ## Security & Configuration Tips

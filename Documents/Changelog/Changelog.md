@@ -48,6 +48,15 @@
 * Resolved / Implemented [#4432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4432), ButtonSpecs do not cover the full height of the control
   * `ButtonSpec.FillHeight` stretches ButtonSpecs to the full height of the host control (default remains vertically centred).
   * `ButtonSpecEdgeArrange.StackAlongEdge` (on TextBox, ComboBox, MaskedTextBox, DateTimePicker, NumericUpDown, DomainUpDown, CalcInput) stacks same-edge ButtonSpecs vertically; default remains side-by-side.
+* Resolved [#4424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4424), Replace this with the graphic DrawString to get around some drawing looking Very Poor
+  * `KryptonComboBox` edit-strip text now uses GDI+ `DrawString` so palette text hints apply and ClearType no longer looks poor on the themed background.
+* Resolved [#4425](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4425), Keep KryptonComboBox drop-down width tracking control width
+  * `KryptonComboBox` keeps the drop-down list width in sync with the control when `DropDownWidth` has not been set explicitly (removed the leftover Content-palette sync TODO from [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704)).
+* Resolved [#4404](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4404), Removed obsolete Office 2013 "render dynamically" TODOs now covered by `KryptonColorSchemeBase`
+* Implemented [#4366](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4366), Dedicated `KryptonSplitButton` Toolbox control (body click vs chevron drop-down).
+  * Drop this control when the button is always split. `KryptonButton.ShowSplitOption` remains for the legacy opt-in. Use `KryptonDropButton` with `Splitter = false` when the whole button should open the menu. The `&Save` mnemonic fires `Click`, not the menu.
+  * The chevron menu is aligned to the split (right edge by default) on `KryptonSplitButton`, `KryptonDropButton`, and `KryptonButton` with `ShowSplitOption`.
+  * Design-time support reuses `KryptonDropButtonDesigner` via the string `[Designer]` attribute so modern TFMs load it from `Krypton.Toolkit.Design`.
 * Resolved [#4410](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4410), Tabbed floating toolbar pages now show their toolbar/menu strip content; the tabbed container hosts its navigator on `KryptonForm.InternalPanel` so tabs and toolbars are visible after `ResumeLayout`
   * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 * Resolved `KryptonCustomThemeGenerator` no longer throws when a dark donor is chosen without `Krypton.Themes`. `AvailableDonorModes` / `IsAvailableDonor` expose catalog-registered donors; random seeds and the builder skip unregistered extras until Themes is present.

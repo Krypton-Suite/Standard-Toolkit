@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -13,7 +13,7 @@ namespace TestForm;
 
 /// <summary>
 /// Comprehensive demonstration of drop-down arrows: smaller size, DPI awareness (Issue #2129), and crisp bitmap glyphs (Issue #3663).
-/// Shows KryptonButton, KryptonDropButton, KryptonComboBox, KryptonDateTimePicker, KryptonColorButton,
+/// Shows KryptonButton, KryptonDropButton, KryptonSplitButton, KryptonComboBox, KryptonDateTimePicker, KryptonColorButton,
 /// and KryptonNumericUpDown with their drop-down arrows. Verifies arrows scale correctly at different DPI.
 /// </summary>
 public partial class DropDownArrowsDemo : KryptonForm
