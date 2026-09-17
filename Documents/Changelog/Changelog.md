@@ -45,6 +45,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4425](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4425), Keep KryptonComboBox drop-down width tracking control width
+  * `KryptonComboBox` keeps the drop-down list width in sync with the control when `DropDownWidth` has not been set explicitly (removed the leftover Content-palette sync TODO from [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704)).
 * Resolved [#4404](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4404), Removed obsolete Office 2013 "render dynamically" TODOs now covered by `KryptonColorSchemeBase`
 * Implemented [#4366](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4366), Dedicated `KryptonSplitButton` Toolbox control (body click vs chevron drop-down).
   * Drop this control when the button is always split. `KryptonButton.ShowSplitOption` remains for the legacy opt-in. Use `KryptonDropButton` with `Splitter = false` when the whole button should open the menu. The `&Save` mnemonic fires `Click`, not the menu.
