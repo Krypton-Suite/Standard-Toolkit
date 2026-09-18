@@ -468,6 +468,31 @@
 	  <AutoGen>True</AutoGen>
 	  <DependentUpon>WindowsLogoImageResources.resx</DependentUpon>
 	</Compile>
+	<Compile Update="ResourceFiles\WindowsXPEmbedded\WindowsXPEmbeddedImageResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>WindowsXPEmbeddedImageResources.resx</DependentUpon>
+	</Compile>
+	<Compile Update="ResourceFiles\WindowsXPLuna\WindowsXPLunaImageResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>WindowsXPLunaImageResources.resx</DependentUpon>
+	</Compile>
+	<Compile Update="ResourceFiles\WindowsXPRoyaleNoir\WindowsXPRoyaleNoirImageResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>WindowsXPRoyaleNoirImageResources.resx</DependentUpon>
+	</Compile>
+	<Compile Update="ResourceFiles\WindowsXPRoyale\WindowsXPRoyaleImageResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>WindowsXPRoyaleImageResources.resx</DependentUpon>
+	</Compile>
+	<Compile Update="ResourceFiles\WindowsXPZune\WindowsXPZuneImageResources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>WindowsXPZuneImageResources.resx</DependentUpon>
+	</Compile>
 	<Compile Update="View Base\ViewControl.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -911,6 +936,26 @@
 	<EmbeddedResource Update="ResourceFiles\WindowsLogos\WindowsLogoImageResources.resx">
 	  <Generator>ResXFileCodeGenerator</Generator>
 	  <LastGenOutput>WindowsLogoImageResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\WindowsXPEmbedded\WindowsXPEmbeddedImageResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>WindowsXPEmbeddedImageResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\WindowsXPLuna\WindowsXPLunaImageResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>WindowsXPLunaImageResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\WindowsXPRoyaleNoir\WindowsXPRoyaleNoirImageResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>WindowsXPRoyaleNoirImageResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\WindowsXPRoyale\WindowsXPRoyaleImageResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>WindowsXPRoyaleImageResources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+	<EmbeddedResource Update="ResourceFiles\WindowsXPZune\WindowsXPZuneImageResources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>WindowsXPZuneImageResources.Designer.cs</LastGenOutput>
 	</EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
