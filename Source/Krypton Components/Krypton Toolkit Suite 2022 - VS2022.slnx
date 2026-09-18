@@ -139,6 +139,7 @@
   </Folder>
   <Folder Name="/Source/Shared Libraries/">
     <Project Path="Krypton.Interop/Krypton.Interop.csproj" />
+    <Project Path="Krypton.Resources/Krypton.Resources.csproj" />
   </Folder>
   <Folder Name="/Source/Utility Libraries/">
     <Project Path="Krypton.Navigator.Utilities/Krypton.Navigator.Utilities.csproj" Id="20869492-f8bf-4fc1-9714-44012de15756">
