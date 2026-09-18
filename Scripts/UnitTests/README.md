@@ -88,6 +88,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-TextBoxInputModeScreenshot.ps1` | Opens `TextBoxInputModeDemo` (#4417) and writes `Documents/PR/4417-textbox-input-mode-demo.png` | `exclude` |
 | `Invoke-SplitButtonScreenshot.ps1` | Hosts `KryptonSplitButtonDemo` (#4366) and writes `Documents/PR/4366-krypton-split-button-default.png` | `exclude` |
 | `Invoke-WinFormsDesignerSdkScreenshot.ps1` | Hosts `WinFormsDesignerSdkDemo` (#593) and writes `Documents/PR/593-winforms-designer-sdk-host.png` | `exclude` |
 | `Invoke-ThemeListViewHoverScreenshot.ps1` | Hosts `ThemeCatalogDemo` (#3870), applies a list-view hover preview, writes PNG stills under `Documents/PR/` | `exclude` |

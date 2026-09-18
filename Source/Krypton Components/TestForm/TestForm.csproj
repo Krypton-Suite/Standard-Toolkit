@@ -180,6 +180,12 @@
     <Compile Update="KryptonToolkit\Feature\KryptonSplitButtonDemo.Designer.cs">
       <DependentUpon>KryptonSplitButtonDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\TextBoxInputModeDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\TextBoxInputModeDemo.Designer.cs">
+      <DependentUpon>TextBoxInputModeDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\WinFormsDesignerSdkDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -197,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\KryptonSplitButtonDemo.resx">
       <DependentUpon>KryptonSplitButtonDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\TextBoxInputModeDemo.resx">
+      <DependentUpon>TextBoxInputModeDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\ToolkitRtlGalleryDemo.resx">
       <DependentUpon>ToolkitRtlGalleryDemo.cs</DependentUpon>
