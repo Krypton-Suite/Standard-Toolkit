@@ -23,3 +23,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 ```
 
 The script instantiates toolbox controls, walks `TypeDescriptor` content properties, and fails if core drop targets have `IsDefault == false` or unexpected `ShouldSerializeValue == true`.
+
+## TextBox InputMode screenshot (`Invoke-TextBoxInputModeScreenshot.ps1`)
+
+Issue #4417: opens `TextBoxInputModeDemo` and writes `Documents/PR/4417-textbox-input-mode-v105-demo.png`.
+
+```cmd
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-TextBoxInputModeScreenshot.ps1
+```

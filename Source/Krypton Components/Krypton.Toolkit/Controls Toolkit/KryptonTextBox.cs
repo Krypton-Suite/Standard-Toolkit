@@ -294,6 +294,15 @@ public class KryptonTextBox : VisualControlBase,
                     }
                     base.WndProc(ref m);
                     break;
+                case PI.WM_.PASTE:
+                    // Filter clipboard paste when InputMode restricts characters.
+                    if (_kryptonTextBox.TryPasteFilteredClipboardText())
+                    {
+                        return;
+                    }
+
+                    base.WndProc(ref m);
+                    break;
                 default:
                     base.WndProc(ref m);
                     break;
@@ -353,7 +362,7 @@ public class KryptonTextBox : VisualControlBase,
     private int _cachedHeight;
     private bool _multilineStringEditor;
     private bool _showEllipsisButton;
-    //private bool _isInAlphaNumericMode;
+    private KryptonTextBoxInputMode _inputMode;
     private readonly ButtonSpecAny _editorButton;
 
     #endregion
@@ -547,8 +556,7 @@ public class KryptonTextBox : VisualControlBase,
         // Add text box to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
 
-        //_isInAlphaNumericMode = false;
-
+        _inputMode = KryptonTextBoxInputMode.Any;
         _showEllipsisButton = false;
     }
 
@@ -573,13 +581,24 @@ public class KryptonTextBox : VisualControlBase,
 
     #region Public
 
-    // TODO: Return to this...
-    /*
-    /// <summary>Gets or sets a value indicating whether this instance is in alpha numeric mode.</summary>
-    /// <value><c>true</c> if this instance is in alpha numeric mode; otherwise, <c>false</c>.</value>
-    [Category(@"Data"), DefaultValue(false), Description(@"Only allow numerical input.")]
-    public bool IsInAlphaNumericMode { get => _isInAlphaNumericMode; set { _isInAlphaNumericMode = value; SetIsInAlphaNumericMode(this); } }
-    */
+    /// <summary>
+    /// Gets or sets which characters the text box accepts from typing and paste.
+    /// </summary>
+    /// <remarks>
+    /// Restricts interactive input only. Programmatic <see cref="Text"/> assignment is not filtered.
+    /// Control characters (Backspace, Delete, Enter, Tab, and similar) remain allowed so editing keys work.
+    /// Multiline newline characters from paste are kept when <see cref="Multiline"/> is <c>true</c>.
+    /// For patterned masks prefer <see cref="KryptonMaskedTextBox"/>; for spin values prefer <see cref="KryptonNumericUpDown"/>.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue(KryptonTextBoxInputMode.Any)]
+    [Description(@"Restricts typing and paste to Any, Digits, Letters, or Alphanumeric characters.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public KryptonTextBoxInputMode InputMode
+    {
+        get => _inputMode;
+        set => _inputMode = value;
+    }
 
     /// <summary>
     /// Gets access to the common textbox appearance entries that other states can override.
@@ -1206,7 +1225,13 @@ public class KryptonTextBox : VisualControlBase,
     /// <summary>
     /// Replaces the current selection in the text box with the contents of the Clipboard.
     /// </summary>
-    public void Paste() => _textBox.Paste();
+    public void Paste()
+    {
+        if (!TryPasteFilteredClipboardText())
+        {
+            _textBox.Paste();
+        }
+    }
 
     /// <summary>
     /// Scrolls the contents of the control to the current caret position.
@@ -1914,7 +1939,17 @@ public class KryptonTextBox : VisualControlBase,
         OnLostFocus(e);
     }
 
-    private void OnTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
+    private void OnTextBoxKeyPress(object? sender, KeyPressEventArgs e)
+    {
+        if (_inputMode != KryptonTextBoxInputMode.Any
+            && !char.IsControl(e.KeyChar)
+            && !IsModeCharAllowed(e.KeyChar, _inputMode))
+        {
+            e.Handled = true;
+        }
+
+        OnKeyPress(e);
+    }
 
     private void OnTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
@@ -2051,10 +2086,62 @@ public class KryptonTextBox : VisualControlBase,
         base.OnClick(e);
     // ReSharper restore RedundantBaseQualifier
 
-    //private void SetIsInAlphaNumericMode(KryptonTextBox owner)
-    //{
-    //    // TODO: Return to this...
-    //}
+    /// <summary>
+    /// When <see cref="InputMode"/> restricts characters, inserts a filtered clipboard paste and returns <c>true</c>.
+    /// Returns <c>false</c> when the default paste path should run (mode is <see cref="KryptonTextBoxInputMode.Any"/>).
+    /// </summary>
+    /// <returns><c>true</c> if paste was handled; otherwise <c>false</c>.</returns>
+    private bool TryPasteFilteredClipboardText()
+    {
+        if (_inputMode == KryptonTextBoxInputMode.Any)
+        {
+            return false;
+        }
+
+        if (!Clipboard.ContainsText())
+        {
+            return true;
+        }
+
+        string filtered = FilterInputText(Clipboard.GetText());
+        if (filtered.Length > 0)
+        {
+            _textBox.SelectedText = filtered;
+        }
+
+        return true;
+    }
+
+    private string FilterInputText(string text)
+    {
+        if (string.IsNullOrEmpty(text) || _inputMode == KryptonTextBoxInputMode.Any)
+        {
+            return text;
+        }
+
+        var builder = new StringBuilder(text.Length);
+        foreach (char c in text)
+        {
+            if (IsPasteCharAllowed(c))
+            {
+                builder.Append(c);
+            }
+        }
+
+        return builder.ToString();
+    }
+
+    private bool IsPasteCharAllowed(char c) =>
+        ((c == '\r' || c == '\n') && Multiline) || IsModeCharAllowed(c, _inputMode);
+
+    private static bool IsModeCharAllowed(char c, KryptonTextBoxInputMode mode) =>
+        mode switch
+        {
+            KryptonTextBoxInputMode.Digits => char.IsDigit(c),
+            KryptonTextBoxInputMode.Letters => char.IsLetter(c),
+            KryptonTextBoxInputMode.Alphanumeric => char.IsLetterOrDigit(c),
+            _ => true
+        };
 
     private void ToggleEllipsisButtonVisibility(bool visible)
     {

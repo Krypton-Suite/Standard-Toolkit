@@ -4484,6 +4484,28 @@ public enum RichTextParagraphAlignment
 
 #endregion
 
+#region Enum KryptonTextBoxInputMode
+
+/// <summary>
+/// Restricts which characters <see cref="KryptonTextBox"/> accepts from typing and paste.
+/// </summary>
+public enum KryptonTextBoxInputMode
+{
+    /// <summary>Accept any character (default WinForms behaviour).</summary>
+    Any = 0,
+
+    /// <summary>Accept digit characters only (<see cref="char.IsDigit(char)"/>).</summary>
+    Digits = 1,
+
+    /// <summary>Accept letter characters only (<see cref="char.IsLetter(char)"/>).</summary>
+    Letters = 2,
+
+    /// <summary>Accept letters and digits (<see cref="char.IsLetterOrDigit(char)"/>).</summary>
+    Alphanumeric = 3
+}
+
+#endregion
+
 #region IFocusLostMenuItem
 /// <summary>
 /// This interface can be implemented by any (derived) control or component that needs focus handling via the FocusLostMenuHelper.
