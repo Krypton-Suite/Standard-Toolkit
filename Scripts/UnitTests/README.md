@@ -52,6 +52,7 @@ Default output folder: `Bin\Debug\net472`.
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
 | `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false) | `include` |
+| `UnitTest-KryptonSplitButton.ps1` | #4366 `KryptonSplitButton` always-on splitter, not a `KryptonButton`, `AccessibleRole.SplitButton`, `Values.IsDefault` | `include` |
 | `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
 | `UnitTest-ThemePreview.ps1` | #3870 `KryptonThemePreview` mock-up size, `AssignGeneratedThumbnail`, `.kthemex` Thumbnail round-trip | `include` |
 | `UnitTest-RibbonDetachable.ps1` | #595 Ribbon detach/reattach lifecycle, floating window, drag-to-reattach support | `include` |
@@ -87,6 +88,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-SplitButtonScreenshot.ps1` | Hosts `KryptonSplitButtonDemo` (#4366) and writes `Documents/PR/4366-krypton-split-button-default.png` | `exclude` |
 | `Invoke-WinFormsDesignerSdkScreenshot.ps1` | Hosts `WinFormsDesignerSdkDemo` (#593) and writes `Documents/PR/593-winforms-designer-sdk-host.png` | `exclude` |
 | `Invoke-ThemeListViewHoverScreenshot.ps1` | Hosts `ThemeCatalogDemo` (#3870), applies a list-view hover preview, writes PNG stills under `Documents/PR/` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
@@ -94,6 +96,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-PaletteCollectionEditorScreenshot.ps1` | Hosts `KryptonPaletteCollectionEditor` (#2117) and writes `Documents/PR/2117-pack-editor-demo.png` | `exclude` |
 | `Invoke-RatingScreenshot.ps1` | Launches `TestForm.exe --demo KryptonRatingDemo` (#3928) and writes default/half PNGs plus a hover GIF under `Documents/PR/` | `exclude` |
 | `Invoke-ComboBoxSimpleStyleScreenshot.ps1` | Hosts `Feature4339ComboBoxSimpleStyleDemo` (#4339) and writes `Documents/PR/4339-combobox-simple-style.png` | `exclude` |
+| `Invoke-ComboBoxDrawStringScreenshot.ps1` | Hosts same demo in DropDownList (#4424 GDI+ edit text) and writes `Documents/PR/4424-combobox-drawstring-dropdownlist.png` | `exclude` |
 | `Invoke-TreeViewMultiSelectScreenshot.ps1` | Hosts `Bug4326TreeViewMultiSelectDemo` and writes `Documents/PR/4326-treeview-multiselect-false.png` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
