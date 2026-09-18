@@ -158,7 +158,7 @@
     <value>..\..\Resources\gear_multi-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="KryptonLogoStable.Ico" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\..\Krypton.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+    <value>..\..\..\Krypton.Toolkit\Krypton.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="power_off_multi_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\..\Resources\power_off_multi-icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

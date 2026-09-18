@@ -67,6 +67,7 @@ Before considering a task complete:
 
 - `Krypton.Toolkit` contains the shared infrastructure.
 - `Krypton.Interop` holds shared internal Win32/P/Invoke and net472 nullable polyfills; referenced by `Krypton.Toolkit` and consumed transitively by sibling assemblies.
+- `Krypton.Resources` holds the shared image/string resource bank (`ResourceFiles` / theme bitmaps); `IsPackable=false` and bundled into `Krypton.Toolkit` / sibling / `Krypton.Standard.Toolkit` nupkgs via `Krypton.Resources.Package.targets` (same pattern as Interop). Typed accessors stay under `Krypton.Toolkit.ResourceFiles.*` namespaces.
 - `Krypton.Themes` holds **extra** builtin palettes (optional assembly, auto-discovered). Toolkit must **not** project-reference Themes (cycle). `Krypton.Standard.Toolkit` **does** reference Themes and must pack `Krypton.Themes.dll` into `lib\{tfm}\` so extra palettes auto-discover. Individual `Krypton.Toolkit` packages do not include Themes.
 - Out-of-process designers for modern Windows TFMs live in `Krypton.*.Design` (issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593)). Runtime libraries must not reference `Microsoft.WinForms.Designer.SDK` or ProjectReference a Design project (cycle). See **WinForms Designer Extensibility SDK**.
 - `Krypton.Ribbon` depends on `Krypton.Toolkit`.

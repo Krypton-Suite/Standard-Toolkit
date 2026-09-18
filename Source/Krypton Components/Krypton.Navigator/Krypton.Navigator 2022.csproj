@@ -75,7 +75,9 @@
   <ItemGroup>
     <!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
          PrivateAssets="all" keeps the unpublished package out of this package's nuspec dependencies (#3908). -->
-    <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+    		<!-- Krypton.Resources: direct reference required (typed ResourceFiles accessors via InternalsVisibleTo); PrivateAssets so it is not a NuGet dependency (bundled via Krypton.Resources.Package.targets). -->
+		<ProjectReference Include="..\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
   <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
