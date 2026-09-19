@@ -48,6 +48,7 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Resolved [#4421](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4421) / [#4422](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4422), Calendar "today" border override no longer uses a dead `Disabled` check inside `TodayOverride` (always returns the today border colour across builtin palettes)
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text is unreadable on Office White, Office 2007 Black, and Visual Studio 2010 themes.
   * ColorTable `ToolStripText` now picks a scheme colour that contrasts with the tool-strip background (WCAG AA 4.5:1) instead of always reusing status-strip or button text.

@@ -11,7 +11,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>
 /// Marks a <see cref="KryptonGlobalToolkitStrings"/> Content property as a compatibility alias that should be
-/// skipped during canonical export (<see cref="CommonStrings"/> is written instead) but still accepted on import.
+/// skipped during canonical export (<c>CommonStrings</c> XML group is written instead) but still accepted on import.
 /// </summary>
 [AttributeUsage(AttributeTargets.Property)]
 internal sealed class ToolkitStringsCanonicalAliasAttribute : Attribute
