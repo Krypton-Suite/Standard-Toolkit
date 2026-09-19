@@ -46,6 +46,12 @@
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#4414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4414), Removed dead `OnNotifyMessage` overrides that filtered `WM_ERASEBKGND` without effect (`EnableNotifyMessage` was never enabled).
+* Resolved [#4419](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4419), Use scaling here, to support larger screens
+ * Toast notifications scale screen-edge and borderless height padding for high-DPI displays; toasts without a close box use borderless chrome.
+ * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Resolved / Implemented [#4432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4432), ButtonSpecs do not cover the full height of the control
+  * `ButtonSpec.FillHeight` stretches ButtonSpecs to the full height of the host control (default remains vertically centred).
+  * `ButtonSpecEdgeArrange.StackAlongEdge` (on TextBox, ComboBox, MaskedTextBox, DateTimePicker, NumericUpDown, DomainUpDown, CalcInput) stacks same-edge ButtonSpecs vertically; default remains side-by-side.
 * Resolved [#4423](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4423), Documented why `GetButtonSpecImage` returns null for `PaletteButtonSpecStyle.Generic` (no stock palette glyph; consumers supply the image)
 * Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly
 * Resolved [#4424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4424), Replace this with the graphic DrawString to get around some drawing looking Very Poor
