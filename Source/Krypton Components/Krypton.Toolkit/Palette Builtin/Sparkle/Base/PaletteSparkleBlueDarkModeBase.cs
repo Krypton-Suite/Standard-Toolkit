@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -149,7 +149,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTableSparkle? _table;
     private readonly Color[] _sparkleColors;
     private readonly Color[] _appButtonNormal;
@@ -164,46 +164,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the PaletteSparkleBlueDarkModeBase class.
-    /// </summary>
-    /// <param name="ribbonColors">Colors used mainly for the ribbon.</param>
-    /// <param name="sparkleColors">Colors used mainly for the sparkle settings.</param>
-    /// <param name="appButtonNormal">Colors for app button in normal state.</param>
-    /// <param name="appButtonTrack">Colors for app button in tracking state.</param>
-    /// <param name="appButtonPressed">Colors for app button in pressed state.</param>
-    /// <param name="ribbonGroupCollapsedBorderContextTracking">Colors for tracking a collapsed group border.</param>
-    /// <param name="checkBoxList">Images for check box controls.</param>
-    /// <param name="radioButtonArray">Images for radio button controls.</param>
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
-    protected PaletteSparkleBlueDarkModeBase(Color[] ribbonColors,
-        Color[] sparkleColors,
-        Color[] appButtonNormal,
-        Color[] appButtonTrack,
-        Color[] appButtonPressed,
-        Color[] ribbonGroupCollapsedBorderContextTracking,
-        ImageList checkBoxList,
-        Image?[] radioButtonArray)
-    {
-        ThemeName = nameof(PaletteSparkleBlueDarkModeBase);
-
-        // Save colors for use in the color table
-        _ribbonColors = ribbonColors;
-        _sparkleColors = sparkleColors;
-        _appButtonNormal = appButtonNormal;
-        _appButtonTrack = appButtonTrack;
-        _appButtonPressed = appButtonPressed;
-        _ribbonGroupCollapsedBorderContextTracking = ribbonGroupCollapsedBorderContextTracking;
-        _checkBoxList = checkBoxList;
-        _radioButtonArray = radioButtonArray;
-
-        // Get the font settings from the system
-        DefineFonts();
-
-        SetTrackBarColors();
-    }
-
-    /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed color scheme.
     /// </summary>
     protected PaletteSparkleBlueDarkModeBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
@@ -218,10 +179,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         ThemeName = nameof(PaletteSparkleBlueDarkModeBase);
 
         // Save colors for use in the color table
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+        _ribbonColors = scheme!.ToArray();
         _sparkleColors = sparkleColors;
         _appButtonNormal = appButtonNormal;
         _appButtonTrack = appButtonTrack;
@@ -233,7 +192,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         // Get the font settings from the system
         DefineFonts();
 
-        BaseColors = scheme;
+        
 
         SetTrackBarColors();
     }

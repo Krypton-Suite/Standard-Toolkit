@@ -48,6 +48,10 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` / Sparkle `Color[] ribbonColors` overloads removed).
+ * Pass a `*_BaseScheme` (or `EmptySchemeBase` for Light Gray placeholders) instead of a raw colour array when subclassing palette family bases or constructing Light Gray themes.
+ * `PaletteMicrosoft365LightGray` is now parameterless; `PaletteOffice2007LightGray` / `PaletteOffice2010LightGray` no longer take unused `Color[]` / `trackBarColors` parameters.
+ * `BaseColors` on migrated family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text is unreadable on Office White, Office 2007 Black, and Visual Studio 2010 themes.
   * ColorTable `ToolStripText` now picks a scheme colour that contrasts with the tool-strip background (WCAG AA 4.5:1) instead of always reusing status-strip or button text.
