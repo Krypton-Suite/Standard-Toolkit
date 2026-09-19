@@ -1260,7 +1260,7 @@ public abstract class PaletteMicrosoft365BlueLightModeBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -1388,7 +1388,7 @@ public abstract class PaletteMicrosoft365BlueLightModeBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
