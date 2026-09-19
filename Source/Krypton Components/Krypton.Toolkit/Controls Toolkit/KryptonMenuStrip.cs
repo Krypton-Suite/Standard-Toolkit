@@ -212,6 +212,15 @@ public class KryptonMenuStrip : MenuStrip,
 
     private bool ShouldSerializeStateNormal() => !_stateNormal.IsDefault;
 
+    /// <summary>
+    /// Creates caption <see cref="ButtonSpecAny"/> instances for this strip's top-level items.
+    /// Assign the strip to <see cref="KryptonFormTitleBar.MenuStrip"/> for a live bind instead of copying.
+    /// </summary>
+    /// <param name="showDropArrow">Whether drop-down caption buttons show a drop glyph.</param>
+    /// <returns>Newly created specs. Clicks forward to the original menu items.</returns>
+    public ButtonSpecAny[] CreateTitleBarButtonSpecs(bool showDropArrow = false) =>
+        KryptonFormTitleBar.CreateButtonSpecsFrom(this, showDropArrow);
+
     #endregion
 
     #region Implementation

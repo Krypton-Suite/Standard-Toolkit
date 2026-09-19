@@ -22,7 +22,7 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
 [DefaultEvent(nameof(SelectedNodesChanged))]
 [DefaultProperty(nameof(Nodes))]
-[Designer(typeof(KryptonMultiSelectTreeViewDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonMultiSelectTreeViewDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Displays a hierarchical tree with Krypton styling and extended multi-selection.")]
 [Docking(DockingBehavior.Ask)]

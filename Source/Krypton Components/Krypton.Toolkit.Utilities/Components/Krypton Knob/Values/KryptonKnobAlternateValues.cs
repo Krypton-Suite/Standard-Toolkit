@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -55,9 +55,9 @@ public class KryptonKnobAlternateValues : Storage
         SmallChange == 1 &&
         Value == 0 &&
         BackStyle == PaletteBackStyle.PanelClient &&
-        _owner.StateCommon.Face.Color1 == SharedStaticVariables.EMPTY_COLOR &&
-        _owner.StateCommon.Indicator.Color1 == SharedStaticVariables.EMPTY_COLOR &&
-        _owner.StateCommon.Tick.Color1 == SharedStaticVariables.EMPTY_COLOR &&
+        _owner.StateCommon.Face.IsDefault &&
+        _owner.StateCommon.Indicator.IsDefault &&
+        _owner.StateCommon.Tick.IsDefault &&
         _owner.ScaleTypefaceMatchesControlFont();
     #endregion
 

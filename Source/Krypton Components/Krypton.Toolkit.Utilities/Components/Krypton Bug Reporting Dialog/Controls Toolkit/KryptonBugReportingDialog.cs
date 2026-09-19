@@ -16,6 +16,10 @@ public static class KryptonBugReportingDialog
 {
     #region Public
 
+    /// <summary>Gets the localisable strings used by the bug-reporting and GitHub issue dialogs.</summary>
+    public static KryptonBugReportingDialogStrings Strings { get; } = new KryptonBugReportingDialogStrings();
+
+
     /// <summary>
     /// Displays the bug reporting dialog to allow the user to report a bug.
     /// </summary>

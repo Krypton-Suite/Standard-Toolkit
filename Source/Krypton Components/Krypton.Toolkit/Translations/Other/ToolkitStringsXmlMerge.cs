@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Merges two Translations.xml files. Values present in the overlay
+/// Merges two ToolkitTranslations.xml files. Values present in the overlay
 /// document take precedence; strings only in the baseline are carried through.
 /// Useful when upgrading the toolkit: export a fresh template as the baseline, then overlay
 /// the user's customised file to produce a merged result.
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit;
 public static class ToolkitStringsXmlMerge
 {
     /// <summary>
-    /// Merges two Translations.xml files. The <paramref name="overlayPath"/> file's values
+    /// Merges two ToolkitTranslations.xml files. The <paramref name="overlayPath"/> file's values
     /// take precedence over <paramref name="baselinePath"/>.
     /// </summary>
     /// <param name="baselinePath">Path to the baseline (e.g. fresh template) file.</param>
@@ -52,7 +52,7 @@ public static class ToolkitStringsXmlMerge
     }
 
     /// <summary>
-    /// Merges two Translations.xml documents in memory. Values from <paramref name="overlay"/>
+    /// Merges two ToolkitTranslations.xml documents in memory. Values from <paramref name="overlay"/>
     /// overwrite matching entries in <paramref name="baseline"/>.
     /// </summary>
     /// <param name="baseline">The baseline document.</param>

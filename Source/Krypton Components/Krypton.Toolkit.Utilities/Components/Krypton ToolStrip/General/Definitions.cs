@@ -11,9 +11,18 @@ namespace Krypton.Toolkit.Utilities;
 
 #region Enum BlinkState
 
+/// <summary>
+/// Defines the current state of a <see cref="KryptonBlinkingToolStripStatusLabel"/>.
+/// </summary>
 public enum BlinkState
 {
+    /// <summary>
+    /// The label is in the normal state, not blinking.
+    /// </summary>
     NormalBlink = 0,
+    /// <summary>
+    /// The label is blinking.
+    /// </summary>
     SoftBlink = 1
 }
 

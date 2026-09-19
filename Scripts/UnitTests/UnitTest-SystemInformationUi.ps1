@@ -1,15 +1,15 @@
 ﻿<#
 .SYNOPSIS
-    Interactive #3176 System Information host: open the dialog and wait for System Summary rows.
+    Asserts #3176 System Information UI populates the details grid.
 
 .DESCRIPTION
-    Hosts KryptonSystemInformation modelessly. WMI may return access-denied rows; a non-empty
-    grid (including error/unavailable rows) is treated as success. Not for CI.
+    Hosts KryptonSystemInformation modelessly (off-screen). WMI may return access-denied rows;
+    a non-empty grid (including error/unavailable rows) is treated as success.
 
 .EXAMPLE
     powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-SystemInformationUi.ps1
 #>
-# UnitTest-CI: exclude
+# UnitTest-CI: include
 [CmdletBinding()]
 param(
     [string]$Configuration = 'Debug',
@@ -32,6 +32,8 @@ Add-Type -AssemblyName System.Drawing
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.Utilities.dll'))
 
 $form = [Krypton.Toolkit.Utilities.KryptonSystemInformation]::Show($null)
+$form.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
+$form.Location = New-Object System.Drawing.Point(-32000, -32000)
 $sw = [System.Diagnostics.Stopwatch]::StartNew()
 while ($sw.Elapsed.TotalSeconds -lt 30 -and -not $form.IsDisposed) {
     [System.Windows.Forms.Application]::DoEvents()

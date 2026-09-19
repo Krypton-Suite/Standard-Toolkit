@@ -27,7 +27,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(SelectedValueChanged))]
 [DefaultProperty(nameof(EnumType))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonEnumButtonDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonEnumButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"A button that displays an enum value and cycles through the values when clicked.")]
 public class KryptonEnumButton : KryptonButton
 {

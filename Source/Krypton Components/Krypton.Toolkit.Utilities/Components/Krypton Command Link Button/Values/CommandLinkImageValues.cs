@@ -67,14 +67,14 @@ public class CommandLinkImageValues : Storage, IContentValues
             }
         }
     }
-    private bool ShouldSerializeImageTransparentColor() => _transparencyKey != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => _transparencyKey != SharedStaticVariables.EMPTY_COLOR;
+    private void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>The UAC image.</summary>
     [Category("Visuals")]
     [Description("The image.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -117,10 +117,10 @@ public class CommandLinkImageValues : Storage, IContentValues
     public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
 
     /// <inheritdoc />
-    public string GetShortText() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public string GetShortText() => SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     /// <inheritdoc />
-    public string GetLongText() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public string GetLongText() => SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     /// <summary>
     /// Gets the overlay image.
@@ -134,7 +134,7 @@ public class CommandLinkImageValues : Storage, IContentValues
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

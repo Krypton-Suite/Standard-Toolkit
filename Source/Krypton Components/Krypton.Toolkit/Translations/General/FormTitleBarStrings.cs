@@ -29,6 +29,7 @@ public class FormTitleBarStrings : GlobalId
     private const string DEFAULT_CONTENTS = @"&Contents"; // Accelerator key - 'C'
     private const string DEFAULT_INDEX = @"&Index"; // Accelerator key - 'I'
     private const string DEFAULT_ABOUT = @"&About"; // Accelerator key - 'A'
+    private const string DEFAULT_MODAL_DIALOG_CAPTION = @"Processing"; // The caption for the modal dialog
 
     #endregion
 
@@ -56,7 +57,8 @@ public class FormTitleBarStrings : GlobalId
                              Options.Equals(DEFAULT_OPTIONS) &&
                              Contents.Equals(DEFAULT_CONTENTS) &&
                              Index.Equals(DEFAULT_INDEX) &&
-                             About.Equals(DEFAULT_ABOUT);
+                             About.Equals(DEFAULT_ABOUT) &&
+                             ModalDialogCaption.Equals(DEFAULT_MODAL_DIALOG_CAPTION);
 
     public void Reset()
     {
@@ -71,6 +73,7 @@ public class FormTitleBarStrings : GlobalId
         Contents = DEFAULT_CONTENTS;
         Index = DEFAULT_INDEX;
         About = DEFAULT_ABOUT;
+        ModalDialogCaption = DEFAULT_MODAL_DIALOG_CAPTION;
     }
 
     /// <summary>Gets or sets the File menu caption.</summary>
@@ -149,6 +152,13 @@ public class FormTitleBarStrings : GlobalId
     [DefaultValue(DEFAULT_ABOUT)]
     [Localizable(true)]
     public string About { get; set; }
+
+    /// <summary>Gets or sets the caption for the modal dialog.</summary>
+    [Category(@"Visuals")]
+    [Description(@"The caption for the modal dialog.")]
+    [DefaultValue(DEFAULT_MODAL_DIALOG_CAPTION)]
+    [Localizable(true)]
+    public string ModalDialogCaption { get; set; }
 
     #endregion
 }

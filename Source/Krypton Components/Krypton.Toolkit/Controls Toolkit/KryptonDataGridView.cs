@@ -18,7 +18,8 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonDataGridView), "ToolboxBitmaps.KryptonDataGridView.bmp")]
 [DesignerCategory(@"Code")]
-//[Designer(typeof(KryptonDataGridViewDesigner))] do not use for now. use the the winforms editor
+// Do not use KryptonDataGridViewDesigner: DataGridViewDesigner is not publicly inheritable.
+// The WinForms designer already exposes Add Column / Edit Columns verbs.
 [Designer($"System.Windows.Forms.Design.DataGridViewDesigner")]
 [DefaultEvent(nameof(CellContentClick))]
 [ComplexBindingProperties(nameof(DataSource), nameof(DataMember))]
@@ -381,6 +382,9 @@ public class KryptonDataGridView : DataGridView
     //    get => base.BorderStyle;
     //    set { /* Do nothing, we do not allow a border style change! */ }
     //}
+
+    private bool ShouldSerializeBorderStyle() => BorderStyle != BorderStyle.None;
+    private void ResetBorderStyle() => BorderStyle = BorderStyle.None;
 
     /// <summary>
     /// Gets the cell border style for the DataGridView.

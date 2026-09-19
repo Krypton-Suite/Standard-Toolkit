@@ -14,7 +14,7 @@ namespace Krypton.Toolkit.Utilities;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonCustomStringsManager), "ToolboxBitmaps.KryptonCustomStringsManager.bmp")]
-[Designer(typeof(KryptonCustomStringsManagerDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonCustomStringsManagerDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DefaultProperty(nameof(CustomStrings))]
 [Description(@"Access global custom string values that can be localised.")]
 public sealed class KryptonCustomStringsManager : Component

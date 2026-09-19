@@ -50,7 +50,7 @@ internal class KryptonCommandActionList : DesignerActionList
         }
     }
 
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _command.ImageSmall;
@@ -66,7 +66,7 @@ internal class KryptonCommandActionList : DesignerActionList
         }
     }
 
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _command.ImageLarge;

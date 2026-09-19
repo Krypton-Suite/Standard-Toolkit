@@ -27,7 +27,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(ValueCommitted))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonComboBoxUserControlDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonComboBoxUserControlDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"A ComboBox-style control whose drop-down hosts any UserControl.")]
 public class KryptonComboBoxUserControl : KryptonTextBox

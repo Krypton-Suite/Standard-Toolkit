@@ -15,12 +15,9 @@ namespace Krypton.Toolkit;
 internal class KryptonHeaderGroupActionList : DesignerActionList
 {
     #region Instance Fields
+    private readonly KryptonHeaderGroupDesigner _owner;
     private readonly KryptonHeaderGroup _headerGroup;
     private readonly IComponentChangeService? _service;
-    private DesignerVerb _visible1;
-    private DesignerVerb _visible2;
-    private string _text1;
-    private string _text2;
     #endregion
 
     #region Identity
@@ -32,6 +29,7 @@ internal class KryptonHeaderGroupActionList : DesignerActionList
         : base(owner.Component)
     {
         // Remember the panel instance
+        _owner = owner;
         _headerGroup = (owner.Component as KryptonHeaderGroup)!;
 
         // Cache service used to notify when a property has changed
@@ -173,30 +171,24 @@ internal class KryptonHeaderGroupActionList : DesignerActionList
         // This can be null when deleting a control instance at design time
         if (_headerGroup != null)
         {
-            // Get the current visible state of the headers
             var header1Visible = _headerGroup.HeaderVisiblePrimary;
             var header2Visible = _headerGroup.HeaderVisibleSecondary;
+            var text1 = header1Visible ? "Hide primary header" : "Show primary header";
+            var text2 = header2Visible ? "Hide secondary header" : "Show secondary header";
 
-            // Decide on the initial text values
-            _text1 = header1Visible ? "Hide primary header" : "Show primary header";
-            _text2 = header2Visible ? "Hide secondary header" : "Show secondary header";
-
-            // Create the two verbs for toggling the header visibility
-            _visible1 = new DesignerVerb(_text1, OnVisibleClick);
-            _visible2 = new DesignerVerb(_text2, OnVisibleClick);
-
-            // Add the list of panel specific actions
             actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
             actions.Add(new DesignerActionPropertyItem(nameof(GroupBackStyle), @"Back style", nameof(Appearance), @"Background style"));
             actions.Add(new DesignerActionPropertyItem(nameof(GroupBorderStyle), @"Border style", nameof(Appearance), @"Border style"));
             actions.Add(new DesignerActionHeaderItem(@"Primary Header"));
-            actions.Add(new KryptonDesignerActionItem(_visible1, "Primary Header"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(text1, OnTogglePrimaryHeader), "Primary Header"));
             actions.Add(new DesignerActionPropertyItem(nameof(HeaderStylePrimary), @"Style", @"Primary Header", @"Primary header style"));
             actions.Add(new DesignerActionPropertyItem(nameof(HeaderPositionPrimary), @"Position", @"Primary Header", @"Primary header position"));
             actions.Add(new DesignerActionHeaderItem(@"Secondary Header"));
-            actions.Add(new KryptonDesignerActionItem(_visible2, "Secondary Header"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(text2, OnToggleSecondaryHeader), "Secondary Header"));
             actions.Add(new DesignerActionPropertyItem(nameof(HeaderStyleSecondary), @"Style", @"Secondary Header", @"Secondary header style"));
             actions.Add(new DesignerActionPropertyItem(nameof(HeaderPositionSecondary), @"Position", @"Secondary Header", @"Secondary header position"));
+            actions.Add(new DesignerActionHeaderItem(@"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add ButtonSpec", OnAddButtonSpec), @"Actions"));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
         }
@@ -206,43 +198,10 @@ internal class KryptonHeaderGroupActionList : DesignerActionList
     #endregion
 
     #region Implementation
-    private void OnVisibleClick(object? sender, EventArgs e)
-    {
-        // Cast to the correct type
-        var verb = sender as DesignerVerb;
+    private void OnTogglePrimaryHeader(object? sender, EventArgs e) => _owner.TogglePrimaryHeader();
 
-        // Find out if this is the first or second header verb
-        var header1 = verb == _visible1;
+    private void OnToggleSecondaryHeader(object? sender, EventArgs e) => _owner.ToggleSecondaryHeader();
 
-        // The new visible value should be the opposite of the current value
-        var newVisible = !(header1 ? _headerGroup.HeaderVisiblePrimary : _headerGroup.HeaderVisibleSecondary);
-
-        // Assign the new text to the correct header text
-        if (header1)
-        {
-            _text1 = newVisible ? "Hide primary header" : "Show primary header";
-        }
-        else
-        {
-            _text2 = newVisible ? "Hide secondary header" : "Show secondary header";
-        }
-
-        if (header1)
-        {
-            _headerGroup.HeaderVisiblePrimary = newVisible;
-        }
-        else
-        {
-            _headerGroup.HeaderVisibleSecondary = newVisible;
-        }
-
-        // Get the user interface service associated with actions
-
-        // If we managed to get it then request it update to reflect new action setting
-        if (GetService(typeof(DesignerActionUIService)) is DesignerActionUIService service)
-        {
-            service.Refresh(_headerGroup);
-        }
-    }
+    private void OnAddButtonSpec(object? sender, EventArgs e) => _owner.AddButtonSpec();
     #endregion
 }

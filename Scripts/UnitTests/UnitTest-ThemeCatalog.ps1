@@ -93,20 +93,29 @@ $vsDark = [Krypton.Toolkit.PaletteMode]::VisualStudio2022Dark
 Assert-True ([Krypton.Toolkit.KryptonThemeCatalog]::IsCoreMode($sparkleBlue)) 'SparkleBlue is a core Toolkit palette'
 Assert-True ([Krypton.Toolkit.KryptonThemeCatalog]::CorePaletteCount -eq 14) 'CorePaletteCount is 14 after core registration'
 
+Assert-True ([Krypton.Toolkit.KryptonThemeCatalog]::ShowMissingThemeWarningDialog) 'ShowMissingThemeWarningDialog is true by default (opt-out)'
+Assert-True ([Krypton.Toolkit.KryptonManager]::ShowMissingThemeWarningDialog) 'KryptonManager.ShowMissingThemeWarningDialog forwards to KryptonThemeCatalog'
+Assert-True ([Krypton.Toolkit.KryptonManager]::Strings.MiscellaneousThemeStrings.ThemeFallbackWarningTitle -eq 'Theme Fallback Warning') 'ThemeFallbackWarningTitle has default value'
+Assert-True ([Krypton.Toolkit.KryptonManager]::Strings.MiscellaneousThemeStrings.ThemeFallbackWarningMessage.Length -gt 0) 'ThemeFallbackWarningMessage has default template'
+
 # Missing-theme fallback when Krypton.Themes.dll is absent (Toolkit-only scenario).
 $fallbackState = New-Object PSObject -Property @{
     Fired     = $false
     Requested = $null
+    Reason    = $null
 }
 $fallbackHandler = {
     param($sender, $e)
     $script:fallbackState.Fired = $true
     $script:fallbackState.Requested = $e.RequestedMode
+    $script:fallbackState.Reason = $e.Reason
+    $e.Handled = $true # Suppress warning dialog during automated test
 }
 [Krypton.Toolkit.KryptonThemeCatalog]::add_MissingThemeFallback($fallbackHandler)
 $fallbackPalette = [Krypton.Toolkit.KryptonThemeCatalog]::GetPalette($vsDark)
 Assert-True $fallbackState.Fired 'MissingThemeFallback fires when extra mode requested without Themes'
 Assert-True ($fallbackState.Requested -eq $vsDark) 'MissingThemeFallback reports requested mode'
+Assert-True ($fallbackState.Reason.Length -gt 0) 'MissingThemeFallback provides a descriptive reason'
 Assert-True ($fallbackPalette.GetType().Name -eq 'PaletteMicrosoft365Blue') 'Missing extra falls back to Microsoft 365 Blue palette type'
 [Krypton.Toolkit.KryptonThemeCatalog]::remove_MissingThemeFallback($fallbackHandler)
 

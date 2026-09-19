@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(ValueChanged))]
 [DefaultProperty(nameof(Value))]
 [DefaultBindingProperty(nameof(Value))]
-[Designer(typeof(KryptonDateTimePickerDesigner))]
+[Designer("Krypton.Toolkit.KryptonDateTimePickerDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to select a date and time, and to display that date and time in a specified format.")]
 public class KryptonDateTimePicker : VisualControlBase,
@@ -158,13 +158,6 @@ public class KryptonDateTimePicker : VisualControlBase,
     [Category(@"Property Changed")]
     [Description(@"Event raised when the value of the Format property is changed on KryptonDateTimePicker.")]
     public event EventHandler? FormatChanged;
-
-    /// <summary>
-    /// Occurs when the RightToLeftLayout property has changed value.
-    /// </summary>
-    [Category(@"Property Changed")]
-    [Description(@"Event raised when the value of the RightToLeftLayout property is changed on KryptonDateTimePicker.")]
-    public event EventHandler? RightToLeftLayoutChanged;
     #endregion
 
     #region Identity
@@ -751,29 +744,6 @@ public class KryptonDateTimePicker : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets the format of the date and time Displayed in the control.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Description(@"Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
-    [DefaultValue(false)]
-    [RefreshProperties(RefreshProperties.Repaint)]
-    public bool RightToLeftLayout
-    {
-        get => _drawText.RightToLeftLayout;
-
-        set
-        {
-            if (_drawText.RightToLeftLayout != value)
-            {
-                _drawText.RightToLeftLayout = value;
-                UpdateForRightToLeft();
-                PerformNeedPaint(true);
-                OnRightToLeftLayoutChanged(EventArgs.Empty);
-            }
-        }
-    }
-
-    /// <summary>
     /// Gets or sets a value determining if keyboard input will automatically shift to the next input field.
     /// </summary>
     [Category(@"Behavior")]
@@ -1238,6 +1208,29 @@ public class KryptonDateTimePicker : VisualControlBase,
     public DateTimePickerButtonSpecCollection ButtonSpecs { get; }
 
     /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// Default is <see cref="ButtonSpecEdgeArrange.SideBySide"/>. Set
+    /// <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> on tall hosts to stack Far/Near
+    /// ButtonSpecs vertically. Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"How multiple ButtonSpecs on the same edge are arranged.")]
+    [DefaultValue(ButtonSpecEdgeArrange.SideBySide)]
+    public ButtonSpecEdgeArrange ButtonSpecEdgeArrange
+    {
+        get => _buttonManager?.EdgeArrange ?? ButtonSpecEdgeArrange.SideBySide;
+        set
+        {
+            if (_buttonManager != null)
+            {
+                _buttonManager.EdgeArrange = value;
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
     /// </summary>
     [Category(@"Visuals - DateTimePicker")]
@@ -1603,10 +1596,15 @@ public class KryptonDateTimePicker : VisualControlBase,
     #region Protected Virtual
     // ReSharper disable VirtualMemberNeverOverridden.Global
     /// <summary>
-    /// Raises the RightToLeftLayoutChanged event.
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
-    protected virtual void OnRightToLeftLayoutChanged(EventArgs e) => RightToLeftLayoutChanged?.Invoke(this, e);
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        _drawText.RightToLeftLayout = RightToLeftLayout;
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
+    }
 
     /// <summary>
     /// Raises the FormatChanged event.
@@ -1828,7 +1826,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnMouseDown(MouseEventArgs e)
     {
-        var rtl = _drawText.RightToLeftLayout && (RightToLeft == RightToLeft.Yes);
+        var rtl = RightToLeftLayout && (RightToLeft == RightToLeft.Yes);
 
         // If the point is before the drop buttons...
         if ((!ShowUpDown && !rtl && (e.X < _buttonDropDown.ClientLocation.X)) ||
@@ -2100,7 +2098,7 @@ public class KryptonDateTimePicker : VisualControlBase,
 
     private void UpdateForRightToLeft()
     {
-        if (_drawText.RightToLeftLayout && (RightToLeft == RightToLeft.Yes))
+        if (RightToLeftLayout && (RightToLeft == RightToLeft.Yes))
         {
             _drawDockerInner.SetDock(_dropStretch, ViewDockStyle.Left);
             _drawDockerInner.SetDock(_upDownFit, ViewDockStyle.Left);

@@ -142,13 +142,16 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
     #region Private
     private void UpdateTextAlignmentHorizontal()
     {
-        _headingText.TextAlign = TextAlignmentHorizontal switch
-        {
-            PaletteRelativeAlign.Near => System.Drawing.ContentAlignment.MiddleLeft,
-            PaletteRelativeAlign.Center => System.Drawing.ContentAlignment.MiddleCenter,
-            PaletteRelativeAlign.Far => System.Drawing.ContentAlignment.MiddleRight,
-            _ => System.Drawing.ContentAlignment.MiddleLeft
-        };
+        _headingText.TextAlign = ToolkitRtlLayout.MapNearFar(TextAlignmentHorizontal, ToolkitRtlLayout.IsRtl(Panel));
+    }
+
+    /// <summary>
+    /// Re-applies heading text alignment and icon overlay after RTL flags change.
+    /// </summary>
+    internal void ApplyRtlChrome()
+    {
+        UpdateTextAlignmentHorizontal();
+        UpdateHeaderIcon();
     }
 
     private void SetupControls()
@@ -169,7 +172,7 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
         //_headingText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
 
         _headingText.StateCommon.Font = new Font( KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 20f, FontStyle.Bold );
-        _headingText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        UpdateTextAlignmentHorizontal();
     }
 
     private void SetupPanel()
@@ -235,7 +238,7 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
             return;
         }
 
-        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(_pictureBox.Image, _overlayImage, rightToLeft: false);
+        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(_pictureBox.Image, _overlayImage, rightToLeft: ToolkitRtlLayout.IsRtl(Panel));
         if (composed != null)
         {
             _ownedComposedIcon = composed;

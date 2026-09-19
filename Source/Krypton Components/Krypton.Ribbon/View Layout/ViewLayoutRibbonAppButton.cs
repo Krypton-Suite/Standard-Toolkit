@@ -140,8 +140,8 @@ internal class ViewLayoutRibbonAppButton : ViewLayoutDocker
             // Get the actual owning window border settings
             Padding borders = OwnerForm.RealWindowBorders;
 
-            // Add the left border side to the sizing
-            separatorSize.Width += borders.Left;
+            // Add the start-side border to the sizing so the app button clears the window edge
+            separatorSize.Width += RibbonRtlLayout.StartBorderWidth(borders, RibbonRtlLayout.IsRtl(_ribbon));
         }
 
         _separator.SeparatorSize = separatorSize;

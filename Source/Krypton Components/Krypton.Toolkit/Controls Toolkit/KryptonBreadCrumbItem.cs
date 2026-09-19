@@ -18,7 +18,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonBreadCrumb), "ToolboxBitmaps.KryptonBreadCrumbItem.bmp")]
 [DesignTimeVisible(false)]
-[Designer(typeof(KryptonBreadCrumbItemDesigner))]
+[Designer("Krypton.Toolkit.KryptonBreadCrumbItemDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonBreadCrumbItem : KryptonListItem
 {
     #region Type Definitions

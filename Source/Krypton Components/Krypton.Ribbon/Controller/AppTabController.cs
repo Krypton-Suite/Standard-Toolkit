@@ -258,7 +258,7 @@ internal class AppTabController : GlobalId,
             ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(ribbon)))
         {
             case Keys.Tab:
             case Keys.Right:

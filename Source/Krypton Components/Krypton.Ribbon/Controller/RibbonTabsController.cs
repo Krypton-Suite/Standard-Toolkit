@@ -23,6 +23,8 @@ internal class RibbonTabsController : GlobalId,
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     private bool _rightButtonDown;
+    private bool _leftButtonDown;
+    private Point _mouseDownPoint;
     #endregion
 
     #region Events
@@ -60,6 +62,16 @@ internal class RibbonTabsController : GlobalId,
     /// <param name="pt">Mouse position relative to control.</param>
     public virtual void MouseMove(Control c, Point pt)
     {
+        if (_leftButtonDown && _ribbon.AllowDetach && !_ribbon.IsDetached)
+        {
+            var diffX = Math.Abs(pt.X - _mouseDownPoint.X);
+            var diffY = Math.Abs(pt.Y - _mouseDownPoint.Y);
+            if (diffX >= SystemInformation.DragSize.Width || diffY >= SystemInformation.DragSize.Height)
+            {
+                _leftButtonDown = false;
+                _ribbon.DetachAndDrag(Cursor.Position);
+            }
+        }
     }
 
     /// <summary>
@@ -76,6 +88,11 @@ internal class RibbonTabsController : GlobalId,
             // Remember the user has pressed the right mouse button down
             _rightButtonDown = true;
         }
+        else if (button == MouseButtons.Left && _ribbon.AllowDetach && !_ribbon.IsDetached)
+        {
+            _leftButtonDown = true;
+            _mouseDownPoint = pt;
+        }
 
         return false;
     }
@@ -88,6 +105,11 @@ internal class RibbonTabsController : GlobalId,
     /// <param name="button">Mouse button released.</param>
     public virtual void MouseUp(Control c, Point pt, MouseButtons button)
     {
+        if (button == MouseButtons.Left)
+        {
+            _leftButtonDown = false;
+        }
+
         // If user is releasing the right mouse button
         if (button == MouseButtons.Right)
         {
@@ -109,6 +131,7 @@ internal class RibbonTabsController : GlobalId,
     /// <param name="next">Reference to view that is next to have the mouse.</param>
     public virtual void MouseLeave(Control c, ViewBase? next)
     {
+        _leftButtonDown = false;
     }
 
     /// <summary>
@@ -117,6 +140,10 @@ internal class RibbonTabsController : GlobalId,
     /// <param name="pt">Mouse position relative to control.</param>
     public virtual void DoubleClick(Point pt)
     {
+        if (_ribbon.AllowDetach && !_ribbon.IsDetached)
+        {
+            _ribbon.Detach();
+        }
     }
 
     /// <summary>

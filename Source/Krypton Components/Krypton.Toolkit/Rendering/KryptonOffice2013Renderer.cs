@@ -999,55 +999,8 @@ public class KryptonOffice2013Renderer : KryptonProfessionalRenderer
     /// Raises the RenderImageMargin event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
-        {
-            // Start with the total margin area
-            Rectangle marginRect = e.AffectedBounds;
-
-            // Do we need to draw with separator on the opposite edge?
-            var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
-
-            marginRect.Y += _marginInset;
-            marginRect.Height -= _marginInset * 2;
-
-            // Reduce so it is inside the border
-            if (!rtl)
-            {
-                marginRect.X += _marginInset;
-            }
-            else
-            {
-                marginRect.X += _marginInset / 2;
-            }
-
-            // Fill the margin and draw the standard two separator lines using the color table
-            using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
-            {
-                e.Graphics.FillRectangle(backBrush, marginRect);
-            }
-
-            using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
-                   darkPen  = new Pen(KCT.ContextMenuImageColumnBorder))
-            {
-                if (!rtl)
-                {
-                    e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen,  marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
-                }
-                else
-                {
-                    e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen,  marginRect.Left,     marginRect.Top, marginRect.Left,     marginRect.Bottom);
-                }
-            }
-        }
-        else
-        {
-            base.OnRenderImageMargin(e);
-        }
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, _marginInset);
     #endregion
 
     #region Implementation

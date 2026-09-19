@@ -16,7 +16,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(Opening))]
 [DefaultProperty(nameof(Menu))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonEnhancedContextMenuDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonEnhancedContextMenuDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Displays an Office-style shortcut menu with an optional Mini Toolbar.")]
 public class KryptonEnhancedContextMenu : Component
 {

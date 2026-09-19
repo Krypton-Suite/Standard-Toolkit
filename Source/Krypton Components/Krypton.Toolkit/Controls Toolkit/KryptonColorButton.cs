@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonColorButton), "ToolboxBitmaps.KryptonColorButton.bmp")]
 [DefaultEvent(nameof(SelectedColorChanged))]
 [DefaultProperty(nameof(SelectedColor))]
-[Designer(typeof(KryptonColorButtonDesigner))]
+[Designer("Krypton.Toolkit.KryptonColorButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Raises an event when the user clicks it.")]
 public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValues
@@ -1763,7 +1763,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         switch (customShape)
         {
             case KryptonColorButtonCustomColorPreviewShape.None:
-                Values.Image = GenericImageResources.ButtonColorImageSmall;
+                Values.ResetImage();
 
                 Values.RoundedCorners = 0;
 

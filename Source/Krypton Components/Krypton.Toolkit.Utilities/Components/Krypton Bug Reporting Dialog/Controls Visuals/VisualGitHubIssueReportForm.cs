@@ -39,6 +39,7 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
         _config = config;
 
         InitializeComponent();
+        ApplyStrings();
 
         if (!string.IsNullOrEmpty(initialDescription))
         {
@@ -52,6 +53,18 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
         };
     }
 
+    private static KryptonBugReportingDialogStrings Strings => KryptonBugReportingDialog.Strings;
+
+    private void ApplyStrings()
+    {
+        var strings = Strings;
+        Text = strings.GitHubWindowTitle;
+        kwlblSummary.Text = strings.GitHubTitleLabel;
+        kwlblDescription.Text = strings.GitHubDescriptionLabel;
+        kbtnCreate.Values.Text = strings.GitHubCreateButton;
+        kbtnCancel.Values.Text = strings.Cancel;
+    }
+
     private bool ValidateInput()
     {
         _errorProvider.Clear();
@@ -60,13 +73,13 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
 
         if (string.IsNullOrWhiteSpace(ktbSummary.Text))
         {
-            _errorProvider.SetError(ktbSummary, "Title is required.");
+            _errorProvider.SetError(ktbSummary, Strings.GitHubTitleRequired);
             valid = false;
         }
 
         if (string.IsNullOrWhiteSpace(krtbDescription.Text))
         {
-            _errorProvider.SetError(krtbDescription, "Description is required.");
+            _errorProvider.SetError(krtbDescription, Strings.GitHubDescriptionRequired);
             valid = false;
         }
 
@@ -81,7 +94,7 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
         }
 
         kbtnCreate.Enabled = false;
-        kbtnCreate.Values.Text = "Creating...";
+        kbtnCreate.Values.Text = Strings.GitHubCreating;
         Application.DoEvents();
 
         try
@@ -100,8 +113,8 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
                 }
 
                 KryptonMessageBox.Show(
-                    "Bug report created successfully.",
-                    "Success",
+                    Strings.GitHubCreatedSuccess,
+                    Strings.GitHubSuccessTitle,
                     KryptonMessageBoxButtons.OK,
                     KryptonMessageBoxIcon.Information);
 
@@ -111,8 +124,8 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
             else
             {
                 KryptonMessageBox.Show(
-                    result.ErrorMessage ?? "Failed to create issue.",
-                    "Create Issue Failed",
+                    result.ErrorMessage ?? Strings.GitHubCreateFailed,
+                    Strings.GitHubCreateFailedTitle,
                     KryptonMessageBoxButtons.OK,
                     KryptonMessageBoxIcon.Error);
             }
@@ -120,7 +133,7 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
         finally
         {
             kbtnCreate.Enabled = true;
-            kbtnCreate.Values.Text = "Create on GitHub";
+            kbtnCreate.Values.Text = Strings.GitHubCreateButton;
         }
     }
 

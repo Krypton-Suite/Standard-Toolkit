@@ -55,6 +55,7 @@ internal class VisualPopupAppMenu : VisualPopup
         _ribbon = ribbon;
         _rectAppButtonTopHalf = rectAppButtonTopHalf;
         _rectAppButtonBottomHalf = rectAppButtonBottomHalf;
+        RibbonRtlLayout.ApplyTo(this, _ribbon);
 
         // Create the view manager instance with root element
         ViewManager = new ViewContextMenuManager(this, new ViewLayoutNull());
@@ -262,21 +263,19 @@ internal class VisualPopupAppMenu : VisualPopup
     public override void Show(Rectangle screenRect)
     {
         // Find the preferred size of the context menu if it could be any size it likes
-        Size preferredSize = CalculatePreferredSize();
-        var preferredRect = new Rectangle(screenRect.Location, preferredSize);
+        var preferredSize = CalculatePreferredSize();
 
-        // Get the working area of the monitor that most of the screen rectangle is inside
-        Rectangle workingArea = Screen.GetWorkingArea(preferredRect);
+        // Use the orb/tab rect so monitor choice is not skewed by assuming LTR left origin.
+        var workingArea = Screen.GetWorkingArea(screenRect);
 
-        // Limit size of context menu to the working area
         preferredSize.Width = Math.Min(workingArea.Width, preferredSize.Width);
         preferredSize.Height = Math.Min(workingArea.Height, preferredSize.Height);
 
-        var screenPt = Point.Empty;
-
-        // Find the horizontal position relative to screen rectangle
-        screenPt.X = screenRect.Left;
-        screenPt.Y = screenRect.Bottom;
+        // LTR: menu grows right from the File/orb left. RTL: grow left from the start (right) edge.
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var screenPt = new Point(
+            isRtl ? screenRect.Right - preferredSize.Width : screenRect.Left,
+            screenRect.Bottom);
 
         // Limit location of context menu to the working area
         screenPt.X = Math.Max(screenPt.X, workingArea.X);

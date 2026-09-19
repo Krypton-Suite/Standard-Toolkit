@@ -19,13 +19,13 @@ internal sealed class TraceLogSink : IKryptonLogSink
 
     public void Emit(KryptonLogEvent logEvent)
     {
-        var text = _layout.Render(logEvent);
-        if (text.EndsWith(Environment.NewLine, StringComparison.Ordinal))
+        var rendered = _layout.Render(logEvent);
+        if (rendered.EndsWith(Environment.NewLine, StringComparison.Ordinal))
         {
-            text = text.Substring(0, text.Length - Environment.NewLine.Length);
+            rendered = rendered.Substring(0, rendered.Length - Environment.NewLine.Length);
         }
 
-        Trace.WriteLine(text);
+        Trace.WriteLine(KryptonLogProtect.Protect(rendered));
     }
 
     public void Dispose()

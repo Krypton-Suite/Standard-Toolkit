@@ -67,11 +67,11 @@ public class KryptonSplashScreenManagerData
     public bool ShowCopyright { get; set; }
 
     /// <summary>Gets or sets the application logo drawn above the title.</summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Logo { get; set; }
 
     /// <summary>Gets or sets the optional background image for the splash client area.</summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? BackgroundImage { get; set; }
 
     /// <summary>Gets or sets how <see cref="BackgroundImage"/> is arranged. Defaults to <see cref="ImageLayout.Stretch"/>.</summary>

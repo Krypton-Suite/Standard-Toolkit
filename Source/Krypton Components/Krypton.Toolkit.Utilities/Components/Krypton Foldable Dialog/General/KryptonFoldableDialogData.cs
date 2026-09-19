@@ -60,7 +60,7 @@ public class KryptonFoldableDialogData
     public ExtendedKryptonMessageBoxIcon Icon { get; set; }
 
     /// <summary>Gets or sets a custom icon image used when <see cref="Icon"/> is <see cref="ExtendedKryptonMessageBoxIcon.Custom"/>.</summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? CustomIcon { get; set; }
 
     /// <summary>Gets or sets the set of action buttons shown along the bottom of the dialog.</summary>

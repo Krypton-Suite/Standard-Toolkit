@@ -33,6 +33,10 @@ public class GeneralToolkitStrings : GlobalId
     private const string DEFAULT_PASTE = @"P&aste"; // Accelerator key - A
     private const string DEFAULT_SELECT_ALL = @"&Select All"; // Accelerator key - S
 
+    // Dialogs
+
+    private const string DEFAULT_MODAL_DIALOG_MESSAGE = @"Please wait for operation to complete.";
+
     // NET 6 & newer
     private const string DEFAULT_CONTINUE = @"Co&ntinue"; // Accelerator key - N
     private const string DEFAULT_TRY_AGAIN = @"Try Aga&in"; // Accelerator key - I
@@ -108,7 +112,8 @@ public class GeneralToolkitStrings : GlobalId
                              Cut.Equals(DEFAULT_CUT) &&
                              Copy.Equals(DEFAULT_COPY) &&
                              Paste.Equals(DEFAULT_PASTE) &&
-                             SelectAll.Equals(DEFAULT_SELECT_ALL);
+                             SelectAll.Equals(DEFAULT_SELECT_ALL) &&
+                             ModalDialogMessage.Equals(DEFAULT_MODAL_DIALOG_MESSAGE);
 
     /// <summary>
     /// Reset all strings to default values.
@@ -133,6 +138,7 @@ public class GeneralToolkitStrings : GlobalId
         SelectAll = DEFAULT_SELECT_ALL;
         _continue = DEFAULT_CONTINUE;
         _tryAgain = DEFAULT_TRY_AGAIN;
+        ModalDialogMessage = DEFAULT_MODAL_DIALOG_MESSAGE;
         ClearOsStringCache();
     }
 
@@ -385,6 +391,15 @@ public class GeneralToolkitStrings : GlobalId
     [Description(@"Select All string.")]
     [DefaultValue(DEFAULT_SELECT_ALL)]
     public string SelectAll { get; set; }
+
+    /// <summary>
+    /// Gets or sets the message for the modal dialog.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The message for the modal dialog.")]
+    [DefaultValue(DEFAULT_MODAL_DIALOG_MESSAGE)]
+    public string ModalDialogMessage { get; set; }
 
     #endregion
 

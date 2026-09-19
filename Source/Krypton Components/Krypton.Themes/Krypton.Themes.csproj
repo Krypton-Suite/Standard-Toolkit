@@ -26,7 +26,7 @@
 
   <PropertyGroup>
     <PackageId>Krypton.Themes</PackageId>
-    <Description>Optional extra builtin palettes (Visual Studio, Material, macOS, Office 2013, Sparkle dark/light variants, gray/lime/accessibility, Materialize, and more). Auto-discovered by KryptonManager when this assembly is present. Official Sparkle Blue/Orange/Purple remain in Krypton.Toolkit.</Description>
+    <Description>Optional extra builtin Krypton palettes (Visual Studio, Material, macOS, Office 2013, Sparkle dark/light, gray/lime/accessibility, Materialize, and more). Auto-discovered by KryptonManager when this assembly is present; core Office and Sparkle Blue/Orange/Purple themes stay in Krypton.Toolkit.</Description>
   </PropertyGroup>
 
   <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
@@ -35,7 +35,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+    		<!-- Krypton.Resources: direct reference required (typed ResourceFiles accessors via InternalsVisibleTo); PrivateAssets so it is not a NuGet dependency (bundled via Krypton.Resources.Package.targets). -->
+		<ProjectReference Include="..\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
 

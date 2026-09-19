@@ -113,10 +113,7 @@ public class KryptonProgressBar : Control, IContentValues
         }
 
         // Create content storage
-        Values = new LabelValues(OnNeedPaintHandler)
-        {
-            Text = string.Empty
-        };
+        Values = new LabelValues(OnNeedPaintHandler, string.Empty);
         Values.TextChanged += OnLabelTextChanged;
 
         // We want to be notified whenever the global palette changes
@@ -131,17 +128,12 @@ public class KryptonProgressBar : Control, IContentValues
             Style = PaletteBackStyle.PanelClient
         };
         StateCommon = new PaletteTripleRedirect(_paletteRedirect, PaletteBackStyle.ButtonStandalone,
-            PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, OnNeedPaintHandler)
-        {
-            Back =
-            {
-                Color1 = Color.Green
-            }
-        };
+            PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, OnNeedPaintHandler);
+        StateCommon.Back.SetFactoryColor1(Color.Green);
         StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
-        ((PaletteBack)StateDisabled.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
+        StateDisabled.Back.SetFactoryColorStyle(PaletteColorStyle.OneNote);
         StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
-        ((PaletteBack)StateNormal.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
+        StateNormal.Back.SetFactoryColorStyle(PaletteColorStyle.OneNote);
         _stateBackValue = new PaletteTriple(StateCommon, OnNeedPaintHandler).Back;
         _stateBackValue.ColorStyle = PaletteColorStyle.GlassNormalFull;
         _blockCount = 0; // 0 = automatic sizing
@@ -247,11 +239,7 @@ public class KryptonProgressBar : Control, IContentValues
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
-    private void ResetStateCommon()
-    {
-        StateCommon.PopulateFromBase(PaletteState.Normal);
-        StateCommon.Back.Color1 = Color.Green;
-    }
+    private void ResetStateCommon() => StateCommon.Back.SetFactoryColor1(Color.Green);
 
     /// <summary>
     /// Gets access to the disabled ProgressBar appearance entries.

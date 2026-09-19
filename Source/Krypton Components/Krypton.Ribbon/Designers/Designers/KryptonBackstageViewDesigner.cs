@@ -79,7 +79,11 @@ public class KryptonBackstageViewDesigner : ParentControlDesigner
     /// Initializes a newly created component.
     /// </summary>
     /// <param name="defaultValues">A name/value dictionary of default values to apply to properties.</param>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override void InitializeNewComponent(IDictionary? defaultValues)
+#else
     public override void InitializeNewComponent(IDictionary defaultValues)
+#endif
     {
         base.InitializeNewComponent(defaultValues);
 
@@ -121,7 +125,11 @@ public class KryptonBackstageViewDesigner : ParentControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
@@ -132,7 +140,7 @@ public class KryptonBackstageViewDesigner : ParentControlDesigner
                 compound.AddRange(BackstageView.Pages);
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 

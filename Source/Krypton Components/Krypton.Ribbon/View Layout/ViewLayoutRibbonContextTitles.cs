@@ -144,13 +144,20 @@ internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
         // Do we need to position a filler element?
         if (filler != null)
         {
-            // How much space available on the left side (between caption start and leftmost context tab)
-            var leftSpace = xLeftMost - ClientRectangle.Left;
+            var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
 
-            // Fixes #64 / #3163: Form icon must always be to the left of the QAT dropdown and
-            // contextual tabs (Excel/Word behavior). Previously it was placed on whichever side
-            // had more space, causing the icon to appear after contextual tabs.
-            context.DisplayRectangle = new Rectangle(ClientLocation.X, ClientLocation.Y, leftSpace, ClientHeight);
+            // Fixes #64 / #3163: Form icon must always be on the start edge of the QAT and
+            // contextual tabs (Excel/Word behavior). Under RTL that is the right remainder.
+            if (isRtl)
+            {
+                var rightSpace = ClientRectangle.Right - xRightMost;
+                context.DisplayRectangle = new Rectangle(xRightMost, ClientLocation.Y, Math.Max(0, rightSpace), ClientHeight);
+            }
+            else
+            {
+                var leftSpace = xLeftMost - ClientRectangle.Left;
+                context.DisplayRectangle = new Rectangle(ClientLocation.X, ClientLocation.Y, leftSpace, ClientHeight);
+            }
 
             filler.Layout(context);
         }

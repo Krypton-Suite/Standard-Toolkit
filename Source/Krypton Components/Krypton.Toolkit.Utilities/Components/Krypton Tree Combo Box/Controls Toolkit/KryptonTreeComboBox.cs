@@ -23,7 +23,7 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxBitmap(typeof(KryptonComboBox), "ToolboxBitmaps.KryptonComboBox.bmp")]
 [DefaultEvent(nameof(SelectedNodeChanged))]
 [DefaultProperty(nameof(Nodes))]
-[Designer(typeof(KryptonTreeComboBoxDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonTreeComboBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"A ComboBox-style control whose drop-down hosts a hierarchical tree view.")]
 public class KryptonTreeComboBox : KryptonComboBoxUserControl
