@@ -1211,7 +1211,7 @@ public abstract class PaletteOffice2010BlackBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -1337,7 +1337,7 @@ public abstract class PaletteOffice2010BlackBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
