@@ -14,6 +14,7 @@ These are recurring issues observed when using AI coding agents and shell wrappe
 - Do not `git clone` [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) when `..\Standard-Toolkit-Demos` already exists. Reuse that working tree: switch to `alpha` if not already on it, then create a new `alpha-…` branch from `alpha`. Clone only when the parent folder is missing (see **Standard-Toolkit-Demos**).
 - Do not pack extra nupkg files as `lib\$(TargetFramework)\` for `netX.0-windows` (NU5128: extra `net8.0-windows` folder vs nuspec `net8.0-windows7.0`). Use `_KryptonPackageLibFolder` (see **WinForms Designer Extensibility SDK**).
 - Do not `dotnet pack` after a VS 2026 build that skipped net11 without `-p:ExcludeNet11=true` on **both** restore and pack (or pack with a rebuild so net11 compiles). Otherwise NU5128 asks for `net11.0-windows7.0` lib assemblies that were never built.
+- Do not capture PR screenshots with bare `Graphics.CopyFromScreen` after only `$form.Show()` / `$form.Activate()`. Cursor, Visual Studio, or the terminal often stays on top, so the PNG shows the IDE instead of the demo. Correct example: call `Save-UnitTestWindowPng` from `Scripts/UnitTests/UnitTestCommon.ps1` (PrintWindow of the HWND; see **UI Screenshots / GIFs**).
 
 ## Always
 
@@ -783,6 +784,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Resolve the repo root and `Bin\<Configuration>\<TFM>` via `Scripts/UnitTests/UnitTestCommon.ps1` rather than hard-coding machine paths.
 - Host WinForms demos with `-STA` when the script calls `Application.Run`.
 - Keep scripts focused on one scenario (host, drag, remerge, probe, …).
+- PR / demo window captures: call `Save-UnitTestWindowPng` from `UnitTestCommon.ps1` (PrintWindow of the HWND). Do not bare `CopyFromScreen` after only `Activate` — Cursor/IDE occlusion captures the wrong window (see **UI Screenshots / GIFs**).
 - Existing #925 helpers: `Start-NavigatorFormIntegrationHost.ps1`, `Invoke-CaptionTabDrag.ps1`, `UnitTest-NavigatorCaptionTabRemerge.ps1`, `Get-NavigatorCaptionTabProbe.ps1`.
 - Existing #4325 helper: `UnitTest-DesignerSerializationDefaults.ps1` (`include`) — parameterless Toolbox construct must not report nested `Modified` storage (see **Designer Serialization Defaults**).
 - Existing #593 pack helper: `Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1` — after Pack, modern lib folders must contain `Design/WinForms` assemblies and must not leak `Microsoft.WinForms.Designer.SDK.dll` (see **WinForms Designer Extensibility SDK**).
@@ -807,13 +809,13 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 ### How
 
 1. Build Debug TestForm if binaries are stale: `dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`.
-2. Host the relevant demo **on-screen** with PowerShell `-STA`. Reuse a `Start-*Host.ps1`, or instantiate the form in-process (pattern: `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`).
-3. `Show` / `Activate`, `Application.DoEvents()`, then a short sleep so paint completes. Do not capture off-screen or hidden windows.
-4. Capture with `System.Drawing.Graphics.CopyFromScreen` to PNG. Crop to the relevant chrome when a full-desktop shot would hide the change.
-5. Read the PNG or GIF in the session so the image is visible for confirmation.
-6. If the capture is reusable, keep the script under `Scripts/UnitTests/` with `# UnitTest-CI: exclude` and a README row (see **Unit Test Scripts**). Copy `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1` (STA `-File`, in-process form, `CopyFromScreen` to `Documents/PR/`) rather than a long `powershell -Command { … }` one-liner (see **Recent Tooling Mistakes To Avoid**).
+2. Host the relevant demo with PowerShell `-STA`. Reuse a `Start-*Host.ps1`, or instantiate the form in-process (pattern: `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`). Place the form on the primary working area (`StartPosition = Manual`, e.g. `(80, 80)`); do not leave it off-screen or minimized.
+3. Before capture: `Show`, set `TopMost = $true`, `Activate`, `BringToFront`, `SetForegroundWindow` (via `Initialize-UnitTestNativeInput` / `UnitTestNative`), `Application.DoEvents()`, then a short settle sleep so paint completes.
+4. **Capture the HWND, not whatever is on top of the desktop.** Dot-source `Scripts/UnitTests/UnitTestCommon.ps1` and call `Save-UnitTestWindowPng -Form $form -Path $OutputPath`. That helper uses `PrintWindow` with `PW_RENDERFULLCONTENT`, so Cursor / Visual Studio covering the same screen region cannot appear in the PNG. Use `-InflateX` / `-InflateY` only when a popup must be included outside the form bounds (then the helper falls back to TopMost + foreground + `CopyFromScreen`). Do **not** hand-roll bare `Graphics.CopyFromScreen($form.Bounds…)` after only `Activate` — that is the usual “wrong window” failure.
+5. **Read the PNG or GIF in the session** (image Read tool) and confirm it shows the demo chrome/content, not the IDE, terminal, or another app. If it is wrong, fix foreground/`Save-UnitTestWindowPng` and recapture; do not embed a bad shot.
+6. If the capture is reusable, keep the script under `Scripts/UnitTests/` with `# UnitTest-CI: exclude` and a README row (see **Unit Test Scripts**). Prefer STA `-File` scripts that call `Save-UnitTestWindowPng` over a long `powershell -Command { … }` one-liner (see **Recent Tooling Mistakes To Avoid**).
 
-**GIF (motion only):** same host, STA, on-screen, and crop rules as PNG. Capture a short frame sequence during the interaction (`CopyFromScreen` on a timer, or before / during / after plus in-between frames for a drag). Encode to an animated GIF and save next to the description. Prefer `ffmpeg` or ImageMagick `magick` if on PATH; otherwise assemble frames with WPF `GifBitmapEncoder` (`Add-Type -AssemblyName PresentationCore`). Keep it to a few seconds, cropped, looping. If no encoder is available, capture labelled stills (`-before.png`, `-during.png`, `-after.png`) instead of skipping — do not invent a GIF.
+**GIF (motion only):** same host, STA, on-screen, TopMost/foreground, and verify-the-frames rules as PNG. Prefer per-frame `Save-UnitTestWindowPng` / `PrintWindow` when only the form is needed. Use `CopyFromScreen` on a timer only when the motion leaves the HWND (drag ghost, tear-out). Encode to an animated GIF and save next to the description. Prefer `ffmpeg` or ImageMagick `magick` if on PATH; otherwise assemble frames with WPF `GifBitmapEncoder` (`Add-Type -AssemblyName PresentationCore`). Keep it to a few seconds, cropped, looping. If no encoder is available, capture labelled stills (`-before.png`, `-during.png`, `-after.png`) instead of skipping — do not invent a GIF.
 
 ### Where
 
@@ -832,6 +834,8 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 ### Do not
 
 - Skip screenshots or GIFs for UI work, or leave the template placeholder.
+- Capture with bare `CopyFromScreen` after only `Show`/`Activate` (IDE/Cursor occlusion → wrong window).
+- Embed a PNG/GIF without reading it in-session to confirm it shows the demo.
 - Commit PNGs, GIFs, or `Bin/` capture output in the Standard-Toolkit pull request.
 - Upload or attach screenshot or GIF files to the GitHub pull request.
 - Invent or draw substitute images. If capture is impossible (no interactive desktop), say so in **Validation** instead of faking a shot.
