@@ -7,6 +7,7 @@
 		This project creates a combined NuGet package that includes all the core Krypton libraries:
 		- Krypton.Docking
 		- Krypton.Interop
+		- Krypton.Resources
 		- Krypton.Navigator
 		- Krypton.Navigator.Utilities
 		- Krypton.Ribbon
@@ -174,7 +175,7 @@
 		============================================
 	
 		This target runs for each target framework during the Pack operation and includes:
-		1. All referenced DLL files (Krypton.Docking, Krypton.Interop, Krypton.Navigator, Krypton.Ribbon, Krypton.Themes, Krypton.Toolkit, Krypton.Toolkit.JumpList, Krypton.Toolkit.Utilities, Krypton.Workspace)
+		1. All referenced DLL files (Krypton.Docking, Krypton.Interop, Krypton.Resources, Krypton.Navigator, Krypton.Ribbon, Krypton.Themes, Krypton.Toolkit, Krypton.Toolkit.JumpList, Krypton.Toolkit.Utilities, Krypton.Workspace)
 		2. XML documentation files for IntelliSense support
 		3. PDB symbol files (only when IncludeSymbols is true, for Nightly/Canary configurations)
 	
@@ -243,6 +244,12 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Interop.dll') And Exists('..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Resources.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Resources.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Resources.dll') And Exists('..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.dll')">
@@ -390,6 +397,12 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Interop.pdb') And Exists('..\Krypton.Interop\bin\$(Configuration)\$(TargetFramework)\Krypton.Interop.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Resources.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Resources.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Resources.pdb') And Exists('..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.pdb')">
