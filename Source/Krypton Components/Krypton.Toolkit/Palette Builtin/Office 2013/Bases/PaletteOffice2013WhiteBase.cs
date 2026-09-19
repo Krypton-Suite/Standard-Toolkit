@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -220,7 +220,7 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     protected KryptonColorTable2013White? Table { get; set; }
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -232,43 +232,9 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
     #endregion Instance Fields
 
     #region Identity
-
     /// <summary>
-    /// Initialize a new instance of the PaletteOffice2013WhiteBase class.
+    /// Initializes a new instance using a strongly-typed color scheme.
     /// </summary>
-    /// <param name="schemeColors">Array of palette specific colors.</param>
-    /// <param name="checkBoxList">List of images for check box.</param>
-    /// <param name="galleryButtonList">List of images for gallery buttons.</param>
-    /// <param name="radioButtonArray">Array of images for radio button.</param>
-    /// <param name="trackBarColors">Array of track bar specific colors.</param>
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
-    protected PaletteOffice2013WhiteBase([DisallowNull] Color[] schemeColors,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
-    {
-        Debug.Assert(schemeColors is not null);
-        Debug.Assert(checkBoxList is not null);
-        Debug.Assert(galleryButtonList is not null);
-        Debug.Assert(radioButtonArray is not null);
-
-        // Remember incoming sets of values
-        ThemeName = nameof(PaletteOffice2013WhiteBase);
-        _ribbonColors = schemeColors ?? throw new ArgumentNullException(nameof(schemeColors));
-        _checkBoxList = checkBoxList ?? throw new ArgumentNullException(nameof(CheckedListBox));
-        _galleryButtonList = galleryButtonList ?? throw new ArgumentNullException(nameof(galleryButtonList));
-        _radioButtonArray = radioButtonArray ?? throw new ArgumentNullException(nameof(radioButtonArray));
-
-        // Get the font settings from the system
-        DefineFonts();
-    }
-
-    /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
-    /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteOffice2013WhiteBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -283,10 +249,8 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
         // Remember incoming sets of values
         ThemeName = nameof(PaletteOffice2013WhiteBase);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+        _ribbonColors = scheme!.ToArray();
         if (checkBoxList != null)
         {
             _checkBoxList = checkBoxList;
@@ -302,7 +266,7 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
-        BaseColors = scheme;
+        
     }
 
     #endregion Identity

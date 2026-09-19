@@ -784,7 +784,7 @@ public abstract class PaletteOffice2010BlackDarkModeBase : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTable2010BlackDarkMode? _table;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -793,55 +793,8 @@ public abstract class PaletteOffice2010BlackDarkModeBase : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Initialize a new instance of the PaletteOffice2010BlackDarkModeDarkModeBase class.
+    /// Initializes a new instance using a strongly-typed color scheme.
     /// </summary>
-    /// <param name="schemeColors">Array of palette specific colors.</param>
-    /// <param name="checkBoxList">List of images for check box.</param>
-    /// <param name="galleryButtonList">List of images for gallery buttons.</param>
-    /// <param name="radioButtonArray">Array of images for radio button.</param>
-    /// <param name="trackBarColors">Array of track bar specific colors.</param>
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
-    protected PaletteOffice2010BlackDarkModeBase([DisallowNull] Color[] schemeColors,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
-    {
-        Debug.Assert(schemeColors != null);
-        Debug.Assert(checkBoxList != null);
-        Debug.Assert(galleryButtonList != null);
-        Debug.Assert(radioButtonArray != null);
-
-        // Remember incoming sets of values
-        ThemeName = nameof(PaletteOffice2010BlackDarkModeBase);
-
-        if (schemeColors != null)
-        {
-            _ribbonColors = schemeColors;
-        }
-
-        if (checkBoxList != null)
-        {
-            _checkBoxList = checkBoxList;
-        }
-        if (galleryButtonList != null)
-        {
-            _galleryButtonList = galleryButtonList;
-        }
-        if (radioButtonArray != null)
-        {
-            _radioButtonArray = radioButtonArray;
-        }
-
-        // Get the font settings from the system
-        DefineFonts();
-    }
-
-    /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
-    /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteOffice2010BlackDarkModeBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -856,10 +809,8 @@ public abstract class PaletteOffice2010BlackDarkModeBase : PaletteBase
         // Remember incoming sets of values
         ThemeName = nameof(PaletteOffice2010BlackDarkModeBase);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+        _ribbonColors = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -876,7 +827,7 @@ public abstract class PaletteOffice2010BlackDarkModeBase : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
-        BaseColors = scheme;
+        
     }
 
     #endregion

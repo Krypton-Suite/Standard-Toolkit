@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -195,7 +195,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTable2007? _table;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -209,19 +209,18 @@ public abstract class PaletteOffice2007Base : PaletteBase
     /// Initialize a new instance of the PaletteOffice2007Base class.
     /// </summary>
     /// <param name="themeName">The name of the theme.</param>
-    /// <param name="schemeColors">Array of palette specific colors.</param>
+    /// <param name="scheme">The strongly-typed color scheme.</param>
     /// <param name="checkBoxList">List of images for check box.</param>
     /// <param name="galleryButtonList">List of images for gallery buttons.</param>
     /// <param name="radioButtonArray">Array of images for radio button.</param>
-    /// <param name="trackBarColors">Array of track bar specific colors.</param>
-    protected PaletteOffice2007Base(string themeName,
-        [DisallowNull] Color[] schemeColors,
+    protected PaletteOffice2007Base(
+        string themeName,
+        [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
+        [DisallowNull] Image?[] radioButtonArray)
     {
-        Debug.Assert(schemeColors != null);
+        Debug.Assert(scheme != null);
         Debug.Assert(checkBoxList != null);
         Debug.Assert(galleryButtonList != null);
         Debug.Assert(radioButtonArray != null);
@@ -231,10 +230,9 @@ public abstract class PaletteOffice2007Base : PaletteBase
             ? @"PaletteOffice2007Base"
             : themeName;
 
-        if (schemeColors != null)
-        {
-            _ribbonColors = schemeColors;
-        }
+        BaseColors = scheme!;
+        _ribbonColors = scheme!.ToArray();
+
         if (checkBoxList != null)
         {
             _checkBoxList = checkBoxList;
@@ -250,27 +248,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
-    }
-
-    /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
-    /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
-    protected PaletteOffice2007Base(
-        string themeName,
-        [DisallowNull] KryptonColorSchemeBase scheme,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray)
-        : this(themeName,
-               scheme.ToArray(),
-               checkBoxList,
-               galleryButtonList,
-               radioButtonArray,
-               scheme.ToTrackBarArray())
-    {
-        BaseColors = scheme;
     }
 
     #endregion
