@@ -89,6 +89,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
 | `Invoke-TextBoxInputModeScreenshot.ps1` | Opens `TextBoxInputModeDemo` (#4417) and writes `Documents/PR/4417-textbox-input-mode-demo.png` | `exclude` |
+| `Invoke-ToastDpiScreenshot.ps1` | Shows basic toasts with/without close box and writes `Documents/PR/4419-toast-dpi-*.png` (#4419) | `exclude` |
 | `Invoke-SplitButtonScreenshot.ps1` | Hosts `KryptonSplitButtonDemo` (#4366) and writes `Documents/PR/4366-krypton-split-button-default.png` | `exclude` |
 | `Invoke-ButtonSpecFillHeightScreenshot.ps1` | Hosts `Bug4432ButtonSpecFillHeightDemo` (#4432) and writes `Documents/PR/4432-buttonspec-fillheight-default.png` | `exclude` |
 | `Probe-ButtonSpecFillHeight.ps1` | Prints TextBox ButtonSpec client rectangles for #4432 FillHeight vs centred | `exclude` |

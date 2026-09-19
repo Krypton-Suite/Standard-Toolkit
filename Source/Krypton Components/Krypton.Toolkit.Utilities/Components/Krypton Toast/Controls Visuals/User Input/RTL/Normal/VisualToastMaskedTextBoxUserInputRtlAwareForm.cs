@@ -74,9 +74,8 @@ internal partial class VisualToastMaskedTextBoxUserInputRtlAwareForm : VisualToa
 
     private void UpdateLocation()
     {
-        //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-        Location = _data.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
-            Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
+        // Once loaded, position the form, or default to bottom-right with DPI-scaled edge padding.
+        Location = _data.NotificationLocation ?? GetDefaultBottomRightLocation();
     }
 
     private void UpdateIcon()
@@ -90,14 +89,8 @@ internal partial class VisualToastMaskedTextBoxUserInputRtlAwareForm : VisualToa
         SetIcon(bitmap);
     }
 
-    private void ShowCloseButton()
-    {
-        CloseBox = _data.ShowCloseBox ?? false;
-
-        FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-        ControlBox = _data.ShowCloseBox ?? false;
-    }
+    private void ShowCloseButton() =>
+        ApplyCloseBoxChrome(_data.ShowCloseBox ?? false);
 
     private void itbDismiss_Click(object sender, EventArgs e) => Close();
 
@@ -105,9 +98,11 @@ internal partial class VisualToastMaskedTextBoxUserInputRtlAwareForm : VisualToa
     {
         UpdateIcon();
 
-        UpdateLocation();
-
         ShowCloseButton();
+
+        ApplyToastDpiLayout();
+
+        UpdateLocation();
 
         _timer.Start();
     }
