@@ -87,6 +87,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorCaptionTabProbe.ps1` | Caption geometry probe | n/a |
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
+| `Invoke-4412LabelAlternateScreenshot.ps1` | Hosts Normal vs Alternate labels (#4412) and writes `Documents/PR/4412-label-alternate-status-strip-text-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
 | `Invoke-ToastDpiScreenshot.ps1` | Shows basic toasts with/without close box and writes `Documents/PR/4419-toast-dpi-*.png` (#4419) | `exclude` |
 | `Invoke-SplitButtonScreenshot.ps1` | Hosts `KryptonSplitButtonDemo` (#4366) and writes `Documents/PR/4366-krypton-split-button-default.png` | `exclude` |
