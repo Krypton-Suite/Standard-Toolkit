@@ -36,8 +36,6 @@ internal class InternalToastButton : KryptonButton
         {
             _isActionButton = value;
 
-            Anchor = AnchorStyles.Left;
-
             Invalidate();
         }
     }
@@ -50,8 +48,6 @@ internal class InternalToastButton : KryptonButton
         set
         {
             _isDismissButton = value;
-
-            Anchor = AnchorStyles.Right;
 
             Invalidate();
         }
@@ -118,17 +114,25 @@ internal class InternalToastButton : KryptonButton
 
         Text = @"{0} ({1})";
 
-        Anchor = AnchorStyles.Right;
+        // TableLayoutPanel owns placement; do not pin with Anchor (it collapses cell margins).
+        Anchor = AnchorStyles.None;
 
         AutoSize = true;
-
-        // Use 10 pixels for padding
-        Margin = new Padding(SharedStaticConstants.DEFAULT_PADDING);
     }
 
     #endregion
 
     #region Protected
+
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+
+        // Scale button margin once the handle exists so LogicalToDeviceUnits uses the correct DPI.
+        var pad = LogicalToDeviceUnits(SharedStaticConstants.DEFAULT_PADDING);
+        Margin = new Padding(pad);
+    }
 
     protected override void OnPaint(PaintEventArgs? e)
     {
