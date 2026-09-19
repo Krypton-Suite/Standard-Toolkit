@@ -45,6 +45,7 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4417](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4417), `KryptonTextBox.InputMode` (`Any` / `Digits` / `Letters` / `Alphanumeric`) filters typing and paste; replaces the unfinished alphanumeric-mode stub.
 * Implemented, Moved theme/image resource banks into `Krypton.Resources.dll` (bundled into `Krypton.Toolkit`, sibling module packages, and `Krypton.Standard.Toolkit`; not a separate NuGet package).
 * Resolved [#4414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4414), Removed dead `OnNotifyMessage` overrides that filtered `WM_ERASEBKGND` without effect (`EnableNotifyMessage` was never enabled).
 * Resolved [#4419](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4419), Use scaling here, to support larger screens
