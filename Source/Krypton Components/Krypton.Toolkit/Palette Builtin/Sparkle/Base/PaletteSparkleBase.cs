@@ -192,7 +192,7 @@ public class PaletteSparkleBase : PaletteBase
     /// <inheritdoc/>
     protected override Color[] SchemeColors => _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTableSparkle? _table;
     private readonly Color[] _ribbonColors;
     private readonly Color[] _sparkleColors;
@@ -206,7 +206,7 @@ public class PaletteSparkleBase : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
     public PaletteSparkleBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
@@ -221,10 +221,9 @@ public class PaletteSparkleBase : PaletteBase
         // Save colors for use in the color table
         ThemeName = nameof(PaletteSparkleBase);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
         if (sparkleColors != null)
         {
             _sparkleColors = sparkleColors;
@@ -257,7 +256,6 @@ public class PaletteSparkleBase : PaletteBase
         // Get the font settings from the system
         DefineFonts();
 
-        BaseColors = scheme;
 
         SetTrackBarColors();
     }
