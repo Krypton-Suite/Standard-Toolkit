@@ -14,6 +14,7 @@ These are recurring issues observed when using AI coding agents and shell wrappe
 - Do not `git clone` [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) when `..\Standard-Toolkit-Demos` already exists. Reuse that working tree: switch to `alpha` if not already on it, then create a new `alpha-…` branch from `alpha`. Clone only when the parent folder is missing (see **Standard-Toolkit-Demos**).
 - Do not pack extra nupkg files as `lib\$(TargetFramework)\` for `netX.0-windows` (NU5128: extra `net8.0-windows` folder vs nuspec `net8.0-windows7.0`). Use `_KryptonPackageLibFolder` (see **WinForms Designer Extensibility SDK**).
 - Do not `dotnet pack` after a VS 2026 build that skipped net11 without `-p:ExcludeNet11=true` on **both** restore and pack (or pack with a rebuild so net11 compiles). Otherwise NU5128 asks for `net11.0-windows7.0` lib assemblies that were never built.
+- Do not capture PR screenshots with bare `Graphics.CopyFromScreen` after only `$form.Show()` / `$form.Activate()`. Cursor, Visual Studio, or the terminal often stays on top, so the PNG shows the IDE instead of the demo. Correct example: call `Save-UnitTestWindowPng` from `Scripts/UnitTests/UnitTestCommon.ps1` (PrintWindow of the HWND; see **UI Screenshots / GIFs**).
 
 ## Always
 
@@ -60,7 +61,7 @@ Before considering a task complete:
 - `Documents/`, `Assets/`, `Logs/`: Docs, images, and build logs
 - `README.md`: Consumer-facing project overview; **Breaking Changes** lists migration notes for each major version (see **Breaking Changes (README)**)
 - `Documents/Changelog/Changelog.md`: User-facing release notes for completed bugs and features
-- `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`; **do not include these files in new or existing PRs**
+- `Documents/Development/`: In-depth developer guides for completed features (APIs, architecture, usage); may be a single `.md` or a folder with `README.md` index plus chapters; not listed in `Documents/Changelog/Changelog.md` or `Scripts/ModernBuild/README.md`; **do not include these files in new or existing PRs**
 - `Documents/PR/`: One Markdown PR description per completed bug fix or feature, drafted locally and used as the GitHub PR body **only when the user explicitly asks to open a PR**; **do not include that description file in new or existing PRs** (see **Pull Request Descriptions**)
 
 ## Architecture
@@ -387,7 +388,7 @@ Validate documentation-only changes with a targeted `dotnet build` of the affect
 
 ## Feature Developer Documentation
 
-When a **new feature** is completed (not bug fixes or refactors unless they introduce a substantial new capability), add a **comprehensive developer guide** as a Markdown file under `Documents/Development/`.
+When a **new feature** is completed (not bug fixes or refactors unless they introduce a substantial new capability), add a **comprehensive developer guide** under `Documents/Development/`.
 
 ### When to write
 
@@ -406,17 +407,36 @@ Each guide should be **in-depth** and **maintainer-focused**, covering as applic
 - **Edge cases** — threading, TFM differences, breaking changes, migration notes.
 - **Validation** — how to exercise the feature in `TestForm` or a harness (link to the demo form registered in `StartScreen`), and in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing).
 
+### Single file vs multi-file guide
+
+- Prefer **one Markdown file** for a cohesive subsystem (e.g. `KryptonThemesCatalog.md`, `Krypton-Docking-Developer-Guide.md`).
+- When the feature is large (many formats, APIs, UI surfaces, and migration paths), **split** into a folder with an **index** `README.md` plus numbered or named chapters. Cross-link Previous / Index / Next at the top or bottom of each chapter.
+- The index should list packages/owners, a document map, quick-start snippets when useful, and a source-file map so maintainers know what to update.
+- Keep chapter titles stable; update the index table when adding or renaming chapters.
+- Folder name: descriptive kebab title for the feature, e.g. `Documents/Development/Krypton-Some-Feature/`.
+
 ### TestForm demo
 
 When the feature warrants user-visible validation, add or update a demo per **TestForm Demos** and reference it here. Also add a consumer example per **Standard-Toolkit-Demos** (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing; **append** if an example already exists — do not overwrite).
 
 ### File conventions
 
-- Location: `Documents/Development/`
+- Location: `Documents/Development/` (single file) or `Documents/Development/<Feature-Folder>/` (multi-file with `README.md` index).
 - Name: descriptive kebab or Pascal-style title, e.g. `Krypton-Docking-Developer-Guide.md` or `Visual-Studio-Templates-Developer-Guide.md`.
-- One feature (or cohesive subsystem) per file; cross-link related guides when helpful.
+- One feature (or cohesive subsystem) per file **or** per folder; cross-link related guides when helpful.
 - CRLF, UTF-8 with BOM; match tone and structure of existing repo docs.
 - These guides are **local working files**. Do not include them in new or existing pull requests (see **Do not include in pull requests** below).
+
+### Keeping guides current
+
+When changing behaviour covered by an existing Development guide:
+
+1. Update the matching chapter(s) or single file in the same change set as the code, or immediately after.
+2. Keep public names and APIs aligned with source; mention renames or retired identifiers only as historical migration notes.
+3. Refresh validation pointers in the guide (TestForm demos, unit-test scripts, Demos examples) when those change.
+4. Respect package ownership already documented in the guide (e.g. Toolkit vs Utilities vs Themes); do not invent cross-project references that violate architecture rules.
+5. Do **not** add a Changelog entry solely because a Development guide changed.
+6. Still leave Development files **out of** the Standard-Toolkit PR.
 
 ### Do not list in these files
 
@@ -763,6 +783,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Resolve the repo root and `Bin\<Configuration>\<TFM>` via `Scripts/UnitTests/UnitTestCommon.ps1` rather than hard-coding machine paths.
 - Host WinForms demos with `-STA` when the script calls `Application.Run`.
 - Keep scripts focused on one scenario (host, drag, remerge, probe, …).
+- PR / demo window captures: call `Save-UnitTestWindowPng` from `UnitTestCommon.ps1` (PrintWindow of the HWND). Do not bare `CopyFromScreen` after only `Activate` — Cursor/IDE occlusion captures the wrong window (see **UI Screenshots / GIFs**).
 - Existing #925 helpers: `Start-NavigatorFormIntegrationHost.ps1`, `Invoke-CaptionTabDrag.ps1`, `UnitTest-NavigatorCaptionTabRemerge.ps1`, `Get-NavigatorCaptionTabProbe.ps1`.
 - Existing #4325 helper: `UnitTest-DesignerSerializationDefaults.ps1` (`include`) — parameterless Toolbox construct must not report nested `Modified` storage (see **Designer Serialization Defaults**).
 - Existing #593 pack helper: `Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1` — after Pack, modern lib folders must contain `Design/WinForms` assemblies and must not leak `Microsoft.WinForms.Designer.SDK.dll` (see **WinForms Designer Extensibility SDK**).
@@ -787,13 +808,13 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 ### How
 
 1. Build Debug TestForm if binaries are stale: `dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`.
-2. Host the relevant demo **on-screen** with PowerShell `-STA`. Reuse a `Start-*Host.ps1`, or instantiate the form in-process (pattern: `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`).
-3. `Show` / `Activate`, `Application.DoEvents()`, then a short sleep so paint completes. Do not capture off-screen or hidden windows.
-4. Capture with `System.Drawing.Graphics.CopyFromScreen` to PNG. Crop to the relevant chrome when a full-desktop shot would hide the change.
-5. Read the PNG or GIF in the session so the image is visible for confirmation.
-6. If the capture is reusable, keep the script under `Scripts/UnitTests/` with `# UnitTest-CI: exclude` and a README row (see **Unit Test Scripts**). Copy `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1` (STA `-File`, in-process form, `CopyFromScreen` to `Documents/PR/`) rather than a long `powershell -Command { … }` one-liner (see **Recent Tooling Mistakes To Avoid**).
+2. Host the relevant demo with PowerShell `-STA`. Reuse a `Start-*Host.ps1`, or instantiate the form in-process (pattern: `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`). Place the form on the primary working area (`StartPosition = Manual`, e.g. `(80, 80)`); do not leave it off-screen or minimized.
+3. Before capture: `Show`, set `TopMost = $true`, `Activate`, `BringToFront`, `SetForegroundWindow` (via `Initialize-UnitTestNativeInput` / `UnitTestNative`), `Application.DoEvents()`, then a short settle sleep so paint completes.
+4. **Capture the HWND, not whatever is on top of the desktop.** Dot-source `Scripts/UnitTests/UnitTestCommon.ps1` and call `Save-UnitTestWindowPng -Form $form -Path $OutputPath`. That helper uses `PrintWindow` with `PW_RENDERFULLCONTENT`, so Cursor / Visual Studio covering the same screen region cannot appear in the PNG. Use `-InflateX` / `-InflateY` only when a popup must be included outside the form bounds (then the helper falls back to TopMost + foreground + `CopyFromScreen`). Do **not** hand-roll bare `Graphics.CopyFromScreen($form.Bounds…)` after only `Activate` — that is the usual “wrong window” failure.
+5. **Read the PNG or GIF in the session** (image Read tool) and confirm it shows the demo chrome/content, not the IDE, terminal, or another app. If it is wrong, fix foreground/`Save-UnitTestWindowPng` and recapture; do not embed a bad shot.
+6. If the capture is reusable, keep the script under `Scripts/UnitTests/` with `# UnitTest-CI: exclude` and a README row (see **Unit Test Scripts**). Prefer STA `-File` scripts that call `Save-UnitTestWindowPng` over a long `powershell -Command { … }` one-liner (see **Recent Tooling Mistakes To Avoid**).
 
-**GIF (motion only):** same host, STA, on-screen, and crop rules as PNG. Capture a short frame sequence during the interaction (`CopyFromScreen` on a timer, or before / during / after plus in-between frames for a drag). Encode to an animated GIF and save next to the description. Prefer `ffmpeg` or ImageMagick `magick` if on PATH; otherwise assemble frames with WPF `GifBitmapEncoder` (`Add-Type -AssemblyName PresentationCore`). Keep it to a few seconds, cropped, looping. If no encoder is available, capture labelled stills (`-before.png`, `-during.png`, `-after.png`) instead of skipping — do not invent a GIF.
+**GIF (motion only):** same host, STA, on-screen, TopMost/foreground, and verify-the-frames rules as PNG. Prefer per-frame `Save-UnitTestWindowPng` / `PrintWindow` when only the form is needed. Use `CopyFromScreen` on a timer only when the motion leaves the HWND (drag ghost, tear-out). Encode to an animated GIF and save next to the description. Prefer `ffmpeg` or ImageMagick `magick` if on PATH; otherwise assemble frames with WPF `GifBitmapEncoder` (`Add-Type -AssemblyName PresentationCore`). Keep it to a few seconds, cropped, looping. If no encoder is available, capture labelled stills (`-before.png`, `-during.png`, `-after.png`) instead of skipping — do not invent a GIF.
 
 ### Where
 
@@ -812,6 +833,8 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 ### Do not
 
 - Skip screenshots or GIFs for UI work, or leave the template placeholder.
+- Capture with bare `CopyFromScreen` after only `Show`/`Activate` (IDE/Cursor occlusion → wrong window).
+- Embed a PNG/GIF without reading it in-session to confirm it shows the demo.
 - Commit PNGs, GIFs, or `Bin/` capture output in the Standard-Toolkit pull request.
 - Upload or attach screenshot or GIF files to the GitHub pull request.
 - Invent or draw substitute images. If capture is impossible (no interactive desktop), say so in **Validation** instead of faking a shot.
