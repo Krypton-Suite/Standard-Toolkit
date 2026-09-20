@@ -1278,6 +1278,26 @@ public enum RelativeEdgeAlign
 }
 #endregion
 
+#region Enum ButtonSpecEdgeArrange
+
+/// <summary>
+/// Specifies how multiple <see cref="ButtonSpec"/> instances on the same edge are arranged.
+/// </summary>
+public enum ButtonSpecEdgeArrange
+{
+    /// <summary>
+    /// Pack ButtonSpecs side-by-side along the Near/Far axis (historic default).
+    /// </summary>
+    SideBySide,
+
+    /// <summary>
+    /// Stack ButtonSpecs along the host edge (vertically on a top/bottom docker).
+    /// </summary>
+    StackAlongEdge
+}
+
+#endregion
+
 #region Enum RelativePositionAlign
 /// <summary>
 /// Specifies a relative alignment position.

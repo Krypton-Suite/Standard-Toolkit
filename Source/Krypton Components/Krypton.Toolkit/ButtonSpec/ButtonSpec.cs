@@ -46,6 +46,7 @@ public abstract class ButtonSpec : Component,
     private PaletteButtonStyle _style;
     private PaletteButtonOrientation _orientation;
     private PaletteRelativeEdgeAlign _edge;
+    private bool _fillHeight;
     private readonly CheckButtonImageStates _imageStates;
     private readonly CheckOverlayImageValues _overlayImage;
 
@@ -92,6 +93,7 @@ public abstract class ButtonSpec : Component,
         _orientation = PaletteButtonOrientation.Inherit;
         ProtectedType = PaletteButtonSpecStyle.Generic;
         _edge = PaletteRelativeEdgeAlign.Inherit;
+        _fillHeight = false;
         _imageStates = new CheckButtonImageStates
         {
             NeedPaint = OnImageStateChanged!
@@ -135,6 +137,7 @@ public abstract class ButtonSpec : Component,
         clone.Style = Style;
         clone.Orientation = Orientation;
         clone.Edge = Edge;
+        clone.FillHeight = FillHeight;
         clone.ContextMenuStrip = ContextMenuStrip;
         clone.KryptonContextMenu = KryptonContextMenu;
         clone.KryptonCommand = KryptonCommand;
@@ -166,6 +169,7 @@ public abstract class ButtonSpec : Component,
                                      !ShouldSerializeStyle() &&
                                      !ShouldSerializeOrientation() &&
                                      !ShouldSerializeEdge() &&
+                                     !ShouldSerializeFillHeight() &&
                                      !ShouldSerializeOverlayImage() &&
                                      (ContextMenuStrip == null) &&
                                      AllowInheritImage &&
@@ -643,6 +647,39 @@ public abstract class ButtonSpec : Component,
     }
     private bool ShouldSerializeEdge() => Edge != PaletteRelativeEdgeAlign.Inherit;
     private void ResetEdge() => Edge = PaletteRelativeEdgeAlign.Inherit;
+    #endregion
+
+    #region FillHeight
+    /// <summary>
+    /// Gets and sets whether the button stretches to the full height of its host allocation.
+    /// </summary>
+    /// <remarks>
+    /// When <see langword="false"/> (the default), the button keeps its preferred size and is
+    /// vertically centred — the historic ButtonSpec layout used by headers and form chrome.
+    /// Set <see langword="true"/> on tall input hosts (for example <see cref="KryptonTextBox"/>,
+    /// <see cref="KryptonComboBox"/>, or <see cref="KryptonDateTimePicker"/>) so the ButtonSpec
+    /// fills the control height like a built-in drop-down button (issue #4432).
+    /// </remarks>
+    [Localizable(true)]
+    [Category(@"Behavior")]
+    [Description(@"Stretch the button to the full height of the host control allocation.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(false)]
+    public bool FillHeight
+    {
+        get => _fillHeight;
+
+        set
+        {
+            if (_fillHeight != value)
+            {
+                _fillHeight = value;
+                OnButtonSpecPropertyChanged(nameof(FillHeight));
+            }
+        }
+    }
+    private bool ShouldSerializeFillHeight() => FillHeight;
+    private void ResetFillHeight() => FillHeight = false;
     #endregion
 
     #region ContextMenuStrip
