@@ -1175,7 +1175,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _sparkleColors[2];
+                    return _sparkleColors[2];
                 }
             }
 
@@ -1249,7 +1249,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _sparkleColors[2];
+                    return _sparkleColors[2];
                 }
             }
 
