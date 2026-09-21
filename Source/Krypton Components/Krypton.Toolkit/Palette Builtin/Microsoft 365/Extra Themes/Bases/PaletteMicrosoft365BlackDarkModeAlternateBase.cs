@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege, et al. 2024 - 2025. All rights reserved.
@@ -1256,7 +1256,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -1384,7 +1384,7 @@ public abstract class PaletteMicrosoft365BlackDarkModeAlternateBase : PaletteBas
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 

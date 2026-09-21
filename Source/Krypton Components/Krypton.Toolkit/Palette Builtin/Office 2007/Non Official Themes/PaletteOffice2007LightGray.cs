@@ -20,12 +20,8 @@ public class PaletteOffice2007LightGray : PaletteOffice2007Base
 
     #endregion
 
-    public PaletteOffice2007LightGray(string themeName, Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors) : base(
-        themeName,
-        new EmptySchemeBase(),
-        checkBoxList,
-        galleryButtonList,
-        radioButtonArray)
+    public PaletteOffice2007LightGray(string themeName, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray)
+        : base(themeName, new EmptySchemeBase(), checkBoxList, galleryButtonList, radioButtonArray)
     {
     }
 
