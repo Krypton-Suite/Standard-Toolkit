@@ -48,6 +48,7 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Resolved [#4414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4414), Removed dead `OnNotifyMessage` overrides that filtered `WM_ERASEBKGND` without effect (`EnableNotifyMessage` was never enabled)
 * Resolved [#4425](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4425), Keep KryptonComboBox drop-down width tracking control width
   * `KryptonComboBox` keeps the drop-down list width in sync with the control when `DropDownWidth` has not been set explicitly (removed the leftover Content-palette sync TODO from [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704)).
 * Resolved [#4419](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4419), Use scaling here, to support larger screens
