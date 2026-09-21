@@ -48,6 +48,7 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Resolved [#4423](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4423), Documented why `GetButtonSpecImage` returns null for `PaletteButtonSpecStyle.Generic` (no stock palette glyph; consumers supply the image).
 * Resolved / Implemented [#4432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4432), ButtonSpecs do not cover the full height of the control
   * `ButtonSpec.FillHeight` stretches ButtonSpecs to the full height of the host control (default remains vertically centred).
   * `ButtonSpecEdgeArrange.StackAlongEdge` (on TextBox, ComboBox, MaskedTextBox, DateTimePicker, NumericUpDown, DomainUpDown, CalcInput) stacks same-edge ButtonSpecs vertically; default remains side-by-side.
