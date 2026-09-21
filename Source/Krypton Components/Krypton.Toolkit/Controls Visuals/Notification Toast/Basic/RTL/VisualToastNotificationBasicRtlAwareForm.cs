@@ -119,21 +119,14 @@ internal partial class VisualToastNotificationBasicRtlAwareForm : VisualToastNot
 
     private void UpdateLocation()
     {
-        //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-        Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
-            Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
+        // Once loaded, position the form, or default to bottom-right with DPI-scaled edge padding.
+        Location = _basicToastNotificationData.NotificationLocation ?? GetDefaultBottomRightLocation();
     }
 
     private void ReportToastLocation() => klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
 
-    private void ShowCloseButton()
-    {
-        CloseBox = _basicToastNotificationData.ShowCloseBox ?? false;
-
-        FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-        ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
-    }
+    private void ShowCloseButton() =>
+        ApplyCloseBoxChrome(_basicToastNotificationData.ShowCloseBox ?? false);
 
     private void VisualToastNotificationBasicRtlAwareForm_LocationChanged(object? sender, EventArgs e)
     {
@@ -158,11 +151,10 @@ internal partial class VisualToastNotificationBasicRtlAwareForm : VisualToastNot
 
     private void VisualToastNotificationBasicRtlAwareForm_Load(object sender, EventArgs e)
     {
-        UpdateLocation();
-
-        ReportToastLocation();
-
         ShowCloseButton();
+        ApplyToastDpiLayout();
+        UpdateLocation();
+        ReportToastLocation();
 
         _timer.Start();
 

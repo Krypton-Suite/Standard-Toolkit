@@ -103,13 +103,162 @@ internal partial class VisualToastNotificationBaseForm : KryptonForm
 
     protected KryptonToastNotificationResult ShowToastNotificationResult() => ShowToastNotificationResult(null);
 
+    /// <summary>Logical pixel inset from the working-area edge when auto-positioning a toast.</summary>
+    protected const int ToastScreenEdgeMargin = 5;
+
+    /// <summary>Logical pixel inset between toast chrome and the dismiss/action button strip.</summary>
+    protected const int ToastButtonEdgePadding = 16;
+
+    /// <summary>Converts a logical padding value to device pixels for the monitor hosting this form.</summary>
+    /// <param name="logical">Padding in logical (96 DPI) pixels.</param>
+    /// <returns>The scaled padding in device pixels.</returns>
+    protected int GetScaledPadding(int logical) => LogicalToDeviceUnits(logical);
+
+    /// <summary>
+    /// Default bottom-right toast location on the primary working area, with a DPI-scaled edge margin.
+    /// </summary>
+    /// <returns>A screen location for the toast's top-left corner.</returns>
+    protected Point GetDefaultBottomRightLocation()
+    {
+        var margin = GetScaledPadding(ToastScreenEdgeMargin);
+        var workingArea = Screen.PrimaryScreen!.WorkingArea;
+
+        return new Point(workingArea.Width - Width - margin, workingArea.Height - Height - margin);
+    }
+
+    /// <summary>
+    /// Applies close-box / control-box chrome. When there is no close box the toast is borderless
+    /// so <see cref="ApplyBorderlessHeightPadding"/> can add DPI-scaled height compensation.
+    /// </summary>
+    /// <param name="showCloseBox">Whether the system close box should be shown.</param>
+    protected void ApplyCloseBoxChrome(bool showCloseBox)
+    {
+        CloseBox = showCloseBox;
+        ControlBox = showCloseBox;
+        FormBorderStyle = showCloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.None;
+    }
+
+    /// <summary>
+    /// When the toast is borderless, add DPI-scaled padding to the height so content is not clipped
+    /// on high-DPI displays.
+    /// </summary>
+    protected void ApplyBorderlessHeightPadding()
+    {
+        if (FormBorderStyle != FormBorderStyle.None)
+        {
+            return;
+        }
+
+        // Compensate for missing non-client chrome with a DPI-aware pad.
+        Height += GetScaledPadding(GlobalStaticValues.DEFAULT_PADDING);
+    }
+
+    /// <summary>
+    /// Applies DPI-scaled insets so dismiss/action buttons are not flush against the form edge.
+    /// </summary>
+    protected void ApplyScaledButtonStripInsets()
+    {
+        var pad = GetScaledPadding(ToastButtonEdgePadding);
+        var padding = new Padding(pad);
+
+        // KryptonPanel does not reliably inset Dock.Fill children via Padding; form Padding does.
+        if (Padding.All < pad)
+        {
+            // Grow the window so existing content keeps its size after the inset.
+            Width += pad * 2;
+            Height += pad * 2;
+            Padding = padding;
+        }
+
+        foreach (var panel in Controls.Find("kpnlButtons", true))
+        {
+            var minHeight = GetScaledPadding(50) + pad;
+            if (panel.Height < minHeight)
+            {
+                var delta = minHeight - panel.Height;
+                panel.Height = minHeight;
+                Height += delta;
+            }
+
+            foreach (Control child in panel.Controls)
+            {
+                if (!(child is TableLayoutPanel tlp))
+                {
+                    continue;
+                }
+
+                EnsureTrailingSpacerColumn(tlp, pad);
+
+                foreach (Control cellChild in tlp.Controls)
+                {
+                    if (cellChild.Anchor == AnchorStyles.Right || cellChild.Anchor == AnchorStyles.Left)
+                    {
+                        cellChild.Anchor = AnchorStyles.None;
+                    }
+
+                    if (cellChild.Margin.All < pad)
+                    {
+                        cellChild.Margin = padding;
+                    }
+                }
+            }
+
+            panel.PerformLayout();
+        }
+
+        PerformLayout();
+    }
+
+    /// <summary>
+    /// Adds a fixed trailing column so AutoSize dismiss text cannot overflow the right edge.
+    /// </summary>
+    /// <param name="tlp">Button strip table.</param>
+    /// <param name="pad">Spacer width in device pixels.</param>
+    private static void EnsureTrailingSpacerColumn(TableLayoutPanel tlp, int pad)
+    {
+        if (tlp.ColumnCount < 1)
+        {
+            return;
+        }
+
+        var last = tlp.ColumnStyles[tlp.ColumnCount - 1];
+        if (last.SizeType == SizeType.Absolute && Math.Abs(last.Width - pad) < 0.5f)
+        {
+            return;
+        }
+
+        tlp.ColumnCount++;
+        tlp.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, pad));
+    }
+
+    /// <summary>
+    /// Applies borderless height compensation and DPI-scaled button-strip insets.
+    /// </summary>
+    protected void ApplyToastDpiLayout()
+    {
+        ApplyBorderlessHeightPadding();
+        ApplyScaledButtonStripInsets();
+    }
+
+    #endregion
+
+    #region Protected Overrides
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        // Dismiss text (with countdown) is often applied in Show() after Load; re-inset once visible.
+        ApplyScaledButtonStripInsets();
+    }
+
     #endregion
 
     #region Implementation
 
     private void VisualToastNotificationBaseForm_Load(object sender, EventArgs e)
     {
-
     }
 
     #endregion

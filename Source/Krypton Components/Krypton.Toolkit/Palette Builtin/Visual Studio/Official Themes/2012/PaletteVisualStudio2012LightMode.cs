@@ -11,9 +11,12 @@ namespace Krypton.Toolkit;
 
 public abstract class PaletteVisualStudio2012LightMode : PaletteVisualStudioBase
 {
-    [System.Obsolete("Color[] constructor is deprecated and will be removed in V110. Use KryptonColorSchemeBase overload.", false)]
-    protected PaletteVisualStudio2012LightMode(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors)
-        : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
+    protected PaletteVisualStudio2012LightMode(
+        [DisallowNull] KryptonColorSchemeBase scheme,
+        [DisallowNull] ImageList checkBoxList,
+        [DisallowNull] ImageList galleryButtonList,
+        [DisallowNull] Image?[] radioButtonArray)
+        : base(scheme, checkBoxList, galleryButtonList, radioButtonArray)
     {
         ThemeName = nameof(PaletteVisualStudio2012LightMode);
     }

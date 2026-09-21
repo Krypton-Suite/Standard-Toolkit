@@ -129,41 +129,21 @@ internal partial class VisualToastNotificationBasicForm : VisualToastNotificatio
     private void SetIcon(Bitmap? image) => pbxIcon.Image = image;
 
     private void UpdateLocation() =>
-        //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-        Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
-            Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
+        // Once loaded, position the form, or default to bottom-right with DPI-scaled edge padding.
+        Location = _basicToastNotificationData.NotificationLocation ?? GetDefaultBottomRightLocation();
 
     private void ReportToastLocation() => klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
 
     private void VisualToastNotificationBasicForm_Load(object sender, EventArgs e)
     {
-        UpdateSizing();
-
-        UpdateLocation();
-
-        ReportToastLocation();
-
         ShowCloseButton();
+        ApplyToastDpiLayout();
+        UpdateLocation();
+        ReportToastLocation();
 
         _timer?.Start();
 
         _soundPlayer?.Play();
-    }
-
-    private void UpdateSizing()
-    {
-        if (FormBorderStyle == FormBorderStyle.None)
-        {
-            // Add some height, if form border style equals 'None'
-
-            var width = Size.Width;
-
-            // ToDo: Use scaling here, to support larger screens
-
-            var height = Size.Height + GlobalStaticValues.DEFAULT_PADDING;
-
-            Size = new Size(width, height);
-        }
     }
 
     private void VisualToastNotificationBasicForm_Resize(object? sender, EventArgs e)
@@ -187,14 +167,8 @@ internal partial class VisualToastNotificationBasicForm : VisualToastNotificatio
 
     private void kbtnDismiss_Click(object sender, EventArgs e) => Close();
 
-    private void ShowCloseButton()
-    {
-        CloseBox = _basicToastNotificationData.ShowCloseBox ?? false;
-
-        FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-        ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
-    }
+    private void ShowCloseButton() =>
+        ApplyCloseBoxChrome(_basicToastNotificationData.ShowCloseBox ?? false);
 
     private void ShowDoNotShowAgainOption()
     {
