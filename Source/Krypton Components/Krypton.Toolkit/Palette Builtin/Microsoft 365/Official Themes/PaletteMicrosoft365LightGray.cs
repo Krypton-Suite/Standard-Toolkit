@@ -28,26 +28,65 @@ public class PaletteMicrosoft365LightGray : PaletteMicrosoft365Base
 
     #endregion
 
+    #region Image Lists
+
+    private static readonly ImageList _checkBoxList;
+    private static readonly ImageList _galleryButtonList;
+
+    #endregion
+
+    #region Images
+
+    private static readonly Image?[] _radioButtonArray;
+    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
+
+    #endregion
+
     #endregion Instance Fields
 
     #region Constructors
 
-    // TODO: convert to use KryptonColorSchemeBase
-    public PaletteMicrosoft365LightGray(
-        Color[] schemeColors,
-        ImageList checkBoxList,
-        ImageList galleryButtonList,
-        Image?[] radioButtonArray,
-        Color[] trackBarColors)
-        : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
+    static PaletteMicrosoft365LightGray()
+    {
+        _checkBoxList = new ImageList
+        {
+            ImageSize = new Size(13, 13),
+            ColorDepth = ColorDepth.Depth24Bit
+        };
+        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Silver);
+
+        _galleryButtonList = new ImageList
+        {
+            ImageSize = new Size(13, 7),
+            ColorDepth = ColorDepth.Depth24Bit,
+            TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
+        };
+        _galleryButtonList.Images.AddStrip(GalleryImageResources.Gallery2010);
+
+        _radioButtonArray =
+        [
+            Office2010RadioButtonImageResources.RadioButton2010BlueD,
+            Office2010RadioButtonImageResources.RadioButton2010SilverN,
+            Office2010RadioButtonImageResources.RadioButton2010BlueT,
+            Office2010RadioButtonImageResources.RadioButton2010BlueP,
+            Office2010RadioButtonImageResources.RadioButton2010BlueDC,
+            Office2010RadioButtonImageResources.RadioButton2010SilverNC,
+            Office2010RadioButtonImageResources.RadioButton2010SilverTC,
+            Office2010RadioButtonImageResources.RadioButton2010SilverPC
+        ];
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the PaletteMicrosoft365LightGray class.
+    /// </summary>
+    public PaletteMicrosoft365LightGray()
+        : base(new EmptySchemeBase(), _checkBoxList, _galleryButtonList, _radioButtonArray)
     {
     }
 
     #endregion Constructors
 
     #region Images
-
-    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
 
     /// <summary>
     /// Gets an image indicating a sub-menu on a context menu item.

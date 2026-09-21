@@ -944,16 +944,6 @@ public class KryptonPropertyGrid : VisualControlBase,
         }
     }
 
-    /// <inheritdoc />
-    protected override void OnNotifyMessage(Message m)
-    {
-        // TODO: What is this attempting to do ?
-        if (m.Msg != 0x14)
-        {
-            base.OnNotifyMessage(m);
-        }
-    }
-
     private void OnPropertyGridGotFocus(object? sender, EventArgs e)
     {
         OnGotFocus(e);

@@ -66,6 +66,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<Bug4336ListViewStateTrackingDemo>("Bug 4336 ListView StateTracking", "Issue #4336: KryptonListView hover uses StateTracking / StateCheckedTracking instead of Win32 hot-track. Item tooltips use KryptonToolTip at the hovered item.");
         CreateButton<Bug4373ToolStripTextContrastDemo>("Bug 4373 ToolStrip Contrast", "Issue #4373: ToolStrip item text must stay readable on Office White, Office 2007 Black, and Visual Studio 2010 themes. Cycle themes or use the jump buttons; both Krypton and native strips should pass WCAG AA 4.5:1.");
         CreateButton<Bug3367KryptonTextBoxButtonSpecHoverDemo>("Bug 3367 TextBox ButtonSpec Hover", "Demo for issue #3367: ButtonSpec hover flicker on KryptonTextBox, KryptonMaskedTextBox, and KryptonForm (ImageStates.ImageNormal without Image).");
+        CreateButton<Bug4432ButtonSpecFillHeightDemo>("Bug 4432 ButtonSpec FillHeight", "Issue #4432: ButtonSpec.FillHeight stretches specs to full host height; ButtonSpecEdgeArrange.StackAlongEdge stacks same-edge specs vertically. Toggle FillHeight / StackAlongEdge and resize tall TextBox/ComboBox/DTP/MaskedTextBox.");
         CreateButton<CommandLinkButtons>("CommandLink Buttons", "No comment");
         CreateButton<ControlStylesForm>("Control Styles", string.Empty);
         CreateButton<DateTimeExample>("DateTime Example", string.Empty);
@@ -78,7 +79,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<FloatingWindowTest>("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)");
         CreateButton<SplashScreenExample>("Splash Screen", string.Empty);
         CreateButton<ThemeControlExamples>("Theme Controls", string.Empty);
-        CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
+        CreateButton<ToastNotificationTestChoice>("Toast", "Basic / user-input / quick toasts. Try with and without close box at 100% and high DPI (150%+): no-close is borderless with scaled edge inset.");
         CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);
         CreateButton<BlurExampleForm>("Blur Example", string.Empty);
         CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar or MDI client border flicker on startup (top-level and MDI child with Dock.Fill). Form should appear directly in borderless state; MdiChildActivate must still fire.");
@@ -88,7 +89,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<BreadCrumbTest>("BreadCrumb", "Follow the breadcrumbs and find the treasure...");
         CreateButton<CalendarTest>("Calendar", string.Empty);
         CreateButton<ComboBoxDateTimePickerConsistencyDemo>("ComboBox/DateTimePicker Consistency", "Comprehensive demonstration of KComboBox and KDateTimePicker consistency fix (Issue #1651). Shows drop-down buttons stretching to full height and centered text.");
-        CreateButton<Feature4339ComboBoxSimpleStyleDemo>("4339 ComboBox Simple Style", "Issue #4339: KryptonComboBox DropDownStyle.Simple (always-visible list) next to a native ComboBox. Compare DropDown / DropDownList, type to select, resize height, switch themes, toggle Enabled.");
+        CreateButton<Feature4339ComboBoxSimpleStyleDemo>("4339 ComboBox Simple Style", "Issue #4339: KryptonComboBox DropDownStyle.Simple (always-visible list) next to a native ComboBox. Compare DropDown / DropDownList, type to select, resize height, switch themes, toggle Enabled. Also #4424: check DropDownList/disabled/Simple edit text looks sharp (GDI+ DrawString).");
         CreateButton<ControlsTest>("Controls Test", string.Empty);
         CreateButton<KryptonListViewVirtualModeDemo>("ListView Virtual Mode", "Issue #3847: KryptonListView VirtualMode / VirtualListSize with RetrieveVirtualItem, CacheVirtualItems, and SearchForVirtualItem (100,000 items).");
         CreateButton<DataGridViewDemo>("KryptonDataGridView Demo", string.Empty);
@@ -101,6 +102,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<PropertyGridTest>("PropertyGridTest", string.Empty);
         CreateButton<RibbonTest>("Ribbon", string.Empty);
         CreateButton<TextBoxEventTest>("TextBox", string.Empty);
+        CreateButton<TextBoxInputModeDemo>("TextBox InputMode (#4417)", "Issue #4417: KryptonTextBox.InputMode filters typing and paste (Any / Digits / Letters / Alphanumeric). Compare with native TextBox; try Paste sample on the live mode box.");
         CreateButton<KryptonTextBoxValidatingTest>("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801");
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
         CreateButton<TreeViewExample>("TreeView", string.Empty);

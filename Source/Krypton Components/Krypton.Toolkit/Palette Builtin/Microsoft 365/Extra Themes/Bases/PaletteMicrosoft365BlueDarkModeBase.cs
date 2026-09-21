@@ -1221,8 +1221,7 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    // TODO: WHat is going on here ?
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -1350,8 +1349,7 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    // TODO: What is going on here
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
