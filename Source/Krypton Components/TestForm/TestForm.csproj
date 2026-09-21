@@ -74,6 +74,12 @@
     <Compile Update="KryptonToolkit\Feature\BorderlessFormDemo.Designer.cs">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\TextBoxInputModeDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\TextBoxInputModeDemo.Designer.cs">
+      <DependentUpon>TextBoxInputModeDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -103,6 +109,9 @@
   <ItemGroup>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\TextBoxInputModeDemo.resx">
+      <DependentUpon>TextBoxInputModeDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.resx">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>

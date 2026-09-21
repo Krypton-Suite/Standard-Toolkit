@@ -2173,15 +2173,6 @@ public class KryptonListView : VisualControlBase,
         base.OnMouseLeave(e);
     }
 
-    /// <inheritdoc />
-    protected override void OnNotifyMessage(Message m)
-    {
-        if (m.Msg != 0x14)
-        {
-            base.OnNotifyMessage(m);
-        }
-    }
-
     #endregion
 
     /// <summary>
