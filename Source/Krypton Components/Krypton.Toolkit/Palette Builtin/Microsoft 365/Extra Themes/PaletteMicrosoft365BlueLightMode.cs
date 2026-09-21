@@ -130,7 +130,6 @@ public class PaletteMicrosoft365BlueLightMode : PaletteMicrosoft365BlueLightMode
 
     #endregion
 
-
     #endregion
 
     #endregion Static Fields
