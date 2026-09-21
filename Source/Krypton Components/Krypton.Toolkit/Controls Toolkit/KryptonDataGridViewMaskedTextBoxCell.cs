@@ -60,7 +60,7 @@ public class KryptonDataGridViewMaskedTextBoxCell : DataGridViewTextBoxCell
             _paintingMaskedTextBox.SetLayoutDisplayPadding(new Padding(0, 0, 1, -1));
             _paintingMaskedTextBox.StateCommon.Border.Width = 0;
             _paintingMaskedTextBox.StateCommon.Border.Draw = InheritBool.False;
-            _paintingMaskedTextBox.StateCommon.Back.Color1 = GlobalStaticVariables.EMPTY_COLOR;
+            _paintingMaskedTextBox.StateCommon.Back.Color1 = SharedStaticVariables.EMPTY_COLOR;
         }
 
         // Set the default values of the properties:
@@ -427,7 +427,7 @@ public class KryptonDataGridViewMaskedTextBoxCell : DataGridViewTextBoxCell
         DataGridView? dataGridView = DataGridView;
         if (dataGridView?.EditingControl == null)
         {
-            throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
+            ThrowHelper.ThrowInvalidOperationException("Cell is detached or its grid has no editing control.");
         }
 
         if (dataGridView.EditingControl is KryptonMaskedTextBox maskedTextBox)

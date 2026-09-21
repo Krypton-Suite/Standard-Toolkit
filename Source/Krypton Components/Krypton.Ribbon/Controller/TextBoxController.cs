@@ -43,9 +43,9 @@ internal class TextBoxController : GlobalId,
         Debug.Assert(textBox is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _textBox = textBox ?? throw new ArgumentNullException(nameof(textBox));
-        _target = target ?? throw new ArgumentNullException(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _textBox = textBox ?? ThrowHelper.ThrowArgumentNullException(textBox);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 
@@ -158,15 +158,15 @@ internal class TextBoxController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:
@@ -216,7 +216,7 @@ internal class TextBoxController : GlobalId,
 
     private void KeyDownPopupGroup(VisualPopupGroup popupGroup, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:
@@ -231,7 +231,7 @@ internal class TextBoxController : GlobalId,
 
     private void KeyDownPopupMinimized(VisualPopupMinimized popupMinimized, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:

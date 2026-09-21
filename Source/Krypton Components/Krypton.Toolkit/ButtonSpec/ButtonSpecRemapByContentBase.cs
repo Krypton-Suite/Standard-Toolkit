@@ -63,7 +63,7 @@ public abstract class ButtonSpecRemapByContentBase : PaletteRedirect
         Color mapColor = OverrideImageColor(state);
 
         // If a map color provided then return is
-        return (mapColor != GlobalStaticVariables.EMPTY_COLOR) && (PaletteContent != null) ? mapColor : base.GetContentImageColorMap(style, state);
+        return (mapColor != SharedStaticVariables.EMPTY_COLOR) && (PaletteContent != null) ? mapColor : base.GetContentImageColorMap(style, state);
     }
     #endregion
 
@@ -80,7 +80,7 @@ public abstract class ButtonSpecRemapByContentBase : PaletteRedirect
         Color mapColor = OverrideImageColor(state);
 
         // If mapping occurring then return the target remap color
-        if ((mapColor != GlobalStaticVariables.EMPTY_COLOR) && (PaletteContent != null))
+        if ((mapColor != SharedStaticVariables.EMPTY_COLOR) && (PaletteContent != null))
         {
             PaletteState getState = PaletteState;
 
@@ -144,7 +144,7 @@ public abstract class ButtonSpecRemapByContentBase : PaletteRedirect
                 // ReSharper restore RedundantBaseQualifier
 
                 // If we are supposed to remap a color
-                if (mapColor != GlobalStaticVariables.EMPTY_COLOR)
+                if (mapColor != SharedStaticVariables.EMPTY_COLOR)
                 {
                     // ReSharper disable RedundantBaseQualifier
                     // Get the button style requested
@@ -160,7 +160,7 @@ public abstract class ButtonSpecRemapByContentBase : PaletteRedirect
             }
         }
 
-        return GlobalStaticVariables.EMPTY_COLOR;
+        return SharedStaticVariables.EMPTY_COLOR;
     }
 
     private bool OverrideTextColor(PaletteState state)

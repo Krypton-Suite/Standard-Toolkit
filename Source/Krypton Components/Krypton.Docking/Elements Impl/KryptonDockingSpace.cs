@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -135,7 +135,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         // Cannot insert to a null cell
         if (cell == null)
         {
-            throw new ArgumentNullException(nameof(cell));
+            ThrowHelper.ThrowArgumentNullException(nameof(cell));
         }
 
         // Check that we actually contain the provided workspace cell
@@ -152,7 +152,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
 
         if (cell != checkCell)
         {
-            throw new ArgumentException(@"KryptonWorkspaceCell reference is not inside this workspace", nameof(cell));
+            ThrowHelper.ThrowArgumentException(@"KryptonWorkspaceCell reference is not inside this workspace", nameof(cell));
         }
 
         // Append all the pages to end of the cell pages collection
@@ -187,7 +187,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         // Cannot insert to a null cell
         if (cell == null)
         {
-            throw new ArgumentNullException(nameof(cell));
+            ThrowHelper.ThrowArgumentNullException(nameof(cell));
         }
 
         // Check that we actually contain the provided workspace cell
@@ -204,7 +204,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
 
         if (cell != checkCell)
         {
-            throw new ArgumentException(@"KryptonWorkspaceCell reference is not inside this workspace", nameof(cell));
+            ThrowHelper.ThrowArgumentException(@"KryptonWorkspaceCell reference is not inside this workspace", nameof(cell));
         }
 
         if (pages != null)
@@ -276,7 +276,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
                 // Update visible state of pages that are not placeholders
                 if (uniqueNames == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
                 }
                 foreach (KryptonPage? page in uniqueNames
                              .Select(uniqueName => SpaceControl.PageForUniqueName(uniqueName))
@@ -296,7 +296,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
             case DockingPropogateAction.RemoveAndDisposePages:
                 if (uniqueNames == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
                 }
                 foreach (var uniqueName in uniqueNames)
                 {
@@ -352,7 +352,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
             case DockingPropogateAction.StorePages:
                 if (uniqueNames == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
                 }
                 foreach (var uniqueName in uniqueNames)
                 {
@@ -404,7 +404,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
                 {
                     if (uniqueNames == null)
                     {
-                        throw new ArgumentNullException(nameof(uniqueNames));
+                        ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
                     }
                     foreach (var uniqueName in uniqueNames)
                     {
@@ -687,6 +687,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
                 SpaceControl.CloseTooltip = dockingManager.Strings.TextClose;
                 SpaceControl.PinTooltip = dockingManager.Strings.TextAutoHide;
                 SpaceControl.DropDownTooltip = dockingManager.Strings.TextWindowLocation;
+                SpaceControl.AllowPageToolTips = dockingManager.AllowPageToolTips;
             }
         }
     }
@@ -729,7 +730,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         // Is it the expected xml element name?
         if (xmlReader.Name != XmlElementName)
         {
-            throw new ArgumentException($@"Element name '{XmlElementName}' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException($@"Element name '{XmlElementName}' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
         }
 
         // Grab the element attributes
@@ -740,7 +741,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         // Check the name matches up
         if (elementName != Name)
         {
-            throw new ArgumentException($@"Attribute 'N' value '{Name}' was expected but found '{elementName}' instead.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException($@"Attribute 'N' value '{Name}' was expected but found '{elementName}' instead.", nameof(xmlReader));
         }
 
         // Check for the optional element order value
@@ -759,13 +760,13 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         // Read to the expect child element
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
         }
 
         // This should always be a workspace definition
         if (xmlReader.Name != @"KW")
         {
-            throw new ArgumentException($@"Element name 'KW' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException($@"Element name 'KW' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
         }
 
         // Let derived class perform element specific persistence
@@ -774,7 +775,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         // Read past this element to the end element
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
         }
     }
     #endregion
@@ -807,7 +808,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
             // Should only ever set the value once (except when clearing with null)
             if (_space != null)
             {
-                throw new ArgumentException(@"Cannot set the 'Space' property more than once.", nameof(SpaceControl));
+                ThrowHelper.ThrowArgumentException(@"Cannot set the 'Space' property more than once.", nameof(SpaceControl));
             }
 
             // Cache for future use

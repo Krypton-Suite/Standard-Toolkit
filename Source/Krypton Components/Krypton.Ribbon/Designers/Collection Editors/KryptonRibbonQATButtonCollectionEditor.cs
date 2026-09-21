@@ -14,7 +14,7 @@
 
 namespace Krypton.Ribbon;
 
-internal class KryptonRibbonQATButtonCollectionEditor : CollectionEditor
+internal class KryptonRibbonQATButtonCollectionEditor : KryptonDesignerStandardCollectionEditor
 {
     /// <summary>
     /// Initialize a new instance of the KryptonRibbonQATButtonCollectionEditor class.
@@ -39,7 +39,7 @@ internal class KryptonRibbonQATButtonCollectionEditor : CollectionEditor
     protected override object? SetItems(object? editValue, object[]? value)
     {
         // Cast the context into the expected control type
-        var ribbon = Context?.Instance as KryptonRibbon ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("ribbon"));
+        var ribbon =Context?.Instance as KryptonRibbon ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbon>(SharedStaticFunctions.VariableCannotBeNull("ribbon"));
 
         // Suspend changes until collection has been updated
         ribbon.SuspendLayout();

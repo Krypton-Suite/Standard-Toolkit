@@ -19,9 +19,9 @@ public readonly struct QRCodeCenterImagePalette
     {
         UsePaletteColors = usePaletteColors;
         Effect = PaletteImageEffect.Normal;
-        ColorMap = GlobalStaticVariables.EMPTY_COLOR;
-        ColorTo = GlobalStaticVariables.EMPTY_COLOR;
-        TransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        ColorMap = SharedStaticVariables.EMPTY_COLOR;
+        ColorTo = SharedStaticVariables.EMPTY_COLOR;
+        TransparentColor = SharedStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>Initializes a new instance with resolved palette image values.</summary>

@@ -276,7 +276,7 @@ public class ViewDrawTrackBar : ViewDrawPanel
             {
                 if ((value < Minimum) || (value > Maximum))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value),
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value),
                         @"Provided value is out of the Minimum to Maximum range of values.");
                 }
 
@@ -297,7 +297,7 @@ public class ViewDrawTrackBar : ViewDrawPanel
             {
                 if ((value < Minimum) || (value > Maximum))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(Value), @"Provided value is out of the Minimum to Maximum range of values.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Value), @"Provided value is out of the Minimum to Maximum range of values.");
                 }
 
                 _value = value;
@@ -318,7 +318,7 @@ public class ViewDrawTrackBar : ViewDrawPanel
         {
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(SmallChange), @"SmallChange cannot be less than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SmallChange), @"SmallChange cannot be less than zero.");
             }
 
             _smallChange = value;
@@ -336,7 +336,7 @@ public class ViewDrawTrackBar : ViewDrawPanel
         {
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(LargeChange), @"LargeChange cannot be less than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(LargeChange), @"LargeChange cannot be less than zero.");
             }
 
             _largeChange = value;

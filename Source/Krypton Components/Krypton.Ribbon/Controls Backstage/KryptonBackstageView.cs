@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -15,7 +15,7 @@ namespace Krypton.Ribbon;
 [ToolboxItem(true)]
 [DefaultEvent(nameof(SelectedPageChanged))]
 [DefaultProperty(nameof(Pages))]
-[Designer(typeof(KryptonBackstageViewDesigner))]
+[Designer("Krypton.Ribbon.KryptonBackstageViewDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Office 2010-style Backstage view surface for use with KryptonRibbon File tab.")]
 public class KryptonBackstageView : KryptonPanel

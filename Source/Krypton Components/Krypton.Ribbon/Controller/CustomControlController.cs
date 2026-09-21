@@ -43,9 +43,9 @@ internal class CustomControlController : GlobalId,
         Debug.Assert(customControl is not null);
         Debug.Assert(customControl is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _customControl = customControl ?? throw new ArgumentNullException(nameof(customControl));
-        _target = target ?? throw new ArgumentNullException(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _customControl = customControl ?? ThrowHelper.ThrowArgumentNullException(customControl);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 
@@ -157,15 +157,15 @@ internal class CustomControlController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new ArgumentNullException(GlobalStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowArgumentNullException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.ParameterCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:
@@ -215,7 +215,7 @@ internal class CustomControlController : GlobalId,
 
     private void KeyDownPopupGroup(VisualPopupGroup popupGroup, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:
@@ -230,7 +230,7 @@ internal class CustomControlController : GlobalId,
 
     private void KeyDownPopupMinimized(VisualPopupMinimized popupMinimized, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:

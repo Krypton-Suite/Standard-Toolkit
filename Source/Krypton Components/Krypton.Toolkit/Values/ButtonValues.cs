@@ -20,7 +20,7 @@ public class ButtonValues : Storage,
 {
     #region Static Fields
     private const string DEFAULT_TEXT = nameof(Button);
-    private static readonly string _defaultExtraText = GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    private static readonly string _defaultExtraText = SharedStaticVariables.DEFAULT_EMPTY_STRING;
     #endregion
 
     #region Instance Fields
@@ -31,9 +31,12 @@ public class ButtonValues : Storage,
     private IconSize? _iconSize;
     private IconSelectionStrategy _iconSelectionStrategy;
     private Image? _image;
+    private Image? _factoryImage;
+    private bool _imageIsDefault;
     private Color _transparent;
     private Color? _dropDownArrowColor;
     private string? _text;
+    private string _defaultText;
     private string _extraText;
     private Size? _customIconSize;
     private readonly OverlayImageValues _overlayImage;
@@ -59,9 +62,12 @@ public class ButtonValues : Storage,
 
         // Set initial values
         _image = null;
-        _transparent = GlobalStaticVariables.EMPTY_COLOR;
-        _dropDownArrowColor = GlobalStaticVariables.EMPTY_COLOR;
-        _text = DEFAULT_TEXT;
+        _factoryImage = null;
+        _imageIsDefault = true;
+        _transparent = SharedStaticVariables.EMPTY_COLOR;
+        _dropDownArrowColor = null;
+        _defaultText = DEFAULT_TEXT;
+        _text = _defaultText;
         _extraText = _defaultExtraText;
         _useAsDialogButton = false;
         _useAsUACElevationButton = false;
@@ -70,7 +76,7 @@ public class ButtonValues : Storage,
         _iconSelectionStrategy = IconSelectionStrategy.OSBased; // Default to OS based strategy
         ImageStates = CreateImageStates();
         ImageStates.NeedPaint = needPaint;
-        _overlayImage = new OverlayImageValues(needPaint);
+        _overlayImage = CreateOverlayImageValues(needPaint);
     }
     #endregion
 
@@ -81,16 +87,34 @@ public class ButtonValues : Storage,
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => ImageStates.IsDefault &&
-                                      (Image == null) &&
+                                      _imageIsDefault &&
                                       (UseAsADialogButton == false) &&
                                       (UseAsUACElevationButton == false) &&
                                       (ShowSplitOption == false) &&
-                                      (DropDownArrowColor == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      //(UACShieldIconSize == UACShieldIconSize.ExtraSmall)
-                                      (ImageTransparentColor == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (Text == DEFAULT_TEXT) &&
+                                      (DropDownArrowColor == null) &&
+                                      (ImageTransparentColor == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (Text == _defaultText) &&
                                       (ExtraText == _defaultExtraText) &&
                                       _overlayImage.IsDefault;
+
+    /// <summary>
+    /// Treats <paramref name="text"/> as the unset designer default for <see cref="Text"/>.
+    /// </summary>
+    internal void SetFactoryText(string text)
+    {
+        _defaultText = text ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
+        _text = _defaultText;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="image"/> as the unset designer default for <see cref="Image"/>.
+    /// </summary>
+    internal void SetFactoryImage(Image? image)
+    {
+        _factoryImage = image;
+        _image = image;
+        _imageIsDefault = true;
+    }
 
     #endregion
 
@@ -102,6 +126,7 @@ public class ButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -111,17 +136,23 @@ public class ButtonValues : Storage,
             if (_image != value)
             {
                 _image = value;
+                _imageIsDefault = false;
                 PerformNeedPaint(true);
             }
         }
     }
 
-    private bool ShouldSerializeImage() => Image != null;
+    private bool ShouldSerializeImage() => !_imageIsDefault;
 
     /// <summary>
     /// Resets the Image property to its default value.
     /// </summary>
-    public void ResetImage() => Image = null;
+    public void ResetImage()
+    {
+        _image = _factoryImage;
+        _imageIsDefault = true;
+        PerformNeedPaint(true);
+    }
     #endregion
 
     #region ImageTransparentColor
@@ -147,12 +178,12 @@ public class ButtonValues : Storage,
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Resets the ImageTransparentColor property to its default value.
     /// </summary>
-    public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content image transparent color.
@@ -184,11 +215,12 @@ public class ButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public string Text
     {
-        get => _text ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+        get => _text ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
         set
         {
@@ -201,12 +233,12 @@ public class ButtonValues : Storage,
         }
     }
 
-    private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
+    private bool ShouldSerializeText() => Text != _defaultText;
 
     /// <summary>
     /// Resets the Text property to its default value.
     /// </summary>
-    public void ResetText() => Text = DEFAULT_TEXT;
+    public void ResetText() => Text = _defaultText;
     #endregion
 
     #region ExtraText
@@ -217,6 +249,7 @@ public class ButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button extra text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string ExtraText
@@ -383,23 +416,25 @@ public class ButtonValues : Storage,
     /// <value>The color of the drop-down arrow.</value>
     [Category(@"Visuals")]
     [Description(@"Sets the drop-down arrow color.")]
-    [DefaultValue(typeof(Color), @"Empty")]
+    [DefaultValue(null)]
     public Color? DropDownArrowColor
     {
         get => _dropDownArrowColor;
 
         set
         {
-            if (_dropDownArrowColor != value)
+            Color? normalized = value is Color c && c.IsEmpty ? null : value;
+            if (_dropDownArrowColor != normalized)
             {
-                _dropDownArrowColor = value ?? GlobalStaticVariables.EMPTY_COLOR;
+                _dropDownArrowColor = normalized;
 
                 PerformNeedPaint(true);
             }
         }
     }
-    private void ResetDropDownArrowColor() => _dropDownArrowColor = GlobalStaticVariables.EMPTY_COLOR;
-    private bool ShouldSerializeDropDownArrowColor() => _dropDownArrowColor != GlobalStaticVariables.EMPTY_COLOR;
+    private void ResetDropDownArrowColor() => _dropDownArrowColor = null;
+    public bool ShouldSerializeDropDownArrowColor() =>
+        _dropDownArrowColor.HasValue && !_dropDownArrowColor.Value.IsEmpty;
     #endregion
 
     #region CreateImageStates
@@ -408,6 +443,17 @@ public class ButtonValues : Storage,
     /// </summary>
     /// <returns>Storage object.</returns>
     protected virtual ButtonImageStates CreateImageStates() => new ButtonImageStates();
+
+    #endregion
+
+    #region CreateOverlayImageValues
+    /// <summary>
+    /// Create the storage for the overlay image values.
+    /// </summary>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <returns>Storage object.</returns>
+    protected virtual OverlayImageValues CreateOverlayImageValues(NeedPaintHandler needPaint) =>
+        new OverlayImageValues(needPaint);
 
     #endregion
 
@@ -461,7 +507,7 @@ public class ButtonValues : Storage,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    public virtual Image? GetOverlayImage(PaletteState state) => _overlayImage.Image;
+    public virtual Image? GetOverlayImage(PaletteState state) => _overlayImage.GetImage(state);
 
     /// <summary>
     /// Gets the overlay image color that should be transparent.

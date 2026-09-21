@@ -92,9 +92,52 @@ public class KryptonTreeNode : TreeNode
     private void Init()
     {
         _longText = string.Empty;
-        _longForeColor = GlobalStaticVariables.EMPTY_COLOR;
+        _longForeColor = SharedStaticVariables.EMPTY_COLOR;
         _longNodeFont = null;
         _isCheckBoxVisible = true;
+    }
+
+    /// <summary>
+    /// Creates a copy of this node, including Krypton-specific properties and child nodes.
+    /// </summary>
+    /// <returns>A new <see cref="KryptonTreeNode"/> with copied properties and cloned children.</returns>
+    /// <remarks>
+    /// <see cref="TreeNode.Clone"/> always constructs a <see cref="TreeNode"/>. Callers that cast the
+    /// result to <see cref="KryptonTreeNode"/> would throw <see cref="InvalidCastException"/>.
+    /// </remarks>
+    public override object Clone()
+    {
+        var clone = new KryptonTreeNode(Text, ImageIndex, SelectedImageIndex)
+        {
+            Name = Name,
+            Tag = Tag,
+            ToolTipText = ToolTipText,
+            Checked = Checked,
+            BackColor = BackColor,
+            ForeColor = ForeColor,
+            NodeFont = NodeFont,
+            LongText = LongText,
+            LongForeColor = LongForeColor,
+            LongNodeFont = LongNodeFont,
+            IsCheckBoxVisible = IsCheckBoxVisible
+        };
+
+        if (!string.IsNullOrEmpty(ImageKey))
+        {
+            clone.ImageKey = ImageKey;
+        }
+
+        if (!string.IsNullOrEmpty(SelectedImageKey))
+        {
+            clone.SelectedImageKey = SelectedImageKey;
+        }
+
+        foreach (TreeNode child in Nodes)
+        {
+            clone.Nodes.Add((TreeNode)child.Clone());
+        }
+
+        return clone;
     }
     #endregion
 
@@ -143,7 +186,7 @@ public class KryptonTreeNode : TreeNode
         }
     }
 
-    private bool ShouldSerializeLongForeColor() => _longForeColor != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeLongForeColor() => _longForeColor != SharedStaticVariables.EMPTY_COLOR;
 
     #endregion    
 

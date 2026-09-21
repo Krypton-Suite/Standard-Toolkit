@@ -29,14 +29,18 @@ public class KryptonDesignerActionItem : DesignerActionMethodItem
     /// <param name="verb">Verb instance to wrap.</param>
     /// <param name="category">Name of the category the action belongs to.</param>
     public KryptonDesignerActionItem([DisallowNull] DesignerVerb verb, [DisallowNull] string category)
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+        : base(null!, null!, null!)
+#else
         : base(null, null, null)
+#endif
     {
         Debug.Assert(verb != null);
         Debug.Assert(category != null);
 
         // Remember details
-        _verb = verb ?? throw new ArgumentNullException(nameof(verb));
-        Category = category ?? throw new ArgumentNullException(nameof(category));
+        _verb = verb ?? ThrowHelper.ThrowArgumentNullException(verb);
+        Category = category ?? ThrowHelper.ThrowArgumentNullException<string>(category);
     }
     #endregion
 

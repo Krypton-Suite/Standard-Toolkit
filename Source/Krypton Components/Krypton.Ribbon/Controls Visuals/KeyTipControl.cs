@@ -45,7 +45,7 @@ internal class KeyTipControl : KryptonForm
         StartPosition = FormStartPosition.Manual;
         FormBorderStyle = FormBorderStyle.None;
         ShowInTaskbar = false;
-        TransparencyKey = GlobalStaticVariables.TRANSPARENCY_KEY_COLOR;
+        TransparencyKey = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
         StateCommon!.Border.DrawBorders = PaletteDrawBorders.None;
         StateCommon!.Border.Width = 0;
 
@@ -277,7 +277,7 @@ internal class KeyTipControl : KryptonForm
 
     private void OnRedrawTick(object? sender, EventArgs e)
     {
-        _redrawTimer = sender as Timer ?? throw new ArgumentNullException(nameof(sender));
+        _redrawTimer =sender as Timer ?? ThrowHelper.ThrowArgumentNullException(sender as Timer, nameof(sender));
         _redrawTimer.Stop();
         _redrawTimer.Dispose();
 

@@ -187,7 +187,7 @@ internal class QATExtraButtonController : LeftDownButtonController,
     {
         ViewBase? newView = null;
 
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(Ribbon)))
         {
             case Keys.Tab:
             case Keys.Right:
@@ -234,7 +234,7 @@ internal class QATExtraButtonController : LeftDownButtonController,
 
     private void KeyDownPopupOverflow(VisualPopupQATOverflow c, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(Ribbon)))
         {
             case Keys.Tab:
             case Keys.Right:

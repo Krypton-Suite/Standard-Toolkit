@@ -17,7 +17,7 @@ public static class WindowUtilities
     {
         if (owner is null)
         {
-            throw new ArgumentNullException(nameof(owner));
+            ThrowHelper.ThrowArgumentNullException(nameof(owner));
         }
 
         var accentPolicy = new PI.AccentPolicy

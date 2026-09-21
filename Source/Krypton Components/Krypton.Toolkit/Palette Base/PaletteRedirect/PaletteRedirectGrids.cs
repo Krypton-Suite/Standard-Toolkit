@@ -32,7 +32,7 @@ public class PaletteRedirectGrids : PaletteRedirect
     {
         Debug.Assert(grid is not null);
 
-        _grid = grid ?? throw new ArgumentNullException(nameof(grid));
+        _grid = grid ?? ThrowHelper.ThrowArgumentNullException(grid);
     }
     #endregion
 
@@ -297,6 +297,14 @@ public class PaletteRedirectGrids : PaletteRedirect
         IPaletteBorder inherit = GetInheritBorder(style, state);
 
         return inherit?.GetBorderRounding(state) ?? Target!.GetBorderRounding(style, state);
+    }
+
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state)
+    {
+        IPaletteBorder inherit = GetInheritBorder(style, state);
+
+        return inherit?.GetBorderCornerRounding(state) ?? Target!.GetBorderCornerRounding(style, state);
     }
 
     /// <summary>

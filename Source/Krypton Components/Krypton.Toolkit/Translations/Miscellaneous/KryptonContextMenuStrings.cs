@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -19,6 +19,7 @@ public class KryptonContextMenuStrings : GlobalId
     private const string DEFAULT_OVERFLOW_SCROLL_DOWN = @"Scroll Down";
     private const string DEFAULT_OVERFLOW_SCROLL_UP_ARROW = "\u25B2";
     private const string DEFAULT_OVERFLOW_SCROLL_DOWN_ARROW = "\u25BC";
+    private const string DEFAULT_GALLERY_MORE = @"More...";
 
     #endregion
 
@@ -42,7 +43,8 @@ public class KryptonContextMenuStrings : GlobalId
                              OverflowScrollDown.Equals(DEFAULT_OVERFLOW_SCROLL_DOWN) &&
                              !OverflowScrollUseArrows &&
                              OverflowScrollUpArrow.Equals(DEFAULT_OVERFLOW_SCROLL_UP_ARROW) &&
-                             OverflowScrollDownArrow.Equals(DEFAULT_OVERFLOW_SCROLL_DOWN_ARROW);
+                             OverflowScrollDownArrow.Equals(DEFAULT_OVERFLOW_SCROLL_DOWN_ARROW) &&
+                             GalleryMore.Equals(DEFAULT_GALLERY_MORE);
 
     /// <summary>Resets this instance.</summary>
     public void Reset()
@@ -52,6 +54,7 @@ public class KryptonContextMenuStrings : GlobalId
         OverflowScrollUseArrows = false;
         OverflowScrollUpArrow = DEFAULT_OVERFLOW_SCROLL_UP_ARROW;
         OverflowScrollDownArrow = DEFAULT_OVERFLOW_SCROLL_DOWN_ARROW;
+        GalleryMore = DEFAULT_GALLERY_MORE;
     }
 
     /// <summary>Gets or sets the overflow scroll up row label when <see cref="OverflowScrollUseArrows"/> is false.</summary>
@@ -88,6 +91,13 @@ public class KryptonContextMenuStrings : GlobalId
     [DefaultValue(DEFAULT_OVERFLOW_SCROLL_DOWN_ARROW)]
     [RefreshProperties(RefreshProperties.All)]
     public string OverflowScrollDownArrow { get; set; }
+
+    /// <summary>Gets or sets the More command text shown on an in-menu gallery.</summary>
+    [Category(@"Visuals")]
+    [Description(@"The More command text shown on a KryptonContextMenuGallery.")]
+    [DefaultValue(DEFAULT_GALLERY_MORE)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string GalleryMore { get; set; }
 
     #endregion
 

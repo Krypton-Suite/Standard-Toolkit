@@ -105,7 +105,7 @@ public static class AnimationFunctions
             case KnownAnimationFunctions.ExponentialEaseInOut:
                 return ExponentialEaseInOut;
             default:
-                throw new ArgumentOutOfRangeException(nameof(knownFunction), knownFunction,
+                return ThrowHelper.ThrowArgumentOutOfRangeException<Function>(nameof(knownFunction), knownFunction,
                     @"The passed animation function is unknown.");
         }
     }

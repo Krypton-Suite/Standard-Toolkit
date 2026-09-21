@@ -99,6 +99,7 @@ public class ViewDrawDocker : ViewDrawCanvas
         IgnoreBorderSpace = false;
         RemoveChildBorders = false;
         PreferredSizeAll = false;
+        IgnoreRightToLeftLayout = false;
     }
 
     /// <summary>
@@ -116,6 +117,14 @@ public class ViewDrawDocker : ViewDrawCanvas
     /// Gets and sets a value indicating if border space should be ignored in working out preferred size.
     /// </summary>
     public bool IgnoreBorderSpace { get; set; }
+
+    #endregion
+
+    #region IgnoreRightToLeftLayout
+    /// <summary>
+    /// Gets and sets if the RightToLeftLayout ability is used.
+    /// </summary>
+    public bool IgnoreRightToLeftLayout { get; set; }
 
     #endregion
 
@@ -218,7 +227,7 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (child is null)
         {
-            throw new ArgumentNullException(nameof(child));
+            ThrowHelper.ThrowArgumentNullException(nameof(child));
         }
 
         // If the lookup is not already defined
@@ -263,7 +272,7 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Check with the base canvas first
@@ -313,12 +322,12 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Remember the original display rectangle provided
@@ -382,12 +391,12 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Remember the original display rectangle provided
@@ -544,12 +553,12 @@ public class ViewDrawDocker : ViewDrawCanvas
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We take on all the available display area
@@ -814,16 +823,15 @@ public class ViewDrawDocker : ViewDrawCanvas
     /// <returns>Calculated docking to actual use.</returns>
     protected ViewDockStyle CalculateDock(ViewDockStyle ds, Control? control)
     {
-        // Do we need to adjust to reflect right to left layout?
-        if (CommonHelper.GetRightToLeftLayout(control!) && control!.RightToLeft == RightToLeft.Yes)
+        if (IgnoreRightToLeftLayout)
         {
-            // Only need to invert the left and right sides
-            ds = ds switch
-            {
-                ViewDockStyle.Left => ViewDockStyle.Right,
-                ViewDockStyle.Right => ViewDockStyle.Left,
-                _ => ds
-            };
+            return ds;
+        }
+
+        // Do we need to adjust to reflect right to left layout?
+        if (CommonHelper.IsRightToLeftLayout(control))
+        {
+            ds = ToolkitRtlLayout.MirrorDock(ds);
         }
 
         return ds;

@@ -35,7 +35,7 @@ public class PaletteRibbonContextBack : IPaletteRibbonBack
 
         if (ribbon is null)
         {
-            throw new ArgumentNullException(nameof(ribbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(ribbon));
         }
 
         _ribbon = ribbon;

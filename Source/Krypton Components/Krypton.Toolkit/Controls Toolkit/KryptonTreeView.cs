@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -19,12 +19,13 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
 [DefaultEvent(nameof(AfterSelect))]
 [DefaultProperty(nameof(Nodes))]
-[Designer(typeof(KryptonTreeViewDesigner))]
+[Designer("Krypton.Toolkit.KryptonTreeViewDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
 [Docking(DockingBehavior.Ask)]
 public class KryptonTreeView : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalTreeView : TreeView
@@ -445,13 +446,6 @@ public class KryptonTreeView : VisualControlBase,
     public event TreeNodeMouseHoverEventHandler? NodeMouseHover;
 
     /// <summary>
-    /// Occurs when the value of the RightToLeftLayout property changes.
-    /// </summary>
-    [Category(@"PropertyChanged")]
-    [Description(@"Occurs when the value of the RightToLeftLayout property changes.")]
-    public event EventHandler? RightToLeftLayoutChanged;
-
-    /// <summary>
     /// Occurs when the value of the BackColor property changes.
     /// </summary>
     [Browsable(false)]
@@ -683,8 +677,12 @@ public class KryptonTreeView : VisualControlBase,
     {
         if (disposing)
         {
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
         }
         base.Dispose(disposing);
     }
@@ -816,25 +814,35 @@ public class KryptonTreeView : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether check boxes are Displayed next to the tree nodes in the tree view control.
+    /// Gets or sets a value indicating whether selecting a node toggles its checked state so more than one node can be marked.
     /// </summary>
+    /// <remarks>
+    /// Independent of <see cref="CheckBoxes"/>. Showing check boxes does not force this property to
+    /// <see langword="true"/>, so the designer can set it to <see langword="false"/> on a newly dropped control.
+    /// </remarks>
     [Category(@"Appearance")]
-    [Description(@"Indicates whether 'MultiSelect' is implemented on Selection")]
+    [Description(@"Indicates whether selecting a node toggles its checked state for multi-node selection.")]
     [DefaultValue(false)]
     public bool MultiSelect
     {
-        get => _multiSelect || CheckBoxes;
+        get => _multiSelect;
         set
         {
+            if (_multiSelect == value)
+            {
+                return;
+            }
+
             _multiSelect = value;
-            // Force redraw of current options
+
+            // Re-apply checked nodes so turning MultiSelect off collapses to a single check when CheckBoxes is also off.
             var checkedNodes = CheckedNodes;
             CheckedNodes = checkedNodes;
         }
     }
 
     private bool ShouldSerializeMultiSelect() => _multiSelect;
-    private void ResetMultiSelect() => _multiSelect = false;
+    private void ResetMultiSelect() => MultiSelect = false;
 
     /// <summary>
     /// Gets or sets a value indicating whether the selection highlight spans the width of the tree view control.
@@ -879,6 +887,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image index for nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(NoneExcludedImageIndexConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [RelatedImageList(nameof(ImageList))]
@@ -896,6 +905,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image key for the nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(ImageKeyConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [RelatedImageList(nameof(ImageList))]
@@ -962,6 +972,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image index for selected nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(NoneExcludedImageIndexConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RelatedImageList(nameof(ImageList))]
     [DefaultValue(-1)]
@@ -978,6 +989,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image for selected nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(ImageKeyConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RelatedImageList(nameof(ImageList))]
     [RefreshProperties(RefreshProperties.Repaint)]
@@ -1023,7 +1035,7 @@ public class KryptonTreeView : VisualControlBase,
                 node.Checked = true;
                 if (!MultiSelect)
                 {
-                    // Only do the first one !
+                    // Only do the first one!
                     break;
                 }
             }
@@ -1127,23 +1139,11 @@ public class KryptonTreeView : VisualControlBase,
     public int VisibleCount => _treeView.VisibleCount;
 
     /// <summary>
-    /// Indicates whether the control layout is right-to-left when the RightToLeft property is True.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Description(@"Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
-    [DefaultValue(false)]
-    [RefreshProperties(RefreshProperties.Repaint)]
-    public bool RightToLeftLayout
-    {
-        get => _treeView.RightToLeftLayout;
-        set => _treeView.RightToLeftLayout = value;
-    }
-
-    /// <summary>
     /// Gets the collection of tree nodes that are assigned to the tree view control.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"The root nodes in the KryptonTreeView control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.TreeNodeCollectionEditor).
     [Editor(@"System.Windows.Forms.Design.TreeNodeCollectionEditor", typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [MergableProperty(false)]
@@ -1487,11 +1487,12 @@ public class KryptonTreeView : VisualControlBase,
     private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
 
     /// <summary>
-    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
     /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
 
     #endregion
 
@@ -1695,15 +1696,16 @@ public class KryptonTreeView : VisualControlBase,
     }
 
     /// <summary>
-    /// Raises the RightToLeftLayoutChanged event.
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
     /// <remarks>If overriden directly, will fire when palette changes</remarks>
-    protected virtual void OnRightToLeftLayoutChanged(EventArgs e)
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
     {
+        _treeView.RightToLeftLayout = RightToLeftLayout;
         if (!_isRecreating)
         {
-            RightToLeftLayoutChanged?.Invoke(this, e);
+            base.OnRightToLeftLayoutChanged(e);
         }
     }
 
@@ -1860,7 +1862,7 @@ public class KryptonTreeView : VisualControlBase,
         // We need a layout to occur before any painting
         InvokeLayout();
 
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
             UpdateScrollbarManager();
         }
@@ -1911,7 +1913,8 @@ public class KryptonTreeView : VisualControlBase,
         // to allow a relayout or if in design mode.
         if (IsHandleCreated || _forcedLayout || (DesignMode))
         {
-            Rectangle fillRect = _layoutFill.FillRect;
+            Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                _layoutFill, _scrollbarManager, UseKryptonScrollbars);
             _treeView.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
         }
     }
@@ -1974,25 +1977,24 @@ public class KryptonTreeView : VisualControlBase,
 
     private void UpdateScrollbarManager()
     {
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
-            if (_scrollbarManager == null)
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the inner control follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
             {
-                _scrollbarManager = new KryptonScrollbarManager(_treeView, ScrollbarManagerMode.NativeWrapper)
-                {
-                    Enabled = true
-                };
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
+                ScrollbarManager.Attach(_treeView, ScrollbarManagerMode.NativeWrapper);
             }
         }
-        else
+        else if (_scrollbarManager != null)
         {
-            if (_scrollbarManager != null)
-            {
-                _scrollbarManager.Dispose();
-                _scrollbarManager = null;
-            }
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
         }
     }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
 
     private void UpdateItemHeight()
     {
@@ -2038,7 +2040,7 @@ public class KryptonTreeView : VisualControlBase,
                 _contentValues.ShortText = node.Text;
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+                _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
                 if (node is KryptonTreeNode kryptonNode)
                 {
@@ -2052,7 +2054,7 @@ public class KryptonTreeView : VisualControlBase,
                 _contentValues.ShortText = @"A";
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+                _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
             }
         }
     }
@@ -2123,6 +2125,16 @@ public class KryptonTreeView : VisualControlBase,
         return depth * _treeView.Indent;
     }
 
+    /// <summary>
+    /// When overridden, indicates whether a node should be painted as selected in addition to the native TreeView selection.
+    /// </summary>
+    /// <param name="node">The tree node to query.</param>
+    /// <returns><c>true</c> if the node should be drawn as selected; otherwise, <c>false</c>.</returns>
+    protected virtual bool IsNodeMultiSelected(TreeNode node) => false;
+
+    private bool IsNodeDrawSelected(TreeNode node, TreeNodeStates state) =>
+        (state & TreeNodeStates.Selected) == TreeNodeStates.Selected || IsNodeMultiSelected(node);
+
     private void OnTreeViewDrawNode(object? sender, DrawTreeNodeEventArgs e)
     {
         // OwnerDrawAll: skip native item painting (CDRF_SKIPDEFAULT).
@@ -2133,6 +2145,10 @@ public class KryptonTreeView : VisualControlBase,
         {
             return;
         }
+
+        var nativeSelected = (e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected;
+        var isDrawSelected = IsNodeDrawSelected(e.Node, e.State);
+        var isMultiSelectedOnly = IsNodeMultiSelected(e.Node) && !nativeSelected;
 
         // Update our content object with values from the node
         UpdateContentFromNode(e.Node);
@@ -2205,7 +2221,7 @@ public class KryptonTreeView : VisualControlBase,
         else
         {
             // If selected then show as a checked item
-            if ((e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected)
+            if (isDrawSelected)
             {
                 _drawButton.Checked = true;
 
@@ -2249,10 +2265,10 @@ public class KryptonTreeView : VisualControlBase,
 
             _overrideNormal.Apply = hasFocus;
             _overrideTracking.Apply = hasFocus;
-            _overrideMultiSelect.Apply = hasFocus;
+            _overrideMultiSelect.Apply = hasFocus || isMultiSelectedOnly;
             _overrideCheckedTracking.Apply = hasFocus;
             _overrideCheckedNormal.Apply = hasFocus;
-            _overrideCheckedMultiSelect.Apply = hasFocus;
+            _overrideCheckedMultiSelect.Apply = hasFocus || isMultiSelectedOnly;
         }
 
         // Update the view with the calculated state
@@ -2370,8 +2386,6 @@ public class KryptonTreeView : VisualControlBase,
                 _layoutDocker.Render(context);
             }
 
-            var isSelected = (e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected;
-
             // Do we draw an image for the node?
             if (ImageList != null)
             {
@@ -2380,7 +2394,7 @@ public class KryptonTreeView : VisualControlBase,
 
                 try
                 {
-                    if (isSelected)
+                    if (isDrawSelected)
                     {
                         // Check node values before tree level values
                         if (!string.IsNullOrEmpty(e.Node.SelectedImageKey))
@@ -2586,6 +2600,9 @@ public class KryptonTreeView : VisualControlBase,
     private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 

@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// Defines the editing control for the DataGridViewTextBoxCell custom cell type.
 /// </summary>
 [ToolboxItem(false)]
-[Designer(typeof(KryptonTextBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonTextBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonDataGridViewTextBoxEditingControl : KryptonTextBox,
     IDataGridViewEditingControl, IKryptonDataGridViewEditingControl
 {

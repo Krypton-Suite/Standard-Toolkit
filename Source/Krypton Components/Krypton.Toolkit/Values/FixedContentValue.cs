@@ -22,7 +22,7 @@ public class FixedContentValue : IContentValues
     /// Initialize a new instance of the FixedContentValue class.
     /// </summary>
     public FixedContentValue()
-        : this(GlobalStaticVariables.DEFAULT_EMPTY_STRING, GlobalStaticVariables.DEFAULT_EMPTY_STRING, null, GlobalStaticVariables.EMPTY_COLOR)
+        : this(SharedStaticVariables.DEFAULT_EMPTY_STRING, SharedStaticVariables.DEFAULT_EMPTY_STRING, null, SharedStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -80,6 +80,7 @@ public class FixedContentValue : IContentValues
     [Category(@"Appearance")]
     [Description(@"Image associated with item.")]
     [Localizable(true)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image { get; set; }
 
     private bool ShouldSerializeImage() => Image != null;
@@ -95,7 +96,7 @@ public class FixedContentValue : IContentValues
     [Localizable(true)]
     public Color ImageTransparentColor { get; set; }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
     #endregion
 
@@ -138,7 +139,7 @@ public class FixedContentValue : IContentValues
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

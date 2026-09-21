@@ -19,11 +19,16 @@ public partial class AboutBoxTest : KryptonForm
     public AboutBoxTest()
     {
         InitializeComponent();
+
+        kryptonTextBox1.Text = Application.ExecutablePath;
+        kryptonTextBox2.Text = Application.ProductName;
+        kchkShowToolkitInformation.Checked = true;
     }
+
+    private void kbtnShowDefaults_Click(object sender, EventArgs e) => KryptonAboutBox.Show();
 
     private void kbtnShow_Click(object sender, EventArgs e)
     {
-        // Validate and load assembly
         if (string.IsNullOrWhiteSpace(kryptonTextBox1.Text))
         {
             MessageBox.Show("Please choose an assembly (.dll or .exe) first.", "No Assembly Selected", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -48,7 +53,9 @@ public partial class AboutBoxTest : KryptonForm
         Assembly selectedAssembly;
         try
         {
-            selectedAssembly = Assembly.LoadFile(assemblyPath);
+            selectedAssembly = assemblyPath.Equals(Application.ExecutablePath, StringComparison.OrdinalIgnoreCase)
+                ? Assembly.GetExecutingAssembly()
+                : Assembly.LoadFile(assemblyPath);
         }
         catch (BadImageFormatException ex)
         {
@@ -87,7 +94,8 @@ public partial class AboutBoxTest : KryptonForm
             HeaderImage = headerImage,
             MainImage = mainImage,
             ShowToolkitInformation = kchkShowToolkitInformation.Checked,
-            UseFullBuiltOnDate = kchkUseFullBuiltOnDate.Checked
+            UseFullBuiltOnDate = kchkUseFullBuiltOnDate.Checked,
+            UseRtlLayout = kchkUseRtlLayout.Checked ? KryptonUseRTLLayout.Yes : KryptonUseRTLLayout.No
         };
 
         KryptonAboutToolkitData aboutToolkitData = new KryptonAboutToolkitData();

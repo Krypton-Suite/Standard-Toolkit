@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -20,11 +20,12 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(TextChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonRichTextBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonRichTextBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to enter text, and provides multi-line editing and password character masking.")]
 public class KryptonRichTextBox : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalRichTextBox : RichTextBox
@@ -150,9 +151,85 @@ public class KryptonRichTextBox : VisualControlBase,
             //Return last + 1 character printer
             return (int)res.ToInt64();
         }
+
+        /// <summary>
+        /// Gets and sets paragraph alignment for the current selection, including justify.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public RichTextParagraphAlignment SelectionParagraphAlignment
+        {
+            get
+            {
+                if (!IsHandleCreated)
+                {
+                    return RichTextParagraphAlignment.Left;
+                }
+
+                var format = new PI.PARAFORMAT
+                {
+                    cbSize = (uint)Marshal.SizeOf(typeof(PI.PARAFORMAT)),
+                    rgxTabs = new int[32]
+                };
+
+                PI.SendMessage(new HandleRef(this, Handle), PI.EM_GETPARAFORMAT, 0, ref format);
+
+                if ((format.dwMask & PI.PFM_ALIGNMENT) == 0)
+                {
+                    return RichTextParagraphAlignment.Left;
+                }
+
+                switch (format.wAlignment)
+                {
+                    case PI.PFA_RIGHT:
+                        return RichTextParagraphAlignment.Right;
+                    case PI.PFA_CENTER:
+                        return RichTextParagraphAlignment.Center;
+                    case PI.PFA_JUSTIFY:
+                        return RichTextParagraphAlignment.Justify;
+                    default:
+                        return RichTextParagraphAlignment.Left;
+                }
+            }
+            set
+            {
+                // Force handle creation so RichEdit can apply paragraph format.
+                if (!IsHandleCreated)
+                {
+                    _ = Handle;
+                }
+
+                if (value == RichTextParagraphAlignment.Justify)
+                {
+                    EnableAdvancedTypography();
+                }
+
+                var format = new PI.PARAFORMAT
+                {
+                    cbSize = (uint)Marshal.SizeOf(typeof(PI.PARAFORMAT)),
+                    dwMask = PI.PFM_ALIGNMENT,
+                    wAlignment = (ushort)value,
+                    rgxTabs = new int[32]
+                };
+
+                PI.SendMessage(new HandleRef(this, Handle), PI.EM_SETPARAFORMAT, 0, ref format);
+            }
+        }
         #endregion
 
         #region Protected
+        /// <summary>
+        /// Raises the HandleCreated event.
+        /// </summary>
+        /// <param name="e">An EventArgs containing the event data.</param>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            // Justify requires advanced typography; enable once the RichEdit HWND exists.
+            EnableAdvancedTypography();
+        }
+
         protected override void OnEnabledChanged(EventArgs e)
         {
             // Do not forward, to allow the correct Background for disabled state
@@ -280,6 +357,20 @@ public class KryptonRichTextBox : VisualControlBase,
             _kryptonRichTextBox.OnMouseMove(e);
         }
         #endregion
+
+        #region Implementation
+        private void EnableAdvancedTypography()
+        {
+            if (!IsHandleCreated)
+            {
+                return;
+            }
+
+            PI.SendMessage(Handle, PI.EM_SETTYPOGRAPHYOPTIONS,
+                (IntPtr)PI.TO_ADVANCEDTYPOGRAPHY,
+                (IntPtr)PI.TO_ADVANCEDTYPOGRAPHY);
+        }
+        #endregion
     }
     #endregion
 
@@ -288,6 +379,7 @@ public class KryptonRichTextBox : VisualControlBase,
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalRichTextBox _richTextBox;
     private InputControlStyle _inputControlStyle;
@@ -447,6 +539,7 @@ public class KryptonRichTextBox : VisualControlBase,
 
         // Create the internal text box used for containing content
         _richTextBox = new InternalRichTextBox(this);
+        CueHint.AttachAnimation(ShouldAnimateCueHint, () => _richTextBox.Invalidate());
         _richTextBox.TrackMouseEnter += OnRichTextBoxMouseChange;
         _richTextBox.TrackMouseLeave += OnRichTextBoxMouseChange;
         _richTextBox.AcceptsTabChanged += OnRichTextBoxAcceptsTabChanged;
@@ -484,8 +577,8 @@ public class KryptonRichTextBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
-        // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create the manager for handling tooltips
         ToolTipManager = new ToolTipManager(ToolTipValues);
@@ -518,8 +611,16 @@ public class KryptonRichTextBox : VisualControlBase,
             // Remove any showing tooltip
             OnCancelToolTip(this, EventArgs.Empty);
 
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+
+            _pulsingBorder.Dispose();
+
+            CueHint.DisposeAnimation();
         }
 
         base.Dispose(disposing);
@@ -656,7 +757,7 @@ public class KryptonRichTextBox : VisualControlBase,
     /// <summary>
     /// Gets and sets the text associated with the control.
     /// </summary>
-    [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerMultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text
     {
@@ -847,6 +948,28 @@ public class KryptonRichTextBox : VisualControlBase,
         {
             PerformNeedPaint(true);
             _richTextBox.SelectionAlignment = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets paragraph alignment for the current selection, including full justify.
+    /// </summary>
+    /// <remarks>
+    /// Prefer this property over <see cref="SelectionAlignment"/> when justify is required.
+    /// WinForms <see cref="HorizontalAlignment"/> does not expose a justify value; justified
+    /// paragraphs report as <see cref="HorizontalAlignment.Left"/> via <see cref="SelectionAlignment"/>.
+    /// </remarks>
+    [Browsable(false)]
+    [DefaultValue(RichTextParagraphAlignment.Left)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public RichTextParagraphAlignment SelectionParagraphAlignment
+    {
+        get => _richTextBox.SelectionParagraphAlignment;
+
+        set
+        {
+            PerformNeedPaint(true);
+            _richTextBox.SelectionParagraphAlignment = value;
         }
     }
 
@@ -1066,17 +1189,28 @@ public class KryptonRichTextBox : VisualControlBase,
             if (_alwaysActive != value)
             {
                 _alwaysActive = value;
+                _pulsingBorder.UpdateAnimationState();
                 PerformNeedPaint(true);
             }
         }
     }
 
     /// <summary>
+    /// Gets access to the optional pulsing bottom border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing bottom border settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+    /// <summary>
     /// Gets or sets the lines of text in a multiline edit, as an array of String values.
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The lines of text in a multiline edit, as an array of String values.")]
-    [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringArrayEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [MergableProperty(false)]
     [Localizable(true)]
@@ -1719,11 +1853,12 @@ public class KryptonRichTextBox : VisualControlBase,
     private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
 
     /// <summary>
-    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
     /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
 
     #endregion
 
@@ -1849,6 +1984,26 @@ public class KryptonRichTextBox : VisualControlBase,
     }
 
     /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    /// <summary>
     /// Raises the EnabledChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -1862,6 +2017,7 @@ public class KryptonRichTextBox : VisualControlBase,
         _drawDockerOuter.Enabled = Enabled;
 
         PerformNeedPaint(true);
+        CueHint.SyncAnimation();
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
@@ -1946,7 +2102,8 @@ public class KryptonRichTextBox : VisualControlBase,
             // to allow a relayout or if in design mode.
             if (_forcedLayout || DesignMode)
             {
-                Rectangle fillRect = _layoutFill.FillRect;
+                Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                    _layoutFill, _scrollbarManager, UseKryptonScrollbars);
                 _richTextBox.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
             }
         }
@@ -1959,6 +2116,7 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _richTextBox.Invalidate();
         base.OnMouseEnter(e);
@@ -1971,6 +2129,7 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _richTextBox.Invalidate();
         base.OnMouseLeave(e);
@@ -2266,27 +2425,31 @@ public class KryptonRichTextBox : VisualControlBase,
 
     #region Implementation
 
+    private bool ShouldAnimateCueHint() =>
+        Enabled
+        && !string.IsNullOrWhiteSpace(CueHint.CueHintText)
+        && TextLength == 0;
+
     private void UpdateScrollbarManager()
     {
         if (UseKryptonScrollbars)
         {
-            if (_scrollbarManager == null)
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the inner control follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
             {
-                _scrollbarManager = new KryptonScrollbarManager(_richTextBox, ScrollbarManagerMode.NativeWrapper)
-                {
-                    Enabled = true
-                };
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
+                ScrollbarManager.Attach(_richTextBox, ScrollbarManagerMode.NativeWrapper);
             }
         }
-        else
+        else if (_scrollbarManager != null)
         {
-            if (_scrollbarManager != null)
-            {
-                _scrollbarManager.Dispose();
-                _scrollbarManager = null;
-            }
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
         }
     }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
 
     private void UpdateStateAndPalettes()
     {
@@ -2301,9 +2464,10 @@ public class KryptonRichTextBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+        _pulsingBorder.UpdateAnimationState();
     }
 
-    private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
+    internal IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
     private void OnRichTextBoxMouseChange(object? sender, EventArgs e)
     {
@@ -2338,6 +2502,7 @@ public class KryptonRichTextBox : VisualControlBase,
             _richTextBox.Invalidate();
         }
 
+        CueHint.SyncAnimation();
         OnTextChanged(e);
     }
 
@@ -2432,7 +2597,7 @@ public class KryptonRichTextBox : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        VisualPopupToolTip popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        VisualPopupToolTip popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore
@@ -2749,6 +2914,11 @@ public class KryptonRichTextBox : VisualControlBase,
         // First semicolon is after the opening brace, so subtract 1
         return count - 1;
     }
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
+
+    private void UpdateForRightToLeft() => _richTextBox.RightToLeft = RightToLeft;
 
     #endregion
 }

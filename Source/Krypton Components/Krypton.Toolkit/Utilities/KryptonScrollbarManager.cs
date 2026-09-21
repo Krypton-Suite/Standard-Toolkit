@@ -21,6 +21,7 @@ namespace Krypton.Toolkit;
 /// - NativeWrapper: For controls like TextBox, RichTextBox with native scrollbars
 /// - Custom: For controls with custom scrolling logic
 /// </remarks>
+[TypeConverter(typeof(ExpandableObjectConverter))]
 public class KryptonScrollbarManager : IDisposable
 {
     #region Instance Fields
@@ -28,6 +29,12 @@ public class KryptonScrollbarManager : IDisposable
     private Control? _targetControl;
     private KryptonHScrollBar? _horizontalScrollBar;
     private KryptonVScrollBar? _verticalScrollBar;
+    private KryptonScrollBarCorner? _scrollBarCorner;
+    private readonly PaletteBackScrollBarCornerInherit _cornerInherit;
+    private readonly PaletteBack _cornerStateCommon;
+    private readonly PaletteBack _cornerStateNormal;
+    private readonly PaletteBack _cornerStateDisabled;
+    private ScrollbarCornerStyle? _cornerStyle;
     private ScrollbarManagerMode _mode = ScrollbarManagerMode.Container;
     private bool _enabled = true;
     private bool _isUpdating;
@@ -76,6 +83,13 @@ public class KryptonScrollbarManager : IDisposable
     {
         _syncTimer = new Timer { Interval = 50 }; // Update every 50ms for native wrapper mode
         _syncTimer.Tick += SyncTimer_Tick;
+
+        // The corner state storage lives on the manager (not on the corner control,
+        // which is recreated on detach/reattach) so user customization is preserved.
+        _cornerInherit = new PaletteBackScrollBarCornerInherit();
+        _cornerStateCommon = new PaletteBack(_cornerInherit, OnCornerNeedPaint);
+        _cornerStateNormal = new PaletteBack(_cornerStateCommon, OnCornerNeedPaint);
+        _cornerStateDisabled = new PaletteBack(_cornerStateCommon, OnCornerNeedPaint);
     }
 
     /// <summary>
@@ -84,9 +98,8 @@ public class KryptonScrollbarManager : IDisposable
     /// <param name="targetControl">The control to attach scrollbars to.</param>
     /// <param name="mode">The integration mode to use.</param>
     public KryptonScrollbarManager(Control targetControl, ScrollbarManagerMode mode = ScrollbarManagerMode.Container)
+        : this()
     {
-        _syncTimer = new Timer { Interval = 50 }; // Update every 50ms for native wrapper mode
-        _syncTimer.Tick += SyncTimer_Tick;
         Attach(targetControl, mode);
     }
 
@@ -158,8 +171,12 @@ public class KryptonScrollbarManager : IDisposable
     /// <summary>
     /// Gets or sets the integration mode.
     /// </summary>
-    [Category(@"Behavior")]
-    [Description(@"Gets or sets the integration mode (Container, NativeWrapper, or Custom).")]
+    /// <remarks>
+    /// Hidden from the designer: the owning Krypton control selects the correct mode
+    /// when it attaches the manager.
+    /// </remarks>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [DefaultValue(ScrollbarManagerMode.Container)]
     public ScrollbarManagerMode Mode
     {
@@ -179,11 +196,99 @@ public class KryptonScrollbarManager : IDisposable
     }
 
     /// <summary>
+    /// Gets or sets how the bottom-right corner is filled when both scrollbars are visible.
+    /// If not explicitly set, uses the global value from <see cref="KryptonManager.ScrollbarCornerStyle"/>.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets how the bottom-right corner is filled when both scrollbars are visible. If not explicitly set, uses the global value from KryptonManager.ScrollbarCornerStyle.")]
+    public ScrollbarCornerStyle CornerStyle
+    {
+        get => _cornerStyle ?? KryptonManager.ScrollbarCornerStyle;
+        set
+        {
+            ScrollbarCornerStyle currentValue = _cornerStyle ?? KryptonManager.ScrollbarCornerStyle;
+            _cornerStyle = value;
+            if (currentValue != value)
+            {
+                PositionScrollbars();
+            }
+        }
+    }
+
+    private bool ShouldSerializeCornerStyle() => _cornerStyle.HasValue;
+
+    private void ResetCornerStyle()
+    {
+        if (_cornerStyle.HasValue)
+        {
+            _cornerStyle = null;
+            PositionScrollbars();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the palette back style the scrollbar corner inherits its appearance from.
+    /// Null (the default) keeps the flat scrollbar background fill; set a style such as
+    /// <see cref="PaletteBackStyle.PanelClient"/> to blend the corner with panel surfaces instead.
+    /// Values set through <see cref="CornerStateCommon"/> and the other corner states override this.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Gets or sets the palette back style the scrollbar corner inherits from. Null keeps the flat scrollbar background fill.")]
+    [DefaultValue(null)]
+    public PaletteBackStyle? CornerPanelStyle
+    {
+        get => _cornerInherit.Style;
+        set
+        {
+            if (_cornerInherit.Style != value)
+            {
+                _cornerInherit.Style = value;
+                _scrollBarCorner?.Invalidate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets access to the common scrollbar corner appearance that other corner states can override.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining the common scrollbar corner appearance that other corner states can override.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack CornerStateCommon => _cornerStateCommon;
+
+    private bool ShouldSerializeCornerStateCommon() => !_cornerStateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to the scrollbar corner appearance when it is in the normal state.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining the scrollbar corner appearance when it is in the normal state.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack CornerStateNormal => _cornerStateNormal;
+
+    private bool ShouldSerializeCornerStateNormal() => !_cornerStateNormal.IsDefault;
+
+    /// <summary>
+    /// Gets access to the scrollbar corner appearance when it is in the disabled state.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining the scrollbar corner appearance when it is in the disabled state.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack CornerStateDisabled => _cornerStateDisabled;
+
+    private bool ShouldSerializeCornerStateDisabled() => !_cornerStateDisabled.IsDefault;
+
+    /// <summary>
     /// Gets the target control this manager is attached to.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Control? TargetControl => _targetControl;
+
+    /// <summary>
+    /// Keeps the expandable property grid row clean when the manager is surfaced on a control.
+    /// </summary>
+    public override string ToString() => string.Empty;
 
     #endregion
 
@@ -219,6 +324,31 @@ public class KryptonScrollbarManager : IDisposable
     }
 
     /// <summary>
+    /// Synchronizes a ListView after mouse wheel input when native scrollbars are hidden.
+    /// </summary>
+    /// <param name="delta">The mouse wheel delta.</param>
+    /// <param name="oldTopIndex">The top item index before native mouse wheel handling.</param>
+    /// <param name="newTopIndex">The top item index after native mouse wheel handling.</param>
+    internal void SyncListViewMouseWheel(int delta, int oldTopIndex, int newTopIndex)
+    {
+        if (_mode != ScrollbarManagerMode.NativeWrapper ||
+            !_enabled ||
+            _targetControl is not ListView listView ||
+            !listView.IsHandleCreated)
+        {
+            return;
+        }
+
+        if (oldTopIndex == newTopIndex)
+        {
+            ScrollListViewByMouseWheel(listView, delta);
+        }
+
+        EnsureNativeScrollbarsHidden();
+        UpdateNativeWrapperScrollbars();
+    }
+
+    /// <summary>
     /// Attaches the manager to a control.
     /// </summary>
     /// <param name="targetControl">The control to attach to.</param>
@@ -227,7 +357,7 @@ public class KryptonScrollbarManager : IDisposable
     {
         if (targetControl == null)
         {
-            throw new ArgumentNullException(nameof(targetControl));
+            ThrowHelper.ThrowArgumentNullException(nameof(targetControl));
         }
 
         if (_targetControl != null)
@@ -422,8 +552,8 @@ public class KryptonScrollbarManager : IDisposable
         // Check if scrollbars are needed
         int clientWidth = _contentContainer.ClientSize.Width;
         int clientHeight = _contentContainer.ClientSize.Height;
-        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
-        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
+        int scrollbarWidth = ManagedScrollBarWidth;
+        int scrollbarHeight = ManagedScrollBarHeight;
 
         needsHorizontal = maxWidth > clientWidth;
         needsVertical = maxHeight > clientHeight;
@@ -515,6 +645,7 @@ public class KryptonScrollbarManager : IDisposable
             foreach (Control child in panel.Controls)
             {
                 if (child != _horizontalScrollBar && child != _verticalScrollBar &&
+                    child != _scrollBarCorner &&
                     child is not KryptonHScrollBar and not KryptonVScrollBar)
                 {
                     // Store original location on first access
@@ -540,6 +671,7 @@ public class KryptonScrollbarManager : IDisposable
             foreach (Control child in _contentContainer.Controls)
             {
                 if (child != _horizontalScrollBar && child != _verticalScrollBar &&
+                    child != _scrollBarCorner &&
                     child is not KryptonHScrollBar and not KryptonVScrollBar)
                 {
                     // Store original location on first access
@@ -631,7 +763,7 @@ public class KryptonScrollbarManager : IDisposable
                     _horizontalScrollBar.Visible = true;
                     _horizontalScrollBar.Minimum = hScrollInfo.nMin;
                     _horizontalScrollBar.Maximum = hScrollInfo.nMax;
-                    _horizontalScrollBar.LargeChange = hScrollInfo.nPage;
+                    _horizontalScrollBar.LargeChange = Math.Max(1, hScrollInfo.nPage);
                     _horizontalScrollBar.SmallChange = 1;
                     _horizontalScrollBar.Value = Math.Min(hScrollInfo.nPos, hScrollableMaximum);
                 }
@@ -668,7 +800,7 @@ public class KryptonScrollbarManager : IDisposable
                     _verticalScrollBar.Visible = true;
                     _verticalScrollBar.Minimum = vScrollInfo.nMin;
                     _verticalScrollBar.Maximum = vScrollInfo.nMax;
-                    _verticalScrollBar.LargeChange = vScrollInfo.nPage;
+                    _verticalScrollBar.LargeChange = Math.Max(1, vScrollInfo.nPage);
                     _verticalScrollBar.SmallChange = 1;
                     _verticalScrollBar.Value = Math.Min(vScrollInfo.nPos, vScrollableMaximum);
                 }
@@ -895,13 +1027,13 @@ public class KryptonScrollbarManager : IDisposable
 
     private bool NativeScrollbarsAppearVisible()
     {
-        if (_targetControl is not ListBox listBox)
+        if (_targetControl is not ListBox && _targetControl is not ListView)
         {
             return false;
         }
 
-        int widthDifference = listBox.Width - listBox.ClientSize.Width;
-        int heightDifference = listBox.Height - listBox.ClientSize.Height;
+        int widthDifference = _targetControl.Width - _targetControl.ClientSize.Width;
+        int heightDifference = _targetControl.Height - _targetControl.ClientSize.Height;
 
         return widthDifference >= SystemInformation.VerticalScrollBarWidth / 2 ||
                heightDifference >= SystemInformation.HorizontalScrollBarHeight / 2;
@@ -1077,22 +1209,31 @@ public class KryptonScrollbarManager : IDisposable
                 return;
             }
 
-            // For other controls (ListBox, ListView, TreeView, PropertyGrid, etc.), hide native
-            // scrollbars via ShowScrollBar so only Krypton scrollbars are visible.
-            _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
-
-            if (_targetControl is ListBox)
+            if (_targetControl is ListBox || _targetControl is ListView)
             {
+                // Keep WS_VSCROLL/WS_HSCROLL so the control can still scroll. Visibility is
+                // ShowScrollBar plus, for ListView, WM_NCCALCSIZE so the native bar is not given layout space.
+                _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
                 _targetControl.Invalidate();
                 return;
             }
 
-            // Also remove scrollbar window styles so they stay hidden; frame change is required
-            // for style changes to take effect (see SetWindowLong / SetWindowPos docs).
+            // For other controls (TreeView, PropertyGrid, etc.) the scrollbar window
+            // styles are removed so they stay hidden. Skip the work when they are already clear:
+            // the frame change below raises a layout for the target control, which asks for
+            // another hide, so repeating it unconditionally repaints the control indefinitely.
             uint style = PI.GetWindowLong(_targetControl.Handle, PI.GWL_.STYLE);
-            style &= ~(uint)PI.WS_.HSCROLL;
-            style &= ~(uint)PI.WS_.VSCROLL;
-            PI.SetWindowLong(_targetControl.Handle, PI.GWL_.STYLE, style);
+            uint hiddenStyle = style & ~((uint)PI.WS_.HSCROLL | (uint)PI.WS_.VSCROLL);
+            if (hiddenStyle == style)
+            {
+                return;
+            }
+
+            _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
+
+            // A frame change is required for style changes to take effect
+            // (see SetWindowLong / SetWindowPos docs).
+            PI.SetWindowLong(_targetControl.Handle, PI.GWL_.STYLE, hiddenStyle);
             PI.SetWindowPos(_targetControl.Handle, IntPtr.Zero, 0, 0, 0, 0,
                 PI.SWP_.NOMOVE | PI.SWP_.NOSIZE | PI.SWP_.NOZORDER | PI.SWP_.FRAMECHANGED);
 
@@ -1153,6 +1294,12 @@ public class KryptonScrollbarManager : IDisposable
                 EnsureNativeScrollbarsHidden();
                 listBox.Invalidate();
                 SyncListBoxVerticalScrollbarValue(listBox);
+                return;
+            }
+
+            if (_targetControl is ListView listView)
+            {
+                SyncListViewScrollPosition(listView, horizontal, e);
                 return;
             }
 
@@ -1227,6 +1374,115 @@ public class KryptonScrollbarManager : IDisposable
         }
     }
 
+    private void SyncListViewScrollPosition(ListView listView, bool horizontal, ScrollEventArgs e)
+    {
+        if (!listView.IsHandleCreated)
+        {
+            return;
+        }
+
+        if (horizontal)
+        {
+            int current = PI.GetScrollPos(listView.Handle, PI.SB_.HORZ);
+            int dx = e.NewValue - current;
+            if (dx != 0)
+            {
+                PI.SendMessage(listView.Handle, PI.LVM_SCROLL, (IntPtr)dx, IntPtr.Zero);
+            }
+        }
+        else
+        {
+            ScrollListViewToIndex(listView, e.NewValue);
+        }
+
+        EnsureNativeScrollbarsHidden();
+        listView.Invalidate();
+    }
+
+    private static int GetListViewItemCount(ListView listView) =>
+        listView.VirtualMode ? listView.VirtualListSize : listView.Items.Count;
+
+    private static int GetListViewTopIndex(ListView listView)
+    {
+        try
+        {
+            return listView.TopItem?.Index ?? 0;
+        }
+        catch (InvalidOperationException)
+        {
+            return PI.GetScrollPos(listView.Handle, PI.SB_.VERT);
+        }
+    }
+
+    private static int GetListViewItemHeight(ListView listView)
+    {
+        int count = GetListViewItemCount(listView);
+        if (count <= 0)
+        {
+            return Math.Max(1, SystemInformation.MenuHeight);
+        }
+
+        try
+        {
+            int index = Math.Min(GetListViewTopIndex(listView), count - 1);
+            Rectangle itemRect = listView.GetItemRect(index);
+            if (itemRect.Height > 0)
+            {
+                return itemRect.Height;
+            }
+        }
+        catch (ArgumentException)
+        {
+            // Item rectangle is not available until the handle has items.
+        }
+
+        return Math.Max(1, SystemInformation.MenuHeight);
+    }
+
+    private static void ScrollListViewToIndex(ListView listView, int requestedIndex)
+    {
+        int count = GetListViewItemCount(listView);
+        if (count <= 0)
+        {
+            return;
+        }
+
+        int currentTop = GetListViewTopIndex(listView);
+        int target = Math.Max(0, Math.Min(requestedIndex, count - 1));
+        int dy = (target - currentTop) * GetListViewItemHeight(listView);
+        if (dy != 0)
+        {
+            PI.SendMessage(listView.Handle, PI.LVM_SCROLL, IntPtr.Zero, (IntPtr)dy);
+        }
+    }
+
+    private void ScrollListViewByMouseWheel(ListView listView, int delta)
+    {
+        int count = GetListViewItemCount(listView);
+        if (count <= 0 || delta == 0)
+        {
+            return;
+        }
+
+        int scrollLines = SystemInformation.MouseWheelScrollLines;
+        if (scrollLines == 0)
+        {
+            return;
+        }
+
+        int itemHeight = GetListViewItemHeight(listView);
+        int linesPerWheel = scrollLines < 0 ? Math.Max(1, listView.ClientSize.Height / itemHeight) : scrollLines;
+        int wheelClicks = delta / Math.Max(1, SystemInformation.MouseWheelScrollDelta);
+        if (wheelClicks == 0)
+        {
+            wheelClicks = delta > 0 ? 1 : -1;
+        }
+
+        int currentTop = GetListViewTopIndex(listView);
+        int requestedTop = currentTop - (linesPerWheel * wheelClicks);
+        ScrollListViewToIndex(listView, requestedTop);
+    }
+
     private Control? GetScrollbarHostControl()
     {
         if (_targetControl == null)
@@ -1234,8 +1490,10 @@ public class KryptonScrollbarManager : IDisposable
             return null;
         }
 
+        // Native wrapper controls inset the inner native control with border content
+        // padding. Host scrollbars on the outer Krypton wrapper so they align with
+        // the visible control edge instead of leaving a white gutter.
         if (_mode == ScrollbarManagerMode.NativeWrapper &&
-            _targetControl is ListBox &&
             _targetControl.Parent != null)
         {
             return _targetControl.Parent;
@@ -1276,11 +1534,28 @@ public class KryptonScrollbarManager : IDisposable
         _scrollbarHostControl = null;
     }
 
+    private NativeWrapperScrollbarLayout? GetNativeWrapperScrollbarLayout()
+    {
+        Control? host = GetScrollbarHostControl();
+        if (host is IKryptonNativeWrapperScrollbarBounds boundsProvider)
+        {
+            return boundsProvider.GetNativeWrapperScrollbarLayout();
+        }
+
+        return null;
+    }
+
     private Rectangle GetTargetClientRectangleInHost()
     {
         if (_targetControl == null)
         {
             return Rectangle.Empty;
+        }
+
+        NativeWrapperScrollbarLayout? layout = GetNativeWrapperScrollbarLayout();
+        if (layout.HasValue)
+        {
+            return layout.Value.LaneRect;
         }
 
         Control? host = GetScrollbarHostControl();
@@ -1294,14 +1569,14 @@ public class KryptonScrollbarManager : IDisposable
             return _targetControl.ClientRectangle;
         }
 
-        Point location = host.PointToClient(_targetControl.PointToScreen(Point.Empty));
-        return new Rectangle(location, _targetControl.Size);
+        return host.ClientRectangle;
     }
 
     private void MoveExistingScrollbarsToHost(Control? host)
     {
         MoveScrollbarToHost(_horizontalScrollBar, host);
         MoveScrollbarToHost(_verticalScrollBar, host);
+        MoveScrollbarToHost(_scrollBarCorner, host);
     }
 
     private static void MoveScrollbarToHost(Control? scrollbar, Control? host)
@@ -1441,6 +1716,17 @@ public class KryptonScrollbarManager : IDisposable
             _verticalScrollBar = null;
         }
 
+        if (_scrollBarCorner != null)
+        {
+            if (_scrollBarCorner.Parent != null)
+            {
+                RemoveScrollbarFromHost(_scrollBarCorner);
+            }
+
+            _scrollBarCorner.Dispose();
+            _scrollBarCorner = null;
+        }
+
         OnScrollbarsChanged();
     }
 
@@ -1451,45 +1737,161 @@ public class KryptonScrollbarManager : IDisposable
             return;
         }
 
-        Rectangle clientRect = GetTargetClientRectangleInHost();
-        int scrollbarWidth = SystemInformation.VerticalScrollBarWidth;
-        int scrollbarHeight = SystemInformation.HorizontalScrollBarHeight;
+        NativeWrapperScrollbarLayout? wrapperLayout = GetNativeWrapperScrollbarLayout();
+        // Prefer the layout fill lane (already inside the themed border). Fall back to the
+        // host client area when the wrapper does not expose layout bounds.
+        Rectangle laneRect = wrapperLayout?.LaneRect ?? GetTargetClientRectangleInHost();
 
-        // Position horizontal scrollbar
-        if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
+        int scrollbarWidth = ManagedScrollBarWidth;
+        int scrollbarHeight = ManagedScrollBarHeight;
+
+        bool showVertical = _verticalScrollBar?.Visible == true;
+        bool showHorizontal = _horizontalScrollBar?.Visible == true;
+
+        int vScrollX = laneRect.Right - scrollbarWidth;
+        int vScrollY = laneRect.Top;
+        int hScrollX = laneRect.Left;
+        int hScrollY = laneRect.Bottom - scrollbarHeight;
+        int vScrollHeight = showHorizontal ? Math.Max(0, hScrollY - vScrollY) : laneRect.Height;
+
+        // Details headers sit in the ListView client. Span the overlay with the control
+        // bounds (not DisplayRectangle) so the bar meets the header row.
+        if (_mode == ScrollbarManagerMode.NativeWrapper &&
+            _targetControl is ListView overlayListView)
         {
-            int hScrollY = clientRect.Bottom - scrollbarHeight;
-            int hScrollWidth = clientRect.Width - (_verticalScrollBar?.Visible == true ? scrollbarWidth : 0);
-
-            // Ensure scrollbar stays within bounds
-            hScrollY = Math.Max(clientRect.Top, Math.Min(hScrollY, clientRect.Bottom - 1));
-            hScrollWidth = Math.Max(0, Math.Min(hScrollWidth, clientRect.Width));
-
-            _horizontalScrollBar.Location = new Point(clientRect.Left, hScrollY);
-            _horizontalScrollBar.Width = hScrollWidth;
-            _horizontalScrollBar.Height = scrollbarHeight;
+            Control? host = GetScrollbarHostControl();
+            if (host != null && overlayListView.Parent == host)
+            {
+                Rectangle listBounds = overlayListView.Bounds;
+                vScrollY = listBounds.Top;
+                int vBottom = showHorizontal ? hScrollY : listBounds.Bottom;
+                vScrollHeight = Math.Max(0, vBottom - vScrollY);
+            }
         }
 
-        // Position vertical scrollbar
-        if (_verticalScrollBar != null && _verticalScrollBar.Visible)
+        bool showCorner = false;
+
+        if (showHorizontal && showVertical && _horizontalScrollBar != null && _verticalScrollBar != null)
         {
-            int vScrollX = clientRect.Right - scrollbarWidth;
-            int vScrollHeight = clientRect.Height - (_horizontalScrollBar?.Visible == true ? scrollbarHeight : 0);
+            if (CornerStyle == ScrollbarCornerStyle.ThemedCorner)
+            {
+                // Both bars are shortened and a themed filler covers the intersection.
+                _horizontalScrollBar.SetBounds(hScrollX, hScrollY, Math.Max(0, vScrollX - hScrollX), scrollbarHeight);
+                _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, vScrollHeight);
 
-            // Ensure scrollbar stays within bounds
-            vScrollX = Math.Max(clientRect.Left, Math.Min(vScrollX, clientRect.Right - 1));
-            vScrollHeight = Math.Max(0, Math.Min(vScrollHeight, clientRect.Height));
+                EnsureScrollBarCornerCreated();
+                _scrollBarCorner!.SetBounds(vScrollX, hScrollY, scrollbarWidth, scrollbarHeight);
+                showCorner = true;
+            }
+            else
+            {
+                // ExtendHorizontal: the horizontal bar spans the full lane width so it fills
+                // the bottom-right corner, and the vertical bar stops above it. This keeps
+                // the vertical bar's bottom arrow clear of the corner.
+                _horizontalScrollBar.SetBounds(hScrollX, hScrollY, laneRect.Width, scrollbarHeight);
+                _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, vScrollHeight);
+            }
+        }
+        else if (showHorizontal && _horizontalScrollBar != null)
+        {
+            _horizontalScrollBar.SetBounds(hScrollX, hScrollY, laneRect.Width, scrollbarHeight);
+        }
+        else if (showVertical && _verticalScrollBar != null)
+        {
+            _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, vScrollHeight);
+        }
 
-            _verticalScrollBar.Location = new Point(vScrollX, clientRect.Top);
-            _verticalScrollBar.Width = scrollbarWidth;
-            _verticalScrollBar.Height = vScrollHeight;
+        if (_scrollBarCorner != null)
+        {
+            _scrollBarCorner.Visible = showCorner;
         }
 
         BringScrollbarsToFront();
     }
 
+    private void EnsureScrollBarCornerCreated()
+    {
+        if (_scrollBarCorner != null)
+        {
+            return;
+        }
+
+        _scrollBarCorner = new KryptonScrollBarCorner(_cornerStateNormal, _cornerStateDisabled)
+        {
+            Visible = false
+        };
+
+        Control? host = GetScrollbarHostControl();
+        if (host != null && host.IsHandleCreated)
+        {
+            AddScrollbarToHost(host, _scrollBarCorner);
+        }
+    }
+
+    // The KryptonScrollBar draws its arrows and thumb with fixed 15px content plus a
+    // 2px inset on each side, so it needs a 19px lane at 96 DPI. The system metric is
+    // 17px, which clips the buttons and thumb; widen the lane by 2px to compensate.
+    private const int ScrollBarLanePadding = 2;
+
+    private static int ManagedScrollBarWidth => SystemInformation.VerticalScrollBarWidth + ScrollBarLanePadding;
+
+    private static int ManagedScrollBarHeight => SystemInformation.HorizontalScrollBarHeight + ScrollBarLanePadding;
+
+    /// <summary>
+    /// Returns native-child bounds clipped so overlay themed scrollbars do not cover content.
+    /// </summary>
+    /// <param name="fillRect">The full fill rectangle for the native child.</param>
+    /// <param name="laneRect">
+    /// Outer lane inside the themed border (where overlay scrollbars are positioned).
+    /// </param>
+    /// <returns>
+    /// <paramref name="fillRect"/> with its right/bottom edges clipped to the scrollbar
+    /// edges when visible. Bars stay flush to the themed border; content ends where the bar starts.
+    /// </returns>
+    public Rectangle GetInsetContentBounds(Rectangle fillRect, Rectangle laneRect)
+    {
+        if (_mode != ScrollbarManagerMode.NativeWrapper || !_enabled)
+        {
+            return fillRect;
+        }
+
+        if (laneRect.IsEmpty)
+        {
+            laneRect = fillRect;
+        }
+
+        int right = fillRect.Right;
+        int bottom = fillRect.Bottom;
+
+        // Clip to the overlay bar edge rather than subtracting bar width from FillRect.
+        // FillRect is already inset by DisplayPadding from the lane; subtracting again
+        // left a visible gutter between wrapped text and the scrollbar.
+        if (_verticalScrollBar?.Visible == true)
+        {
+            int scrollbarLeft = laneRect.Right - ManagedScrollBarWidth;
+            right = Math.Min(right, scrollbarLeft);
+        }
+
+        if (_horizontalScrollBar?.Visible == true)
+        {
+            int scrollbarTop = laneRect.Bottom - ManagedScrollBarHeight;
+            bottom = Math.Min(bottom, scrollbarTop);
+        }
+
+        int width = Math.Max(0, right - fillRect.Left);
+        int height = Math.Max(0, bottom - fillRect.Top);
+        return new Rectangle(fillRect.X, fillRect.Y, width, height);
+    }
+
+    private void OnCornerNeedPaint(object? sender, NeedLayoutEventArgs e) => _scrollBarCorner?.Invalidate();
+
     private void BringScrollbarsToFront()
     {
+        if (_scrollBarCorner != null && _scrollBarCorner.Visible)
+        {
+            _scrollBarCorner.BringToFront();
+        }
+
         if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
         {
             _horizontalScrollBar.BringToFront();

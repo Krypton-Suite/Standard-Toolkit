@@ -122,6 +122,7 @@ public class ProgressBarTriStateCommonBaseValues : Storage
     [Category(@"Visuals")]
     [Description(@"Background image. Null uses default.")]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? BackImage
     {
         get => _backImage;
@@ -224,7 +225,7 @@ public class ProgressBarTriStateCommonBaseValues : Storage
     #region Public Overrides
 
     /// <inheritdoc />
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 }

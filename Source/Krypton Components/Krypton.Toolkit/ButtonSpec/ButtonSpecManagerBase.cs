@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -36,6 +36,8 @@ public abstract class ButtonSpecManagerBase : GlobalId
     private readonly ListSpacers[] _viewSpacers;
     private readonly ButtonSpecLookup _specLookup;
     private readonly GetToolStripRenderer? _getRenderer;
+    private readonly Dictionary<int, ViewLayoutStack> _edgeStacks;
+    private ButtonSpecEdgeArrange _edgeArrange;
 
     #endregion
 
@@ -111,6 +113,8 @@ public abstract class ButtonSpecManagerBase : GlobalId
         _viewMetricPaddings = viewMetricPaddings;
         _getRenderer = getRenderer;
         NeedPaint = needPaint;
+        _edgeStacks = new Dictionary<int, ViewLayoutStack>();
+        _edgeArrange = ButtonSpecEdgeArrange.SideBySide;
 
         if (_viewMetrics != null)
         {
@@ -138,6 +142,29 @@ public abstract class ButtonSpecManagerBase : GlobalId
     /// Gets the owning control.
     /// </summary>
     public Control? Control { get; }
+
+    /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="ButtonSpecEdgeArrange.SideBySide"/> is the historic default (form chrome and
+    /// headers). <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> packs same-edge specs into a
+    /// <see cref="ViewLayoutStack"/> docked once on that edge — useful on tall input hosts.
+    /// Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    public ButtonSpecEdgeArrange EdgeArrange
+    {
+        get => _edgeArrange;
+
+        set
+        {
+            if (_edgeArrange != value)
+            {
+                _edgeArrange = value;
+                RecreateButtons();
+            }
+        }
+    }
 
     /// <summary>
     /// Gets and sets the associated tooltip manager.
@@ -732,6 +759,9 @@ public abstract class ButtonSpecManagerBase : GlobalId
 
         // All views are destroyed so clear down lookup
         _specLookup.Clear();
+
+        // Remove any edge stacks docked for StackAlongEdge mode
+        ClearEdgeStacks();
     }
 
     private void CreateAll()
@@ -830,8 +860,19 @@ public abstract class ButtonSpecManagerBase : GlobalId
 
             buttonView.ViewCenter.Orientation = DockerOrientation(viewDockerIndex);
 
-            // Insert the button view into the docker
-            AddViewToDocker(viewDockerIndex, GetDockStyle(buttonSpec), buttonView.ViewCenter, _viewMetrics != null);
+            var dockStyle = GetButtonSpecDockStyle(buttonSpec);
+            var edge = buttonSpec.GetEdge(_redirector);
+
+            // StackAlongEdge: one ViewLayoutStack per docker/edge; SideBySide docks each center.
+            if (_edgeArrange == ButtonSpecEdgeArrange.StackAlongEdge)
+            {
+                ViewLayoutStack stack = GetOrCreateEdgeStack(viewDockerIndex, edge, dockStyle);
+                stack.Add(buttonView.ViewCenter);
+            }
+            else
+            {
+                AddViewToDocker(viewDockerIndex, dockStyle, buttonView.ViewCenter, _viewMetrics != null);
+            }
 
             // Perform any last construction steps for button spec
             ButtonSpecCreated(buttonSpec, buttonView, viewDockerIndex);
@@ -911,15 +952,65 @@ public abstract class ButtonSpecManagerBase : GlobalId
         return -1;
     }
 
-    private ViewDockStyle GetDockStyle(ButtonSpec spec)
+    /// <summary>
+    /// Gets or creates the edge stack for StackAlongEdge mode and docks it once.
+    /// </summary>
+    private ViewLayoutStack GetOrCreateEdgeStack(int dockerIndex, RelativeEdgeAlign edge, ViewDockStyle dockStyle)
+    {
+        var key = EdgeStackKey(dockerIndex, edge);
+        if (!_edgeStacks.TryGetValue(key, out ViewLayoutStack? stack))
+        {
+            // Stack along the edge: vertical on top/bottom dockers; horizontal on side headers.
+            VisualOrientation dockerOrientation = DockerOrientation(dockerIndex);
+            var horizontal = dockerOrientation == VisualOrientation.Left
+                             || dockerOrientation == VisualOrientation.Right;
+            stack = new ViewLayoutStack(horizontal)
+            {
+                // Keep each ButtonSpec at preferred size; leftover host height stays empty.
+                FillLastChild = false
+            };
+            _edgeStacks[key] = stack;
+            AddViewToDocker(dockerIndex, dockStyle, stack, _viewMetrics != null);
+        }
+
+        return stack;
+    }
+
+    private static int EdgeStackKey(int dockerIndex, RelativeEdgeAlign edge) =>
+        (dockerIndex * 2) + (edge == RelativeEdgeAlign.Far ? 1 : 0);
+
+    private void ClearEdgeStacks()
+    {
+        foreach (ViewLayoutStack stack in _edgeStacks.Values)
+        {
+            if (stack.Parent != null && stack.Parent.Contains(stack))
+            {
+                stack.Parent.Remove(stack);
+            }
+
+            stack.Dispose();
+        }
+
+        _edgeStacks.Clear();
+    }
+
+    /// <summary>
+    /// Gets the dock style for a button spec before <see cref="ViewDrawDocker"/> layout.
+    /// </summary>
+    /// <param name="spec">Button spec instance.</param>
+    /// <returns>Dock style to assign before RTL mirroring.</returns>
+    /// <remarks>
+    /// Maps palette Near/Far edge to Left/Right dock. Form chrome then relies on
+    /// <see cref="ViewDrawDocker.CalculateDock"/> to flip Left/Right in RTL. Native Near-edge
+    /// traffic lights are remapped Near→Far by
+    /// <see cref="KryptonForm.FormPaletteRedirect.GetButtonSpecEdge(PaletteButtonSpecStyle)"/>
+    /// so they remain on the physical left (issue #2103 / #3786).
+    /// </remarks>
+    protected virtual ViewDockStyle GetButtonSpecDockStyle(ButtonSpec spec)
     {
         var edge = spec.GetEdge(_redirector);
 
-        var isRtl = CommonHelper.IsRightToLeftLayout(Control);
-
-        // In RTL mode with RightToLeftLayout enabled, reverse the dock style
-        return isRtl ? edge == RelativeEdgeAlign.Near ? ViewDockStyle.Right : ViewDockStyle.Left :
-            edge == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
+        return edge == RelativeEdgeAlign.Near ? ViewDockStyle.Left : ViewDockStyle.Right;
     }
 
     private VisualOrientation CalculateOrientation(VisualOrientation viewOrientation,

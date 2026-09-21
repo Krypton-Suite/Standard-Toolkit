@@ -35,7 +35,7 @@ public static class KryptonRibbonExtensions
 #else
         if (targetRibbon == null)
         {
-            throw new ArgumentNullException(nameof(targetRibbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(targetRibbon));
         }
 #endif
 
@@ -65,7 +65,7 @@ public static class KryptonRibbonExtensions
 #else
         if (targetRibbon == null)
         {
-            throw new ArgumentNullException(nameof(targetRibbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(targetRibbon));
         }
 #endif
 
@@ -95,7 +95,7 @@ public static class KryptonRibbonExtensions
 #else
         if (targetRibbon == null)
         {
-            throw new ArgumentNullException(nameof(targetRibbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(targetRibbon));
         }
 #endif
 

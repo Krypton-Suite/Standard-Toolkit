@@ -20,11 +20,12 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(TextChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonTextBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonTextBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to enter text, and provides multiline editing and password character masking.")]
 public class KryptonTextBox : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalTextBox : TextBox
@@ -292,6 +293,15 @@ public class KryptonTextBox : VisualControlBase,
                     }
                     base.WndProc(ref m);
                     break;
+                case PI.WM_.PASTE:
+                    // Filter clipboard paste when InputMode restricts characters.
+                    if (_kryptonTextBox.TryPasteFilteredClipboardText())
+                    {
+                        return;
+                    }
+
+                    base.WndProc(ref m);
+                    break;
                 default:
                     base.WndProc(ref m);
                     break;
@@ -309,6 +319,16 @@ public class KryptonTextBox : VisualControlBase,
         /// </summary>
         /// <param name="e">An EventArgs containing the event data.</param>
         protected virtual void OnTrackMouseLeave(EventArgs e) => TrackMouseLeave?.Invoke(this, e);
+        #endregion
+
+        #region Password
+        // Assign PasswordChar / UseSystemPasswordChar on this instance rather than through
+        // the outer `_textBox` field. CodeQL cs/sensitive-data-transmission treats a WinForms
+        // TextBox field as a password source when those properties are written through the field,
+        // which would mark every KryptonTextBox.Text read as sensitive.
+        internal void ApplyPasswordChar(char value) => PasswordChar = value;
+
+        internal void ApplyUseSystemPasswordChar(bool value) => UseSystemPasswordChar = value;
         #endregion
     }
 
@@ -339,6 +359,7 @@ public class KryptonTextBox : VisualControlBase,
     private readonly ButtonSpecManagerLayout? _buttonManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalTextBox _textBox;
     private InputControlStyle _inputControlStyle;
@@ -351,9 +372,13 @@ public class KryptonTextBox : VisualControlBase,
     private int _cachedHeight;
     private bool _multilineStringEditor;
     private bool _showEllipsisButton;
-    //private bool _isInAlphaNumericMode;
+    private KryptonTextBoxInputMode _inputMode;
     private readonly ButtonSpecAny _editorButton;
+    // Internal (non-user) button specs such as the multiline editor button live here so they
+    // cannot be removed, reordered, or serialized through the public ButtonSpecs collection (issue #3851).
+    private readonly TextBoxButtonSpecCollection _buttonSpecsFixed;
     private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManagerFixed;
     private KryptonScrollbarManager? _scrollbarManager;
     private bool? _useKryptonScrollbars;
 
@@ -472,6 +497,7 @@ public class KryptonTextBox : VisualControlBase,
 
         // Create storage properties
         ButtonSpecs = new TextBoxButtonSpecCollection(this);
+        _buttonSpecsFixed = new TextBoxButtonSpecCollection(this);
 
         // Create the palette storage
         StateCommon = new PaletteInputControlTripleRedirect(Redirector, PaletteBackStyle.InputControlStandalone, PaletteBorderStyle.InputControlStandalone, PaletteContentStyle.InputControlStandalone, NeedPaintDelegate);
@@ -482,6 +508,7 @@ public class KryptonTextBox : VisualControlBase,
 
         // Create the internal text box used for containing content
         _textBox = new InternalTextBox(this);
+        CueHint.AttachAnimation(ShouldAnimateCueHint, () => _textBox.Invalidate());
         _textBox.DoubleClick += OnDoubleClick;
         _textBox.MouseDoubleClick += OnMouseDoubleClick;
         _textBox.TrackMouseEnter += OnTextBoxMouseChange;
@@ -518,11 +545,13 @@ public class KryptonTextBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
-        _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
+        _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, _buttonSpecsFixed,
             [_drawDockerInner],
             [StateCommon],
             [PaletteMetricInt.HeaderButtonEdgeInsetInputControl],
@@ -536,6 +565,7 @@ public class KryptonTextBox : VisualControlBase,
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
         _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
+        _buttonSpecAccessibilityProxyManagerFixed = new ButtonSpecAccessibilityProxyManager(this, _buttonSpecsFixed, () => _buttonManager);
 
         // Create the button spec for the multiline editor button.
         _editorButton = new ButtonSpecAny
@@ -549,8 +579,7 @@ public class KryptonTextBox : VisualControlBase,
         // Add text box to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_textBox);
 
-        //_isInAlphaNumericMode = false;
-
+        _inputMode = KryptonTextBoxInputMode.Any;
         _showEllipsisButton = false;
     }
 
@@ -569,9 +598,19 @@ public class KryptonTextBox : VisualControlBase,
             _buttonManager?.Destruct();
             _buttonSpecAccessibilityProxyManager?.Dispose();
             _buttonSpecAccessibilityProxyManager = null;
+            _buttonSpecAccessibilityProxyManagerFixed?.Dispose();
+            _buttonSpecAccessibilityProxyManagerFixed = null;
 
-            _scrollbarManager?.Dispose();
-            _scrollbarManager = null;
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+
+            _pulsingBorder.Dispose();
+
+            CueHint.DisposeAnimation();
         }
 
         base.Dispose(disposing);
@@ -580,13 +619,24 @@ public class KryptonTextBox : VisualControlBase,
 
     #region Public
 
-    // TODO: Return to this...
-    /*
-    /// <summary>Gets or sets a value indicating whether this instance is in alpha numeric mode.</summary>
-    /// <value><c>true</c> if this instance is in alpha numeric mode; otherwise, <c>false</c>.</value>
-    [Category(@"Data"), DefaultValue(false), Description(@"Only allow numerical input.")]
-    public bool IsInAlphaNumericMode { get => _isInAlphaNumericMode; set { _isInAlphaNumericMode = value; SetIsInAlphaNumericMode(this); } }
-    */
+    /// <summary>
+    /// Gets or sets which characters the text box accepts from typing and paste.
+    /// </summary>
+    /// <remarks>
+    /// Restricts interactive input only. Programmatic <see cref="Text"/> assignment is not filtered.
+    /// Control characters (Backspace, Delete, Enter, Tab, and similar) remain allowed so editing keys work.
+    /// Multiline newline characters from paste are kept when <see cref="Multiline"/> is <c>true</c>.
+    /// For patterned masks prefer <see cref="KryptonMaskedTextBox"/>; for spin values prefer <see cref="KryptonNumericUpDown"/>.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue(KryptonTextBoxInputMode.Any)]
+    [Description(@"Restricts typing and paste to Any, Digits, Letters, or Alphanumeric characters.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public KryptonTextBoxInputMode InputMode
+    {
+        get => _inputMode;
+        set => _inputMode = value;
+    }
 
     /// <summary>
     /// Gets access to the common textbox appearance entries that other states can override.
@@ -597,6 +647,16 @@ public class KryptonTextBox : VisualControlBase,
     public PaletteCueHintText CueHint { get; }
 
     private bool ShouldSerializeCueHint() => !CueHint.IsDefault;
+
+    /// <summary>
+    /// Gets access to the optional pulsing bottom border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing bottom border settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
 
     /// <summary>
@@ -745,6 +805,7 @@ public class KryptonTextBox : VisualControlBase,
     /// <summary>
     /// Gets and sets the text associated with the control.
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
@@ -858,6 +919,7 @@ public class KryptonTextBox : VisualControlBase,
             if (_alwaysActive != value)
             {
                 _alwaysActive = value;
+                _pulsingBorder.UpdateAnimationState();
                 PerformNeedPaint(true);
             }
         }
@@ -868,6 +930,7 @@ public class KryptonTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The lines of text in a multiline edit, as an array of String values.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerStringArrayEditor (replaces System.Windows.Forms.Design.StringArrayEditor).
     [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [MergableProperty(false)]
@@ -1041,7 +1104,7 @@ public class KryptonTextBox : VisualControlBase,
     public char PasswordChar
     {
         get => _textBox.PasswordChar;
-        set => _textBox.PasswordChar = value;
+        set => _textBox.ApplyPasswordChar(value);
     }
 
     /// <summary>
@@ -1054,7 +1117,7 @@ public class KryptonTextBox : VisualControlBase,
     public bool UseSystemPasswordChar
     {
         get => _textBox.UseSystemPasswordChar;
-        set => _textBox.UseSystemPasswordChar = value;
+        set => _textBox.ApplyUseSystemPasswordChar(value);
     }
 
     /// <summary>
@@ -1085,7 +1148,7 @@ public class KryptonTextBox : VisualControlBase,
     /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
     /// </summary>
     [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Localizable(true)]
@@ -1143,8 +1206,32 @@ public class KryptonTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public TextBoxButtonSpecCollection ButtonSpecs { get; }
+
+    /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// Default is <see cref="ButtonSpecEdgeArrange.SideBySide"/>. Set
+    /// <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> on tall hosts to stack Far/Near
+    /// ButtonSpecs vertically. Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"How multiple ButtonSpecs on the same edge are arranged.")]
+    [DefaultValue(ButtonSpecEdgeArrange.SideBySide)]
+    public ButtonSpecEdgeArrange ButtonSpecEdgeArrange
+    {
+        get => _buttonManager?.EdgeArrange ?? ButtonSpecEdgeArrange.SideBySide;
+        set
+        {
+            if (_buttonManager != null)
+            {
+                _buttonManager.EdgeArrange = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets access to the common textbox appearance entries that other states can override.
@@ -1215,7 +1302,13 @@ public class KryptonTextBox : VisualControlBase,
     /// <summary>
     /// Replaces the current selection in the text box with the contents of the Clipboard.
     /// </summary>
-    public void Paste() => _textBox.Paste();
+    public void Paste()
+    {
+        if (!TryPasteFilteredClipboardText())
+        {
+            _textBox.Paste();
+        }
+    }
 
     /// <summary>
     /// Scrolls the contents of the control to the current caret position.
@@ -1445,11 +1538,12 @@ public class KryptonTextBox : VisualControlBase,
     private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
 
     /// <summary>
-    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
     /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
 
     #endregion
 
@@ -1476,21 +1570,25 @@ public class KryptonTextBox : VisualControlBase,
     protected void SetMultilineStringEditor(bool value)
     {
         _multilineStringEditor = value;
-        // FIXME: This should probably rather be drawn as a glyph or something and not be
-        // added to the ButtonSpecs that can be modified by the user, but I lack the
-        // familiarity with the Krypton Framework and the time to figure out how to implement
-        // this the proper way.
+
+        // The editor button is an internal, non-user button so it lives in the fixed spec
+        // collection rather than the public ButtonSpecs. This keeps it from being removed,
+        // reordered, or serialized by the designer while still rendering as a real button (issue #3851).
         if (value == false)
         {
-            ButtonSpecs.Remove(_editorButton);
+            _buttonSpecsFixed.Remove(_editorButton);
+        }
+        else if (!_buttonSpecsFixed.Contains(_editorButton))
+        {
+            _buttonSpecsFixed.Add(_editorButton);
         }
         else
         {
-            if (!ButtonSpecs.Contains(_editorButton))
-            {
-                ButtonSpecs.Add(_editorButton);
-            }
+            return;
         }
+
+        // Fixed spec changes are not auto-monitored by the button manager, so rebuild the button views.
+        _buttonManager?.RecreateButtons();
     }
     #endregion
 
@@ -1580,7 +1678,7 @@ public class KryptonTextBox : VisualControlBase,
         // We need to recalculate the correct height
         AdjustHeight(true);
 
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
             UpdateScrollbarManager();
         }
@@ -1594,6 +1692,8 @@ public class KryptonTextBox : VisualControlBase,
     {
         // Change in enabled state requires a layout and repaint
         UpdateStateAndPalettes();
+        _pulsingBorder.UpdateAnimationState();
+        CueHint.SyncAnimation();
 
         // Update view elements
         _drawDockerInner.Enabled = Enabled;
@@ -1701,12 +1801,14 @@ public class KryptonTextBox : VisualControlBase,
         // to allow a relayout or if in design mode.
         if (IsHandleCreated || _forcedLayout || (DesignMode && (_textBox != null)))
         {
-            Rectangle fillRect = _layoutFill.FillRect;
+            Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                _layoutFill, _scrollbarManager, UseKryptonScrollbars);
             //  for centering the inner text field vertically
             var y = Height / 2 - _textBox.Height / 2;
 
             _textBox.SetBounds(fillRect.X, y, fillRect.Width, fillRect.Height);
             _buttonSpecAccessibilityProxyManager?.Sync();
+            _buttonSpecAccessibilityProxyManagerFixed?.Sync();
         }
     }
 
@@ -1717,6 +1819,7 @@ public class KryptonTextBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _textBox.Invalidate();
         base.OnMouseEnter(e);
@@ -1736,6 +1839,7 @@ public class KryptonTextBox : VisualControlBase,
         }
 
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _textBox.Invalidate();
         base.OnMouseLeave(e);
@@ -1785,6 +1889,7 @@ public class KryptonTextBox : VisualControlBase,
         {
             _textBox.Invalidate();
             _buttonSpecAccessibilityProxyManager?.Sync();
+            _buttonSpecAccessibilityProxyManagerFixed?.Sync();
         }
         else
         {
@@ -1886,6 +1991,11 @@ public class KryptonTextBox : VisualControlBase,
 
     #region Implementation
 
+    private bool ShouldAnimateCueHint() =>
+        Enabled
+        && !string.IsNullOrWhiteSpace(CueHint.CueHintText)
+        && string.IsNullOrEmpty(Text);
+
     private void UpdateStateAndPalettes()
     {
         // Get the correct palette settings to use
@@ -1899,6 +2009,7 @@ public class KryptonTextBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+        _pulsingBorder.UpdateAnimationState();
     }
 
     internal IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
@@ -1936,7 +2047,11 @@ public class KryptonTextBox : VisualControlBase,
 
     private void OnTextBoxAcceptsTabChanged(object? sender, EventArgs e) => OnAcceptsTabChanged(e);
 
-    private void OnTextBoxTextChanged(object? sender, EventArgs e) => OnTextChanged(e);
+    private void OnTextBoxTextChanged(object? sender, EventArgs e)
+    {
+        CueHint.SyncAnimation();
+        OnTextChanged(e);
+    }
 
     private void OnTextBoxTextAlignChanged(object? sender, EventArgs e) => OnTextAlignChanged(e);
 
@@ -1962,7 +2077,17 @@ public class KryptonTextBox : VisualControlBase,
         OnLostFocus(e);
     }
 
-    private void OnTextBoxKeyPress(object? sender, KeyPressEventArgs e) => OnKeyPress(e);
+    private void OnTextBoxKeyPress(object? sender, KeyPressEventArgs e)
+    {
+        if (_inputMode != KryptonTextBoxInputMode.Any
+            && !char.IsControl(e.KeyChar)
+            && !IsModeCharAllowed(e.KeyChar, _inputMode))
+        {
+            e.Handled = true;
+        }
+
+        OnKeyPress(e);
+    }
 
     private void OnTextBoxKeyUp(object? sender, KeyEventArgs e) => OnKeyUp(e);
 
@@ -2053,7 +2178,7 @@ public class KryptonTextBox : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more
@@ -2088,7 +2213,8 @@ public class KryptonTextBox : VisualControlBase,
     private bool IsMouseReallyOverControl() =>
         IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
 
-    private void OnEditorButtonClicked(object? sender, EventArgs e) => new MultilineStringEditor1(this).ShowEditor();
+    // ToDo V120 LTS: Replace MultilineStringEditor1 inline popup with KryptonDesignerMultilineStringEditor.
+    private void OnEditorButtonClicked(object? sender, EventArgs e) => new VisualMultilineStringEditorAlternateForm(this).ShowEditor();
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 
@@ -2099,10 +2225,62 @@ public class KryptonTextBox : VisualControlBase,
         base.OnClick(e);
     // ReSharper restore RedundantBaseQualifier
 
-    //private void SetIsInAlphaNumericMode(KryptonTextBox owner)
-    //{
-    //    // TODO: Return to this...
-    //}
+    /// <summary>
+    /// When <see cref="InputMode"/> restricts characters, inserts a filtered clipboard paste and returns <c>true</c>.
+    /// Returns <c>false</c> when the default paste path should run (mode is <see cref="KryptonTextBoxInputMode.Any"/>).
+    /// </summary>
+    /// <returns><c>true</c> if paste was handled; otherwise <c>false</c>.</returns>
+    private bool TryPasteFilteredClipboardText()
+    {
+        if (_inputMode == KryptonTextBoxInputMode.Any)
+        {
+            return false;
+        }
+
+        if (!Clipboard.ContainsText())
+        {
+            return true;
+        }
+
+        string filtered = FilterInputText(Clipboard.GetText());
+        if (filtered.Length > 0)
+        {
+            _textBox.SelectedText = filtered;
+        }
+
+        return true;
+    }
+
+    private string FilterInputText(string text)
+    {
+        if (string.IsNullOrEmpty(text) || _inputMode == KryptonTextBoxInputMode.Any)
+        {
+            return text;
+        }
+
+        var builder = new StringBuilder(text.Length);
+        foreach (char c in text)
+        {
+            if (IsPasteCharAllowed(c))
+            {
+                builder.Append(c);
+            }
+        }
+
+        return builder.ToString();
+    }
+
+    private bool IsPasteCharAllowed(char c) =>
+        ((c == '\r' || c == '\n') && Multiline) || IsModeCharAllowed(c, _inputMode);
+
+    private static bool IsModeCharAllowed(char c, KryptonTextBoxInputMode mode) =>
+        mode switch
+        {
+            KryptonTextBoxInputMode.Digits => char.IsDigit(c),
+            KryptonTextBoxInputMode.Letters => char.IsLetter(c),
+            KryptonTextBoxInputMode.Alphanumeric => char.IsLetterOrDigit(c),
+            _ => true
+        };
 
     private void ToggleEllipsisButtonVisibility(bool visible)
     {
@@ -2127,25 +2305,27 @@ public class KryptonTextBox : VisualControlBase,
 
     private void UpdateScrollbarManager()
     {
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
-            if (_scrollbarManager == null)
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the inner control follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
             {
-                _scrollbarManager = new KryptonScrollbarManager(_textBox, ScrollbarManagerMode.NativeWrapper)
-                {
-                    Enabled = true
-                };
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
+                ScrollbarManager.Attach(_textBox, ScrollbarManagerMode.NativeWrapper);
             }
         }
-        else
+        else if (_scrollbarManager != null)
         {
-            if (_scrollbarManager != null)
-            {
-                _scrollbarManager.Dispose();
-                _scrollbarManager = null;
-            }
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
         }
     }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 }

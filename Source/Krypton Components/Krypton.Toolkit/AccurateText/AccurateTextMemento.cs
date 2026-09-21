@@ -40,13 +40,14 @@ public class AccurateTextMemento : GlobalId,
         [DisallowNull] Font? font,
         SizeF sizeF,
         StringFormat format,
-        TextRenderingHint hint, // TODO: What was this supposed to be used for ?
+        TextRenderingHint hint,
         bool disposeFont)
     {
         Text = text;
         Size = new Size((int)sizeF.Width + 1, (int)sizeF.Height + 1);
         Font = font;
         Format = format;
+        TextRenderingHint = hint;
         _disposeFont = disposeFont;
     }
 
@@ -84,6 +85,11 @@ public class AccurateTextMemento : GlobalId,
     /// Gets the StringFormat of the text area.
     /// </summary>
     public StringFormat Format { get; }
+
+    /// <summary>
+    /// Gets the text rendering hint used when measuring and drawing the text.
+    /// </summary>
+    public TextRenderingHint TextRenderingHint { get; }
 
     /// <summary>
     /// Gets a value indicating if the memento represents nothing that can be drawn.

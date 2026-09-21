@@ -169,12 +169,12 @@ internal class ViewBuilderHeaderGroup : ViewBuilderBase
 
         if (page is null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         if (property is null)
         {
-            throw new ArgumentNullException(nameof(property));
+            ThrowHelper.ThrowArgumentNullException(nameof(property));
         }
 
         // We are only interested if the selected page has changed

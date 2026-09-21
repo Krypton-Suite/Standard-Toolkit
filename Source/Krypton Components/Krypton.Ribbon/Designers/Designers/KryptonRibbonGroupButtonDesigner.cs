@@ -141,7 +141,7 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
 
         if (_ribbonButton?.Ribbon != null)
         {
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
             moveFirst = items.IndexOf(_ribbonButton) > 0;
             movePrev = items.IndexOf(_ribbonButton) > 0;
             moveNext = items.IndexOf(_ribbonButton) < (items.Count - 1);
@@ -168,7 +168,7 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
         if (_ribbonButton is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MoveFirst");
@@ -200,7 +200,7 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
         if (_ribbonButton is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MovePrevious");
@@ -234,7 +234,7 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
         if (_ribbonButton is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MoveNext");
@@ -268,7 +268,7 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
         if (_ribbonButton is { RibbonContainer: not null, Ribbon: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton MoveLast");
@@ -300,7 +300,7 @@ internal class KryptonRibbonGroupButtonDesigner : ComponentDesigner
         if (_ribbonButton is { Ribbon: not null, RibbonContainer: not null })
         {
             // Get access to the parent collection of items
-            var items = ParentItems ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("items"));
+            var items = ParentItems ?? ThrowHelper.ThrowNullReferenceException<TypedRestrictCollection<KryptonRibbonGroupItem>>(SharedStaticFunctions.VariableCannotBeNull("items"));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupButton DeleteButton");

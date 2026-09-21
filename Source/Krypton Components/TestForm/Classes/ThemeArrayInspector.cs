@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -40,7 +40,8 @@ internal static class ThemeArrayInspector
         "MenuMarginGradientMiddle",
         "MenuMarginGradientEnd",
         "DisabledMenuItemText",
-        "MenuStripText"
+        "MenuStripText",
+        "ToolStripText"
     }, StringComparer.Ordinal);
 
     /// <summary>

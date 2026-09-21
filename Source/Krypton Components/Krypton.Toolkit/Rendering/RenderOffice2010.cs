@@ -69,7 +69,7 @@ public class RenderOffice2010 : RenderProfessional
 
         if (paletteBack is null)
         {
-            throw new ArgumentNullException(nameof(paletteBack));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteBack));
         }
 
         // Get the first border color
@@ -100,7 +100,7 @@ public class RenderOffice2010 : RenderProfessional
         // Validate incoming parameter
         if (colorPalette == null)
         {
-            throw new ArgumentNullException(nameof(colorPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
         }
 
         // Use the professional renderer but pull colors from the palette

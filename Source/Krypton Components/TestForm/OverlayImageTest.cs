@@ -10,7 +10,8 @@
 namespace TestForm;
 
 /// <summary>
-/// Comprehensive test form demonstrating overlay image functionality on KryptonButton and KryptonLabel.
+/// Comprehensive test form demonstrating overlay image functionality on KryptonButton, KryptonLabel,
+/// KryptonColorButton, and ButtonSpec (including per-state overlays and RTL mirroring).
 /// </summary>
 public partial class OverlayImageTest : KryptonForm
 {
@@ -37,6 +38,9 @@ public partial class OverlayImageTest : KryptonForm
 
         // Setup label examples
         SetupLabelExamples(mainImage, overlayImage);
+
+        // Setup #4157 extras: per-state, ColorButton, ButtonSpec, RTL
+        SetupExtrasExamples(mainImage, overlayImage);
 
         // Setup property grid
         propertyGrid.SelectedObject = btnInteractive;
@@ -272,6 +276,129 @@ public partial class OverlayImageTest : KryptonForm
         lblBottomRight.Values.OverlayImage.Image = CreateCustomOverlayImage(Color.Teal);
         lblBottomRight.Values.OverlayImage.Position = OverlayImagePosition.BottomRight;
         lblBottomRight.Text = "Bottom Right";
+    }
+
+    private void SetupExtrasExamples(Image mainImage, Image overlayImage)
+    {
+        Image overlayNormal = CreateCustomOverlayImage(Color.ForestGreen, "N");
+        Image overlayTracking = CreateCustomOverlayImage(Color.Goldenrod, "H");
+        Image overlayPressed = CreateCustomOverlayImage(Color.Crimson, "P");
+        Image overlayDisabled = CreateCustomOverlayImage(Color.Gray, "D");
+
+        var grpExtras = new KryptonGroupBox
+        {
+            Location = new Point(342, 321),
+            Size = new Size(326, 267),
+            TabIndex = 7
+        };
+        grpExtras.Values.Heading = "#4157 Extras (States / ColorButton / Spec / RTL)";
+
+        var btnPerState = new KryptonButton
+        {
+            Location = new Point(13, 17),
+            Size = new Size(137, 43),
+            TabIndex = 0
+        };
+        btnPerState.Values.Image = mainImage;
+        btnPerState.Values.Text = "Hover / Press";
+        btnPerState.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
+        btnPerState.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.FixedSize;
+        btnPerState.Values.OverlayImage.FixedSize = new Size(16, 16);
+        btnPerState.Values.OverlayImage.Image = overlayNormal;
+        btnPerState.Values.OverlayImage.ImageStates.ImageNormal = overlayNormal;
+        btnPerState.Values.OverlayImage.ImageStates.ImageTracking = overlayTracking;
+        btnPerState.Values.OverlayImage.ImageStates.ImagePressed = overlayPressed;
+        btnPerState.Values.OverlayImage.ImageStates.ImageDisabled = overlayDisabled;
+
+        var btnPerStateDisabled = new KryptonButton
+        {
+            Location = new Point(171, 17),
+            Size = new Size(137, 43),
+            Enabled = false,
+            TabIndex = 1
+        };
+        btnPerStateDisabled.Values.Image = mainImage;
+        btnPerStateDisabled.Values.Text = "Disabled";
+        btnPerStateDisabled.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
+        btnPerStateDisabled.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.FixedSize;
+        btnPerStateDisabled.Values.OverlayImage.FixedSize = new Size(16, 16);
+        btnPerStateDisabled.Values.OverlayImage.ImageStates.ImageDisabled = overlayDisabled;
+
+        var colorButton = new KryptonColorButton
+        {
+            Location = new Point(13, 66),
+            Size = new Size(137, 43),
+            TabIndex = 2
+        };
+        colorButton.Values.Text = "ColorButton";
+        colorButton.Values.OverlayImage.Image = overlayImage;
+        colorButton.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
+        colorButton.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.FixedSize;
+        colorButton.Values.OverlayImage.FixedSize = new Size(14, 14);
+
+        var txtButtonSpecHost = new KryptonTextBox
+        {
+            Location = new Point(171, 66),
+            Size = new Size(137, 43),
+            TabIndex = 3
+        };
+        txtButtonSpecHost.Text = "ButtonSpec";
+        Image specMain = CreateCustomOverlayImage(Color.SteelBlue, "+");
+        var buttonSpec = new ButtonSpecAny
+        {
+            Type = PaletteButtonSpecStyle.Generic
+        };
+        buttonSpec.Image = specMain;
+        buttonSpec.OverlayImage.Image = CreateCustomOverlayImage(Color.OrangeRed, "!");
+        buttonSpec.OverlayImage.Position = OverlayImagePosition.TopRight;
+        buttonSpec.OverlayImage.ScaleMode = OverlayImageScaleMode.FixedSize;
+        buttonSpec.OverlayImage.FixedSize = new Size(10, 10);
+        txtButtonSpecHost.ButtonSpecs.Add(buttonSpec);
+
+        var btnRtlLtr = new KryptonButton
+        {
+            Location = new Point(13, 115),
+            Size = new Size(137, 43),
+            TabIndex = 4
+        };
+        btnRtlLtr.Values.Image = mainImage;
+        btnRtlLtr.Values.Text = "LTR TopRight";
+        btnRtlLtr.Values.OverlayImage.Image = overlayImage;
+        btnRtlLtr.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
+        btnRtlLtr.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.FixedSize;
+        btnRtlLtr.Values.OverlayImage.FixedSize = new Size(16, 16);
+
+        var btnRtlRtl = new KryptonButton
+        {
+            Location = new Point(171, 115),
+            Size = new Size(137, 43),
+            RightToLeft = RightToLeft.Yes,
+            TabIndex = 5
+        };
+        btnRtlRtl.Values.Image = mainImage;
+        btnRtlRtl.Values.Text = "RTL TopRight";
+        btnRtlRtl.Values.OverlayImage.Image = overlayImage;
+        btnRtlRtl.Values.OverlayImage.Position = OverlayImagePosition.TopRight;
+        btnRtlRtl.Values.OverlayImage.ScaleMode = OverlayImageScaleMode.FixedSize;
+        btnRtlRtl.Values.OverlayImage.FixedSize = new Size(16, 16);
+
+        var lblRtlHint = new KryptonLabel
+        {
+            Location = new Point(13, 164),
+            Size = new Size(290, 40),
+            TabIndex = 6
+        };
+        lblRtlHint.Values.Text = "RTL TopRight should mirror to the left of the main image. Hover/press the first button to change overlay state.";
+
+        grpExtras.Panel.Controls.Add(btnPerState);
+        grpExtras.Panel.Controls.Add(btnPerStateDisabled);
+        grpExtras.Panel.Controls.Add(colorButton);
+        grpExtras.Panel.Controls.Add(txtButtonSpecHost);
+        grpExtras.Panel.Controls.Add(btnRtlLtr);
+        grpExtras.Panel.Controls.Add(btnRtlRtl);
+        grpExtras.Panel.Controls.Add(lblRtlHint);
+        Controls.Add(grpExtras);
+        grpExtras.BringToFront();
     }
 
     private void BtnCyclePosition_Click(object? sender, EventArgs e)

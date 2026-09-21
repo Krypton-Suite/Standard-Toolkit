@@ -209,7 +209,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -243,7 +243,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.Width <= 0 || rect.Height <= 0
@@ -278,7 +278,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -311,7 +311,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -400,7 +400,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.IsEmpty || g.IsVisibleClipEmpty

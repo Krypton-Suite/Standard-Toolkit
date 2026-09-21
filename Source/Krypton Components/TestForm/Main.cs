@@ -112,7 +112,7 @@ public partial class Main : KryptonForm
         {
             ShowImportButton = true,
             ShowSilentOption = true,
-            StartIndex = GlobalStaticConstants.GLOBAL_DEFAULT_THEME_INDEX,
+            DefaultPalette = ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE,
             StartPosition = FormStartPosition.CenterScreen,
             WindowTitle = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserWindowTitle
         };
@@ -309,7 +309,8 @@ public partial class Main : KryptonForm
                 kcbtnSizableToolWindow.Checked = true;
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(borderStyle), borderStyle, null);
+                return;
         }
     }
 
@@ -365,6 +366,11 @@ public partial class Main : KryptonForm
         new CheckBoxStyleExamples().Show();
     }
 
+    private void kbtnCheckBoxExtendedDemo_Click(object sender, EventArgs e)
+    {
+        new CheckBoxExtendedDemo().ShowDialog(this);
+    }
+
     private void kryptonButton14_Click(object sender, EventArgs e)
     {
         KryptonMessageBox.Show("question?", "title", KryptonMessageBoxButtons.YesNo,
@@ -385,7 +391,7 @@ public partial class Main : KryptonForm
     {
         try
         {
-            throw new ArgumentOutOfRangeException();
+            ThrowHelper.ThrowArgumentOutOfRangeException();
         }
         catch (Exception ex)
         {

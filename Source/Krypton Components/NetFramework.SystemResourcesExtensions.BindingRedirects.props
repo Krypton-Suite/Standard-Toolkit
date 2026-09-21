@@ -23,15 +23,16 @@
 	        BeforeTargets="_GenerateSuggestedBindingRedirectsCache"
 	        Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' And '$(GenerateBindingRedirectsOutputType)' == 'true' And '$(DesignTimeBuild)' != 'true' And '$(BuildingProject)' == 'true'">
 		<ItemGroup>
-			<_KryptonSreCopyLocalDll Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Resources.Extensions'" />
+			<_KryptonSreCopyLocalDll Include="@(ReferenceCopyLocalPaths)"
+			                            Condition="'%(ReferenceCopyLocalPaths.Filename)' == 'System.Resources.Extensions' And '%(ReferenceCopyLocalPaths.Extension)' == '.dll'" />
 		</ItemGroup>
 		<PropertyGroup>
-			<_KryptonSreDllPath Condition="'@(_KryptonSreCopyLocalDll)' != ''">@(_KryptonSreCopyLocalDll->'%(FullPath)')</_KryptonSreDllPath>
+			<_KryptonSreDllPath Condition="'@(_KryptonSreCopyLocalDll)' != ''">%(_KryptonSreCopyLocalDll.Identity)</_KryptonSreDllPath>
 			<_KryptonSreDllPath Condition="'$(_KryptonSreDllPath)' == '' And '$(PkgSystem_Resources_Extensions)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\net462\System.Resources.Extensions.dll</_KryptonSreDllPath>
 			<_KryptonSreDllPath Condition="'$(_KryptonSreDllPath)' == '' And '$(PkgSystem_Resources_Extensions)' != '' And Exists('$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll')">$(PkgSystem_Resources_Extensions)\lib\net461\System.Resources.Extensions.dll</_KryptonSreDllPath>
 		</PropertyGroup>
 		<GetAssemblyIdentity AssemblyFiles="$(_KryptonSreDllPath)"
-		                     Condition="'$(_KryptonSreDllPath)' != ''">
+		                     Condition="'$(_KryptonSreDllPath)' != '' And $([System.String]::Copy('$(_KryptonSreDllPath)').EndsWith('.dll'))">
 			<Output TaskParameter="Assemblies" ItemName="_KryptonSreAssemblyIdentity" />
 		</GetAssemblyIdentity>
 		<PropertyGroup Condition="'@(_KryptonSreAssemblyIdentity)' != ''">

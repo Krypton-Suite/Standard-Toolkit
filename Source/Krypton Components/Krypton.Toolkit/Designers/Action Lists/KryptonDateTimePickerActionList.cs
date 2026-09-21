@@ -71,6 +71,23 @@ internal class KryptonDateTimePickerActionList : DesignerActionList
     }
 
     /// <summary>
+    /// Gets and sets the calendar view used to choose a date.
+    /// </summary>
+    public MonthCalendarView CalendarView
+    {
+        get => _dateTimePicker.CalendarView;
+
+        set
+        {
+            if (_dateTimePicker.CalendarView != value)
+            {
+                _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.CalendarView, value);
+                _dateTimePicker.CalendarView = value;
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets and sets the display of up/down buttons.
     /// </summary>
     public bool ShowUpDown
@@ -172,6 +189,7 @@ internal class KryptonDateTimePickerActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
             actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
             actions.Add(new DesignerActionPropertyItem(nameof(Format), nameof(Format), nameof(Appearance), @"Decide what to display in the edit portion of the control"));
+            actions.Add(new DesignerActionPropertyItem(nameof(CalendarView), nameof(CalendarView), nameof(Appearance), @"Show days, months, or years in the drop-down calendar"));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowUpDown), nameof(ShowUpDown), nameof(Appearance), @"Display up and down buttons for modifying dates and times"));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowCheckBox), nameof(ShowCheckBox), nameof(Appearance), @"Display a check box allowing the user to set the value is null"));
             actions.Add(new DesignerActionPropertyItem(nameof(Checked), nameof(Checked), nameof(Appearance), @"Is the current value null"));

@@ -142,6 +142,10 @@ public class PaletteBorderToPalette : IPaletteBorder
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Border rounding.</returns>
     public float GetBorderRounding(PaletteState state) => _palette.GetBorderRounding(BorderStyle, state);
+
+    /// <inheritdoc />
+    public PaletteCornerRounding GetBorderCornerRounding(PaletteState state) =>
+        _palette.GetBorderCornerRounding(BorderStyle, state);
     #endregion
 
     #region Image

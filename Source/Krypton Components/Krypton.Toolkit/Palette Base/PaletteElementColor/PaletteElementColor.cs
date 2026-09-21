@@ -25,6 +25,11 @@ public class PaletteElementColor : Storage,
     private Color _color3;
     private Color _color4;
     private Color _color5;
+    private Color _factoryColor1;
+    private Color _factoryColor2;
+    private Color _factoryColor3;
+    private Color _factoryColor4;
+    private Color _factoryColor5;
     #endregion
 
     #region Identity
@@ -43,11 +48,16 @@ public class PaletteElementColor : Storage,
         NeedPaint = needPaint;
 
         // Define default values
-        _color1 = GlobalStaticVariables.EMPTY_COLOR;
-        _color2 = GlobalStaticVariables.EMPTY_COLOR;
-        _color3 = GlobalStaticVariables.EMPTY_COLOR;
-        _color4 = GlobalStaticVariables.EMPTY_COLOR;
-        _color5 = GlobalStaticVariables.EMPTY_COLOR;
+        _color1 = SharedStaticVariables.EMPTY_COLOR;
+        _color2 = SharedStaticVariables.EMPTY_COLOR;
+        _color3 = SharedStaticVariables.EMPTY_COLOR;
+        _color4 = SharedStaticVariables.EMPTY_COLOR;
+        _color5 = SharedStaticVariables.EMPTY_COLOR;
+        _factoryColor1 = _color1;
+        _factoryColor2 = _color2;
+        _factoryColor3 = _color3;
+        _factoryColor4 = _color4;
+        _factoryColor5 = _color5;
     }
     #endregion
 
@@ -57,11 +67,23 @@ public class PaletteElementColor : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (Color1 == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (Color2 == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (Color3 == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (Color4 == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (Color5 == GlobalStaticVariables.EMPTY_COLOR);
+    public override bool IsDefault => (Color1 == _factoryColor1) &&
+                                      (Color2 == _factoryColor2) &&
+                                      (Color3 == _factoryColor3) &&
+                                      (Color4 == _factoryColor4) &&
+                                      (Color5 == _factoryColor5);
+
+    /// <summary>
+    /// Treats the current color values as the unset designer defaults.
+    /// </summary>
+    internal void CaptureFactoryDefaults()
+    {
+        _factoryColor1 = _color1;
+        _factoryColor2 = _color2;
+        _factoryColor3 = _color3;
+        _factoryColor4 = _color4;
+        _factoryColor5 = _color5;
+    }
 
     #endregion
 
@@ -110,10 +132,12 @@ public class PaletteElementColor : Storage,
         }
     }
 
+    private bool ShouldSerializeColor1() => Color1 != _factoryColor1;
+
     /// <summary>
     /// Reset the Color1 to the default value.
     /// </summary>
-    public void ResetColor1() => Color1 = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetColor1() => Color1 = _factoryColor1;
 
     /// <summary>
     /// Gets the first element color.
@@ -121,7 +145,7 @@ public class PaletteElementColor : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetElementColor1(PaletteState state) =>
-        Color1 != GlobalStaticVariables.EMPTY_COLOR ? Color1 : _inheritElementColor!.GetElementColor1(state);
+        Color1 != SharedStaticVariables.EMPTY_COLOR ? Color1 : _inheritElementColor!.GetElementColor1(state);
 
     #endregion
 
@@ -148,10 +172,12 @@ public class PaletteElementColor : Storage,
         }
     }
 
+    private bool ShouldSerializeColor2() => Color2 != _factoryColor2;
+
     /// <summary>
     /// Reset the Color2 to the default value.
     /// </summary>
-    public void ResetColor2() => Color2 = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetColor2() => Color2 = _factoryColor2;
 
     /// <summary>
     /// Gets the second element color.
@@ -159,7 +185,7 @@ public class PaletteElementColor : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetElementColor2(PaletteState state) =>
-        Color2 != GlobalStaticVariables.EMPTY_COLOR ? Color2 : _inheritElementColor!.GetElementColor2(state);
+        Color2 != SharedStaticVariables.EMPTY_COLOR ? Color2 : _inheritElementColor!.GetElementColor2(state);
 
     #endregion
 
@@ -186,10 +212,12 @@ public class PaletteElementColor : Storage,
         }
     }
 
+    private bool ShouldSerializeColor3() => Color3 != _factoryColor3;
+
     /// <summary>
     /// Reset the Color3 to the default value.
     /// </summary>
-    public void ResetColor3() => Color3 = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetColor3() => Color3 = _factoryColor3;
 
     /// <summary>
     /// Gets the third element color.
@@ -197,7 +225,7 @@ public class PaletteElementColor : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetElementColor3(PaletteState state) =>
-        Color3 != GlobalStaticVariables.EMPTY_COLOR ? Color3 : _inheritElementColor!.GetElementColor3(state);
+        Color3 != SharedStaticVariables.EMPTY_COLOR ? Color3 : _inheritElementColor!.GetElementColor3(state);
 
     #endregion
 
@@ -224,10 +252,12 @@ public class PaletteElementColor : Storage,
         }
     }
 
+    private bool ShouldSerializeColor4() => Color4 != _factoryColor4;
+
     /// <summary>
     /// Reset the Color4 to the default value.
     /// </summary>
-    public void ResetColor4() => Color4 = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetColor4() => Color4 = _factoryColor4;
 
     /// <summary>
     /// Gets the fourth element color.
@@ -235,7 +265,7 @@ public class PaletteElementColor : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetElementColor4(PaletteState state) =>
-        Color4 != GlobalStaticVariables.EMPTY_COLOR ? Color4 : _inheritElementColor!.GetElementColor4(state);
+        Color4 != SharedStaticVariables.EMPTY_COLOR ? Color4 : _inheritElementColor!.GetElementColor4(state);
 
     #endregion
 
@@ -262,10 +292,12 @@ public class PaletteElementColor : Storage,
         }
     }
 
+    private bool ShouldSerializeColor5() => Color5 != _factoryColor5;
+
     /// <summary>
     /// Reset the Color5 to the default value.
     /// </summary>
-    public void ResetColor5() => Color5 = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetColor5() => Color5 = _factoryColor5;
 
     /// <summary>
     /// Gets the fifth element color.
@@ -273,7 +305,7 @@ public class PaletteElementColor : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetElementColor5(PaletteState state) =>
-        Color5 != GlobalStaticVariables.EMPTY_COLOR ? Color5 : _inheritElementColor!.GetElementColor5(state);
+        Color5 != SharedStaticVariables.EMPTY_COLOR ? Color5 : _inheritElementColor!.GetElementColor5(state);
 
     #endregion
 }

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -24,15 +24,22 @@ namespace TestForm;
 /// HOW TO USE:
 /// -----------
 /// 1. The ribbon is initially attached to the top of the form
-/// 2. Click the "Detach Ribbon" button to move the ribbon into a floating window
-/// 3. The floating window can be moved, resized, and positioned anywhere on screen
-/// 4. Click the "Reattach Ribbon" button to move the ribbon back to the form
-/// 5. Closing the floating window will automatically reattach the ribbon
+/// 2. To detach the ribbon:
+///    - Click and drag any tab or empty area on the ribbon tab strip / header outward to tear/drag it out into a floating window
+///    - Double-click the empty area on the ribbon tab strip
+///    - Click the "Detach Ribbon" button (or the Detach button in the ribbon header)
+/// 3. The floating window can be moved and positioned anywhere on screen
+/// 4. To reattach:
+///    - Drag the floating window near the top of the parent window: a semi-transparent dock preview indicator appears, and releasing snaps/reattaches the ribbon!
+///    - Double-click the floating window's title bar
+///    - Close the floating window
+///    - Click the "Reattach Ribbon" button (or the Reattach button in the ribbon header)
 /// 
 /// FEATURES DEMONSTRATED:
 /// ----------------------
 /// - AllowDetach property: Enables/disables the detach functionality
-/// - Detach() method: Moves ribbon to floating window
+/// - AllowDragReattach property: Enables/disables drag-and-drop reattachment with dock preview indicator
+/// - Detach() / DetachAndDrag() methods: Moves ribbon to floating window with interactive drag
 /// - Reattach() method: Moves ribbon back to original parent
 /// - IsDetached property: Indicates current state
 /// - RibbonDetached event: Fired when ribbon is detached
@@ -41,10 +48,13 @@ namespace TestForm;
 /// TESTING SCENARIOS:
 /// ------------------
 /// 1. Basic detach/reattach: Use the buttons to detach and reattach
-/// 2. Window closing: Close the floating window - ribbon should auto-reattach
-/// 3. State persistence: Check that UI updates correctly when state changes
-/// 4. Multiple operations: Detach and reattach multiple times
-/// 5. Form integration: Verify ribbon displays correctly in both states
+/// 2. Drag-out to detach: Click and drag a ribbon tab or empty tab strip area down/out to detach and float the ribbon
+/// 3. Drag-to-reattach: Drag the floating window over the top of the parent form to see the dock preview and drop to reattach
+/// 4. Title bar double-click: Double-click the floating window title bar to reattach
+/// 5. Window closing: Close the floating window - ribbon should auto-reattach
+/// 6. State persistence: Check that UI updates correctly when state changes
+/// 7. Multiple operations: Detach and reattach multiple times
+/// 8. Form integration: Verify ribbon displays correctly in both states
 /// 
 /// NOTES:
 /// ------
@@ -158,6 +168,7 @@ public partial class RibbonDetachableTest : KryptonForm
         // Add ribbon to the form
         // The ribbon must be added to a parent control before it can be detached
         Controls.Add(_ribbon);
+        _ribbon.BringToFront();
     }
 
     /// <summary>
@@ -246,7 +257,7 @@ public partial class RibbonDetachableTest : KryptonForm
         var panel = new KryptonPanel
         {
             Dock = DockStyle.Bottom,
-            Size = new Size(50, 150),
+            Size = new Size(50, 240),
             Padding = new Padding(10)
         };
 
@@ -256,6 +267,44 @@ public partial class RibbonDetachableTest : KryptonForm
             Text = @"Ribbon is attached. Click 'Detach' to move it to a floating window.",
             Dock = DockStyle.Top,
             Height = 30
+        };
+
+        // Titlebar text customization controls
+        _lblFloatingTitle = new KryptonLabel
+        {
+            Text = @"Floating Window Title:",
+            Dock = DockStyle.Top,
+            Height = 20
+        };
+
+        _txtFloatingTitle = new KryptonTextBox
+        {
+            Text = _ribbon?.FloatingWindowText ?? @"Ribbon",
+            Dock = DockStyle.Top,
+            Height = 25
+        };
+        _txtFloatingTitle.TextChanged += (s, e) =>
+        {
+            if (_ribbon != null)
+            {
+                _ribbon.FloatingWindowText = _txtFloatingTitle.Text;
+            }
+        };
+
+        // CheckBox for toggling drag-to-reattach
+        _chkAllowDragReattach = new KryptonCheckBox
+        {
+            Text = @"Enable Drag-to-Reattach (with dock preview indicator)",
+            Checked = true,
+            Dock = DockStyle.Top,
+            Height = 25
+        };
+        _chkAllowDragReattach.CheckedChanged += (s, e) =>
+        {
+            if (_ribbon != null)
+            {
+                _ribbon.AllowDragReattach = _chkAllowDragReattach.Checked;
+            }
         };
 
         // Detach button - only enabled when ribbon is attached
@@ -283,6 +332,9 @@ public partial class RibbonDetachableTest : KryptonForm
 
         panel.Controls.Add(_btnReattach);
         panel.Controls.Add(_btnDetach);
+        panel.Controls.Add(_chkAllowDragReattach);
+        panel.Controls.Add(_txtFloatingTitle);
+        panel.Controls.Add(_lblFloatingTitle);
         panel.Controls.Add(_lblStatus);
 
         Controls.Add(panel);
@@ -406,8 +458,8 @@ public partial class RibbonDetachableTest : KryptonForm
         if (_lblStatus != null)
         {
             _lblStatus.Text = isDetached
-                ? @"Ribbon is detached in a floating window. Click 'Reattach' to move it back."
-                : @"Ribbon is attached. Click 'Detach' to move it to a floating window.";
+                ? @"Ribbon is detached in a floating window. Drag near parent top to snap/reattach, double-click title bar, or click 'Reattach'."
+                : @"Ribbon is attached. Drag tabs/header out, double-click header, or click 'Detach' to float the ribbon.";
         }
     }
 }

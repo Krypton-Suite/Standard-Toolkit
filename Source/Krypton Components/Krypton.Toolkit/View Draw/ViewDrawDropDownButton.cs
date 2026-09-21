@@ -59,6 +59,7 @@ public class ViewDrawDropDownButton : ViewLeaf
     /// Gets or sets a custom image to render instead of the default arrow glyph.
     /// When null, the renderer-drawn arrow is used.
     /// </summary>
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? CustomGlyph
     {
         get => _customGlyph;
@@ -78,12 +79,12 @@ public class ViewDrawDropDownButton : ViewLeaf
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // If a custom glyph is provided, prefer its size
@@ -108,7 +109,7 @@ public class ViewDrawDropDownButton : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
@@ -126,7 +127,7 @@ public class ViewDrawDropDownButton : ViewLeaf
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         if (_customGlyph != null)

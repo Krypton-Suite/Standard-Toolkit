@@ -15,7 +15,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <NeutralLanguage>en</NeutralLanguage>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-    <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+    <Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
     <Nullable>enable</Nullable>
     <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
     <WarningLevel>8</WarningLevel>
@@ -28,7 +28,12 @@
 
   <PropertyGroup>
     <PackageId>Krypton.Navigator</PackageId>
-    <Description>This is the navigator module.</Description>
+    <Description>Krypton Navigator for WinForms: multi-mode page host (tabs, bars, headers, stacks, and related modes) for organising content with the same palette-driven look and feel as the Toolkit.</Description>
+  </PropertyGroup>
+
+  <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
+  <PropertyGroup>
+    <IncludeKryptonGlobalSuppressionsLink>true</IncludeKryptonGlobalSuppressionsLink>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,11 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
-    <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
-      <Link>General\PlatformInvoke.cs</Link>
-    </Compile>
-    <Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
     <Compile Update="ButtonSpecs\ButtonSpecNavigator.cs" />
     <Compile Update="ButtonSpecs\ButtonSpecNavFixed.cs" />
     <Compile Update="ButtonSpecs\ButtonSpecNavClose.cs" />
@@ -73,8 +73,23 @@
     <Compile Remove="Palette\PaletteNavigatorOtherOverride.cs" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
+         PrivateAssets="all" keeps the unpublished package out of this package's nuspec dependencies (#3908). -->
+    		<!-- Krypton.Resources: direct reference required (typed ResourceFiles accessors via InternalsVisibleTo); PrivateAssets so it is not a NuGet dependency (bundled via Krypton.Resources.Package.targets). -->
+		<ProjectReference Include="..\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+    <Compile Remove="Navigator\KryptonNavigatorDesigner.cs" />
+    <Compile Remove="Navigator\KryptonPageDesigner.cs" />
+    <Compile Remove="Navigator\KryptonNavigatorActionList.cs" />
+    <Compile Remove="Navigator\KryptonPageActionList.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Navigator.Design</KryptonWinFormsDesignerSdkDesignAssembly>
+  </PropertyGroup>
+  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
   <ItemGroup>
     <EmbeddedResource Update="Resources\CursorResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

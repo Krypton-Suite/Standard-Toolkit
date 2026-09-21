@@ -48,7 +48,7 @@ public class KryptonRibbonMerger
 #else
         if (targetRibbon == null)
         {
-            throw new ArgumentNullException(nameof(targetRibbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(targetRibbon));
         }
 #endif
         TargetRibbon = targetRibbon;

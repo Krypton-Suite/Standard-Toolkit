@@ -37,7 +37,7 @@ internal class ViewDrawRibbonGroupGalleryImage : ViewDrawRibbonGroupImageBase
     {
         Debug.Assert(ribbonGallery is not null);
 
-        _ribbonGallery = ribbonGallery ?? throw new ArgumentNullException(nameof(ribbonGallery));
+        _ribbonGallery = ribbonGallery ?? ThrowHelper.ThrowArgumentNullException(ribbonGallery);
         _largeSize = new Size((int)(32 * FactorDpiX), (int)(32 * FactorDpiY));
     }        
 

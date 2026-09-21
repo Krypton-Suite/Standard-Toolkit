@@ -89,7 +89,7 @@ public class ViewDrawMenuColorColumn : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         using var brush = new SolidBrush(Color.FromArgb(197, 197, 197));

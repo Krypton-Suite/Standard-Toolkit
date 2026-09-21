@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
@@ -19,10 +19,10 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
 
     protected abstract bool IsDarkSurface();
 
-    private Color TokenSurface => BaseColors != null ? BaseColors.PanelClient : SystemColors.Control;
-    private Color TokenOnSurface => BaseColors != null ? BaseColors.TextLabelControl : SystemColors.ControlText;
-    private Color TokenOutline => BaseColors != null ? BaseColors.ControlBorder : SystemColors.ControlDark;
-    private Color TokenPrimary => BaseColors != null ? BaseColors.TextButtonNormal : SystemColors.HotTrack;
+    private Color TokenSurface => BaseColors?.PanelClient ?? SystemColors.Control;
+    private Color TokenOnSurface => BaseColors?.TextLabelControl ?? SystemColors.ControlText;
+    private Color TokenOutline => BaseColors?.ControlBorder ?? SystemColors.ControlDark;
+    private Color TokenPrimary => BaseColors?.TextButtonNormal ?? SystemColors.HotTrack;
 
     private Color GetMaterialButtonBackColor(PaletteState state)
     {
@@ -439,7 +439,7 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     {
         if (CommonHelper.IsOverrideState(state))
         {
-            return GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+            return SharedStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         if (style == PaletteBorderStyle.FormMain || style == PaletteBorderStyle.HeaderForm)
@@ -501,17 +501,21 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     {
         return style switch
         {
-            // Ensure KryptonDataGridView header text follows scheme header text
-            // ToolStrip/Context menu item text should follow header text (white in Material Dark)
-            PaletteContentStyle.ButtonListItem or PaletteContentStyle.HeaderForm
+            // Tree/list items use dedicated scheme text color; headers and menus follow header text.
+            PaletteContentStyle.ButtonListItem => BaseColors?.TextListItem
+                ?? BaseColors?.HeaderText
+                ?? base.GetContentShortTextColor1(style, state),
+            PaletteContentStyle.HeaderForm
                 or PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet
                 or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2
                 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList
                 or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1
-                or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3
-                or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate
-                or PaletteContentStyle.ContextMenuItemShortcutText => BaseColors?.HeaderText ??
-                                                                      base.GetContentShortTextColor1(style, state),
+                or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 =>
+                    BaseColors?.HeaderText ?? base.GetContentShortTextColor1(style, state),
+            PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate
+                or PaletteContentStyle.ContextMenuItemShortcutText =>
+                    SchemeBaseColorsExtensions.Coalesce(BaseColors?.MenuItemText ?? Color.Empty,
+                        BaseColors?.HeaderText ?? base.GetContentShortTextColor1(style, state)),
             // Data cells: always use on-surface text (white in Material Dark, dark in Light)
             PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet
                 or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2
@@ -526,14 +530,19 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
     {
         return style switch
         {
+            PaletteContentStyle.ButtonListItem => BaseColors?.TextListItem
+                ?? BaseColors?.HeaderText
+                ?? base.GetContentShortTextColor2(style, state),
             PaletteContentStyle.GridHeaderColumnList or PaletteContentStyle.GridHeaderColumnSheet
                 or PaletteContentStyle.GridHeaderColumnCustom1 or PaletteContentStyle.GridHeaderColumnCustom2
                 or PaletteContentStyle.GridHeaderColumnCustom3 or PaletteContentStyle.GridHeaderRowList
                 or PaletteContentStyle.GridHeaderRowSheet or PaletteContentStyle.GridHeaderRowCustom1
-                or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3
-                or PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate
-                or PaletteContentStyle.ContextMenuItemShortcutText => BaseColors?.HeaderText ??
-                                                                      base.GetContentShortTextColor2(style, state),
+                or PaletteContentStyle.GridHeaderRowCustom2 or PaletteContentStyle.GridHeaderRowCustom3 =>
+                    BaseColors?.HeaderText ?? base.GetContentShortTextColor2(style, state),
+            PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate
+                or PaletteContentStyle.ContextMenuItemShortcutText =>
+                    SchemeBaseColorsExtensions.Coalesce(BaseColors?.MenuItemText ?? Color.Empty,
+                        BaseColors?.HeaderText ?? base.GetContentShortTextColor2(style, state)),
             // Data cells: always use on-surface text secondary color (often same as Color1)
             PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet
                 or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2
@@ -560,10 +569,12 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom1:
             case PaletteContentStyle.GridHeaderRowCustom2:
             case PaletteContentStyle.GridHeaderRowCustom3:
+                return BaseColors?.HeaderText ?? base.GetContentLongTextColor1(style, state);
             case PaletteContentStyle.ContextMenuItemTextStandard:
             case PaletteContentStyle.ContextMenuItemTextAlternate:
             case PaletteContentStyle.ContextMenuItemShortcutText:
-                return BaseColors?.HeaderText ?? base.GetContentLongTextColor1(style, state);
+                return SchemeBaseColorsExtensions.Coalesce(BaseColors?.MenuItemText ?? Color.Empty,
+                    BaseColors?.HeaderText ?? base.GetContentLongTextColor1(style, state));
 
             // Selected cells with long text: keep contrast consistent
             case PaletteContentStyle.GridDataCellList:
@@ -596,10 +607,12 @@ public abstract class PaletteMaterialBase : PaletteMicrosoft365Base
             case PaletteContentStyle.GridHeaderRowCustom1:
             case PaletteContentStyle.GridHeaderRowCustom2:
             case PaletteContentStyle.GridHeaderRowCustom3:
+                return BaseColors?.HeaderText ?? base.GetContentLongTextColor2(style, state);
             case PaletteContentStyle.ContextMenuItemTextStandard:
             case PaletteContentStyle.ContextMenuItemTextAlternate:
             case PaletteContentStyle.ContextMenuItemShortcutText:
-                return BaseColors?.HeaderText ?? base.GetContentLongTextColor2(style, state);
+                return SchemeBaseColorsExtensions.Coalesce(BaseColors?.MenuItemText ?? Color.Empty,
+                    BaseColors?.HeaderText ?? base.GetContentLongTextColor2(style, state));
 
             case PaletteContentStyle.GridDataCellList:
             case PaletteContentStyle.GridDataCellSheet:

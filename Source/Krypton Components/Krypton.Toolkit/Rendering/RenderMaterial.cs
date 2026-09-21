@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
@@ -29,11 +29,11 @@ public class RenderMaterial : RenderOffice2010
     {
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
         if (paletteBack == null)
         {
-            throw new ArgumentNullException(nameof(paletteBack));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteBack));
         }
 
         using var drawBrush = new SolidBrush(paletteBack.GetBackColor1(state));
@@ -47,7 +47,7 @@ public class RenderMaterial : RenderOffice2010
     {
         if (colorPalette == null)
         {
-            throw new ArgumentNullException(nameof(colorPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
         }
 
         return new KryptonMaterialRenderer(colorPalette.ColorTable);
@@ -84,12 +84,12 @@ public class RenderMaterial : RenderOffice2010
         #if DEBUG
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette is null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect.Width < 0 || rect.Height < 0)
@@ -99,7 +99,7 @@ public class RenderMaterial : RenderOffice2010
 #endif
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         // Respect palette intent: if no edges requested or width is 0, skip drawing
@@ -170,12 +170,12 @@ public class RenderMaterial : RenderOffice2010
         #if DEBUG
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette is null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect.Width < 0 || rect.Height < 0)
@@ -216,12 +216,12 @@ public class RenderMaterial : RenderOffice2010
         #if DEBUG
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette is null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect.Width < 0 || rect.Height < 0)
@@ -264,17 +264,17 @@ public class RenderMaterial : RenderOffice2010
         #if DEBUG
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (palette is null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (path is null)
         {
-            throw new ArgumentNullException(nameof(path));
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
         }
 
         if (rect.Width < 0 || rect.Height < 0)
@@ -284,7 +284,7 @@ public class RenderMaterial : RenderOffice2010
 #endif
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         // Respect palette color styles to allow controls (e.g., ProgressBar) to differentiate track vs. value areas

@@ -61,7 +61,7 @@ public class StarNumber
             // Validate the incoming value
             if (value == null)
             {
-                throw new ArgumentNullException(nameof(value), @"Cannot be assigned a null value.");
+                ThrowHelper.ThrowArgumentNullException(nameof(value), @"Cannot be assigned a null value.");
             }
 
             // If it ends with an asterisk...

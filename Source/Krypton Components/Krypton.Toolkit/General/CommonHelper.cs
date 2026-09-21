@@ -427,16 +427,26 @@ public static class CommonHelper
     /// <returns>RightToLeftLayout setting.</returns>
     public static bool GetRightToLeftLayout(Control? control)
     {
-        // First check if the control itself has RightToLeftLayout (e.g., VisualSimpleBase controls)
-        if (control is VisualSimpleBase visualSimpleBase)
+        if (control == null)
         {
-            return visualSimpleBase.RightToLeftLayout;
+            return false;
         }
 
-        // For other controls that might have RightToLeftLayout (like Form, ListView, etc.)
-        // Use reflection to check if the property exists and get its value
-        var property = control?.GetType().GetProperty("RightToLeftLayout");
-        if (property != null && property.PropertyType == typeof(bool))
+        switch (control)
+        {
+            case VisualPanel visualPanel:
+                return visualPanel.RightToLeftLayout;
+            case VisualContainerControlBase visualContainer:
+                return visualContainer.RightToLeftLayout;
+            case VisualPopup visualPopup:
+                return visualPopup.RightToLeftLayout;
+            case VisualControlBase visualControl:
+                return visualControl.RightToLeftLayout;
+        }
+
+        // WinForms types that expose a bool layout flag (Form, native ListView, …).
+        var property = control.GetType().GetProperty(nameof(RightToLeftLayout));
+        if (property != null && property.PropertyType == typeof(bool) && property.GetIndexParameters().Length == 0)
         {
             if (property.GetValue(control) is bool value)
             {
@@ -444,7 +454,6 @@ public static class CommonHelper
             }
         }
 
-        // Default to left-to-right layout
         return false;
     }
 
@@ -560,7 +569,71 @@ public static class CommonHelper
     /// <param name="owningForm">Form providing non-client border metrics.</param>
     /// <returns>Pixel inset from the right chrome edge.</returns>
     public static int GetFormHeaderButtonEdgeInsetRight(KryptonForm? owningForm) =>
-        owningForm == null ? 0 : Math.Max(2, owningForm.RealWindowBorders.Right);
+        owningForm == null ? 0 : Math.Max(2, WindowBorderThickness(owningForm.RealWindowBorders.Right));
+
+    /// <summary>
+    /// HeaderForm content padding with the frame inset on the icon side, plus
+    /// <see cref="KryptonForm.CaptionIconPadding"/>.
+    /// </summary>
+    /// <param name="owningForm">Form whose RTL layout, border metrics, and icon padding are used.</param>
+    /// <param name="palettePadding">Padding from the palette (Left = LTR icon inset, Right = 0).</param>
+    /// <returns>
+    /// Palette padding in LTR, plus <see cref="KryptonForm.CaptionIconPadding"/>. Under RTL layout
+    /// the icon is Near on the physical right, so the frame inset moves to <see cref="Padding.Right"/>
+    /// before the extra padding is applied.
+    /// </returns>
+    public static Padding GetFormHeaderContentPadding(KryptonForm? owningForm, Padding palettePadding)
+    {
+        Padding padding = palettePadding;
+        if (owningForm != null && IsRightToLeftLayout(owningForm))
+        {
+            // Thickness only: AdjustWindowRectEx can return a signed side (RTL exstyle).
+            // Screen origin (primary monitor on the right) is not part of this metric.
+            int frameInset = Math.Max(
+                WindowBorderThickness(palettePadding.Left),
+                WindowBorderThickness(palettePadding.Right));
+            if (frameInset < 2)
+            {
+                Padding borders = owningForm.RealWindowBorders;
+                frameInset = Math.Max(
+                    WindowBorderThickness(borders.Left),
+                    WindowBorderThickness(borders.Right));
+                if (frameInset < 2)
+                {
+                    frameInset = 2;
+                }
+            }
+
+            padding = new Padding(
+                WindowBorderThickness(palettePadding.Right),
+                palettePadding.Top,
+                frameInset,
+                palettePadding.Bottom);
+        }
+
+        if (owningForm == null)
+        {
+            return padding;
+        }
+
+        Padding extra = owningForm.CaptionIconPadding;
+        return extra.Equals(Padding.Empty)
+            ? padding
+            : new Padding(padding.Left + extra.Left, padding.Top + extra.Top, padding.Right + extra.Right, padding.Bottom + extra.Bottom);
+    }
+
+    /// <summary>
+    /// Absolute pixel width of one window-frame side from <see cref="GetWindowBorders"/>.
+    /// </summary>
+    /// <param name="sideMetric">A <see cref="Padding"/> Left/Right/Top/Bottom from border metrics.</param>
+    /// <returns>Non-negative thickness in pixels.</returns>
+    /// <remarks>
+    /// <see cref="GetWindowBorders"/> uses a zero <c>RECT</c> with <c>AdjustWindowRectEx</c>, so the
+    /// result is chrome thickness, not screen position. A primary monitor placed on the right (negative
+    /// virtual-screen X) does not change it. <c>WS_EX_LAYOUTRTL</c> can still make a side negative;
+    /// callers must use the magnitude as a width.
+    /// </remarks>
+    private static int WindowBorderThickness(int sideMetric) => Math.Abs(sideMetric);
 
     /// <summary>
     /// Gets a value indicating if the provided value is an override state but excludes one value.
@@ -744,6 +817,32 @@ public static class CommonHelper
         }
 
         return ret;
+    }
+
+    /// <summary>
+    /// Adjust corner rounding values to match the required orientation.
+    /// </summary>
+    /// <param name="corners">Corner rounding to orientate.</param>
+    /// <param name="orientation">How to adjust the corner rounding.</param>
+    /// <returns>Corner rounding adjusted for orientation.</returns>
+    public static PaletteCornerRounding OrientateCornerRounding(PaletteCornerRounding corners,
+        VisualOrientation orientation)
+    {
+        switch (orientation)
+        {
+            case VisualOrientation.Top:
+                return corners;
+            case VisualOrientation.Bottom:
+                return new PaletteCornerRounding(corners.BottomRight, corners.BottomLeft, corners.TopLeft, corners.TopRight);
+            case VisualOrientation.Left:
+                return new PaletteCornerRounding(corners.BottomLeft, corners.TopLeft, corners.TopRight, corners.BottomRight);
+            case VisualOrientation.Right:
+                return new PaletteCornerRounding(corners.TopRight, corners.BottomRight, corners.BottomLeft, corners.TopLeft);
+            default:
+                Debug.Assert(false);
+                DebugTools.NotImplemented(orientation.ToString());
+                return corners;
+        }
     }
 
     /// <summary>
@@ -979,6 +1078,146 @@ public static class CommonHelper
     }
 
     /// <summary>
+    /// WCAG AA contrast ratio for normal-size text.
+    /// </summary>
+    public const double ReadableContrastRatio = 4.5;
+
+    /// <summary>
+    /// WCAG relative luminance of <paramref name="color"/> in the range 0–1.
+    /// </summary>
+    /// <param name="color">Colour to measure. Empty colours are treated as black.</param>
+    /// <returns>Relative luminance.</returns>
+    public static double ColorRelativeLuminance(Color color)
+    {
+        if (color.IsEmpty)
+        {
+            return 0d;
+        }
+
+        return (0.2126d * LinearizeSrgb(color.R)) +
+               (0.7152d * LinearizeSrgb(color.G)) +
+               (0.0722d * LinearizeSrgb(color.B));
+    }
+
+    /// <summary>
+    /// WCAG contrast ratio between two colours (1–21).
+    /// </summary>
+    /// <param name="first">First colour.</param>
+    /// <param name="second">Second colour.</param>
+    /// <returns>Contrast ratio, or 1 when either colour is empty.</returns>
+    public static double ColorContrastRatio(Color first, Color second)
+    {
+        if (first.IsEmpty || second.IsEmpty)
+        {
+            return 1d;
+        }
+
+        var firstLuminance = ColorRelativeLuminance(first);
+        var secondLuminance = ColorRelativeLuminance(second);
+        var lighter = Math.Max(firstLuminance, secondLuminance);
+        var darker = Math.Min(firstLuminance, secondLuminance);
+        return (lighter + 0.05d) / (darker + 0.05d);
+    }
+
+    /// <summary>
+    /// True when <paramref name="foreground"/> and <paramref name="background"/> meet
+    /// <paramref name="minimumRatio"/> (WCAG AA 4.5:1 by default).
+    /// </summary>
+    /// <param name="foreground">Foreground colour.</param>
+    /// <param name="background">Background colour.</param>
+    /// <param name="minimumRatio">Minimum accepted ratio.</param>
+    /// <returns><see langword="true"/> when both colours are real and the ratio is high enough.</returns>
+    public static bool HasReadableContrast(Color foreground, Color background, double minimumRatio = ReadableContrastRatio) =>
+        !foreground.IsEmpty &&
+        !background.IsEmpty &&
+        ColorContrastRatio(foreground, background) >= minimumRatio;
+
+    /// <summary>
+    /// Black or white, whichever contrasts more with <paramref name="background"/>.
+    /// </summary>
+    /// <param name="background">Surface colour. Empty yields <see cref="SystemColors.MenuText"/>.</param>
+    /// <returns>Black or white (or menu text when the surface is empty).</returns>
+    public static Color ContrastingBlackOrWhite(Color background)
+    {
+        if (background.IsEmpty)
+        {
+            return SystemColors.MenuText;
+        }
+
+        return ColorRelativeLuminance(background) > 0.179d ? Color.Black : Color.White;
+    }
+
+    /// <summary>
+    /// True when <paramref name="font"/> can be used with GDI+ <c>DrawString</c>.
+    /// </summary>
+    /// <param name="font">Font to test. Disposed or zero-size fonts return <see langword="false"/>.</param>
+    /// <returns><see langword="true"/> when GDI+ will accept the font.</returns>
+    public static bool IsUsableFont(Font? font)
+    {
+        if (font == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            return font.Size > 0f && font.Height > 0;
+        }
+        catch (ArgumentException)
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Assigns a clone of a palette font to <paramref name="control"/>.
+    /// WinForms takes ownership of <see cref="Control.Font"/> and would otherwise dispose the palette instance,
+    /// which makes the next paint throw <c>ArgumentException: Parameter is not valid</c> from <c>DrawString</c>.
+    /// </summary>
+    /// <param name="control">Control whose <see cref="Control.Font"/> should follow the palette.</param>
+    /// <param name="paletteFont">Palette-owned font. Cloned when metrics differ from the current control font.</param>
+    public static void SetControlFontFromPalette(Control control, Font? paletteFont)
+    {
+        if (control == null || control.IsDisposed || !control.IsHandleCreated)
+        {
+            return;
+        }
+
+        var source = IsUsableFont(paletteFont) ? paletteFont : SystemFonts.DefaultFont;
+        if (source == null)
+        {
+            return;
+        }
+
+        Font? current = null;
+        try
+        {
+            current = control.Font;
+        }
+        catch (ArgumentException)
+        {
+            current = null;
+        }
+
+        if (IsUsableFont(current) &&
+            current!.Name == source.Name &&
+            Math.Abs(current.SizeInPoints - source.SizeInPoints) < 0.01f &&
+            current.Style == source.Style &&
+            current.GdiCharSet == source.GdiCharSet)
+        {
+            return;
+        }
+
+        control.Font = (Font)source.Clone();
+    }
+
+    private static double LinearizeSrgb(byte channel)
+    {
+        var s = channel / 255d;
+        return s <= 0.04045d ? s / 12.92d : Math.Pow((s + 0.055d) / 1.055d, 2.4d);
+    }
+
+    /// <summary>
     /// Whiten a provided color by applying per channel percentages.
     /// </summary>
     /// <param name="color1">Color.</param>
@@ -1095,7 +1334,7 @@ public static class CommonHelper
     public static Color MergeColors(Color color1, float percent1,
         Color color2, float percent2) =>
         // Use existing three color merge
-        MergeColors(color1, percent1, color2, percent2, GlobalStaticVariables.EMPTY_COLOR, 0f);
+        MergeColors(color1, percent1, color2, percent2, SharedStaticVariables.EMPTY_COLOR, 0f);
 
     /// <summary>
     /// Merge three colors together using relative percentages.
@@ -1522,20 +1761,10 @@ public static class CommonHelper
     }
 
     /// <summary>
-    /// Output some debug data to a log file that exists in same directory as the application.
+    /// Writes a diagnostic message through <see cref="KryptonLogger"/>.
     /// </summary>
     /// <param name="str">String to output.</param>
-    public static void LogOutput(string str)
-    {
-        // TODO: Make this thread aware !
-        // TODO: DO NOT WRITE to the application path, as that might / will be UAC protected !!
-        //var fi = new FileInfo(Application.ExecutablePath);
-        //using var writer = new StreamWriter($@"{fi.DirectoryName}LogOutput.txt", true, Encoding.ASCII);
-        //writer.Write($@"{DateTime.Now.ToLongTimeString()} :  ");
-        //writer.WriteLine(str);
-        //writer.Flush();
-        Debug.WriteLine(str);
-    }
+    public static void LogOutput(string str) => KryptonLogger.Write(str);
 
     /// <summary>
     /// Checks if we are inside the Visual Studio IDE.
@@ -1703,6 +1932,50 @@ public static class CommonHelper
         Cursor cur = Cursor.Current ?? Cursors.Default;
 
         return cur.HotSpot;
+    }
+
+    /// <summary>
+    /// Gets the screen-space bounds of the active cursor image for a screen hotspot position.
+    /// </summary>
+    /// <param name="screenHotSpot">Screen coordinates of the cursor hotspot (for example from <c>GetCursorPos</c>).</param>
+    /// <returns>Rectangle covering the full cursor bitmap in screen coordinates.</returns>
+    public static Rectangle GetCursorScreenBounds(Point screenHotSpot)
+    {
+        Cursor cursor = Cursor.Current ?? Cursors.Default;
+        Point hotSpot = cursor.HotSpot;
+        Size size = cursor.Size;
+
+        if (PI.GetIconInfo(cursor.Handle, out PI.ICONINFO iconInfo))
+        {
+            hotSpot = new Point(iconInfo.xHotspot, iconInfo.yHotspot);
+
+            IntPtr hBitmap = iconInfo.hbmColor != IntPtr.Zero ? iconInfo.hbmColor : iconInfo.hbmMask;
+            if (hBitmap != IntPtr.Zero)
+            {
+                var bitmap = new PI.BITMAP();
+                if (PI.GetObject(hBitmap, Marshal.SizeOf<PI.BITMAP>(), ref bitmap) != 0)
+                {
+                    int height = iconInfo.hbmColor != IntPtr.Zero ? bitmap.bmHeight : bitmap.bmHeight / 2;
+                    size = new Size(bitmap.bmWidth, Math.Max(1, height));
+                }
+            }
+
+            if (iconInfo.hbmMask != IntPtr.Zero)
+            {
+                PI.DeleteObject(iconInfo.hbmMask);
+            }
+
+            if (iconInfo.hbmColor != IntPtr.Zero)
+            {
+                PI.DeleteObject(iconInfo.hbmColor);
+            }
+        }
+
+        return new Rectangle(
+            screenHotSpot.X - hotSpot.X,
+            screenHotSpot.Y - hotSpot.Y,
+            Math.Max(1, size.Width),
+            Math.Max(1, size.Height));
     }
 
     /// <summary>

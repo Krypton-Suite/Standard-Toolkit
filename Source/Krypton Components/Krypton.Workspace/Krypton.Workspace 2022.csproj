@@ -15,7 +15,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <NeutralLanguage>en</NeutralLanguage>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-    <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+    <Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
     <Nullable>enable</Nullable>
     <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
     <WarningLevel>8</WarningLevel>
@@ -28,7 +28,7 @@
 
   <PropertyGroup>
     <PackageId>Krypton.Workspace</PackageId>
-    <Description>This is the workspace module.</Description>
+    <Description>Krypton Workspace for WinForms: customisable multi-cell document area with drag-and-drop page layout. Each cell hosts a Krypton Navigator so pages can be split, tabbed, and rearranged by the user.</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,15 +50,25 @@
     <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspace.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
+         PrivateAssets="all" keeps the unpublished package out of this package's nuspec dependencies (#3908). -->
+    <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+    <Compile Remove="Workspace\KryptonWorkspaceDesigner.cs" />
+    <Compile Remove="Workspace\KryptonWorkspaceSequenceDesigner.cs" />
+    <Compile Remove="Workspace\KryptonWorkspaceCellDesigner.cs" />
+    <Compile Remove="Workspace\KryptonWorkspaceActionList.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Workspace.Design</KryptonWinFormsDesignerSdkDesignAssembly>
+  </PropertyGroup>
+  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
   <ItemGroup>
     <Compile Remove="Palette Demo\WorkspacePageMenuBase.cs" />
     <Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\GeneralImageResources.Designer.cs">

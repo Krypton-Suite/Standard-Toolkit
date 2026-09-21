@@ -155,7 +155,7 @@ public class TypedCollection<T> : IList,
     object? IList.this[int index]
     {
         get => _list[index];
-        set => throw new NotImplementedException("Cannot set a collection index with a new value");
+        set => ThrowHelper.ThrowNotImplementedException<object>("Cannot set a collection index with a new value");
     }
     #endregion
 
@@ -185,13 +185,13 @@ public class TypedCollection<T> : IList,
         // We do not allow an empty ribbon tab to be added
         if (item == null)
         {
-            throw new ArgumentNullException(nameof(item));
+            ThrowHelper.ThrowArgumentNullException(nameof(item));
         }
 
         // Not allow to add the same item more than once
         if (_list.Contains(item))
         {
-            throw new ArgumentOutOfRangeException(nameof(item), @"Item already in collection");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(item), @"Item already in collection");
         }
 
         // Generate before insert event
@@ -232,7 +232,7 @@ public class TypedCollection<T> : IList,
     {
         get => _list[index];
 
-        set => throw new NotImplementedException("Cannot set a collection index with a new value");
+        set => ThrowHelper.ThrowNotImplementedException<T>("Cannot set a collection index with a new value");
     }
 
     /// <summary>
@@ -286,13 +286,13 @@ public class TypedCollection<T> : IList,
         // We do not allow an empty item to be added
         if (item == null)
         {
-            throw new ArgumentNullException(nameof(item));
+            ThrowHelper.ThrowArgumentNullException(nameof(item));
         }
 
         // Not allow to add the same item more than once
         if (_list.Contains(item))
         {
-            throw new ArgumentOutOfRangeException(nameof(item), @"Item is already in collection");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(item), @"Item is already in collection");
         }
 
         // Generate before insert event
@@ -393,7 +393,7 @@ public class TypedCollection<T> : IList,
         // Cannot pass a null target array
         if (array == null)
         {
-            throw new ArgumentNullException(nameof(array));
+            ThrowHelper.ThrowArgumentNullException(nameof(array));
         }
 
         // Try and copy each item to the destination array

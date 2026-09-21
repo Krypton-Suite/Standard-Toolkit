@@ -30,7 +30,7 @@ public class KryptonPaletteTabButtons : Storage
 
         if (redirector is null)
         {
-            throw new ArgumentNullException(nameof(redirector));
+            ThrowHelper.ThrowArgumentNullException(nameof(redirector));
         }
 
         // Create the button style specific and common palettes

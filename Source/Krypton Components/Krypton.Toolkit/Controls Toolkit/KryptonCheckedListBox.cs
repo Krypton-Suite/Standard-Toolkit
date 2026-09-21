@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(SelectedIndexChanged))]
 [DefaultProperty(nameof(Items))]
 [DefaultBindingProperty(nameof(SelectedValue))]
-[Designer(typeof(KryptonCheckedListBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonCheckedListBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Represents a checked list box control that allows single or multiple item selection.")]
 public class KryptonCheckedListBox : VisualControlBase,
@@ -127,20 +127,20 @@ public class KryptonCheckedListBox : VisualControlBase,
                 return InnerArrayIndexOfIdentifier(entryObject, 0);
             }
 
-            set => throw new NotSupportedException(@"Read Only Collection");
+            set => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
         }
         #endregion
 
         #region Private
-        int IList.Add(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        int IList.Add(object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Clear() => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Insert(int index, object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Insert(int index, object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Remove(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Remove(object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.RemoveAt(int index) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.RemoveAt(int index) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
         bool ICollection.IsSynchronized => false;
 
@@ -255,7 +255,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         public object? this[int index]
         {
             get => InnerArrayGetItem(index, _anyItemMask);
-            set => throw new NotSupportedException(@"Read Only Collection");
+            set => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
         }
         #endregion
 
@@ -295,15 +295,15 @@ public class KryptonCheckedListBox : VisualControlBase,
         #endregion
 
         #region Private
-        int IList.Add(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        int IList.Add(object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Clear() => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
-        void IList.Insert(int index, object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Insert(int index, object? value) => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
-        void IList.Remove(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Remove(object? value) => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
-        void IList.RemoveAt(int index) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.RemoveAt(int index) => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
         bool ICollection.IsSynchronized => false;
 
@@ -1559,7 +1559,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// </summary>
     [Category(@"Data")]
     [Description(@"The items in the KryptonCheckedListBox.")]
-    [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [MergableProperty(false)]
     [Localizable(true)]
@@ -1584,6 +1584,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
     /// </summary>
     [Description(@"The format specifier characters that indicate how a value is to be Displayed.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.FormatStringEditor).
     [Editor(@"System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
     [MergableProperty(false)]
     [DefaultValue(@"")]
@@ -1814,7 +1815,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     public CheckState GetItemCheckState(int index) =>
         // Check index actually exists
         (index < 0) || (index >= Items.Count)
-            ? throw new ArgumentOutOfRangeException(nameof(index), @"index out of range")
+            ? ThrowHelper.ThrowArgumentOutOfRangeException<CheckState>(nameof(index), @"index out of range")
             : CheckedItems.GetCheckedState(index);
 
     /// <summary>
@@ -1835,7 +1836,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         // Check index actually exists
         if ((index < 0) || (index >= Items.Count))
         {
-            throw new ArgumentOutOfRangeException(nameof(index), @"index out of range");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(index), @"index out of range");
         }
 
         // Is the new state different from the current checked state?
@@ -1994,11 +1995,12 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <value>The display member.</value>
     [Category("Data")]
     [Description("Indicates the property to display for the items in the control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string DisplayMember
     {
-        get => _displayMember ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+        get => _displayMember ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
         set
         {
             if (_displayMember != value)
@@ -2013,11 +2015,12 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <value>The value member.</value>
     [Category("Data")]
     [Description("Indicates the property to use as the actual value of items in the control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string ValueMember
     {
-        get => _valueMember ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+        get => _valueMember ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
         set => _valueMember = value;
     }
 
@@ -2264,6 +2267,26 @@ public class KryptonCheckedListBox : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+    }
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
     }
 
     /// <summary>
@@ -2516,7 +2539,7 @@ public class KryptonCheckedListBox : VisualControlBase,
             _contentValues!.ShortText = _listBox.GetItemText(Items[index]);
             _contentValues.LongText = null;
             _contentValues.Image = null;
-            _contentValues.ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+            _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -2646,6 +2669,8 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <summary>Refreshes the bound items.</summary>
     /// <returns></returns>
     public void RefreshBoundItems() => RefreshItems();
+
+    private void UpdateForRightToLeft() => _listBox.RightToLeft = RightToLeft;
 
     #endregion
 }

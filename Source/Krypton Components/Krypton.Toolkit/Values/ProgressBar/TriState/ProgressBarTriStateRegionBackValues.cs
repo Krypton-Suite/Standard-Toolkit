@@ -159,6 +159,7 @@ public class ProgressBarTriStateRegionBackValues : Storage
     [Category(@"Visuals")]
     [Description(@"Background image. Null uses default.")]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -231,7 +232,7 @@ public class ProgressBarTriStateRegionBackValues : Storage
     #region Public Overrides
 
     /// <inheritdoc />
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 }

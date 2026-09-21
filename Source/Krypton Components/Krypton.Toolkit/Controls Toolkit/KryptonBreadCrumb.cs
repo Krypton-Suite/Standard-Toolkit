@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonBreadCrumb), "ToolboxBitmaps.KryptonBreadCrumb.bmp")]
 [DefaultEvent(nameof(SelectedItemChanged))]
 [DefaultProperty(nameof(RootItem))]
-[Designer(typeof(KryptonBreadCrumbDesigner))]
+[Designer("Krypton.Toolkit.KryptonBreadCrumbDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Flat navigation of hierarchical data.")]
 public class KryptonBreadCrumb : VisualSimpleBase,
@@ -137,6 +137,7 @@ public class KryptonBreadCrumb : VisualSimpleBase,
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        AutoSize = true;
     }
 
     /// <summary>
@@ -264,6 +265,7 @@ public class KryptonBreadCrumb : VisualSimpleBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public BreadCrumbButtonSpecCollection ButtonSpecs { get; }
 
@@ -405,7 +407,7 @@ public class KryptonBreadCrumb : VisualSimpleBase,
 
                 if ((value != null) && (temp == null))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value),
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value),
                         @"Item must be inside the RootItem hierarchy.");
                 }
 
@@ -735,7 +737,7 @@ public class KryptonBreadCrumb : VisualSimpleBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more

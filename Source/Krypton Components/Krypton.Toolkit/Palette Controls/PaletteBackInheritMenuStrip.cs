@@ -41,38 +41,40 @@ public sealed class PaletteBackInheritMenuStrip : PaletteBackInherit
 
     public override InheritBool GetBackDraw(PaletteState state) => InheritBool.True;
 
-    public override PaletteGraphicsHint GetBackGraphicsHint(PaletteState state) => PaletteGraphicsHint.Inherit;
+    public override PaletteGraphicsHint GetBackGraphicsHint(PaletteState state) => PaletteGraphicsHint.None;
 
     public override Color GetBackColor1(PaletteState state)
     {
         var ct = CurrentColorTable;
-        if (ct is not null && ct.MenuStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR)
+        if (ct is not null && ct.MenuStripGradientBegin != SharedStaticVariables.EMPTY_COLOR)
         {
             return ct.MenuStripGradientBegin;
         }
-        return GlobalStaticVariables.EMPTY_COLOR;
+        return SharedStaticVariables.EMPTY_COLOR;
     }
 
     public override Color GetBackColor2(PaletteState state)
     {
         var ct = CurrentColorTable;
-        if (ct is not null && ct.MenuStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR)
+        if (ct is not null && ct.MenuStripGradientEnd != SharedStaticVariables.EMPTY_COLOR)
         {
             return ct.MenuStripGradientEnd;
         }
-        return GlobalStaticVariables.EMPTY_COLOR;
+        return SharedStaticVariables.EMPTY_COLOR;
     }
 
-    public override PaletteColorStyle GetBackColorStyle(PaletteState state) => PaletteColorStyle.Inherit;
+    // Concrete values: RenderStandard.DrawBack asserts on Inherit for color/image align.
+    // ToolStrip painting never used these; KryptonMenuBar does via ViewDrawDocker.
+    public override PaletteColorStyle GetBackColorStyle(PaletteState state) => PaletteColorStyle.Linear;
 
-    public override PaletteRectangleAlign GetBackColorAlign(PaletteState state) => PaletteRectangleAlign.Inherit;
+    public override PaletteRectangleAlign GetBackColorAlign(PaletteState state) => PaletteRectangleAlign.Local;
 
-    public override float GetBackColorAngle(PaletteState state) => -1f;
+    public override float GetBackColorAngle(PaletteState state) => 90f;
 
     public override Image? GetBackImage(PaletteState state) => null;
 
-    public override PaletteImageStyle GetBackImageStyle(PaletteState state) => PaletteImageStyle.Inherit;
+    public override PaletteImageStyle GetBackImageStyle(PaletteState state) => PaletteImageStyle.Tile;
 
-    public override PaletteRectangleAlign GetBackImageAlign(PaletteState state) => PaletteRectangleAlign.Inherit;
+    public override PaletteRectangleAlign GetBackImageAlign(PaletteState state) => PaletteRectangleAlign.Local;
 }
 

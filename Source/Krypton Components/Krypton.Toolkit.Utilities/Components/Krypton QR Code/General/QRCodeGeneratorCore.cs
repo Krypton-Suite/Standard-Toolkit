@@ -190,7 +190,7 @@ internal static class QRCodeGeneratorCore
     {
         if (string.IsNullOrEmpty(content))
         {
-            throw new ArgumentException(@"Content cannot be null or empty.", nameof(content));
+            ThrowHelper.ThrowArgumentException(@"Content cannot be null or empty.", nameof(content));
         }
 
         byte[] data = Encoding.UTF8.GetBytes(content);
@@ -207,7 +207,7 @@ internal static class QRCodeGeneratorCore
     {
         if (data == null || data.Length == 0)
         {
-            throw new ArgumentException(@"Data cannot be null or empty.", nameof(data));
+            ThrowHelper.ThrowArgumentException(@"Data cannot be null or empty.", nameof(data));
         }
 
         int version = GetMinimumVersion(data.Length, eccLevel);
@@ -231,9 +231,9 @@ internal static class QRCodeGeneratorCore
             }
         }
 
-        throw new ArgumentException(
-            $@"Data too long for QR code. Maximum ~{ByteCapacity[MAX_VERSION - 1, eccIndex]} bytes for ECC {eccLevel} (version {MAX_VERSION}).",
+        ThrowHelper.ThrowArgumentException($@"Data too long for QR code. Maximum ~{ByteCapacity[MAX_VERSION - 1, eccIndex]} bytes for ECC {eccLevel} (version {MAX_VERSION}).",
             nameof(byteCount));
+        return default;
     }
 
     #endregion
@@ -245,7 +245,7 @@ internal static class QRCodeGeneratorCore
         int capacity = ByteCapacity[version - 1, (int)eccLevel];
         if (data.Length > capacity)
         {
-            throw new ArgumentException($@"Data exceeds capacity for version {version}.", nameof(data));
+            ThrowHelper.ThrowArgumentException($@"Data exceeds capacity for version {version}.", nameof(data));
         }
 
         int countIndicatorBits = version < 10 ? 8 : 16;

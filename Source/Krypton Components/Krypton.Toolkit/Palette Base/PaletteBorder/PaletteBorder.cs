@@ -31,6 +31,10 @@ public class PaletteBorder : Storage,
         public float BorderColorAngle;
         public int BorderWidth;
         public float BorderRounding;
+        public float BorderRoundingTopLeft;
+        public float BorderRoundingTopRight;
+        public float BorderRoundingBottomRight;
+        public float BorderRoundingBottomLeft;
         public Image? BorderImage;
         public PaletteImageStyle BorderImageStyle;
         public PaletteRectangleAlign BorderImageAlign;
@@ -44,13 +48,17 @@ public class PaletteBorder : Storage,
             BorderDraw = InheritBool.Inherit;
             BorderDrawBorders = PaletteDrawBorders.Inherit;
             BorderGraphicsHint = PaletteGraphicsHint.Inherit;
-            BorderColor1 = GlobalStaticVariables.EMPTY_COLOR;
-            BorderColor2 = GlobalStaticVariables.EMPTY_COLOR;
+            BorderColor1 = SharedStaticVariables.EMPTY_COLOR;
+            BorderColor2 = SharedStaticVariables.EMPTY_COLOR;
             BorderColorStyle = PaletteColorStyle.Inherit;
             BorderColorAlign = PaletteRectangleAlign.Inherit;
             BorderColorAngle = -1;
             BorderWidth = -1;
             BorderRounding = -1;
+            BorderRoundingTopLeft = PaletteCornerRounding.InheritValue;
+            BorderRoundingTopRight = PaletteCornerRounding.InheritValue;
+            BorderRoundingBottomRight = PaletteCornerRounding.InheritValue;
+            BorderRoundingBottomLeft = PaletteCornerRounding.InheritValue;
             BorderImageStyle = PaletteImageStyle.Inherit;
             BorderImageAlign = PaletteRectangleAlign.Inherit;
         }
@@ -61,13 +69,17 @@ public class PaletteBorder : Storage,
         public bool IsDefault => (BorderDraw == InheritBool.Inherit) &&
                                  (BorderDrawBorders == PaletteDrawBorders.Inherit) &&
                                  (BorderGraphicsHint == PaletteGraphicsHint.Inherit) &&
-                                 (BorderColor1 == GlobalStaticVariables.EMPTY_COLOR) &&
-                                 (BorderColor2 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                 (BorderColor1 == SharedStaticVariables.EMPTY_COLOR) &&
+                                 (BorderColor2 == SharedStaticVariables.EMPTY_COLOR) &&
                                  (BorderColorStyle == PaletteColorStyle.Inherit) &&
                                  (BorderColorAlign == PaletteRectangleAlign.Inherit) &&
                                  (BorderColorAngle == -1) &&
                                  (BorderWidth == -1) &&
                                  (BorderRounding == -1) &&
+                                 (BorderRoundingTopLeft == PaletteCornerRounding.InheritValue) &&
+                                 (BorderRoundingTopRight == PaletteCornerRounding.InheritValue) &&
+                                 (BorderRoundingBottomRight == PaletteCornerRounding.InheritValue) &&
+                                 (BorderRoundingBottomLeft == PaletteCornerRounding.InheritValue) &&
                                  (BorderImage == null) &&
                                  (BorderImageStyle == PaletteImageStyle.Inherit) &&
                                  (BorderImageAlign == PaletteRectangleAlign.Inherit);
@@ -77,6 +89,10 @@ public class PaletteBorder : Storage,
     #region Instance Fields
     private IPaletteBorder _inherit;
     private InternalStorage? _storage;
+    private InheritBool _factoryDraw = InheritBool.Inherit;
+    private PaletteDrawBorders _factoryDrawBorders = PaletteDrawBorders.Inherit;
+    private PaletteGraphicsHint _factoryGraphicsHint = PaletteGraphicsHint.Inherit;
+    private Color _factoryColor1 = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region Events
@@ -100,7 +116,7 @@ public class PaletteBorder : Storage,
         Debug.Assert(inherit != null);
 
         // Remember inheritance
-        _inherit = inherit ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(inherit)));
+        _inherit =inherit ?? ThrowHelper.ThrowNullReferenceException<IPaletteBorder>(SharedStaticFunctions.VariableCannotBeNull(nameof(inherit)));
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
@@ -113,7 +129,73 @@ public class PaletteBorder : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (_storage == null) || _storage.IsDefault;
+    public override bool IsDefault
+    {
+        get
+        {
+            if (_storage == null)
+            {
+                return (_factoryDraw == InheritBool.Inherit)
+                       && (_factoryDrawBorders == PaletteDrawBorders.Inherit)
+                       && (_factoryGraphicsHint == PaletteGraphicsHint.Inherit)
+                       && (_factoryColor1 == SharedStaticVariables.EMPTY_COLOR);
+            }
+
+            return (_storage.BorderDraw == _factoryDraw)
+                   && (_storage.BorderDrawBorders == _factoryDrawBorders)
+                   && (_storage.BorderGraphicsHint == _factoryGraphicsHint)
+                   && (_storage.BorderColor1 == _factoryColor1)
+                   && (_storage.BorderColor2 == SharedStaticVariables.EMPTY_COLOR)
+                   && (_storage.BorderColorStyle == PaletteColorStyle.Inherit)
+                   && (_storage.BorderColorAlign == PaletteRectangleAlign.Inherit)
+                   && (_storage.BorderColorAngle == -1)
+                   && (_storage.BorderWidth == -1)
+                   && (_storage.BorderRounding == -1)
+                   && (_storage.BorderRoundingTopLeft == PaletteCornerRounding.InheritValue)
+                   && (_storage.BorderRoundingTopRight == PaletteCornerRounding.InheritValue)
+                   && (_storage.BorderRoundingBottomRight == PaletteCornerRounding.InheritValue)
+                   && (_storage.BorderRoundingBottomLeft == PaletteCornerRounding.InheritValue)
+                   && (_storage.BorderImage == null)
+                   && (_storage.BorderImageStyle == PaletteImageStyle.Inherit)
+                   && (_storage.BorderImageAlign == PaletteRectangleAlign.Inherit);
+        }
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="Draw"/>.
+    /// </summary>
+    internal void SetFactoryDraw(InheritBool value)
+    {
+        _factoryDraw = value;
+        Draw = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="DrawBorders"/>.
+    /// </summary>
+    internal void SetFactoryDrawBorders(PaletteDrawBorders value)
+    {
+        _factoryDrawBorders = value;
+        DrawBorders = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="GraphicsHint"/>.
+    /// </summary>
+    internal void SetFactoryGraphicsHint(PaletteGraphicsHint value)
+    {
+        _factoryGraphicsHint = value;
+        GraphicsHint = value;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="color"/> as the unset designer default for <see cref="Color1"/>.
+    /// </summary>
+    internal void SetFactoryColor1(Color color)
+    {
+        _factoryColor1 = color;
+        Color1 = color;
+    }
 
     #endregion
 
@@ -142,6 +224,7 @@ public class PaletteBorder : Storage,
         ColorAngle = GetBorderColorAngle(state);
         Width = GetBorderWidth(state);
         Rounding = GetBorderRounding(state);
+        CornerRounding = GetBorderCornerRounding(state);
         Image = GetBorderImage(state);
         ImageStyle = GetBorderImageStyle(state);
         ImageAlign = GetBorderImageAlign(state);
@@ -186,6 +269,9 @@ public class PaletteBorder : Storage,
             }
         }
     }
+
+    private bool ShouldSerializeDraw() => Draw != _factoryDraw;
+    private void ResetDraw() => Draw = _factoryDraw;
 
     /// <summary>
     /// Gets the actual border draw value.
@@ -235,7 +321,8 @@ public class PaletteBorder : Storage,
         }
     }
 
-    private bool ShouldSerializeDrawBorders() => DrawBorders != PaletteDrawBorders.Inherit;
+    private bool ShouldSerializeDrawBorders() => DrawBorders != _factoryDrawBorders;
+    private void ResetDrawBorders() => DrawBorders = _factoryDrawBorders;
 
     /// <summary>
     /// Gets the actual borders to draw value.
@@ -292,6 +379,9 @@ public class PaletteBorder : Storage,
         }
     }
 
+    private bool ShouldSerializeGraphicsHint() => GraphicsHint != _factoryGraphicsHint;
+    private void ResetGraphicsHint() => GraphicsHint = _factoryGraphicsHint;
+
     /// <summary>
     /// Gets the actual border graphics hint value.
     /// </summary>
@@ -320,7 +410,7 @@ public class PaletteBorder : Storage,
             }
             else
             {
-                return GlobalStaticVariables.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
             }
         }
 
@@ -337,7 +427,7 @@ public class PaletteBorder : Storage,
             }
             else
             {
-                if (value != GlobalStaticVariables.EMPTY_COLOR)
+                if (value != SharedStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -350,12 +440,15 @@ public class PaletteBorder : Storage,
         }
     }
 
+    private bool ShouldSerializeColor1() => Color1 != _factoryColor1;
+    private void ResetColor1() => Color1 = _factoryColor1;
+
     /// <summary>
     /// Gets the actual first border color.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetBorderColor1(PaletteState state) => Color1 != GlobalStaticVariables.EMPTY_COLOR ? Color1 : _inherit.GetBorderColor1(state);
+    public Color GetBorderColor1(PaletteState state) => Color1 != SharedStaticVariables.EMPTY_COLOR ? Color1 : _inherit.GetBorderColor1(state);
 
     #endregion
 
@@ -370,7 +463,7 @@ public class PaletteBorder : Storage,
     [RefreshProperties(RefreshProperties.All)]
     public Color Color2
     {
-        get => _storage?.BorderColor2 ?? GlobalStaticVariables.EMPTY_COLOR;
+        get => _storage?.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -385,7 +478,7 @@ public class PaletteBorder : Storage,
             }
             else
             {
-                if (value != GlobalStaticVariables.EMPTY_COLOR)
+                if (value != SharedStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -403,7 +496,7 @@ public class PaletteBorder : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetBorderColor2(PaletteState state) => Color2 != GlobalStaticVariables.EMPTY_COLOR ? Color2 : _inherit.GetBorderColor2(state);
+    public Color GetBorderColor2(PaletteState state) => Color2 != SharedStaticVariables.EMPTY_COLOR ? Color2 : _inherit.GetBorderColor2(state);
     #endregion
 
     #region ColorStyle
@@ -604,7 +697,7 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"How much to round the border corners.")]
-    [DefaultValue(GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)]
+    [DefaultValue(SharedStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)]
     [RefreshProperties(RefreshProperties.All)]
     public float Rounding
     {
@@ -618,7 +711,7 @@ public class PaletteBorder : Storage,
                 return _storage.BorderRounding;
             }
 
-            return GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+            return SharedStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
         }
 
         set
@@ -634,7 +727,7 @@ public class PaletteBorder : Storage,
             }
             else
             {
-                if (value != GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)
+                if (value != SharedStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE)
                 {
                     _storage = new InternalStorage
                     {
@@ -647,8 +740,8 @@ public class PaletteBorder : Storage,
         }
     }
 
-    private void ResetRounding() => Rounding = GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
-    private bool ShouldSerializeRounding() => Rounding != GlobalStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+    private void ResetRounding() => Rounding = SharedStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
+    private bool ShouldSerializeRounding() => Rounding != SharedStaticConstants.DEFAULT_PRIMARY_CORNER_ROUNDING_VALUE;
 
     /// <summary>
     /// Gets the border rounding.
@@ -663,6 +756,164 @@ public class PaletteBorder : Storage,
     /// <returns>Configured rounding, or -1 when no positive override exists.</returns>
     public float GetConfiguredRounding() =>
         _storage != null && _storage.BorderRounding > 0f ? _storage.BorderRounding : -1f;
+
+    /// <summary>
+    /// Gets and sets per-corner border rounding.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"How much to round each border corner. Checked corners override Rounding; unchecked corners inherit from Rounding.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [Editor(typeof(PaletteCornerRoundingEditor), typeof(UITypeEditor))]
+    public PaletteCornerRounding CornerRounding
+    {
+        get => new PaletteCornerRounding(RoundingTopLeft, RoundingTopRight, RoundingBottomRight, RoundingBottomLeft);
+
+        set
+        {
+            RoundingTopLeft = value.TopLeft;
+            RoundingTopRight = value.TopRight;
+            RoundingBottomRight = value.BottomRight;
+            RoundingBottomLeft = value.BottomLeft;
+        }
+    }
+
+    private bool ShouldSerializeCornerRounding() => !CornerRounding.HasInherit && !CornerRounding.IsUniform;
+
+    private void ResetCornerRounding()
+    {
+        RoundingTopLeft = PaletteCornerRounding.InheritValue;
+        RoundingTopRight = PaletteCornerRounding.InheritValue;
+        RoundingBottomRight = PaletteCornerRounding.InheritValue;
+        RoundingBottomLeft = PaletteCornerRounding.InheritValue;
+    }
+
+    /// <summary>
+    /// Gets and sets the top-left border corner rounding.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Category(@"Visuals")]
+    [Description(@"How much to round the top-left border corner. -1 inherits from Rounding.")]
+    [DefaultValue(PaletteCornerRounding.InheritValue)]
+    [RefreshProperties(RefreshProperties.All)]
+    public float RoundingTopLeft
+    {
+        get => _storage?.BorderRoundingTopLeft ?? PaletteCornerRounding.InheritValue;
+        set => SetCornerRoundingStorageValue(value, nameof(RoundingTopLeft), stored => stored.BorderRoundingTopLeft = value, () => _storage!.BorderRoundingTopLeft);
+    }
+
+    private void ResetRoundingTopLeft() => RoundingTopLeft = PaletteCornerRounding.InheritValue;
+    private bool ShouldSerializeRoundingTopLeft() => RoundingTopLeft != PaletteCornerRounding.InheritValue;
+
+    /// <summary>
+    /// Gets and sets the top-right border corner rounding.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Category(@"Visuals")]
+    [Description(@"How much to round the top-right border corner. -1 inherits from Rounding.")]
+    [DefaultValue(PaletteCornerRounding.InheritValue)]
+    [RefreshProperties(RefreshProperties.All)]
+    public float RoundingTopRight
+    {
+        get => _storage?.BorderRoundingTopRight ?? PaletteCornerRounding.InheritValue;
+        set => SetCornerRoundingStorageValue(value, nameof(RoundingTopRight), stored => stored.BorderRoundingTopRight = value, () => _storage!.BorderRoundingTopRight);
+    }
+
+    private void ResetRoundingTopRight() => RoundingTopRight = PaletteCornerRounding.InheritValue;
+    private bool ShouldSerializeRoundingTopRight() => RoundingTopRight != PaletteCornerRounding.InheritValue;
+
+    /// <summary>
+    /// Gets and sets the bottom-right border corner rounding.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Category(@"Visuals")]
+    [Description(@"How much to round the bottom-right border corner. -1 inherits from Rounding.")]
+    [DefaultValue(PaletteCornerRounding.InheritValue)]
+    [RefreshProperties(RefreshProperties.All)]
+    public float RoundingBottomRight
+    {
+        get => _storage?.BorderRoundingBottomRight ?? PaletteCornerRounding.InheritValue;
+        set => SetCornerRoundingStorageValue(value, nameof(RoundingBottomRight), stored => stored.BorderRoundingBottomRight = value, () => _storage!.BorderRoundingBottomRight);
+    }
+
+    private void ResetRoundingBottomRight() => RoundingBottomRight = PaletteCornerRounding.InheritValue;
+    private bool ShouldSerializeRoundingBottomRight() => RoundingBottomRight != PaletteCornerRounding.InheritValue;
+
+    /// <summary>
+    /// Gets and sets the bottom-left border corner rounding.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [Category(@"Visuals")]
+    [Description(@"How much to round the bottom-left border corner. -1 inherits from Rounding.")]
+    [DefaultValue(PaletteCornerRounding.InheritValue)]
+    [RefreshProperties(RefreshProperties.All)]
+    public float RoundingBottomLeft
+    {
+        get => _storage?.BorderRoundingBottomLeft ?? PaletteCornerRounding.InheritValue;
+        set => SetCornerRoundingStorageValue(value, nameof(RoundingBottomLeft), stored => stored.BorderRoundingBottomLeft = value, () => _storage!.BorderRoundingBottomLeft);
+    }
+
+    private void ResetRoundingBottomLeft() => RoundingBottomLeft = PaletteCornerRounding.InheritValue;
+    private bool ShouldSerializeRoundingBottomLeft() => RoundingBottomLeft != PaletteCornerRounding.InheritValue;
+
+    /// <summary>
+    /// Gets the border rounding for each corner.
+    /// </summary>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Per-corner border rounding.</returns>
+    public virtual PaletteCornerRounding GetBorderCornerRounding(PaletteState state)
+    {
+        float uniformRounding = GetBorderRounding(state);
+
+        if (!HasPerCornerStorage())
+        {
+            return PaletteCornerRounding.Uniform(uniformRounding);
+        }
+
+        return PaletteCornerRounding.Merge(
+            uniformRounding,
+            RoundingTopLeft,
+            RoundingTopRight,
+            RoundingBottomRight,
+            RoundingBottomLeft);
+    }
+
+    private bool HasPerCornerStorage() =>
+        _storage != null
+        && (RoundingTopLeft != PaletteCornerRounding.InheritValue
+            || RoundingTopRight != PaletteCornerRounding.InheritValue
+            || RoundingBottomRight != PaletteCornerRounding.InheritValue
+            || RoundingBottomLeft != PaletteCornerRounding.InheritValue);
+
+    private void SetCornerRoundingStorageValue(float value, string propertyName, Action<InternalStorage> assignStored, Func<float> getStored)
+    {
+        if (_storage != null)
+        {
+            if (getStored() != value)
+            {
+                assignStored(_storage);
+                OnPropertyChanged(propertyName);
+                OnPropertyChanged(nameof(CornerRounding));
+                PerformNeedPaint(true);
+            }
+        }
+        else if (value != PaletteCornerRounding.InheritValue)
+        {
+            _storage = new InternalStorage();
+            assignStored(_storage);
+            OnPropertyChanged(propertyName);
+            OnPropertyChanged(nameof(CornerRounding));
+            PerformNeedPaint(true);
+        }
+    }
     #endregion
 
     #region Image
@@ -674,6 +925,7 @@ public class PaletteBorder : Storage,
     [Description(@"Border image.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _storage?.BorderImage;

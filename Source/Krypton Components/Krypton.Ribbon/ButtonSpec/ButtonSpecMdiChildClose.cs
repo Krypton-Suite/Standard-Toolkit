@@ -32,7 +32,7 @@ public class ButtonSpecMdiChildClose : ButtonSpecMdiChildFixed
         : base(PaletteButtonSpecStyle.PendantClose)
     {
         Debug.Assert(ribbon is not null);
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
     }
     #endregion
 

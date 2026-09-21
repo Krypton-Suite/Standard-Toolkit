@@ -170,6 +170,13 @@ public interface IPaletteBorder
     float GetBorderRounding(PaletteState state);
 
     /// <summary>
+    /// Gets the border corner rounding for each corner.
+    /// </summary>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Per-corner rounding radii.</returns>
+    PaletteCornerRounding GetBorderCornerRounding(PaletteState state);
+
+    /// <summary>
     /// Gets a border image.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>

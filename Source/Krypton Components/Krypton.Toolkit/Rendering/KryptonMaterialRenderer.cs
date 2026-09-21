@@ -22,13 +22,10 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
 
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
     {
+        SyncToolStripFont(e.ToolStrip);
+
         if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
         {
-            if (e.ToolStrip.Font != KCT.MenuStripFont)
-            {
-                e.ToolStrip.Font = KCT.MenuStripFont;
-            }
-
             using var borderPath = CreateBorderPath(e.AffectedBounds, 0f);
             using var clipPath = CreateClipBorderPath(e.AffectedBounds, 0f);
             using var clipping = new Clipping(e.Graphics, clipPath);
@@ -46,24 +43,24 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
             {
                 var style = kss.StateCommon.GetBackColorStyle(PaletteState.Normal);
                 var c1 = kss.StateCommon.GetBackColor1(PaletteState.Normal);
-                if (style == PaletteColorStyle.Solid && c1 != GlobalStaticVariables.EMPTY_COLOR && !c1.IsEmpty)
+                if (style == PaletteColorStyle.Solid && c1 != SharedStaticVariables.EMPTY_COLOR && !c1.IsEmpty)
                 {
                     back = c1;
                 }
                 else
                 {
-                    back = (KCT.StatusStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
+                    back = (KCT.StatusStripGradientEnd != SharedStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
                         ? KCT.StatusStripGradientEnd
-                        : ((KCT.StatusStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
+                        : ((KCT.StatusStripGradientBegin != SharedStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
                             ? KCT.StatusStripGradientBegin
                             : ss.BackColor);
                 }
             }
             else
             {
-                back = (KCT.StatusStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
+                back = (KCT.StatusStripGradientEnd != SharedStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
                     ? KCT.StatusStripGradientEnd
-                    : ((KCT.StatusStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
+                    : ((KCT.StatusStripGradientBegin != SharedStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
                         ? KCT.StatusStripGradientBegin
                         : ss.BackColor);
             }
@@ -151,21 +148,8 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
         base.OnRenderMenuItemBackground(e);
     }
 
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
-        {
-            // Flat margin matching palette image column color
-            var rect = e.AffectedBounds;
-            rect.Inflate(-2, -2);
-            var marginBack = KCT.Palette.GetBackColor1(PaletteBackStyle.ContextMenuItemImageColumn, PaletteState.Normal);
-            using var b = new SolidBrush(marginBack);
-            e.Graphics.FillRectangle(b, rect);
-            return;
-        }
-
-        base.OnRenderImageMargin(e);
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, 2);
 
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
@@ -173,7 +157,7 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
         {
             var state = !e.Item.Enabled ? PaletteState.Disabled : (e.Item.Selected ? PaletteState.Tracking : PaletteState.Normal);
             var textColor = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.ContextMenuItemTextStandard, state);
-            if (textColor == GlobalStaticVariables.EMPTY_COLOR || textColor.IsEmpty)
+            if (textColor == SharedStaticVariables.EMPTY_COLOR || textColor.IsEmpty)
             {
                 // Deterministic fallback based on state
                 textColor = KCT.MenuItemText;
@@ -185,7 +169,7 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
             var state = e.Item.Selected || e.Item.Pressed ? PaletteState.Tracking : PaletteState.Normal;
             // Prefer on-surface label color for top-level menu items under Material
             var c = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, state);
-            if (c == GlobalStaticVariables.EMPTY_COLOR || c.IsEmpty)
+            if (c == SharedStaticVariables.EMPTY_COLOR || c.IsEmpty)
             {
                 c = KCT.MenuStripText;
             }
@@ -200,7 +184,7 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
             // Menu items hosted on a ToolStrip (not MenuStrip/ContextMenu): use on-surface label color
             var state = !e.Item.Enabled ? PaletteState.Disabled : (e.Item.Selected || e.Item.Pressed ? PaletteState.Tracking : PaletteState.Normal);
             var c = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, state);
-            if (c == GlobalStaticVariables.EMPTY_COLOR || c.IsEmpty)
+            if (c == SharedStaticVariables.EMPTY_COLOR || c.IsEmpty)
             {
                 c = KCT.MenuItemText;
             }
@@ -211,7 +195,7 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
             // Generic ToolStrip items: use on-surface label color from palette for Material dark
             var state = !e.Item.Enabled ? PaletteState.Disabled : (e.Item.Selected ? PaletteState.Tracking : PaletteState.Normal);
             var c = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, state);
-            if (c == GlobalStaticVariables.EMPTY_COLOR || c.IsEmpty)
+            if (c == SharedStaticVariables.EMPTY_COLOR || c.IsEmpty)
             {
                 c = KCT.ToolStripText;
             }

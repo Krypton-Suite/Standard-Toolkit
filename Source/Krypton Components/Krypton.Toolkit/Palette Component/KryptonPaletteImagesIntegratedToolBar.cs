@@ -68,7 +68,22 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
 
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault { get; }
+    public override bool IsDefault =>
+        (_copy == null) &&
+        (_cut == null) &&
+        (_help == null) &&
+        (_paste == null) &&
+        (_new == null) &&
+        (_open == null) &&
+        (_pageSetup == null) &&
+        (_printPreview == null) &&
+        (_print == null) &&
+        (_quickPrint == null) &&
+        (_redo == null) &&
+        (_undo == null) &&
+        (_saveAll == null) &&
+        (_saveAs == null) &&
+        (_save == null);
 
     #endregion
 
@@ -128,6 +143,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"New image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? New
     {
         get => _new;
@@ -153,6 +169,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Open image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Open
     {
         get => _open;
@@ -178,6 +195,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Save image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Save
     {
         get => _save;
@@ -203,6 +221,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Save As image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? SaveAs
     {
         get => _saveAs;
@@ -228,6 +247,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Save All image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? SaveAll
     {
         get => _saveAll;
@@ -253,6 +273,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Cut image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Cut
     {
         get => _cut;
@@ -278,6 +299,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Copy image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Copy
     {
         get => _copy;
@@ -303,6 +325,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Paste image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Paste
     {
         get => _paste;
@@ -328,6 +351,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Undo image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Undo
     {
         get => _undo;
@@ -353,6 +377,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Redo image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Redo
     {
         get => _redo;
@@ -378,6 +403,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Page Setup image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? PageSetup
     {
         get => _pageSetup;
@@ -403,6 +429,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Print Preview image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? PrintPreview
     {
         get => _printPreview;
@@ -428,6 +455,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Print image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Print
     {
         get => _print;
@@ -453,6 +481,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Quick Print image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? QuickPrint
     {
         get => _quickPrint;
@@ -478,6 +507,7 @@ public class KryptonPaletteImagesIntegratedToolBar : Storage
     [Description(@"Help image that the integrated toolbar inherits from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Help
     {
         get => _help;

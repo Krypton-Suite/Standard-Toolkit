@@ -50,8 +50,8 @@ internal class KryptonPageDesigner : ScrollableControlDesigner,
         }
 
         // Acquire service interfaces
-        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _selectionService =(ISelectionService?)GetService(typeof(ISelectionService)) ?? ThrowHelper.ThrowNullReferenceException<ISelectionService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -76,7 +76,12 @@ internal class KryptonPageDesigner : ScrollableControlDesigner,
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents =>
+        KryptonDesignerSdkCompat.Associated(_page?.ButtonSpecs, base.AssociatedComponents);
+#else
     public override ICollection AssociatedComponents => _page?.ButtonSpecs ?? base.AssociatedComponents;
+#endif
 
     /// <summary>
     ///  Gets the design-time action lists supported by the component associated with the designer.

@@ -1,0 +1,272 @@
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+using Timer = System.Windows.Forms.Timer;
+
+namespace Krypton.Toolkit.Utilities;
+
+internal partial class VisualToastComboBoxUserInputForm : VisualToastBaseForm
+{
+    #region Instance Fields
+
+    private int _time;
+
+    private Timer _timer;
+
+    private readonly KryptonUserInputToastData _data;
+
+    #endregion
+
+    #region Internal
+
+    internal string UserResponse => kcmbUserInput.Text ?? string.Empty;
+
+    #endregion
+
+    #region Identity
+
+    public VisualToastComboBoxUserInputForm(KryptonUserInputToastData data)
+    {
+        InitializeComponent();
+
+        _data = data;
+
+        GotFocus += (sender, args) => kcmbUserInput.Focus();
+
+        UpdateBorderColors();
+    }
+
+    #endregion
+
+    #region Implementation
+
+    private void UpdateBorderColors()
+    {
+        StateCommon!.Border.Color1 = _data.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
+
+        StateCommon!.Border.Color2 = _data.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
+    }
+
+    private void UpdateText()
+    {
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
+
+        klblHeader.Text = _data.NotificationTitle ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
+
+        krtbNotificationContentText.Text = _data.NotificationContent ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
+    }
+
+    private void UpdateComboBoxItems()
+    {
+        if (_data.UserInputList.Count > 0)
+        {
+            foreach (var item in _data.UserInputList)
+            {
+                kcmbUserInput.Items.Add(item);
+            }
+
+            kcmbUserInput.SelectedIndex = _data.SelectedIndex ?? 1;
+        }
+
+        kcmbUserInput.DropDownStyle = _data.UserInputComboBoxStyle ?? ComboBoxStyle.DropDown;
+    }
+
+    private void SetIcon(Bitmap? image) => pbxNotificationIcon.Image = image;
+
+    private void UpdateLocation()
+    {
+        // Once loaded, position the form, or default to bottom-right with DPI-scaled edge padding.
+        Location = _data.NotificationLocation ?? GetDefaultBottomRightLocation();
+    }
+
+    private void UpdateIcon()
+    {
+        var bitmap = GraphicsExtensionUtilities.GetToastNotificationBitmap(
+            _data.NotificationIcon,
+            _data.ApplicationIcon,
+            _data.CustomImage,
+            new Size(128, 128));
+
+        SetIcon(bitmap);
+    }
+
+    private void ShowCloseButton() =>
+        ApplyCloseBoxChrome(_data.ShowCloseBox ?? false);
+
+    private void VisualToastNotificationComboBoxUserInputForm_Load(object sender, EventArgs e)
+    {
+        UpdateIcon();
+
+        ShowCloseButton();
+
+        ApplyToastDpiLayout();
+
+        UpdateLocation();
+
+        _timer.Start();
+
+        _data.DisplayDebugData(_data);
+    }
+
+    private void VisualToastNotificationComboBoxUserInputForm_Resize(object sender, EventArgs e)
+    {
+        if (WindowState == FormWindowState.Maximized)
+        {
+            WindowState = FormWindowState.Normal;
+        }
+    }
+
+    private void VisualToastNotificationComboBoxUserInputForm_LocationChanged(object sender, EventArgs e)
+    {
+        if (_data.ReportToastLocation)
+        {
+            ReportToastLocation();
+        }
+    }
+
+    private void ReportToastLocation() => klblToastLocation.Text = _data.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
+
+    private void UpdateInputBoxStyle() =>
+        kcmbUserInput.DropDownStyle = _data.UserInputComboBoxStyle ?? ComboBoxStyle.DropDown;
+
+    private void UpdateOwner(IWin32Window? owner)
+    {
+        //_data.o
+    }
+
+    private void itbDismiss_Click(object sender, EventArgs e) => Close();
+
+    public new DialogResult ShowDialog()
+    {
+        TopMost = _data.TopMost ?? true;
+
+        UpdateText();
+
+        UpdateIcon();
+
+        UpdateComboBoxItems();
+
+        UpdateLocation();
+
+        if (_data.CountDownSeconds != 0)
+        {
+            kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+            itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+            _timer = new Timer();
+
+            _timer.Interval = _data.CountDownTimerInterval ?? 1000;
+
+            _timer.Tick += (sender, args) =>
+            {
+                _time++;
+
+                kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+                itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+                if (_time == _data.CountDownSeconds)
+                {
+                    _timer.Stop();
+
+                    Close();
+                }
+            };
+        }
+
+        return base.ShowDialog();
+    }
+
+    public new DialogResult ShowDialog(IWin32Window owner)
+    {
+        TopMost = _data.TopMost ?? true;
+
+        UpdateText();
+
+        UpdateIcon();
+
+        UpdateComboBoxItems();
+
+        if (_data.CountDownSeconds != 0)
+        {
+            kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+            itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+            _timer = new Timer();
+
+            _timer.Interval = _data.CountDownTimerInterval ?? 1000;
+
+            _timer.Tick += (sender, args) =>
+            {
+                _time++;
+
+                kbtnDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+                itbDismiss.Text = $@"{KryptonManager.Strings.ToastNotificationStrings.Dismiss} ({_data.CountDownSeconds - _time})";
+
+                if (_time == _data.CountDownSeconds)
+                {
+                    _timer.Stop();
+
+                    Close();
+                }
+            };
+        }
+
+        return base.ShowDialog(owner);
+    }
+
+    public new KryptonToastResult ShowToastNotificationResult()
+    {
+
+        return base.ShowToastNotificationResult();
+    }
+
+    public new KryptonToastResult ShowToastNotificationResult(IWin32Window owner)
+    {
+
+        return base.ShowToastNotificationResult(owner);
+    }
+
+    internal static string ShowNotification(KryptonUserInputToastData data)
+    {
+        var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
+
+        using var toast = new VisualToastComboBoxUserInputForm(data);
+
+        if (owner != null)
+        {
+            toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+            return toast.ShowDialog(owner!) == DialogResult.OK ? toast.UserResponse : string.Empty;
+        }
+        else
+        {
+            return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : string.Empty;
+        }
+    }
+
+    
+    internal static async Task<string> ShowNotificationAsync(KryptonUserInputToastData data)
+    {
+        var owner = data.ToastHost ?? FromHandle(PI.GetActiveWindow());
+
+        using var toast = new VisualToastComboBoxUserInputForm(data);
+
+        toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        // Await required so using does not dispose the form before the dialog completes.
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
+
+        return result == DialogResult.OK ? toast.UserResponse : string.Empty;
+    }
+#endregion
+}

@@ -35,12 +35,12 @@ public class CorrectContextControl : IDisposable
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Control is null)
         {
-            throw new ArgumentNullException(nameof(context.Control));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Control));
         }
 
         // Remember incoming context

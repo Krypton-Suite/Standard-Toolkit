@@ -19,7 +19,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupNumericUpDown), "ToolboxBitmaps.KryptonRibbonGroupNumericUpDown.bmp")]
-[Designer(typeof(KryptonRibbonGroupNumericUpDownDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupNumericUpDownDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultEvent(nameof(ValueChanged))]
@@ -377,6 +377,7 @@ public class KryptonRibbonGroupNumericUpDown : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonNumericUpDown.NumericUpDownButtonSpecCollection ButtonSpecs => NumericUpDown!.ButtonSpecs;
 

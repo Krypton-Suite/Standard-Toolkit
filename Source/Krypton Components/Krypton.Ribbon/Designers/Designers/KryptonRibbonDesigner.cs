@@ -23,6 +23,8 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     private DesignerVerb _addTabVerb;
     private DesignerVerb _clearTabsVerb;
     private DesignerVerb _insertStandardQATVerb;
+    private DesignerVerb _hideTabHeadersVerb;
+    private DesignerVerb _showTabHeadersVerb;
     private bool _lastHitTest;
 
     #endregion
@@ -52,7 +54,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         Debug.Assert(component is not null);
 
         // Cast to correct type
-        _ribbon = component as KryptonRibbon ?? throw new ArgumentNullException(nameof(_ribbon));
+        _ribbon =component as KryptonRibbon ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbon, nameof(_ribbon));
 
         if (_ribbon.GetViewManager() is ViewManager viewManager)
         {
@@ -64,9 +66,9 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
-        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
+        _designerHost =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _selectionService =(ISelectionService?)GetService(typeof(ISelectionService)) ?? ThrowHelper.ThrowNullReferenceException<ISelectionService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
 
         // We need to know when we are being removed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -85,12 +87,16 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
             // Create a new collection for both values
-            var compound = new ArrayList(base.AssociatedComponents);
+            var compound = KryptonDesignerSdkCompat.ToArrayList(base.AssociatedComponents);
 
             compound.AddRange(_ribbon!.ButtonSpecs);
             compound.AddRange(_ribbon.QATButtons);
@@ -105,7 +111,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 compound.Add(ribbonTab);
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 
@@ -141,7 +147,9 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
                 _addTabVerb = new DesignerVerb(@"Add Tab", OnAddTab);
                 _clearTabsVerb = new DesignerVerb(@"Clear Tabs", OnClearTabs);
                 _insertStandardQATVerb = new DesignerVerb(@"Insert Standard Quick Access Toolbar Items", OnInsertStandardQATItems);
-                _verbs.AddRange([_toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _insertStandardQATVerb]);
+                _hideTabHeadersVerb = new DesignerVerb(@"Hide Tab Headers", OnHideTabHeaders);
+                _showTabHeadersVerb = new DesignerVerb(@"Show Tab Headers", OnShowTabHeaders);
+                _verbs.AddRange([_toggleHelpersVerb, _addTabVerb, _clearTabsVerb, _insertStandardQATVerb, _hideTabHeadersVerb, _showTabHeadersVerb]);
             }
 
             UpdateVerbStatus();
@@ -250,6 +258,8 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         if (_verbs.Count != 0 && _ribbon is not null)
         {
             _clearTabsVerb.Enabled = _ribbon.RibbonTabs.Count > 0;
+            _hideTabHeadersVerb.Enabled = _ribbon.ShowTabHeaders;
+            _showTabHeadersVerb.Enabled = !_ribbon.ShowTabHeaders;
         }
     }
 
@@ -261,12 +271,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         if (_designerHost is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
         }
 
         if (_ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
         }
 
         // Use a transaction to support undo/redo actions
@@ -298,12 +308,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         if (_designerHost is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
         }
 
         if (_ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
         }
 
         // Use a transaction to support undo/redo actions
@@ -317,7 +327,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
             RaiseComponentChanging(propertyPages);
 
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
+            var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all the tabs from the ribbon
             for (var i = _ribbon.RibbonTabs.Count - 1; i >= 0; i--)
@@ -342,12 +352,12 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         if (_designerHost is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
         }
 
         if (_ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
         }
 
         DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbon InsertStandardQATItems");
@@ -380,6 +390,41 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         finally
         {
             transaction?.Commit();
+        }
+    }
+
+    private void OnHideTabHeaders(object? sender, EventArgs e) => SetShowTabHeaders(false);
+
+    private void OnShowTabHeaders(object? sender, EventArgs e) => SetShowTabHeaders(true);
+
+    private void SetShowTabHeaders(bool showTabHeaders)
+    {
+        if (_designerHost is null)
+        {
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        }
+
+        if (_ribbon is null)
+        {
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
+        }
+
+        DesignerTransaction transaction = _designerHost.CreateTransaction(showTabHeaders
+            ? @"KryptonRibbon ShowTabHeaders"
+            : @"KryptonRibbon HideTabHeaders");
+
+        try
+        {
+            MemberDescriptor? propertyShowTabHeaders = TypeDescriptor.GetProperties(_ribbon)[nameof(KryptonRibbon.ShowTabHeaders)];
+
+            RaiseComponentChanging(propertyShowTabHeaders);
+            _ribbon.ShowTabHeaders = showTabHeaders;
+            RaiseComponentChanged(propertyShowTabHeaders, !showTabHeaders, showTabHeaders);
+        }
+        finally
+        {
+            transaction?.Commit();
+            UpdateVerbStatus();
         }
     }
 
@@ -422,7 +467,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         if (Equals(e.Component, _ribbon))
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
+            var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all the button spec instances
             for (var i = _ribbon!.ButtonSpecs.Count - 1; i >= 0; i--)

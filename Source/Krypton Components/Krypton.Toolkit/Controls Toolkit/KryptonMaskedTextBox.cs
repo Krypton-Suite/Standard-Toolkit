@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(MaskInputRejected))]
 [DefaultProperty(nameof(Mask))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonMaskedTextBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonMaskedTextBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Uses a mask to distinguish between proper and improper user input.")]
 public class KryptonMaskedTextBox : VisualControlBase,
@@ -324,6 +324,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
     private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalMaskedTextBox _maskedTextBox;
     private InputControlStyle _inputControlStyle;
@@ -508,8 +509,10 @@ public class KryptonMaskedTextBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -546,6 +549,8 @@ public class KryptonMaskedTextBox : VisualControlBase,
             _buttonManager?.Destruct();
             _buttonSpecAccessibilityProxyManager?.Dispose();
             _buttonSpecAccessibilityProxyManager = null;
+
+            _pulsingBorder.Dispose();
         }
 
         base.Dispose(disposing);
@@ -695,6 +700,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
     /// <summary>
     /// Gets and sets the text associated with the control.
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.MaskedTextBoxTextEditor).
     [Editor(@"System.Windows.Forms.Design.MaskedTextBoxTextEditor", typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.All)]
     [AllowNull]
@@ -1157,8 +1163,32 @@ public class KryptonMaskedTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public MaskedTextBoxButtonSpecCollection ButtonSpecs { get; }
+
+    /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// Default is <see cref="ButtonSpecEdgeArrange.SideBySide"/>. Set
+    /// <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> on tall hosts to stack Far/Near
+    /// ButtonSpecs vertically. Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"How multiple ButtonSpecs on the same edge are arranged.")]
+    [DefaultValue(ButtonSpecEdgeArrange.SideBySide)]
+    public ButtonSpecEdgeArrange ButtonSpecEdgeArrange
+    {
+        get => _buttonManager?.EdgeArrange ?? ButtonSpecEdgeArrange.SideBySide;
+        set
+        {
+            if (_buttonManager != null)
+            {
+                _buttonManager.EdgeArrange = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets access to the common textbox appearance entries that other states can override.
@@ -1169,6 +1199,16 @@ public class KryptonMaskedTextBox : VisualControlBase,
     public PaletteInputControlTripleRedirect StateCommon { get; }
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to optional pulsing border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn on the control.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets access to the disabled textbox appearance entries.
@@ -1618,6 +1658,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _maskedTextBox.Invalidate();
         base.OnMouseEnter(e);
@@ -1637,6 +1678,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
         }
 
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _maskedTextBox.Invalidate();
         base.OnMouseLeave(e);
@@ -1799,6 +1841,8 @@ public class KryptonMaskedTextBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+
+        _pulsingBorder.UpdateAnimationState();
     }
 
     internal IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
@@ -1945,7 +1989,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more

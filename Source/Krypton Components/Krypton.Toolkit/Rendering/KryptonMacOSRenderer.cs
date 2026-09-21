@@ -28,10 +28,6 @@ public class KryptonMacOSRenderer : KryptonMaterialRenderer
     {
         if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
         {
-            if (!Equals(e.ToolStrip.Font, KCT.MenuStripFont))
-            {
-                e.ToolStrip.Font = KCT.MenuStripFont;
-            }
 
             using var borderPath = CreateRoundedBorderPath(e.AffectedBounds, PopupCornerRadius);
             using var clipPath = CreateRoundedClipPath(e.AffectedBounds, PopupCornerRadius);

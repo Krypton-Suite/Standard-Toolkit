@@ -36,6 +36,7 @@
             this._button3 = new Krypton.Toolkit.Utilities.MessageButton();
             this._button1 = new Krypton.Toolkit.Utilities.MessageButton();
             this._button2 = new Krypton.Toolkit.Utilities.MessageButton();
+            this._copyButton = new Krypton.Toolkit.Utilities.MessageButton();
             this._messageIcon = new System.Windows.Forms.PictureBox();
             this._panelFooter = new Krypton.Toolkit.KryptonPanel();
             this._footerBorderEdge = new Krypton.Toolkit.KryptonBorderEdge();
@@ -101,6 +102,8 @@
             this._panelButtons.Controls.Add(this._button3);
             this._panelButtons.Controls.Add(this._button1);
             this._panelButtons.Controls.Add(this._button2);
+            this._panelButtons.Controls.Add(this._copyButton);
+            this._panelButtons.Controls.Add(this.kcbOptionalCheckBox);
             this._panelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this._panelButtons.Location = new System.Drawing.Point(0, 79);
             this._panelButtons.Margin = new System.Windows.Forms.Padding(0);
@@ -122,7 +125,7 @@
             // _button4
             // 
             this._button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button4.AutoSize = true;
+            this._button4.AutoSize = false;
             this._button4.Enabled = false;
             this._button4.IgnoreAltF4 = false;
             this._button4.Location = new System.Drawing.Point(200, 0);
@@ -137,7 +140,7 @@
             // _button3
             // 
             this._button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button3.AutoSize = true;
+            this._button3.AutoSize = false;
             this._button3.Enabled = false;
             this._button3.IgnoreAltF4 = false;
             this._button3.Location = new System.Drawing.Point(163, 0);
@@ -152,7 +155,7 @@
             // _button1
             // 
             this._button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button1.AutoSize = true;
+            this._button1.AutoSize = false;
             this._button1.Enabled = false;
             this._button1.IgnoreAltF4 = false;
             this._button1.Location = new System.Drawing.Point(87, 0);
@@ -167,7 +170,7 @@
             // _button2
             // 
             this._button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this._button2.AutoSize = true;
+            this._button2.AutoSize = false;
             this._button2.Enabled = false;
             this._button2.IgnoreAltF4 = false;
             this._button2.Location = new System.Drawing.Point(125, 0);
@@ -178,6 +181,21 @@
             this._button2.TabIndex = 1;
             this._button2.Values.Text = "B2";
             this._button2.Visible = false;
+            // 
+            // _copyButton
+            // 
+            this._copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this._copyButton.AutoSize = false;
+            this._copyButton.Enabled = false;
+            this._copyButton.IgnoreAltF4 = false;
+            this._copyButton.Location = new System.Drawing.Point(0, 0);
+            this._copyButton.Margin = new System.Windows.Forms.Padding(0);
+            this._copyButton.MinimumSize = new System.Drawing.Size(38, 21);
+            this._copyButton.Name = "_copyButton";
+            this._copyButton.Size = new System.Drawing.Size(38, 24);
+            this._copyButton.TabIndex = 3;
+            this._copyButton.Values.Text = "Copy";
+            this._copyButton.Visible = false;
             // 
             // _panelFooter
             // 
@@ -209,6 +227,7 @@
             // _footerToggleButton
             // 
             this._footerToggleButton.AutoSize = true;
+            this._footerToggleButton.ButtonStyle = Krypton.Toolkit.ButtonStyle.LowProfile;
             this._footerToggleButton.Location = new System.Drawing.Point(10, 5);
             this._footerToggleButton.Margin = new System.Windows.Forms.Padding(0);
             this._footerToggleButton.Name = "_footerToggleButton";
@@ -246,25 +265,26 @@
             // 
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.kcbOptionalCheckBox, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.kpnlContent, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.Size = new System.Drawing.Size(149, 73);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // kcbOptionalCheckBox
             // 
-            this.kcbOptionalCheckBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kcbOptionalCheckBox.Location = new System.Drawing.Point(3, 50);
+            this.kcbOptionalCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)));
+            this.kcbOptionalCheckBox.AutoSize = true;
+            this.kcbOptionalCheckBox.Location = new System.Drawing.Point(10, 8);
             this.kcbOptionalCheckBox.Name = "kcbOptionalCheckBox";
-            this.kcbOptionalCheckBox.Size = new System.Drawing.Size(143, 20);
-            this.kcbOptionalCheckBox.TabIndex = 0;
-            this.kcbOptionalCheckBox.Values.Text = "CB1";
+            this.kcbOptionalCheckBox.Size = new System.Drawing.Size(20, 20);
+            this.kcbOptionalCheckBox.TabIndex = 4;
+            this.kcbOptionalCheckBox.Values.Text = "";
+            this.kcbOptionalCheckBox.Visible = false;
+            this.kcbOptionalCheckBox.CheckedChanged += new System.EventHandler(this.OptionalCheckBox_CheckedChanged);
             // 
             // kpnlContent
             // 
@@ -321,6 +341,7 @@
             this.ClientSize = new System.Drawing.Size(200, 100);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "VisualMessageBoxExtendedRtlAwareForm";
@@ -329,6 +350,7 @@
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AnyKeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -358,6 +380,7 @@
         private MessageButton _button3;
         private MessageButton _button1;
         private MessageButton _button2;
+        private MessageButton _copyButton;
         private PictureBox _messageIcon;
         private KryptonPanel _panelFooter;
         private KryptonBorderEdge _footerBorderEdge;

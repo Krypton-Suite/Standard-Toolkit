@@ -25,7 +25,7 @@ public static class ButtonValuesExtensions
     {
         if (buttonValues == null)
         {
-            throw new ArgumentNullException(nameof(buttonValues));
+            ThrowHelper.ThrowArgumentNullException(nameof(buttonValues));
         }
 
         var iconBitmap = FontAwesomeHelper.RenderIcon(iconName, size, color, style);
@@ -54,7 +54,7 @@ public static class ButtonValuesExtensions
     {
         if (buttonValues == null)
         {
-            throw new ArgumentNullException(nameof(buttonValues));
+            ThrowHelper.ThrowArgumentNullException(nameof(buttonValues));
         }
 
         var iconBitmap = FontAwesomeHelper.RenderIcon(icon, size, color, style);
@@ -88,7 +88,7 @@ public static class ButtonValuesExtensions
     {
         if (buttonValues == null)
         {
-            throw new ArgumentNullException(nameof(buttonValues));
+            ThrowHelper.ThrowArgumentNullException(nameof(buttonValues));
         }
 
         // Normal state
@@ -168,7 +168,7 @@ public static class ButtonValuesExtensions
     {
         if (buttonValues == null)
         {
-            throw new ArgumentNullException(nameof(buttonValues));
+            ThrowHelper.ThrowArgumentNullException(nameof(buttonValues));
         }
 
         // Normal state

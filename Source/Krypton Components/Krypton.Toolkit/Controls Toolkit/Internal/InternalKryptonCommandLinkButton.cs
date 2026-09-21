@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [DefaultEvent("Click")]
 [DefaultProperty("Heading")]
-[Designer(typeof(InternalKryptonCommandLinkButtonDesigner))]
+[Designer("Krypton.Toolkit.InternalKryptonCommandLinkButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory("code")]
 #if NET8_0_OR_GREATER
 #pragma warning disable CS0618
@@ -99,11 +99,11 @@ public class InternalKryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         // Create the palette storage
         StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
         PaletteContentText contentShortText = StateCommon.Content.ShortText;
-        contentShortText.Font = KryptonManager.CurrentGlobalPalette.BaseFont; //new Font(@"Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        contentShortText.TextH = PaletteRelativeAlign.Near;
-        contentShortText.TextV = PaletteRelativeAlign.Center;
-        StateCommon.Content.LongText.TextH = PaletteRelativeAlign.Near;
-        StateCommon.Content.LongText.TextV = PaletteRelativeAlign.Far;
+        contentShortText.SetDefaultFont(KryptonManager.CurrentGlobalPalette.BaseFont);
+        contentShortText.SetDefaultTextH(PaletteRelativeAlign.Near);
+        contentShortText.SetDefaultTextV(PaletteRelativeAlign.Center);
+        StateCommon.Content.LongText.SetDefaultTextH(PaletteRelativeAlign.Near);
+        StateCommon.Content.LongText.SetDefaultTextV(PaletteRelativeAlign.Far);
 
         StateDisabled = new PaletteTriple(StateCommon, NeedPaintDelegate);
         StateNormal = new PaletteTriple(StateCommon, NeedPaintDelegate);
@@ -111,9 +111,9 @@ public class InternalKryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         StatePressed = new PaletteTriple(StateCommon, NeedPaintDelegate);
         OverrideDefault = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
         OverrideFocus = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
-        OverrideFocus.Border.Draw = InheritBool.True;
-        OverrideFocus.Border.DrawBorders = PaletteDrawBorders.All;
-        OverrideFocus.Border.GraphicsHint = PaletteGraphicsHint.AntiAlias;
+        OverrideFocus.Border.SetFactoryDraw(InheritBool.True);
+        OverrideFocus.Border.SetFactoryDrawBorders(PaletteDrawBorders.All);
+        OverrideFocus.Border.SetFactoryGraphicsHint(PaletteGraphicsHint.AntiAlias);
         // Force style update
         ButtonStyle = ButtonStyle.Command;
 
@@ -195,6 +195,7 @@ public class InternalKryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor("System.ComponentModel.Design.MultilineStringEditor, System.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
     [Browsable(false)]
     [Localizable(false)]
@@ -611,6 +612,20 @@ public class InternalKryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     }
 
     /// <inheritdoc />
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        CommandLinkTextValues.SyncDefaultArrow(CommonHelper.IsRightToLeftLayout(this));
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        CommandLinkTextValues.SyncDefaultArrow(CommonHelper.IsRightToLeftLayout(this));
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    /// <inheritdoc />
     protected override void OnPaint(PaintEventArgs? e)
     {
         StateCommon.Content.LongText.Font = CommandLinkTextValues.DescriptionFont;
@@ -627,13 +642,6 @@ public class InternalKryptonCommandLinkButton : VisualSimpleBase, IButtonControl
 
     #endregion
 
-    #region WIN32 Calls
-
-
-    [DllImport(Libraries.User32, CharSet = CharSet.Unicode)]
-    static extern int SendMessage(HandleRef hWnd, uint msg, IntPtr wParam, bool lParam);
-
-    #endregion
 
     #region Protected Virtual
 

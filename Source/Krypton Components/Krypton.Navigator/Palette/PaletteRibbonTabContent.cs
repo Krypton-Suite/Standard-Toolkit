@@ -41,17 +41,17 @@ public class PaletteRibbonTabContent : Storage
 
         if (paletteBack is null)
         {
-            throw new ArgumentNullException(nameof(paletteBack));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteBack));
         }
 
         if (paletteText is null)
         {
-            throw new ArgumentNullException(nameof(paletteText));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteText));
         }
 
         if (paletteContent is null)
         {
-            throw new ArgumentNullException(nameof(paletteContent));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteContent));
         }
 
         // Store the provided paint notification delegate

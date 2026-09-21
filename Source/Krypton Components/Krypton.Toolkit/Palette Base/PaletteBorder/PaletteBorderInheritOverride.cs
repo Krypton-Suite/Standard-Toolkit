@@ -36,8 +36,8 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
         Debug.Assert(backup != null);
 
         // Store incoming alternatives
-        _primary = primary ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(primary)));
-        _backup = backup ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(backup)));
+        _primary =primary ?? ThrowHelper.ThrowNullReferenceException<IPaletteBorder>(SharedStaticFunctions.VariableCannotBeNull(nameof(primary)));
+        _backup =backup ?? ThrowHelper.ThrowNullReferenceException<IPaletteBorder>(SharedStaticFunctions.VariableCannotBeNull(nameof(backup)));
 
         // Default other state
         Apply = true;
@@ -169,7 +169,7 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
         {
             Color ret = _primary.GetBorderColor1(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticVariables.EMPTY_COLOR)
+            if (ret == SharedStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetBorderColor1(state);
             }
@@ -193,7 +193,7 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
         {
             Color ret = _primary.GetBorderColor2(Override ? OverrideState : state);
 
-            if (ret == GlobalStaticVariables.EMPTY_COLOR)
+            if (ret == SharedStaticVariables.EMPTY_COLOR)
             {
                 ret = _backup.GetBorderColor2(state);
             }
@@ -308,6 +308,10 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Border rounding.</returns>
     public override float GetBorderRounding(PaletteState state) => MergeBorderRoundingForFocusOverride(state);
+
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteState state) =>
+        MergeBorderCornerRoundingForFocusOverride(state);
 
     /// <summary>
     /// Gets a border image.
@@ -434,6 +438,52 @@ public class PaletteBorderInheritOverride : PaletteBorderInherit
             if (ret == -1f)
             {
                 ret = _backup.GetBorderRounding(state);
+            }
+
+            return ret;
+        }
+    }
+
+    private PaletteCornerRounding MergeBorderCornerRoundingForFocusOverride(PaletteState state)
+    {
+        if (!Apply)
+        {
+            return _backup.GetBorderCornerRounding(state);
+        }
+
+        if (!Override)
+        {
+            var ret = _primary.GetBorderCornerRounding(state);
+            if (_primary.GetBorderRounding(state) == -1f)
+            {
+                ret = _backup.GetBorderCornerRounding(state);
+            }
+
+            return ret;
+        }
+
+        if (OverrideState == PaletteState.FocusOverride && PreferBackupBorderRoundingForFocusMerge(state))
+        {
+            var ret = _backup.GetBorderCornerRounding(state);
+            if (_backup.GetBorderRounding(state) != -1f)
+            {
+                return ret;
+            }
+
+            ret = _primary.GetBorderCornerRounding(OverrideState);
+            if (_primary.GetBorderRounding(OverrideState) != -1f)
+            {
+                return ret;
+            }
+
+            return _primary.GetBorderCornerRounding(state);
+        }
+        else
+        {
+            var ret = _primary.GetBorderCornerRounding(OverrideState);
+            if (_primary.GetBorderRounding(OverrideState) == -1f)
+            {
+                ret = _backup.GetBorderCornerRounding(state);
             }
 
             return ret;

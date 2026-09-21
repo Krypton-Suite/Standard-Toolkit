@@ -37,6 +37,9 @@ public class OverlayImageValues : Storage
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
 
+        ImageStates = CreateImageStates();
+        ImageStates.NeedPaint = needPaint;
+
         Reset();
     }
 
@@ -49,8 +52,9 @@ public class OverlayImageValues : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (Image == null) &&
-                                      (ImageTransparentColor == GlobalStaticVariables.EMPTY_COLOR) &&
+    public override bool IsDefault => ImageStates.IsDefault &&
+                                      (Image == null) &&
+                                      (ImageTransparentColor == SharedStaticVariables.EMPTY_COLOR) &&
                                       (Position == OverlayImagePosition.TopRight) &&
                                       (ScaleMode == OverlayImageScaleMode.None) &&
                                       (ScaleFactor == 0.5f) &&
@@ -69,6 +73,7 @@ public class OverlayImageValues : Storage
     [Description(@"Overlay image to display on top of the main image.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -90,6 +95,18 @@ public class OverlayImageValues : Storage
     /// </summary>
     public void ResetImage() => Image = null;
     
+    #endregion
+
+    #region ImageStates
+    /// <summary>
+    /// Gets access to the per-state overlay images.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Per-state overlay images.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public OverlayImageStates ImageStates { get; }
+
+    private bool ShouldSerializeImageStates() => !ImageStates.IsDefault;
     #endregion
 
     #region ImageTransparentColor
@@ -116,12 +133,12 @@ public class OverlayImageValues : Storage
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Resets the ImageTransparentColor property to its default value.
     /// </summary>
-    public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
     
     #endregion
 
@@ -257,17 +274,58 @@ public class OverlayImageValues : Storage
     
     #endregion
 
+    #region CreateImageStates
+    /// <summary>
+    /// Create the storage for the overlay image states.
+    /// </summary>
+    /// <returns>Storage object.</returns>
+    protected virtual OverlayImageStates CreateImageStates() => new OverlayImageStates();
+    #endregion
+
+    #region GetImage
+    /// <summary>
+    /// Gets the overlay image for the specified palette state.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public virtual Image? GetImage(PaletteState state)
+    {
+        // Try and find a state specific image
+        Image? image = state switch
+        {
+            PaletteState.Disabled => ImageStates.ImageDisabled,
+            PaletteState.Normal => ImageStates.ImageNormal,
+            PaletteState.Pressed => ImageStates.ImagePressed,
+            PaletteState.Tracking => ImageStates.ImageTracking,
+            _ => null
+        };
+
+        // If there is no image then use the generic image
+        return image ?? Image;
+    }
+    #endregion
+
     #region Reset
     
+    /// <summary>
+    /// Resets all overlay image values to their defaults.
+    /// </summary>
     public void Reset()
     {
         // Set initial values
         _image = null;
-        _transparent = GlobalStaticVariables.EMPTY_COLOR;
+        _transparent = SharedStaticVariables.EMPTY_COLOR;
         _position = OverlayImagePosition.TopRight;
         _scaleMode = OverlayImageScaleMode.None;
         _scaleFactor = 0.5f; // Default to 50% of main image
         _fixedSize = new Size(16, 16); // Default fixed size
+        ImageStates.ImageNormal = null;
+        ImageStates.ImageDisabled = null;
+        ImageStates.ImagePressed = null;
+        ImageStates.ImageTracking = null;
+        ImageStates.ImageCheckedNormal = null;
+        ImageStates.ImageCheckedPressed = null;
+        ImageStates.ImageCheckedTracking = null;
     }
 
     #endregion
@@ -286,9 +344,10 @@ public class OverlayImageValues : Storage
         ScaleMode = source.ScaleMode;
         ScaleFactor = source.ScaleFactor;
         FixedSize = source.FixedSize;
+        ImageStates.CopyFrom(source.ImageStates);
     }
 
     #endregion
 
-    public override string ToString() => !IsDefault ? @"Modified" : GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? @"Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 }

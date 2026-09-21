@@ -1,0 +1,39 @@
+﻿<##
+.SYNOPSIS
+    Hosts TestForm.RadialMenuDemo from a Debug bin folder (STA).
+
+.DESCRIPTION
+    Loads Krypton + TestForm assemblies from Bin\<Configuration>\<TFM> and runs the
+    Radial Menu (#4172) demo. Use as the UI host for screenshot helpers.
+
+.EXAMPLE
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Start-RadialMenuDemoHost.ps1
+#>
+[CmdletBinding()]
+param(
+    [string]$Configuration = 'Debug',
+    [string]$TargetFramework = 'net472',
+    [string]$BinDir
+)
+
+$ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'UnitTestCommon.ps1')
+
+$repoRoot = Get-UnitTestRepoRoot
+$bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
+Register-UnitTestAssemblyResolver -BinDir $bin
+
+Add-Type -AssemblyName System.Windows.Forms
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.Utilities.dll'))
+$asm = [System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'TestForm.exe'))
+
+[System.Windows.Forms.Application]::EnableVisualStyles()
+$formType = $asm.GetType('TestForm.RadialMenuDemo')
+if (-not $formType) {
+    throw 'Type TestForm.RadialMenuDemo was not found in TestForm.exe.'
+}
+
+$form = [System.Activator]::CreateInstance($formType)
+Write-Host "Hosting RadialMenuDemo from $bin"
+[System.Windows.Forms.Application]::Run($form)

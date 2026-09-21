@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -69,7 +69,7 @@ public class BadgeContentValues : Storage
     [DefaultValue(DEFAULT_BADGE_TEXT)]
     public string Text
     {
-        get => _text ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+        get => _text ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
         set
         {
             if (_text != value)
@@ -97,6 +97,7 @@ public class BadgeContentValues : Storage
     [Description(@"The image to display on the badge. If set, the image will be displayed instead of text.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? BadgeImage
     {
         get => _badgeImage;
@@ -315,7 +316,7 @@ public class BadgeContentValues : Storage
         }
     }
 
-    private bool ShouldSerializeMaxBadgeValue() => MaximumBadgeValue != DEFAULT_MAXIMUM_BADGE_VALUE;
+    private bool ShouldSerializeMaximumBadgeValue() => MaximumBadgeValue != DEFAULT_MAXIMUM_BADGE_VALUE;
 
     /// <summary>
     /// Gets and sets whether the badge should automatically show when it has content (text or image) and hide when empty.
@@ -447,7 +448,7 @@ public class BadgeContentValues : Storage
                                         ShouldSerializeBadgeMargin() ||
                                         ShouldSerializeCapsuleShapePadding() ||
                                         ShouldSerializeFont() ||
-                                        ShouldSerializeMaxBadgeValue() ||
+                                        ShouldSerializeMaximumBadgeValue() ||
                                         ShouldSerializePosition() ||
                                         ShouldSerializeShape() ||
                                         ShouldSerializeText() ||

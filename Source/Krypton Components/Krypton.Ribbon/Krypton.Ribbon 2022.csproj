@@ -15,7 +15,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <NeutralLanguage>en</NeutralLanguage>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-    <Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+    <Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
     <Nullable>enable</Nullable>
     <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
     <WarningLevel>8</WarningLevel>
@@ -28,7 +28,12 @@
 
   <PropertyGroup>
     <PackageId>Krypton.Ribbon</PackageId>
-    <Description>This is the ribbon module.</Description>
+    <Description>Krypton Ribbon for WinForms: Office 2007/2010/2013/365-style ribbon with quick access toolbar, contextual tabs, galleries, and auto-shrinking groups, sharing the Toolkit palette and look and feel.</Description>
+  </PropertyGroup>
+
+  <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
+  <PropertyGroup>
+    <IncludeKryptonGlobalSuppressionsLink>true</IncludeKryptonGlobalSuppressionsLink>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,11 +45,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
-    <Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
-      <Link>General\PlatformInvoke.cs</Link>
-    </Compile>
-    <Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
     <Compile Update="ButtonSpec\ButtonSpecAppMenu.cs" />
     <Compile Update="ButtonSpec\ButtonSpecMdiChildFixed.cs" />
     <Compile Update="ButtonSpec\ButtonSpecMdiChildClose.cs" />
@@ -88,6 +88,7 @@
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroup.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonTab.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbon.bmp" />
+    <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonToolbar.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Controls Ribbon Install\KryptonGalleryLicence.cs" />
@@ -97,8 +98,21 @@
     <Compile Remove="View Layout Install\ViewLayoutRibbonAppTab.cs" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
+         PrivateAssets="all" keeps the unpublished package out of this package's nuspec dependencies (#3908). -->
+    		<!-- Krypton.Resources: direct reference required (typed ResourceFiles accessors via InternalsVisibleTo); PrivateAssets so it is not a NuGet dependency (bundled via Krypton.Resources.Package.targets). -->
+		<ProjectReference Include="..\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+    <Compile Remove="Designers\Designers\**\*.cs" />
+    <Compile Remove="Designers\Action Lists\**\*.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Ribbon.Design</KryptonWinFormsDesignerSdkDesignAssembly>
+  </PropertyGroup>
+  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
   <ItemGroup>
     <EmbeddedResource Update="Resources\GenericImageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

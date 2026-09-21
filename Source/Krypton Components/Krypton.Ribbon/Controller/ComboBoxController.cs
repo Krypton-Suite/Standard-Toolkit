@@ -39,9 +39,9 @@ internal class ComboBoxController : GlobalId,
         [DisallowNull] KryptonRibbonGroupComboBox comboBox,
         [DisallowNull] ViewDrawRibbonGroupComboBox target)
     {
-        _ribbon = ribbon ?? throw new Exception( GlobalStaticFunctions.VariableCannotBeNull(nameof(_ribbon)));
-        _comboBox = comboBox ?? throw new Exception(GlobalStaticFunctions.VariableCannotBeNull(nameof(_comboBox)));
-        _target = target ?? throw new Exception(GlobalStaticFunctions.VariableCannotBeNull(nameof(_target)));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _comboBox = comboBox ?? ThrowHelper.ThrowArgumentNullException(comboBox);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 
@@ -153,15 +153,15 @@ internal class ComboBoxController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new ArgumentNullException(nameof(ribbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(ribbon));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:
@@ -211,7 +211,7 @@ internal class ComboBoxController : GlobalId,
 
     private void KeyDownPopupGroup(VisualPopupGroup popupGroup, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:
@@ -226,7 +226,7 @@ internal class ComboBoxController : GlobalId,
 
     private void KeyDownPopupMinimized(VisualPopupMinimized popupMinimized, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:

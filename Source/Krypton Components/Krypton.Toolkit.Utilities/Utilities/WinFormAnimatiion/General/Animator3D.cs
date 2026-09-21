@@ -194,7 +194,7 @@ internal class Animator3D : IAnimator
             }
             else
             {
-                throw new NotSupportedException("Animation is running.");
+                ThrowHelper.ThrowNotSupportedException("Animation is running.");
             }
         }
     }
@@ -361,7 +361,7 @@ internal class Animator3D : IAnimator
              ((UnaryExpression) propertySetter.Body).Operand as MemberExpression)?.Member as PropertyInfo;
         if (property == null)
         {
-            throw new ArgumentException(nameof(propertySetter));
+            ThrowHelper.ThrowArgumentException(nameof(propertySetter));
         }
 
         Play(

@@ -132,7 +132,8 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         Debug.Assert(context != null);
 
         // Validate incoming reference
-        return context == null ? throw new ArgumentNullException(nameof(context)) : _blockSize;
+        ThrowHelper.ThrowIfNull(context);
+        return _blockSize;
     }
 
     /// <summary>
@@ -147,7 +148,7 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
@@ -169,7 +170,7 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Start with the full client rectangle
@@ -209,15 +210,15 @@ public class ViewDrawMenuColorBlock : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // If not in normal state, then need to adorn display
-        var outside = GlobalStaticVariables.EMPTY_COLOR;
-        var inside = GlobalStaticVariables.EMPTY_COLOR;
+        var outside = SharedStaticVariables.EMPTY_COLOR;
+        var inside = SharedStaticVariables.EMPTY_COLOR;
 
         // Is this element selected?
-        var selected = (KryptonContextMenuColorColumns.SelectedColor != GlobalStaticVariables.EMPTY_COLOR) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
+        var selected = (KryptonContextMenuColorColumns.SelectedColor != SharedStaticVariables.EMPTY_COLOR) && KryptonContextMenuColorColumns.SelectedColor.Equals(Color);
 
         switch (ElementState)
         {

@@ -97,13 +97,21 @@ public partial class VisualControlsTest : KryptonForm
 
     private void kbtnVisualThemeBrowser_Click(object sender, EventArgs e)
     {
-        var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser", StartIndex = 1 };
+        var data = new KryptonThemeBrowserData
+        {
+            WindowTitle = "Theme Browser",
+            DefaultPalette = PaletteMode.Office2010Blue
+        };
         KryptonThemeBrowser.Show(data);
     }
 
     private void kbtnVisualThemeBrowserRtlAware_Click(object sender, EventArgs e)
     {
-        var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser RTL", StartIndex = 1 };
+        var data = new KryptonThemeBrowserData
+        {
+            WindowTitle = "Theme Browser RTL",
+            DefaultPalette = PaletteMode.Office2010Blue
+        };
         ShowFormByName("VisualThemeBrowserFormRtlAware", data);
     }
 

@@ -237,12 +237,12 @@ public class ViewDrawMonthDays : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Get the current date values
@@ -272,15 +272,12 @@ public class ViewDrawMonthDays : ViewLeaf,
         DateTime displayDate = _firstDay;
         for (var j = 0; j < WEEKS; j++)
         {
-            // Layout each day as a column (in RTL, reverse the order)
+            // Pack columns from the start edge. Keep logical day index sequential so
+            // reversing the index does not cancel RTL packing.
             for (var i = 0; i < WEEKDAYS; i++)
             {
-                // Calculate actual day index based on RTL
-                int actualDayIndex = isRtl ? (WEEKDAYS - 1 - i) : i;
-                DateTime actualDisplayDate = _firstDay.AddDays(j * WEEKDAYS + actualDayIndex);
-
-                // Memento index (still uses original order for array access)
-                var index = (j * WEEKDAYS) + actualDayIndex;
+                DateTime actualDisplayDate = _firstDay.AddDays(j * WEEKDAYS + i);
+                var index = (j * WEEKDAYS) + i;
 
                 // Define text to be drawn
                 _drawText = actualDisplayDate.Day.ToString();
@@ -396,12 +393,12 @@ public class ViewDrawMonthDays : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Get the current date values
@@ -429,15 +426,10 @@ public class ViewDrawMonthDays : ViewLeaf,
         DateTime displayDate = _firstDay;
         for (var j = 0; j < WEEKS; j++)
         {
-            // Draw each day as a column (in RTL, reverse the order)
             for (var i = 0; i < WEEKDAYS; i++)
             {
-                // Calculate actual day index based on RTL
-                int actualDayIndex = isRtl ? (WEEKDAYS - 1 - i) : i;
-                DateTime actualDisplayDate = _firstDay.AddDays(j * WEEKDAYS + actualDayIndex);
-
-                // Memento index (still uses original order for array access)
-                var index = (j * WEEKDAYS) + actualDayIndex;
+                DateTime actualDisplayDate = _firstDay.AddDays(j * WEEKDAYS + i);
+                var index = (j * WEEKDAYS) + i;
 
                 // Draw using memento cached from the layout call
                 if (_dayMementos[index] != null)
@@ -557,7 +549,7 @@ public class ViewDrawMonthDays : ViewLeaf,
     /// </summary>
     /// <param name="state">The state for which the image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content short text.
@@ -583,7 +575,7 @@ public class ViewDrawMonthDays : ViewLeaf,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

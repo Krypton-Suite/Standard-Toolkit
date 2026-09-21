@@ -192,6 +192,7 @@ internal class KryptonCheckBoxActionList : DesignerActionList
     /// <summary>
     /// Gets and sets the checkbox image.
     /// </summary>
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _checkBox.Values.Image;

@@ -26,8 +26,6 @@ public class KryptonVisualStudio2010With2013ColorTable : KryptonColorTable
     private static readonly Color _menuItemSelectedBegin = Color.FromArgb(251, 242, 215);
     private static readonly Color _menuItemSelectedEnd = Color.FromArgb(247, 224, 135);
     private static readonly Color _menuStripItemTextColor = Color.FromArgb(0, 0, 0);
-    private static Font _menuToolFont;
-    private static Font _statusFont;
     #endregion
 
     #region Instance Fields
@@ -36,22 +34,13 @@ public class KryptonVisualStudio2010With2013ColorTable : KryptonColorTable
     #endregion
 
     #region Identity
-    [SecuritySafeCritical]
-    static KryptonVisualStudio2010With2013ColorTable()
-    {
-        // Get the font settings from the system
-        DefineFonts();
-
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-    }
-
     /// <summary>
     /// Initialize a new instance of the KryptonColorTable2010 class.
     /// </summary>
     /// <param name="colors">Source of </param>
     /// <param name="roundedEdges">Should have rounded edges.</param>
     /// <param name="palette">Associated palette instance.</param>
+    [SecuritySafeCritical]
     public KryptonVisualStudio2010With2013ColorTable([DisallowNull] Color[] colors,
         InheritBool roundedEdges,
         PaletteBase palette)
@@ -487,7 +476,7 @@ public class KryptonVisualStudio2010With2013ColorTable : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu items.
     /// </summary>
-    public override Color MenuItemText => _menuStripItemTextColor; // _colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color MenuItemText => SchemeBaseColorsExtensions.Coalesce(_colors.Get(SchemeBaseColors.MenuItemText), _menuStripItemTextColor);
 
     #endregion
 
@@ -496,7 +485,7 @@ public class KryptonVisualStudio2010With2013ColorTable : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu strip.
     /// </summary>
-    public override Color MenuStripText => _menuStripItemTextColor; // _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color MenuStripText => SchemeBaseColorsExtensions.Coalesce(_colors.Get(SchemeBaseColors.MenuStripText), _menuStripItemTextColor);
 
     #endregion
 
@@ -504,7 +493,7 @@ public class KryptonVisualStudio2010With2013ColorTable : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => _colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color ToolStripText => _colors.ResolveToolStripText(SchemeBaseColors.StatusStripText);
 
     #endregion
 
@@ -513,30 +502,6 @@ public class KryptonVisualStudio2010With2013ColorTable : KryptonColorTable
     /// Gets the text color used on the status strip.
     /// </summary>
     public override Color StatusStripText => _colors[(int)SchemeBaseColors.StatusStripText];
-
-    #endregion
-
-    #region MenuStripFont
-    /// <summary>
-    /// Gets the font used on the menu strip.
-    /// </summary>
-    public override Font MenuStripFont => _menuToolFont;
-
-    #endregion
-
-    #region ToolStripFont
-    /// <summary>
-    /// Gets the font used on the tool strip.
-    /// </summary>
-    public override Font ToolStripFont => _menuToolFont;
-
-    #endregion
-
-    #region StatusStripFont
-    /// <summary>
-    /// Gets the font used on the status strip.
-    /// </summary>
-    public override Font StatusStripFont => _statusFont;
 
     #endregion
     #endregion
@@ -616,17 +581,5 @@ public class KryptonVisualStudio2010With2013ColorTable : KryptonColorTable
     #endregion
 
     #region Implementation
-    private static void DefineFonts()
-    {
-        // Create new font using system information
-        // TODO: Should be using base font
-        _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
-        _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
-    }
-
-    private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
-        // Update fonts to reflect any change in system settings
-        DefineFonts();
-
     #endregion
 }

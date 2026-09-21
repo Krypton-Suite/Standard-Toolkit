@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -6,7 +6,7 @@
  *
  */
 #endregion
-using System.Runtime.InteropServices;
+
 using System.Threading;
 
 namespace TestForm;
@@ -15,26 +15,16 @@ internal static class Program
 {
     private const string JumpListAppId = "KryptonToolkit.JumpListTest";
 
-#if NETFRAMEWORK
-    [DllImport("user32.dll")]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern bool SetProcessDPIAware();
-#endif
-
-    [DllImport("shell32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern int SetCurrentProcessExplicitAppUserModelID(string appId);
-
     /// <summary>
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    private static void Main()
+    private static void Main(string[] args)
     {
         // Set AppUserModelID before any UI - required for taskbar jump list to attach to this process
         try
         {
-            SetCurrentProcessExplicitAppUserModelID(JumpListAppId);
+            PI.SetCurrentProcessExplicitAppUserModelID(JumpListAppId);
         }
         catch
         {
@@ -45,10 +35,10 @@ internal static class Program
 #if NETFRAMEWORK
         if (Environment.OSVersion.Version.Major >= 6)
         {
-            SetProcessDPIAware();
+            PI.SetProcessDPIAware();
         }
 #else
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
 
         // To customize application configuration such as set high DPI settings or default font,
@@ -59,8 +49,37 @@ internal static class Program
         // Initialize WPF Application for JumpList (required for System.Windows.Shell.JumpList)
         _ = new global::System.Windows.Application();
 #if NET8_0_OR_GREATER
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+        Application.SetHighDpiMode(HighDpiMode.SystemAware);
 #endif
-        Application.Run(new StartScreen());
+        Application.Run(CreateStartupForm(args));
+    }
+
+    /// <summary>
+    /// Opens <see cref="StartScreen"/>, or a named demo when launched with <c>--demo TypeName</c>
+    /// (for example <c>TestForm.exe --demo SchemeStripTextDemo</c>).
+    /// </summary>
+    /// <param name="args">Command-line arguments.</param>
+    /// <returns>The form to pass to <see cref="Application.Run(Form)"/>.</returns>
+    private static Form CreateStartupForm(string[] args)
+    {
+        for (int i = 0; i < args.Length - 1; i++)
+        {
+            if (!string.Equals(args[i], "--demo", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            var typeName = args[i + 1];
+            var type = typeof(Program).Assembly.GetType("TestForm." + typeName, throwOnError: false)
+                       ?? typeof(Program).Assembly.GetType(typeName, throwOnError: false);
+            if (type is null || !typeof(Form).IsAssignableFrom(type))
+            {
+                throw new ArgumentException("Unknown TestForm demo '" + typeName + "'.");
+            }
+
+            return (Form)Activator.CreateInstance(type)!;
+        }
+
+        return new StartScreen();
     }
 }

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(SplitterMoved))]
 [DefaultProperty(nameof(Orientation))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonSeparatorDesigner))]
+[Designer("Krypton.Toolkit.KryptonSeparatorDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Display a separator generated events to operation.")]
 public class KryptonSeparator : VisualControl,
     ISeparatorSource
@@ -363,7 +363,7 @@ public class KryptonSeparator : VisualControl,
                 // Cannot assign a value of less than zero
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
                 }
 
                 // Use new width of the splitter area

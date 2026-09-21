@@ -26,7 +26,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         : base(kct)
     {
         Debug.Assert(kct is not null);
-        KCT = kct ?? throw new ArgumentNullException(nameof(kct));
+        KCT = kct ?? ThrowHelper.ThrowArgumentNullException(kct);
     }
     #endregion
 
@@ -35,6 +35,105 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// Gets access to the KryptonColorTable instance.
     /// </summary>
     public KryptonColorTable KCT { get; }
+
+    #endregion
+
+    #region Protected
+    /// <summary>
+    /// Ensures the ToolStrip uses the current palette strip font.
+    /// </summary>
+    /// <param name="toolStrip">The ToolStrip being rendered.</param>
+    protected void SyncToolStripFont(ToolStrip toolStrip) => ToolStripFontSync.ApplyFromColorTable(toolStrip, KCT);
+
+    /// <summary>
+    /// Paints a drop-down image margin using the color-table
+    /// <see cref="ProfessionalColorTable.ImageMarginGradientBegin"/> /
+    /// Middle / End values so custom palette TMS overrides apply on every theme.
+    /// Non-menu strips fall through to <see cref="ToolStripProfessionalRenderer"/>.
+    /// </summary>
+    /// <param name="e">Render event data.</param>
+    /// <param name="marginInset">Inset applied so the fill sits inside the menu border.</param>
+    protected void RenderImageMarginFromColorTable(ToolStripRenderEventArgs e, int marginInset)
+    {
+        if (e == null)
+        {
+            return;
+        }
+
+        if (e.ToolStrip is not (ContextMenuStrip or ToolStripDropDownMenu))
+        {
+            base.OnRenderImageMargin(e);
+            return;
+        }
+
+        Rectangle marginRect = e.AffectedBounds;
+        var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
+
+        marginRect.Y += marginInset;
+        marginRect.Height -= marginInset * 2;
+
+        if (!rtl)
+        {
+            marginRect.X += marginInset;
+        }
+        else
+        {
+            marginRect.X += marginInset / 2;
+        }
+
+        if (marginRect.Width <= 0 || marginRect.Height <= 0)
+        {
+            return;
+        }
+
+        Color begin = rtl ? KCT.ImageMarginGradientEnd : KCT.ImageMarginGradientBegin;
+        Color middle = KCT.ImageMarginGradientMiddle;
+        Color end = rtl ? KCT.ImageMarginGradientBegin : KCT.ImageMarginGradientEnd;
+        FillImageMargin(e.Graphics, marginRect, begin, middle, end);
+
+        using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
+               darkPen = new Pen(KCT.ContextMenuImageColumnBorder))
+        {
+            if (!rtl)
+            {
+                e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
+                e.Graphics.DrawLine(darkPen, marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
+            }
+            else
+            {
+                e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
+                e.Graphics.DrawLine(darkPen, marginRect.Left, marginRect.Top, marginRect.Left, marginRect.Bottom);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fills a menu image-margin rectangle with a three-stop horizontal gradient.
+    /// </summary>
+    internal static void FillImageMargin(Graphics graphics, Rectangle rect, Color begin, Color middle, Color end)
+    {
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return;
+        }
+
+        if (begin == middle && middle == end)
+        {
+            using var brush = new SolidBrush(begin);
+            graphics.FillRectangle(brush, rect);
+            return;
+        }
+
+        using var gradient = new LinearGradientBrush(rect, begin, end, LinearGradientMode.Horizontal);
+        // TileFlipX is required for InterpolationColors to honour the middle stop.
+        gradient.WrapMode = WrapMode.TileFlipX;
+        gradient.InterpolationColors = new ColorBlend
+        {
+            Colors = new[] { begin, middle, end },
+            Positions = new[] { 0f, 0.5f, 1f }
+        };
+        graphics.FillRectangle(gradient, rect);
+    }
 
     #endregion
 
@@ -71,6 +170,8 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
             return;
         }
 
+        SyncToolStripFont(e.ToolStrip);
+
         if (IsContextMenuToolStrip(e.ToolStrip))
         {
             using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
@@ -90,25 +191,8 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// Raises the RenderImageMargin event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if (e == null)
-        {
-            return;
-        }
-
-        if (IsContextMenuToolStrip(e.ToolStrip))
-        {
-            using (var backBrush = new SolidBrush(KCT.ContextMenuImageColumnBack))
-            {
-                e.Graphics.FillRectangle(backBrush, e.AffectedBounds);
-            }
-
-            return;
-        }
-
-        base.OnRenderImageMargin(e);
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, 2);
     #endregion
 
     #region OnRenderMenuItemBackground
@@ -276,7 +360,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         // Default style when the user provides one color only: Solid
         if (effectiveStyle == PaletteColorStyle.Inherit)
         {
-            effectiveStyle = (color2 == GlobalStaticVariables.EMPTY_COLOR || color2.IsEmpty)
+            effectiveStyle = (color2 == SharedStaticVariables.EMPTY_COLOR || color2.IsEmpty)
                 ? PaletteColorStyle.Solid
                 : PaletteColorStyle.Linear;
         }
@@ -293,15 +377,15 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         {
             case PaletteColorStyle.Solid:
             {
-                using var brush = new SolidBrush((color1 == GlobalStaticVariables.EMPTY_COLOR || color1.IsEmpty)
+                using var brush = new SolidBrush((color1 == SharedStaticVariables.EMPTY_COLOR || color1.IsEmpty)
                     ? KCT.StatusStripGradientEnd : color1);
                 graphics.FillRectangle(brush, rect);
                 break;
             }
             default:
             {
-                Color a = (color1 == GlobalStaticVariables.EMPTY_COLOR || color1.IsEmpty) ? KCT.StatusStripGradientBegin : color1;
-                Color b = (color2 == GlobalStaticVariables.EMPTY_COLOR || color2.IsEmpty) ? KCT.StatusStripGradientEnd : color2;
+                Color a = (color1 == SharedStaticVariables.EMPTY_COLOR || color1.IsEmpty) ? KCT.StatusStripGradientBegin : color1;
+                Color b = (color2 == SharedStaticVariables.EMPTY_COLOR || color2.IsEmpty) ? KCT.StatusStripGradientEnd : color2;
                 using var brush = new LinearGradientBrush(rect, a, b, angle);
                 graphics.FillRectangle(brush, rect);
                 break;
@@ -437,7 +521,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
             color2 = useSelectedSolid
                 ? color1
                 : ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientEnd, KCT.MenuItemSelectedGradientEnd);
-            colorMiddle = GlobalStaticVariables.EMPTY_COLOR;
+            colorMiddle = SharedStaticVariables.EMPTY_COLOR;
             useMiddle = false;
         }
 
@@ -466,7 +550,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         return true;
     }
 
-    private static bool HasMenuItemOverrideColor(Color color) => color != GlobalStaticVariables.EMPTY_COLOR && !color.IsEmpty;
+    private static bool HasMenuItemOverrideColor(Color color) => color != SharedStaticVariables.EMPTY_COLOR && !color.IsEmpty;
 
     private static Color ResolveMenuItemOverrideColor(Color color, Color fallback) => HasMenuItemOverrideColor(color) ? color : fallback;
 

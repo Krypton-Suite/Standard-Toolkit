@@ -20,6 +20,7 @@ internal class KryptonHeaderGroupDesigner : ParentControlDesigner
     private IDesignerHost? _designerHost;
     private IComponentChangeService? _changeService;
     private ISelectionService? _selectionService;
+    private DesignerVerbCollection? _verbs;
     #endregion
 
     #region Protected
@@ -91,7 +92,11 @@ internal class KryptonHeaderGroupDesigner : ParentControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
@@ -101,17 +106,17 @@ internal class KryptonHeaderGroupDesigner : ParentControlDesigner
             // If no button specs then nothing more to do
             if ((_headerGroup == null) || (_headerGroup.ButtonSpecs.Count == 0))
             {
-                return baseComponents;
+                return KryptonDesignerSdkCompat.Associated(baseComponents);
             }
             else
             {
                 // Create a new collection for both values
-                var compound = new ArrayList(baseComponents);
+                var compound = KryptonDesignerSdkCompat.ToArrayList(baseComponents);
 
                 // Add all the button specs to the end
                 compound.AddRange(_headerGroup.ButtonSpecs);
 
-                return compound;
+                return KryptonDesignerSdkCompat.Associated(compound);
             }
         }
     }
@@ -155,6 +160,27 @@ internal class KryptonHeaderGroupDesigner : ParentControlDesigner
             };
 
             return actionLists;
+        }
+    }
+
+    /// <summary>
+    /// Gets the design-time verbs shown on the control context menu.
+    /// </summary>
+    public override DesignerVerbCollection Verbs
+    {
+        get
+        {
+            if (_verbs == null)
+            {
+                _verbs = new DesignerVerbCollection
+                {
+                    new DesignerVerb(@"Toggle primary header", OnTogglePrimaryHeader),
+                    new DesignerVerb(@"Toggle secondary header", OnToggleSecondaryHeader),
+                    new DesignerVerb(@"Add ButtonSpec", OnAddButtonSpec)
+                };
+            }
+
+            return _verbs;
         }
     }
     #endregion
@@ -265,6 +291,84 @@ internal class KryptonHeaderGroupDesigner : ParentControlDesigner
                 // Must wrap button spec removal in change notifications
                 _changeService?.OnComponentChanged(_headerGroup, null, null, null);
             }
+        }
+    }
+
+    private void OnTogglePrimaryHeader(object? sender, EventArgs e) => TogglePrimaryHeader();
+
+    private void OnToggleSecondaryHeader(object? sender, EventArgs e) => ToggleSecondaryHeader();
+
+    private void OnAddButtonSpec(object? sender, EventArgs e) => AddButtonSpec();
+
+    /// <summary>
+    /// Toggles visibility of the primary header.
+    /// </summary>
+    internal void TogglePrimaryHeader() =>
+        SetHeaderVisible(primary: true, !_headerGroup!.HeaderVisiblePrimary);
+
+    /// <summary>
+    /// Toggles visibility of the secondary header.
+    /// </summary>
+    internal void ToggleSecondaryHeader() =>
+        SetHeaderVisible(primary: false, !_headerGroup!.HeaderVisibleSecondary);
+
+    /// <summary>
+    /// Adds a sited <see cref="ButtonSpecHeaderGroup"/> to the header group.
+    /// </summary>
+    internal void AddButtonSpec()
+    {
+        if (_headerGroup == null)
+        {
+            return;
+        }
+
+        DesignerTransaction? transaction = null;
+        try
+        {
+            transaction = _designerHost?.CreateTransaction(@"Add ButtonSpec");
+            var spec = _designerHost != null
+                ? (ButtonSpecHeaderGroup)_designerHost.CreateComponent(typeof(ButtonSpecHeaderGroup))
+                : new ButtonSpecHeaderGroup();
+
+            MemberDescriptor? property = TypeDescriptor.GetProperties(_headerGroup)[nameof(KryptonHeaderGroup.ButtonSpecs)];
+            _changeService?.OnComponentChanging(_headerGroup, property);
+            _headerGroup.ButtonSpecs.Add(spec);
+            _changeService?.OnComponentChanged(_headerGroup, property, null, null);
+            transaction?.Commit();
+            transaction = null;
+        }
+        finally
+        {
+            transaction?.Cancel();
+        }
+    }
+
+    private void SetHeaderVisible(bool primary, bool visible)
+    {
+        if (_headerGroup == null)
+        {
+            return;
+        }
+
+        var propertyName = primary
+            ? nameof(KryptonHeaderGroup.HeaderVisiblePrimary)
+            : nameof(KryptonHeaderGroup.HeaderVisibleSecondary);
+        MemberDescriptor? property = TypeDescriptor.GetProperties(_headerGroup)[propertyName];
+        _changeService?.OnComponentChanging(_headerGroup, property);
+        if (primary)
+        {
+            _headerGroup.HeaderVisiblePrimary = visible;
+        }
+        else
+        {
+            _headerGroup.HeaderVisibleSecondary = visible;
+        }
+
+        _changeService?.OnComponentChanged(_headerGroup, property, !visible, visible);
+
+        if (GetService(typeof(DesignerActionUIService)) is DesignerActionUIService ui)
+        {
+            ui.Refresh(_headerGroup);
         }
     }
     #endregion

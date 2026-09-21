@@ -38,7 +38,7 @@ public class PaletteNodeOverride : GlobalId,
         // Validate incoming references
         if (triple == null)
         {
-            throw new ArgumentNullException(nameof(triple));
+            ThrowHelper.ThrowArgumentNullException(nameof(triple));
         }
 
         // Create the triple override instances

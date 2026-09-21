@@ -78,6 +78,7 @@ public class DockingManagerStrings : Storage
                                        _textDock.Equals(DEFAULT_TEXT_DOCK) &&
                                        _textFloat.Equals(DEFAULT_TEXT_FLOAT) &&
                                        _textHide.Equals(DEFAULT_TEXT_HIDE) &&
+                                       _textCloseAllButThis.Equals(DEFAULT_TEXT_CLOSE_ALL_BUT_THIS) &&
                                        _textTabbedDocument.Equals(DEFAULT_TEXT_TABBED_DOCUMENT) &&
                                        _textWindowLocation.Equals(DEFAULT_TEXT_WINDOW_LOCATION));
 
@@ -225,7 +226,7 @@ public class DockingManagerStrings : Storage
     /// <summary>
     /// Resets the TextFloat property to its default value.
     /// </summary>
-    public void ResetTextFloat() => TextFloat = DEFAULT_TEXT_DOCK;
+    public void ResetTextFloat() => TextFloat = DEFAULT_TEXT_FLOAT;
     #endregion
 
     #region TextHide
@@ -254,7 +255,7 @@ public class DockingManagerStrings : Storage
     /// <summary>
     /// Resets the TextHide property to its default value.
     /// </summary>
-    public void ResetTextHide() => TextHide = DEFAULT_TEXT_DOCK;
+    public void ResetTextHide() => TextHide = DEFAULT_TEXT_HIDE;
 
     #endregion
 
@@ -315,6 +316,108 @@ public class DockingManagerStrings : Storage
     /// Resets the TextWindowLocation property to its default value.
     /// </summary>
     public void ResetTextWindowLocation() => TextWindowLocation = DEFAULT_TEXT_WINDOW_LOCATION;
+    #endregion
+
+    #region Translations Persistence
+
+    /// <summary>
+    /// Exports the docking manager strings to a versioned XML document.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public XmlDocument ExportToXmlDocument(bool includeDefaults = false) =>
+        ToolkitStringsXmlPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the docking manager strings to a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Path to the destination file.</param>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public void ExportToXmlFile(string filename, bool includeDefaults = false)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
+        }
+
+        ExportToXmlDocument(includeDefaults).Save(filename);
+    }
+
+    /// <summary>
+    /// Imports docking manager strings from a versioned XML document produced by <see cref="ExportToXmlDocument"/>.
+    /// </summary>
+    /// <param name="doc">The XML document to import from.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true)
+    {
+        if (resetFirst)
+        {
+            ResetTextAutoHide();
+            ResetTextClose();
+            ResetTextCloseAllButThis();
+            ResetTextDock();
+            ResetTextFloat();
+            ResetTextHide();
+            ResetTextTabbedDocument();
+            ResetTextWindowLocation();
+        }
+
+        ToolkitStringsXmlPersistence.Import(this, doc, resetFirst: false, refreshOpenForms: false);
+    }
+
+    /// <summary>
+    /// Imports docking manager strings from a versioned XML file.
+    /// </summary>
+    /// <param name="filename">Path to the ToolkitTranslations.xml file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromXmlFile(string filename, bool resetFirst = true)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
+        }
+
+        var doc = new XmlDocument();
+        doc.Load(filename);
+        ImportFromXmlDocument(doc, resetFirst);
+    }
+
+    /// <summary>
+    /// Exports the docking manager strings to JSON.
+    /// </summary>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public string ExportToJson(bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.Export(this, includeDefaults);
+
+    /// <summary>
+    /// Exports the docking manager strings to a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the destination file.</param>
+    /// <param name="includeDefaults">When <c>true</c>, emits every string even if it matches the default value.</param>
+    public void ExportToJsonFile(string filename, bool includeDefaults = false) =>
+        ToolkitStringsJsonPersistence.ExportToFile(this, filename, includeDefaults);
+
+    /// <summary>
+    /// Imports docking manager strings from a JSON file.
+    /// </summary>
+    /// <param name="filename">Path to the source JSON file.</param>
+    /// <param name="resetFirst">When <c>true</c>, resets all strings to defaults before applying the imported values.</param>
+    public void ImportFromJsonFile(string filename, bool resetFirst = true)
+    {
+        if (resetFirst)
+        {
+            ResetTextAutoHide();
+            ResetTextClose();
+            ResetTextCloseAllButThis();
+            ResetTextDock();
+            ResetTextFloat();
+            ResetTextHide();
+            ResetTextTabbedDocument();
+            ResetTextWindowLocation();
+        }
+
+        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst: false, refreshOpenForms: false);
+    }
+
     #endregion
 
     #region Protected

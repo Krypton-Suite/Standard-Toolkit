@@ -47,12 +47,12 @@ public class ContextMenuController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         switch (e.KeyCode)
@@ -95,12 +95,12 @@ public class ContextMenuController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         _viewManager?.KeyMnemonic(e.KeyChar);
@@ -121,10 +121,11 @@ public class ContextMenuController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
-        return e == null ? throw new ArgumentNullException(nameof(e)) : false;
+        ThrowHelper.ThrowIfNull(e);
+        return false;
     }
     #endregion
 }

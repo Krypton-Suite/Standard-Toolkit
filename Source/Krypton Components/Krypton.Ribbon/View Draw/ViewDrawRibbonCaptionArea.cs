@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -194,7 +194,7 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 	/// Fix:3203 Ribbon: QATLocation=Hidden does not hide QAT
 	public void UpdateVisible() => Visible = !_integrated &&
 											 ((_ribbon.QATLocation == QATLocation.Above) ||
-											  (_ribbon.RibbonContexts.Count > 0));
+											  (_ribbon.ShowTabHeaders && _ribbon.RibbonContexts.Count > 0));
 	#endregion
 
 	#region VisibleQAT
@@ -343,6 +343,24 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 	public void PerformFormChromeCheck() =>
 		// Update decision about integrating or providing caption functionality
 		OnFormChromeCheck(null, EventArgs.Empty);
+	#endregion
+
+	#region ApplyPaletteChanged
+	/// <summary>
+	/// Re-evaluate QAT, Office 2007 app-button, form-icon, and injected caption chrome after a palette change.
+	/// </summary>
+	/// <remarks>
+	/// <see cref="KryptonRibbon.RibbonShape"/> comes from the palette. Call this from
+	/// <see cref="KryptonRibbon.OnPaletteChanged"/> so caption chrome updates on a global theme
+	/// swap without waiting for a resize or form-chrome event (#3859, #4061).
+	/// </remarks>
+	public void ApplyPaletteChanged()
+	{
+		UpdateQAT();
+		AppButtonVisibleChanged();
+		PerformFormChromeCheck();
+		RedrawCustomChrome(true);
+	}
 	#endregion
 
 	#region DoesClientMouseDownEndAllTracking
@@ -500,6 +518,33 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 		}
 	}
 
+	/// <summary>
+	/// Updates <see cref="KryptonForm.AllowIconDisplay"/> from integration, app-button, and ribbon shape.
+	/// Office 2007 hides the form icon when the integrated app button is visible; later shapes show it.
+	/// Called from chrome checks and whenever the ribbon palette (shape) changes.
+	/// </summary>
+	private void UpdateFormAllowIconDisplay(ref bool needLayout)
+	{
+		if (_kryptonForm == null)
+		{
+			return;
+		}
+
+		var newAllowIconDisplay = !_integrated
+								  || !_ribbon.RibbonFileAppButton.AppButtonVisible
+								  || (_ribbon.RibbonFileAppButton.AppButtonVisible
+									  && _ribbon.RibbonShape is PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS
+										  or PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010
+										  or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365
+										  or PaletteRibbonShape.VisualStudio);
+
+		if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)
+		{
+			_kryptonForm.AllowIconDisplay = newAllowIconDisplay;
+			needLayout = true;
+		}
+	}
+
 	private void OnFormChromeCheck(object? sender, EventArgs e)
 	{
 		var needLayout = false;
@@ -521,7 +566,8 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 				}
 
 				// Update width of the separator used in place of the app button when app button not visible
-				_spaceInsteadOfAppButton.SeparatorSize = new Size(_kryptonForm.RealWindowBorders.Left, 0);
+				_spaceInsteadOfAppButton.SeparatorSize = new Size(
+					RibbonRtlLayout.StartBorderWidth(_kryptonForm.RealWindowBorders, RibbonRtlLayout.IsRtl(_ribbon)), 0);
 			}
 
 			var overrideIntegrated = integrated;
@@ -580,20 +626,7 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 				needLayout = true;
 			}
 
-			//TODO: call this function when palette is changing
-			var newAllowIconDisplay = !_integrated
-									  || !_ribbon.RibbonFileAppButton.AppButtonVisible
-									  || (_ribbon.RibbonFileAppButton.AppButtonVisible
-										  && _ribbon.RibbonShape is PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS 
-											  or PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 
-											  or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 
-											  or PaletteRibbonShape.VisualStudio)
-				;
-			if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)
-			{
-				_kryptonForm.AllowIconDisplay = newAllowIconDisplay;
-				needLayout = true;
-			}
+			UpdateFormAllowIconDisplay(ref needLayout);
 		}
 
 		// If not integrated

@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(CheckedChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(CheckState))]
-[Designer(typeof(KryptonCheckBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonCheckBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Allow user to set or clear the associated option.")]
 public class KryptonCheckBox : VisualSimpleBase, IContentValues
@@ -44,6 +44,7 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
     private bool _checked;
     private bool _threeState;
     private bool _useMnemonic;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     #endregion
 
     #region Events
@@ -156,6 +157,7 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
             { _layoutCenter, ViewDockStyle.Left },
             { _drawContent, ViewDockStyle.Fill }
         };
+        _layoutDocker.IgnoreRightToLeftLayout = true;
 
         // Need a controller for handling mouse input
         _controller = new CheckBoxController(_drawCheckBox, _layoutDocker, NeedPaintDelegate);
@@ -168,7 +170,14 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
         UpdateForOrientation();
 
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _layoutDocker);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this,
+            NeedPaintDelegate,
+            () => ContainsFocus || _drawCheckBox.Tracking,
+            () => null,
+            _layoutDocker,
+            () => Enabled ? PaletteState.Normal : PaletteState.Disabled,
+            InputPulsingBorderCategory.Other);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // We want to be auto sized by default, but not the property default!
         AutoSize = true;
@@ -177,6 +186,26 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
     #endregion
 
     #region Public
+    /// <summary>
+    /// Gets access to the optional pulsing border values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn around the check box.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+    /// <summary>
+    /// Request the control repaint itself and children.
+    /// </summary>
+    /// <param name="needLayout">Does the palette change require a layout.</param>
+    public override void PerformNeedPaint(bool needLayout)
+    {
+        _pulsingBorder.UpdateAnimationState();
+        base.PerformNeedPaint(needLayout);
+    }
+
     /// <summary>
     /// Gets and sets the automatic resize of the control to fit contents.
     /// </summary>
@@ -222,6 +251,7 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text
@@ -844,6 +874,20 @@ public class KryptonCheckBox : VisualSimpleBase, IContentValues
         // Orientation and right to left are interconnected
         UpdateForOrientation();
         base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Release managed and unmanaged resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _pulsingBorder.Dispose();
+        }
+
+        base.Dispose(disposing);
     }
 
     /// <summary>

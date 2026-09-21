@@ -21,14 +21,14 @@ public class ColorButtonValues : Storage,
     #region Static Fields
 
     private readonly string _defaultText = KryptonManager.Strings.ColorStrings.Color;
-    private static readonly string _defaultExtraText = GlobalStaticVariables.DEFAULT_EMPTY_STRING;
-    private static readonly Image? _defaultImage = GenericImageResources.ButtonColorImageSmall;
+    private static readonly string _defaultExtraText = SharedStaticVariables.DEFAULT_EMPTY_STRING;
     #endregion
 
     #region Instance Fields
     private Image? _image;
     private Image? _sourceImage;
     private Image? _compositeImage;
+    private bool _imageIsDefault;
     private Color _transparent;
     private string? _text;
     private string _extraText;
@@ -36,6 +36,7 @@ public class ColorButtonValues : Storage,
     private Color _emptyBorderColor;
     private Rectangle _selectedRect;
     private byte _roundedCorners;
+    private readonly OverlayImageValues _overlayImage;
     #endregion
 
     #region Events
@@ -56,12 +57,14 @@ public class ColorButtonValues : Storage,
         NeedPaint = needPaint;
 
         // Set initial values
-        _image = _defaultImage;
-        _transparent = GlobalStaticVariables.EMPTY_COLOR;
+        _image = GenericImageResources.ButtonColorImageSmall;
+        _imageIsDefault = true;
+        _transparent = SharedStaticVariables.EMPTY_COLOR;
         _text = _defaultText;
         _extraText = _defaultExtraText;
         ImageStates = CreateImageStates();
         ImageStates.NeedPaint = needPaint;
+        _overlayImage = new OverlayImageValues(needPaint);
         _emptyBorderColor = Color.Gray;
         _selectedColor = Color.Red;
         _selectedRect = new Rectangle(0, 12, 16, 4);
@@ -76,12 +79,15 @@ public class ColorButtonValues : Storage,
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => ImageStates.IsDefault &&
-                                      (Image == _defaultImage) &&
-                                      (ImageTransparentColor == GlobalStaticVariables.EMPTY_COLOR) &&
+                                      _imageIsDefault &&
+                                      (ImageTransparentColor == SharedStaticVariables.EMPTY_COLOR) &&
                                       (Text == _defaultText) &&
-                                      (ExtraText == _defaultExtraText)
-                                      && (_roundedCorners == 0)
-    ;
+                                      (ExtraText == _defaultExtraText) &&
+                                      (_roundedCorners == 0) &&
+                                      (_selectedColor == Color.Red) &&
+                                      (_emptyBorderColor == Color.Gray) &&
+                                      (_selectedRect == new Rectangle(0, 12, 16, 4)) &&
+                                      _overlayImage.IsDefault;
 
     #endregion
 
@@ -93,6 +99,7 @@ public class ColorButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -102,17 +109,23 @@ public class ColorButtonValues : Storage,
             if (_image != value)
             {
                 _image = value;
+                _imageIsDefault = false;
                 PerformNeedPaint(true);
             }
         }
     }
 
-    private bool ShouldSerializeImage() => Image != _defaultImage;
+    public bool ShouldSerializeImage() => !_imageIsDefault;
 
     /// <summary>
     /// Resets the Image property to its default value.
     /// </summary>
-    public void ResetImage() => Image = _defaultImage;
+    public void ResetImage()
+    {
+        _image = GenericImageResources.ButtonColorImageSmall;
+        _imageIsDefault = true;
+        PerformNeedPaint(true);
+    }
     #endregion
 
     #region ImageTransparentColor
@@ -138,12 +151,12 @@ public class ColorButtonValues : Storage,
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Resets the ImageTransparentColor property to its default value.
     /// </summary>
-    public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content image transparent color.
@@ -175,11 +188,12 @@ public class ColorButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public string Text
     {
-        get => _text ?? GlobalStaticVariables.DEFAULT_EMPTY_STRING;
+        get => _text ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
         set
         {
@@ -208,6 +222,7 @@ public class ColorButtonValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Button extra text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string ExtraText
@@ -314,6 +329,19 @@ public class ColorButtonValues : Storage,
 
     #endregion
 
+    #region OverlayImage
+    /// <summary>
+    /// Gets access to the overlay image values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overlay image values.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public OverlayImageValues OverlayImage => _overlayImage;
+
+    private bool ShouldSerializeOverlayImage() => !_overlayImage.IsDefault;
+
+    #endregion
+
     #region IContentValues
     /// <summary>
     /// Gets the content image.
@@ -358,7 +386,7 @@ public class ColorButtonValues : Storage,
                 {
                     g.SmoothingMode = SmoothingMode.AntiAlias;
                     // If the color is not defined, i.e. it is empty then...
-                    if (_selectedColor.Equals(GlobalStaticVariables.EMPTY_COLOR))
+                    if (_selectedColor.Equals(SharedStaticVariables.EMPTY_COLOR))
                     {
                         // Indicate the absence of a color by drawing a border around 
                         // the selected color area, thus indicating the area inside the
@@ -409,42 +437,42 @@ public class ColorButtonValues : Storage,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-    public virtual Image? GetOverlayImage(PaletteState state) => null;
+    public virtual Image? GetOverlayImage(PaletteState state) => _overlayImage.GetImage(state);
 
     /// <summary>
     /// Gets the overlay image color that should be transparent.
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public virtual Color GetOverlayImageTransparentColor(PaletteState state) => _overlayImage.ImageTransparentColor;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
     /// </summary>
     /// <param name="state">The state for which the overlay position is needed.</param>
     /// <returns>Overlay image position.</returns>
-    public virtual OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+    public virtual OverlayImagePosition GetOverlayImagePosition(PaletteState state) => _overlayImage.Position;
 
     /// <summary>
     /// Gets the scaling mode for the overlay image.
     /// </summary>
     /// <param name="state">The state for which the overlay scale mode is needed.</param>
     /// <returns>Overlay image scale mode.</returns>
-    public virtual OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+    public virtual OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => _overlayImage.ScaleMode;
 
     /// <summary>
     /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
     /// </summary>
     /// <param name="state">The state for which the overlay scale factor is needed.</param>
     /// <returns>Scale factor (0.0 to 2.0).</returns>
-    public virtual float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+    public virtual float GetOverlayImageScaleFactor(PaletteState state) => _overlayImage.ScaleFactor;
 
     /// <summary>
     /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
     /// </summary>
     /// <param name="state">The state for which the overlay fixed size is needed.</param>
     /// <returns>Fixed size.</returns>
-    public virtual Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+    public virtual Size GetOverlayImageFixedSize(PaletteState state) => _overlayImage.FixedSize;
 
     #endregion
 }

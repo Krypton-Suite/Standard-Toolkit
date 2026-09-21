@@ -8,5 +8,5 @@ public class KryptonInputBoxValues : Storage
 {
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => throw new NotImplementedException();
+    public override bool IsDefault => true;
 }

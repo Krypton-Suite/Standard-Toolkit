@@ -13,7 +13,7 @@
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	<NeutralLanguage>en</NeutralLanguage>
 	<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-	<Configurations>Debug;Release;Installer;Nightly;Canary</Configurations>
+	<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
 	<Nullable>enable</Nullable>
 	<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
 	<WarningLevel>8</WarningLevel>
@@ -26,7 +26,12 @@
 
   <PropertyGroup>
 	<PackageId>Krypton.Docking</PackageId>
-	<Description>This is the docking module.</Description>
+	<Description>Krypton Docking for WinForms: Visual Studio-style dock, float, and auto-hide of pages. Built on Krypton Workspace and Navigator so docking areas share the same layout and theming model.</Description>
+  </PropertyGroup>
+
+  <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
+  <PropertyGroup>
+    <IncludeKryptonGlobalSuppressionsLink>true</IncludeKryptonGlobalSuppressionsLink>
   </PropertyGroup>
 
   <ItemGroup>
@@ -46,11 +51,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<Compile Include="..\Krypton.Toolkit\General\GlobalSuppressions.cs" Link="General\GlobalSuppressions.cs" />
-	<Compile Include="..\Krypton.Toolkit\General\PlatformInvoke.cs">
-	  <Link>General\PlatformInvoke.cs</Link>
-	</Compile>
-	<Compile Include="..\Krypton.Toolkit\Utilities\AllowNullAttribute.cs" Link="General\AllowNullAttribute.cs" />
 	<Compile Update="Elements Base\DockingElementClosedCollection.cs">
 	  <SubType>Component</SubType>
 	</Compile>
@@ -77,6 +77,9 @@
   </ItemGroup>
 
   <ItemGroup>
+	<!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
+	     PrivateAssets="all" keeps the unpublished package out of this package's nuspec dependencies (#3908). -->
+	<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
 	<ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 	<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />

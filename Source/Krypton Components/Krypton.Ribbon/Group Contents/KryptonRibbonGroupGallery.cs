@@ -19,7 +19,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
-[Designer(typeof(KryptonRibbonGroupGalleryDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Visible))]
@@ -393,6 +393,7 @@ public class KryptonRibbonGroupGallery : KryptonRibbonGroupContainer
     [Category(@"Appearance")]
     [Description(@"Large gallery button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;

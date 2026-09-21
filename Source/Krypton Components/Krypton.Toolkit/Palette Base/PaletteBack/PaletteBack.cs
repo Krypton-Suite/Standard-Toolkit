@@ -40,8 +40,8 @@ public class PaletteBack : Storage,
             // Set to default values
             BackDraw = InheritBool.Inherit;
             BackGraphicsHint = PaletteGraphicsHint.Inherit;
-            BackColor1 = GlobalStaticVariables.EMPTY_COLOR;
-            BackColor2 = GlobalStaticVariables.EMPTY_COLOR;
+            BackColor1 = SharedStaticVariables.EMPTY_COLOR;
+            BackColor2 = SharedStaticVariables.EMPTY_COLOR;
             BackColorStyle = PaletteColorStyle.Inherit;
             BackColorAlign = PaletteRectangleAlign.Inherit;
             BackColorAngle = -1;
@@ -54,8 +54,8 @@ public class PaletteBack : Storage,
         /// </summary>
         public bool IsDefault => (BackDraw == InheritBool.Inherit) &&
                                  (BackGraphicsHint == PaletteGraphicsHint.Inherit) &&
-                                 (BackColor1 == GlobalStaticVariables.EMPTY_COLOR) &&
-                                 (BackColor2 == GlobalStaticVariables.EMPTY_COLOR) &&
+                                 (BackColor1 == SharedStaticVariables.EMPTY_COLOR) &&
+                                 (BackColor2 == SharedStaticVariables.EMPTY_COLOR) &&
                                  (BackColorStyle == PaletteColorStyle.Inherit) &&
                                  (BackColorAlign == PaletteRectangleAlign.Inherit) &&
                                  (BackColorAngle == -1) &&
@@ -68,6 +68,9 @@ public class PaletteBack : Storage,
     #region Instance Fields
     private IPaletteBack? _inherit;
     private InternalStorage? _storage;
+    private Color _factoryColor1 = SharedStaticVariables.EMPTY_COLOR;
+    private Color _factoryColor2 = SharedStaticVariables.EMPTY_COLOR;
+    private PaletteColorStyle _factoryColorStyle = PaletteColorStyle.Inherit;
     #endregion
 
     #region Events
@@ -102,7 +105,56 @@ public class PaletteBack : Storage,
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (_storage == null) || _storage.IsDefault;
+    public override bool IsDefault
+    {
+        get
+        {
+            if (_storage == null)
+            {
+                return (_factoryColor1 == SharedStaticVariables.EMPTY_COLOR)
+                       && (_factoryColor2 == SharedStaticVariables.EMPTY_COLOR)
+                       && (_factoryColorStyle == PaletteColorStyle.Inherit);
+            }
+
+            return (_storage.BackDraw == InheritBool.Inherit)
+                   && (_storage.BackGraphicsHint == PaletteGraphicsHint.Inherit)
+                   && (_storage.BackColor1 == _factoryColor1)
+                   && (_storage.BackColor2 == _factoryColor2)
+                   && (_storage.BackColorStyle == _factoryColorStyle)
+                   && (_storage.BackColorAlign == PaletteRectangleAlign.Inherit)
+                   && (_storage.BackColorAngle == -1)
+                   && (_storage.BackImage == null)
+                   && (_storage.BackImageStyle == PaletteImageStyle.Inherit)
+                   && (_storage.BackImageAlign == PaletteRectangleAlign.Inherit);
+        }
+    }
+
+    /// <summary>
+    /// Treats <paramref name="color"/> as the unset designer default for <see cref="Color1"/>.
+    /// </summary>
+    internal void SetFactoryColor1(Color color)
+    {
+        _factoryColor1 = color;
+        Color1 = color;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="color"/> as the unset designer default for <see cref="Color2"/>.
+    /// </summary>
+    internal void SetFactoryColor2(Color color)
+    {
+        _factoryColor2 = color;
+        Color2 = color;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="style"/> as the unset designer default for <see cref="ColorStyle"/>.
+    /// </summary>
+    internal void SetFactoryColorStyle(PaletteColorStyle style)
+    {
+        _factoryColorStyle = style;
+        ColorStyle = style;
+    }
 
     #endregion
 
@@ -244,7 +296,7 @@ public class PaletteBack : Storage,
     [RefreshProperties(RefreshProperties.All)]
     public Color Color1
     {
-        get => _storage?.BackColor1 ?? GlobalStaticVariables.EMPTY_COLOR;
+        get => _storage?.BackColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -259,7 +311,7 @@ public class PaletteBack : Storage,
             }
             else
             {
-                if (value != GlobalStaticVariables.EMPTY_COLOR)
+                if (value != SharedStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -272,12 +324,15 @@ public class PaletteBack : Storage,
         }
     }
 
+    private bool ShouldSerializeColor1() => Color1 != _factoryColor1;
+    private void ResetColor1() => Color1 = _factoryColor1;
+
     /// <summary>
     /// Gets the first background color.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetBackColor1(PaletteState state) => Color1 != GlobalStaticVariables.EMPTY_COLOR ? Color1 : _inherit!.GetBackColor1(state);
+    public Color GetBackColor1(PaletteState state) => Color1 != SharedStaticVariables.EMPTY_COLOR ? Color1 : _inherit!.GetBackColor1(state);
     #endregion
 
     #region Color2
@@ -291,7 +346,7 @@ public class PaletteBack : Storage,
     [RefreshProperties(RefreshProperties.All)]
     public Color Color2
     {
-        get => _storage?.BackColor2 ?? GlobalStaticVariables.EMPTY_COLOR;
+        get => _storage?.BackColor2 ?? SharedStaticVariables.EMPTY_COLOR;
 
         set
         {
@@ -306,7 +361,7 @@ public class PaletteBack : Storage,
             }
             else
             {
-                if (value != GlobalStaticVariables.EMPTY_COLOR)
+                if (value != SharedStaticVariables.EMPTY_COLOR)
                 {
                     _storage = new InternalStorage
                     {
@@ -319,12 +374,15 @@ public class PaletteBack : Storage,
         }
     }
 
+    private bool ShouldSerializeColor2() => Color2 != _factoryColor2;
+    private void ResetColor2() => Color2 = _factoryColor2;
+
     /// <summary>
     /// Gets the second back color.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetBackColor2(PaletteState state) => Color2 != GlobalStaticVariables.EMPTY_COLOR ? Color2 : _inherit!.GetBackColor2(state);
+    public Color GetBackColor2(PaletteState state) => Color2 != SharedStaticVariables.EMPTY_COLOR ? Color2 : _inherit!.GetBackColor2(state);
     #endregion
 
     #region ColorStyle
@@ -365,6 +423,9 @@ public class PaletteBack : Storage,
             }
         }
     }
+
+    private bool ShouldSerializeColorStyle() => ColorStyle != _factoryColorStyle;
+    private void ResetColorStyle() => ColorStyle = _factoryColorStyle;
 
     /// <summary>
     /// Gets the color drawing style.
@@ -479,6 +540,7 @@ public class PaletteBack : Storage,
     [Description(@"Background image.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _storage?.BackImage;

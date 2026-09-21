@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: MsdnMag.LocalCbtHook
 // Assembly: CbtHook, Version=1.0.921.20088, Culture=neutral, PublicKeyToken=null
 // MVID: A8EAF865-DCC9-4DAB-9028-CAAB4F95DBE5
@@ -103,12 +103,7 @@ internal class LocalCbtHook : LocalWindowsHook
     private void UpdateWindowData(IntPtr wParam)
     {
         m_hWnd = wParam;
-        var lpClassName = new StringBuilder
-        {
-            Capacity = 40
-        };
-        GetClassName(m_hWnd, lpClassName, 40);
-        m_class = lpClassName.ToString();
+        m_class = PI.GetClassNameString(m_hWnd, 40);
         var lpString = new StringBuilder
         {
             Capacity = 256
@@ -162,13 +157,8 @@ internal class LocalCbtHook : LocalWindowsHook
         e.IsDialogWindow = m_isDialog;
     }
 
-    [DllImport(Libraries.User32)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
-
-    [DllImport(Libraries.User32)]
-    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
+    private static int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount) =>
+        PI.GetWindowText(hWnd, lpString, nMaxCount);
 
     public delegate void CbtEventHandler(object sender, CbtEventArgs e);
 }

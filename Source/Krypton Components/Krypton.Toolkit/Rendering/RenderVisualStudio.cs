@@ -64,7 +64,7 @@ public class RenderVisualStudio : RenderMicrosoft365
         // Validate passed parameter
         if (colourPalette == null)
         {
-            throw new ArgumentNullException(nameof(colourPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colourPalette));
         }
 
         var renderer = new KryptonVisualStudio365Renderer(colourPalette.ColorTable)
@@ -245,7 +245,7 @@ public class RenderVisualStudio : RenderMicrosoft365
                 cache.Dispose();
 
                 // If we have a context color to use then modify the drawing colors
-                if (c5 != GlobalStaticVariables.EMPTY_COLOR)
+                if (c5 != SharedStaticVariables.EMPTY_COLOR)
                 {
                     if (!standard)
                     {
@@ -342,7 +342,7 @@ public class RenderVisualStudio : RenderMicrosoft365
                 cache.Dispose();
 
                 // If c5 has a colour then use that to highlight the tab
-                if (c5 != GlobalStaticVariables.EMPTY_COLOR)
+                if (c5 != SharedStaticVariables.EMPTY_COLOR)
                 {
                     if (!standard)
                     {

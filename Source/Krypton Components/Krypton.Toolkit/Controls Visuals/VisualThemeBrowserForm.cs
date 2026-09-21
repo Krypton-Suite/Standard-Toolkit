@@ -44,8 +44,6 @@ internal partial class VisualThemeBrowserForm : KryptonForm
 
 		StartPosition = _themeBrowserData.StartPosition ?? FormStartPosition.CenterScreen;
 
-		//klbThemeList.SelectedIndex = _startIndex;
-
 		klblDescription.Text = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserDescription;
 
 		kbtnImport.Text = KryptonManager.Strings.MiscellaneousThemeStrings.Import;
@@ -61,15 +59,17 @@ internal partial class VisualThemeBrowserForm : KryptonForm
 
 	private void KryptonThemeBrowserForm_Load(object sender, EventArgs e)
 	{
-		foreach (var themeName in ThemeManager.SupportedInternalThemeNames)
-		{
-			if (themeName != null)
-			{
-				klbThemeList.Items.Add(themeName);
-			}
-		}
+		CommonHelperThemeSelectors.FillThemeBrowserItems(klbThemeList.Items, _themeBrowserData);
 
-		klbThemeList.SelectedItem = _themeBrowserData.StartIndex;
+		int startIndex = CommonHelperThemeSelectors.GetThemeBrowserStartIndex(
+			_themeBrowserData,
+			klbThemeList.Items,
+			new KryptonManager());
+
+		if (startIndex >= 0)
+		{
+			klbThemeList.SelectedIndex = startIndex;
+		}
 	}
 
 	private void kbtnOK_Click(object sender, EventArgs e) => DialogResult = DialogResult.OK;
@@ -89,14 +89,16 @@ internal partial class VisualThemeBrowserForm : KryptonForm
 
 	private void kbtnExport_Click(object sender, EventArgs e)
 	{
+		KryptonPaletteFile.EnsureShellAssociations();
 		this.saveFileDialog1.OverwritePrompt = true;
-		this.saveFileDialog1.DefaultExt = "xml";
-		this.saveFileDialog1.Filter = "Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+		this.saveFileDialog1.DefaultExt = KryptonPaletteFile.Extension;
+		this.saveFileDialog1.Filter = KryptonPaletteFile.DialogFilter;
 		this.saveFileDialog1.Title = "Save Palette As";
-		this.saveFileDialog1.FileName = $"{klbThemeList.GetItemText(klbThemeList.SelectedItem)}.xml";
+		this.saveFileDialog1.FileName = $"{klbThemeList.GetItemText(klbThemeList.SelectedItem)}.{KryptonPaletteFile.Extension}";
 		if (this.saveFileDialog1.ShowDialog() == DialogResult.OK)
 		{
 			this.kcpbCustom.PopulateFromBase(true);
+			KryptonThemePreview.AssignGeneratedThumbnail(this.kcpbCustom);
 			this.kcpbCustom.Export(this.saveFileDialog1.FileName, false);
 		}
 	}

@@ -33,7 +33,7 @@ internal class ViewLayoutInsetOverlap : ViewComposite
 
         if (drawCanvas is null)
         {
-            throw new ArgumentNullException(nameof(drawCanvas));
+            ThrowHelper.ThrowArgumentNullException(nameof(drawCanvas));
         }
 
         // Remember source of the rounding values
@@ -103,7 +103,7 @@ internal class ViewLayoutInsetOverlap : ViewComposite
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Get the preferred size requested by the children
@@ -134,7 +134,7 @@ internal class ViewLayoutInsetOverlap : ViewComposite
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area

@@ -107,6 +107,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description("The image to be used that indicates the rating when the DataGridView is enabled.")]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image 
     {
         get => _image;
@@ -130,6 +131,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Description("The image to be used that indicates the rating when the DataGridView is disabled.")]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageDisabled 
     {
         get => _imageDisabled;
@@ -148,7 +150,7 @@ public class KryptonDataGridViewRatingColumn : KryptonDataGridViewIconColumn
     /// <inheritdoc/>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewRatingColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewRatingColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewRatingColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
 
         CloneImageDictionary(_images, cloned._images);
         CloneImageDictionary(_imagesDisabled, cloned._imagesDisabled);

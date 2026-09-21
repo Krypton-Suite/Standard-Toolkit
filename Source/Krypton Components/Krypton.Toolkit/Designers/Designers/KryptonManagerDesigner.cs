@@ -17,11 +17,8 @@ internal class KryptonManagerDesigner : ComponentDesigner
     #region Instance Fields
 
     private DesignerVerbCollection? _verbCollection;
-
-    private DesignerVerb _resetVerb;
-
+    private DesignerVerb? _resetVerb;
     private KryptonManager? _manager;
-
     private IComponentChangeService? _service;
 
     #endregion
@@ -35,12 +32,11 @@ internal class KryptonManagerDesigner : ComponentDesigner
         Debug.Assert(component != null);
 
         _manager = component as KryptonManager;
-
         _service = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-
-        //_service.ComponentRemoving += OnComponentRemoving;
-
-        _service!.ComponentChanged += OnComponentChanged;
+        if (_service != null)
+        {
+            _service.ComponentChanged += OnComponentChanged;
+        }
     }
 
     /// <summary>
@@ -50,10 +46,8 @@ internal class KryptonManagerDesigner : ComponentDesigner
     {
         get
         {
-            // Create a collection of action lists
             var actionLists = new DesignerActionListCollection
             {
-                // Add the manager specific list
                 new KryptonManagerActionList(this)
             };
 
@@ -61,22 +55,53 @@ internal class KryptonManagerDesigner : ComponentDesigner
         }
     }
 
+    /// <summary>
+    /// Gets the design-time verbs shown on the component context menu.
+    /// </summary>
     public override DesignerVerbCollection Verbs
     {
         get
         {
             if (_verbCollection == null)
             {
-                _verbCollection = [];
-
                 _resetVerb = new DesignerVerb(@"Reset to Default Theme", OnReset);
-
-                _verbCollection.AddRange(new DesignerVerb[] { _resetVerb });
+                _verbCollection = new DesignerVerbCollection
+                {
+                    _resetVerb,
+                    new DesignerVerb(@"Designer Editor Settings...", OnDesignerEditorSettings),
+                    new DesignerVerb(@"Import Translations from Xml file...", OnImportTranslationsXml),
+                    new DesignerVerb(@"Export Translations to Xml file...", OnExportTranslationsXml),
+                    new DesignerVerb(@"Import Translations from Json file...", OnImportTranslationsJson),
+                    new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson),
+                    new DesignerVerb(@"Generate Translation Template (XML)...", OnGenerateTemplateXml),
+                    new DesignerVerb(@"Generate Translation Template (JSON)...", OnGenerateTemplateJson),
+                    new DesignerVerb(@"Merge Missing Translations...", OnMergeMissingTranslations),
+                    new DesignerVerb(@"Switch Translations Culture...", OnSwitchTranslationsCulture)
+                };
             }
 
             UpdateVerbStatus();
-
             return _verbCollection;
+        }
+    }
+
+    #endregion
+
+    #region Protected
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        try
+        {
+            if (disposing && _service != null)
+            {
+                _service.ComponentChanged -= OnComponentChanged;
+            }
+        }
+        finally
+        {
+            base.Dispose(disposing);
         }
     }
 
@@ -84,41 +109,40 @@ internal class KryptonManagerDesigner : ComponentDesigner
 
     #region Implementation
 
-    private void UpdateVerbStatus()
-    {
-        if (_verbCollection != null)
-        {
-            _resetVerb.Enabled = !_manager!.GlobalPaletteMode.Equals(PaletteMode.Microsoft365Blue);
-        }
-    }
+    private void UpdateVerbStatus() =>
+        _resetVerb?.Enabled = _manager != null && !_manager.GlobalPaletteMode.Equals(PaletteMode.Microsoft365Blue);
 
     private void OnComponentChanged(object? sender, ComponentChangedEventArgs e) => UpdateVerbStatus();
 
-    private void OnComponentRemoving(object sender, ComponentEventArgs e)
-    {
-        throw new NotImplementedException();
-    }
+    private void OnReset(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ResetTheme(_manager, _service);
 
-    private void OnReset(object? sender, EventArgs e)
-    {
-        if (_manager != null)
-        {
-            DialogResult result = KryptonMessageBox.Show(@"This will reset the current theme back to 'Microsoft 365 - Blue'. Do you want to continue?",
-                @"Reset Theme",
-                KryptonMessageBoxButtons.YesNo,
-                KryptonMessageBoxIcon.Question
-            );
+    private void OnDesignerEditorSettings(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ShowDesignerEditorSettings();
 
-            if (result == DialogResult.Yes)
-            {
-                _manager.GlobalPaletteMode = PaletteMode.Microsoft365Blue;
+    private void OnImportTranslationsXml(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ImportTranslationsXml(_manager, _service);
 
-                _service?.OnComponentChanged(_manager, null, _manager.GlobalPaletteMode, PaletteMode.Microsoft365Blue);
+    private void OnExportTranslationsXml(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ExportTranslationsXml(_manager);
 
-                UpdateVerbStatus();
-            }
-        }
-    }
+    private void OnImportTranslationsJson(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ImportTranslationsJson(_manager, _service);
+
+    private void OnExportTranslationsJson(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.ExportTranslationsJson(_manager);
+
+    private void OnGenerateTemplateXml(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.GenerateTemplateXml(_manager);
+
+    private void OnGenerateTemplateJson(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.GenerateTemplateJson(_manager);
+
+    private void OnMergeMissingTranslations(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.MergeMissingTranslations(_manager, _service);
+
+    private void OnSwitchTranslationsCulture(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.SwitchTranslationsCulture(_manager, _service);
 
     #endregion
 }

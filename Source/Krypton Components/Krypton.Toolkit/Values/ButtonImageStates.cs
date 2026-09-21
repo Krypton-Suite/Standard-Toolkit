@@ -47,6 +47,7 @@ public class ButtonImageStates : Storage
     [Description(@"Button image for normal state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageNormal
     {
         get => _imageNormal;
@@ -79,6 +80,7 @@ public class ButtonImageStates : Storage
     [Description(@"Button image for disabled state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageDisabled
     {
         get => _imageDisabled;
@@ -111,6 +113,7 @@ public class ButtonImageStates : Storage
     [Description(@"Button image for pressed state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImagePressed
     {
         get => _imagePressed;
@@ -143,6 +146,7 @@ public class ButtonImageStates : Storage
     [Description(@"Button image for tracking state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageTracking
     {
         get => _imageTracking;
@@ -171,6 +175,8 @@ public class ButtonImageStates : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
     public virtual Image? ImageCheckedNormal
     {
         get => null;
@@ -185,6 +191,8 @@ public class ButtonImageStates : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
     public virtual Image? ImageCheckedPressed
     {
         get => null;
@@ -198,6 +206,8 @@ public class ButtonImageStates : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
     public virtual Image? ImageCheckedTracking
     {
         get => null;

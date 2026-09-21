@@ -158,6 +158,7 @@ public class KryptonFileSystemWatcher : Component
     [Category(@"Behavior")]
     [Description(@"The path of the directory to watch.")]
     [DefaultValue("")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.FolderNameEditor).
     [Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
     public string Path
     {

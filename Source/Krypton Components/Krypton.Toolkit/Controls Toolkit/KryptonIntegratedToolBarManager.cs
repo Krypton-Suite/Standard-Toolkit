@@ -388,7 +388,7 @@ public class KryptonIntegratedToolBarManager : Component
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -409,12 +409,12 @@ public class KryptonIntegratedToolBarManager : Component
             }
             else
             {
-                throw new ArgumentNullException();
+                ThrowHelper.ThrowArgumentNullException();
             }
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -436,12 +436,12 @@ public class KryptonIntegratedToolBarManager : Component
             }
             else
             {
-                throw new ArgumentNullException();
+                ThrowHelper.ThrowArgumentNullException();
             }
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -493,13 +493,14 @@ public class KryptonIntegratedToolBarManager : Component
                         }
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(buttonOrientation), buttonOrientation, null);
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(buttonOrientation), buttonOrientation, null);
+                        return;
                 }
             }
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -533,13 +534,14 @@ public class KryptonIntegratedToolBarManager : Component
                         }
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(buttonAlignment), buttonAlignment, null);
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(buttonAlignment), buttonAlignment, null);
+                        return;
                 }
             }
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

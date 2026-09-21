@@ -85,7 +85,7 @@ public class ViewDrawDebug : ViewLeaf
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Ignore renderer, we just draw using solid color for debugging purposes

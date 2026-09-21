@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent("Click")]
 [DefaultProperty(nameof(Text))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonCommandDesigner))]
+[Designer("Krypton.Toolkit.KryptonCommandDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Defines state and events for a single command.")]
 public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
 {
@@ -73,7 +73,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
         _textLine2 = string.Empty;
         _imageSmall = null;
         _imageLarge = null;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _commandType = KryptonCommandType.General;
         _assignedButtonSpec = null;
 
@@ -208,6 +208,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string Text
     {
@@ -234,6 +235,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string ExtraText
     {
@@ -310,6 +312,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command small image.")]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _imageSmall;
@@ -335,6 +338,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Command large image.")]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;
@@ -410,9 +414,16 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
     /// </summary>
     public void PerformExecute() => OnExecute(EventArgs.Empty);
 
-    // Allow specifying the originating sender so shared commands can identify the source control
+    /// <summary>
+    /// Generates an Execute event for a command, passing the originating source as the event sender.
+    /// </summary>
+    /// <param name="sender">The object that initiated command execution.</param>
     public void PerformExecute(object? sender)
-        => Execute?.Invoke(sender ?? this, EventArgs.Empty);
+    {
+        var source = sender ?? this;
+        KryptonCommandContext.TryGetCommandParameter(source, out var parameter);
+        Execute?.Invoke(source, new KryptonCommandExecuteEventArgs(source, parameter));
+    }
 
     #endregion
 
@@ -464,7 +475,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
         }
 
         palette ??= KryptonManager.CurrentGlobalPalette;
-        return palette?.GetButtonSpecImageTransparentColor(style) ?? GlobalStaticVariables.EMPTY_COLOR;
+        return palette?.GetButtonSpecImageTransparentColor(style) ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     private void RegisterPaletteHandler()
@@ -528,7 +539,7 @@ public class KryptonCommand : Component, IKryptonCommand, INotifyPropertyChanged
             ImageSmall = normalImage;
         }
 
-        ImageTransparentColor = palette?.GetButtonSpecImageTransparentColor(style) ?? GlobalStaticVariables.EMPTY_COLOR;
+        ImageTransparentColor = palette?.GetButtonSpecImageTransparentColor(style) ?? SharedStaticVariables.EMPTY_COLOR;
 
         SyncAssignedButtonSpec(style, palette);
     }

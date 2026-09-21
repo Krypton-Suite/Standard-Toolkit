@@ -270,6 +270,14 @@ public class PaletteRedirectBorder : PaletteRedirect
         return inherit?.GetBorderRounding(state) ?? Target!.GetBorderRounding(style, state);
     }
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state)
+    {
+        IPaletteBorder? inherit = GetInherit(state);
+
+        return inherit?.GetBorderCornerRounding(state) ?? Target!.GetBorderCornerRounding(style, state);
+    }
+
     /// <summary>
     /// Gets a border image.
     /// </summary>

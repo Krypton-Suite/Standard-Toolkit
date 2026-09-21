@@ -39,6 +39,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     private Size _calendarDimensions;
     private string _calendarTodayText;
     private Day _calendarFirstDayOfWeek;
+    private MonthCalendarView _calendarView;
     private bool _calendarShowToday;
     private bool _calendarCloseOnTodayClick;
     private bool _calendarShowTodayCircle;
@@ -65,6 +66,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         _calendarDimensions = new Size(1, 1);
         _calendarTodayText = "Today:";
         _calendarFirstDayOfWeek = Day.Default;
+        _calendarView = MonthCalendarView.Days;
         _calendarShowToday = true;
         _calendarCloseOnTodayClick = false;
         _calendarShowTodayCircle = true;
@@ -95,7 +97,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     /// </summary>
     public override object Clone()
     {
-        var dateTimeCell = base.Clone() as KryptonDataGridViewDateTimePickerCell ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("dateTimeCell"));
+        var dateTimeCell =base.Clone() as KryptonDataGridViewDateTimePickerCell ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDateTimePickerCell>(SharedStaticFunctions.VariableCannotBeNull("dateTimeCell"));
 
         dateTimeCell.AutoShift = AutoShift;
         dateTimeCell.Checked = Checked;
@@ -109,6 +111,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         dateTimeCell.CalendarDimensions = CalendarDimensions;
         dateTimeCell.CalendarTodayText = CalendarTodayText;
         dateTimeCell.CalendarFirstDayOfWeek = CalendarFirstDayOfWeek;
+        dateTimeCell.CalendarView = CalendarView;
         dateTimeCell.CalendarShowToday = CalendarShowToday;
         dateTimeCell.CalendarCloseOnTodayClick = CalendarCloseOnTodayClick;
         dateTimeCell.CalendarShowTodayCircle = CalendarShowTodayCircle;
@@ -349,6 +352,24 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     }
 
     /// <summary>
+    /// The CalendarView property replicates the one from the KryptonDateTimePicker control
+    /// </summary>
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView
+    {
+        get => _calendarView;
+
+        set
+        {
+            if (_calendarView != value)
+            {
+                SetCalendarView(RowIndex, value);
+                OnCommonChange();
+            }
+        }
+    }
+
+    /// <summary>
     /// The CalendarShowToday property replicates the one from the KryptonDateTimePicker control
     /// </summary>
     [DefaultValue(true)]
@@ -453,7 +474,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         DataGridView? dataGridView = DataGridView;
         if (dataGridView?.EditingControl == null)
         {
-            throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
+            ThrowHelper.ThrowInvalidOperationException("Cell is detached or its grid has no editing control.");
         }
 
         base.DetachEditingControl();
@@ -489,6 +510,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
                 dateTime.CalendarDimensions = CalendarDimensions;
                 dateTime.CalendarTodayText = CalendarTodayText;
                 dateTime.CalendarFirstDayOfWeek = CalendarFirstDayOfWeek;
+                dateTime.CalendarView = CalendarView;
                 dateTime.CalendarShowToday = CalendarShowToday;
                 dateTime.CalendarCloseOnTodayClick = CalendarCloseOnTodayClick;
                 dateTime.CalendarShowTodayCircle = CalendarShowTodayCircle;
@@ -839,7 +861,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
     #region Private
 
     private KryptonDataGridViewDateTimePickerEditingControl EditingDateTimePicker =>
-        DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
+DataGridView!.EditingControl as KryptonDataGridViewDateTimePickerEditingControl ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDateTimePickerEditingControl>(SharedStaticFunctions.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
     private void OnCommonChange()
     {
@@ -1011,6 +1033,15 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
         if (OwnsEditingDateTimePicker(rowIndex))
         {
             EditingDateTimePicker.CalendarFirstDayOfWeek = value;
+        }
+    }
+
+    internal void SetCalendarView(int rowIndex, MonthCalendarView value)
+    {
+        _calendarView = value;
+        if (OwnsEditingDateTimePicker(rowIndex))
+        {
+            EditingDateTimePicker.CalendarView = value;
         }
     }
 

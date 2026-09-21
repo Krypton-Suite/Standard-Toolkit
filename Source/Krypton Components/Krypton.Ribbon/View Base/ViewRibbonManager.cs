@@ -139,7 +139,7 @@ internal class ViewRibbonManager : ViewManager
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         if (!_ribbon.InDesignMode)
@@ -189,7 +189,7 @@ internal class ViewRibbonManager : ViewManager
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         if (!_ribbon.InDesignMode)

@@ -16,7 +16,9 @@ internal class KryptonContextMenuDesigner : ComponentDesigner
 {
     #region Instance Fields
     private KryptonContextMenu? _contextMenu;
+    private IDesignerHost? _designerHost;
     private IComponentChangeService? _changeService;
+    private DesignerVerbCollection? _verbs;
     #endregion
 
     #region Public Overrides
@@ -26,36 +28,55 @@ internal class KryptonContextMenuDesigner : ComponentDesigner
     /// <param name="component">The IComponent to associate the designer with.</param>
     public override void Initialize([DisallowNull] IComponent component)
     {
-        // Let base class do standard stuff
         base.Initialize(component);
 
         Debug.Assert(component != null);
 
-        // Cast to correct type
         _contextMenu = component as KryptonContextMenu;
-
-        // Get access to the services
+        _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
         _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
-
-        // We need to know when we are being removed
         _changeService!.ComponentRemoving += OnComponentRemoving;
     }
 
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
-            var compound = new ArrayList(base.AssociatedComponents);
+            var compound = KryptonDesignerSdkCompat.ToArrayList(base.AssociatedComponents);
 
             if (_contextMenu != null)
             {
                 compound.AddRange(_contextMenu.Items);
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
+        }
+    }
+
+    /// <summary>
+    /// Gets the design-time verbs shown on the component context menu.
+    /// </summary>
+    public override DesignerVerbCollection Verbs
+    {
+        get
+        {
+            if (_verbs == null)
+            {
+                _verbs = new DesignerVerbCollection
+                {
+                    new DesignerVerb(@"Insert Standard Items", OnInsertStandardItems),
+                    new DesignerVerb(@"Edit Items...", OnEditItems)
+                };
+            }
+
+            return _verbs;
         }
     }
 
@@ -66,15 +87,46 @@ internal class KryptonContextMenuDesigner : ComponentDesigner
     {
         get
         {
-            // Create a collection of action lists
             var actionLists = new DesignerActionListCollection();
             actionLists.AddRange(base.ActionLists);
-            // Add the palette specific list
             actionLists.Add(new KryptonContextMenuActionList(this));
 
             return actionLists;
         }
     }
+    #endregion
+
+    #region Internal
+
+    /// <summary>
+    /// Inserts the standard Edit shortcut-menu items using the designer host when available.
+    /// </summary>
+    internal static void InsertStandardItems(
+        KryptonContextMenu contextMenu,
+        IDesignerHost? host,
+        IComponentChangeService? changeService)
+    {
+        DesignerTransaction? transaction = null;
+        try
+        {
+            transaction = host?.CreateTransaction(@"Insert Standard Items");
+            contextMenu.Items.Add(KryptonStandardMenuFactory.CreateStandardContextMenuItems());
+            changeService?.OnComponentChanged(contextMenu, null, null, null);
+            transaction?.Commit();
+            transaction = null;
+        }
+        finally
+        {
+            transaction?.Cancel();
+        }
+    }
+
+    /// <summary>
+    /// Opens the collection editor for <see cref="KryptonContextMenu.Items"/>.
+    /// </summary>
+    internal static void EditItems(KryptonContextMenu contextMenu) =>
+        KryptonDesignerCollectionActions.EditProperty(contextMenu, nameof(KryptonContextMenu.Items));
+
     #endregion
 
     #region Protected
@@ -88,34 +140,51 @@ internal class KryptonContextMenuDesigner : ComponentDesigner
         {
             if (disposing)
             {
-                // Unhook from events
                 _changeService!.ComponentRemoving -= OnComponentRemoving;
             }
         }
         finally
         {
-            // Must let base class do standard stuff
             base.Dispose(disposing);
         }
     }
     #endregion
 
     #region Implementation
+    private void OnInsertStandardItems(object? sender, EventArgs e)
+    {
+        if (_contextMenu == null)
+        {
+            return;
+        }
+
+        InsertStandardItems(_contextMenu, _designerHost, _changeService);
+    }
+
+    private void OnEditItems(object? sender, EventArgs e)
+    {
+        if (_contextMenu == null)
+        {
+            return;
+        }
+
+        EditItems(_contextMenu);
+    }
+
     private void OnComponentRemoving(object? sender, ComponentEventArgs e)
     {
-        // If our context menu is being removed
-        if ((_contextMenu != null) && (Equals(e.Component, _contextMenu)))
+        if (_contextMenu == null || !Equals(e.Component, _contextMenu))
         {
-            // Need access to host in order to delete a component
-            var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
+            return;
+        }
 
-            // We need to remove all items from the context menu
-            for (var j = _contextMenu.Items.Count - 1; j >= 0; j--)
-            {
-                var item = _contextMenu.Items[j] as Component;
-                _contextMenu.Items.Remove(item);
-                host?.DestroyComponent(item);
-            }
+        var host = GetService(typeof(IDesignerHost)) as IDesignerHost;
+
+        for (var j = _contextMenu.Items.Count - 1; j >= 0; j--)
+        {
+            var item = _contextMenu.Items[j] as Component;
+            _contextMenu.Items.Remove(item);
+            host?.DestroyComponent(item);
         }
     }
     #endregion

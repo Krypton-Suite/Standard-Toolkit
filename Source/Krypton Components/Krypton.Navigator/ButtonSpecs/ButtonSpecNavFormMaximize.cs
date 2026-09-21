@@ -1,14 +1,17 @@
 ﻿#region BSD License
 /*
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
- *  
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved.
+ *
  */
 #endregion
 
 namespace Krypton.Navigator;
 
+/// <summary>
+/// Fixed maximize/restore button specification for a navigator that owns a <see cref="KryptonForm"/>.
+/// </summary>
 public class ButtonSpecNavFormMaximize : ButtonSpecNavFixed
 {
     #region Instance Fields
@@ -19,69 +22,81 @@ public class ButtonSpecNavFormMaximize : ButtonSpecNavFixed
 
     #region Identity
 
-    /// <summary>Initializes a new instance of the <see cref="ButtonSpecNavFormMaximize" /> class.</summary>
-    /// <param name="navigator">The navigator.</param>
-    public ButtonSpecNavFormMaximize(KryptonNavigator navigator) : base(navigator, PaletteButtonSpecStyle.FormMax)
-    {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ButtonSpecNavFormMaximize"/> class.
+    /// </summary>
+    /// <param name="navigator">Owning navigator.</param>
+    public ButtonSpecNavFormMaximize(KryptonNavigator navigator)
+        : base(navigator, PaletteButtonSpecStyle.FormMax) =>
         _navigator = navigator;
-    }
 
     #endregion
 
-    #region ButtonSpecNavFixed Implementation
+    #region IButtonSpecValues
 
+    /// <inheritdoc />
     public override bool GetVisible(PaletteBase palette)
     {
-        // The maximize button is never present on tool windows
-        switch (_navigator.Owner!.FormBorderStyle)
+        var owner = _navigator.Owner;
+        if (owner == null || _navigator.ControlKryptonFormFeatures)
+        {
+            return false;
+        }
+
+        switch (owner.FormBorderStyle)
         {
             case FormBorderStyle.FixedToolWindow:
             case FormBorderStyle.SizableToolWindow:
                 return false;
         }
 
-        // Have all buttons been turned off?
-        if (!_navigator.Owner!.ControlBox)
-        {
-            return false;
-        }
-
-        // Has the minimize/maximize buttons been turned off?
-        return _navigator.Owner!.MinimizeBox || _navigator.Owner!.MaximizeBox;
+        return owner.MinimizeBox || owner.MaximizeBox;
     }
 
-    public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.NotCheckButton;
+    /// <inheritdoc />
+    public override ButtonEnabled GetEnabled(PaletteBase palette)
+    {
+        var owner = _navigator.Owner;
+        if (owner == null)
+        {
+            return ButtonEnabled.False;
+        }
 
-    public override ButtonEnabled GetEnabled(PaletteBase palette) =>
-        // Has the maximize buttons been turned off?
-        _navigator.Owner!.MaximizeBox ? ButtonEnabled.True : ButtonEnabled.False;
+        return owner.MaximizeBox ? ButtonEnabled.True : ButtonEnabled.False;
+    }
+
+    /// <inheritdoc />
+    public override ButtonCheckState GetChecked(PaletteBase? palette) => ButtonCheckState.NotCheckButton;
 
     #endregion
 
     #region Protected Overrides
 
+    /// <inheritdoc />
     protected override void OnClick(EventArgs e)
     {
-        // Only if associated view is enabled to we perform an action
-        if (GetViewEnabled())
+        if (!GetViewEnabled())
         {
-            // If we do not provide an inert form
-            if (!_navigator.Owner!.InertForm)
-            {
-                // Only if the mouse is still within the button bounds do we perform action
-                var mea = (MouseEventArgs)e;
-                if (GetView().ClientRectangle.Contains(mea.Location))
-                {
-                    // Toggle between maximized and restored
-                    /*_navigator.Owner!.SendSysCommand(_navigator.Owner!.WindowState == FormWindowState.Maximized
-                        ? PI.SC_.RESTORE
-                        : PI.SC_.MAXIMIZE);*/
-
-                    // Let base class fire any other attached events
-                    base.OnClick(e);
-                }
-            }
+            return;
         }
+
+        var owner = _navigator.Owner;
+        if (owner is not { InertForm: false })
+        {
+            return;
+        }
+
+        var mea = (MouseEventArgs)e;
+        if (!GetView().ClientRectangle.Contains(mea.Location))
+        {
+            return;
+        }
+
+        owner.SendSysCommand(owner.WindowState == FormWindowState.Maximized
+            ? PI.SC_.RESTORE
+            : PI.SC_.MAXIMIZE);
+
+        base.OnClick(e);
     }
 
     #endregion

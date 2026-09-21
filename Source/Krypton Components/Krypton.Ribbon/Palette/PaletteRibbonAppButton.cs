@@ -41,7 +41,7 @@ public class PaletteRibbonAppButton : Storage
 
         if (inherit is null)
         {
-            throw new ArgumentNullException(nameof(inherit));
+            ThrowHelper.ThrowArgumentNullException(nameof(inherit));
         }
 
         // Store the provided paint notification delegate

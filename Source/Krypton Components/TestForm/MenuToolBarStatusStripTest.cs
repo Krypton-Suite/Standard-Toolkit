@@ -16,6 +16,22 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
     private readonly Color _targetStatusStripColor = Color.DarkOrange;
     private int _animStep;
     private int _animDir = 1;
+    private readonly ContextMenuStrip _contextMenuStrip = new ContextMenuStrip();
+    private readonly MenuStrip _nativeMenuStrip = new MenuStrip();
+    private readonly ToolStrip _nativeToolStrip = new ToolStrip();
+    private Font? _savedBaseFont;
+    private int _baseFontFamilyIndex;
+
+    private static readonly string[] BaseFontFamilies =
+    [
+        "Segoe UI",
+        "Tahoma",
+        "Arial",
+        "Calibri",
+        "Verdana",
+        "Times New Roman",
+        "Courier New"
+    ];
 
     public MenuToolBarStatusStripTest()
     {
@@ -23,6 +39,155 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         _statusStripTimer.Interval = 50;
         _statusStripTimer.Tick += StatusStripTimer_Tick;
         KryptonManager.GlobalPaletteChanged += KryptonManager_GlobalPaletteChanged;
+
+        InitializeBaseFontDemo();
+    }
+
+    private void InitializeBaseFontDemo()
+    {
+        Text = "Menu/Tool/Status Strip (#1110 / #1297)";
+
+        _contextMenuStrip.Items.Add(new ToolStripMenuItem("Context menu item 1"));
+        _contextMenuStrip.Items.Add(new ToolStripMenuItem("Context menu item 2"));
+        kryptonPanel1.ContextMenuStrip = _contextMenuStrip;
+
+        var comparisonHint = new KryptonLabel
+        {
+            Dock = DockStyle.Top,
+            AutoSize = false,
+            Height = 52
+        };
+        comparisonHint.Values.Text =
+            "Issue #1110 / #1297: the form uses KryptonMenuStrip and KryptonToolStrip. " +
+            "This panel hosts a native MenuStrip and ToolStrip for comparison. " +
+            "Change theme or Tools → Base Font; both families should follow. Menu text stays Regular when BaseFont is bold.";
+
+        _nativeMenuStrip.Name = "nativeMenuStrip";
+        _nativeMenuStrip.Dock = DockStyle.Top;
+        _nativeMenuStrip.GripStyle = ToolStripGripStyle.Hidden;
+        _nativeMenuStrip.Items.Add(new ToolStripMenuItem("Native &File"));
+        _nativeMenuStrip.Items.Add(new ToolStripMenuItem("Native &Edit"));
+
+        _nativeToolStrip.Name = "nativeToolStrip";
+        _nativeToolStrip.Dock = DockStyle.Top;
+        _nativeToolStrip.Items.Add(new ToolStripLabel("Native ToolStrip"));
+
+        kryptonPanel1.Controls.Add(_nativeToolStrip);
+        kryptonPanel1.Controls.Add(_nativeMenuStrip);
+        kryptonPanel1.Controls.Add(comparisonHint);
+
+        var increaseBaseFontMenuItem = new ToolStripMenuItem("Increase Base Font (+2 pt)")
+        {
+            Name = "increaseBaseFontToolStripMenuItem"
+        };
+        increaseBaseFontMenuItem.Click += IncreaseBaseFontToolStripMenuItem_Click;
+
+        var decreaseBaseFontMenuItem = new ToolStripMenuItem("Decrease Base Font (-2 pt)")
+        {
+            Name = "decreaseBaseFontToolStripMenuItem"
+        };
+        decreaseBaseFontMenuItem.Click += DecreaseBaseFontToolStripMenuItem_Click;
+
+        var resetBaseFontMenuItem = new ToolStripMenuItem("Reset Base Font")
+        {
+            Name = "resetBaseFontToolStripMenuItem"
+        };
+        resetBaseFontMenuItem.Click += ResetBaseFontToolStripMenuItem_Click;
+
+        var toggleBoldBaseFontMenuItem = new ToolStripMenuItem("Toggle Base Font Bold")
+        {
+            Name = "toggleBoldBaseFontToolStripMenuItem"
+        };
+        toggleBoldBaseFontMenuItem.Click += ToggleBoldBaseFontToolStripMenuItem_Click;
+
+        var changeBaseFontFamilyMenuItem = new ToolStripMenuItem("Change Base Font Family")
+        {
+            Name = "changeBaseFontFamilyToolStripMenuItem"
+        };
+        changeBaseFontFamilyMenuItem.Click += ChangeBaseFontFamilyToolStripMenuItem_Click;
+
+        toolsToolStripMenuItem.DropDownItems.Add(new ToolStripSeparator());
+        toolsToolStripMenuItem.DropDownItems.Add(increaseBaseFontMenuItem);
+        toolsToolStripMenuItem.DropDownItems.Add(decreaseBaseFontMenuItem);
+        toolsToolStripMenuItem.DropDownItems.Add(changeBaseFontFamilyMenuItem);
+        toolsToolStripMenuItem.DropDownItems.Add(resetBaseFontMenuItem);
+        toolsToolStripMenuItem.DropDownItems.Add(toggleBoldBaseFontMenuItem);
+
+        _savedBaseFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        _baseFontFamilyIndex = Array.FindIndex(BaseFontFamilies, family =>
+            string.Equals(family, _savedBaseFont.Name, StringComparison.OrdinalIgnoreCase));
+        if (_baseFontFamilyIndex < 0)
+        {
+            _baseFontFamilyIndex = 0;
+        }
+
+        UpdateStripFontStatus();
+    }
+
+    private void IncreaseBaseFontToolStripMenuItem_Click(object? sender, EventArgs e) =>
+        ApplyBaseFontSizeDelta(2f);
+
+    private void DecreaseBaseFontToolStripMenuItem_Click(object? sender, EventArgs e) =>
+        ApplyBaseFontSizeDelta(-2f);
+
+    private void ToggleBoldBaseFontToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        var currentFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        var style = currentFont.Bold ? FontStyle.Regular : FontStyle.Bold;
+        KryptonManager.CurrentGlobalPalette.BaseFont =
+            new Font(currentFont.FontFamily, currentFont.SizeInPoints, style);
+        UpdateStripFontStatus();
+    }
+
+    private void ChangeBaseFontFamilyToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        _baseFontFamilyIndex = (_baseFontFamilyIndex + 1) % BaseFontFamilies.Length;
+        ApplyBaseFontFamily(BaseFontFamilies[_baseFontFamilyIndex]);
+    }
+
+    private void ApplyBaseFontFamily(string familyName)
+    {
+        var currentFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        KryptonManager.CurrentGlobalPalette.BaseFont =
+            new Font(familyName, currentFont.SizeInPoints, currentFont.Style);
+        UpdateStripFontStatus();
+    }
+
+    private void ResetBaseFontToolStripMenuItem_Click(object? sender, EventArgs e)
+    {
+        if (_savedBaseFont != null)
+        {
+            KryptonManager.CurrentGlobalPalette.BaseFont = _savedBaseFont;
+            _baseFontFamilyIndex = Array.FindIndex(BaseFontFamilies, family =>
+                string.Equals(family, _savedBaseFont.Name, StringComparison.OrdinalIgnoreCase));
+            if (_baseFontFamilyIndex < 0)
+            {
+                _baseFontFamilyIndex = 0;
+            }
+        }
+
+        UpdateStripFontStatus();
+    }
+
+    private void ApplyBaseFontSizeDelta(float delta)
+    {
+        var currentFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        KryptonManager.CurrentGlobalPalette.BaseFont =
+            new Font(currentFont.FontFamily, currentFont.SizeInPoints + delta, currentFont.Style);
+        UpdateStripFontStatus();
+    }
+
+    private void UpdateStripFontStatus()
+    {
+        var baseFont = KryptonManager.CurrentGlobalPalette.BaseFont;
+        var nextFamily = BaseFontFamilies[(_baseFontFamilyIndex + 1) % BaseFontFamilies.Length];
+        toolStripStatusLabel1.Text =
+            $"BaseFont: {baseFont.Name} {baseFont.SizeInPoints:0.#}pt ({baseFont.Style}) | " +
+            $"Krypton menu: {menuStrip1.Font.Name} {menuStrip1.Font.SizeInPoints:0.#}pt | " +
+            $"Native menu: {_nativeMenuStrip.Font.Name} {_nativeMenuStrip.Font.SizeInPoints:0.#}pt | " +
+            $"Krypton tool: {toolStrip1.Font.Name} | Native tool: {_nativeToolStrip.Font.Name} | " +
+            $"Status: {statusStrip1.Font.Name} | Context: {_contextMenuStrip.Font.Name} | " +
+            $"Next family (Tools): {nextFamily}";
     }
 
     private void animateStatusStripToolStripMenuItem_Click(object? sender, EventArgs e)
@@ -40,8 +205,8 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
             // Reset to palette defaults when manually stopped
             if (statusStrip1 is Krypton.Toolkit.KryptonStatusStrip kss)
             {
-                kss.StateCommon.Color1 = GlobalStaticVariables.EMPTY_COLOR;
-                kss.StateCommon.Color2 = GlobalStaticVariables.EMPTY_COLOR;
+                kss.StateCommon.Color1 = SharedStaticVariables.EMPTY_COLOR;
+                kss.StateCommon.Color2 = SharedStaticVariables.EMPTY_COLOR;
                 kss.StateCommon.ColorStyle = PaletteColorStyle.Inherit;
                 kss.StateCommon.ColorAngle = -1f;
                 kss.Invalidate();
@@ -78,7 +243,7 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
             // Use per-control override path
             kss.StateCommon.ColorStyle = Krypton.Toolkit.PaletteColorStyle.Solid;
             kss.StateCommon.Color1 = color;
-            kss.StateCommon.Color2 = GlobalStaticVariables.EMPTY_COLOR;
+            kss.StateCommon.Color2 = SharedStaticVariables.EMPTY_COLOR;
             kss.StateCommon.ColorAngle = -1f;
         }
         else
@@ -99,12 +264,14 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         if (statusStrip1 is Krypton.Toolkit.KryptonStatusStrip kss)
         {
             // Clear per-control overrides to fall back to palette
-            kss.StateCommon.Color1 = GlobalStaticVariables.EMPTY_COLOR;
-            kss.StateCommon.Color2 = GlobalStaticVariables.EMPTY_COLOR;
+            kss.StateCommon.Color1 = SharedStaticVariables.EMPTY_COLOR;
+            kss.StateCommon.Color2 = SharedStaticVariables.EMPTY_COLOR;
             kss.StateCommon.ColorStyle = PaletteColorStyle.Inherit;
             kss.StateCommon.ColorAngle = -1f;
             kss.Invalidate();
         }
+
+        UpdateStripFontStatus();
     }
 
     /*
@@ -130,11 +297,11 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         var ct = KryptonManager.CurrentGlobalPalette?.ColorTable;
         if (ct is not null)
         {
-            if (ct.StatusStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR)
+            if (ct.StatusStripGradientEnd != SharedStaticVariables.EMPTY_COLOR)
             {
                 return ct.StatusStripGradientEnd;
             }
-            if (ct.StatusStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR)
+            if (ct.StatusStripGradientBegin != SharedStaticVariables.EMPTY_COLOR)
             {
                 return ct.StatusStripGradientBegin;
             }
@@ -145,7 +312,7 @@ public partial class MenuToolBarStatusStripTest : KryptonForm
         {
             // Use inherited default if available
             var c1 = kss.StateCommon.GetBackColor1(Krypton.Toolkit.PaletteState.Normal);
-            if (c1 != GlobalStaticVariables.EMPTY_COLOR && !c1.IsEmpty)
+            if (c1 != SharedStaticVariables.EMPTY_COLOR && !c1.IsEmpty)
             {
                 return c1;
             }

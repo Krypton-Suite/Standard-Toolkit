@@ -43,8 +43,8 @@ internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
         Debug.Assert(captionArea is not null);
         Debug.Assert(ribbon is not null);
             
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _captionArea = captionArea ?? throw new ArgumentNullException(nameof(captionArea));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _captionArea = captionArea ?? ThrowHelper.ThrowArgumentNullException(captionArea);
 
         // Create cache of draw elements
         _contextTitlesCache = [];
@@ -144,13 +144,20 @@ internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
         // Do we need to position a filler element?
         if (filler != null)
         {
-            // How much space available on the left side (between caption start and leftmost context tab)
-            var leftSpace = xLeftMost - ClientRectangle.Left;
+            var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
 
-            // Fixes #64 / #3163: Form icon must always be to the left of the QAT dropdown and
-            // contextual tabs (Excel/Word behavior). Previously it was placed on whichever side
-            // had more space, causing the icon to appear after contextual tabs.
-            context.DisplayRectangle = new Rectangle(ClientLocation.X, ClientLocation.Y, leftSpace, ClientHeight);
+            // Fixes #64 / #3163: Form icon must always be on the start edge of the QAT and
+            // contextual tabs (Excel/Word behavior). Under RTL that is the right remainder.
+            if (isRtl)
+            {
+                var rightSpace = ClientRectangle.Right - xRightMost;
+                context.DisplayRectangle = new Rectangle(xRightMost, ClientLocation.Y, Math.Max(0, rightSpace), ClientHeight);
+            }
+            else
+            {
+                var leftSpace = xLeftMost - ClientRectangle.Left;
+                context.DisplayRectangle = new Rectangle(ClientLocation.X, ClientLocation.Y, leftSpace, ClientHeight);
+            }
 
             filler.Layout(context);
         }
@@ -177,8 +184,39 @@ internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
     #endregion
 
     #region Implementation
+    /// <summary>
+    /// Removes drawn context title children so they cannot linger when tab headers are hidden.
+    /// </summary>
+    public void ClearContextTitles()
+    {
+        // Preserve any filler child used for form icon / QAT gap positioning.
+        ViewBase? filler = null;
+        foreach (ViewBase child in this)
+        {
+            if (GetDock(child) == ViewDockStyle.Fill)
+            {
+                filler = child;
+                break;
+            }
+        }
+
+        Clear();
+
+        if (filler != null)
+        {
+            Add(filler, ViewDockStyle.Fill);
+        }
+    }
+
     private void SyncChildrenToContexts()
     {
+        // Context titles mimic tab strip geometry — nothing to show in toolbar mode.
+        if (!_ribbon.ShowTabHeaders)
+        {
+            ClearContextTitles();
+            return;
+        }
+
         // Find any filler child
         ViewBase? filler = null;
 

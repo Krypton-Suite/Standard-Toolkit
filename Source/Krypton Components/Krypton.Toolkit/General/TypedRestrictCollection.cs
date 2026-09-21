@@ -44,7 +44,7 @@ public abstract class TypedRestrictCollection<T> : TypedCollection<T> where T : 
     public override int Add(object? value) =>
         // We only allow objects that implement a restricted type
         (value != null) && !IsTypeAllowed(value)
-            ? throw new ArgumentException("Type to be added is not allowed in this collection.")
+            ? ThrowHelper.ThrowArgumentException<int>("Type to be added is not allowed in this collection.")
             : base.Add(value!);
 
     /// <summary>
@@ -58,7 +58,7 @@ public abstract class TypedRestrictCollection<T> : TypedCollection<T> where T : 
         // We only allow objects that implement IQuickAccessToolbarButton
         if ((value != null) && !IsTypeAllowed(value))
         {
-            throw new ArgumentException("Type to be added is not allowed in this collection.");
+            ThrowHelper.ThrowArgumentException("Type to be added is not allowed in this collection.");
         }
 
         base.Insert(index, value!);
@@ -78,7 +78,7 @@ public abstract class TypedRestrictCollection<T> : TypedCollection<T> where T : 
         // We only allow objects that implement IQuickAccessToolbarButton
         if ((item != null) && !IsTypeAllowed(item))
         {
-            throw new ArgumentException("Type to be added is not allowed in this collection.");
+            ThrowHelper.ThrowArgumentException("Type to be added is not allowed in this collection.");
         }
 
         base.Insert(index, item!);
@@ -97,7 +97,7 @@ public abstract class TypedRestrictCollection<T> : TypedCollection<T> where T : 
         // We only allow objects that implement IQuickAccessToolbarButton
         if ((item != null) && !IsTypeAllowed(item))
         {
-            throw new ArgumentException("Type to be added is not allowed in this collection.");
+            ThrowHelper.ThrowArgumentException("Type to be added is not allowed in this collection.");
         }
 
         base.Add(item!);

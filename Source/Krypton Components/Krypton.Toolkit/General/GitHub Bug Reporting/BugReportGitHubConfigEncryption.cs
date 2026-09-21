@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -60,7 +60,7 @@ public static class BugReportGitHubConfigEncryption
     {
         if (secretKey == null || secretKey.Length == 0)
         {
-            throw new ArgumentNullException(nameof(secretKey));
+            ThrowHelper.ThrowArgumentNullException(nameof(secretKey));
         }
 
         SaveEncryptedConfig(config, filePath, SecureStringToString(secretKey));
@@ -78,22 +78,22 @@ public static class BugReportGitHubConfigEncryption
     {
         if (config == null)
         {
-            throw new ArgumentNullException(nameof(config));
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
         }
 
         if (string.IsNullOrWhiteSpace(filePath))
         {
-            throw new ArgumentNullException(nameof(filePath));
+            ThrowHelper.ThrowArgumentNullException(nameof(filePath));
         }
 
         if (string.IsNullOrWhiteSpace(secretKey))
         {
-            throw new ArgumentNullException(nameof(secretKey));
+            ThrowHelper.ThrowArgumentNullException(nameof(secretKey));
         }
 
         if (!config.IsValid)
         {
-            throw new InvalidOperationException("Config must have Owner, RepositoryName, and PersonalAccessToken set.");
+            ThrowHelper.ThrowInvalidOperationException("Config must have Owner, RepositoryName, and PersonalAccessToken set.");
         }
 
         var plainText = $"{config.Owner}{Separator}{config.RepositoryName}{Separator}{config.PersonalAccessToken}";
@@ -115,7 +115,7 @@ public static class BugReportGitHubConfigEncryption
     {
         if (secretKey == null || secretKey.Length == 0)
         {
-            throw new ArgumentNullException(nameof(secretKey));
+            ThrowHelper.ThrowArgumentNullException(nameof(secretKey));
         }
 
         return LoadEncryptedConfig(filePath, SecureStringToString(secretKey));
@@ -134,12 +134,12 @@ public static class BugReportGitHubConfigEncryption
     {
         if (string.IsNullOrWhiteSpace(filePath))
         {
-            throw new ArgumentNullException(nameof(filePath));
+            ThrowHelper.ThrowArgumentNullException(nameof(filePath));
         }
 
         if (string.IsNullOrWhiteSpace(secretKey))
         {
-            throw new ArgumentNullException(nameof(secretKey));
+            ThrowHelper.ThrowArgumentNullException(nameof(secretKey));
         }
 
         if (!File.Exists(filePath))

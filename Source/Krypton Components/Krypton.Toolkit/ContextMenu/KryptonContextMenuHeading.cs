@@ -59,7 +59,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
         // Default fields
         _extraText = string.Empty;
         _image = null;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
         // Create the redirector that can get values from the krypton context menu
         _redirectHeading = new PaletteRedirectTriple();
@@ -140,6 +140,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Heading menu item text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     [DefaultValue(@"Heading")]
@@ -163,6 +164,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Heading menu item extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     [AllowNull]
@@ -189,6 +191,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     [Description(@"Heading menu item image.")]
     [Localizable(true)]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -224,7 +227,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
+    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(SharedStaticVariables.EMPTY_COLOR);
 
     /// <summary>
     /// Gets access to the header instance specific appearance values.

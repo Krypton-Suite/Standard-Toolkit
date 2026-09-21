@@ -41,13 +41,13 @@ public class KryptonNavigatorControlCollection : KryptonControlCollection
 
         if (value is null)
         {
-            throw new ArgumentNullException(nameof(value));
+            ThrowHelper.ThrowArgumentNullException(nameof(value));
         }
 
         // We only allow KryptonPage controls to be added
         if (value is not KryptonPage)
         {
-            throw new ArgumentException(@"Only KryptonPage controls can be added.", nameof(value));
+            ThrowHelper.ThrowArgumentException(@"Only KryptonPage controls can be added.", nameof(value));
         }
 
         // Let base class perform actual add

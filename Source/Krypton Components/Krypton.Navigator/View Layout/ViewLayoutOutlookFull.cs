@@ -50,7 +50,7 @@ internal class ViewLayoutOutlookFull : ViewLayoutScrollViewport
             vertical, needPaintDelegate)
     {
         Debug.Assert(viewBuilder is not null);
-        ViewBuilder = viewBuilder ?? throw new ArgumentNullException(nameof(viewBuilder));
+        ViewBuilder = viewBuilder ?? ThrowHelper.ThrowArgumentNullException(viewBuilder);
     }
 
     /// <summary>

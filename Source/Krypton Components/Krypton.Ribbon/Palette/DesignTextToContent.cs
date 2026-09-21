@@ -30,7 +30,7 @@ internal class DesignTextToContent : RibbonToContent
     {
         Debug.Assert(ribbon is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
     }
     #endregion
 

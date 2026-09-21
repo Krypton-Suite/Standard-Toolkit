@@ -34,7 +34,7 @@ public class PaletteTabTriple : Storage,
 
         if (inherit is null)
         {
-            throw new ArgumentNullException(nameof(inherit));
+            ThrowHelper.ThrowArgumentNullException(nameof(inherit));
         }
 
         // Create storage that maps onto the inherit instances

@@ -36,17 +36,17 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalToolStripText == GlobalStaticVariables.EMPTY_COLOR) &&
+    public override bool IsDefault => (InternalKCT.InternalToolStripText == SharedStaticVariables.EMPTY_COLOR) &&
                                       (InternalKCT.InternalToolStripFont == null) &&
-                                      (InternalKCT.InternalToolStripBorder == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalToolStripContentPanelGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalToolStripContentPanelGradientEnd == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalToolStripDropDownBackground == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalToolStripGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalToolStripGradientEnd == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalToolStripGradientMiddle == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalToolStripPanelGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalToolStripPanelGradientEnd == GlobalStaticVariables.EMPTY_COLOR);
+                                      (InternalKCT.InternalToolStripBorder == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalToolStripContentPanelGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalToolStripContentPanelGradientEnd == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalToolStripDropDownBackground == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalToolStripGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalToolStripGradientEnd == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalToolStripGradientMiddle == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalToolStripPanelGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalToolStripPanelGradientEnd == SharedStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -92,7 +92,7 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripText property to its default value.
     /// </summary>
-    public void ResetToolStripText() => ToolStripText = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripText() => ToolStripText = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolStripFont
@@ -142,7 +142,7 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripBorder property to its default value.
     /// </summary>
-    public void ResetToolStripBorder() => ToolStripBorder = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripBorder() => ToolStripBorder = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolStripContentPanelGradientBegin
@@ -167,7 +167,7 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripContentPanelGradientBegin property to its default value.
     /// </summary>
-    public void ResetToolStripContentPanelGradientBegin() => ToolStripContentPanelGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripContentPanelGradientBegin() => ToolStripContentPanelGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolStripContentPanelGradientEnd
@@ -192,7 +192,7 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripContentPanelGradientEnd property to its default value.
     /// </summary>
-    public void ResetToolStripContentPanelGradientEnd() => ToolStripContentPanelGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripContentPanelGradientEnd() => ToolStripContentPanelGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolStripDropDownBackground
@@ -217,7 +217,7 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripDropDownBackground property to its default value.
     /// </summary>
-    public void ResetToolStripDropDownBackground() => ToolStripDropDownBackground = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripDropDownBackground() => ToolStripDropDownBackground = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolStripGradientBegin
@@ -242,7 +242,7 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripGradientBegin property to its default value.
     /// </summary>
-    public void ResetToolStripGradientBegin() => ToolStripGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripGradientBegin() => ToolStripGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolStripGradientEnd
@@ -267,7 +267,7 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripGradientEnd property to its default value.
     /// </summary>
-    public void ResetToolStripGradientEnd() => ToolStripGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripGradientEnd() => ToolStripGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolStripGradientMiddle
@@ -292,7 +292,7 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripGradientMiddle property to its default value.
     /// </summary>
-    public void ResetToolStripGradientMiddle() => ToolStripGradientMiddle = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripGradientMiddle() => ToolStripGradientMiddle = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolStripPanelGradientBegin
@@ -317,7 +317,7 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripPanelGradientBegin property to its default value.
     /// </summary>
-    public void ResetToolStripPanelGradientBegin() => ToolStripPanelGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripPanelGradientBegin() => ToolStripPanelGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolStripPanelGradientEnd
@@ -342,6 +342,6 @@ public class KryptonPaletteTMSToolStrip : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ToolStripPanelGradientEnd property to its default value.
     /// </summary>
-    public void ResetToolStripPanelGradientEnd() => ToolStripPanelGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetToolStripPanelGradientEnd() => ToolStripPanelGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 }

@@ -132,7 +132,7 @@ internal class ViewDrawRibbonAppButton : ViewLeaf
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // New clipping region is at most our own client size

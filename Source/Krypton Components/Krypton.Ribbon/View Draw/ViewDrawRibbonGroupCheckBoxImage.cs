@@ -42,11 +42,11 @@ internal class ViewDrawRibbonGroupCheckBoxImage : ViewComposite
 
         if (ribbon is null)
         {
-            throw new ArgumentNullException(nameof(ribbon));
+            ThrowHelper.ThrowArgumentNullException(nameof(ribbon));
         }
 
         // Remember incoming parameters
-        _ribbonCheckBox = ribbonCheckBox ?? throw new ArgumentNullException(nameof(ribbonCheckBox));
+        _ribbonCheckBox = ribbonCheckBox ?? ThrowHelper.ThrowArgumentNullException(ribbonCheckBox);
         _large = large;
 
         // Use redirector to get the check box images and redirect to parent palette

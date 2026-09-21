@@ -110,7 +110,7 @@ internal class ViewDrawRibbonAppMenuRecentDoc : ViewDrawCanvas
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Enforce the maximum width value

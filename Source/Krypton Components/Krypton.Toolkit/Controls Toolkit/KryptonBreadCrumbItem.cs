@@ -18,7 +18,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonBreadCrumb), "ToolboxBitmaps.KryptonBreadCrumbItem.bmp")]
 [DesignTimeVisible(false)]
-[Designer(typeof(KryptonBreadCrumbItemDesigner))]
+[Designer("Krypton.Toolkit.KryptonBreadCrumbItemDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonBreadCrumbItem : KryptonListItem
 {
     #region Type Definitions
@@ -149,7 +149,7 @@ public class KryptonBreadCrumbItem : KryptonListItem
     /// Initialize a new instance of the KryptonBreadCrumbItem class.
     /// </summary>
     public KryptonBreadCrumbItem()
-        : this("ListItem", null, null, GlobalStaticVariables.EMPTY_COLOR)
+        : this("ListItem", null, null, SharedStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -158,7 +158,7 @@ public class KryptonBreadCrumbItem : KryptonListItem
     /// </summary>
     /// <param name="shortText">Initial short text value.</param>
     public KryptonBreadCrumbItem(string shortText)
-        : this(shortText, null, null, GlobalStaticVariables.EMPTY_COLOR)
+        : this(shortText, null, null, SharedStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -168,7 +168,7 @@ public class KryptonBreadCrumbItem : KryptonListItem
     /// <param name="shortText">Initial short text value.</param>
     /// <param name="longText">Initial long text value.</param>
     public KryptonBreadCrumbItem(string shortText, string longText)
-        : this(shortText, longText, null, GlobalStaticVariables.EMPTY_COLOR)
+        : this(shortText, longText, null, SharedStaticVariables.EMPTY_COLOR)
     {
     }
 
@@ -181,7 +181,7 @@ public class KryptonBreadCrumbItem : KryptonListItem
     public KryptonBreadCrumbItem(string shortText,
         string longText,
         Image? image)
-        : this(shortText, longText, image, GlobalStaticVariables.EMPTY_COLOR)
+        : this(shortText, longText, image, SharedStaticVariables.EMPTY_COLOR)
     {
     }
 

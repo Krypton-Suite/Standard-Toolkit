@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved. 
@@ -108,6 +108,17 @@ public class PaletteFormBorder : PaletteBorder
         return base.GetBorderRounding(state);
     }
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteState state)
+    {
+        if (Draw == InheritBool.False || Rounding == -1F)
+        {
+            return PaletteCornerRounding.Uniform(0f);
+        }
+
+        return base.GetBorderCornerRounding(state);
+    }
+
     /// <summary>
     /// Gets the graphics hint for drawing the border.
     /// </summary>
@@ -172,7 +183,8 @@ public class PaletteFormBorder : PaletteBorder
                 break;
 
             default:
-                throw new ArgumentOutOfRangeException(nameof(formFormBorderStyle), formFormBorderStyle, null);
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(formFormBorderStyle), formFormBorderStyle, null);
+                return default;
         }
 
         return (xBorder, yBorder);

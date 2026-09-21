@@ -33,7 +33,7 @@ public class FontAwesomeIconEditor : UITypeEditor
     {
         if (provider == null)
         {
-            throw new ArgumentNullException(nameof(provider));
+            ThrowHelper.ThrowArgumentNullException(nameof(provider));
         }
 
         if (context?.Instance == null)

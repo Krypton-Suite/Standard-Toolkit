@@ -193,7 +193,7 @@ public class DragManager : IDragPageNotify,
         {
             if (IsDragging)
             {
-                throw new InvalidOperationException("Cannot update DocumentCursor property during dragging operation.");
+                ThrowHelper.ThrowInvalidOperationException("Cannot update DocumentCursor property during dragging operation.");
             }
             else
             {
@@ -212,17 +212,17 @@ public class DragManager : IDragPageNotify,
     {
         if (IsDisposed)
         {
-            throw new InvalidOperationException("Cannot DragStart when instance have been disposed.");
+            ThrowHelper.ThrowInvalidOperationException("Cannot DragStart when instance have been disposed.");
         }
 
         if (IsDragging)
         {
-            throw new InvalidOperationException("Cannot DragStart when already performing dragging operation.");
+            ThrowHelper.ThrowInvalidOperationException("Cannot DragStart when already performing dragging operation.");
         }
 
         if (dragEndData == null)
         {
-            throw new ArgumentNullException(nameof(dragEndData), @"Cannot provide a null DragEndData.");
+            ThrowHelper.ThrowArgumentNullException(nameof(dragEndData), @"Cannot provide a null DragEndData.");
         }
 
         // Generate drag targets from the set of target provides
@@ -265,12 +265,12 @@ public class DragManager : IDragPageNotify,
     {
         if (IsDisposed)
         {
-            throw new InvalidOperationException("Cannot DragMove when instance have been disposed.");
+            ThrowHelper.ThrowInvalidOperationException("Cannot DragMove when instance have been disposed.");
         }
 
         if (!IsDragging)
         {
-            throw new InvalidOperationException("Cannot DragMove when DragStart has not been called.");
+            ThrowHelper.ThrowInvalidOperationException("Cannot DragMove when DragStart has not been called.");
         }
 
         // Different feedback objects implement visual feedback differently and so only the feedback
@@ -290,12 +290,12 @@ public class DragManager : IDragPageNotify,
     {
         if (IsDisposed)
         {
-            throw new InvalidOperationException("Cannot DragEnd when instance have been disposed.");
+            ThrowHelper.ThrowInvalidOperationException("Cannot DragEnd when instance have been disposed.");
         }
 
         if (!IsDragging)
         {
-            throw new InvalidOperationException("Cannot DragEnd when DragStart has not been called.");
+            ThrowHelper.ThrowInvalidOperationException("Cannot DragEnd when DragStart has not been called.");
         }
 
         // Different feedback objects implement visual feedback differently and so only the feedback
@@ -326,12 +326,12 @@ public class DragManager : IDragPageNotify,
     {
         if (IsDisposed)
         {
-            throw new InvalidOperationException("Cannot DragQuit when instance have been disposed.");
+            ThrowHelper.ThrowInvalidOperationException("Cannot DragQuit when instance have been disposed.");
         }
 
         if (!IsDragging)
         {
-            throw new InvalidOperationException("Cannot DragQuit when DragStart has not been called.");
+            ThrowHelper.ThrowInvalidOperationException("Cannot DragQuit when DragStart has not been called.");
         }
 
         // Remove visual feedback

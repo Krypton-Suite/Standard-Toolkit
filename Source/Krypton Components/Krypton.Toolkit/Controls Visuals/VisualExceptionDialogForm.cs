@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -29,8 +29,6 @@ internal partial class VisualExceptionDialogForm : KryptonForm
     private readonly Exception? _exception;
 
     private readonly Action<Exception>? _bugReportCallback;
-
-    private List<KryptonTreeNode> _originalNodes = new List<KryptonTreeNode>();
 
     #endregion
 
@@ -87,11 +85,6 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         if (_exception is not null)
         {
             isbSearchArea.Populate(_exception);
-
-            foreach (KryptonTreeNode node in isbSearchArea.Tree.Nodes)
-            {
-                _originalNodes.Add((KryptonTreeNode)node.Clone());
-            }
         }
 
         if (GeneralToolkitUtilities.GetCurrentScreenSize() == new Point(1080, 720))
@@ -151,6 +144,14 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception, bugReportCallback);
 
         ved.ShowDialog();
+    }
+
+    internal static async Task ShowAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null)
+    {
+        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception, bugReportCallback);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        await KryptonFormAsync.ShowDialogAsync(ved).ConfigureAwait(false);
     }
 
     #endregion

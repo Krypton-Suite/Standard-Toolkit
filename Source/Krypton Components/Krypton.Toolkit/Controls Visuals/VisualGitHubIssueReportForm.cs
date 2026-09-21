@@ -30,12 +30,12 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
     {
         if (config == null)
         {
-            throw new ArgumentNullException(nameof(config));
+            ThrowHelper.ThrowArgumentNullException(nameof(config));
         }
 
         if (!config.IsValid)
         {
-            throw new InvalidOperationException("Config must have Owner, RepositoryName, and PersonalAccessToken set.");
+            ThrowHelper.ThrowInvalidOperationException("Config must have Owner, RepositoryName, and PersonalAccessToken set.");
         }
 
         _config = config;

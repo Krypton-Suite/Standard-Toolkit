@@ -34,21 +34,21 @@ public sealed class PaletteBackInheritStatusStrip : PaletteBackInherit
     public override Color GetBackColor1(PaletteState state)
     {
         var ct = CurrentColorTable;
-        if (ct is not null && ct.StatusStripGradientBegin != GlobalStaticVariables.EMPTY_COLOR)
+        if (ct is not null && ct.StatusStripGradientBegin != SharedStaticVariables.EMPTY_COLOR)
         {
             return ct.StatusStripGradientBegin;
         }
-        return GlobalStaticVariables.EMPTY_COLOR;
+        return SharedStaticVariables.EMPTY_COLOR;
     }
 
     public override Color GetBackColor2(PaletteState state)
     {
         var ct = CurrentColorTable;
-        if (ct is not null && ct.StatusStripGradientEnd != GlobalStaticVariables.EMPTY_COLOR)
+        if (ct is not null && ct.StatusStripGradientEnd != SharedStaticVariables.EMPTY_COLOR)
         {
             return ct.StatusStripGradientEnd;
         }
-        return GlobalStaticVariables.EMPTY_COLOR;
+        return SharedStaticVariables.EMPTY_COLOR;
     }
 
     public override PaletteColorStyle GetBackColorStyle(PaletteState state) => PaletteColorStyle.Inherit;

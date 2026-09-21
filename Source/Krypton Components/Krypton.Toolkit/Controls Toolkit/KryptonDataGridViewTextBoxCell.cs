@@ -123,7 +123,7 @@ public class KryptonDataGridViewTextBoxCell : DataGridViewTextBoxCell
         DataGridView? dataGridView = DataGridView;
         if (dataGridView?.EditingControl == null)
         {
-            throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
+            ThrowHelper.ThrowInvalidOperationException("Cell is detached or its grid has no editing control.");
         }
 
         if (dataGridView.EditingControl is KryptonTextBox kryptonTextBox)

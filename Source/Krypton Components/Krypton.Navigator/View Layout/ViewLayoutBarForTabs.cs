@@ -119,7 +119,7 @@ internal class ViewLayoutBarForTabs : ViewLayoutBar
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Use tab style to decide what order the children are drawn in

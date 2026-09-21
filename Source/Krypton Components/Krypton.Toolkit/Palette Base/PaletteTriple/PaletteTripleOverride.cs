@@ -41,12 +41,12 @@ public class PaletteTripleOverride : GlobalId,
         // Validate incoming references
         if (normalTriple == null)
         {
-            throw new ArgumentNullException(nameof(normalTriple));
+            ThrowHelper.ThrowArgumentNullException(nameof(normalTriple));
         }
 
         if (overrideTriple == null)
         {
-            throw new ArgumentNullException(nameof(overrideTriple));
+            ThrowHelper.ThrowArgumentNullException(nameof(overrideTriple));
         }
 
         // Create the triple override instances

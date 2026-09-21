@@ -22,6 +22,8 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
     private TableLayoutPanel _tlp;
     private int _height;
     private bool _disposed;
+    private KryptonOverlayImage _overlayImage;
+    private Image? _ownedComposedIcon;
     #endregion
 
     #region Identity
@@ -65,6 +67,20 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
                 field = value;
                 UpdateHeaderIcon();
             }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets an optional overlay (badge) drawn on top of the heading icon.
+    /// When <see cref="KryptonOverlayImage.Image"/> is null, no overlay is applied.
+    /// </summary>
+    public KryptonOverlayImage OverlayImage
+    {
+        get => _overlayImage;
+        set
+        {
+            _overlayImage = value;
+            UpdateHeaderIcon();
         }
     }
 
@@ -126,13 +142,16 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
     #region Private
     private void UpdateTextAlignmentHorizontal()
     {
-        _headingText.TextAlign = TextAlignmentHorizontal switch
-        {
-            PaletteRelativeAlign.Near => System.Drawing.ContentAlignment.MiddleLeft,
-            PaletteRelativeAlign.Center => System.Drawing.ContentAlignment.MiddleCenter,
-            PaletteRelativeAlign.Far => System.Drawing.ContentAlignment.MiddleRight,
-            _ => System.Drawing.ContentAlignment.MiddleLeft
-        };
+        _headingText.TextAlign = ToolkitRtlLayout.MapNearFar(TextAlignmentHorizontal, ToolkitRtlLayout.IsRtl(Panel));
+    }
+
+    /// <summary>
+    /// Re-applies heading text alignment and icon overlay after RTL flags change.
+    /// </summary>
+    internal void ApplyRtlChrome()
+    {
+        UpdateTextAlignmentHorizontal();
+        UpdateHeaderIcon();
     }
 
     private void SetupControls()
@@ -153,7 +172,7 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
         //_headingText.StateCommon.ShortText.TextV = PaletteRelativeAlign.Center;
 
         _headingText.StateCommon.Font = new Font( KryptonManager.CurrentGlobalPalette.BaseFont.FontFamily, 20f, FontStyle.Bold );
-        _headingText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+        UpdateTextAlignmentHorizontal();
     }
 
     private void SetupPanel()
@@ -197,9 +216,12 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
 
     private void UpdateHeaderIcon()
     {
+        DisposeOwnedComposedIcon();
+
         if (IconType != KryptonTaskDialogIconType.None)
         {
             _pictureBox.Image = _iconController.GetImage(IconType, _pictureBox.Size.Height);
+            ApplyOverlayImageIfNeeded();
             _pictureBox.Visible = true;
         }
         else
@@ -208,6 +230,37 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
             _pictureBox.Visible = false;
         }
     }
+
+    private void ApplyOverlayImageIfNeeded()
+    {
+        if (_overlayImage.IsEmpty || _pictureBox.Image == null)
+        {
+            return;
+        }
+
+        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(_pictureBox.Image, _overlayImage, rightToLeft: ToolkitRtlLayout.IsRtl(Panel));
+        if (composed != null)
+        {
+            _ownedComposedIcon = composed;
+            _pictureBox.Image = composed;
+        }
+    }
+
+    private void DisposeOwnedComposedIcon()
+    {
+        if (_ownedComposedIcon == null)
+        {
+            return;
+        }
+
+        if (ReferenceEquals(_pictureBox.Image, _ownedComposedIcon))
+        {
+            _pictureBox.Image = null;
+        }
+
+        _ownedComposedIcon.Dispose();
+        _ownedComposedIcon = null;
+    }
     #endregion
 
     #region IDispose
@@ -215,6 +268,7 @@ public class KryptonTaskDialogElementHeading : KryptonTaskDialogElementBase,
     {
         if (!_disposed && disposing)
         {
+            DisposeOwnedComposedIcon();
             _iconController.Dispose();
 
             _disposed = true;

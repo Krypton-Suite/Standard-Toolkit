@@ -91,7 +91,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public bool ToBoolean(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<bool>();
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public byte ToByte(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<byte>();
     }
 
     /// <summary>
@@ -125,7 +125,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public char ToChar(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<char>();
     }
 
 
@@ -143,7 +143,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public DateTime ToDateTime(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<DateTime>();
     }
 
 
@@ -161,7 +161,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public decimal ToDecimal(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<decimal>();
     }
 
 
@@ -179,7 +179,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public double ToDouble(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<double>();
     }
 
 
@@ -197,7 +197,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public short ToInt16(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<short>();
     }
 
     /// <summary>
@@ -214,7 +214,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public int ToInt32(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<int>();
     }
 
 
@@ -232,7 +232,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public long ToInt64(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<long>();
     }
 
 
@@ -250,7 +250,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public sbyte ToSByte(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<sbyte>();
     }
 
 
@@ -268,7 +268,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public float ToSingle(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<float>();
     }
 
     /// <summary>
@@ -285,7 +285,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public ushort ToUInt16(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<ushort>();
     }
 
 
@@ -303,7 +303,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public uint ToUInt32(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<uint>();
     }
 
 
@@ -321,7 +321,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
     /// <exception cref="InvalidCastException">This method is not supported</exception>
     public ulong ToUInt64(IFormatProvider? provider)
     {
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<ulong>();
     }
 
     /// <summary>
@@ -376,7 +376,7 @@ internal class Float2D : IConvertible, IEquatable<Float2D>, IEquatable<Point>, I
             return (SizeF) this;
         }
 
-        throw new InvalidCastException();
+        return ThrowHelper.ThrowInvalidCastException<object>();
     }
 
     /// <summary>

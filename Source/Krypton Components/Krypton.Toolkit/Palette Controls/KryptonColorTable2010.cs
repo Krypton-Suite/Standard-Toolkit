@@ -18,15 +18,6 @@ namespace Krypton.Toolkit;
 public class KryptonColorTable2010White : KryptonColorTable2010
 {
     #region Identity
-    static KryptonColorTable2010White()
-    {
-        // Get the font settings from the system
-        DefineFonts();
-
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-    }
-
     /// <summary>
     /// Initialize a new instance of the KryptonColorTable2010White class.
     /// </summary>
@@ -45,7 +36,7 @@ public class KryptonColorTable2010White : KryptonColorTable2010
     /// <summary>
     /// MenuStripText
     /// </summary>
-    public override Color MenuStripText => Color.FromArgb(255, 30, 30, 30);// Colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color MenuStripText => SchemeBaseColorsExtensions.Coalesce(Colors.Get(SchemeBaseColors.MenuStripText), Color.FromArgb(255, 30, 30, 30));
 }
 
 /// <summary>
@@ -65,20 +56,9 @@ public class KryptonColorTable2010 : KryptonColorTable
     private static readonly Color _buttonCheckedEnd = Color.FromArgb(255, 216, 107);
     private static readonly Color _menuItemSelectedBegin = Color.FromArgb(251, 242, 215);
     private static readonly Color _menuItemSelectedEnd = Color.FromArgb(247, 224, 135);
-    private static Font _menuToolFont;
-    private static Font _statusFont;
     #endregion
 
     #region Identity
-    static KryptonColorTable2010()
-    {
-        // Get the font settings from the system
-        DefineFonts();
-
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-    }
-
     /// <summary>
     /// Initialize a new instance of the KryptonColorTable2010 class.
     /// </summary>
@@ -519,7 +499,7 @@ public class KryptonColorTable2010 : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu items.
     /// </summary>
-    public override Color MenuItemText => Colors[(int)SchemeBaseColors.TextButtonNormal];
+    public override Color MenuItemText => Colors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextButtonNormal);
 
     #endregion
 
@@ -527,15 +507,17 @@ public class KryptonColorTable2010 : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu strip.
     /// </summary>
-    public override Color MenuStripText => Colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color MenuStripText => Colors.Resolve(SchemeBaseColors.MenuStripText, SchemeBaseColors.StatusStripText);
 
     #endregion
 
     #region ToolStripText
     /// <summary>
     /// Gets the text color used on the tool strip.
+    /// Empty <see cref="SchemeBaseColors.ToolStripText"/> keeps the historic alias only when it
+    /// contrasts with the strip background.
     /// </summary>
-    public override Color ToolStripText => Colors[(int)SchemeBaseColors.StatusStripText];
+    public override Color ToolStripText => Colors.ResolveToolStripText(SchemeBaseColors.StatusStripText);
 
     #endregion
 
@@ -544,30 +526,6 @@ public class KryptonColorTable2010 : KryptonColorTable
     /// Gets the text color used on the status strip.
     /// </summary>
     public override Color StatusStripText => Colors[(int)SchemeBaseColors.StatusStripText];
-
-    #endregion
-
-    #region MenuStripFont
-    /// <summary>
-    /// Gets the font used on the menu strip.
-    /// </summary>
-    public override Font MenuStripFont => _menuToolFont;
-
-    #endregion
-
-    #region ToolStripFont
-    /// <summary>
-    /// Gets the font used on the tool strip.
-    /// </summary>
-    public override Font ToolStripFont => _menuToolFont;
-
-    #endregion
-
-    #region StatusStripFont
-    /// <summary>
-    /// Gets the font used on the status strip.
-    /// </summary>
-    public override Font StatusStripFont => _statusFont;
 
     #endregion
     #endregion
@@ -644,25 +602,5 @@ public class KryptonColorTable2010 : KryptonColorTable
     public override Color ToolStripPanelGradientEnd => Colors[(int)SchemeBaseColors.ToolStripBack];
 
     #endregion
-    #endregion
-
-    #region Implementation
-
-    /// <summary>DefineFonts</summary>
-    protected static void DefineFonts()
-    {
-        // Create new font using system information
-        // TODO: Should be using base font
-        _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
-        _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
-    }
-
-    /// <summary>OnUserPreferenceChanged</summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    protected static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
-        // Update fonts to reflect any change in system settings
-        DefineFonts();
-
     #endregion
 }

@@ -138,6 +138,9 @@ internal class KryptonWorkspaceActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
             actions.Add(new DesignerActionPropertyItem(nameof(ContainerBackStyle), "BackStyle", nameof(Appearance), "Container background style"));
             actions.Add(new DesignerActionPropertyItem(nameof(SeparatorStyle), nameof(SeparatorStyle), nameof(Appearance), "Separator style"));
+            actions.Add(new DesignerActionHeaderItem(@"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add Cell", OnAddCell), @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add Sequence", OnAddSequence), @"Actions"));
             actions.Add(new DesignerActionHeaderItem(nameof(Operation)));
             actions.Add(new DesignerActionPropertyItem(nameof(AllowResizing), nameof(AllowResizing), nameof(Operation), "Allow user to resize"));
             actions.Add(new DesignerActionPropertyItem(nameof(CompactFlags), nameof(CompactFlags), nameof(Operation), "Compacting flags"));
@@ -147,5 +150,24 @@ internal class KryptonWorkspaceActionList : DesignerActionList
             
         return actions;
     }
+    #endregion
+
+    #region Implementation
+
+    private void OnAddCell(object? sender, EventArgs e) =>
+        KryptonWorkspaceDesignerActions.AddCell(
+            _workspace,
+            _workspace.Root.Children,
+            GetService(typeof(IDesignerHost)) as IDesignerHost,
+            _service);
+
+    private void OnAddSequence(object? sender, EventArgs e) =>
+        KryptonWorkspaceDesignerActions.AddSequence(
+            _workspace,
+            _workspace.Root,
+            _workspace.Root.Children,
+            GetService(typeof(IDesignerHost)) as IDesignerHost,
+            _service);
+
     #endregion
 }

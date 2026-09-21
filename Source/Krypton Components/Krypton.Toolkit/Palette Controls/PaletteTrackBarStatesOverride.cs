@@ -36,12 +36,12 @@ public class PaletteTrackBarStatesOverride : GlobalId
         // Validate incoming references
         if (normalStates == null)
         {
-            throw new ArgumentNullException(nameof(normalStates));
+            ThrowHelper.ThrowArgumentNullException(nameof(normalStates));
         }
 
         if (overrideStates == null)
         {
-            throw new ArgumentNullException(nameof(overrideStates));
+            ThrowHelper.ThrowArgumentNullException(nameof(overrideStates));
         }
 
         // Create the triple override instances

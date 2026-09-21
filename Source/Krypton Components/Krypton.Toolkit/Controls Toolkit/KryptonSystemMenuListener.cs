@@ -82,7 +82,10 @@ internal class KryptonSystemMenuListener : NativeWindow
         if (m.Msg == PI.WM_.NCRBUTTONDOWN)
         {
             Point screenPoint = GetScreenPointFromLParam(m.LParam);
-            if (_form.IsInTitleBarArea(screenPoint))
+
+            // Interactive caption content (injected navigator tabs, ButtonSpecs) shows its own
+            // right-click menu, so the message must reach the form instead of being eaten here.
+            if (_form.IsInTitleBarArea(screenPoint) && !_form.IsOverInteractiveChromeContent(screenPoint))
             {
                 OnNCRightMouseButtonDown(screenPoint);
                 // Eat the message
@@ -148,12 +151,17 @@ internal class KryptonSystemMenuListener : NativeWindow
 
     private Point ScreenToWindow(Point screenPoint)
     {
-        // First of all convert to client coordinates
+        if (_form.IsHandleCreated)
+        {
+            var windowRect = new PI.RECT();
+            if (PI.GetWindowRect(_form.Handle, ref windowRect))
+            {
+                return new Point(screenPoint.X - windowRect.left, screenPoint.Y - windowRect.top);
+            }
+        }
+
         Point clientPoint = _form.PointToClient(screenPoint);
-
-        // Now adjust to take into account the top and left borders
         clientPoint.Offset(_form.RealWindowBorders.Left, _form.RealWindowBorders.Top);
-
         return clientPoint;
     }
 

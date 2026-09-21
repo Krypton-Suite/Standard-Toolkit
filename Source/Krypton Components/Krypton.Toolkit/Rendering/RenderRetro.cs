@@ -19,7 +19,7 @@ public sealed class RenderRetro : RenderOffice2010
     {
         if (colorPalette == null)
         {
-            throw new ArgumentNullException(nameof(colorPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
         }
 
         return new KryptonRetroRenderer(colorPalette.ColorTable);
@@ -60,7 +60,7 @@ public sealed class RenderRetro : RenderOffice2010
     {
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (palette.GetBorderWidth(state) <= 0
@@ -86,17 +86,17 @@ public sealed class RenderRetro : RenderOffice2010
     {
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (path == null)
         {
-            throw new ArgumentNullException(nameof(path));
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
         }
 
         if (palette == null)
         {
-            throw new ArgumentNullException(nameof(palette));
+            ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
         if (rect.Width <= 0 || rect.Height <= 0)
@@ -326,7 +326,7 @@ internal static class RetroRenderHelper
 
     internal static bool IsRetroProgressValueBack(IPaletteBack palette, PaletteState state, out Color valueColor)
     {
-        valueColor = GlobalStaticVariables.EMPTY_COLOR;
+        valueColor = SharedStaticVariables.EMPTY_COLOR;
 
         if (CommonHelper.IsOverrideState(state)
             || palette.GetBackColorStyle(state) != PaletteColorStyle.GlassNormalFull)

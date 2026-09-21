@@ -149,6 +149,7 @@ internal class KryptonLinkLabelActionList : DesignerActionList
     /// <summary>
     /// Gets and sets the link label image.
     /// </summary>
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _linkLabel.Values.Image;

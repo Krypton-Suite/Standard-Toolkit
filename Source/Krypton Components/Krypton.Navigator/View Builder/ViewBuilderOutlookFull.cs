@@ -226,24 +226,10 @@ internal class ViewBuilderOutlookFull : ViewBuilderOutlookBase
     /// <param name="page">Page to bring into view.</param>
     protected override void BringPageIntoView(KryptonPage page)
     {
-        // Remember the view for the requested page
-        ViewDrawNavCheckButtonBase? viewPage = null;
-
-        // Make sure only the selected page is checked
-        foreach (ViewDrawNavCheckButtonBase child in _pageStackLookup!.Values)
+        // Scroll the check button that represents the requested page into view
+        if (_pageStackLookup != null &&
+            _pageStackLookup.TryGetValue(page, out ViewDrawNavCheckButtonBase? viewPage))
         {
-            // Should this check button be selected
-            if (Navigator.SelectedPage == child.Page)
-            {
-                viewPage = child;
-                break;
-            }
-        }
-
-        // If we found a matching view
-        if (viewPage != null)
-        {
-            // Ask the viewport to bring this rectangle of the view
             _viewOutlook.BringIntoView(viewPage.ClientRectangle);
         }
     }

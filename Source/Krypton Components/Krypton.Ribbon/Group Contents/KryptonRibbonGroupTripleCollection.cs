@@ -58,7 +58,7 @@ public class KryptonRibbonGroupTripleCollection : TypedRestrictCollection<Krypto
         // Restrict contents to three items max
         if (Count == 3)
         {
-            throw new ArgumentException(@"Collection can only contain 3 entries.");
+            ThrowHelper.ThrowArgumentException(@"Collection can only contain 3 entries.");
         }
 
         return base.Add(value);
@@ -74,7 +74,7 @@ public class KryptonRibbonGroupTripleCollection : TypedRestrictCollection<Krypto
         // Restrict contents to three items max
         if (Count == 3)
         {
-            throw new ArgumentException(@"Collection can only contain 3 entries.");
+            ThrowHelper.ThrowArgumentException(@"Collection can only contain 3 entries.");
         }
 
         base.Insert(index, value);
@@ -92,7 +92,7 @@ public class KryptonRibbonGroupTripleCollection : TypedRestrictCollection<Krypto
         // Restrict contents to three items max
         if (Count == 3)
         {
-            throw new ArgumentException(@"Collection can only contain 3 entries.");
+            ThrowHelper.ThrowArgumentException(@"Collection can only contain 3 entries.");
         }
 
         base.Insert(index, item);
@@ -109,7 +109,7 @@ public class KryptonRibbonGroupTripleCollection : TypedRestrictCollection<Krypto
         // Restrict contents to three items max
         if (Count == 3)
         {
-            throw new ArgumentException(@"Collection can only contain 3 entries.");
+            ThrowHelper.ThrowArgumentException(@"Collection can only contain 3 entries.");
         }
 
         base.Add(item);

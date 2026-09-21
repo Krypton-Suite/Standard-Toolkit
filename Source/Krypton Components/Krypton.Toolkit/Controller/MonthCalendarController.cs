@@ -147,7 +147,7 @@ public class MonthCalendarController : GlobalId,
         {
             if (_captured)
             {
-                if (_selectionStart != DateTime.MinValue)
+                if ((_months.DisplayView == MonthCalendarView.Days) && (_selectionStart != DateTime.MinValue))
                 {
                     // Find the button (day entry) closest (date wise) to the point provided. 
                     // So if over a blank area or over a disabled day it gives the date that 
@@ -217,11 +217,22 @@ public class MonthCalendarController : GlobalId,
             var clickDay = _months.DayFromPoint(pt, false);
             if (clickDay != null)
             {
-                _months.Calendar.SetSelectionRange(clickDay.Value, clickDay.Value);
-                _months.FocusDay = clickDay.Value;
-                _months.AnchorDay = clickDay.Value;
-                _selectionStart = _months.Calendar.SelectionStart;
-                _needPaint(_months, new NeedLayoutEventArgs(true));
+                if (_months.DisplayView > _months.Calendar.CalendarView)
+                {
+                    _months.DrillDown(clickDay.Value, pt);
+                    _selectionStart = DateTime.MinValue;
+                }
+                else
+                {
+                    DateTime selected = _months.DisplayView == MonthCalendarView.Days
+                        ? clickDay.Value
+                        : _months.CombineCellSelection(clickDay.Value);
+                    _months.Calendar.SetSelectionRange(selected, selected);
+                    _months.FocusDay = selected;
+                    _months.AnchorDay = selected;
+                    _selectionStart = _months.Calendar.SelectionStart;
+                    _needPaint(_months, new NeedLayoutEventArgs(true));
+                }
             }
             else
             {
@@ -322,12 +333,12 @@ public class MonthCalendarController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         if (ViewManager != null)
@@ -348,18 +359,16 @@ public class MonthCalendarController : GlobalId,
         switch (e.KeyCode)
         {
             case Keys.Left:
-                focusDate = e.Control ? focusDate.AddMonths(-1) : focusDate.AddDays(-1);
-
+                focusDate = AddKeyboardDelta(focusDate, e.Control ? -GetPageDelta() : -1);
                 break;
             case Keys.Right:
-                focusDate = e.Control ? focusDate.AddMonths(1) : focusDate.AddDays(1);
-
+                focusDate = AddKeyboardDelta(focusDate, e.Control ? GetPageDelta() : 1);
                 break;
             case Keys.Up:
-                focusDate = focusDate.AddDays(-7);
+                focusDate = AddKeyboardDelta(focusDate, _months.DisplayView == MonthCalendarView.Days ? -7 : -3);
                 break;
             case Keys.Down:
-                focusDate = focusDate.AddDays(7);
+                focusDate = AddKeyboardDelta(focusDate, _months.DisplayView == MonthCalendarView.Days ? 7 : 3);
                 break;
             case Keys.Home:
                 if (e.Control)
@@ -396,6 +405,12 @@ public class MonthCalendarController : GlobalId,
                 break;
             case Keys.Enter:
             case Keys.Space:
+                if (_months.DisplayView > _months.Calendar.CalendarView)
+                {
+                    _months.DrillDown(focusDate, _months.ClientRectangle.Location + new Size(_months.ClientSize.Width / 2, _months.ClientSize.Height / 2));
+                    return;
+                }
+
                 if (_monthCalendar is { AutoClose: true } && _months.Provider is
                     {
                         ProviderCanCloseMenu: true
@@ -501,7 +516,7 @@ public class MonthCalendarController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
     }
 
@@ -517,13 +532,34 @@ public class MonthCalendarController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
     }
     #endregion
 
     #region Implementation
     private ViewContextMenuManager? ViewManager { get; }
+
+    private int GetPageDelta() =>
+        _months.DisplayView switch
+        {
+            MonthCalendarView.Years => 10,
+            MonthCalendarView.Months => 12,
+            _ => 1
+        };
+
+    private DateTime AddKeyboardDelta(DateTime focusDate, int amount)
+    {
+        switch (_months.DisplayView)
+        {
+            case MonthCalendarView.Years:
+                return focusDate.AddYears(amount);
+            case MonthCalendarView.Months:
+                return focusDate.AddMonths(amount);
+            default:
+                return focusDate.AddDays(amount);
+        }
+    }
 
     #endregion
 }

@@ -19,7 +19,17 @@ internal class KryptonDropButtonAccessibleObject : KryptonActionControlAccessibl
     /// </summary>
     /// <param name="owner">The KryptonDropButton control that owns this accessible object.</param>
     public KryptonDropButtonAccessibleObject(KryptonDropButton owner)
-        : base(owner, AccessibleRole.PushButton, @"Press")
+        : this(owner, AccessibleRole.PushButton)
+    {
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the KryptonDropButtonAccessibleObject class.
+    /// </summary>
+    /// <param name="owner">The KryptonDropButton control that owns this accessible object.</param>
+    /// <param name="role">The accessible role advertised to UI Automation.</param>
+    internal KryptonDropButtonAccessibleObject(KryptonDropButton owner, AccessibleRole role)
+        : base(owner, role, @"Press")
     {
     }
 

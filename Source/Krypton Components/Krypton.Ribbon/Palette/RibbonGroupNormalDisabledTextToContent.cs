@@ -38,12 +38,12 @@ internal class RibbonGroupNormalDisabledTextToContent : RibbonToContent
 
         if (ribbonGroupTextNormal is null)
         {
-            throw new ArgumentNullException(nameof(ribbonGroupTextNormal));
+            ThrowHelper.ThrowArgumentNullException(nameof(ribbonGroupTextNormal));
         }
 
         if (ribbonGroupTextDisabled is null)
         {
-            throw new ArgumentNullException(nameof(ribbonGroupTextDisabled));
+            ThrowHelper.ThrowArgumentNullException(nameof(ribbonGroupTextDisabled));
         }
 
         _ribbonGroupTextNormal = ribbonGroupTextNormal;

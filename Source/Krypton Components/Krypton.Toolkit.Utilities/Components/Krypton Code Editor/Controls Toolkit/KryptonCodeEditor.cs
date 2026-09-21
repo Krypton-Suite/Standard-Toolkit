@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(TextChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonCodeEditorDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonCodeEditorDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Provides a native code editor with syntax highlighting, line numbering, code folding, and Krypton theming.")]
 public class KryptonCodeEditor : VisualPanel,
@@ -595,19 +595,11 @@ public class KryptonCodeEditor : VisualPanel,
 
     #region Win32 Redraw Suppression
 
-    private static class Win32
-    {
-        internal const uint WM_SETREDRAW = 0x000B;
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
-    }
-
     private static void BeginRedraw(Control control)
     {
         if (control != null && control.IsHandleCreated)
         {
-            Win32.SendMessage(control.Handle, Win32.WM_SETREDRAW, IntPtr.Zero, IntPtr.Zero);
+            PI.SendMessage(control.Handle, PI.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
         }
     }
 
@@ -615,7 +607,7 @@ public class KryptonCodeEditor : VisualPanel,
     {
         if (control != null && control.IsHandleCreated)
         {
-            Win32.SendMessage(control.Handle, Win32.WM_SETREDRAW, (IntPtr)1, IntPtr.Zero);
+            PI.SendMessage(control.Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
             control.Invalidate();
         }
     }

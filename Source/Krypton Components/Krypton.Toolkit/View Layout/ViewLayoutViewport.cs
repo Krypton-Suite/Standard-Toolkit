@@ -462,7 +462,7 @@ public class ViewLayoutViewport : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Cache the right to left setting at layout time

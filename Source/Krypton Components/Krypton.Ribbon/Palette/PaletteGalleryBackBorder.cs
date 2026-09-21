@@ -29,7 +29,7 @@ internal class PaletteGalleryBackBorder : IPaletteBack,
     public PaletteGalleryBackBorder([DisallowNull] PaletteGalleryState? state)
     {
         Debug.Assert(state is not null);
-        _state = state ?? throw new ArgumentNullException(nameof(state));
+        _state = state ?? ThrowHelper.ThrowArgumentNullException(state);
     }
     #endregion
 
@@ -41,7 +41,7 @@ internal class PaletteGalleryBackBorder : IPaletteBack,
     public void SetState([DisallowNull] PaletteGalleryState state)
     {
         Debug.Assert(state != null);
-        _state = state ?? throw new ArgumentNullException(nameof(state));
+        _state = state ?? ThrowHelper.ThrowArgumentNullException(state);
     }
     #endregion
 
@@ -188,6 +188,9 @@ internal class PaletteGalleryBackBorder : IPaletteBack,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Border rounding.</returns>
     public float GetBorderRounding(PaletteState state) => 0;
+
+    /// <inheritdoc />
+    public PaletteCornerRounding GetBorderCornerRounding(PaletteState state) => PaletteCornerRounding.Uniform(0f);
 
     /// <summary>
     /// Gets a border image.

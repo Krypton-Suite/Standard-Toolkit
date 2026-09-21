@@ -357,6 +357,10 @@ public partial class NotifyIconTest : KryptonForm
         // Show the balloon tip
         _notifyIcon.ShowBalloonTip(timeout, title, text, icon);
 
+        var popupLink = new KryptonLinkLabel { AutoSize = true };
+        popupLink.Values.Text = "Themed Krypton popup tip";
+        _notifyIcon.ShowPopupTip(popupLink, title);
+
         AddEventToList($"[{DateTime.Now:HH:mm:ss.fff}] Balloon tip shown: Title=\"{title}\", Text=\"{text}\", Timeout={timeout}ms, Icon={icon}");
     }
 

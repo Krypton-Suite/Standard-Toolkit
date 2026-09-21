@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(ValueChanged))]
 [DefaultProperty(nameof(Value))]
 [DefaultBindingProperty(nameof(Value))]
-[Designer(typeof(KryptonDateTimePickerDesigner))]
+[Designer("Krypton.Toolkit.KryptonDateTimePickerDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to select a date and time, and to display that date and time in a specified format.")]
 public class KryptonDateTimePicker : VisualControlBase,
@@ -53,6 +53,7 @@ public class KryptonDateTimePicker : VisualControlBase,
 
     #region Instance Fields
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewLayoutStretch _dropStretch;
     private readonly ViewLayoutFit _upDownFit;
@@ -157,13 +158,6 @@ public class KryptonDateTimePicker : VisualControlBase,
     [Category(@"Property Changed")]
     [Description(@"Event raised when the value of the Format property is changed on KryptonDateTimePicker.")]
     public event EventHandler? FormatChanged;
-
-    /// <summary>
-    /// Occurs when the RightToLeftLayout property has changed value.
-    /// </summary>
-    [Category(@"Property Changed")]
-    [Description(@"Event raised when the value of the RightToLeftLayout property is changed on KryptonDateTimePicker.")]
-    public event EventHandler? RightToLeftLayoutChanged;
     #endregion
 
     #region Identity
@@ -287,8 +281,10 @@ public class KryptonDateTimePicker : VisualControlBase,
             { new ViewLayoutPadding(new Padding(2, 0, 1, 0), _drawDockerInner), ViewDockStyle.Fill }
         };
 
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerDraw(this, Redirector, ButtonSpecs, null,
@@ -325,6 +321,8 @@ public class KryptonDateTimePicker : VisualControlBase,
             _buttonManager?.Destruct();
             _buttonSpecAccessibilityProxyManager?.Dispose();
             _buttonSpecAccessibilityProxyManager = null;
+
+            _pulsingBorder.Dispose();
         }
 
         base.Dispose(disposing);
@@ -441,6 +439,14 @@ public class KryptonDateTimePicker : VisualControlBase,
     [DefaultValue(Day.Default)]
     [Localizable(true)]
     public Day CalendarFirstDayOfWeek { get; set; }
+
+    /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [Category(@"MonthCalendar")]
+    [Description(@"Specifies whether the drop-down calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView { get; set; }
 
     /// <summary>
     /// Gets and sets if the control will display todays date.
@@ -631,7 +637,7 @@ public class KryptonDateTimePicker : VisualControlBase,
             }
             else
             {
-                throw new ArgumentException(@"Value can only accept 'null', 'DBNull' or 'DateTime' values.");
+                ThrowHelper.ThrowArgumentException(@"Value can only accept 'null', 'DBNull' or 'DateTime' values.");
             }
         }
     }
@@ -738,29 +744,6 @@ public class KryptonDateTimePicker : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets the format of the date and time Displayed in the control.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Description(@"Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
-    [DefaultValue(false)]
-    [RefreshProperties(RefreshProperties.Repaint)]
-    public bool RightToLeftLayout
-    {
-        get => _drawText.RightToLeftLayout;
-
-        set
-        {
-            if (_drawText.RightToLeftLayout != value)
-            {
-                _drawText.RightToLeftLayout = value;
-                UpdateForRightToLeft();
-                PerformNeedPaint(true);
-                OnRightToLeftLayoutChanged(EventArgs.Empty);
-            }
-        }
-    }
-
-    /// <summary>
     /// Gets or sets a value determining if keyboard input will automatically shift to the next input field.
     /// </summary>
     [Category(@"Behavior")]
@@ -846,12 +829,12 @@ public class KryptonDateTimePicker : VisualControlBase,
             {
                 if (value < EffectiveMinDate(_minDateTime))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 if (value > DateTimePicker.MaximumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MaxDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 _maxDateTime = value;
@@ -896,12 +879,12 @@ public class KryptonDateTimePicker : VisualControlBase,
             {
                 if (value > EffectiveMaxDate(_maxDateTime))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is greater than the maximum supported date.");
                 }
 
                 if (value < DateTimePicker.MinimumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(MinDate), @"Date provided is less than the minimum supported date.");
                 }
 
                 _minDateTime = value;
@@ -1220,8 +1203,32 @@ public class KryptonDateTimePicker : VisualControlBase,
     /// </summary>
     [Category(@"Visuals - DateTimePicker")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public DateTimePickerButtonSpecCollection ButtonSpecs { get; }
+
+    /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// Default is <see cref="ButtonSpecEdgeArrange.SideBySide"/>. Set
+    /// <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> on tall hosts to stack Far/Near
+    /// ButtonSpecs vertically. Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"How multiple ButtonSpecs on the same edge are arranged.")]
+    [DefaultValue(ButtonSpecEdgeArrange.SideBySide)]
+    public ButtonSpecEdgeArrange ButtonSpecEdgeArrange
+    {
+        get => _buttonManager?.EdgeArrange ?? ButtonSpecEdgeArrange.SideBySide;
+        set
+        {
+            if (_buttonManager != null)
+            {
+                _buttonManager.EdgeArrange = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
@@ -1248,6 +1255,16 @@ public class KryptonDateTimePicker : VisualControlBase,
     public PaletteInputControlTripleRedirect StateCommon { get; }
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to optional pulsing border settings.
+    /// </summary>
+    [Category(@"Visuals - DateTimePicker")]
+    [Description(@"Optional pulsing border drawn on the control.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets access to the disabled date time picker appearance entries.
@@ -1390,7 +1407,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     /// </summary>
     /// <param name="state">Tab state.</param>
     /// <returns>Transparent Color.</returns>
-    public Color GetImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the short text used as the main ribbon title.
@@ -1416,7 +1433,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticVariables.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
@@ -1579,10 +1596,15 @@ public class KryptonDateTimePicker : VisualControlBase,
     #region Protected Virtual
     // ReSharper disable VirtualMemberNeverOverridden.Global
     /// <summary>
-    /// Raises the RightToLeftLayoutChanged event.
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
-    protected virtual void OnRightToLeftLayoutChanged(EventArgs e) => RightToLeftLayoutChanged?.Invoke(this, e);
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        _drawText.RightToLeftLayout = RightToLeftLayout;
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
+    }
 
     /// <summary>
     /// Raises the FormatChanged event.
@@ -1804,7 +1826,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnMouseDown(MouseEventArgs e)
     {
-        var rtl = _drawText.RightToLeftLayout && (RightToLeft == RightToLeft.Yes);
+        var rtl = RightToLeftLayout && (RightToLeft == RightToLeft.Yes);
 
         // If the point is before the drop buttons...
         if ((!ShowUpDown && !rtl && (e.X < _buttonDropDown.ClientLocation.X)) ||
@@ -2059,6 +2081,8 @@ public class KryptonDateTimePicker : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+
+        _pulsingBorder.UpdateAnimationState();
     }
 
     private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
@@ -2074,7 +2098,7 @@ public class KryptonDateTimePicker : VisualControlBase,
 
     private void UpdateForRightToLeft()
     {
-        if (_drawText.RightToLeftLayout && (RightToLeft == RightToLeft.Yes))
+        if (RightToLeftLayout && (RightToLeft == RightToLeft.Yes))
         {
             _drawDockerInner.SetDock(_dropStretch, ViewDockStyle.Left);
             _drawDockerInner.SetDock(_upDownFit, ViewDockStyle.Left);
@@ -2177,6 +2201,7 @@ public class KryptonDateTimePicker : VisualControlBase,
             _kmc = new KryptonContextMenuMonthCalendar
             {
                 CalendarDimensions = CalendarDimensions,
+                CalendarView = CalendarView,
                 TodayText = CalendarTodayText,
                 TodayFormat = CalendarTodayFormat,
                 FirstDayOfWeek = CalendarFirstDayOfWeek,
@@ -2346,7 +2371,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
         // Must unhook from menu so it can be garbage collected
-        var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
 
         // Unhook from month calendar events
@@ -2402,7 +2427,7 @@ public class KryptonDateTimePicker : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more

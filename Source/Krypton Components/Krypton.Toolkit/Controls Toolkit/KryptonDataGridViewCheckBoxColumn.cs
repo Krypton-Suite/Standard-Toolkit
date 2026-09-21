@@ -85,7 +85,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
         {
             if ((value != null) && value is not KryptonDataGridViewCheckBoxCell)
             {
-                throw new InvalidCastException(@"Can only assign a object of type KryptonDataGridViewCheckBoxCell");
+                ThrowHelper.ThrowInvalidCastException(@"Can only assign a object of type KryptonDataGridViewCheckBoxCell");
             }
 
             base.CellTemplate = value;
@@ -102,7 +102,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
     {
         get =>
             CheckBoxCellTemplate == null
-                ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
+                ? ThrowHelper.ThrowInvalidOperationException<object>(@"KryptonDataGridViewCheckBoxColumn cell template required")
                 : CheckBoxCellTemplate.FalseValue;
         set
         {
@@ -138,7 +138,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
     {
         get =>
             CheckBoxCellTemplate == null
-                ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
+                ? ThrowHelper.ThrowInvalidOperationException<object>(@"KryptonDataGridViewCheckBoxColumn cell template required")
                 : CheckBoxCellTemplate.IndeterminateValue;
         set
         {
@@ -173,7 +173,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
     {
         get =>
             CheckBoxCellTemplate == null
-                ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
+                ? ThrowHelper.ThrowInvalidOperationException<object>(@"KryptonDataGridViewCheckBoxColumn cell template required")
                 : CheckBoxCellTemplate.TrueValue;
         set
         {
@@ -206,7 +206,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
     public bool ThreeState
     {
         get =>
-            CheckBoxCellTemplate?.ThreeState ?? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required");
+CheckBoxCellTemplate?.ThreeState ?? ThrowHelper.ThrowInvalidOperationException<bool>(@"KryptonDataGridViewCheckBoxColumn cell template required");
         set
         {
             if (ThreeState != value)

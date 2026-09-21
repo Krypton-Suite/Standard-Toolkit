@@ -23,8 +23,6 @@ public class KryptonColorTableSparkle : KryptonColorTable
     private static readonly Color _contextMenuBackground = Color.FromArgb(240, 240, 240);
     private static readonly Color _imageMarginMiddle = Color.FromArgb(226, 227, 227);
     private static readonly Color _imageMarginEnd = Color.White;
-    private static Font _menuToolFont;
-    private static Font _statusFont;
     #endregion
 
     #region Instance Fields
@@ -34,15 +32,6 @@ public class KryptonColorTableSparkle : KryptonColorTable
     #endregion
 
     #region Identity
-    static KryptonColorTableSparkle()
-    {
-        // Get the font settings from the system
-        DefineFonts();
-
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
-    }
-
     /// <summary>
     /// Initialize a new instance of the KryptonColorTableSparkle class.
     /// </summary>
@@ -480,7 +469,7 @@ public class KryptonColorTableSparkle : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu items.
     /// </summary>
-    public override Color MenuItemText => _menuItemText;
+    public override Color MenuItemText => SchemeBaseColorsExtensions.Coalesce(_colors.Get(SchemeBaseColors.MenuItemText), _menuItemText);
 
     #endregion
 
@@ -488,7 +477,7 @@ public class KryptonColorTableSparkle : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the menu strip.
     /// </summary>
-    public override Color MenuStripText => _colors[(int)SchemeBaseColors.TextLabelPanel];
+    public override Color MenuStripText => _colors.Resolve(SchemeBaseColors.MenuStripText, SchemeBaseColors.TextLabelPanel);
 
     #endregion
 
@@ -496,7 +485,7 @@ public class KryptonColorTableSparkle : KryptonColorTable
     /// <summary>
     /// Gets the text color used on the tool strip.
     /// </summary>
-    public override Color ToolStripText => _colors[(int)SchemeBaseColors.TextLabelPanel];
+    public override Color ToolStripText => _colors.ResolveToolStripText(SchemeBaseColors.TextLabelPanel);
 
     #endregion
 
@@ -505,30 +494,6 @@ public class KryptonColorTableSparkle : KryptonColorTable
     /// Gets the text color used on the status strip.
     /// </summary>
     public override Color StatusStripText => _colors[(int)SchemeBaseColors.StatusStripText];
-
-    #endregion
-
-    #region MenuStripFont
-    /// <summary>
-    /// Gets the font used on the menu strip.
-    /// </summary>
-    public override Font MenuStripFont => _menuToolFont;
-
-    #endregion
-
-    #region ToolStripFont
-    /// <summary>
-    /// Gets the font used on the tool strip.
-    /// </summary>
-    public override Font ToolStripFont => _menuToolFont;
-
-    #endregion
-
-    #region StatusStripFont
-    /// <summary>
-    /// Gets the font used on the status strip.
-    /// </summary>
-    public override Font StatusStripFont => _statusFont;
 
     #endregion
     #endregion
@@ -608,17 +573,5 @@ public class KryptonColorTableSparkle : KryptonColorTable
     #endregion
 
     #region Implementation
-    private static void DefineFonts()
-    {
-        // Create new font using system information
-        // TODO: Should be using base font
-        _menuToolFont = new Font(@"Segoe UI", SystemFonts.MenuFont!.SizeInPoints!, FontStyle.Regular);
-        _statusFont = new Font(@"Segoe UI", SystemFonts.StatusFont!.SizeInPoints!, FontStyle.Regular);
-    }
-
-    private static void OnUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e) =>
-        // Update fonts to reflect any change in system settings
-        DefineFonts();
-
     #endregion
 }

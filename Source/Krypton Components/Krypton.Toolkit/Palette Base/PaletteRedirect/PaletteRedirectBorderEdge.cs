@@ -119,7 +119,7 @@ public class PaletteRedirectBorderEdge : PaletteRedirect
     {
         PaletteBorderEdge? inherit = GetInherit(state);
 
-        return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? GlobalStaticVariables.EMPTY_COLOR;
+        return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public class PaletteRedirectBorderEdge : PaletteRedirect
     {
         PaletteBorderEdge? inherit = GetInherit(state);
 
-        return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? GlobalStaticVariables.EMPTY_COLOR;
+        return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>
@@ -194,6 +194,10 @@ public class PaletteRedirectBorderEdge : PaletteRedirect
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Float rounding.</returns>
     public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state) => Target?.GetBorderRounding(style, state) ?? 0.0f;
+
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state) =>
+        Target?.GetBorderCornerRounding(style, state) ?? PaletteCornerRounding.Uniform(0.0f);
 
     /// <summary>
     /// Gets a border image.

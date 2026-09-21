@@ -36,21 +36,21 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalImageMarginGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalImageMarginGradientEnd == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalImageMarginGradientMiddle == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalImageMarginRevealedGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalImageMarginRevealedGradientEnd == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalImageMarginRevealedGradientMiddle == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuBorder == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuItemText == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuItemBorder == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuItemPressedGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuItemPressedGradientEnd == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuItemPressedGradientMiddle == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuItemSelected == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuItemSelectedGradientBegin == GlobalStaticVariables.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalMenuItemSelectedGradientEnd == GlobalStaticVariables.EMPTY_COLOR);
+    public override bool IsDefault => (InternalKCT.InternalImageMarginGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalImageMarginGradientEnd == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalImageMarginGradientMiddle == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalImageMarginRevealedGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalImageMarginRevealedGradientEnd == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalImageMarginRevealedGradientMiddle == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuBorder == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuItemText == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuItemBorder == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuItemPressedGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuItemPressedGradientEnd == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuItemPressedGradientMiddle == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuItemSelected == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuItemSelectedGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalMenuItemSelectedGradientEnd == SharedStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -100,7 +100,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ImageMarginGradientBegin property to its default value.
     /// </summary>
-    public void ResetImageMarginGradientBegin() => ImageMarginGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageMarginGradientBegin() => ImageMarginGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ImageMarginGradientEnd
@@ -125,7 +125,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ImageMarginGradientEnd property to its default value.
     /// </summary>
-    public void ResetImageMarginGradientEnd() => ImageMarginGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageMarginGradientEnd() => ImageMarginGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ImageMarginGradientMiddle
@@ -150,7 +150,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ImageMarginGradientMiddle property to its default value.
     /// </summary>
-    public void ResetImageMarginGradientMiddle() => ImageMarginGradientMiddle = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageMarginGradientMiddle() => ImageMarginGradientMiddle = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ImageMarginRevealedGradientBegin
@@ -175,7 +175,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ImageMarginRevealedGradientBegin property to its default value.
     /// </summary>
-    public void ResetImageMarginRevealedGradientBegin() => ImageMarginRevealedGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageMarginRevealedGradientBegin() => ImageMarginRevealedGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ImageMarginRevealedGradientEnd
@@ -200,7 +200,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ImageMarginRevealedGradientEnd property to its default value.
     /// </summary>
-    public void ResetImageMarginRevealedGradientEnd() => ImageMarginRevealedGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageMarginRevealedGradientEnd() => ImageMarginRevealedGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ImageMarginRevealedGradientMiddle
@@ -225,7 +225,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the ImageMarginRevealedGradientMiddle property to its default value.
     /// </summary>
-    public void ResetImageMarginRevealedGradientMiddle() => ImageMarginRevealedGradientMiddle = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetImageMarginRevealedGradientMiddle() => ImageMarginRevealedGradientMiddle = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuBorder
@@ -250,7 +250,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuBorder property to its default value.
     /// </summary>
-    public void ResetMenuBorder() => MenuBorder = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetMenuBorder() => MenuBorder = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuItemText
@@ -275,7 +275,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuItemText property to its default value.
     /// </summary>
-    public void ResetMenuItemText() => MenuItemText = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetMenuItemText() => MenuItemText = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuItemBorder
@@ -300,7 +300,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuItemBorder property to its default value.
     /// </summary>
-    public void ResetMenuItemBorder() => MenuItemBorder = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetMenuItemBorder() => MenuItemBorder = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuItemPressedGradientBegin
@@ -325,7 +325,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuItemPressedGradientBegin property to its default value.
     /// </summary>
-    public void ResetMenuItemPressedGradientBegin() => MenuItemPressedGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetMenuItemPressedGradientBegin() => MenuItemPressedGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuItemPressedGradientEnd
@@ -350,7 +350,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuItemPressedGradientEnd property to its default value.
     /// </summary>
-    public void ResetMenuItemPressedGradientEnd() => MenuItemPressedGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetMenuItemPressedGradientEnd() => MenuItemPressedGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuItemPressedGradientMiddle
@@ -375,7 +375,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuItemPressedGradientMiddle property to its default value.
     /// </summary>
-    public void ResetMenuItemPressedGradientMiddle() => MenuItemPressedGradientMiddle = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetMenuItemPressedGradientMiddle() => MenuItemPressedGradientMiddle = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuItemSelected
@@ -400,7 +400,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuItemSelected property to its default value.
     /// </summary>
-    public void ResetMenuItemSelected() => MenuItemSelected = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetMenuItemSelected() => MenuItemSelected = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuItemSelectedGradientBegin
@@ -425,7 +425,7 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuItemSelectedGradientBegin property to its default value.
     /// </summary>
-    public void ResetMenuItemSelectedGradientBegin() => MenuItemSelectedGradientBegin = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetMenuItemSelectedGradientBegin() => MenuItemSelectedGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region MenuItemSelectedGradientEnd
@@ -450,6 +450,6 @@ public class KryptonPaletteTMSMenu : KryptonPaletteTMSBase
     /// <summary>
     /// esets the MenuItemSelectedGradientEnd property to its default value.
     /// </summary>
-    public void ResetMenuItemSelectedGradientEnd() => MenuItemSelectedGradientEnd = GlobalStaticVariables.EMPTY_COLOR;
+    public void ResetMenuItemSelectedGradientEnd() => MenuItemSelectedGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 }

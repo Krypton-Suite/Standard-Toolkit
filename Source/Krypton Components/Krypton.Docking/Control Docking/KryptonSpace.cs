@@ -72,6 +72,7 @@ public abstract class KryptonSpace : KryptonWorkspace
     private string _closeTooltip;
     private string _pinTooltip;
     private string _dropDownTooltip;
+    private bool _allowPageToolTips;
     private readonly string _storeName;
     #endregion
 
@@ -152,6 +153,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         _closeTooltip = "Close";
         _pinTooltip = "Auto Hidden";
         _dropDownTooltip = "Window Position";
+        _allowPageToolTips = true;
         _storeName = storeName;
     }
 
@@ -228,7 +230,27 @@ public abstract class KryptonSpace : KryptonWorkspace
     }
 
     /// <summary>
-    /// Gets the button spec type for the pin button.
+    /// Gets and sets a value indicating if tooltips should be displayed for page tab headers.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should tooltips be displayed for page tab headers.")]
+    [DefaultValue(true)]
+    public bool AllowPageToolTips
+    {
+        get => _allowPageToolTips;
+
+        set
+        {
+            if (_allowPageToolTips != value)
+            {
+                _allowPageToolTips = value;
+                UpdatePageToolTips();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating if this space is hosting auto hidden content.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -338,7 +360,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         // Read past the page start element
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected, but could not be read in.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"An element was expected, but could not be read in.", nameof(xmlReader));
         }
 
         return page;
@@ -456,6 +478,8 @@ public abstract class KryptonSpace : KryptonWorkspace
             cell.ToolTips.AllowButtonSpecToolTips = true;
             cell.ToolTips.AllowButtonSpecToolTipPriority = false;
         }
+
+        cell.ToolTips.AllowPageToolTips = _allowPageToolTips;
 
         // Hook into cell specific events
         cell.ShowContextMenu += OnCellShowContextMenu;
@@ -920,7 +944,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         if (ApplyDockingCloseAction)
         {
             // Find the page associated with the cell that fired this button spec
-            var buttonSpec = sender as ButtonSpec ?? throw new ArgumentNullException(nameof(sender));
+            var buttonSpec =sender as ButtonSpec ?? ThrowHelper.ThrowArgumentNullException(sender as ButtonSpec, nameof(sender));
 
             foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.CloseButtonSpec == buttonSpec))
             {
@@ -939,7 +963,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         if (ApplyDockingPinAction)
         {
             // Find the page associated with the cell that fired this button spec
-            var buttonSpec = sender as ButtonSpec ?? throw new ArgumentNullException(nameof(sender));
+            var buttonSpec =sender as ButtonSpec ?? ThrowHelper.ThrowArgumentNullException(sender as ButtonSpec, nameof(sender));
 
             foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => cellState.PinButtonSpec == buttonSpec))
             {
@@ -958,7 +982,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         if (ApplyDockingDropDownAction)
         {
             // Search for the cell that contains the button spec that has this context menu
-            var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+            var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
             foreach (CachedCellState cellState in _lookupCellState.Values.Where(cellState => (cellState.DropDownButtonSpec != null)
                          && (cellState.DropDownButtonSpec.KryptonContextMenu == kcm))
                     )
@@ -1005,20 +1029,19 @@ public abstract class KryptonSpace : KryptonWorkspace
     {
         foreach (CachedCellState state in _lookupCellState.Values)
         {
-            if (state.DropDownButtonSpec != null)
-            {
-                state.DropDownButtonSpec.ToolTipTitle = DropDownTooltip;
-            }
+            state.DropDownButtonSpec?.ToolTipTitle = DropDownTooltip;
 
-            if (state.PinButtonSpec != null)
-            {
-                state.PinButtonSpec.ToolTipTitle = PinTooltip;
-            }
+            state.PinButtonSpec?.ToolTipTitle = PinTooltip;
 
-            if (state.CloseButtonSpec != null)
-            {
-                state.CloseButtonSpec.ToolTipTitle = CloseTooltip;
-            }
+            state.CloseButtonSpec?.ToolTipTitle = CloseTooltip;
+        }
+    }
+
+    private void UpdatePageToolTips()
+    {
+        foreach (CachedCellState state in _lookupCellState.Values)
+        {
+            state.Cell?.ToolTips.AllowPageToolTips = AllowPageToolTips;
         }
     }
     #endregion

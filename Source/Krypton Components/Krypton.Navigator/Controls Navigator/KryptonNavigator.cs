@@ -22,7 +22,7 @@ namespace Krypton.Navigator;
 [ToolboxBitmap(typeof(KryptonNavigator), "ToolboxBitmaps.KryptonNavigator.bmp")]
 [DefaultEvent("SelectedIndexChanged")]
 [DefaultProperty(nameof(Pages))]
-[Designer(typeof(KryptonNavigatorDesigner))]
+[Designer("Krypton.Navigator.KryptonNavigatorDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Allows navigation between pages.")]
 [Docking(DockingBehavior.Ask)]
@@ -53,6 +53,7 @@ public class KryptonNavigator : VisualSimple,
     private bool _allowTabSelect;
     private bool _tabHoverStarted;
     private bool _controlKryptonFormFeatures;
+    private Form? _rtlSourceForm;
     private int _cachePageCount;
     private int _cachePageVisibleCount;
 
@@ -292,6 +293,8 @@ public class KryptonNavigator : VisualSimple,
     {
         if (disposing)
         {
+            UnhookRtlSourceForm();
+
             // Remove any associated popups
             DismissPopups();
 
@@ -358,6 +361,35 @@ public class KryptonNavigator : VisualSimple,
     }
 
     /// <summary>
+    /// Gets or sets whether the navigator packs header buttons from the reading-order start edge.
+    /// </summary>
+    /// <remarks>
+    /// When hosted on a <see cref="Form"/>, this is copied from the form automatically.
+    /// Docking also requires <see cref="Control.RightToLeft"/> equal to <see cref="RightToLeft.Yes"/>.
+    /// Named to match WinForms <see cref="Form"/>; not the Toolkit <c>RightToLeftLayout</c> enum.
+    /// Does not set <c>WS_EX_LAYOUTRTL</c>; page contents are not GDI-mirrored.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether navigator header buttons pack from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public override bool RightToLeftLayout
+    {
+        get => base.RightToLeftLayout;
+        set
+        {
+            if (base.RightToLeftLayout != value)
+            {
+                base.RightToLeftLayout = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets the collection of pages in this navigator control.
     /// </summary>
     [Category(@"Visuals")]
@@ -411,13 +443,13 @@ public class KryptonNavigator : VisualSimple,
                 // Range check the index
                 if ((value < 0) || (value >= Pages.Count))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Index out of range");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Index out of range");
                 }
 
                 // Can only select a page that is visible
                 if (!Pages[value].LastVisibleSet)
                 {
-                    throw new ArgumentNullException(nameof(value), @"Cannot select a page that is not visible");
+                    ThrowHelper.ThrowArgumentNullException(nameof(value), @"Cannot select a page that is not visible");
                 }
 
                 // Request the change by changing the SelectedPage
@@ -450,7 +482,7 @@ public class KryptonNavigator : VisualSimple,
                 // You cannot remove the selection entirely by using null
                 if (value == null)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Value cannot be null");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Value cannot be null");
                 }
 
                 // Check the page is in the pages collection
@@ -459,7 +491,7 @@ public class KryptonNavigator : VisualSimple,
                     // Can only select a page that is visible
                     if (!value.LastVisibleSet)
                     {
-                        throw new ArgumentNullException(nameof(value), @"Cannot select a page that is not visible");
+                        ThrowHelper.ThrowArgumentNullException(nameof(value), @"Cannot select a page that is not visible");
                     }
 
                     // Change of selected page means we get rid of any showing popup page
@@ -516,23 +548,56 @@ public class KryptonNavigator : VisualSimple,
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets the <see cref="KryptonForm"/> that this navigator can control via form chrome button specs.
     /// </summary>
+    /// <remarks>
+    /// When set and <see cref="ControlKryptonFormFeatures"/> is <c>false</c>, the navigator shows
+    /// minimize, maximize/restore, and close button specs that send system commands to this form.
+    /// Use <c>KryptonNavigatorFormIntegrator</c> in Krypton.Navigator.Utilities for a turnkey
+    /// browser/Explorer-style layout.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue(null)]
+    [Description(@"KryptonForm controlled by the navigator form chrome button specs.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public KryptonForm? Owner
     {
         get => _owner;
-        set => _owner = value ?? null;
+        set
+        {
+            if (!ReferenceEquals(_owner, value))
+            {
+                _owner = value;
+                OnViewBuilderPropertyChanged(nameof(Owner));
+                PerformNeedPaint(true);
+            }
+        }
     }
 
     /// <summary>
-    /// 
+    /// Gets or sets whether the associated <see cref="Owner"/> form retains exclusive control of its caption buttons.
     /// </summary>
+    /// <remarks>
+    /// When <c>false</c> (default) and <see cref="Owner"/> is set, the navigator displays form
+    /// minimize/maximize/close button specs. When <c>true</c>, those specs stay hidden so the form
+    /// chrome control box remains the sole owner of caption buttons.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue(false)]
+    [Description(@"When true, the Owner form keeps exclusive control of caption buttons; when false, the navigator can host form min/max/close specs.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool ControlKryptonFormFeatures
     {
         get => _controlKryptonFormFeatures;
-        set => _controlKryptonFormFeatures = value;
+        set
+        {
+            if (_controlKryptonFormFeatures != value)
+            {
+                _controlKryptonFormFeatures = value;
+                OnViewBuilderPropertyChanged(nameof(ControlKryptonFormFeatures));
+                PerformNeedPaint(true);
+            }
+        }
     }
 
     /// <summary>
@@ -1115,6 +1180,26 @@ public class KryptonNavigator : VisualSimple,
     }
 
     /// <summary>
+    /// Raises the ParentChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        SyncRightToLeftLayoutFromParent();
+    }
+
+    /// <summary>
+    /// Raises the HandleCreated event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        SyncRightToLeftLayoutFromParent();
+    }
+
+    /// <summary>
     /// Raises the Initialized event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -1138,6 +1223,11 @@ public class KryptonNavigator : VisualSimple,
                 // Force a layout now that initialization is complete
                 OnLayout(new LayoutEventArgs(null, null));
             }
+        }
+
+        if (!IsDisposed)
+        {
+            SyncRightToLeftLayoutFromParent();
         }
     }
 
@@ -2773,6 +2863,54 @@ public class KryptonNavigator : VisualSimple,
     #endregion
 
     #region Private
+    private void SyncRightToLeftLayoutFromParent()
+    {
+        UnhookRtlSourceForm();
+
+        var form = FindForm();
+        if (form == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm = form;
+        _rtlSourceForm.RightToLeftChanged += OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged += OnRtlSourceFormRtlChanged;
+        CopyRightToLeftLayoutFromForm(form);
+    }
+
+    private void UnhookRtlSourceForm()
+    {
+        if (_rtlSourceForm == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm.RightToLeftChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm = null;
+    }
+
+    private void OnRtlSourceFormRtlChanged(object? sender, EventArgs e)
+    {
+        if (_rtlSourceForm != null)
+        {
+            CopyRightToLeftLayoutFromForm(_rtlSourceForm);
+        }
+    }
+
+    private void CopyRightToLeftLayoutFromForm(Form form)
+    {
+        if (RightToLeftLayout != form.RightToLeftLayout)
+        {
+            RightToLeftLayout = form.RightToLeftLayout;
+        }
+        else
+        {
+            PerformNeedPaint(true);
+        }
+    }
+
     private void OnOpeningContextMenu(object? sender, CancelEventArgs e)
     {
         // Ignore call as view builder is already destructed
@@ -2786,7 +2924,7 @@ public class KryptonNavigator : VisualSimple,
             else
             {
                 // Get access to the menu items for selecting a page
-                var contextMenu = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+                var contextMenu =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
 
                 // Kill any existing contents and add a items collection for the page entries
                 contextMenu.Items.Clear();
@@ -2998,7 +3136,7 @@ public class KryptonNavigator : VisualSimple,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more
@@ -3008,7 +3146,7 @@ public class KryptonNavigator : VisualSimple,
     private void OnVisualPopupPageDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupPage = sender as VisualPopupPage ?? throw new ArgumentNullException(nameof(sender));
+        var popupPage =sender as VisualPopupPage ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupPage, nameof(sender));
         popupPage.Disposed -= OnVisualPopupPageDisposed;
 
         // Not showing a popup page any more

@@ -21,7 +21,7 @@ namespace Krypton.Toolkit;
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Text))]
 [DefaultEvent(nameof(Click))]
-public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
+public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase, IKryptonContextMenuCommandItem
 {
     #region Instance Fields
     private bool _autoClose;
@@ -37,6 +37,7 @@ public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
     private readonly PaletteContentInheritOverride _overrideNotVisited;
     private readonly PaletteContentInheritOverride _overridePressed;
     private KryptonCommand? _command;
+    private object? _commandParameter;
     private LabelStyle _style;
     private string _text;
 
@@ -70,7 +71,7 @@ public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
         _text = initialText;
         _extraText = string.Empty;
         _image = null;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _style = LabelStyle.NormalPanel;
         _autoClose = true;
 
@@ -285,6 +286,7 @@ public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
     [Description(@"Link label image.")]
     [DefaultValue(null)]
     [Localizable(true)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -321,7 +323,7 @@ public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
+    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(SharedStaticVariables.EMPTY_COLOR);
 
     /// <summary>
     /// Gets access to the link label normal instance specific appearance values.
@@ -400,6 +402,32 @@ public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
     }
 
     /// <summary>
+    /// Gets and sets an optional parameter value that can be used inside a shared KryptonCommand Execute handler.
+    /// </summary>
+    [KryptonPersist]
+    [Category(@"Behavior")]
+    [Description(@"Value passed to the KryptonCommand Execute handler to discriminate between menu items.")]
+    [DefaultValue(null)]
+    [Browsable(true)]
+    [TypeConverter(typeof(StringConverter))]
+    public object? CommandParameter
+    {
+        get => _commandParameter;
+
+        set
+        {
+            if (!Equals(_commandParameter, value))
+            {
+                _commandParameter = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(CommandParameter)));
+            }
+        }
+    }
+
+    private bool ShouldSerializeCommandParameter() => CommandParameter != null;
+    private void ResetCommandParameter() => CommandParameter = null;
+
+    /// <summary>
     /// Generates a Click event for the component.
     /// </summary>
     public void PerformClick() => OnClick(EventArgs.Empty);
@@ -415,8 +443,8 @@ public class KryptonContextMenuLinkLabel : KryptonContextMenuItemBase
     {
         Click?.Invoke(this, e);
 
-        // If we have an attached command then execute it
-        KryptonCommand?.PerformExecute();
+        // If we have an attached command then execute it, indicating this item as the sender
+        KryptonCommand?.PerformExecute(this);
     }
     #endregion
 

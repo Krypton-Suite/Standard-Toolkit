@@ -24,7 +24,7 @@ internal static class MacOSPaletteSharedAssets
 
     static MacOSPaletteSharedAssets()
     {
-        var helpForward = new PaletteMicrosoft365White();
+        var helpForward = new PaletteMicrosoft365Blue();
         FormHelpNormal = helpForward.GetButtonSpecImage(PaletteButtonSpecStyle.FormHelp, PaletteState.Normal);
         FormHelpDisabled = helpForward.GetButtonSpecImage(PaletteButtonSpecStyle.FormHelp, PaletteState.Disabled);
         FormHelpActive = helpForward.GetButtonSpecImage(PaletteButtonSpecStyle.FormHelp, PaletteState.Tracking);

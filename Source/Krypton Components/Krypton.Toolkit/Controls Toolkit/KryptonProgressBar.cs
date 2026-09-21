@@ -113,10 +113,7 @@ public class KryptonProgressBar : Control, IContentValues
         }
 
         // Create content storage
-        Values = new LabelValues(OnNeedPaintHandler)
-        {
-            Text = string.Empty
-        };
+        Values = new LabelValues(OnNeedPaintHandler, string.Empty);
         Values.TextChanged += OnLabelTextChanged;
 
         // We want to be notified whenever the global palette changes
@@ -131,17 +128,12 @@ public class KryptonProgressBar : Control, IContentValues
             Style = PaletteBackStyle.PanelClient
         };
         StateCommon = new PaletteTripleRedirect(_paletteRedirect, PaletteBackStyle.ButtonStandalone,
-            PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, OnNeedPaintHandler)
-        {
-            Back =
-            {
-                Color1 = Color.Green
-            }
-        };
+            PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, OnNeedPaintHandler);
+        StateCommon.Back.SetFactoryColor1(Color.Green);
         StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
-        ((PaletteBack)StateDisabled.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
+        StateDisabled.Back.SetFactoryColorStyle(PaletteColorStyle.OneNote);
         StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
-        ((PaletteBack)StateNormal.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
+        StateNormal.Back.SetFactoryColorStyle(PaletteColorStyle.OneNote);
         _stateBackValue = new PaletteTriple(StateCommon, OnNeedPaintHandler).Back;
         _stateBackValue.ColorStyle = PaletteColorStyle.GlassNormalFull;
         _blockCount = 0; // 0 = automatic sizing
@@ -247,11 +239,7 @@ public class KryptonProgressBar : Control, IContentValues
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
-    private void ResetStateCommon()
-    {
-        StateCommon.PopulateFromBase(PaletteState.Normal);
-        StateCommon.Back.Color1 = Color.Green;
-    }
+    private void ResetStateCommon() => StateCommon.Back.SetFactoryColor1(Color.Green);
 
     /// <summary>
     /// Gets access to the disabled ProgressBar appearance entries.
@@ -323,7 +311,7 @@ public class KryptonProgressBar : Control, IContentValues
         {
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(BlockCount));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(BlockCount));
             }
             if (_blockCount == value)
             {
@@ -450,7 +438,7 @@ public class KryptonProgressBar : Control, IContentValues
         {
             _marqueeSpeed = value >= 0
                 ? value
-                : throw new ArgumentOutOfRangeException($@"{nameof(MarqueeAnimationSpeed)} must be non-negative");
+                : ThrowHelper.ThrowArgumentOutOfRangeException<int>(nameof(MarqueeAnimationSpeed), $@"{nameof(MarqueeAnimationSpeed)} must be non-negative");
             if (DesignMode)
             {
                 return;
@@ -479,7 +467,7 @@ public class KryptonProgressBar : Control, IContentValues
 
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(Maximum), value.ToString(CultureInfo.CurrentCulture));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Maximum), value.ToString(CultureInfo.CurrentCulture));
             }
 
             if (_minimum > value)
@@ -535,7 +523,7 @@ public class KryptonProgressBar : Control, IContentValues
 
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(Minimum), value.ToString(CultureInfo.CurrentCulture));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Minimum), value.ToString(CultureInfo.CurrentCulture));
             }
 
             if (_maximum < value)
@@ -594,7 +582,7 @@ public class KryptonProgressBar : Control, IContentValues
 
             if (value < _minimum || value > _maximum)
             {
-                throw new ArgumentOutOfRangeException(nameof(Value), value.ToString(CultureInfo.CurrentCulture));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Value), value.ToString(CultureInfo.CurrentCulture));
             }
 
             _value = value;
@@ -621,6 +609,7 @@ public class KryptonProgressBar : Control, IContentValues
     /// <summary>
     /// Gets or sets the text associated with this control.
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [DefaultValue("")]
@@ -652,7 +641,7 @@ public class KryptonProgressBar : Control, IContentValues
     {
         if (Style == ProgressBarStyle.Marquee)
         {
-            throw new InvalidOperationException(@"The `Style` property is set to `ProgressBarStyle.Marquee`");
+            ThrowHelper.ThrowInvalidOperationException(@"The `Style` property is set to `ProgressBarStyle.Marquee`");
         }
 
         _value += value;
@@ -1657,7 +1646,7 @@ public class KryptonProgressBar : Control, IContentValues
         }
         catch (Exception ex)
         {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticConstants.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

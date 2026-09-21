@@ -53,7 +53,7 @@ public class OAuth2PkceClient
     /// <param name="browserHost">Optional custom browser host. When null, uses the built-in KryptonWebView2 form when WebView2 is available.</param>
     public OAuth2PkceClient(OAuth2PkceOptions options, IOAuth2BrowserHost? browserHost = null)
     {
-        _options = options ?? throw new ArgumentNullException(nameof(options));
+        _options = options ?? ThrowHelper.ThrowArgumentNullException(options);
         _browserHost = browserHost;
     }
 

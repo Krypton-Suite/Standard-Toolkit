@@ -48,7 +48,7 @@ jobs:
       - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -59,14 +59,14 @@ jobs:
         continue-on-error: true
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_master.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
@@ -75,7 +75,7 @@ jobs:
       - name: Setup .NET Preview
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
@@ -143,7 +143,7 @@ jobs:
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         id: nuget_cache_restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -205,10 +205,40 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Release
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
+
+      - name: Verify WinForms Designer SDK in NuGet packages
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
+          Test-KryptonDesignerSdkInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
+
       - name: Save NuGet cache
         # Kill switch check
         if: success() && steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -339,10 +369,15 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
+                url = $commitUrl
                 description = "A new stable release is now available!"
                 color = 7863670
                 fields = @(
@@ -352,8 +387,13 @@ jobs:
                     inline = $true
                   }
                   @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
+                    inline = $true
+                  }
+                  @{
                     name = "📦 NuGet Packages"
-                    value = "• [Krypton.Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Krypton.Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Krypton.Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Krypton.Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Krypton.Docking](https://www.nuget.org/packages/Krypton.Docking)`n• [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit)"
+                    value = "• [Krypton.Toolkit](https://www.nuget.org/packages/Krypton.Toolkit)`n• [Krypton.Themes](https://www.nuget.org/packages/Krypton.Themes)`n• [Krypton.Ribbon](https://www.nuget.org/packages/Krypton.Ribbon)`n• [Krypton.Navigator](https://www.nuget.org/packages/Krypton.Navigator)`n• [Krypton.Workspace](https://www.nuget.org/packages/Krypton.Workspace)`n• [Krypton.Docking](https://www.nuget.org/packages/Krypton.Docking)`n• [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit)"
                     inline = $false
                   }
                   @{
@@ -411,7 +451,7 @@ jobs:
       - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -422,14 +462,14 @@ jobs:
         continue-on-error: true
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_v105.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
@@ -437,7 +477,7 @@ jobs:
       - name: Setup .NET Preview
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
@@ -487,7 +527,7 @@ jobs:
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         id: nuget_cache_restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -549,10 +589,31 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/build.proj" /t:Pack /restore /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
+        if: steps.release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Release
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Release -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
+
       - name: Save NuGet cache
         # Kill switch check
         if: success() && steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -683,16 +744,26 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🎉 Krypton Toolkit Stable Release"
+                url = $commitUrl
                 description = "A new stable release is now available!"
                 color = 7863670
                 fields = @(
                   @{
                     name = "📌 Version"
                     value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
                     inline = $true
                   }
                   @{
@@ -755,7 +826,7 @@ jobs:
       - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -766,14 +837,14 @@ jobs:
         continue-on-error: true
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_canary.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
@@ -781,7 +852,7 @@ jobs:
       # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json uses stable SDK below.
       - name: Setup .NET Preview
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
@@ -849,7 +920,7 @@ jobs:
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         id: nuget_cache_restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -912,10 +983,31 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Canary
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Canary -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
+
       - name: Save NuGet cache
         # Kill switch check
         if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -1046,16 +1138,26 @@ jobs:
             exit 0
           }
 
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+
           $payload = @{
             embeds = @(
               @{
                 title = "🐤 Krypton Toolkit Canary Release"
+                url = $commitUrl
                 description = "A new canary pre-release is now available for early testing!"
                 color = 16776960
                 fields = @(
                   @{
                     name = "📌 Version"
                     value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "🔗 Commit"
+                    value = "[``$shortSha``]($commitUrl)"
                     inline = $true
                   }
                   @{
@@ -1117,7 +1219,7 @@ jobs:
       - name: Setup .NET (9 and 10)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             9.0.x
@@ -1128,14 +1230,14 @@ jobs:
         continue-on-error: true
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET 11 (preview fallback)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_alpha.outcome == 'failure'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
           dotnet-quality: preview
@@ -1143,7 +1245,7 @@ jobs:
       - name: Setup .NET Preview
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v5
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
@@ -1193,7 +1295,7 @@ jobs:
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         id: nuget_cache_restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages
@@ -1266,10 +1368,31 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/nightly.proj" /t:Pack /restore /p:Configuration=Nightly /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Nightly
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Nightly -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
+
       - name: Save NuGet cache
         # Kill switch check
         if: success() && steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         continue-on-error: true
         with:
           path: ~/.nuget/packages

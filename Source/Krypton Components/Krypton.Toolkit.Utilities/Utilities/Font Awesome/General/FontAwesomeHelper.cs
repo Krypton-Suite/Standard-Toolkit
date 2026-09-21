@@ -167,7 +167,7 @@ public static class FontAwesomeHelper
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), value, "DefaultSize must be greater than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), value, "DefaultSize must be greater than zero.");
             }
             _defaultSize = value;
         }

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
@@ -36,8 +36,10 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
 
     #region Static Fields
     private static readonly HandleRef NullHandleRef = new HandleRef(null, IntPtr.Zero);
+    // Logical (96 DPI) gaps between the app button/tab and the first ribbon tab.
+    // Office 2010+ stays flush (0); Office 2007 needs space after the large app button.
     private const int BUTTON_TAB_GAP_2007 = 5;
-    private const int BUTTON_TAB_GAP_2010 = 0;  //TODO dpi 12 ? 
+    private const int BUTTON_TAB_GAP_2010 = 0;
     private const int FAR_TAB_GAP = 1;
     private const int SCROLL_SPEED = 12;
 
@@ -202,8 +204,10 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
                 // flicker after the restore so prevent it from disappearing in the first case.
                 if (!CommonHelper.IsFormMinimized(topForm))
                 {
-                    var show = (topForm.ClientSize.Width >= _ribbon.HideRibbonSize.Width) &&
-                               (topForm.ClientSize.Height >= _ribbon.HideRibbonSize.Height);
+                    var show = _ribbon.IsDetached
+                               || (topForm is VisualRibbonFloatingWindow)
+                               || ((topForm.ClientSize.Width >= _ribbon.HideRibbonSize.Width) &&
+                                   (topForm.ClientSize.Height >= _ribbon.HideRibbonSize.Height));
 
                     // How we handle visibility differs in OS
                     if (Environment.OSVersion.Version.Major >= 6)
@@ -211,6 +215,14 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
                         if (_ribbon.MainPanel.Visible != show)
                         {
                             _ribbon.MainPanel.Visible = show;
+                        }
+
+                        if (_ribbon.IsDetached)
+                        {
+                            _captionArea.PreventIntegration = true;
+                        }
+                        else
+                        {
                             _captionArea.PreventIntegration = !show;
                         }
                     }
@@ -247,7 +259,12 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         LayoutAppTab.Visible = _ribbon.RibbonFileAppButton.AppButtonVisible
                                && _ribbon.RibbonShape != PaletteRibbonShape.Office2007
                                && _ribbon.RibbonShape != PaletteRibbonShape.MacOS;
-        _leftSeparator.SeparatorSize = (_ribbon.RibbonShape == PaletteRibbonShape.Office2007) ? new Size(BUTTON_TAB_GAP_2007, BUTTON_TAB_GAP_2007) : new Size(BUTTON_TAB_GAP_2010, BUTTON_TAB_GAP_2010);
+        var buttonTabGap = (_ribbon.RibbonShape == PaletteRibbonShape.Office2007)
+            ? BUTTON_TAB_GAP_2007
+            : BUTTON_TAB_GAP_2010;
+        _leftSeparator.SeparatorSize = ScaledGapSize(buttonTabGap);
+        Size appButtonSepSize = ScaledGapSize(BUTTON_TAB_GAP_2007);
+        _layoutAppButtonSep.SeparatorSize = new Size(appButtonSepSize.Width, 0);
 
         // If no app button then need separator to stop first tab being to close to the left edge
         _layoutAppButtonSep.Visible = !LayoutAppButton.Visible;
@@ -269,6 +286,29 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
     /// </summary>
     public ViewLayoutRibbonTabs LayoutTabs { get; private set; }
 
+    #endregion
+
+    #region Tab Header Visibility
+    /// <summary>
+    /// Shows or hides the tab strip without removing TabsArea or CaptionArea from the ribbon docker.
+    /// </summary>
+    /// <param name="showTabHeaders">True to show tab headers; false for toolbar mode.</param>
+    public void ApplyTabHeaderVisibility(bool showTabHeaders)
+    {
+        // Hide the scroll-port so preferred size collapses (LayoutTabs alone still forces TabHeight).
+        _tabsViewport.Visible = showTabHeaders;
+        LayoutTabs.Visible = showTabHeaders;
+        _leftSeparator.Visible = showTabHeaders;
+        _rightSeparator.Visible = showTabHeaders;
+
+        // Context titles position themselves from tab geometry. Keep them in sync with the strip
+        // so they do not linger after a ShowTabHeaders toggle (#331).
+        _layoutContexts.Visible = showTabHeaders;
+        if (!showTabHeaders)
+        {
+            _layoutContexts.ClearContextTitles();
+        }
+    }
     #endregion
 
     #region LayoutAppButton
@@ -338,6 +378,11 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
     /// <returns>Array of KeyTipInfo; otherwise null.</returns>
     public KeyTipInfo[] GetTabKeyTips()
     {
+        if (!_ribbon.ShowTabHeaders)
+        {
+            return Array.Empty<KeyTipInfo>();
+        }
+
         var keyTips = new KeyTipInfoList();
 
         // Grab the list of key tips for all tab headers
@@ -366,10 +411,14 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
 
         // Ask the context titles to layout again to take into account any
         // change in the positions and sizes of the actual tabs that it mimics
-        Rectangle temp = context.DisplayRectangle;
-        context.DisplayRectangle = _layoutContexts.ClientRectangle;
-        _layoutContexts.Layout(context);
-        context.DisplayRectangle = temp;
+        // (skip when headers are hidden — titles are not shown in toolbar mode).
+        if (_ribbon.ShowTabHeaders)
+        {
+            Rectangle temp = context.DisplayRectangle;
+            context.DisplayRectangle = _layoutContexts.ClientRectangle;
+            _layoutContexts.Layout(context);
+            context.DisplayRectangle = temp;
+        }
 
         // If using custom chrome 
         if (_captionArea is { UsingCustomChrome: true })
@@ -511,7 +560,8 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         }
 
         // When the app button is not visible we need separator instead before start of first tab
-        _layoutAppButtonSep = new ViewLayoutSeparator(5, 0)
+        Size appButtonSepSize = ScaledGapSize(BUTTON_TAB_GAP_2007);
+        _layoutAppButtonSep = new ViewLayoutSeparator(appButtonSepSize.Width, 0)
         {
             Visible = false
         };
@@ -549,6 +599,12 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         (_visualPopupToolTip != null)
             ? _visualPopupToolTip.DeviceDpi / 96F
             : 1F;
+
+    private Size ScaledGapSize(int logicalGap)
+    {
+        var scaled = Math.Max(0, (int)Math.Round(logicalGap * FactorDpiX, MidpointRounding.AwayFromZero));
+        return new Size(scaled, scaled);
+    }
 
     private void SetupParentMonitoring()
     {
@@ -772,8 +828,8 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
             // Need to know when the visual control is removed
             _appMenu.Disposed += OnAppMenuDisposed;
 
-            // Adjust the screen rect of the app button/tab, so we show half-way down the button
-            appRectShow.X -= 3;
+            // Overlap the start-side window edge slightly (left in LTR, right in RTL).
+            appRectShow.X += RibbonRtlLayout.IsRtl(_ribbon) ? 3 : -3;
             appRectShow.Height = 0;
 
             // Request the menu be shown immediately

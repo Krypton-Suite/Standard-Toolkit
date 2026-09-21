@@ -198,7 +198,10 @@ internal class ViewDrawMenuCheckBox : ViewComposite
     /// <summary>
     /// Resolves the correct text string to use from the menu item.
     /// </summary>
-    public string ResolveText => _cachedCommand != null ? _cachedCommand.Text : KryptonContextMenuCheckBox.Text;
+    public string ResolveText => _cachedCommand != null
+        && !string.IsNullOrEmpty(_cachedCommand.Text)
+            ? _cachedCommand.Text
+            : KryptonContextMenuCheckBox.Text;
 
     #endregion
 
@@ -206,7 +209,10 @@ internal class ViewDrawMenuCheckBox : ViewComposite
     /// <summary>
     /// Resolves the correct extra text string to use from the menu item.
     /// </summary>
-    public string ResolveExtraText => _cachedCommand != null ? _cachedCommand.ExtraText : KryptonContextMenuCheckBox.ExtraText;
+    public string ResolveExtraText => _cachedCommand != null
+        && !string.IsNullOrEmpty(_cachedCommand.ExtraText)
+            ? _cachedCommand.ExtraText
+            : KryptonContextMenuCheckBox.ExtraText;
 
     #endregion
 
@@ -293,7 +299,7 @@ internal class ViewDrawMenuCheckBox : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area

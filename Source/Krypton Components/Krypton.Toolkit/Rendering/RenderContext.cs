@@ -107,7 +107,7 @@ public class RenderContext : ViewContext
             default:
                 // Should never call this routine with inherit value
                 Debug.Assert(false);
-                throw new ArgumentOutOfRangeException(nameof(align));
+                return ThrowHelper.ThrowArgumentOutOfRangeException<Rectangle>(nameof(align));
         }
     }
     #endregion

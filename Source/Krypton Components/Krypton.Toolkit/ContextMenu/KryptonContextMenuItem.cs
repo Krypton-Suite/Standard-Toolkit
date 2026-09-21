@@ -17,12 +17,12 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonContextMenuItem), "ToolboxBitmaps.KryptonContextMenuItem.bmp")]
-[Designer(typeof(KryptonContextMenuItemDesigner))]
+[Designer("Krypton.Toolkit.KryptonContextMenuItemDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Text))]
 [DefaultEvent(nameof(Click))]
-public class KryptonContextMenuItem : KryptonContextMenuItemBase
+public class KryptonContextMenuItem : KryptonContextMenuItemBase, IKryptonContextMenuCommandItem
 {
     #region Nested Classes
     // Provides proper design-time reference conversion for the KryptonCommand property even when the item is not sited.
@@ -160,7 +160,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
         _showShortcutKeys = true;
         _largeKryptonCommandImage = false;
         _extraText = string.Empty;
-        _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _shortcutKeys = shortcut;
         _shortcutKeyDisplayString = string.Empty;
         _checkState = CheckState.Unchecked;
@@ -237,6 +237,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Standard menu item text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"MenuItem")]
     [Localizable(true)]
@@ -261,6 +262,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Standard menu item extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     [Bindable(true)]
@@ -288,6 +290,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
     [DefaultValue(null)]
     [Localizable(true)]
     [Bindable(true)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -324,8 +327,8 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticVariables.EMPTY_COLOR);
-    private void ResetImageTransparentColor() => _imageTransparentColor = GlobalStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(SharedStaticVariables.EMPTY_COLOR);
+    private void ResetImageTransparentColor() => _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets and sets the shortcut key combination associated with the menu item.

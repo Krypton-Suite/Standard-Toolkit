@@ -52,12 +52,12 @@ public class PaletteNavigatorHeaderGroupRedirect : PaletteHeaderGroupRedirect
 
         if (redirectHeaderBar is null)
         {
-            throw new ArgumentNullException(nameof(redirectHeaderBar));
+            ThrowHelper.ThrowArgumentNullException(nameof(redirectHeaderBar));
         }
 
         if (redirectHeaderOverflow is null)
         {
-            throw new ArgumentNullException(nameof(redirectHeaderOverflow));
+            ThrowHelper.ThrowArgumentNullException(nameof(redirectHeaderOverflow));
         }
 
         // Create the palette storage

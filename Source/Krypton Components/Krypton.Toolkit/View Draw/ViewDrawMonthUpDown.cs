@@ -116,7 +116,7 @@ public class ViewDrawMonthUpDown : ViewDrawButton
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Layout the button drawing elements using a reduced size
@@ -146,7 +146,7 @@ public class ViewDrawMonthUpDown : ViewDrawButton
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
         switch (_glyph)
         {

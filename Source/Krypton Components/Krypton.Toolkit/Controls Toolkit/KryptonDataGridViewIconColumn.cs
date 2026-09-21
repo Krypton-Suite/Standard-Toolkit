@@ -39,6 +39,7 @@ public class IconSpec : ICloneable
     /// <summary>
     /// Gets or sets the icon to display.
     /// </summary>
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Icon
     {
         get;
@@ -149,7 +150,7 @@ public abstract class KryptonDataGridViewIconColumn : DataGridViewColumn, IIconC
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewIconColumn ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewIconColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewIconColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
 
         foreach (IconSpec sp in IconSpecs)
         {

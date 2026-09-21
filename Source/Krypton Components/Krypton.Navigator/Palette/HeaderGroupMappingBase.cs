@@ -40,7 +40,7 @@ public abstract class HeaderGroupMappingBase : HeaderValuesBase
         Debug.Assert(navigator is not null);
 
         // Remember back reference to owning control
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
 
         // Set initial values to the default
         _mapImage = GetMapImageDefault();

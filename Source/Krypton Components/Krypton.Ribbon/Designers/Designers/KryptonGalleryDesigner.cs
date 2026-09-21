@@ -48,19 +48,23 @@ internal class KryptonGalleryDesigner : ParentControlDesigner
         _gallery = component as KryptonGallery;
 
         // We need to know when we are being removed
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
         _changeService.ComponentRemoving += OnComponentRemoving;
     }
 
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
             // Create a new collection for both values
-            var compound = new ArrayList(base.AssociatedComponents);
+            var compound = KryptonDesignerSdkCompat.ToArrayList(base.AssociatedComponents);
 
             // Add all the display ranges
             foreach (KryptonGalleryRange dropRange in _gallery?.DropButtonRanges!)
@@ -68,7 +72,7 @@ internal class KryptonGalleryDesigner : ParentControlDesigner
                 compound.Add(dropRange);
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 
@@ -130,7 +134,7 @@ internal class KryptonGalleryDesigner : ParentControlDesigner
         if (e.Component == _gallery)
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticFunctions.VariableCannotBeNull("host"));
+            var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all the range instances
             for (var i = _gallery!.DropButtonRanges.Count - 1; i >= 0; i--)

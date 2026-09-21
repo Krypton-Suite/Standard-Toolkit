@@ -109,7 +109,7 @@ public class KryptonTaskDialogElementComboBox : KryptonTaskDialogElementSingleLi
     /// <summary>
     /// Combobox items collection.
     /// </summary>
-    [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     public ComboBox.ObjectCollection Items => _comboBox.Items;
 
     /// <summary>
@@ -141,7 +141,8 @@ public class KryptonTaskDialogElementComboBox : KryptonTaskDialogElementSingleLi
 
     /// <summary>
     /// Combobox drop down style.<br/>
-    /// Note: KryptonCombox does not support the simple drop down style.
+    /// Note: task-dialog combo boxes stay single-line (<see cref="InternalComboBoxStyle.DropDown"/> /
+    /// <see cref="InternalComboBoxStyle.DropDownList"/>). Use <see cref="KryptonComboBox.DropDownStyle"/> for Simple.
     /// </summary>
     public InternalComboBoxStyle DropDownStyle 
     {

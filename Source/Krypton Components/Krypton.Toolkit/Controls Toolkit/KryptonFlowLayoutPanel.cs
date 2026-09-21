@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -106,8 +106,7 @@ public class KryptonFlowLayoutPanel : FlowLayoutPanel
         {
             if (value == Color.Transparent)
             {
-                throw new NotSupportedException(
-                    @"If you want a transparent background then use the normal FlowLayoutPanel");
+                ThrowHelper.ThrowNotSupportedException(@"If you want a transparent background then use the normal FlowLayoutPanel");
             }
 
             _backGroundPanel.BackColor = value;

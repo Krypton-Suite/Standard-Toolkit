@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -13,6 +13,6 @@ internal static class Win32
 {
     internal const uint WM_SETREDRAW = 0x000B;
 
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    internal static extern IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+    internal static IntPtr SendMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam) =>
+        new IntPtr(unchecked((int)PI.SendMessage(hWnd, unchecked((int)msg), wParam, lParam)));
 }
