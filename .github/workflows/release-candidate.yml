@@ -255,18 +255,18 @@ jobs:
           path: ${{ runner.temp }}/webview2
           key: ${{ steps.webview2_cache_restore.outputs.cache-primary-key }}
 
-      # /m: multi-processor MSBuild (all runner CPUs). rc.proj packs lite + all like stable, with -rc versions.
+      # /m: multi-processor MSBuild (all runner CPUs). releasecandidate.proj packs lite + all like stable, with -rc versions.
       - name: Restore
         if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/rc.proj" /t:Restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/releasecandidate.proj" /t:Restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Build RC
         if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/rc.proj" /t:Build /restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/releasecandidate.proj" /t:Build /restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       - name: Pack RC
         if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/rc.proj" /t:Pack /restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+        run: msbuild /m "Scripts/Build/releasecandidate.proj" /t:Pack /restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
       # Verify Krypton.Interop is present in the NuGet packages (V110+ only)
       - name: Resolve Krypton toolkit major version
