@@ -23,6 +23,9 @@ namespace Krypton.Toolkit;
 public sealed class KryptonManager : Component
 {
     #region Static Fields
+    // Must run before any other static field that touches embedded resources (e.g. KryptonImageStorage).
+    private static readonly int _resourceAssemblyResolveHook = KryptonPreserializedResourceAssemblyResolve.Register();
+
     // Initialize the global state
     private static bool _globalApplyToolstrips = true;
     private static bool _globalUseThemeFormChromeBorderWidth = true;

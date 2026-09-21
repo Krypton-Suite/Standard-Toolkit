@@ -101,6 +101,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<PropertyGridTest>("PropertyGridTest", string.Empty);
         CreateButton<RibbonTest>("Ribbon", string.Empty);
         CreateButton<TextBoxEventTest>("TextBox", string.Empty);
+        CreateButton<TextBoxInputModeDemo>("TextBox InputMode (#4417)", "Issue #4417: KryptonTextBox.InputMode filters typing and paste (Any / Digits / Letters / Alphanumeric). Compare with native TextBox; try Paste sample on the live mode box.");
         CreateButton<KryptonTextBoxValidatingTest>("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801");
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
         CreateButton<TreeViewExample>("TreeView", string.Empty);
