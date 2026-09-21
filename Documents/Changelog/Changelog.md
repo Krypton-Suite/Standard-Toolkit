@@ -50,6 +50,18 @@
 
 * Resolved [#4424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4424), Replace this with the graphic DrawString to get around some drawing looking Very Poor
   * `KryptonComboBox` edit-strip text now uses GDI+ `DrawString` so palette text hints apply and ClearType no longer looks poor on the themed background.
+* Resolved [#4414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4414), Removed dead `OnNotifyMessage` overrides that filtered `WM_ERASEBKGND` without effect (`EnableNotifyMessage` was never enabled)
+* Resolved [#4425](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4425), Keep KryptonComboBox drop-down width tracking control width
+  * `KryptonComboBox` keeps the drop-down list width in sync with the control when `DropDownWidth` has not been set explicitly (removed the leftover Content-palette sync TODO from [#1704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/1704)).
+* Resolved [#4419](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4419), Use scaling here, to support larger screens
+  * Toast notifications scale screen-edge and borderless height padding for high-DPI displays; toasts without a close box use borderless chrome, and dismiss buttons are inset from the form edge.
+* Resolved [#3330](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3330), `KryptonManager` exception 'The type initializer for 'Krypton.Toolkit.KryptonManager' threw an exception.'
+* Implemented [#4417](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4417), `KryptonTextBox.InputMode` (`Any` / `Digits` / `Letters` / `Alphanumeric`) filters typing and paste; replaces the unfinished alphanumeric-mode stub.
+* Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` / Sparkle `Color[] ribbonColors` overloads removed).
+ * Pass a `*_BaseScheme` (or `EmptySchemeBase` for Light Gray placeholders) instead of a raw colour array when subclassing palette family bases or constructing Light Gray themes.
+ * `PaletteMicrosoft365LightGray` is now parameterless; `PaletteOffice2007LightGray` / `PaletteOffice2010LightGray` no longer take unused `Color[]` / `trackBarColors` parameters.
+ * `BaseColors` on migrated family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
+* Resolved [#4421](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4421) / [#4422](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4422), Calendar "today" border override no longer uses a dead `Disabled` check inside `TodayOverride` (always returns the today border colour across builtin palettes)
 * Resolved [#4373](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4373), Toolstrip controls are unreadable with certain themes
   * ToolStrip item text is unreadable on Office White, Office 2007 Black, and Visual Studio 2010 themes.
   * ColorTable `ToolStripText` now picks a scheme colour that contrasts with the tool-strip background (WCAG AA 4.5:1) instead of always reusing status-strip or button text.

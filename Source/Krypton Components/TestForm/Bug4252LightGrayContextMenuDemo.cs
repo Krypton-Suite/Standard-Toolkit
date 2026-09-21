@@ -90,37 +90,16 @@ public sealed class Bug4252LightGrayContextMenuDemo : KryptonForm
         layout.Controls.Add(result, 2, row);
     }
 
-    private static PaletteOffice2007LightGray CreateOffice2007LightGray()
-    {
-        var scheme = new EmptySchemeBase();
-        return new PaletteOffice2007LightGray(
+    private static PaletteOffice2007LightGray CreateOffice2007LightGray() =>
+        new PaletteOffice2007LightGray(
             nameof(PaletteOffice2007LightGray),
-            scheme.ToArray(),
             new ImageList(),
             new ImageList(),
-            new Image?[8],
-            scheme.ToTrackBarArray());
-    }
+            new Image?[8]);
 
-    private static PaletteOffice2010LightGray CreateOffice2010LightGray()
-    {
-        var scheme = new EmptySchemeBase();
-        return new PaletteOffice2010LightGray(
-            scheme.ToArray(),
-            new ImageList(),
-            new ImageList(),
-            new Image?[8],
-            scheme.ToTrackBarArray());
-    }
+    private static PaletteOffice2010LightGray CreateOffice2010LightGray() =>
+        new PaletteOffice2010LightGray(new ImageList(), new ImageList(), new Image?[8]);
 
-    private static PaletteMicrosoft365LightGray CreateMicrosoft365LightGray()
-    {
-        var scheme = new EmptySchemeBase();
-        return new PaletteMicrosoft365LightGray(
-            scheme.ToArray(),
-            new ImageList(),
-            new ImageList(),
-            new Image?[8],
-            scheme.ToTrackBarArray());
-    }
+    private static PaletteMicrosoft365LightGray CreateMicrosoft365LightGray() =>
+        new PaletteMicrosoft365LightGray();
 }

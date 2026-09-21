@@ -31,4 +31,10 @@ Issue #4424: host `Feature4339ComboBoxSimpleStyleDemo` and write `Documents/PR/4
 ```cmd
 dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-ComboBoxDrawStringScreenshot.ps1
+## TextBox InputMode screenshot (`Invoke-TextBoxInputModeScreenshot.ps1`)
+
+Issue #4417: opens `TextBoxInputModeDemo` and writes `Documents/PR/4417-textbox-input-mode-v105-demo.png`.
+
+```cmd
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-TextBoxInputModeScreenshot.ps1
 ```
