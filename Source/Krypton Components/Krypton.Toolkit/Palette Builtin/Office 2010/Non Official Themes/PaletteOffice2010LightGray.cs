@@ -44,11 +44,8 @@ public class PaletteOffice2010LightGray : PaletteOffice2010Base
 
     #endregion
 
-    public PaletteOffice2010LightGray(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors) : base(
-        new EmptySchemeBase(),
-        checkBoxList,
-        galleryButtonList,
-        radioButtonArray)
+    public PaletteOffice2010LightGray(ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray)
+        : base(new EmptySchemeBase(), checkBoxList, galleryButtonList, radioButtonArray)
     {
     }
 

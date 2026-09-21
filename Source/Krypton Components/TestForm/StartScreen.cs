@@ -78,7 +78,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<FloatingWindowTest>("Floating Window Test", "Comprehensive test for floating window bug fix (Issue #2721)");
         CreateButton<SplashScreenExample>("Splash Screen", string.Empty);
         CreateButton<ThemeControlExamples>("Theme Controls", string.Empty);
-        CreateButton<ToastNotificationTestChoice>("Toast", "For breakfast....?");
+        CreateButton<ToastNotificationTestChoice>("Toast", "Basic / user-input / quick toasts. Try with and without close box at 100% and high DPI (150%+): no-close is borderless with scaled edge inset.");
         CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);
         CreateButton<BlurExampleForm>("Blur Example", string.Empty);
         CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar or MDI client border flicker on startup (top-level and MDI child with Dock.Fill). Form should appear directly in borderless state; MdiChildActivate must still fire.");
@@ -101,6 +101,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<PropertyGridTest>("PropertyGridTest", string.Empty);
         CreateButton<RibbonTest>("Ribbon", string.Empty);
         CreateButton<TextBoxEventTest>("TextBox", string.Empty);
+        CreateButton<TextBoxInputModeDemo>("TextBox InputMode (#4417)", "Issue #4417: KryptonTextBox.InputMode filters typing and paste (Any / Digits / Letters / Alphanumeric). Compare with native TextBox; try Paste sample on the live mode box.");
         CreateButton<KryptonTextBoxValidatingTest>("TextBox Validating Test", "Tests fix for Validating event duplication bug #2801");
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
         CreateButton<TreeViewExample>("TreeView", string.Empty);
