@@ -48,6 +48,7 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Implemented [#4417](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4417), `KryptonTextBox.InputMode` (`Any` / `Digits` / `Letters` / `Alphanumeric`) filters typing and paste; replaces the unfinished alphanumeric-mode stub.
 * Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` / Sparkle `Color[] ribbonColors` overloads removed).
  * Pass a `*_BaseScheme` (or `EmptySchemeBase` for Light Gray placeholders) instead of a raw colour array when subclassing palette family bases or constructing Light Gray themes.
  * `PaletteMicrosoft365LightGray` is now parameterless; `PaletteOffice2007LightGray` / `PaletteOffice2010LightGray` no longer take unused `Color[]` / `trackBarColors` parameters.
