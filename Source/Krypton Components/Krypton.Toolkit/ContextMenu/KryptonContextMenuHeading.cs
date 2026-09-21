@@ -191,7 +191,7 @@ public class KryptonContextMenuHeading : KryptonContextMenuItemBase
     [Description(@"Heading menu item image.")]
     [Localizable(true)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;

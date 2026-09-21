@@ -48,14 +48,14 @@ internal partial class VisualToastDomainUpDownUserInputForm : VisualToastBaseFor
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _data.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _data.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon!.Border.Color2 = _data.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color2 = _data.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
         klblHeader.Text = _data.NotificationTitle;
 
@@ -80,30 +80,25 @@ internal partial class VisualToastDomainUpDownUserInputForm : VisualToastBaseFor
 
     private void UpdateLocation()
     {
-        //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-        Location = _data.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
-            Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
+        // Once loaded, position the form, or default to bottom-right with DPI-scaled edge padding.
+        Location = _data.NotificationLocation ?? GetDefaultBottomRightLocation();
     }
 
     private void VisualToastNotificationDomainUpDownUserInputForm_Load(object sender, EventArgs e)
     {
         UpdateIcon();
 
-        UpdateLocation();
-
         ShowCloseButton();
+
+        ApplyToastDpiLayout();
+
+        UpdateLocation();
 
         _timer.Start();
     }
 
-    private void ShowCloseButton()
-    {
-        CloseBox = _data.ShowCloseBox ?? false;
-
-        FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-        ControlBox = _data.ShowCloseBox ?? false;
-    }
+    private void ShowCloseButton() =>
+        ApplyCloseBoxChrome(_data.ShowCloseBox ?? false);
 
     private void UpdateIcon()
     {

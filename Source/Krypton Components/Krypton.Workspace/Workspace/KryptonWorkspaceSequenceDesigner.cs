@@ -16,7 +16,9 @@ internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
 {
     #region Instance Fields
     private KryptonWorkspaceSequence? _sequence;
+    private IDesignerHost? _designerHost;
     private IComponentChangeService? _changeService;
+    private DesignerVerbCollection? _verbs;
     #endregion
 
     #region Identity
@@ -42,8 +44,7 @@ internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
 
         // Cast to correct type
         _sequence = component as KryptonWorkspaceSequence;
-
-        // Get access to the services
+        _designerHost = GetService(typeof(IDesignerHost)) as IDesignerHost;
         _changeService = GetService(typeof(IComponentChangeService)) as IComponentChangeService;
 
         // We need to know when we are being removed/changed
@@ -53,7 +54,11 @@ internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
@@ -63,7 +68,27 @@ internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
             // Add the list of collection items
             compound.AddRange(_sequence?.Children!);
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
+        }
+    }
+
+    /// <summary>
+    /// Gets the design-time verbs shown on the component context menu.
+    /// </summary>
+    public override DesignerVerbCollection Verbs
+    {
+        get
+        {
+            if (_verbs == null)
+            {
+                _verbs = new DesignerVerbCollection
+                {
+                    new DesignerVerb(@"Add Cell", OnAddCell),
+                    new DesignerVerb(@"Add Sequence", OnAddSequence)
+                };
+            }
+
+            return _verbs;
         }
     }
     #endregion
@@ -137,5 +162,11 @@ internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
             }
         }
     }
+
+    private void OnAddCell(object? sender, EventArgs e) =>
+        KryptonWorkspaceDesignerActions.AddCell(_sequence?.WorkspaceControl, _sequence?.Children, _designerHost, _changeService);
+
+    private void OnAddSequence(object? sender, EventArgs e) =>
+        KryptonWorkspaceDesignerActions.AddSequence(_sequence?.WorkspaceControl, _sequence, _sequence?.Children, _designerHost, _changeService);
     #endregion
 }

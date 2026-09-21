@@ -1,4 +1,4 @@
-﻿:: Last updated: Sunday 19th April, 2026 @ 13:00
+﻿:: Last updated: Monday 14th September, 2026 @ 11:00
 
 @echo off
 
@@ -17,7 +17,7 @@ goto selectvsversion
 :selectvsversion
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 3.1a.
+@echo Welcome to the Krypton Toolkit Build system, version: 4.0.
 @echo Please select the Visual Studio toolset to target.
 echo:
 @echo ==============================================================================================
@@ -91,7 +91,8 @@ exit /b 0
 
 :cleanlogs
 echo Deleting the 'Logs' folder
-del /f "%REPO_ROOT%Logs"
+if exist "%REPO_ROOT%Logs\" rd /s /q "%REPO_ROOT%Logs"
+echo Deleted the 'Logs' folder
 exit /b 0
 
 :cleanrootbuildlog
@@ -152,13 +153,13 @@ echo 5. Build long term stable version (LTS)
 echo 6. Go back to main menu
 echo:
 set /p answer="Enter number or letter (1 - 6, a - *): "
-if %answer%==1 (goto buildnightly)
-if %answer%==a (goto rebuildproject)
-if %answer%==2 (goto buildcanary)
-if %answer%==3 (goto buildrc)
-if %answer%==4 (goto buildstable)
-if %answer%==5 (goto buildlts)
-if %answer%==6 (goto mainmenu)
+if "%answer%"=="1" (goto buildnightly)
+if /i "%answer%"=="a" (goto rebuildproject)
+if "%answer%"=="2" (goto buildcanary)
+if "%answer%"=="3" (goto buildrc)
+if "%answer%"=="4" (goto buildstable)
+if "%answer%"=="5" (goto buildlts)
+if "%answer%"=="6" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -177,12 +178,12 @@ echo 5. Pack long term stable version (LTS)
 echo 6. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 6): "
-if %answer%==1 (goto packnightly)
-if %answer%==2 (goto packcanary)
-if %answer%==3 (goto packrc)
-if %answer%==4 (goto packstable)
-if %answer%==5 (goto packltsmenu)
-if %answer%==6 (goto mainmenu)
+if "%answer%"=="1" (goto packnightly)
+if "%answer%"=="2" (goto packcanary)
+if "%answer%"=="3" (goto packrc)
+if "%answer%"=="4" (goto packstable)
+if "%answer%"=="5" (goto packltsmenu)
+if "%answer%"=="6" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -195,12 +196,14 @@ cls
 
 echo 1. Debug
 echo 2. Run TestForm project
-echo 3. Go back to main mainmenu
+echo 3. Debug solution
+echo 4. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 3): "
-if %answer%==1 (goto debug)
-if %answer%==2 (goto runtestform)
-if %answer%==3 (goto mainmenu)
+set /p answer="Enter number (1 - 4): "
+if "%answer%"=="1" (goto debug)
+if "%answer%"=="2" (goto runtestform)
+if "%answer%"=="3" (goto debugsolution)
+if "%answer%"=="4" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -217,15 +220,15 @@ echo 2. Build and pack canary
 echo 3. Build and pack RC (gold)
 echo 4. Build and pack stable
 echo 5. Build and pack long term stable (LTS)
-echo 6. Go to main mainmenu
+echo 6. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 6): "
-if %answer%==1 (goto buildandpacknightly)
-if %answer%==2 (goto buildandpackcanary)
-if %answer%==3 (goto buildandpackrc)
-if %answer%==4 (goto buildandpackstable)
-if %answer%==5 (goto buildandpacklts)
-if %answer%==6 (goto mainmenu)
+if "%answer%"=="1" (goto buildandpacknightly)
+if "%answer%"=="2" (goto buildandpackcanary)
+if "%answer%"=="3" (goto buildandpackrc)
+if "%answer%"=="4" (goto buildandpackstable)
+if "%answer%"=="5" (goto buildandpacklts)
+if "%answer%"=="6" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -242,11 +245,31 @@ echo 2. Update prerequisites
 echo 3. Go to main menu
 echo:
 set /p answer="Enter number (1 - 3): "
-if %answer%==1 (goto installprerequisites)
-if %answer%==2 (goto updateprerequisites)
-if %answer%==3 (goto mainmenu)
+if "%answer%"=="1" (goto installprerequisites)
+if "%answer%"=="2" (goto updateprerequisites)
+if "%answer%"=="3" (goto mainmenu)
 
 @echo Invalid input, please try again.
+
+pause
+
+goto miscellaneoustasksmenu
+
+:installprerequisites
+cls
+
+echo Install prerequisites is not available from this menu yet.
+echo.
+
+pause
+
+goto miscellaneoustasksmenu
+
+:updateprerequisites
+cls
+
+echo Update prerequisites is not available from this menu yet.
+echo.
 
 pause
 
@@ -256,9 +279,11 @@ goto miscellaneoustasksmenu
 
 :clearscreen
 cls
+goto hold
 
 :hold
 pause
+goto mainmenu
 
 :cleanproject
 cls
@@ -274,6 +299,7 @@ goto mainmenu
 
 call :cleanbinandobj
 call :cleanlogs
+exit /b 0
 
 :: ===================================================================================================
 
@@ -305,20 +331,20 @@ echo 13. Update NuGet tools
 echo 14. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 14): "
-if %answer%==1 (goto createzipnightly)
-if %answer%==2 (goto createtarnightly)
-if %answer%==3 (goto createallarchivesnightly)
-if %answer%==4 (goto createzipcanary)
-if %answer%==5 (goto createtarcanary)
-if %answer%==6 (goto createallarchivescanary)
-if %answer%==7 (goto createziprc)
-if %answer%==8 (goto createtarrc)
-if %answer%==9 (goto createallarchivesrc)
-if %answer%==10 (goto createzipstable)
-if %answer%==11 (goto createtarstable)
-if %answer%==12 (goto createallarchivesstable)
-if %answer%==13 (goto updatenuget)
-if %answer%==14 (goto mainmenu)
+if "%answer%"=="1" (goto createzipnightly)
+if "%answer%"=="2" (goto createtarnightly)
+if "%answer%"=="3" (goto createallarchivesnightly)
+if "%answer%"=="4" (goto createzipcanary)
+if "%answer%"=="5" (goto createtarcanary)
+if "%answer%"=="6" (goto createallarchivescanary)
+if "%answer%"=="7" (goto createziprc)
+if "%answer%"=="8" (goto createtarrc)
+if "%answer%"=="9" (goto createallarchivesrc)
+if "%answer%"=="10" (goto createzipstable)
+if "%answer%"=="11" (goto createtarstable)
+if "%answer%"=="12" (goto createallarchivesstable)
+if "%answer%"=="13" (goto updatenuget)
+if "%answer%"=="14" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -584,10 +610,10 @@ echo 3. Produce 'full/lite' stable packages
 echo 4. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packstablelite)
-if %answer%==2 (goto packstablefull)
-if %answer%==3 (goto packstableboth)
-if %answer%==4 (goto mainmenu)
+if "%answer%"=="1" (goto packstablelite)
+if "%answer%"=="2" (goto packstablefull)
+if "%answer%"=="3" (goto packstableboth)
+if "%answer%"=="4" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -607,10 +633,10 @@ echo 4. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 4): "
 
-if %answer%==1 (goto packltslite)
-if %answer%==2 (goto packltsfull)
-if %answer%==3 (goto packltsboth)
-if %answer%==4 (goto mainmenu)
+if "%answer%"=="1" (goto packltslite)
+if "%answer%"=="2" (goto packltsfull)
+if "%answer%"=="3" (goto packltsboth)
+if "%answer%"=="4" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -676,13 +702,35 @@ goto debugmenu
 
 :: ===================================================================================================
 
+:debugsolution
+
+cls
+
+dotnet build "%REPO_ROOT%Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug
+
+pause
+
+goto debugmenu
+
+:: ===================================================================================================
+
 :nugettools
 cls
 
+echo 1. Update NuGet tools
+echo 2. Build and create packages
+echo 3. Go back to main menu
+echo:
+set /p answer="Enter number (1 - 3): "
+if "%answer%"=="1" (goto updatenuget)
+if "%answer%"=="2" (goto buildandcreatenugetpackages)
+if "%answer%"=="3" (goto mainmenu)
 
-call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
-set "UPDATE_NUGET_EC=%errorlevel%"
-if "%UPDATE_NUGET_EC%"=="2" goto mainmenu
+@echo Invalid input, please try again.
+
+pause
+
+goto nugettools
 
 :buildandcreatenugetpackages
 cls
@@ -697,13 +745,13 @@ echo 7. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 7): "
 
-if %answer%==1 (goto buildnightlypackages)
-if %answer%==2 (goto buildcanarypackages)
-if %answer%==3 (goto buildrcpackages)
-if %answer%==4 (goto buildstablepackages)
-if %answer%==5 (goto buildstablelitepackages)
-if %answer%==6 (goto buildltspackages)
-if %answer%==7 (goto mainmenu)
+if "%answer%"=="1" (goto buildnightlypackages)
+if "%answer%"=="2" (goto buildcanarypackages)
+if "%answer%"=="3" (goto buildrcpackages)
+if "%answer%"=="4" (goto buildstablepackages)
+if "%answer%"=="5" (goto buildstablelitepackages)
+if "%answer%"=="6" (goto buildltspackages)
+if "%answer%"=="7" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -919,10 +967,10 @@ echo 3. Check WebView2 Version
 echo 4. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto setupwebview2sdk)
-if %answer%==2 (goto updatewebview2sdk)
-if %answer%==3 (goto checkwebview2version)
-if %answer%==4 (goto mainmenu)
+if "%answer%"=="1" (goto setupwebview2sdk)
+if "%answer%"=="2" (goto updatewebview2sdk)
+if "%answer%"=="3" (goto checkwebview2version)
+if "%answer%"=="4" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -1000,3 +1048,7 @@ echo Running TestForm project...
 
 :: Allows running the TestForm project without needing to open the solution in Visual Studio.
 dotnet run --project "%REPO_ROOT%Source\Krypton Components\TestForm\TestForm.csproj" -c Debug
+
+pause
+
+goto debugmenu

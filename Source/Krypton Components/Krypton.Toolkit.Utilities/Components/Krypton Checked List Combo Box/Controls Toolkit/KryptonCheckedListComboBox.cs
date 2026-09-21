@@ -31,7 +31,7 @@ namespace Krypton.Toolkit.Utilities;
 [ToolboxBitmap(typeof(KryptonCheckedListBox), "ToolboxBitmaps.KryptonCheckedListBox.bmp")]
 [DefaultEvent(nameof(ItemCheck))]
 [DefaultProperty(nameof(Items))]
-[Designer(typeof(KryptonCheckedListComboBoxDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonCheckedListComboBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"A ComboBox-style control whose drop-down hosts a checked list for multi-select.")]
 public class KryptonCheckedListComboBox : KryptonComboBoxUserControl

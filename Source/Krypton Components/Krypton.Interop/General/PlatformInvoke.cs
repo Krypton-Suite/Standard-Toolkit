@@ -491,6 +491,7 @@ internal partial class PI
 
     internal const int LVM_FIRST = 0x1000;
     internal const int LVM_SCROLL = LVM_FIRST + 20;
+    internal const int LVM_GETHEADER = LVM_FIRST + 31;
 
     internal enum ScrollBarType
     {
@@ -2801,6 +2802,23 @@ No 	                    No 	                    Show text only
             PALETTEWINDOW = WINDOWEDGE + TOOLWINDOW + TOPMOST;
     }
 
+    /// <summary>
+    /// GDI device-context layout flags for <see cref="GetLayout"/> / <see cref="SetLayout"/>.
+    /// </summary>
+    internal struct LAYOUT_
+    {
+        public const uint
+            RTL = 0x00000001,
+            BTT = 0x00000002,
+            VBH = 0x00000004,
+            BITMAPORIENTATIONPRESERVED = 0x00000008;
+    }
+
+    /// <summary>
+    /// Win32 <c>GDI_ERROR</c> return from GDI functions such as <see cref="GetLayout"/>.
+    /// </summary>
+    internal const uint GDI_ERROR = 0xFFFFFFFF;
+
     internal enum MF_ : uint
     {
         INSERT = 0x00000000,
@@ -4566,6 +4584,24 @@ No 	                    No 	                    Show text only
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.Gdi32)]
+    internal static partial uint GetLayout(IntPtr hdc);
+    #else
+
+    [DllImport(Libraries.Gdi32)]
+    internal static extern uint GetLayout(IntPtr hdc);
+    #endif
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
+    internal static partial uint SetLayout(IntPtr hdc, uint dwLayout);
+    #else
+
+    [DllImport(Libraries.Gdi32)]
+    internal static extern uint SetLayout(IntPtr hdc, uint dwLayout);
+    #endif
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Gdi32)]
     internal static partial StretchBltMode SetStretchBltMode(IntPtr hdc, StretchBltMode iStretchMode);
     #else
 
@@ -5470,6 +5506,68 @@ No 	                    No 	                    Show text only
         uint cbSizeFileInfo,
         uint uFlags);
 
+    /// <summary>
+    /// Win32 <c>SHCNE_*</c> event flags for <see cref="SHChangeNotify"/>.
+    /// </summary>
+    [Flags]
+    internal enum SHCNE_ : uint
+    {
+        RENAMEITEM = 0x00000001,
+        CREATE = 0x00000002,
+        DELETE = 0x00000004,
+        MKDIR = 0x00000008,
+        RMDIR = 0x00000010,
+        MEDIAINSERTED = 0x00000020,
+        MEDIAREMOVED = 0x00000040,
+        DRIVEREMOVED = 0x00000080,
+        DRIVEADD = 0x00000100,
+        NETSHARE = 0x00000200,
+        NETUNSHARE = 0x00000400,
+        ATTRIBUTES = 0x00000800,
+        UPDATEDIR = 0x00001000,
+        UPDATEITEM = 0x00002000,
+        SERVERDISCONNECT = 0x00004000,
+        UPDATEIMAGE = 0x00008000,
+        DRIVEADDGUI = 0x00010000,
+        RENAMEFOLDER = 0x00020000,
+        FREESPACE = 0x00040000,
+        EXTENDED_EVENT = 0x04000000,
+        ASSOCCHANGED = 0x08000000,
+        DISKEVENTS = 0x0002381F,
+        GLOBALEVENTS = 0x0C0581E0,
+        ALLEVENTS = 0x7FFFFFFF,
+        INTERRUPT = 0x80000000u
+    }
+
+    /// <summary>
+    /// Win32 <c>SHCNF_*</c> flags for <see cref="SHChangeNotify"/> item pointers and flush behaviour.
+    /// </summary>
+    [Flags]
+    internal enum SHCNF_ : uint
+    {
+        IDLIST = 0x0000,
+        PATHA = 0x0001,
+        PRINTERA = 0x0002,
+        DWORD = 0x0003,
+        PATHW = 0x0005,
+        PRINTERW = 0x0006,
+        /// <summary>Unicode path pointer; same value as <see cref="PATHW"/>.</summary>
+        PATH = PATHW,
+        TYPE = 0x00FF,
+        FLUSH = 0x1000,
+        FLUSHNOWAIT = 0x2000,
+        NOTIFYRECURSIVE = 0x10000
+    }
+
+    [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
+    #if NET8_0_OR_GREATER
+    [LibraryImport(Libraries.Shell32)]
+    internal static partial void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+    #else
+    [DllImport(Libraries.Shell32, SetLastError = false)]
+    internal static extern void SHChangeNotify(uint wEventId, uint uFlags, IntPtr dwItem1, IntPtr dwItem2);
+    #endif
+
     #endregion
 
     #region Static Uxtheme
@@ -5937,6 +6035,16 @@ No 	                    No 	                    Show text only
         public int cx;
         public int cy;
         public SWP_ flags;
+    }
+
+    /// <summary>
+    /// Passed as <c>lParam</c> for <see cref="WM_.STYLECHANGING"/> and <see cref="WM_.STYLECHANGED"/>.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct STYLESTRUCT
+    {
+        public uint styleOld;
+        public uint styleNew;
     }
 
     [StructLayout(LayoutKind.Sequential)]

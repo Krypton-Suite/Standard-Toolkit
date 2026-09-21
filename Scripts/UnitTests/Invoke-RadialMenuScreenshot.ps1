@@ -4,8 +4,9 @@
 
 .DESCRIPTION
     Loads TestForm assemblies in-process (STA), shows RadialMenuDemo, invokes the native
-    KryptonRadialMenu at the form centre, captures the window, and writes
-    Documents/PR/4172-radial-menu-native.png (or -OutputPath).
+    KryptonRadialMenu at the form centre, captures the window (plus popup padding via
+    Save-UnitTestWindowPng), and writes Documents/PR/4172-radial-menu-native.png
+    (or -OutputPath).
 
     # UnitTest-CI: exclude
 
@@ -29,14 +30,10 @@ if (-not $OutputPath) {
     $OutputPath = Join-Path $repoRoot 'Documents\PR\4172-radial-menu-native.png'
 }
 
-$outDir = Split-Path -Parent $OutputPath
-if (-not (Test-Path -LiteralPath $outDir)) {
-    New-Item -ItemType Directory -Path $outDir | Out-Null
-}
-
 Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
+Initialize-UnitTestNativeInput
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.Utilities.dll'))
 $asm = [System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'TestForm.exe'))
@@ -50,8 +47,11 @@ if (-not $formType) {
 $form = [System.Activator]::CreateInstance($formType)
 $form.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
 $form.Location = New-Object System.Drawing.Point 80, 80
+$form.TopMost = $true
 $form.Show()
 $form.Activate()
+$form.BringToFront()
+[void][UnitTestNative]::SetForegroundWindow($form.Handle)
 [System.Windows.Forms.Application]::DoEvents()
 Start-Sleep -Milliseconds 500
 
@@ -65,21 +65,8 @@ $screenPt = $form.PointToScreen($clientCentre)
 Start-Sleep -Milliseconds 700
 [System.Windows.Forms.Application]::DoEvents()
 
-$bounds = $form.Bounds
-# Expand capture slightly to include the radial popup centred on the form.
-$pad = 180
-$capture = [System.Drawing.Rectangle]::new(
-    [Math]::Max(0, $bounds.X - $pad),
-    [Math]::Max(0, $bounds.Y - $pad),
-    $bounds.Width + (2 * $pad),
-    $bounds.Height + (2 * $pad))
-$bmp = New-Object System.Drawing.Bitmap $capture.Width, $capture.Height
-$g = [System.Drawing.Graphics]::FromImage($bmp)
-$g.CopyFromScreen($capture.Location, [System.Drawing.Point]::Empty, $capture.Size)
-$g.Dispose()
-$bmp.Save($OutputPath, [System.Drawing.Imaging.ImageFormat]::Png)
-$bmp.Dispose()
+# Inflate so the radial popup centred on the form is included (screen blit after TopMost).
+Save-UnitTestWindowPng -Form $form -Path $OutputPath -InflateX 180 -InflateY 180 -SettleMs 200
 
 $form.Close()
 $form.Dispose()
-Write-Host "Wrote $OutputPath"

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -345,6 +345,24 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 		OnFormChromeCheck(null, EventArgs.Empty);
 	#endregion
 
+	#region ApplyPaletteChanged
+	/// <summary>
+	/// Re-evaluate QAT, Office 2007 app-button, form-icon, and injected caption chrome after a palette change.
+	/// </summary>
+	/// <remarks>
+	/// <see cref="KryptonRibbon.RibbonShape"/> comes from the palette. Call this from
+	/// <see cref="KryptonRibbon.OnPaletteChanged"/> so caption chrome updates on a global theme
+	/// swap without waiting for a resize or form-chrome event (#3859, #4061).
+	/// </remarks>
+	public void ApplyPaletteChanged()
+	{
+		UpdateQAT();
+		AppButtonVisibleChanged();
+		PerformFormChromeCheck();
+		RedrawCustomChrome(true);
+	}
+	#endregion
+
 	#region DoesClientMouseDownEndAllTracking
 	/// <summary>
 	/// Should a mouse down at the provided point cause an end to popup tracking.
@@ -548,7 +566,8 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 				}
 
 				// Update width of the separator used in place of the app button when app button not visible
-				_spaceInsteadOfAppButton.SeparatorSize = new Size(_kryptonForm.RealWindowBorders.Left, 0);
+				_spaceInsteadOfAppButton.SeparatorSize = new Size(
+					RibbonRtlLayout.StartBorderWidth(_kryptonForm.RealWindowBorders, RibbonRtlLayout.IsRtl(_ribbon)), 0);
 			}
 
 			var overrideIntegrated = integrated;

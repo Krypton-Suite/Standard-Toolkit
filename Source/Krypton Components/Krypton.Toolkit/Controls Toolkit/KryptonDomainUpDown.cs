@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(SelectedItemChanged))]
 [DefaultProperty(nameof(Items))]
 [DefaultBindingProperty(nameof(SelectedItem))]
-[Designer(typeof(KryptonDomainUpDownDesigner))]
+[Designer("Krypton.Toolkit.KryptonDomainUpDownDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Represents a Windows spin box (also known as an up-down control) that displays string values.")]
 public class KryptonDomainUpDown : VisualControlBase,
@@ -1301,6 +1301,29 @@ public class KryptonDomainUpDown : VisualControlBase,
     public DomainUpDownButtonSpecCollection ButtonSpecs { get; }
 
     /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// Default is <see cref="ButtonSpecEdgeArrange.SideBySide"/>. Set
+    /// <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> on tall hosts to stack Far/Near
+    /// ButtonSpecs vertically. Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"How multiple ButtonSpecs on the same edge are arranged.")]
+    [DefaultValue(ButtonSpecEdgeArrange.SideBySide)]
+    public ButtonSpecEdgeArrange ButtonSpecEdgeArrange
+    {
+        get => _buttonManager?.EdgeArrange ?? ButtonSpecEdgeArrange.SideBySide;
+        set
+        {
+            if (_buttonManager != null)
+            {
+                _buttonManager.EdgeArrange = value;
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets access to the common textbox appearance entries that other states can override.
     /// </summary>
     [Category(@"Visuals")]
@@ -1614,6 +1637,26 @@ public class KryptonDomainUpDown : VisualControlBase,
 
         // We need to recalculate the correct height
         Height = PreferredHeight;
+    }
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
     }
 
     /// <summary>
@@ -2204,6 +2247,14 @@ public class KryptonDomainUpDown : VisualControlBase,
                 OnMouseLeave(e);
             }
         }
+    }
+
+    private void UpdateForRightToLeft()
+    {
+        _domainUpDown.RightToLeft = RightToLeft;
+        _domainUpDown.UpDownAlign = ToolkitRtlLayout.IsRtl(this)
+            ? LeftRightAlignment.Left
+            : LeftRightAlignment.Right;
     }
     #endregion
 }

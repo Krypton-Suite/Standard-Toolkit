@@ -10,32 +10,66 @@
 namespace TestForm;
 
 /// <summary>
-/// Comprehensive test form demonstrating Right-to-Left (RTL) support for KryptonMonthCalendar.
+/// Demonstrates Right-to-Left support for Toolkit controls (Issue #2379), including month calendar.
 /// </summary>
 public partial class RTLControlsTest : KryptonForm
 {
+    private KryptonGroupBox? _grpToolkitGallery;
+    private KryptonContextMenu? _rtlContextMenu;
+
     public RTLControlsTest()
     {
         InitializeComponent();
         InitializeRtlDemo();
+
+        // Screenshot / automation: TestForm.exe --demo RTLControlsTest --rtl
+        foreach (string arg in Environment.GetCommandLineArgs())
+        {
+            if (string.Equals(arg, "--rtl", StringComparison.OrdinalIgnoreCase))
+            {
+                Shown += (_, _) => SetDualRtl(true);
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets both RTL flags on this form and descendant Krypton controls.
+    /// </summary>
+    /// <param name="enabled">True for RightToLeft.Yes plus RightToLeftLayout; false for LTR.</param>
+    public void SetDualRtl(bool enabled)
+    {
+        RightToLeft = enabled ? RightToLeft.Yes : RightToLeft.No;
+        RightToLeftLayout = enabled;
+        ApplyDualRtl(this, enabled);
+
+        calendarLtr.RightToLeft = RightToLeft;
+        calendarLtr.RightToLeftLayout = enabled;
+        calendarRtl.RightToLeft = RightToLeft;
+        calendarRtl.RightToLeftLayout = enabled;
+        calendarMultiMonth.RightToLeft = RightToLeft;
+        calendarMultiMonth.RightToLeftLayout = enabled;
+        calendarFeatures.RightToLeft = RightToLeft;
+        calendarFeatures.RightToLeftLayout = enabled;
+
+        UpdateRtlStatus();
+        UpdateStatus($"Dual RTL flags {(enabled ? "on" : "off")} (RightToLeft + RightToLeftLayout).");
+        PerformLayout();
+        Refresh();
     }
 
     private void InitializeRtlDemo()
     {
-        // Set form icon
         Icon = SystemIcons.Application;
 
-        // Setup examples
         SetupRtlToggleExample();
         SetupCalendarExamples();
         SetupFeaturesExample();
         SetupOtherControlsExample();
 
-        // Setup property grid
         propertyGrid.SelectedObject = calendarLtr;
 
-        // Update status
-        UpdateStatus("RTL support demo initialized. All VisualSimpleBase controls (KryptonLabel, KryptonCheckBox, KryptonRadioButton, KryptonTrackBar, KryptonHeader, KryptonColorButton, KryptonCommandLinkButton, KryptonDropButton, KryptonBreadCrumb, KryptonMonthCalendar) now inherit RTL support. Use controls below to test RTL layout.");
+        UpdateStatus("Issue #2379: toggle RightToLeft + RightToLeftLayout. Calendars plus NUD, lists, split, group, checkbox chrome.");
     }
 
     private void SetupRtlToggleExample()
@@ -89,23 +123,150 @@ public partial class RTLControlsTest : KryptonForm
 
     private void SetupOtherControlsExample()
     {
-        // Example 5: Show all VisualSimpleBase controls that now have RTL support
-        // (This demonstrates the global nature of the implementation)
-        lblExample5.Values.Text = "All VisualSimpleBase controls now inherit RTL support: " +
-            "KryptonBreadCrumb, KryptonLabel, KryptonColorButton, KryptonCommandLinkButton, " +
-            "KryptonMonthCalendar, KryptonRadioButton, KryptonCheckBox, KryptonDropButton, " +
-            "KryptonHeader, KryptonTrackBar. RTL support is enabled via the RightToLeft and RightToLeftLayout properties inherited from VisualSimpleBase.";
+        lblExample5.Values.Text =
+            "Issue #2379 gallery: NumericUpDown, DomainUpDown, ComboBox, TextBox, ListBox, CheckedListBox, " +
+            "RichTextBox, SplitContainer, GroupBox, HeaderGroup, CheckBox, RadioButton, Panel, " +
+            "CommandLink, ContextMenu, PropertyGrid, TaskDialog. " +
+            "Use Toggle RTL to set both flags (same contract as KryptonForm / Ribbon).";
+
+        _grpToolkitGallery = new KryptonGroupBox
+        {
+            Location = new Point(12, 650),
+            Size = new Size(1078, 400),
+            Values = { Heading = "Toolkit control gallery (#2379)" }
+        };
+
+        var split = new KryptonSplitContainer
+        {
+            Dock = DockStyle.Fill,
+            SplitterDistance = 360
+        };
+
+        var left = new FlowLayoutPanel
+        {
+            Dock = DockStyle.Fill,
+            FlowDirection = FlowDirection.TopDown,
+            WrapContents = false,
+            AutoScroll = true,
+            Padding = new Padding(8)
+        };
+        left.Controls.Add(new KryptonCheckBox { Text = "CheckBox glyph", AutoSize = true });
+        left.Controls.Add(new KryptonRadioButton { Text = "RadioButton glyph", AutoSize = true, Checked = true });
+        left.Controls.Add(new KryptonNumericUpDown { Value = 12, Width = 160 });
+        var domain = new KryptonDomainUpDown { Width = 160 };
+        domain.Items.Add("Alpha");
+        domain.Items.Add("Beta");
+        domain.Items.Add("Gamma");
+        domain.SelectedIndex = 0;
+        left.Controls.Add(domain);
+        left.Controls.Add(new KryptonComboBox { Width = 200, Text = "Combo drop" });
+        left.Controls.Add(new KryptonTextBox { Width = 200, Text = "TextBox" });
+
+        var list = new KryptonListBox { Width = 200, Height = 70 };
+        list.Items.Add("List one");
+        list.Items.Add("List two");
+        left.Controls.Add(list);
+
+        var checkedList = new KryptonCheckedListBox { Width = 200, Height = 70 };
+        checkedList.Items.Add("Checked one");
+        checkedList.Items.Add("Checked two");
+        left.Controls.Add(checkedList);
+        var panel = new KryptonPanel { Width = 200, Height = 36 };
+        panel.Controls.Add(new KryptonLabel
+        {
+            Location = new Point(4, 8),
+            AutoSize = true,
+            Values = { Text = "Panel" }
+        });
+        left.Controls.Add(panel);
+
+        var commandLink = new Krypton.Toolkit.Utilities.KryptonCommandLinkButton
+        {
+            Width = 240,
+            Height = 56
+        };
+        commandLink.CommandLinkTextValues.Heading = "CommandLink";
+        commandLink.CommandLinkTextValues.Description = "Arrow mirrors with both flags.";
+        left.Controls.Add(commandLink);
+
+        _rtlContextMenu = new KryptonContextMenu();
+        var menuItems = new KryptonContextMenuItems();
+        menuItems.Items.Add(new KryptonContextMenuItem("Item one"));
+        var subItem = new KryptonContextMenuItem("Submenu");
+        subItem.Items.Add(new KryptonContextMenuItem("Child item"));
+        menuItems.Items.Add(subItem);
+        _rtlContextMenu.Items.Add(menuItems);
+        var menuButton = new KryptonButton { Text = "Context menu", Width = 200 };
+        menuButton.Click += (_, _) => _rtlContextMenu!.Show(menuButton);
+        left.Controls.Add(menuButton);
+
+        left.Controls.Add(new KryptonPropertyGrid
+        {
+            Width = 200,
+            Height = 88,
+            SelectedObject = menuButton
+        });
+
+        var taskDialogButton = new KryptonButton { Text = "TaskDialog", Width = 200 };
+        taskDialogButton.Click += (_, _) => ShowRtlTaskDialog();
+        left.Controls.Add(taskDialogButton);
+
+        split.Panel1.Controls.Add(left);
+
+        var header = new KryptonHeaderGroup
+        {
+            Dock = DockStyle.Fill
+        };
+        header.ValuesPrimary.Heading = "HeaderGroup";
+        header.Panel.Controls.Add(new KryptonRichTextBox
+        {
+            Dock = DockStyle.Fill,
+            Text = "Rich text sample. Toggle dual RTL flags; reading order follows RightToLeft."
+        });
+        split.Panel2.Controls.Add(header);
+
+        _grpToolkitGallery.Panel.Controls.Add(split);
+        Controls.Add(_grpToolkitGallery);
+        _grpToolkitGallery.BringToFront();
+        lblStatus.BringToFront();
+    }
+
+    private void ShowRtlTaskDialog()
+    {
+        using var taskDialog = new KryptonTaskDialog();
+        taskDialog.Heading.Text = "RTL TaskDialog";
+        taskDialog.Heading.IconType = KryptonTaskDialogIconType.ShieldInformation;
+        taskDialog.Heading.Visible = true;
+        taskDialog.Content.Text = "Heading icon, content, and footer follow both RTL flags from this owner form.";
+        taskDialog.Content.Visible = true;
+        taskDialog.FooterBar.CommonButtons.Buttons = KryptonTaskDialogCommonButtonTypes.OK;
+        taskDialog.FooterBar.Visible = true;
+        taskDialog.ShowDialog(this);
+    }
+
+    private static void ApplyDualRtl(Control parent, bool enabled)
+    {
+        foreach (Control child in parent.Controls)
+        {
+            child.RightToLeft = enabled ? RightToLeft.Yes : RightToLeft.No;
+            switch (child)
+            {
+                case VisualControlBase visual:
+                    visual.RightToLeftLayout = enabled;
+                    break;
+                case VisualPanel panel:
+                    panel.RightToLeftLayout = enabled;
+                    break;
+            }
+
+            ApplyDualRtl(child, enabled);
+        }
     }
 
     private void BtnToggleRtl_Click(object? sender, EventArgs e)
     {
         bool newRtlValue = !calendarLtr.RightToLeftLayout;
-
-        calendarLtr.RightToLeft = newRtlValue ? RightToLeft.Yes : RightToLeft.No;
-        calendarLtr.RightToLeftLayout = newRtlValue;
-
-        UpdateRtlStatus();
-        UpdateStatus($"RTL layout toggled to: {newRtlValue}");
+        SetDualRtl(newRtlValue);
     }
 
     private void UpdateRtlStatus()

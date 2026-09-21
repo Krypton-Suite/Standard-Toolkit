@@ -285,25 +285,27 @@ internal class MenuItemController : GlobalId,
                 ViewManager.KeyDown();
                 break;
             case Keys.Left:
-                // We wrap if are the first context menu shown, rather than a sub menu showing
-                if (ViewManager.KeyLeft(!_menuItem.HasParentMenu))
-                {
-                    // User tried to fall off the left edge, so dismiss ourself and let the
-                    // keyboard access take us back to the owning context menu instance
-                    _menuItem.DisposeContextMenu();
-                }
-                break;
             case Keys.Right:
-                // If enabled and with a sub menu, then show the sub menu
-                if (_menuItem is { ItemEnabled: true, HasSubMenu: true })
                 {
-                    _menuItem.ShowSubMenu(true);
+                    bool rtl = ToolkitRtlLayout.IsRtl(_menuItem.OwningControl);
+                    bool openSubMenu = rtl ? e.KeyCode == Keys.Left : e.KeyCode == Keys.Right;
+                    if (openSubMenu)
+                    {
+                        if (_menuItem is { ItemEnabled: true, HasSubMenu: true })
+                        {
+                            _menuItem.ShowSubMenu(true);
+                        }
+                        else
+                        {
+                            ViewManager.KeyRight();
+                        }
+                    }
+                    else if (ViewManager.KeyLeft(!_menuItem.HasParentMenu))
+                    {
+                        // User tried to fall off the close edge, so dismiss ourself.
+                        _menuItem.DisposeContextMenu();
+                    }
                 }
-                else
-                {
-                    ViewManager.KeyRight();
-                }
-
                 break;
         }
     }

@@ -44,7 +44,7 @@ public class OverlayImageStates : Storage
     [Description(@"Overlay image for normal state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageNormal
     {
         get => _imageNormal;
@@ -77,7 +77,7 @@ public class OverlayImageStates : Storage
     [Description(@"Overlay image for disabled state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageDisabled
     {
         get => _imageDisabled;
@@ -110,7 +110,7 @@ public class OverlayImageStates : Storage
     [Description(@"Overlay image for pressed state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImagePressed
     {
         get => _imagePressed;
@@ -143,7 +143,7 @@ public class OverlayImageStates : Storage
     [Description(@"Overlay image for tracking state.")]
     [RefreshProperties(RefreshProperties.All)]
     [DefaultValue(null)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageTracking
     {
         get => _imageTracking;
@@ -172,6 +172,8 @@ public class OverlayImageStates : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
     public virtual Image? ImageCheckedNormal
     {
         get => null;
@@ -186,6 +188,8 @@ public class OverlayImageStates : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
     public virtual Image? ImageCheckedPressed
     {
         get => null;
@@ -199,6 +203,8 @@ public class OverlayImageStates : Storage
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
     public virtual Image? ImageCheckedTracking
     {
         get => null;

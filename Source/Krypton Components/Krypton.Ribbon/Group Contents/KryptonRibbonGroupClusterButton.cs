@@ -19,7 +19,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupClusterButton), "ToolboxBitmaps.KryptonRibbonGroupClusterButton.bmp")]
-[Designer(typeof(KryptonRibbonGroupClusterButtonDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupClusterButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultEvent(nameof(Click))]
@@ -156,7 +156,7 @@ public class KryptonRibbonGroupClusterButton : KryptonRibbonGroupItem
     [Category(@"Appearance")]
     [Description(@"Small button image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageSmall
     {
         get => _imageSmall;

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
@@ -204,8 +204,10 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
                 // flicker after the restore so prevent it from disappearing in the first case.
                 if (!CommonHelper.IsFormMinimized(topForm))
                 {
-                    var show = (topForm.ClientSize.Width >= _ribbon.HideRibbonSize.Width) &&
-                               (topForm.ClientSize.Height >= _ribbon.HideRibbonSize.Height);
+                    var show = _ribbon.IsDetached
+                               || (topForm is VisualRibbonFloatingWindow)
+                               || ((topForm.ClientSize.Width >= _ribbon.HideRibbonSize.Width) &&
+                                   (topForm.ClientSize.Height >= _ribbon.HideRibbonSize.Height));
 
                     // How we handle visibility differs in OS
                     if (Environment.OSVersion.Version.Major >= 6)
@@ -213,6 +215,14 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
                         if (_ribbon.MainPanel.Visible != show)
                         {
                             _ribbon.MainPanel.Visible = show;
+                        }
+
+                        if (_ribbon.IsDetached)
+                        {
+                            _captionArea.PreventIntegration = true;
+                        }
+                        else
+                        {
                             _captionArea.PreventIntegration = !show;
                         }
                     }
@@ -818,8 +828,8 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
             // Need to know when the visual control is removed
             _appMenu.Disposed += OnAppMenuDisposed;
 
-            // Adjust the screen rect of the app button/tab, so we show half-way down the button
-            appRectShow.X -= 3;
+            // Overlap the start-side window edge slightly (left in LTR, right in RTL).
+            appRectShow.X += RibbonRtlLayout.IsRtl(_ribbon) ? 3 : -3;
             appRectShow.Height = 0;
 
             // Request the menu be shown immediately

@@ -205,9 +205,9 @@ public struct KryptonUserInputToastData
 
         UseRtlReading = false;
 
-        BorderColor1 = GlobalStaticValues.EMPTY_COLOR;
+        BorderColor1 = SharedStaticVariables.EMPTY_COLOR;
 
-        BorderColor2 = GlobalStaticValues.EMPTY_COLOR;
+        BorderColor2 = SharedStaticVariables.EMPTY_COLOR;
 
         CountDownTimerInterval = 1000;
 

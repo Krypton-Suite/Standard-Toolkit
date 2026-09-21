@@ -68,6 +68,7 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
             ? SelectionRules.None | SelectionRules.Locked
             : SelectionRules.None;
 
+#if !KRYPTON_WINFORMS_DESIGNER_SDK
     /// <summary>
     /// Gets a list of SnapLine objects representing significant alignment points for this control.
     /// </summary>
@@ -85,6 +86,7 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
             return snapLines;
         }
     }
+#endif
 
     /// <summary>
     ///  Gets the design-time action lists supported by the component associated with the designer.
@@ -164,21 +166,27 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
     /// <summary>
     /// Gets an attribute that indicates the type of inheritance of the associated component.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    protected override InheritanceAttribute InheritanceAttribute
+#else
     protected override InheritanceAttribute? InheritanceAttribute
+#endif
     {
         get
         {
-            // If we have a valid Krypton splitter panel instance
+            // If we have a valid Krypton group panel instance
             if (_panel?.Parent != null)
             {
                 // Then get the attribute associated with the parent of the panel
-                return TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)] as
+                var inherited = TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)] as
                     InheritanceAttribute;
+                if (inherited != null)
+                {
+                    return inherited;
+                }
             }
-            else
-            {
-                return base.InheritanceAttribute;
-            }
+
+            return base.InheritanceAttribute;
         }
     }
     #endregion

@@ -190,7 +190,7 @@ public class PaletteOffice2010White : PaletteOffice2010Base
     /// <summary>
     /// Gets access to the color table instance.
     /// </summary>
-    public override KryptonColorTable ColorTable => Table ??= new KryptonColorTable2010White(BaseColors!.ToArray(), InheritBool.True, this);
+    public override KryptonColorTable ColorTable => Table ??= new KryptonColorTable2010White(SchemeColors, InheritBool.True, this);
 
     #endregion
 

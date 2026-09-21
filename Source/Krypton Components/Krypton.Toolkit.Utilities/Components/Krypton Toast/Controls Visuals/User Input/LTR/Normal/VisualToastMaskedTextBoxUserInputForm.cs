@@ -48,14 +48,14 @@ internal partial class VisualToastMaskedTextBoxUserInputForm : VisualToastBaseFo
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _data.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _data.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon!.Border.Color2 = _data.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color2 = _data.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
         klblHeader.Text = _data.NotificationTitle;
 
@@ -65,16 +65,15 @@ internal partial class VisualToastMaskedTextBoxUserInputForm : VisualToastBaseFo
     private void UpdateInitialValues()
     {
         // Set initial date and time values
-        kmtxtUserInput.Text = GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        kmtxtUserInput.Text = SharedStaticVariables.DEFAULT_EMPTY_STRING;
     }
 
     private void SetIcon(Bitmap? image) => pbxNotificationIcon.Image = image;
 
     private void UpdateLocation()
     {
-        //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-        Location = _data.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
-            Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
+        // Once loaded, position the form, or default to bottom-right with DPI-scaled edge padding.
+        Location = _data.NotificationLocation ?? GetDefaultBottomRightLocation();
     }
 
     private void UpdateIcon()
@@ -92,21 +91,17 @@ internal partial class VisualToastMaskedTextBoxUserInputForm : VisualToastBaseFo
     {
         UpdateIcon();
 
-        UpdateLocation();
-
         ShowCloseButton();
+
+        ApplyToastDpiLayout();
+
+        UpdateLocation();
 
         _timer.Start();
     }
 
-    private void ShowCloseButton()
-    {
-        CloseBox = _data.ShowCloseBox ?? false;
-
-        FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-        ControlBox = _data.ShowCloseBox ?? false;
-    }
+    private void ShowCloseButton() =>
+        ApplyCloseBoxChrome(_data.ShowCloseBox ?? false);
 
     private void itbDismiss_Click(object sender, EventArgs e) => Close();
 
@@ -200,13 +195,13 @@ internal partial class VisualToastMaskedTextBoxUserInputForm : VisualToastBaseFo
 
         if (owner != null)
         {
-            toast.StartPosition = owner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+            toast.StartPosition = FormStartPosition.CenterParent;
 
-            return toast.ShowDialog(owner!) == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            return toast.ShowDialog(owner!) == DialogResult.OK ? toast.UserResponse : SharedStaticVariables.DEFAULT_EMPTY_STRING;
         }
         else
         {
-            return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            return toast.ShowDialog() == DialogResult.OK ? toast.UserResponse : SharedStaticVariables.DEFAULT_EMPTY_STRING;
         }
     }
 
@@ -222,7 +217,7 @@ internal partial class VisualToastMaskedTextBoxUserInputForm : VisualToastBaseFo
         // Await required so using does not dispose the form before the dialog completes.
         DialogResult result = await KryptonFormAsync.ShowDialogAsync(toast, owner).ConfigureAwait(false);
 
-        return result == DialogResult.OK ? toast.UserResponse : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        return result == DialogResult.OK ? toast.UserResponse : SharedStaticVariables.DEFAULT_EMPTY_STRING;
     }
 #endregion
 }

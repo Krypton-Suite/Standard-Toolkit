@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonManager), "ToolboxBitmaps.KryptonManager.bmp")]
-[Designer(typeof(KryptonManagerDesigner))]
+[Designer("Krypton.Toolkit.KryptonManagerDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DefaultProperty(nameof(GlobalPaletteMode))]
 [Description(@"Access 'Global' Krypton settings.")]
 public sealed class KryptonManager : Component
@@ -593,10 +593,15 @@ public sealed class KryptonManager : Component
     /// Auto-discovery is silent — any I/O or parse errors are swallowed and traced to
     /// <see cref="System.Diagnostics.Debug"/>.
     /// Probe order: exact culture, neutral culture, then default basename; XML is preferred over JSON
-    /// at each level (for example <c>Translations.en-GB.xml</c> → <c>Translations.en.xml</c> →
-    /// <c>Translations.xml</c>, then the same sequence for <c>.json</c>).
+    /// at each level (for example <c>ToolkitTranslations.en-GB.xml</c> → <c>ToolkitTranslations.en.xml</c> →
+    /// <c>ToolkitTranslations.xml</c>, then the same sequence for <c>.json</c>).
     /// </remarks>
     public static bool AutoDiscoverTranslations { get; set; } = true;
+
+    /// <summary>
+    /// Default base file name (without culture suffix or extension) for toolkit translation files.
+    /// </summary>
+    public const string DefaultTranslationsBaseName = @"ToolkitTranslations";
 
     /// <summary>
     /// When <see langword="true"/>, the manager loads <c>Krypton.Themes.dll</c> from the application directory
@@ -607,6 +612,16 @@ public sealed class KryptonManager : Component
     /// (Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black).
     /// </remarks>
     public static bool AutoDiscoverThemes { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets whether a warning dialog is displayed when an extra theme is requested but <c>Krypton.Themes.dll</c> is unavailable.
+    /// Defaults to <see langword="true"/> (opt-out).
+    /// </summary>
+    public static bool ShowMissingThemeWarningDialog
+    {
+        get => KryptonThemeCatalog.ShowMissingThemeWarningDialog;
+        set => KryptonThemeCatalog.ShowMissingThemeWarningDialog = value;
+    }
 
     /// <summary>
     /// Occurs after toolkit translations have been successfully imported via any of the load/import methods.
@@ -620,7 +635,7 @@ public sealed class KryptonManager : Component
     public static event EventHandler<ToolkitStringsCoverageEventArgs>? TranslationsCoverageReported;
 
     /// <summary>
-    /// Loads toolkit strings from the specified Translations.xml or Translations.json file, replacing current values.
+    /// Loads toolkit strings from the specified <c>ToolkitTranslations.xml</c> or <c>ToolkitTranslations.json</c> file, replacing current values.
     /// Call this at application startup, before any Krypton controls are shown.
     /// </summary>
     /// <param name="path">Path to the translations file to load.</param>
@@ -646,7 +661,7 @@ public sealed class KryptonManager : Component
     }
 
     /// <summary>
-    /// Attempts to load toolkit strings from the specified Translations.xml or Translations.json file.
+    /// Attempts to load toolkit strings from the specified <c>ToolkitTranslations.xml</c> or <c>ToolkitTranslations.json</c> file.
     /// Returns <c>false</c> (and writes a debug trace) if the file does not exist or cannot be parsed, without throwing.
     /// </summary>
     /// <param name="path">Path to the translations file to load.</param>
@@ -684,13 +699,13 @@ public sealed class KryptonManager : Component
     /// </summary>
     /// <param name="directory">Directory containing the translation files. When null/empty, uses the application base directory.</param>
     /// <param name="culture">Culture to resolve. When null, uses <see cref="CultureInfo.CurrentUICulture"/>.</param>
-    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <c>Translations</c>.</param>
+    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <see cref="DefaultTranslationsBaseName"/>.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <returns><c>true</c> if a file was found and loaded successfully; otherwise, <c>false</c>.</returns>
     public static bool TryLoadCultureSpecificTranslations(
         string? directory = null,
         CultureInfo? culture = null,
-        string baseName = @"Translations",
+        string baseName = DefaultTranslationsBaseName,
         bool refreshOpenForms = false)
     {
         if (string.IsNullOrWhiteSpace(baseName))
@@ -728,7 +743,7 @@ public sealed class KryptonManager : Component
     /// </summary>
     /// <param name="culture">The culture to switch to.</param>
     /// <param name="directory">Directory containing the translation files. When null/empty, uses the application base directory.</param>
-    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <c>Translations</c>.</param>
+    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <see cref="DefaultTranslationsBaseName"/>.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after the switch.</param>
     /// <returns>
     /// <c>true</c> when a culture-specific or fallback translations file was loaded;
@@ -739,7 +754,7 @@ public sealed class KryptonManager : Component
     public static bool TrySwitchTranslationsCulture(
         CultureInfo culture,
         string? directory = null,
-        string baseName = @"Translations",
+        string baseName = DefaultTranslationsBaseName,
         bool refreshOpenForms = true)
     {
         if (culture == null)
@@ -775,7 +790,7 @@ public sealed class KryptonManager : Component
     /// </summary>
     /// <param name="cultureName">Culture name recognised by <see cref="CultureInfo"/>.</param>
     /// <param name="directory">Directory containing the translation files. When null/empty, uses the application base directory.</param>
-    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <c>Translations</c>.</param>
+    /// <param name="baseName">Base file name without culture suffix or extension. Defaults to <see cref="DefaultTranslationsBaseName"/>.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after the switch.</param>
     /// <returns>
     /// <c>true</c> when a translations file was loaded; <c>false</c> when the culture name is invalid
@@ -784,7 +799,7 @@ public sealed class KryptonManager : Component
     public static bool TrySwitchTranslationsCulture(
         string cultureName,
         string? directory = null,
-        string baseName = @"Translations",
+        string baseName = DefaultTranslationsBaseName,
         bool refreshOpenForms = true)
     {
         if (string.IsNullOrWhiteSpace(cultureName))

@@ -58,8 +58,9 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
         _navigator = new KryptonNavigator
         {
             Dock = DockStyle.Fill,
-            NavigatorMode = NavigatorMode.HeaderGroupTab,
-            // TODO: Header.HeaderPositionPrimary = HeaderGroupPositionPrimary.Top,
+            // Bar tabs make each toolbar/menu strip page obvious in a compact tool window.
+            NavigatorMode = NavigatorMode.BarTabGroup,
+             // TODO: Header.HeaderPositionPrimary = HeaderGroupPositionPrimary.Top,
             // TODO: Header.HeaderPositionSecondary = HeaderGroupPositionSecondary.Bottom,
             AllowDrop = true
         };
@@ -69,8 +70,10 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
         _navigator.DragOver += Navigator_DragOver;
         _navigator.DragLeave += Navigator_DragLeave;
         _navigator.DragDrop += Navigator_DragDrop;
-        
-        Controls.Add(_navigator);
+
+        // After InitializeComponent/ResumeLayout, Controls routes to the form chrome collection.
+        // Content must go on InternalPanel or it sits beside the fill panel and looks empty.
+        InternalPanel.Controls.Add(_navigator);
     }
 
     private void Navigator_DragEnter(object? sender, DragEventArgs e)
@@ -171,7 +174,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
             toolbar.LayoutStyle = ToolStripLayoutStyle.Flow;
 
             panel.Controls.Add(toolbar);
-            // TODO: page.Panel.Controls.Add(panel);
+            page.Controls.Add(panel);
             _navigator.Pages.Add(page);
             _toolbarPages[toolbar] = page;
         }
@@ -199,7 +202,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
             menuStrip.LayoutStyle = ToolStripLayoutStyle.Flow;
 
             panel.Controls.Add(menuStrip);
-            // TODO: page.Panel.Controls.Add(panel);
+            page.Controls.Add(panel);
             _navigator.Pages.Add(page);
             _menuStripPages[menuStrip] = page;
         }
@@ -249,7 +252,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
         toolbar.LayoutStyle = ToolStripLayoutStyle.Flow;
 
         panel.Controls.Add(toolbar);
-        // TODO: page.Panel.Controls.Add(panel);
+        page.Controls.Add(panel);
         _navigator.Pages.Add(page);
         _toolbarPages[toolbar] = page;
         _group.AddToolbar(toolbar);
@@ -282,7 +285,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
         menuStrip.LayoutStyle = ToolStripLayoutStyle.Flow;
 
         panel.Controls.Add(menuStrip);
-        // TODO: page.Panel.Controls.Add(panel);
+        page.Controls.Add(panel);
         _navigator.Pages.Add(page);
         _menuStripPages[menuStrip] = page;
         _group.AddMenuStrip(menuStrip);

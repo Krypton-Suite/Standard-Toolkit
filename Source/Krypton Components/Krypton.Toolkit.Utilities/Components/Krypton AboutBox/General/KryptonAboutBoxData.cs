@@ -36,7 +36,7 @@ public struct KryptonAboutBoxData
     public bool? UseFullBuiltOnDate { get; set; }
 
     /// <summary>Gets or sets the header image.</summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? HeaderImage { get; set; }
 
     /// <summary>Gets or sets the main image.</summary>

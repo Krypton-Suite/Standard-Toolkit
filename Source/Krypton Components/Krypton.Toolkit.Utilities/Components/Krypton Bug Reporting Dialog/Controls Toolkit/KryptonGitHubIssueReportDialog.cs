@@ -67,8 +67,8 @@ public static class KryptonGitHubIssueReportDialog
         if (!BugReportGitHubConfigEncryption.TryLoadEncryptedConfig(filePath, secretKey!, out var config) || config == null)
         {
             KryptonMessageBox.Show(
-                "Failed to load GitHub configuration. The encrypted config file may be missing, corrupted, or the secret key is incorrect.",
-                "Configuration Error",
+                KryptonBugReportingDialog.Strings.GitHubConfigLoadFailed,
+                KryptonBugReportingDialog.Strings.GitHubConfigErrorTitle,
                 KryptonMessageBoxButtons.OK,
                 KryptonMessageBoxIcon.Error);
 
@@ -134,8 +134,8 @@ public static class KryptonGitHubIssueReportDialog
         if (!BugReportGitHubConfigEncryption.TryLoadEncryptedConfig(filePath, secretKey!, out var config) || config == null)
         {
             await KryptonMessageBox.ShowAsync(
-                "Failed to load GitHub configuration. The encrypted config file may be missing, corrupted, or the secret key is incorrect.",
-                "Configuration Error",
+                KryptonBugReportingDialog.Strings.GitHubConfigLoadFailed,
+                KryptonBugReportingDialog.Strings.GitHubConfigErrorTitle,
                 KryptonMessageBoxButtons.OK,
                 KryptonMessageBoxIcon.Error).ConfigureAwait(false);
 

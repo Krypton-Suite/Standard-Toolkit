@@ -38,6 +38,7 @@ internal class VisualPopupQATOverflow : VisualPopup
 
         // Remember references needed later
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        RibbonRtlLayout.ApplyTo(this, _ribbon);
 
         // Create a view element for drawing the group
         _viewQAT = new ViewDrawRibbonQATOverflow(ribbon, NeedPaintDelegate);

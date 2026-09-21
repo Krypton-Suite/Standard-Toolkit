@@ -46,8 +46,7 @@ internal sealed class EventLogSink : IKryptonLogSink
                 _ => EventLogEntryType.Information
             };
 
-            var message = _layout.Render(logEvent);
-            EventLog.WriteEntry(_source, message, type);
+            EventLog.WriteEntry(_source, KryptonLogProtect.Protect(_layout.Render(logEvent)), type);
         }
         catch
         {

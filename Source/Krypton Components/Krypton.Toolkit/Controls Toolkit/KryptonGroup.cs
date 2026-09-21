@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonGroup), "ToolboxBitmaps.KryptonGroup.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty(nameof(GroupBackStyle))]
-[Designer(typeof(KryptonGroupDesigner))]
+[Designer("Krypton.Toolkit.KryptonGroupDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables you to group collections of controls.")]
 [Docking(DockingBehavior.Ask)]

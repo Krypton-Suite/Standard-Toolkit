@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewDateTimePickerCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewDateTimePickerColumn), "ToolboxBitmaps.KryptonDateTimePicker.bmp")]
-[Designer(typeof(KryptonDateTimePickerColumnDesigner))]
+[Designer("Krypton.Toolkit.KryptonDateTimePickerColumnDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonDataGridViewDateTimePickerColumn : KryptonDataGridViewIconColumn
 {
     #region Instance Fields

@@ -16,7 +16,8 @@ namespace Krypton.Interop;
 /// Methods marked with <see cref="DoesNotReturnAttribute"/> only throw, which keeps calling methods
 /// smaller and more likely to be inlined. Throw helpers also use <see cref="MethodImplOptions.NoInlining"/>
 /// and <see cref="StackTraceHiddenAttribute"/> so the cold path stays out of the hot method and stack traces.
-/// Prefer <see cref="ThrowIfNull"/> for statements and
+/// Prefer <see cref="ThrowIfNull"/> for statements,
+/// <see cref="ThrowIfNullOrWhiteSpace"/> for required strings, and
 /// <c>value ?? ThrowHelper.ThrowArgumentNullException(value)</c> for assignments
 /// (<see cref="CallerArgumentExpressionAttribute"/> supplies the parameter name).
 /// Use <see cref="ThrowNullReferenceException(string?)"/> only when preserving an existing
@@ -43,6 +44,33 @@ internal static class ThrowHelper
             ThrowArgumentNull(paramName);
         }
     }
+
+    /// <summary>
+    /// Throws <see cref="ArgumentNullException"/> when <paramref name="argument"/> is <see langword="null"/>,
+    /// or <see cref="ArgumentException"/> when it is empty or whitespace.
+    /// </summary>
+    /// <param name="argument">The argument to validate.</param>
+    /// <param name="paramName">The parameter name; captured from the call site when omitted.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static void ThrowIfNullOrWhiteSpace(
+        [NotNull] string? argument,
+        [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+    {
+        if (argument is null)
+        {
+            ThrowArgumentNull(paramName);
+        }
+
+        if (string.IsNullOrWhiteSpace(argument))
+        {
+            ThrowWhiteSpace(paramName);
+        }
+    }
+
+    [DoesNotReturn]
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static void ThrowWhiteSpace(string? paramName) =>
+        throw new ArgumentException(@"The value cannot be an empty string or composed entirely of whitespace.", paramName);
 
     [DoesNotReturn]
     [MethodImpl(MethodImplOptions.NoInlining)]

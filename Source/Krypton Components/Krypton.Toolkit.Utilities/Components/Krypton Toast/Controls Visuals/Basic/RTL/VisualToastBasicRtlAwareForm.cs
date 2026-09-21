@@ -34,7 +34,7 @@ internal partial class VisualToastBasicRtlAwareForm : VisualToastBaseForm
 
     internal CheckState ReturnCheckBoxStateValue => kchkDoNotShowAgain.CheckState;
 
-    #endregion
+   #endregion
 
     #region Identity
 
@@ -67,7 +67,7 @@ internal partial class VisualToastBasicRtlAwareForm : VisualToastBaseForm
 
     private void UpdateText()
     {
-        GlobalStaticValues.ApplyToastRichTextContentColor(krtbNotificationContentText);
+        CommonFeatures.ApplyToastRichTextContentColor(krtbNotificationContentText);
 
         krtbNotificationContentText.Text = _basicToastNotificationData.NotificationContent ?? string.Empty;
 
@@ -80,9 +80,9 @@ internal partial class VisualToastBasicRtlAwareForm : VisualToastBaseForm
 
     private void UpdateBorderColors()
     {
-        StateCommon!.Border.Color1 = _basicToastNotificationData.BorderColor1 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon!.Border.Color1 = _basicToastNotificationData.BorderColor1 ?? SharedStaticVariables.EMPTY_COLOR;
 
-        StateCommon.Border.Color2 = _basicToastNotificationData.BorderColor2 ?? GlobalStaticValues.EMPTY_COLOR;
+        StateCommon.Border.Color2 = _basicToastNotificationData.BorderColor2 ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     /* FadeValues disabled and moved to extended until proven stable. Further development in V100
@@ -129,21 +129,14 @@ internal partial class VisualToastBasicRtlAwareForm : VisualToastBaseForm
 
     private void UpdateLocation()
     {
-        //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-        Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
-            Screen.PrimaryScreen.WorkingArea.Height - Height - 5);
+        // Once loaded, position the form, or default to bottom-right with DPI-scaled edge padding.
+        Location = _basicToastNotificationData.NotificationLocation ?? GetDefaultBottomRightLocation();
     }
 
     private void ReportToastLocation() => klblToastLocation.Text = _basicToastNotificationData.ReportToastLocation ? $"Location: X: {Location.X}, Y: {Location.Y}" : string.Empty;
 
-    private void ShowCloseButton()
-    {
-        CloseBox = _basicToastNotificationData.ShowCloseBox ?? false;
-
-        FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-        ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
-    }
+    private void ShowCloseButton() =>
+        ApplyCloseBoxChrome(_basicToastNotificationData.ShowCloseBox ?? false);
 
     private void VisualToastNotificationBasicRtlAwareForm_LocationChanged(object? sender, EventArgs e)
     {
@@ -168,11 +161,10 @@ internal partial class VisualToastBasicRtlAwareForm : VisualToastBaseForm
 
     private void VisualToastNotificationBasicRtlAwareForm_Load(object sender, EventArgs e)
     {
-        UpdateLocation();
-
-        ReportToastLocation();
-
         ShowCloseButton();
+        ApplyToastDpiLayout();
+        UpdateLocation();
+        ReportToastLocation();
 
         _timer.Start();
 
@@ -267,5 +259,6 @@ internal partial class VisualToastBasicRtlAwareForm : VisualToastBaseForm
             ? toast.ReturnCheckBoxStateValue
             : CheckState.Unchecked;
     }
+
     #endregion
 }

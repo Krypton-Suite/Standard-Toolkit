@@ -28,7 +28,7 @@ namespace Krypton.Toolkit.Utilities;
 [DefaultEvent(nameof(SelectedValueChanged))]
 [DefaultProperty(nameof(EnumType))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonEnumCommandLinkButtonDesigner))]
+[Designer("Krypton.Toolkit.Utilities.KryptonEnumCommandLinkButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DisplayName(@"Krypton Enum Command Link")]
 [Description(@"A command-link button that displays an enum value and cycles through the values when clicked.")]
 public class KryptonEnumCommandLinkButton : KryptonCommandLinkButton

@@ -11,7 +11,12 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit.Utilities;
 
-[ToolboxBitmap(typeof(BackgroundWorker)), ToolboxItem(false)]
+/// <summary>
+/// Animated spoke spinner for forms and ToolStrip hosts. When <see cref="Color"/> is
+/// <see cref="Color.Empty"/>, spoke colours follow the active Krypton palette.
+/// </summary>
+[ToolboxBitmap(typeof(BackgroundWorker)), ToolboxItem(true)]
+[Description("Animated loading spinner that follows Krypton palette colours when Color is Empty.")]
 public partial class KryptonLoadingCircle : Control
 {
     #region Constants
@@ -44,10 +49,11 @@ public partial class KryptonLoadingCircle : Control
 
     private readonly LoadingCircleValues _values;
     private readonly Timer _timer;
+    private PaletteBase? _palette;
     private int _mProgressValue;
     private PointF _mCenterPoint;
-    private Color[] _mColors;
-    private double[] _mAngles;
+    private Color[] _mColors = Array.Empty<Color>();
+    private double[] _mAngles = Array.Empty<double>();
 
     #endregion
 
@@ -66,9 +72,8 @@ public partial class KryptonLoadingCircle : Control
     private void ResetCircleValues() => _values.Reset();
 
     /// <summary>
-    /// Gets or sets the lightest color of the circle.
+    /// Gets or sets the lightest spoke colour. <see cref="Color.Empty"/> uses the active palette.
     /// </summary>
-    /// <value>The lightest color of the circle.</value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Color Color { get => _values.Color; set => _values.Color = value; }
@@ -76,7 +81,6 @@ public partial class KryptonLoadingCircle : Control
     /// <summary>
     /// Gets or sets the outer circle radius.
     /// </summary>
-    /// <value>The outer circle radius.</value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int OuterCircleRadius { get => _values.OuterCircleRadius; set => _values.OuterCircleRadius = value; }
@@ -84,23 +88,20 @@ public partial class KryptonLoadingCircle : Control
     /// <summary>
     /// Gets or sets the inner circle radius.
     /// </summary>
-    /// <value>The inner circle radius.</value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int InnerCircleRadius { get => _values.InnerCircleRadius; set => _values.InnerCircleRadius = value; }
 
     /// <summary>
-    /// Gets or sets the number of spoke.
+    /// Gets or sets the number of spokes.
     /// </summary>
-    /// <value>The number of spoke.</value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int NumberSpoke { get => _values.NumberSpoke; set => _values.NumberSpoke = value; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether this <see cref="T:LoadingCircle"/> is active.
+    /// Gets or sets a value indicating whether the spinner animation is active.
     /// </summary>
-    /// <value><c>true</c> if active; otherwise, <c>false</c>.</value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool Active { get => _values.Active; set => _values.Active = value; }
@@ -108,23 +109,20 @@ public partial class KryptonLoadingCircle : Control
     /// <summary>
     /// Gets or sets the spoke thickness.
     /// </summary>
-    /// <value>The spoke thickness.</value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int SpokeThickness { get => _values.SpokeThickness; set => _values.SpokeThickness = value; }
 
     /// <summary>
-    /// Gets or sets the rotation speed.
+    /// Gets or sets the rotation speed. Higher is slower.
     /// </summary>
-    /// <value>The rotation speed.</value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public int RotationSpeed { get => _values.RotationSpeed; set => _values.RotationSpeed = value; }
 
     /// <summary>
-    /// Quickly sets the style to one of these presets, or a custom style if desired
+    /// Quickly sets the style to one of the presets, or a custom style if desired.
     /// </summary>
-    /// <value>The style preset.</value>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public StylePresets StylePreset { get => _values.StylePreset; set => _values.StylePreset = value; }
@@ -141,13 +139,21 @@ public partial class KryptonLoadingCircle : Control
     #region Identity
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="T:LoadingCircle"/> class.
+    /// Initializes a new instance of the <see cref="KryptonLoadingCircle"/> class.
     /// </summary>
     public KryptonLoadingCircle()
     {
         SetStyle(ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw | ControlStyles.SupportsTransparentBackColor, true);
 
         _values = new LoadingCircleValues(this);
+
+        _palette = KryptonManager.CurrentGlobalPalette;
+        if (_palette != null)
+        {
+            _palette.PalettePaint += OnPalettePaint;
+        }
+
+        KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 
         GenerateColoursPallet();
         GetSpokesAngles();
@@ -162,35 +168,83 @@ public partial class KryptonLoadingCircle : Control
 
     #endregion
 
+    #region Dispose
+
+    /// <inheritdoc />
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            Resize -= LoadingCircle_Resize;
+            _timer.Tick -= aTimer_Tick;
+            _timer.Stop();
+            _timer.Dispose();
+
+            KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
+            if (_palette != null)
+            {
+                _palette.PalettePaint -= OnPalettePaint;
+                _palette = null;
+            }
+        }
+
+        base.Dispose(disposing);
+    }
+
+    #endregion
+
     // Events ============================================================
     /// <summary>
     /// Handles the Resize event of the LoadingCircle control.
     /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
-    private void LoadingCircle_Resize(object? sender, EventArgs e)
-    {
-        GetControlCenterPoint();
-    }
+    private void LoadingCircle_Resize(object? sender, EventArgs e) => GetControlCenterPoint();
 
     /// <summary>
-    /// Handles the Tick event of the aTimer control.
+    /// Handles the Tick event of the animation timer.
     /// </summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="T:System.EventArgs"/> instance containing the event data.</param>
     private void aTimer_Tick(object? sender, EventArgs e)
     {
         _mProgressValue = ++_mProgressValue % _values.NumberSpoke;
         Invalidate();
     }
 
+    private void OnGlobalPaletteChanged(object? sender, EventArgs e)
+    {
+        if (_palette != null)
+        {
+            _palette.PalettePaint -= OnPalettePaint;
+        }
+
+        _palette = KryptonManager.CurrentGlobalPalette;
+        if (_palette != null)
+        {
+            _palette.PalettePaint += OnPalettePaint;
+        }
+
+        GenerateColoursPallet();
+        Invalidate();
+    }
+
+    private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
+    {
+        GenerateColoursPallet();
+        Invalidate();
+    }
+
+    /// <inheritdoc />
+    protected override void OnEnabledChanged(EventArgs e)
+    {
+        base.OnEnabledChanged(e);
+        GenerateColoursPallet();
+        Invalidate();
+    }
+
     /// <summary>
-    /// Raises the <see cref="E:System.Windows.Forms.Control.Paint"></see> event.
+    /// Raises the <see cref="Control.Paint"/> event.
     /// </summary>
-    /// <param name="e">A <see cref="T:System.Windows.Forms.PaintEventArgs"></see> that contains the event data.</param>
     protected override void OnPaint(PaintEventArgs e)
     {
-        if (_values.NumberSpoke > 0)
+        if (_values.NumberSpoke > 0 && _mColors.Length > 0 && _mAngles.Length > 0)
         {
             e.Graphics.SmoothingMode = SmoothingMode.HighQuality;
 
@@ -223,13 +277,7 @@ public partial class KryptonLoadingCircle : Control
     }
 
     // Overridden Methods ================================================
-    /// <summary>
-    /// Retrieves the size of a rectangular area into which a control can be fitted.
-    /// </summary>
-    /// <param name="proposedSize">The custom-sized area for a control.</param>
-    /// <returns>
-    /// An ordered pair of type <see cref="T:System.Drawing.Size"></see> representing the width and height of a rectangle.
-    /// </returns>
+    /// <inheritdoc />
     public override Size GetPreferredSize(Size proposedSize)
     {
         proposedSize.Width =
@@ -240,11 +288,8 @@ public partial class KryptonLoadingCircle : Control
 
     // Methods ===========================================================
     /// <summary>
-    /// Darkens a specified color.
+    /// Darkens a specified color by adjusting the alpha channel.
     /// </summary>
-    /// <param name="objColor">Color to darken.</param>
-    /// <param name="intPercent">The percent of darken.</param>
-    /// <returns>The new color generated.</returns>
     private Color Darken(Color objColor, int intPercent)
     {
         int intRed = objColor.R;
@@ -254,11 +299,31 @@ public partial class KryptonLoadingCircle : Control
     }
 
     /// <summary>
-    /// Generates the colors pallet.
+    /// Resolves the lightest spoke colour: explicit <see cref="Color"/>, or palette content colour when Empty.
+    /// </summary>
+    private Color ResolveSpokeColor()
+    {
+        if (!_values.Color.IsEmpty)
+        {
+            return _values.Color;
+        }
+
+        PaletteBase? palette = _palette ?? KryptonManager.CurrentGlobalPalette;
+        if (palette == null)
+        {
+            return SystemColors.ControlText;
+        }
+
+        PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        return palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state);
+    }
+
+    /// <summary>
+    /// Generates the spoke colour array from the resolved base colour.
     /// </summary>
     internal void GenerateColoursPallet()
     {
-        _mColors = GenerateColoursPallet(_values.Color, _values.Active, _values.NumberSpoke);
+        _mColors = GenerateColoursPallet(ResolveSpokeColor(), _values.Active, _values.NumberSpoke);
     }
 
     /// <summary>
@@ -272,7 +337,7 @@ public partial class KryptonLoadingCircle : Control
     {
         Color[] objColors = new Color[NumberSpoke];
 
-        // Value is used to simulate a gradient feel... For each spoke, the 
+        // Value is used to simulate a gradient feel... For each spoke, the
         // color will be darken by value in intIncrement.
         byte bytIncrement = (byte)(byte.MaxValue / NumberSpoke);
 
@@ -323,17 +388,11 @@ public partial class KryptonLoadingCircle : Control
     /// <summary>
     /// Gets the control center point.
     /// </summary>
-    /// <returns>PointF object</returns>
     private PointF GetControlCenterPoint(Control objControl) => new(objControl.Width / 2, objControl.Height / 2 - 1);
 
     /// <summary>
     /// Draws the line with GDI+.
     /// </summary>
-    /// <param name="objGraphics">The Graphics object.</param>
-    /// <param name="objPointOne">The point one.</param>
-    /// <param name="objPointTwo">The point two.</param>
-    /// <param name="objColor">Color of the spoke.</param>
-    /// <param name="intLineThickness">The thickness of spoke.</param>
     private void DrawLine(Graphics objGraphics, PointF objPointOne, PointF objPointTwo,
         Color objColor, int intLineThickness)
     {
@@ -348,10 +407,6 @@ public partial class KryptonLoadingCircle : Control
     /// <summary>
     /// Gets the coordinate.
     /// </summary>
-    /// <param name="objCircleCenter">The Circle center.</param>
-    /// <param name="intRadius">The radius.</param>
-    /// <param name="dblAngle">The angle.</param>
-    /// <returns></returns>
     private PointF GetCoordinate(PointF objCircleCenter, int intRadius, double dblAngle)
     {
         double angle = Math.PI * dblAngle / NumberOfDegreesInHalfCircle;
@@ -371,8 +426,6 @@ public partial class KryptonLoadingCircle : Control
     /// <summary>
     /// Gets the spoke angles.
     /// </summary>
-    /// <param name="intNumberSpoke">The number spoke.</param>
-    /// <returns>An array of angle.</returns>
     private double[] GetSpokesAngles(int intNumberSpoke)
     {
         double[] angles = new double[intNumberSpoke];
@@ -385,7 +438,7 @@ public partial class KryptonLoadingCircle : Control
     }
 
     /// <summary>
-    /// Actives the timer.
+    /// Starts or stops the animation timer based on <see cref="Active"/>.
     /// </summary>
     internal void ActiveTimer()
     {
@@ -406,10 +459,6 @@ public partial class KryptonLoadingCircle : Control
     /// <summary>
     /// Sets the circle appearance.
     /// </summary>
-    /// <param name="numberSpoke">The number spoke.</param>
-    /// <param name="spokeThickness">The spoke thickness.</param>
-    /// <param name="innerCircleRadius">The inner circle radius.</param>
-    /// <param name="outerCircleRadius">The outer circle radius.</param>
     public void SetCircleAppearance(int numberSpoke, int spokeThickness, int innerCircleRadius, int outerCircleRadius)
     {
         NumberSpoke = numberSpoke;
@@ -423,7 +472,6 @@ public partial class KryptonLoadingCircle : Control
     /// <summary>
     /// Applies a named geometry preset by calling <see cref="SetCircleAppearance"/> with its fixed values.
     /// </summary>
-    /// <param name="preset">The preset to apply.</param>
     internal void ApplyStylePreset(StylePresets preset)
     {
         switch (preset)

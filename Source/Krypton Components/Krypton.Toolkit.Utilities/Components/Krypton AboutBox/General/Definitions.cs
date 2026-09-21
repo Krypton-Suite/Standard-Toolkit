@@ -13,11 +13,26 @@ namespace Krypton.Toolkit.Utilities;
 
 #region Enum AboutToolkitPage
 
+/// <summary>
+/// Defines the pages of the About Toolkit dialog.
+/// </summary>
 internal enum AboutToolkitPage
 {
+    /// <summary>
+    /// The general information page.
+    /// </summary>
     GeneralInformation = 0,
+    /// <summary>
+    /// The Discord page.
+    /// </summary>
     Discord = 1,
+    /// <summary>
+    /// The developer information page.
+    /// </summary>
     DeveloperInformation = 2,
+    /// <summary>
+    /// The versions page.
+    /// </summary>
     Versions = 3
 }
 
@@ -25,10 +40,22 @@ internal enum AboutToolkitPage
 
 #region Enum AboutBoxFileInformationPage
 
+/// <summary>
+/// Defines the pages of the About Box file information dialog.
+/// </summary>
 public enum AboutBoxFileInformationPage
 {
+    /// <summary>
+    /// The application page.
+    /// </summary>
     Application = 0,
+    /// <summary>
+    /// The assemblies page.
+    /// </summary>
     Assemblies = 1,
+    /// <summary>
+    /// The assembly details page.
+    /// </summary>
     AssemblyDetails = 2
 }
 
@@ -36,12 +63,30 @@ public enum AboutBoxFileInformationPage
 
 #region Enum AboutBoxPage
 
+/// <summary>
+/// Defines the pages of the About Box dialog.
+/// </summary>
 public enum AboutBoxPage
 {
+    /// <summary>
+    /// The general information page.
+    /// </summary>
     GeneralInformation = 0,
+    /// <summary>
+    /// The description page.
+    /// </summary>
     Description = 1,
+    /// <summary>
+    /// The file information page.
+    /// </summary>
     FileInformation = 2,
+    /// <summary>
+    /// The theme page.
+    /// </summary>
     Theme = 3,
+    /// <summary>
+    /// The toolkit information page.
+    /// </summary>
     ToolkitInformation = 4
 }
 

@@ -45,7 +45,12 @@ internal class KryptonComboBoxColumnDesigner : ComponentDesigner
     #endregion
 
     #region Implementation
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents =>
+        KryptonDesignerSdkCompat.Associated(base.AssociatedComponents);
+#else
     public override ICollection AssociatedComponents => base.AssociatedComponents;
+#endif
 
     private void OnComponentRemoving(object? sender, ComponentEventArgs e)
     {

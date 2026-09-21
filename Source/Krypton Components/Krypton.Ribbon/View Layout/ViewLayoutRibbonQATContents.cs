@@ -265,27 +265,33 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
-        var x = ClientLocation.X;
-        var right = ClientRectangle.Right;
-
-        // If we need to show the extra button
+        var isRtl = RibbonRtlLayout.IsRtl(Ribbon);
+        var origin = ClientRectangle;
+        var extraSize = Size.Empty;
         if (_extraButton != null)
         {
-            // Find size of the extra button
-            Size childSize = _extraButton.GetPreferredSize(context);
-
-            // Make sure there is always enough room for it at the right hand side
-            right -= childSize.Width;
+            extraSize = _extraButton.GetPreferredSize(context);
         }
 
         var y = ClientLocation.Y;
         var height = ClientHeight;
         Overflow = false;
 
+        // Extra button is reserved on the far edge so remaining items pack from the start.
+        var packOrigin = origin;
+        if (extraSize.Width > 0)
+        {
+            packOrigin = isRtl
+                ? new Rectangle(origin.X + extraSize.Width, origin.Y, origin.Width - extraSize.Width, origin.Height)
+                : new Rectangle(origin.X, origin.Y, origin.Width - extraSize.Width, origin.Height);
+        }
+
+        var x = RibbonRtlLayout.StartX(packOrigin, isRtl);
+
         // Are there any children to layout?
         if (Count > 0)
         {
-            // Position each item from left to right taking up entire height
+            // Position each item along the reading direction taking up entire height
             for (var i = 0; i < Count; i++)
             {
                 ViewBase? child = this[i];
@@ -298,17 +304,18 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
                         // Cache preferred size of the child
                         Size childSize = this[i]!.GetPreferredSize(context);
 
+                        var fits = isRtl
+                            ? (x - childSize.Width) >= packOrigin.Left
+                            : (x + childSize.Width) <= packOrigin.Right;
+
                         // Is there enough width for this item to be displayed
-                        if ((childSize.Width + x) <= right)
+                        if (fits)
                         {
                             // Define display rectangle for the group
-                            context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
+                            context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, height, isRtl);
 
                             // Position the element
                             this[i]!.Layout(context);
-
-                            // Move across to next position
-                            x += childSize.Width;
                         }
                         else
                         {
@@ -337,20 +344,16 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
         // Do we need to position the extra button?
         if (_extraButton != null)
         {
-            // Cache preferred size of the child
-            Size childSize = _extraButton.GetPreferredSize(context);
+            // Place extra on the far side of packed items when there is room
+            var extraRect = isRtl
+                ? new Rectangle(origin.X, y, extraSize.Width, height)
+                : new Rectangle(x, y, extraSize.Width, height);
 
-            // Is there enough width for this item to be displayed
-            if ((childSize.Width + x) <= ClientRectangle.Right)
+            if (origin.Contains(extraRect) || extraRect.Right <= origin.Right && extraRect.X >= origin.X)
             {
-                // Define display rectangle for the group
-                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
-
-                // Position the element
+                context.DisplayRectangle = extraRect;
                 _extraButton.Layout(context);
-
-                // Move across to next position
-                x += childSize.Width;
+                x = isRtl ? Math.Min(x, extraRect.X) : extraRect.Right;
             }
 
             // Should button show as overflow or customization
@@ -358,10 +361,10 @@ internal abstract class ViewLayoutRibbonQATContents : ViewComposite
         }
 
         // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        ClientRectangle = RibbonRtlLayout.PackedBounds(origin, isRtl ? Math.Min(x, origin.Right) : x, isRtl);
 
         // Update the display rectangle we allocated for use by parent
-        context.DisplayRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        context.DisplayRectangle = ClientRectangle;
     }
     #endregion
 

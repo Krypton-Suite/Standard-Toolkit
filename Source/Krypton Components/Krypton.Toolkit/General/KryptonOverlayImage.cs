@@ -63,7 +63,7 @@ public struct KryptonOverlayImage
     }
 
     /// <summary>Gets or sets the overlay image. Null means no overlay.</summary>
-    [Editor(typeof(KryptonDesignerImageEditor), typeof(UITypeEditor))]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image { get; set; }
 
     /// <summary>Gets or sets the corner placement. Default is <see cref="OverlayImagePosition.BottomRight"/>.</summary>
