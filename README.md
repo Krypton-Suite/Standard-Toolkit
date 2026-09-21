@@ -1,6 +1,9 @@
 
 # <img src="https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true"> Standard Toolkit
 
+> [!WARNING]
+> Version 85 is no longer supported, it is reccomended that you upgrade to version 105 to continue reciving updates and support.
+> This branch, `V85-LTS-(archived)` is scheduled to be deleted on **1st June, 2027**. After that date you will no longer be able to browse or download this branch.
 
 <!-- Start Document Outline -->
 
