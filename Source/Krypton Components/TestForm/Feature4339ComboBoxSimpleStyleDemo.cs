@@ -48,7 +48,8 @@ public sealed class Feature4339ComboBoxSimpleStyleDemo : KryptonForm
                 "Issue #4339: ComboBoxStyle.Simple shows an editable text box and an always-visible list (no drop-down button). " +
                 "Left column is native WinForms; right column is KryptonComboBox. " +
                 "Type in the edit box, click a list item, resize the Simple combos, switch DropDown / DropDownList / Simple on the live Krypton control, toggle Enabled, and change theme. " +
-                "Krypton should match native Simple behaviour: list stays open, selection updates the edit text, and DropDown/DropDownList stay single-line with a drop button."
+                "Krypton should match native Simple behaviour: list stays open, selection updates the edit text, and DropDown/DropDownList stay single-line with a drop button. " +
+                "Also check #4424: DropDownList / disabled / Simple edit text should look sharp (GDI+ DrawString with palette text hint), not fuzzy ClearType on the themed background."
         };
 
         var theme = new KryptonThemeComboBox
