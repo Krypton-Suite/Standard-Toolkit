@@ -48,6 +48,8 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Resolved [#4419](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4419), Use scaling here, to support larger screens
+  * Toast notifications scale screen-edge and borderless height padding for high-DPI displays; toasts without a close box use borderless chrome, and dismiss buttons are inset from the form edge.
 * Resolved [#3330](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3330), `KryptonManager` exception 'The type initializer for 'Krypton.Toolkit.KryptonManager' threw an exception.'
 * Implemented [#4417](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4417), `KryptonTextBox.InputMode` (`Any` / `Digits` / `Letters` / `Alphanumeric`) filters typing and paste; replaces the unfinished alphanumeric-mode stub.
 * Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` / Sparkle `Color[] ribbonColors` overloads removed).
