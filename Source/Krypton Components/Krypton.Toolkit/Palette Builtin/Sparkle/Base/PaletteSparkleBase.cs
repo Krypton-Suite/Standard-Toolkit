@@ -1234,7 +1234,7 @@ public class PaletteSparkleBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _sparkleColors[2];
+                    return _sparkleColors[2];
                 }
             }
 
@@ -1308,7 +1308,7 @@ public class PaletteSparkleBase : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _sparkleColors[2];
+                    return _sparkleColors[2];
                 }
             }
 
@@ -2072,7 +2072,8 @@ public class PaletteSparkleBase : PaletteBase
 
         return style switch
         {
-            PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.ContextMenuItemImage => _colorDark00,
+            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelAlternateControl => _ribbonColors[(int)SchemeBaseColors.StatusStripText],
+            PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.ContextMenuItemImage => _colorDark00,
             PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => SchemeBaseColorsExtensions.Coalesce(_ribbonColors.Get(SchemeBaseColors.MenuItemText), _colorDark00),
             PaletteContentStyle.ButtonListItem => state switch
             {
@@ -2084,7 +2085,7 @@ public class PaletteSparkleBase : PaletteBase
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorDark00,
                 _ => _colorWhite255
             },
-            PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.ContextMenuHeading => _colorWhite255,
+            PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.ContextMenuHeading => _colorWhite255,
             PaletteContentStyle.ButtonCalendarDay => state switch
             {
                 PaletteState.Disabled => _colorWhite128,
@@ -2560,7 +2561,8 @@ public class PaletteSparkleBase : PaletteBase
 
         return style switch
         {
-            PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.ContextMenuItemImage => _colorDark00,
+            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelAlternateControl => _ribbonColors[(int)SchemeBaseColors.StatusStripText],
+            PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip or PaletteContentStyle.ContextMenuItemImage => _colorDark00,
             PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => SchemeBaseColorsExtensions.Coalesce(_ribbonColors.Get(SchemeBaseColors.MenuItemText), _colorDark00),
             PaletteContentStyle.ButtonListItem => state switch
             {
@@ -2580,7 +2582,7 @@ public class PaletteSparkleBase : PaletteBase
                 PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.FocusOverride => _colorWhite255,
                 _ => _colorDark00
             },
-            PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.ContextMenuHeading => _colorWhite255,
+            PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.ContextMenuHeading => _colorWhite255,
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose or PaletteContentStyle.ButtonLowProfile or PaletteContentStyle.ButtonButtonSpec or PaletteContentStyle.ButtonInputControl => state is PaletteState.Normal or PaletteState.NormalDefaultOverride ? _colorDark00 : _colorWhite255,
             PaletteContentStyle.GridDataCellList or PaletteContentStyle.GridDataCellSheet or PaletteContentStyle.GridDataCellCustom1 or PaletteContentStyle.GridDataCellCustom2 or PaletteContentStyle.GridDataCellCustom3 => state == PaletteState.CheckedNormal ? _colorWhite255 : _colorDark00,
             PaletteContentStyle.GridHeaderColumnSheet or PaletteContentStyle.GridHeaderRowSheet => state != PaletteState.Pressed ? _colorDark00 : _colorWhite255,
