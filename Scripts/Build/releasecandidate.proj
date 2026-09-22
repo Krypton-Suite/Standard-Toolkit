@@ -1,12 +1,13 @@
 <Project>
 	<Import Project="..\..\Directory.Build.props" />
-	<Import Project="..\Build\Krypton.Orchestration.targets" />
+	<Import Project="Krypton.OReleaseCandidatehestration.targets" />
+	<Import Project="Krypton.Pack.targets" />
 
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
-		<Configuration>Canary</Configuration>
-		<CanaryBuildPath>..\Bin\Canary\Zips</CanaryBuildPath>
-		<CanaryZipName>Krypton-Canary</CanaryZipName>
+		<Configuration>ReleaseCandidate</Configuration>
+		<ReleaseCandidateBuildPath>..\Bin\ReleaseCandidate\Zips</ReleaseCandidateBuildPath>
+		<ReleaseCandidateZipName>Krypton-ReleaseCandidate</ReleaseCandidateZipName>
 	</PropertyGroup>
 
 	<Target Name="Clean">
@@ -27,85 +28,66 @@
 
 	<Target Name="CleanPackages">
 		<ItemGroup>
-			<NugetPkgs Include="..\Bin\Packages\Canary\*.nupkg" />
+			<NugetPkgs Include="..\Bin\Packages\ReleaseCandidate\*.nupkg" />
 		</ItemGroup>
 		<Delete Files="@(NugetPkgs)" />
 	</Target>
 
-	<Target Name="PackAll">
-		<ItemGroup>
-			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
-		</ItemGroup>
-		<ItemGroup>
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.json" />
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.cache" />
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
-			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
-		</ItemGroup>
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Clean" BuildInParallel="false" />
-		<Delete Files="@(NugetAssets)" />
-		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all" Targets="Restore" BuildInParallel="false" />
-		<CallTarget Targets="KryptonPack" />
-	</Target>
-
-	<Target Name="Pack" DependsOnTargets="CleanPackages;PackAll" />
-	<!--PackLite;-->
+	<Target Name="Pack" DependsOnTargets="CleanPackages;PackLite;PackAll" />
 
 	<Target Name="Push">
 		<ItemGroup>
-			<NugetPkgs Include="..\Bin\Packages\Canary\*.$(LibraryVersion).nupkg" />
+			<NugetPkgs Include="..\Bin\Packages\ReleaseCandidate\*.$(LibraryVersion).nupkg" />
 		</ItemGroup>
 		<Exec Command="nuget.exe push %(NugetPkgs.Identity)" />
 	</Target>
 
-
-
-	<Target Name="CreateCanaryZip">
+	<Target Name="CreateReleaseCandidateZip">
 		<PropertyGroup>
 			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
 		</PropertyGroup>
 		<ItemGroup>
-			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*;..\Bin\Canary\**\*.json;..\Bin\Canary\**\*.pdb" />
+			<DebugApplicationFiles Include="..\Bin\ReleaseCandidate\**\*.*" Exclude="..\Bin\ReleaseCandidate\*vshost.exe*;..\Bin\ReleaseCandidate\**\*.json;..\Bin\ReleaseCandidate\**\*.pdb" />
 		</ItemGroup>
-		<MakeDir Directories="$(CanaryBuildPath)"/>
+		<MakeDir Directories="$(ReleaseCandidateBuildPath)"/>
 
 		<!-- Using 7-Zip for ZIP creation (compatible with all MSBuild versions) -->
-		<Exec Command="7z.exe a -tzip &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).zip&quot; &quot;..\Bin\Canary\*&quot; -x!*.json -x!*.pdb"
+		<Exec Command="7z.exe a -tzip &quot;$(ReleaseCandidateBuildPath)\$(ReleaseCandidateZipName)_$(StringDate).zip&quot; &quot;..\Bin\ReleaseCandidate\*&quot; -x!*.json -x!*.pdb"
 		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')"
-		      WorkingDirectory="$(CanaryBuildPath)" />
+		      WorkingDirectory="$(ReleaseCandidateBuildPath)" />
 
-		<!-- Fallback: Using PowerShell Compress-Archive if 7-Zip not available -->
-		<Exec Command="powershell.exe -Command &quot;Get-ChildItem '..\Bin\Canary\*' -Recurse | Where-Object {$_.Extension -notin '.json','.pdb'} | Compress-Archive -DestinationPath '$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).zip' -Force&quot;"
+		<!-- Fallback: Using PowerShell Compress-AReleaseCandidatehive if 7-Zip not available -->
+		<Exec Command="powershell.exe -Command &quot;Get-ChildItem '..\Bin\ReleaseCandidate\*' -Recurse | Where-Object {$_.Extension -notin '.json','.pdb'} | Compress-AReleaseCandidatehive -DestinationPath '$(ReleaseCandidateBuildPath)\$(ReleaseCandidateZipName)_$(StringDate).zip' -FoReleaseCandidatee&quot;"
 		      Condition="!Exists('C:\Program Files\7z.exe')" />
 	</Target>
 
-	<Target Name="CreateCanaryTar">
+	<Target Name="CreateReleaseCandidateTar">
 		<PropertyGroup>
 			<StringDate>$([System.DateTime]::Now.ToString('yyyyMMdd'))</StringDate>
 		</PropertyGroup>
 		<ItemGroup>
-			<DebugApplicationFiles Include="..\Bin\Canary\**\*.*" Exclude="..\Bin\Canary\*vshost.exe*;..\Bin\Canary\**\*.json;..\Bin\Canary\**\*.pdb" />
+			<DebugApplicationFiles Include="..\Bin\ReleaseCandidate\**\*.*" Exclude="..\Bin\ReleaseCandidate\*vshost.exe*;..\Bin\ReleaseCandidate\**\*.json;..\Bin\ReleaseCandidate\**\*.pdb" />
 		</ItemGroup>
-		<MakeDir Directories="$(CanaryBuildPath)"/>
+		<MakeDir Directories="$(ReleaseCandidateBuildPath)"/>
 
 		<!-- Method 1: Using 7-Zip if available (recommended for Windows) -->
-		<Exec Command="7z.exe a -ttar &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar&quot; &quot;..\Bin\Canary\*&quot; -x!*.json -x!*.pdb"
+		<Exec Command="7z.exe a -ttar &quot;$(ReleaseCandidateBuildPath)\$(ReleaseCandidateZipName)_$(StringDate).tar&quot; &quot;..\Bin\ReleaseCandidate\*&quot; -x!*.json -x!*.pdb"
 		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')"
-		      WorkingDirectory="$(CanaryBuildPath)" />
-		<Exec Command="7z.exe a -tgzip &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar.gz&quot; &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar&quot;"
+		      WorkingDirectory="$(ReleaseCandidateBuildPath)" />
+		<Exec Command="7z.exe a -tgzip &quot;$(ReleaseCandidateBuildPath)\$(ReleaseCandidateZipName)_$(StringDate).tar.gz&quot; &quot;$(ReleaseCandidateBuildPath)\$(ReleaseCandidateZipName)_$(StringDate).tar&quot;"
 		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')"
-		      WorkingDirectory="$(CanaryBuildPath)" />
-		<Delete Files="$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate).tar"
+		      WorkingDirectory="$(ReleaseCandidateBuildPath)" />
+		<Delete Files="$(ReleaseCandidateBuildPath)\$(ReleaseCandidateZipName)_$(StringDate).tar"
 		        Condition="Exists('C:\Program Files\7-Zip\7z.exe')" />
 
 		<!-- Method 2: Using PowerShell tar command (Windows 10/11) -->
-		<Exec Command="powershell.exe -Command tar -czf &quot;$(CanaryBuildPath)\$(CanaryZipName)_$(StringDate)_ps.tar.gz&quot; -C &quot;..\Bin\Canary&quot; . --exclude=*.json --exclude=*.pdb"
+		<Exec Command="powershell.exe -Command tar -czf &quot;$(ReleaseCandidateBuildPath)\$(ReleaseCandidateZipName)_$(StringDate)_ps.tar.gz&quot; -C &quot;..\Bin\ReleaseCandidate&quot; . --exclude=*.json --exclude=*.pdb"
 		      Condition="Exists('C:\Windows\System32\tar.exe')" />
 
 		<!-- Method 3: Using Git Bash tar if available -->
-		<Exec Command="&quot;C:\Program Files\Git\bin\bash.exe&quot; -c &quot;cd ../Bin/Canary &amp;&amp; tar -czf &quot;$(CanaryBuildPath)/$(CanaryZipName)_$(StringDate)_git.tar.gz&quot; * --exclude=*.json --exclude=*.pdb&quot;"
+		<Exec Command="&quot;C:\Program Files\Git\bin\bash.exe&quot; -c &quot;cd ../Bin/ReleaseCandidate &amp;&amp; tar -czf &quot;$(ReleaseCandidateBuildPath)/$(ReleaseCandidateZipName)_$(StringDate)_git.tar.gz&quot; * --exclude=*.json --exclude=*.pdb&quot;"
 		      Condition="Exists('C:\Program Files\Git\bin\bash.exe')" />
 	</Target>
 
-	<Target Name="CreateAllCanaryArchives" DependsOnTargets="CreateCanaryZip;CreateCanaryTar" />
+	<Target Name="CreateAllReleaseCandidateAReleaseCandidatehives" DependsOnTargets="CreateReleaseCandidateZip;CreateReleaseCandidateTar" />
 </Project>
