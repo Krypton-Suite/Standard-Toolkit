@@ -1541,7 +1541,7 @@ public class KryptonListView : VisualControlBase,
                 bounds = item.Bounds;
             }
 
-            if (bounds.Width > 0 && bounds.Height > 0)
+            if (bounds is { Width: > 0, Height: > 0 })
             {
                 _itemToolTip.SetPlacementRectangle(_listView, bounds);
             }
@@ -1887,7 +1887,7 @@ public class KryptonListView : VisualControlBase,
         try
         {
             Rectangle iconBounds = item.GetBounds(ItemBoundsPortion.Icon);
-            if (iconBounds.Width > 0 && iconBounds.Height > 0)
+            if (iconBounds is { Width: > 0, Height: > 0 })
             {
                 list.Draw(graphics, iconBounds.Location, index);
             }

@@ -53,7 +53,7 @@ public class KryptonForm : VisualForm,
 				// In RTL mode with RightToLeftLayout enabled, position title on the right (Far)
 				// The content layout system will position text before image when both are Far,
 				// so the order is: [Buttons] [Title] [Icon]
-				if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+				if (_kryptonForm is { RightToLeft: RightToLeft.Yes, RightToLeftLayout: true })
 				{
 					// Title should be Far (right side) so it appears on the right before the icon
 					return PaletteRelativeAlign.Far;
@@ -82,7 +82,7 @@ public class KryptonForm : VisualForm,
 			{
 				// In RTL mode with RightToLeftLayout enabled, position TextExtra on the left (Near)
 				// so it appears after the control box buttons: [Buttons] [TextExtra] [Title] [Icon]
-				if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+				if (_kryptonForm is { RightToLeft: RightToLeft.Yes, RightToLeftLayout: true })
 				{
 					// TextExtra should be Near (left side) so it appears after the buttons
 					return PaletteRelativeAlign.Near;
@@ -95,7 +95,7 @@ public class KryptonForm : VisualForm,
 		public override PaletteRelativeAlign GetContentImageH(PaletteContentStyle style, PaletteState state)
 		{
 			// In RTL mode with RightToLeftLayout enabled, position icon on the right (Far)
-			if (_kryptonForm.RightToLeft == RightToLeft.Yes && _kryptonForm.RightToLeftLayout)
+			if (_kryptonForm is { RightToLeft: RightToLeft.Yes, RightToLeftLayout: true })
 			{
 				return style switch
 				{
@@ -554,7 +554,7 @@ public class KryptonForm : VisualForm,
 
 		// Apply color-key transparency like legacy resources (top-left pixel)
 		Color key = Color.Magenta;
-		if (themedGrip is Bitmap b && b.Width > 0 && b.Height > 0)
+		if (themedGrip is Bitmap { Width: > 0, Height: > 0 } b)
 		{
 			key = b.GetPixel(0, 0);
 		}

@@ -95,7 +95,7 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
         // Fill the image column using palette back colors first (to honor control overrides),
         // and fall back to the ColorTable values when palette is empty.
         var rect = ClientRectangle;
-        if (rect.Width > 0 && rect.Height > 0)
+        if (rect is { Width: > 0, Height: > 0 })
         {
             Color p1 = PaletteBack!.GetBackColor1(State);
             Color p2 = PaletteBack!.GetBackColor2(State);

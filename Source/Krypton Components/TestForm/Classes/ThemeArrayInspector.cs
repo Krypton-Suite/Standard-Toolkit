@@ -95,7 +95,7 @@ internal static class ThemeArrayInspector
                 return null; // I/O error while reading – abort
             }
 
-            if (arrayNames != null && arrayNames.Count > 0)
+            if (arrayNames is { Count: > 0 })
             {
                 break; // success
             }

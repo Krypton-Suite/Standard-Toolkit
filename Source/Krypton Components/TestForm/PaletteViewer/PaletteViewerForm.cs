@@ -333,7 +333,7 @@ public partial class PaletteViewerForm : KryptonForm
 
             var cell = row.Cells.Count > 2 ? row.Cells[2] : null; // API column
             int lineCount = 1;
-            if (cell?.Value is string txt && txt.Length > 0)
+            if (cell?.Value is string { Length: > 0 } txt)
             {
                 lineCount = txt.Split('\n').Length;
             }
@@ -565,10 +565,9 @@ public partial class PaletteViewerForm : KryptonForm
         for (int i = 0; i < _enumValues.Length; i++)
         {
             var row = this.dataGridViewPalette.Rows[i];
-            bool indexPresent = paletteColors != null
-                && paletteColors.Length > 0
-                && i >= 0
-                && i < paletteColors.Length;
+            bool indexPresent = paletteColors is { Length: > 0 }
+                                && i >= 0
+                                && i < paletteColors.Length;
 
             System.Drawing.Color color = indexPresent ? paletteColors![i] : System.Drawing.Color.Transparent;
             if (!indexPresent)
@@ -608,7 +607,7 @@ public partial class PaletteViewerForm : KryptonForm
         if (!string.IsNullOrWhiteSpace(_sourcePath))
         {
             var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath ?? string.Empty);
-            if (issues != null && !issues.IsClean)
+            if (issues is { IsClean: false })
             {
                 foreach (int idx in issues.MissingIndices)
                 {
@@ -988,7 +987,7 @@ public partial class PaletteViewerForm : KryptonForm
         if (palette != null && !string.IsNullOrWhiteSpace(_sourcePath))
         {
             var issues = Classes.ThemeArrayInspector.GetIssues(palette.GetType(), _sourcePath ?? string.Empty);
-            if (issues != null && issues.MissingCount > 0)
+            if (issues is { MissingCount: > 0 })
             {
                 UpdateStatus($"Cannot activate {palette.GetType().Name}: {issues.MissingCount} missing enum colours");
                 return;

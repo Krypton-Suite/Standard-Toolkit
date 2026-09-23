@@ -694,9 +694,10 @@ public class KryptonDataGridViewComboBoxCell : DataGridViewTextBoxCell
 
             if (DataGridView is not null
                 && DataGridView.BindingContext is not null
-                && DataGridView.BindingContext[dataSource, bindingMemberInfo.BindingPath] is CurrencyManager currencyManager
-                && currencyManager.List is IBindingList bindinglist
-                && bindinglist.SupportsSearching)
+                && DataGridView.BindingContext[dataSource, bindingMemberInfo.BindingPath] is CurrencyManager
+                {
+                    List: IBindingList { SupportsSearching: true } bindinglist
+                } currencyManager)
             {
                 if (currencyManager.GetItemProperties().Find(bindingMemberInfo.BindingField, true) is PropertyDescriptor propertyDescriptor)
                 {

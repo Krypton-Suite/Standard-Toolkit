@@ -1013,7 +1013,7 @@ public static class CommonHelper
 
         try
         {
-            return font.Size > 0f && font.Height > 0;
+            return font is { Size: > 0f, Height: > 0 };
         }
         catch (ArgumentException)
         {

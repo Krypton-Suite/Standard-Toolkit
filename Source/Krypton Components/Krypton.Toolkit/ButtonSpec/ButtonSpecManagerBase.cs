@@ -524,7 +524,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
     /// <param name="align">Edge of buttons caller is interested in searching.</param>
     /// <returns>ViewDrawButton reference; otherwise false.</returns>
     public virtual ViewDrawButton? GetFirstVisibleViewButton(PaletteRelativeEdgeAlign align) => (_specLookup.Values
-            .Where(specView => specView.ViewButton != null && specView.ViewCenter.Visible && specView.ViewButton.Enabled)
+            .Where(specView => specView is { ViewButton.Enabled: true, ViewCenter.Visible: true })
             .Where(specView => specView.ButtonSpec.Edge == align)
             .Select(specView => specView.ViewButton))
         .FirstOrDefault();
@@ -998,7 +998,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
     {
         var edge = spec.GetEdge(_redirector);
 
-        var isRtl = Control is Form form && form.RightToLeft == RightToLeft.Yes && form.RightToLeftLayout;
+        var isRtl = Control is Form { RightToLeft: RightToLeft.Yes, RightToLeftLayout: true };
 
         // In RTL mode with RightToLeftLayout enabled, reverse the dock style
         return isRtl ? edge == RelativeEdgeAlign.Near ? ViewDockStyle.Right : ViewDockStyle.Left :

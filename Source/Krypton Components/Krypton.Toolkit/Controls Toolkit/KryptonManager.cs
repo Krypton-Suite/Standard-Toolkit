@@ -1617,7 +1617,7 @@ public sealed class KryptonManager : Component
         if (!string.IsNullOrEmpty(cultureName))
         {
             // Prefer Parent when available (en-GB → en); fall back to a two-letter prefix.
-            if (culture != null && culture.Parent != null && !string.IsNullOrEmpty(culture.Parent.Name))
+            if (culture is { Parent: not null } && !string.IsNullOrEmpty(culture.Parent.Name))
             {
                 neutralName = culture.Parent.Name;
             }

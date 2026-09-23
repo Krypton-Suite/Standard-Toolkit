@@ -160,7 +160,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
             }
         }
 
-        if (ThemeChangeCoordinator.InProgress && !ComboBox.IsDisposed && ComboBox.IsHandleCreated)
+        if (ThemeChangeCoordinator.InProgress && ComboBox is { IsDisposed: false, IsHandleCreated: true })
         {
             ComboBox.BeginInvoke((System.Windows.Forms.MethodInvoker)Commit);
         }

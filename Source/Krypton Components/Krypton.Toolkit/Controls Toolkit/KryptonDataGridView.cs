@@ -1203,7 +1203,7 @@ public class KryptonDataGridView : DataGridView
         _cellDown = new Point(e.ColumnIndex, e.RowIndex);
 
         // Auto-open edit when clicking inside the glyph area of supported drop-down/spin cells
-        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+        if (e is { RowIndex: >= 0, ColumnIndex: >= 0 })
         {
             var cell = this.Rows[e.RowIndex].Cells[e.ColumnIndex];
             bool isDropGlyphCell = cell is KryptonDataGridViewComboBoxCell
@@ -1290,7 +1290,7 @@ public class KryptonDataGridView : DataGridView
                 {
                     try
                     {
-                        if (!kcb.IsDisposed && !kcb.DroppedDown)
+                        if (kcb is { IsDisposed: false, DroppedDown: false })
                         {
                             kcb.DroppedDown = true;
                         }
@@ -1343,7 +1343,7 @@ public class KryptonDataGridView : DataGridView
             {
                 using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                 {
-                    bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+                    bool isHeaderCell = e is { RowIndex: -1, ColumnIndex: >= 0 };
 
                     Rectangle headerContentBounds = Rectangle.Empty;
 

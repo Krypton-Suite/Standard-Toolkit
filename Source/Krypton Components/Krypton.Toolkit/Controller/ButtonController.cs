@@ -318,7 +318,7 @@ public class ButtonController : GlobalId,
                             if (Target is IRippleHost rippleHost)
                             {
                                 var palette = KryptonManager.CurrentGlobalPalette;
-                                if (palette != null && palette.RippleEffect)
+                                if (palette is { RippleEffect: true })
                                 {
                                     rippleHost.StartRipple(pt);
                                 }

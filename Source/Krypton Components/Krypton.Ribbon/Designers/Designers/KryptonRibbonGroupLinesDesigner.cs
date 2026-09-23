@@ -331,8 +331,7 @@ internal class KryptonRibbonGroupLinesDesigner : ComponentDesigner
 
     private void OnMovePrevious(object? sender, EventArgs e)
     {
-        if ((_ribbonLines.Ribbon != null) 
-            && _ribbonLines.RibbonGroup is not null
+        if (_ribbonLines is { Ribbon: not null, RibbonGroup: not null }
             && _ribbonLines.RibbonGroup.Items.Contains(_ribbonLines))
         {
             // Use a transaction to support undo/redo actions
