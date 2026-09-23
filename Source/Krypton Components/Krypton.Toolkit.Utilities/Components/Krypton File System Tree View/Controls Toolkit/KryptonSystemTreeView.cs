@@ -583,7 +583,7 @@ public class KryptonSystemTreeView : KryptonTreeView
         if (e.Node?.Tag is string path && Directory.Exists(path))
         {
             // Check if this node has a dummy child node
-            if (e.Node.Nodes is [{ Name: DUMMY_NODE_KEY }])
+            if (e.Node.Nodes.Count == 1 && e.Node.Nodes[0].Name == DUMMY_NODE_KEY)
             {
                 e.Node.Nodes.Clear();
                 LoadDirectoryNodes(e.Node, path);

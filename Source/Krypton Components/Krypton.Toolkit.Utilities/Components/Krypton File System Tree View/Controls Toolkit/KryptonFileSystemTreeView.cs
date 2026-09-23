@@ -387,7 +387,7 @@ public class KryptonFileSystemTreeView : KryptonTreeView
 
     private void OnBeforeExpand(object? sender, TreeViewCancelEventArgs e)
     {
-        if (e.Node is { Tag: string path, Nodes: [{ Name: DUMMY_NODE_KEY }] })
+        if (e.Node is { Tag: string path, Nodes.Count: 1 } && e.Node.Nodes[0].Name == DUMMY_NODE_KEY)
             // Check if this node has a dummy child node
         {
             e.Node.Nodes.Clear();
