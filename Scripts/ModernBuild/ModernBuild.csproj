@@ -6,7 +6,7 @@
 	<ImplicitUsings>enable</ImplicitUsings>
 	<OutputType>Exe</OutputType>
 	<Deterministic>true</Deterministic>
-	<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+	<!-- Disable CheckEolTargetFramework to suppress this warning. -->
 	<CheckEolTargetFramework>false</CheckEolTargetFramework>
 	<PlatformTarget>AnyCPU</PlatformTarget>
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
