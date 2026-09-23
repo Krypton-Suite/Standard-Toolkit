@@ -3747,9 +3747,8 @@ public class KryptonWorkspace : VisualContainerControl,
         if (!IsActivePageChangedEventSuspended)
         {
             // If change occurred on the active cell
-            var cell = sender as KryptonWorkspaceCell;
 
-            if (cell is not null && cell == ActiveCell)
+            if (sender is KryptonWorkspaceCell cell && cell == ActiveCell)
             {
                 if (cell.SelectedPage != ActivePage)
                 {

@@ -1039,9 +1039,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         {
             PropertyDescriptor descriptor = selectedGridItem.PropertyDescriptor;
 
-            DefaultValueAttribute? defaultValueAttribute = descriptor.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
-
-            if (defaultValueAttribute != null)
+            if (descriptor.Attributes[typeof(DefaultValueAttribute)] is DefaultValueAttribute defaultValueAttribute)
             {
                 descriptor.SetValue(_propertyGrid.SelectedObject, defaultValueAttribute.Value);
             }

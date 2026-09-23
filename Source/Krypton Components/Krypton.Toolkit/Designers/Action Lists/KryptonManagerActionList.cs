@@ -337,8 +337,7 @@ internal class KryptonManagerActionList : DesignerActionList
                 return;
             }
 
-            var result = dialog.Tag as SwitchCultureDialogResult;
-            if (result == null || string.IsNullOrWhiteSpace(result.CultureName))
+            if (dialog.Tag is not SwitchCultureDialogResult result || string.IsNullOrWhiteSpace(result.CultureName))
             {
                 return;
             }

@@ -75,10 +75,9 @@ internal class KryptonTextBoxDesigner : ControlDesigner
             var rules = base.SelectionRules;
 
             // Get access to the actual control instance
-            var textBox = Component as KryptonTextBox;
 
             // With multiline or auto size we prevent the user changing the height
-            if (textBox is { Multiline: false, AutoSize: true })
+            if (Component is KryptonTextBox { Multiline: false, AutoSize: true } textBox)
             {
                 rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
             }

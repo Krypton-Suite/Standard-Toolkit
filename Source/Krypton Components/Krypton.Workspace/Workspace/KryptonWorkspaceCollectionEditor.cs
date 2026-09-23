@@ -1376,9 +1376,7 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
             }
             newNode.Expand();
 
-            var selectedNode = _treeView.SelectedNode as MenuTreeNode;
-
-            if (selectedNode is null)
+            if (_treeView.SelectedNode is not MenuTreeNode selectedNode)
             {
                 // Nothing is selected, so add to the root
                 _treeView.Nodes.Add(newNode);
@@ -1420,8 +1418,7 @@ internal class KryptonWorkspaceCollectionEditor : CollectionEditor
             var sequence = CreateInstance(typeof(KryptonWorkspaceSequence)) as KryptonWorkspaceSequence ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("sequence"));
             TreeNode newNode = new MenuTreeNode(sequence);
 
-            var selectedNode = _treeView.SelectedNode as MenuTreeNode;
-            if (selectedNode == null)
+            if (_treeView.SelectedNode is not MenuTreeNode selectedNode)
             {
                 // Nothing is selected, so add to the root
                 _treeView.Nodes.Add(newNode);

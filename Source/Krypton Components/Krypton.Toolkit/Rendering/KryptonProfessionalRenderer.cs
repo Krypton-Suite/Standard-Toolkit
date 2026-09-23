@@ -331,8 +331,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
     private bool TryRenderMenuItemPaletteOverride(ToolStripItemRenderEventArgs e)
     {
-        var ktmi = e.Item as KryptonToolStripMenuItem;
-        if (ktmi == null)
+        if (e.Item is not KryptonToolStripMenuItem ktmi)
         {
             return TryRenderContextMenuItemBackground(e);
         }
@@ -383,8 +382,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
     private bool TryRenderMenuItemColorTableOverride(ToolStripItemRenderEventArgs e)
     {
-        var internalKCT = KCT as KryptonInternalKCT;
-        if (internalKCT == null || e.ToolStrip == null)
+        if (KCT is not KryptonInternalKCT internalKCT || e.ToolStrip == null)
         {
             return false;
         }

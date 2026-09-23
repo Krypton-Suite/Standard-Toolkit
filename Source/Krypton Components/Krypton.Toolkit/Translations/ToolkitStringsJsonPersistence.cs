@@ -267,8 +267,7 @@ internal static class ToolkitStringsJsonPersistence
 
     private static void PromoteToAttribute(XmlElement root, string name)
     {
-        var child = root.SelectSingleNode(name) as XmlElement;
-        if (child != null)
+        if (root.SelectSingleNode(name) is XmlElement child)
         {
             root.SetAttribute(name, child.GetAttribute(@"Value"));
             root.RemoveChild(child);

@@ -25,6 +25,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Terminal.Gui" Version="2.0.0-develop.*" />
+    <PackageReference Include="Terminal.Gui" Condition="'$(TargetFramework)' == 'net8.0-windows'" Version="2.0.0-develop.0" />
+    <PackageReference Include="Terminal.Gui" Condition="'$(TargetFramework)' == 'net9.0-windows'" Version="2.0.0-develop.0" />
+    <PackageReference Include="Terminal.Gui" Condition="'$(TargetFramework)' == 'net10.0-windows'" Version="2.0.1" />
   </ItemGroup>
 </Project>

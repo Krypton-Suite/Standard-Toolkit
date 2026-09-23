@@ -45,9 +45,8 @@ internal class ButtonSpecRibbonController : ButtonController
     public override void KeyDown(Control c, KeyEventArgs e)
     {
         ViewBase? newView = null;
-        var ribbon = c as KryptonRibbon;
 
-        if (ribbon is null)
+        if (c is not KryptonRibbon ribbon)
         {
             throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
         }

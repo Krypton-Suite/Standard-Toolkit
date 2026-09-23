@@ -2586,8 +2586,7 @@ public class KryptonCheckedListBox : VisualControlBase,
 
         try
         {
-            CurrencyManager? cm = BindingContext![_dataSource] as CurrencyManager;
-            if (cm == null)
+            if (BindingContext![_dataSource] is not CurrencyManager cm)
             {
                 return;
             }
