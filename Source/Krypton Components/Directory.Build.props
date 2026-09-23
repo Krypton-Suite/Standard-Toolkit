@@ -155,7 +155,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(Configuration)' == 'RC'">
+		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<ItemGroup>
 				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton RC.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>

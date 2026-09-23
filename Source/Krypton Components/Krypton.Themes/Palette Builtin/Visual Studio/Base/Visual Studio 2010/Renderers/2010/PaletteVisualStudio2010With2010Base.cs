@@ -1174,7 +1174,7 @@ public abstract class PaletteVisualStudio2010With2010Base : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -1302,7 +1302,7 @@ public abstract class PaletteVisualStudio2010With2010Base : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -2054,7 +2054,6 @@ public abstract class PaletteVisualStudio2010With2010Base : PaletteBase
             PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
             PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
             PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextLabelControl),
-            // TODO: Add the line below to *all* bases
             PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelAlternateControl => _ribbonColors[(int)SchemeBaseColors.StatusStripText],
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeBaseColors.ContextMenuHeadingText],
@@ -2533,9 +2532,10 @@ public abstract class PaletteVisualStudio2010With2010Base : PaletteBase
             PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => state == PaletteState.Disabled
                 ? _ribbonColors[(int)SchemeBaseColors.InputControlTextDisabled]
                 : _ribbonColors[(int)SchemeBaseColors.InputControlTextNormal],
-            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
-            PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
+            PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
+            PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
             PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextLabelControl),
+            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelAlternateControl => _ribbonColors[(int)SchemeBaseColors.StatusStripText],
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeBaseColors.ContextMenuHeadingText],
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state != PaletteState.Normal
