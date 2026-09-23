@@ -20,7 +20,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a JSON string.
     /// </summary>
-    public static string Export(object toolkitStrings, bool includeDefaults)
+    public static string Export(object? toolkitStrings, bool includeDefaults)
     {
         if (toolkitStrings == null)
         {
@@ -58,7 +58,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a stream as JSON.
     /// </summary>
-    public static void ExportToStream(object toolkitStrings, Stream stream, bool includeDefaults = false)
+    public static void ExportToStream(object toolkitStrings, Stream? stream, bool includeDefaults = false)
     {
         if (stream == null)
         {
@@ -89,7 +89,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Imports toolkit strings from a JSON stream.
     /// </summary>
-    public static void ImportFromStream(object toolkitStrings, Stream stream, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromStream(object toolkitStrings, Stream? stream, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (stream == null)
         {
@@ -107,7 +107,7 @@ internal static class ToolkitStringsJsonPersistence
     /// Uses the XML persistence helper by converting the JSON to an in-memory XmlDocument,
     /// keeping the import logic (reset, refresh, culture) centralised.
     /// </summary>
-    public static void ImportFromJson(object toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromJson(object? toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (toolkitStrings == null)
         {
@@ -334,17 +334,10 @@ internal static class ToolkitStringsJsonPersistence
     // braces, colons, commas, etc. — those were never special inside the string token.
     private static string UnquoteJsonString(string token)
     {
-#if NET472
         if (token.Length >= 2 && token[0] == '"' && token[token.Length - 1] == '"')
         {
             token = token.Substring(1, token.Length - 2);
         }
-#else
-        if (token is ['"', _, ..] && token[token.Length - 1] == '"')
-        {
-            token = token.Substring(1, token.Length - 2);
-        }
-#endif
 
         return token
             .Replace(@"\""", @"""")
