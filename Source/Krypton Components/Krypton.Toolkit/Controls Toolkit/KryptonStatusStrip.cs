@@ -144,8 +144,7 @@ public class KryptonStatusStrip : StatusStrip,
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            if (Items[i] is ToolStripDropDownButton dropDownItem
-                && dropDownItem.DropDown.Visible)
+            if (Items[i] is ToolStripDropDownButton { DropDown.Visible: true } dropDownItem)
             {
                 dropDownItem.DropDown.Close(ToolStripDropDownCloseReason.AppFocusChange);
                 return;
