@@ -94,21 +94,18 @@ public class ColorInverting
     /// </summary>
     /// <param name="hexColor">String to check.</param>
     /// <returns>True if the string is in the correct format, otherwise false.</returns>
-    public static bool IsHexColor(string hexColor)
+    public static bool IsHexColor(string? hexColor)
     {
-        if (hexColor is ['#', _, _, _, _, _, _])
+        if (hexColor is not { Length: 7 } || hexColor[0] != '#')
         {
-            try
-            {
-                Convert.ToInt32(hexColor.Substring(1), 16);
-                return true;
-            }
-            catch
-            {
-            }
+            return false;
         }
 
-        return false;
+        return int.TryParse(
+            hexColor.Substring(1),
+            NumberStyles.HexNumber,
+            CultureInfo.InvariantCulture,
+            out _);
     }
 
 
