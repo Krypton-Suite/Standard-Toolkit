@@ -215,15 +215,8 @@ internal static class ToolkitStringsJsonPersistence
 
     // Escape only characters that would break a JSON string literal.
     // Structural tokens ({ } [ ] : ,) are left as-is; inside quotes they are ordinary text.
-    private static string EscapeJsonString(string s)
-    {
-        return s
-            .Replace(@"\", @"\\")
-            .Replace(@"""", @"\""")
-            .Replace("\n", @"\n")
-            .Replace("\r", @"\r")
-            .Replace("\t", @"\t");
-    }
+    private static string EscapeJsonString(string s) =>
+        s.Replace(@"\", @"\\").Replace(@"""", @"\""").Replace("\n", @"\n").Replace("\r", @"\r").Replace("\t", @"\t");
 
     #endregion
 
@@ -341,10 +334,17 @@ internal static class ToolkitStringsJsonPersistence
     // braces, colons, commas, etc. — those were never special inside the string token.
     private static string UnquoteJsonString(string token)
     {
+#if NET472
+        if (token.Length >= 2 && token[0] == '"' && token[token.Length - 1] == '"')
+        {
+            token = token.Substring(1, token.Length - 2);
+        }
+#else
         if (token is ['"', _, ..] && token[token.Length - 1] == '"')
         {
             token = token.Substring(1, token.Length - 2);
         }
+#endif
 
         return token
             .Replace(@"\""", @"""")
@@ -423,5 +423,5 @@ internal static class ToolkitStringsJsonPersistence
         return tokens;
     }
 
-    #endregion
+#endregion
 }

@@ -638,10 +638,22 @@ public static partial class KryptonPaletteFile
             : null;
     }
 
-    private static string QuotePath(string path) =>
-        path is ['"', _, ..] && path[path.Length - 1] == '"'
+    private static string QuotePath(string path)
+    {
+#if NET472
+        if (path.Length >= 2 && path[0] == '"' && path[path.Length - 1] == '"')
+        {
+            return path;
+        }
+
+        return @"""" + path + @"""";
+#else
+
+        return path is ['"', _, ..] && path[path.Length - 1] == '"'
             ? path
             : @"""" + path + @"""";
+#endif
+    }
 
     private static void DeleteProgId(string progId)
     {
