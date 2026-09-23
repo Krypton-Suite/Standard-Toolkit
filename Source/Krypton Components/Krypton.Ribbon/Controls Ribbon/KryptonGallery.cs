@@ -898,7 +898,7 @@ public class KryptonGallery : VisualSimpleBase
     #region Implementation
     private void OnDropImageSelect(object? sender, EventArgs e)
     {
-        if (sender is KryptonContextMenuImageSelect imageSelect && imageSelect is not null)
+        if (sender is KryptonContextMenuImageSelect imageSelect)
         {
             SelectedIndex = imageSelect.SelectedIndex;
         }

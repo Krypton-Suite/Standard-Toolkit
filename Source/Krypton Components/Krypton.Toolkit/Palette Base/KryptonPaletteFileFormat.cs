@@ -639,7 +639,7 @@ public static partial class KryptonPaletteFile
     }
 
     private static string QuotePath(string path) =>
-        path.Length >= 2 && path[0] == '"' && path[path.Length - 1] == '"'
+        path is ['"', _, ..] && path[path.Length - 1] == '"'
             ? path
             : @"""" + path + @"""";
 

@@ -387,31 +387,24 @@ public class KryptonFileSystemTreeView : KryptonTreeView
 
     private void OnBeforeExpand(object? sender, TreeViewCancelEventArgs e)
     {
-        if (e.Node?.Tag is string path)
-        {
+        if (e.Node is { Tag: string path, Nodes: [{ Name: DUMMY_NODE_KEY }] })
             // Check if this node has a dummy child node
-            if (e.Node.Nodes.Count == 1)
+        {
+            e.Node.Nodes.Clear();
+
+            var expandingArgs = new DirectoryExpandingEventArgs(path);
+            OnDirectoryExpanding(expandingArgs);
+
+            if (!expandingArgs.Cancel)
             {
-                TreeNode firstChild = e.Node.Nodes[0];
-                if (firstChild.Name == DUMMY_NODE_KEY)
+                // Handle special folder CLSIDs
+                if (path.StartsWith("::", StringComparison.Ordinal))
                 {
-                    e.Node.Nodes.Clear();
-
-                    var expandingArgs = new DirectoryExpandingEventArgs(path);
-                    OnDirectoryExpanding(expandingArgs);
-
-                    if (!expandingArgs.Cancel)
-                    {
-                        // Handle special folder CLSIDs
-                        if (path.StartsWith("::", StringComparison.Ordinal))
-                        {
-                            LoadSpecialFolderNodes(e.Node, path);
-                        }
-                        else if (Directory.Exists(path))
-                        {
-                            LoadDirectoryNodes(e.Node, path);
-                        }
-                    }
+                    LoadSpecialFolderNodes(e.Node, path);
+                }
+                else if (Directory.Exists(path))
+                {
+                    LoadDirectoryNodes(e.Node, path);
                 }
             }
         }
@@ -783,7 +776,7 @@ public class KryptonFileSystemTreeView : KryptonTreeView
                         }
 
                         // Validate and add - ImageList will make its own copy
-                        if (bitmapToAdd.Width > 0 && bitmapToAdd.Height > 0)
+                        if (bitmapToAdd is { Width: > 0, Height: > 0 })
                         {
                             _imageList.Images.Add(bitmapToAdd);
                             // Force ImageList to create handle and copy the bitmap immediately
@@ -866,7 +859,7 @@ public class KryptonFileSystemTreeView : KryptonTreeView
                         }
 
                         // Validate and add - ImageList will make its own copy
-                        if (bitmapToAdd.Width > 0 && bitmapToAdd.Height > 0)
+                        if (bitmapToAdd is { Width: > 0, Height: > 0 })
                         {
                             int index = _imageList.Images.Count;
                             _imageList.Images.Add(bitmapToAdd);
@@ -945,7 +938,7 @@ public class KryptonFileSystemTreeView : KryptonTreeView
                         }
 
                         // Validate and add - ImageList will make its own copy
-                        if (bitmapToAdd.Width > 0 && bitmapToAdd.Height > 0)
+                        if (bitmapToAdd is { Width: > 0, Height: > 0 })
                         {
                             int index = _imageList.Images.Count;
                             _imageList.Images.Add(bitmapToAdd);
@@ -1036,7 +1029,7 @@ public class KryptonFileSystemTreeView : KryptonTreeView
                         }
 
                         // Validate and add - ImageList will make its own copy
-                        if (bitmapToAdd.Width > 0 && bitmapToAdd.Height > 0)
+                        if (bitmapToAdd is { Width: > 0, Height: > 0 })
                         {
                             int index = _imageList.Images.Count;
                             _imageList.Images.Add(bitmapToAdd);

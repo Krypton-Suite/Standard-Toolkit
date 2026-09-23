@@ -362,7 +362,7 @@ public class KryptonTreeComboBox : KryptonComboBoxUserControl
     private string FormatFullPath(TreeNode node)
     {
         string fullPath = node.FullPath;
-        if (_pathSeparator.Length == 1 && _pathSeparator[0] == '\\')
+        if (_pathSeparator is ['\\'])
         {
             return fullPath;
         }

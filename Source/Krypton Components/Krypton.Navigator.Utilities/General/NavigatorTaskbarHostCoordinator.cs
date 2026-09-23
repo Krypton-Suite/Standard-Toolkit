@@ -79,7 +79,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         Form? current = start;
         while (current != null)
         {
-            if (current.ShowInTaskbar && !current.IsDisposed)
+            if (current is { ShowInTaskbar: true, IsDisposed: false })
             {
                 return current;
             }
@@ -178,11 +178,11 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
             var keepGroups = new HashSet<GroupKey>();
             foreach (EligibleSlot slot in eligible)
             {
-                if (slot.Kind == SlotKind.Page && slot.Page != null)
+                if (slot is { Kind: SlotKind.Page, Page: not null })
                 {
                     keepPages.Add(slot.Page);
                 }
-                else if (slot.Kind == SlotKind.Group && slot.GroupKey != null)
+                else if (slot is { Kind: SlotKind.Group, GroupKey: not null })
                 {
                     keepGroups.Add(slot.GroupKey);
                 }
@@ -218,7 +218,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
 
             foreach (EligibleSlot slot in eligible)
             {
-                if (slot.Kind == SlotKind.Page && slot.Page != null)
+                if (slot is { Kind: SlotKind.Page, Page: not null })
                 {
                     var item = new EligiblePage(slot.Component!, slot.Navigator!, slot.Page);
                     if (!_entries.TryGetValue(slot.Page, out PageEntry? entry))
@@ -243,7 +243,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
                         EnqueueIdleCapture(item.Page);
                     }
                 }
-                else if (slot.Kind == SlotKind.Group && slot.GroupKey != null && slot.Group != null)
+                else if (slot is { Kind: SlotKind.Group, GroupKey: not null, Group: not null })
                 {
                     if (!_groupEntries.TryGetValue(slot.GroupKey, out GroupEntry? groupEntry))
                     {
@@ -276,13 +276,13 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
             {
                 EligibleSlot slot = eligible[i];
                 IntPtr handle = IntPtr.Zero;
-                if (slot.Kind == SlotKind.Page && slot.Page != null &&
+                if (slot is { Kind: SlotKind.Page, Page: not null } &&
                     _entries.TryGetValue(slot.Page, out PageEntry? pageEntry) &&
                     pageEntry.Proxy.IsHandleCreated)
                 {
                     handle = pageEntry.Proxy.Handle;
                 }
-                else if (slot.Kind == SlotKind.Group && slot.GroupKey != null &&
+                else if (slot is { Kind: SlotKind.Group, GroupKey: not null } &&
                          _groupEntries.TryGetValue(slot.GroupKey, out GroupEntry? groupEntry) &&
                          groupEntry.Proxy.IsHandleCreated)
                 {
@@ -351,7 +351,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
 
     public void OnSelectedPageChanged(KryptonNavigatorTaskbarThumbnails component, KryptonPage? previousPage)
     {
-        if (previousPage != null && !previousPage.IsDisposed)
+        if (previousPage is { IsDisposed: false })
         {
             previousPage.Invalidated -= OnSelectedPageInvalidated;
             previousPage.Paint -= OnSelectedPagePaint;
@@ -496,12 +496,12 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
 
     public Size GetLivePreviewSize(KryptonPage page)
     {
-        if (_hostForm.ClientSize.Width > 0 && _hostForm.ClientSize.Height > 0)
+        if (_hostForm.ClientSize is { Width: > 0, Height: > 0 })
         {
             return _hostForm.ClientSize;
         }
 
-        if (page.IsHandleCreated && page.Width > 0 && page.Height > 0)
+        if (page is { IsHandleCreated: true, Width: > 0, Height: > 0 })
         {
             return page.Size;
         }
@@ -511,7 +511,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
 
     public Size GetGroupLivePreviewSize()
     {
-        if (_hostForm.ClientSize.Width > 0 && _hostForm.ClientSize.Height > 0)
+        if (_hostForm.ClientSize is { Width: > 0, Height: > 0 })
         {
             return _hostForm.ClientSize;
         }
@@ -744,9 +744,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
             return new EligiblePage(lastEntry.Component, lastEntry.Navigator, _lastActivatedPage);
         }
 
-        if (_lastActivatedNavigator != null &&
-            !_lastActivatedNavigator.IsDisposed &&
-            _lastActivatedNavigator.SelectedPage != null &&
+        if (_lastActivatedNavigator is { IsDisposed: false, SelectedPage: not null } &&
             _entries.ContainsKey(_lastActivatedNavigator.SelectedPage))
         {
             PageEntry entry = _entries[_lastActivatedNavigator.SelectedPage];
@@ -1188,7 +1186,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
         if (page.Width <= 0 || page.Height <= 0)
         {
             Size parentSize = page.Parent?.ClientSize ?? new Size(400, 300);
-            if (parentSize.Width > 0 && parentSize.Height > 0)
+            if (parentSize is { Width: > 0, Height: > 0 })
             {
                 page.SetBounds(page.Left, page.Top, parentSize.Width, parentSize.Height);
             }
@@ -1320,7 +1318,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
     {
         _debounceTimer?.Stop();
         KryptonPage? page = _debouncePage;
-        if (page != null && !page.IsDisposed)
+        if (page is { IsDisposed: false })
         {
             InvalidatePage(page);
         }
@@ -1820,7 +1818,7 @@ internal sealed class NavigatorTaskbarHostCoordinator : IDisposable
     private static bool IsTaskbarApiSupported()
     {
         Version version = Environment.OSVersion.Version;
-        return version.Major > 6 || (version.Major == 6 && version.Minor >= 1);
+        return version.Major > 6 || version is { Major: 6, Minor: >= 1 };
     }
 
     private sealed class FormTaskbarListener : NativeWindow

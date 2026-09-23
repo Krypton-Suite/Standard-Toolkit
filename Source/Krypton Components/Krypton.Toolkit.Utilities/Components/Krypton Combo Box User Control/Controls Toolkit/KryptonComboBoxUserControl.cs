@@ -481,7 +481,7 @@ public class KryptonComboBoxUserControl : KryptonTextBox
     private void OnEditorKeyDown(object? sender, KeyEventArgs e)
     {
         // F4 toggles, Alt+Down opens, Alt+Up closes - matches WinForms ComboBox conventions
-        if (e.KeyCode == Keys.F4 && !e.Alt && !e.Control && !e.Shift)
+        if (e is { KeyCode: Keys.F4, Alt: false, Control: false, Shift: false })
         {
             if (IsDroppedDown)
             {
@@ -496,7 +496,7 @@ public class KryptonComboBoxUserControl : KryptonTextBox
             return;
         }
 
-        if (e.Alt && e.KeyCode == Keys.Down)
+        if (e is { Alt: true, KeyCode: Keys.Down })
         {
             if (!IsDroppedDown)
             {
@@ -507,7 +507,7 @@ public class KryptonComboBoxUserControl : KryptonTextBox
             return;
         }
 
-        if (e.Alt && e.KeyCode == Keys.Up)
+        if (e is { Alt: true, KeyCode: Keys.Up })
         {
             if (IsDroppedDown)
             {

@@ -231,7 +231,7 @@ public class KryptonMiniToolbar : Component
     /// Gets whether a Mini Toolbar popup is currently displayed.
     /// </summary>
     [Browsable(false)]
-    public bool IsShowing => _popup != null && !_popup.IsDisposed && _popup.Visible;
+    public bool IsShowing => _popup is { IsDisposed: false, Visible: true };
 
     /// <summary>
     /// Shows the Mini Toolbar as a tracked popup above or at the screen rectangle.

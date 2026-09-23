@@ -363,7 +363,7 @@ public class KryptonBackstageView : KryptonPanel
             
             // Check if the form is still open (FormClosing event may have cancelled the close)
             var form = FindMainForm();
-            if (form != null && !form.IsDisposed && form.Visible)
+            if (form is { IsDisposed: false, Visible: true })
             {
                 // Form is still open, restore the navigation list selection
                 _suspendSync = true;
@@ -429,7 +429,7 @@ public class KryptonBackstageView : KryptonPanel
     {
         // Find the main form (the form that owns the ribbon)
         var form = FindMainForm();
-        if (form != null && !form.IsDisposed)
+        if (form is { IsDisposed: false })
         {
             form.Close();
         }
@@ -847,7 +847,7 @@ public class KryptonBackstageView : KryptonPanel
             // Always add the Close button as the last item
             _navigationList.Items.Add(_closeItem);
 
-            if (_selectedPage != null && _selectedPage.VisibleInNavigation)
+            if (_selectedPage is { VisibleInNavigation: true })
             {
                 _navigationList.SelectedItem = _selectedPage;
             }

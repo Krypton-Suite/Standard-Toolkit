@@ -341,7 +341,7 @@ internal static class ToolkitStringsJsonPersistence
     // braces, colons, commas, etc. — those were never special inside the string token.
     private static string UnquoteJsonString(string token)
     {
-        if (token.Length >= 2 && token[0] == '"' && token[token.Length - 1] == '"')
+        if (token is ['"', _, ..] && token[token.Length - 1] == '"')
         {
             token = token.Substring(1, token.Length - 2);
         }

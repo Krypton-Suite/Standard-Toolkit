@@ -96,7 +96,7 @@ public class ColorInverting
     /// <returns>True if the string is in the correct format, otherwise false.</returns>
     public static bool IsHexColor(string hexColor)
     {
-        if (hexColor.Length == 7 && hexColor[0] == '#')
+        if (hexColor is ['#', _, _, _, _, _, _])
         {
             try
             {

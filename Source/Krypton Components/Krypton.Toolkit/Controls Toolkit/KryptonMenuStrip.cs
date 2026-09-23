@@ -250,7 +250,7 @@ public class KryptonMenuStrip : MenuStrip,
     {
         if (!IsDisposed)
         {
-            if (e != null && e.NeedLayout)
+            if (e is { NeedLayout: true })
             {
                 PerformLayout();
             }
