@@ -128,7 +128,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(Configuration)' == 'RC'">
+		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<PropertyGroup>
 				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
@@ -237,7 +237,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(Configuration)' == 'RC'">
+		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<PropertyGroup>
 				<PackageId Condition="'$(TFMs)' == 'lite' And '$(PackageId)' != ''">$(PackageId).RC.Lite</PackageId>
 
