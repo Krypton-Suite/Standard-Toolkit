@@ -219,7 +219,7 @@ public abstract class PaletteVisualStudioBase : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTableVisualStudio? _table;
 
     private readonly ImageList _checkBoxList;
@@ -230,53 +230,9 @@ public abstract class PaletteVisualStudioBase : PaletteBase
 
     #region Identity
 
-    /// <summary>Initializes a new instance of the <see cref="PaletteVisualStudioBase" /> class.</summary>
-    /// <param name="schemeColors">The scheme colours.</param>
-    /// <param name="checkBoxList">The check box list.</param>
-    /// <param name="galleryButtonList">The gallery button list.</param>
-    /// <param name="radioButtonArray">The radio button array.</param>
-    /// <param name="trackBarColors">The track bar colours.</param>
-    public PaletteVisualStudioBase([DisallowNull] Color[] schemeColors,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
-    {
-        Debug.Assert(schemeColors != null);
-        Debug.Assert(checkBoxList != null);
-        Debug.Assert(galleryButtonList != null);
-        Debug.Assert(radioButtonArray != null);
-
-        ThemeName = nameof(PaletteVisualStudioBase);
-
-        if (schemeColors != null)
-        {
-            _ribbonColors = schemeColors;
-        }
-
-        if (checkBoxList != null)
-        {
-            _checkBoxList = checkBoxList;
-        }
-
-        if (galleryButtonList != null)
-        {
-            _galleryButtonList = galleryButtonList;
-        }
-
-        if (radioButtonArray != null)
-        {
-            _radioButtonArray = radioButtonArray;
-        }
-
-        DefineFonts();
-    }
-
     /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteVisualStudioBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -290,10 +246,9 @@ public abstract class PaletteVisualStudioBase : PaletteBase
 
         ThemeName = nameof(PaletteVisualStudioBase);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -311,7 +266,6 @@ public abstract class PaletteVisualStudioBase : PaletteBase
         }
 
         DefineFonts();
-        BaseColors = scheme;
     }
 
     #endregion
