@@ -89,8 +89,7 @@ internal sealed class KryptonTreeComboBoxDropDown : UserControl, IKryptonDropDow
     private void OnNodeMouseClick(object? sender, TreeNodeMouseClickEventArgs e)
     {
         if (_owner.CommitOnNodeClick
-            && e.Button == MouseButtons.Left
-            && e.Node != null
+            && e is { Button: MouseButtons.Left, Node: not null }
             && _owner.CanSelectNode(e.Node))
         {
             CommitNode(e.Node);

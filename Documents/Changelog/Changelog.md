@@ -45,6 +45,7 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4081](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4081), Use pattern matching where possible
 * Implemented [#4417](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4417), `KryptonTextBox.InputMode` (`Any` / `Digits` / `Letters` / `Alphanumeric`) filters typing and paste; replaces the unfinished alphanumeric-mode stub.
 * Resolved [#4421](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4421) / [#4422](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4422), Calendar "today" border override no longer uses a dead `Disabled` check inside `TodayOverride` (always returns the today border colour across builtin palettes)
 * Resolved [#4412](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4412), `LabelStyle.AlternateControl` / `AlternatePanel` text colour now uses `StatusStripText` in all builtin palette bases (short and long text).

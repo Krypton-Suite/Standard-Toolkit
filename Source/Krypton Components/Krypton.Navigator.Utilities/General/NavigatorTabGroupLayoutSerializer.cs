@@ -79,12 +79,12 @@ public static class NavigatorTabGroupLayoutSerializer
         {
             while (xmlReader.Read())
             {
-                if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name == GroupsElement)
+                if (xmlReader is { NodeType: XmlNodeType.EndElement, Name: GroupsElement })
                 {
                     break;
                 }
 
-                if (xmlReader.NodeType == XmlNodeType.Element && xmlReader.Name == GroupElement)
+                if (xmlReader is { NodeType: XmlNodeType.Element, Name: GroupElement })
                 {
                     var group = new NavigatorTabGroup(
                         XmlHelper.XmlAttributeToText(xmlReader, @"Id"),
@@ -198,12 +198,12 @@ public static class NavigatorTabGroupLayoutSerializer
         {
             while (xmlReader.Read())
             {
-                if (xmlReader.NodeType == XmlNodeType.EndElement && xmlReader.Name == PagesElement)
+                if (xmlReader is { NodeType: XmlNodeType.EndElement, Name: PagesElement })
                 {
                     break;
                 }
 
-                if (xmlReader.NodeType == XmlNodeType.Element && xmlReader.Name == PageElement)
+                if (xmlReader is { NodeType: XmlNodeType.Element, Name: PageElement })
                 {
                     ordered.Add((
                         XmlHelper.XmlAttributeToText(xmlReader, @"UN"),

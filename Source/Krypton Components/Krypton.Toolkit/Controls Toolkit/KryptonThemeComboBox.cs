@@ -98,7 +98,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// </summary>
     private string GetSelectedThemeName()
     {
-        if (SelectedIndex > -1 && SelectedItem is string s && s.Length > 0)
+        if (SelectedIndex > -1 && SelectedItem is string { Length: > 0 } s)
         {
             return s;
         }

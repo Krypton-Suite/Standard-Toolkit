@@ -295,7 +295,7 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
             _content.Dock = _originalDock;
             _content.Visible = _originalVisible;
 
-            if (_originalParent != null && !_originalParent.IsDisposed)
+            if (_originalParent is { IsDisposed: false })
             {
                 _originalParent.Controls.Add(_content);
 

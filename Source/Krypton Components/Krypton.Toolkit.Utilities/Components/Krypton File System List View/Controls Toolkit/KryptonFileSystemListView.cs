@@ -251,7 +251,7 @@ public class KryptonFileSystemListView : KryptonListView
                             }
 
                             // Validate and add - ImageList will make its own copy
-                            if (bitmapToAdd.Width > 0 && bitmapToAdd.Height > 0)
+                            if (bitmapToAdd is { Width: > 0, Height: > 0 })
                             {
                                 _imageList.Images.Add(bitmapToAdd);
                                 // Force ImageList to create handle and copy the bitmap immediately
@@ -282,7 +282,7 @@ public class KryptonFileSystemListView : KryptonListView
                     g.FillRectangle(new SolidBrush(Color.LightGray), 0, 0, defaultBitmap.Width, defaultBitmap.Height);
                 }
 
-                if (defaultBitmap.Width > 0 && defaultBitmap.Height > 0)
+                if (defaultBitmap is { Width: > 0, Height: > 0 })
                 {
                     _imageList.Images.Add(defaultBitmap);
                     // Force ImageList to create handle and copy the bitmap immediately
@@ -665,7 +665,7 @@ public class KryptonFileSystemListView : KryptonListView
             }
 
             // Validate
-            if (bitmapToAdd.Width > 0 && bitmapToAdd.Height > 0)
+            if (bitmapToAdd is { Width: > 0, Height: > 0 })
             {
                 return bitmapToAdd;
             }

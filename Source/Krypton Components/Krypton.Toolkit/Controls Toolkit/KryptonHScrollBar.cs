@@ -566,7 +566,7 @@ public class KryptonHScrollBar : Control
 
         // Apply clipping to round the control corners if rounding is specified
         Region? originalClip = null;
-        if (borderRounding > 0 && ClientRectangle.Width > 0 && ClientRectangle.Height > 0)
+        if (borderRounding > 0 && ClientRectangle is { Width: > 0, Height: > 0 })
         {
             originalClip = e.Graphics.Clip?.Clone();
             using GraphicsPath roundedPath = CommonHelper.RoundedRectanglePath(ClientRectangle, (int)Math.Round(borderRounding));

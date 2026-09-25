@@ -531,8 +531,7 @@ internal static class RibbonTranslationsXmlPersistence
         var textsProp = target.GetType().GetProperty(nameof(KryptonRibbonNotificationBarData.ActionButtonTexts),
             BindingFlags.Instance | BindingFlags.Public);
         if (textsProp?.PropertyType == typeof(string[]) &&
-            textsProp.GetValue(target, null) is string[] texts &&
-            texts.Length > 0)
+            textsProp.GetValue(target, null) is string[] { Length: > 0 } texts)
         {
             var wrapper = doc.CreateElement(textsProp.Name);
             for (var i = 0; i < texts.Length; i++)
@@ -890,7 +889,7 @@ internal static class RibbonTranslationsXmlPersistence
             options.ChangeService.OnComponentChanging(component, descriptor);
         }
 
-        if (descriptor != null && descriptor.IsReadOnly == false)
+        if (descriptor is { IsReadOnly: false })
         {
             descriptor.SetValue(target, value);
         }

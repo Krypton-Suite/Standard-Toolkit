@@ -253,7 +253,7 @@ public partial class ApplicationStringsTest : KryptonForm
         {
             foreach (System.Xml.XmlNode node in values.ChildNodes)
             {
-                if (node is System.Xml.XmlElement el && el.Name == @"String")
+                if (node is System.Xml.XmlElement { Name: @"String" } el)
                 {
                     result[$@"Values.{el.GetAttribute(@"Key")}"] = el.GetAttribute(@"Value");
                 }
