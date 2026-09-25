@@ -3690,7 +3690,7 @@ public class KryptonWorkspace : VisualContainerControl,
     private void CompactAtLeastOneVisibleCell()
     {
         // If there are no visible cells found in entire hierarchy
-        if (Root.Children != null && !Root.Children.ContainsVisibleCell)
+        if (Root.Children is { ContainsVisibleCell: false })
         {
             Root.Children.Add(new KryptonWorkspaceCell());
         }
@@ -3747,9 +3747,8 @@ public class KryptonWorkspace : VisualContainerControl,
         if (!IsActivePageChangedEventSuspended)
         {
             // If change occurred on the active cell
-            var cell = sender as KryptonWorkspaceCell;
 
-            if (cell is not null && cell == ActiveCell)
+            if (sender is KryptonWorkspaceCell cell && cell == ActiveCell)
             {
                 if (cell.SelectedPage != ActivePage)
                 {

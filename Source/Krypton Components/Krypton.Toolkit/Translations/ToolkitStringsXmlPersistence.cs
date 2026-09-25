@@ -89,8 +89,7 @@ internal static class ToolkitStringsXmlPersistence
             throw new ArgumentException(@"Xml document does not have a root element.");
         }
 
-        var root = doc.SelectSingleNode(RootElementName) as XmlElement;
-        if (root == null)
+        if (doc.SelectSingleNode(RootElementName) is not XmlElement root)
         {
             throw new ArgumentException($@"Root element must be called '{RootElementName}'.");
         }
@@ -404,8 +403,7 @@ internal static class ToolkitStringsXmlPersistence
         }
 
         // DefaultValue for string properties should be string-compatible, but be defensive.
-        var defaultString = defaultAttr.Value as string;
-        if (defaultString == null)
+        if (defaultAttr.Value is not string defaultString)
         {
             return false;
         }
@@ -438,8 +436,7 @@ internal static class ToolkitStringsXmlPersistence
                     continue;
                 }
 
-                var child = parentElement.SelectSingleNode(prop.Name) as XmlElement;
-                if (child == null)
+                if (parentElement.SelectSingleNode(prop.Name) is not XmlElement child)
                 {
                     continue;
                 }
@@ -459,8 +456,7 @@ internal static class ToolkitStringsXmlPersistence
             // Nested string sets (GlobalId derived): recurse.
             if (typeof(GlobalId).IsAssignableFrom(prop.PropertyType))
             {
-                var container = parentElement.SelectSingleNode(prop.Name) as XmlElement;
-                if (container == null)
+                if (parentElement.SelectSingleNode(prop.Name) is not XmlElement container)
                 {
                     continue;
                 }

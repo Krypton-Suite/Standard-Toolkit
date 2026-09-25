@@ -3214,10 +3214,9 @@ public class KryptonCustomPaletteBase : PaletteBase
             }
 
             // Try and grab the root element
-            var root = doc.SelectSingleNode("KryptonPalette") as XmlElement;
 
             // We insist the root is always present
-            if (root == null)
+            if (doc.SelectSingleNode("KryptonPalette") is not XmlElement root)
             {
                 throw new ArgumentException("Root element must be called 'KryptonPalette'.");
             }

@@ -94,8 +94,7 @@ public static class ToolkitStringsXmlMerge
                 continue;
             }
 
-            var targetEl = target.SelectSingleNode(sourceEl.Name) as XmlElement;
-            if (targetEl == null)
+            if (target.SelectSingleNode(sourceEl.Name) is not XmlElement targetEl)
             {
                 // New element — import it.
                 var imported = doc.ImportNode(sourceEl, deep: true);

@@ -1121,8 +1121,7 @@ public class KryptonRibbon : VisualSimple,
                     {
                         // Only interested is the owning form is usable and has the focus
                         if (TabsArea is not null
-                            && FindForm() is Form ownerForm 
-                            && ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
+                            && FindForm() is Form { Visible: true, Enabled: true, ContainsFocus: true })
                         {
                             // Extract the x and y mouse position from message
                             var pt = new Point
@@ -1134,21 +1133,17 @@ public class KryptonRibbon : VisualSimple,
                             // Only interested if over the tabs area
                             if (TabsArea.ClientRectangle.Contains(PointToClient(pt)) || (_scrollTabGroupArea && GroupsArea.ClientRectangle.Contains(PointToClient(pt))))
                             {
-                                if (MouseControlFinder.ControlUnderMouse(pt) is Control control && control.Enabled)
+                                if (MouseControlFinder.ControlUnderMouse(pt) is Control { Enabled: true } control)
                                 {
                                     if (control is ComboBox or KryptonTrackBar or KryptonDateTimePicker or VisualPopupAppMenu or VisualContextMenu || control.Parent is DomainUpDown or NumericUpDown)
                                     {
                                         return false;
                                     }
-                                    else if (control is TextBox textBox
-                                        && textBox.Multiline
-                                        && textBox.ScrollBars is ScrollBars.Both or ScrollBars.Vertical or ScrollBars.Horizontal)
+                                    else if (control is TextBox { Multiline: true, ScrollBars: ScrollBars.Both or ScrollBars.Vertical or ScrollBars.Horizontal })
                                     {
                                         return false;
                                     }
-                                    else if (control is RichTextBox richTextBox
-                                        && richTextBox.Multiline
-                                        && richTextBox.ScrollBars is RichTextBoxScrollBars.Vertical or RichTextBoxScrollBars.ForcedVertical or RichTextBoxScrollBars.Both or RichTextBoxScrollBars.ForcedBoth)
+                                    else if (control is RichTextBox { Multiline: true, ScrollBars: RichTextBoxScrollBars.Vertical or RichTextBoxScrollBars.ForcedVertical or RichTextBoxScrollBars.Both or RichTextBoxScrollBars.ForcedBoth })
                                     {
                                         return false;
                                     }

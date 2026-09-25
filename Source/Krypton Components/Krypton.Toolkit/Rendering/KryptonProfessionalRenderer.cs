@@ -262,7 +262,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
         // Establish drawing rect: skip top 2px to respect border line drawing (as existing renderers do)
         RectangleF backRect = new RectangleF(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
-        if (!(backRect.Width > 0 && backRect.Height > 0))
+        if (!(backRect is { Width: > 0, Height: > 0 }))
         {
             return false;
         }
@@ -331,8 +331,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
     private bool TryRenderMenuItemPaletteOverride(ToolStripItemRenderEventArgs e)
     {
-        var ktmi = e.Item as KryptonToolStripMenuItem;
-        if (ktmi == null)
+        if (e.Item is not KryptonToolStripMenuItem ktmi)
         {
             return TryRenderContextMenuItemBackground(e);
         }
@@ -353,8 +352,8 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
             highlight = ktmi.StateNormal.ItemHighlight;
         }
 
-        bool hasBack = !highlight.IsDefault && !highlight.Back.IsDefault;
-        bool hasBorder = !highlight.IsDefault && !highlight.Border.IsDefault;
+        bool hasBack = highlight is { IsDefault: false, Back.IsDefault: false };
+        bool hasBorder = highlight is { IsDefault: false, Border.IsDefault: false };
         if (!hasBack && !hasBorder)
         {
             return TryRenderContextMenuItemBackground(e);
@@ -383,8 +382,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
     private bool TryRenderMenuItemColorTableOverride(ToolStripItemRenderEventArgs e)
     {
-        var internalKCT = KCT as KryptonInternalKCT;
-        if (internalKCT == null || e.ToolStrip == null)
+        if (KCT is not KryptonInternalKCT internalKCT || e.ToolStrip == null)
         {
             return false;
         }

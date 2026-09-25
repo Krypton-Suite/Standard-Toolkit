@@ -333,8 +333,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
 
     private void OnAddTriple(object? sender, EventArgs e)
     {
-        if ((_ribbonGroup.Ribbon != null) 
-            && _ribbonGroup.RibbonTab is not null
+        if (_ribbonGroup is { Ribbon: not null, RibbonTab: not null }
             && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
         {
             // Use a transaction to support undo/redo actions

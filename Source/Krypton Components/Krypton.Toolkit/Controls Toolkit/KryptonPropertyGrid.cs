@@ -1035,13 +1035,11 @@ public class KryptonPropertyGrid : VisualControlBase,
 
     private void OnResetClick(object? sender, EventArgs e)
     {
-        if (_propertyGrid.SelectedGridItem is GridItem selectedGridItem && selectedGridItem.PropertyDescriptor != null)
+        if (_propertyGrid.SelectedGridItem is GridItem { PropertyDescriptor: not null } selectedGridItem)
         {
             PropertyDescriptor descriptor = selectedGridItem.PropertyDescriptor;
 
-            DefaultValueAttribute? defaultValueAttribute = descriptor.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
-
-            if (defaultValueAttribute != null)
+            if (descriptor.Attributes[typeof(DefaultValueAttribute)] is DefaultValueAttribute defaultValueAttribute)
             {
                 descriptor.SetValue(_propertyGrid.SelectedObject, defaultValueAttribute.Value);
             }

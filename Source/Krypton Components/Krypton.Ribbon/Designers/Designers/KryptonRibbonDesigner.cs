@@ -51,7 +51,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
         // Cast to correct type
         _ribbon = component as KryptonRibbon ?? throw new ArgumentNullException(nameof(_ribbon));
 
-        if (_ribbon.GetViewManager() is ViewManager viewManager && viewManager is not null)
+        if (_ribbon.GetViewManager() is ViewManager viewManager)
         {
             // Hook into ribbon events
             viewManager.MouseUpProcessed += OnRibbonMouseUp;
@@ -159,7 +159,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
             {
                 if (_ribbon is not null)
                 {
-                    if (_ribbon.GetViewManager() is ViewManager viewManager && viewManager is not null)
+                    if (_ribbon.GetViewManager() is ViewManager viewManager)
                     {
                         // Unhook from navigator events
                         viewManager.MouseUpProcessed -= OnRibbonMouseUp;
@@ -341,8 +341,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
     {
         // Get any component associated with the current mouse position
         if (_ribbon is not null
-            && _ribbon.DesignerComponentFromPoint(new Point(e.X, e.Y)) is Component component
-            && component is not null)
+            && _ribbon.DesignerComponentFromPoint(new Point(e.X, e.Y)) is Component component)
         { 
             // Select the component
             ArrayList selectionList = [component];
@@ -360,9 +359,7 @@ internal class KryptonRibbonDesigner : ParentControlDesigner
 
         // We are only interested in the contained components and not the ribbon control
         if ( _ribbon is not null
-             && _ribbon.DesignerComponentFromPoint(pt) is Component component
-             && component is not null
-             && component is not System.Windows.Forms.Control)
+             && _ribbon.DesignerComponentFromPoint(pt) is Component component and not System.Windows.Forms.Control)
         {
             // Get the designer for the component
             IDesigner? designer = _designerHost!.GetDesigner(component);

@@ -530,9 +530,7 @@ internal class KryptonRibbonAccessibleObject : Control.ControlAccessibleObject
         {
             get
             {
-                if (_item is KryptonRibbonGroupCustomControl customControl
-                    && customControl.CustomControl != null
-                    && customControl.CustomControl.Visible)
+                if (_item is KryptonRibbonGroupCustomControl { CustomControl.Visible: true } customControl)
                 {
                     return customControl.CustomControl.RectangleToScreen(customControl.CustomControl.ClientRectangle);
                 }
@@ -563,8 +561,7 @@ internal class KryptonRibbonAccessibleObject : Control.ControlAccessibleObject
             {
                 checkBox.PerformClick();
             }
-            else if (_item is KryptonRibbonGroupCustomControl customControl
-                && customControl.CustomControl?.CanFocus == true)
+            else if (_item is KryptonRibbonGroupCustomControl { CustomControl.CanFocus: true } customControl)
             {
                 customControl.CustomControl.Focus();
             }

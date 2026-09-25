@@ -149,10 +149,9 @@ internal class KryptonSplitterPanelDesigner : KryptonPanelDesigner,
         foreach (DictionaryEntry entry in properties)
         {
             // Get the property descriptor for the entry
-            var descriptor = entry.Value as PropertyDescriptor;
 
             // Is this the 'Name' we are searching for?
-            if (descriptor is not null && descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
+            if (entry.Value is PropertyDescriptor descriptor && descriptor.Name.Equals((@"Name")) && descriptor.DesignTimeOnly)
             {
                 // Hide the 'Name' property so the user cannot modify it
                 var attributeArray = new Attribute[2] { BrowsableAttribute.No, DesignerSerializationVisibilityAttribute.Hidden };

@@ -116,9 +116,7 @@ internal class KryptonWorkspaceSequenceDesigner : ComponentDesigner
             // We need to remove all children from the sequence
             for (var j = _sequence!.Children!.Count - 1; j >= 0; j--)
             {
-                var comp = _sequence.Children[j] as Component;
-
-                if (comp is not null)
+                if (_sequence.Children[j] is Component comp)
                 {
                     // If the component is a control...
                     if ((comp is Control control) && (workspace != null))

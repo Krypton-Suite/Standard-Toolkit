@@ -1022,8 +1022,7 @@ public partial class KryptonContextMenuCollectionEditor
             var nodeIndex = -1;
 
             // ReSharper disable once UsePatternMatching
-            MenuTreeNode? node = _treeView.SelectedNode as MenuTreeNode;
-            if (node != null)
+            if (_treeView.SelectedNode is MenuTreeNode node)
             {
                 item = node.Item;
                 nodeIndex = _treeView.Nodes.IndexOf(node);
@@ -1031,7 +1030,7 @@ public partial class KryptonContextMenuCollectionEditor
                 {
                     parentNodeCount = node.Parent.Nodes.Count;
                     nodeIndex = node.Parent.Nodes.IndexOf(node);
-                    node = node.Parent as MenuTreeNode;
+                    node = (MenuTreeNode)node.Parent;
                     if (node != null)
                     {
                         parent = node.Item;

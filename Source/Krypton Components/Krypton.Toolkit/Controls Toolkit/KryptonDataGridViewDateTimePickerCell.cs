@@ -715,7 +715,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
                     buttonWidth,
                     textArea.Height);
 
-                if (false && DataGridView is KryptonDataGridView kgrid && kgrid.Renderer is { } renderer)
+                if (false && DataGridView is KryptonDataGridView { Renderer: { } renderer } kgrid)
                 {
                     var rc = new RenderContext(kgrid, graphics, buttonRect, renderer);
                     var triple = new PaletteTripleToPalette(kgrid.Redirector,
@@ -735,8 +735,7 @@ public class KryptonDataGridViewDateTimePickerCell : DataGridViewTextBoxCell
 
                 if (DataGridView is DataGridView grid
                     && grid.Rows.SharedRow(rowIndex).Index != -1
-                    && formattedValue is string str
-                    && str.Length > 0)
+                    && formattedValue is string { Length: > 0 } str)
                 {
                     var provider = CommonHelper.ResolveFormatProvider(cellStyle);
                     var culture = CommonHelper.ResolveCultureFromProvider(provider);

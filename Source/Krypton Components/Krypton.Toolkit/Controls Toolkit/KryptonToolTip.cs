@@ -527,7 +527,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     private static bool IsDesignMode(Control? control)
     {
         Control? walker = control;
-        while (walker != null && !walker.IsDisposed)
+        while (walker is { IsDisposed: false })
         {
             if (walker.Site?.DesignMode == true)
             {
@@ -587,8 +587,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     private Rectangle GetFallbackPlacementRect(Control control)
     {
         if (_placementRectangles.TryGetValue(control, out PlacementRectangleAssociation association)
-            && !association.IsScreenCoordinates
-            && !association.Rectangle.IsEmpty)
+            && association is { IsScreenCoordinates: false, Rectangle.IsEmpty: false })
         {
             return association.Rectangle;
         }
