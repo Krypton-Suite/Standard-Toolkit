@@ -205,7 +205,7 @@ internal class ViewDrawCheckBoxExtendedContent : ViewDrawContent
         RightToLeft rtl = context.Control!.RightToLeft;
 
         string shortText = Values.GetShortText() ?? string.Empty;
-        if (shortText.Length > 0 && _shortTextRect.Width > 0 && _shortTextRect.Height > 0)
+        if (shortText.Length > 0 && _shortTextRect is { Width: > 0, Height: > 0 })
         {
             Color shortColor = paletteContent.GetContentShortTextColor1(State);
             Font shortFont = paletteContent.GetContentShortTextFont(State)!;
@@ -215,7 +215,7 @@ internal class ViewDrawCheckBoxExtendedContent : ViewDrawContent
         if (!_skipSubtextDrawing)
         {
             string longText = Values.GetLongText() ?? string.Empty;
-            if (longText.Length > 0 && _longTextRect.Width > 0 && _longTextRect.Height > 0)
+            if (longText.Length > 0 && _longTextRect is { Width: > 0, Height: > 0 })
             {
                 Color longColor = _subtextForeColor.IsEmpty
                     ? paletteContent.GetContentLongTextColor1(State)
@@ -230,7 +230,7 @@ internal class ViewDrawCheckBoxExtendedContent : ViewDrawContent
             Rectangle focusRect = _skipSubtextDrawing && _shortTextRect.Width > 0
                 ? _shortTextRect
                 : Rectangle.Union(_shortTextRect, _longTextRect);
-            if (focusRect.Width > 0 && focusRect.Height > 0)
+            if (focusRect is { Width: > 0, Height: > 0 })
             {
                 ControlPaint.DrawFocusRectangle(g, focusRect);
             }

@@ -18,7 +18,7 @@ public static class ThemeColorGridBuilder
             return Array.Empty<Color[]>();
         }
 
-        var filtered = schemeColors.Where(static c => !c.IsEmpty && (c.A == 255))
+        var filtered = schemeColors.Where(static c => c is { IsEmpty: false, A: 255 })
                                    .GroupBy(static c => c.ToArgb())
                                    .Select(static g => g.First())
                                    .ToArray();

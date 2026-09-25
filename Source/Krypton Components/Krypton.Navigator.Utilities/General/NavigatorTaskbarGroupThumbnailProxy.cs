@@ -65,7 +65,7 @@ internal sealed class NavigatorTaskbarGroupThumbnailProxy : Form
             return;
         }
 
-        if (owner != null && !owner.IsDisposed && owner.IsHandleCreated)
+        if (owner is { IsDisposed: false, IsHandleCreated: true })
         {
             Owner = owner;
         }

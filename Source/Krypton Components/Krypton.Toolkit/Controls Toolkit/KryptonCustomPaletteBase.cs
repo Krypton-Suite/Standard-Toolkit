@@ -3629,7 +3629,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             case string path:
                 filename = path;
                 break;
-            case object[] args when args.Length > 0:
+            case object[] { Length: > 0 } args:
                 filename = args[0] as string;
                 if (args.Length > 1)
                 {

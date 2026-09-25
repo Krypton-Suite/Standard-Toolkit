@@ -104,7 +104,7 @@ public class KryptonQRCode : KryptonPanel
         get => _moduleSize;
         set
         {
-            if (_moduleSize != value && value >= 1 && value <= 20)
+            if (_moduleSize != value && value is >= 1 and <= 20)
             {
                 _moduleSize = value;
                 Invalidate();

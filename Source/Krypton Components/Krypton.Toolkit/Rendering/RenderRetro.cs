@@ -365,7 +365,7 @@ internal static class RetroRenderHelper
     internal static bool IsRetroGridCellBack(IPaletteBack palette) =>
         palette is PaletteDataGridViewBackInherit dataGridViewBack
             ? IsRetroGridCellBack(dataGridViewBack.Inherit)
-            : palette is PaletteBack paletteBack && paletteBack.Inherit is not null
+            : palette is PaletteBack { Inherit: not null } paletteBack
                 ? IsRetroGridCellBack(paletteBack.Inherit)
                 : palette switch
                 {
@@ -407,7 +407,7 @@ internal static class RetroRenderHelper
         palette switch
         {
             PaletteBackToPalette back => IsChromeAdjacentButtonBackStyle(back.BackStyle),
-            PaletteBack back when back.Inherit != null => IsChromeAdjacentButtonBack(back.Inherit),
+            PaletteBack { Inherit: not null } back => IsChromeAdjacentButtonBack(back.Inherit),
             PaletteBackInheritRedirect backRedirect => IsChromeAdjacentButtonBackStyle(backRedirect.Style),
             PaletteBackInheritForced backForced => IsChromeAdjacentButtonBack(backForced.Inherit),
             PaletteBackLightenColors backLighten => IsChromeAdjacentButtonBack(backLighten.Inherit),

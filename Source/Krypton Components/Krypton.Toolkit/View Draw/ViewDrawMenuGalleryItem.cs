@@ -161,7 +161,7 @@ internal class ViewDrawMenuGalleryItem : ViewDrawButton, IContentValues
             return _item.Image;
         }
 
-        if (_gallery.ImageList != null && _item != null && _item.ImageIndex >= 0 && _item.ImageIndex < _gallery.ImageList.Images.Count)
+        if (_gallery.ImageList != null && _item is { ImageIndex: >= 0 } && _item.ImageIndex < _gallery.ImageList.Images.Count)
         {
             return _gallery.ImageList.Images[_item.ImageIndex];
         }

@@ -81,7 +81,7 @@ public class KryptonMacOSRenderer : KryptonMaterialRenderer
 
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
-        if (e.ToolStrip is MenuStrip && e.Item is ToolStripMenuItem && (e.Item.Selected || e.Item.Pressed))
+        if (e is { ToolStrip: MenuStrip, Item: ToolStripMenuItem } && (e.Item.Selected || e.Item.Pressed))
         {
             var textColor = KCT.Palette.GetContentShortTextColor1(
                 PaletteContentStyle.ContextMenuItemTextStandard, PaletteState.Tracking);

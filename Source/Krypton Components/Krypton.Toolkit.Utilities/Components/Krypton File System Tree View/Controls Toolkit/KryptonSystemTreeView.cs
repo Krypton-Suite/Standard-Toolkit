@@ -243,7 +243,7 @@ public class KryptonSystemTreeView : KryptonTreeView
                         }
 
                         // Validate and add - ImageList will make its own copy
-                        if (bitmapToAdd.Width > 0 && bitmapToAdd.Height > 0)
+                        if (bitmapToAdd is { Width: > 0, Height: > 0 })
                         {
                             _imageList.Images.Add(bitmapToAdd);
                             // Force ImageList to create handle and copy the bitmap immediately
@@ -270,7 +270,7 @@ public class KryptonSystemTreeView : KryptonTreeView
                     g.FillRectangle(new SolidBrush(Color.LightGray), 0, 0, defaultBitmap.Width, defaultBitmap.Height);
                 }
 
-                if (defaultBitmap.Width > 0 && defaultBitmap.Height > 0)
+                if (defaultBitmap is { Width: > 0, Height: > 0 })
                 {
                     _imageList.Images.Add(defaultBitmap);
                     // Force ImageList to create handle and copy the bitmap immediately
@@ -371,7 +371,7 @@ public class KryptonSystemTreeView : KryptonTreeView
                         }
 
                         // Validate and add to ImageList - ImageList will make its own copy
-                        if (bitmapToAdd.Width > 0 && bitmapToAdd.Height > 0)
+                        if (bitmapToAdd is { Width: > 0, Height: > 0 })
                         {
                             int index = _imageList.Images.Count;
                             _imageList.Images.Add(bitmapToAdd);
@@ -468,7 +468,7 @@ public class KryptonSystemTreeView : KryptonTreeView
                         }
 
                         // Validate and add to ImageList - ImageList will make its own copy
-                        if (bitmapToAdd.Width > 0 && bitmapToAdd.Height > 0)
+                        if (bitmapToAdd is { Width: > 0, Height: > 0 })
                         {
                             int index = _imageList.Images.Count;
                             _imageList.Images.Add(bitmapToAdd);
@@ -583,14 +583,10 @@ public class KryptonSystemTreeView : KryptonTreeView
         if (e.Node?.Tag is string path && Directory.Exists(path))
         {
             // Check if this node has a dummy child node
-            if (e.Node.Nodes.Count == 1)
+            if (e.Node.Nodes.Count == 1 && e.Node.Nodes[0].Name == DUMMY_NODE_KEY)
             {
-                TreeNode firstChild = e.Node.Nodes[0];
-                if (firstChild.Name == DUMMY_NODE_KEY)
-                {
-                    e.Node.Nodes.Clear();
-                    LoadDirectoryNodes(e.Node, path);
-                }
+                e.Node.Nodes.Clear();
+                LoadDirectoryNodes(e.Node, path);
             }
         }
     }

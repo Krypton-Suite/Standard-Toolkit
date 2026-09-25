@@ -424,7 +424,7 @@ internal sealed class VisualScreenColorPickerOverlay : Form
                 graphics.Clear(Color.Black);
             }
 
-            if (visible.Width > 0 && visible.Height > 0)
+            if (visible is { Width: > 0, Height: > 0 })
             {
                 try
                 {

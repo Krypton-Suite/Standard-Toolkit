@@ -178,7 +178,7 @@ public sealed class KryptonSplashScreenManager : IDisposable
 
         WaitForMinimumDisplay();
         VisualSplashScreenManagerForm? form = _form;
-        if (form != null && !form.IsDisposed && form.IsHandleCreated)
+        if (form is { IsDisposed: false, IsHandleCreated: true })
         {
             try
             {
@@ -267,7 +267,7 @@ public sealed class KryptonSplashScreenManager : IDisposable
         {
             VisualSplashScreenManagerForm? form = _form;
             _form = null;
-            if (form != null && !form.IsDisposed)
+            if (form is { IsDisposed: false })
             {
                 try
                 {

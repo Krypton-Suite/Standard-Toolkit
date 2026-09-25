@@ -1156,7 +1156,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
 
         while (e.XmlReader.Read())
         {
-            if (e.XmlReader.NodeType == XmlNodeType.EndElement && e.XmlReader.Name == @"CGD")
+            if (e.XmlReader is { NodeType: XmlNodeType.EndElement, Name: @"CGD" })
             {
                 // Workspace loader also consumes until CGD end — avoid double-consuming by
                 // only reading while still inside custom data. Break before the EndElement
@@ -1164,7 +1164,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
                 break;
             }
 
-            if (e.XmlReader.NodeType == XmlNodeType.Element && e.XmlReader.Name == @"NTG")
+            if (e.XmlReader is { NodeType: XmlNodeType.Element, Name: @"NTG" })
             {
                 NavigatorTabGroupLayoutSerializer.ReadGroups(e.XmlReader, _tabGroups);
             }
@@ -1708,7 +1708,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
         var targets = new List<KryptonNavigatorFormIntegrator>();
         foreach (KryptonNavigatorFormIntegrator integrator in _registeredIntegrators)
         {
-            if (integrator.IsIntegrated && integrator._navigator is { IsDisposed: false })
+            if (integrator is { IsIntegrated: true, _navigator: { IsDisposed: false } })
             {
                 targets.Add(integrator);
             }
@@ -1795,7 +1795,7 @@ public class KryptonNavigatorFormIntegrator : Component, IDragTargetProvider
             NavigatorTabGroupBarAccent.Apply(page, group, _tabGroupAppearance);
         }
 
-        if (targetNavigator.AllowTabSelect && targetNavigator.Pages.Count > 0)
+        if (targetNavigator is { AllowTabSelect: true, Pages.Count: > 0 })
         {
             targetNavigator.SelectedPage = targetNavigator.Pages[targetNavigator.Pages.Count - 1];
         }

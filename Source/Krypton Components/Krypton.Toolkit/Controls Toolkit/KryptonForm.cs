@@ -575,7 +575,7 @@ public class KryptonForm : VisualForm,
 
 		// Apply color-key transparency like legacy resources (top-left pixel)
 		Color key = Color.Magenta;
-		if (themedGrip is Bitmap b && b.Width > 0 && b.Height > 0)
+		if (themedGrip is Bitmap { Width: > 0, Height: > 0 } b)
 		{
 			key = b.GetPixel(0, 0);
 		}
@@ -3669,7 +3669,7 @@ public class KryptonForm : VisualForm,
 
 		ClearMacWindowEffects();
 
-		if (Renderer is RenderMaterial && Renderer is not RenderMacOS)
+		if (Renderer is RenderMaterial and not RenderMacOS)
 		{
 			if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
 			{
