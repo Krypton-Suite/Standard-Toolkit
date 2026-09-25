@@ -15,7 +15,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality for a control instance.
+/// Binds docking to a single host <see cref="Control"/>. Suspends layout during multi-step updates,
+/// enforces <see cref="InnerMinimum"/> after dockspace resize, and registers outer/inner edge drag targets.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -131,12 +132,13 @@ public class KryptonDockingControl : DockingElementOpenCollection
         switch (action)
         {
             case DockingPropogateAction.StartUpdate:
-                // Only the first of several 'StartUpdate' actions needs actioning
+                // Nested StartUpdate/EndUpdate pairs only suspend layout on the outermost pair.
                 if (_updateCount++ == 0)
                 {
                     Control.SuspendLayout();
 
-                    /* Place the obscuring control at the top of the z-order
+                    /* ObscureControl overlay was retired: SuspendLayout alone avoids flicker without
+                    hiding the client area during batch updates.
                     Control.Controls.SetChildIndex(_obscure, 0);
 
                     // Set obscuring control to take up entire client area and be made visible, this prevents
@@ -203,7 +205,8 @@ public class KryptonDockingControl : DockingElementOpenCollection
             // Only generate targets if we have some valid pages to transfer
             if (transferPages.Count > 0)
             {
-                // Generate targets for the four control edges
+                // Outer-edge targets (outsideEdge=true) insert new dockspaces at z-index 0; inner targets
+                // subdivide the remaining client rectangle when a navigator/workspace occupies the center.
                 Rectangle screenRect = Control.RectangleToScreen(Control.ClientRectangle);
                 var rectsDraw = SubdivideRectangle(screenRect, 3, int.MaxValue);
                 var rectsHot = SubdivideRectangle(screenRect, 10, 20);
@@ -392,7 +395,7 @@ public class KryptonDockingControl : DockingElementOpenCollection
 
     private void EnforceInnerMinimum()
     {
-        // Find the available inner rectangle of our containing control
+        // Shrink edge dockspaces greedily when docked panels consume more than InnerMinimum allows.
         Rectangle innerRect = DockingHelper.InnerRectangle(Control);
 
         // Do we need to adjust the left/right edge controls?
@@ -487,7 +490,7 @@ public class KryptonDockingControl : DockingElementOpenCollection
     {
         var length = Math.Min(area.Width / divisor, Math.Min(area.Height / divisor, maxLength));
 
-        // Find the left, right, top, bottom, center rectangles
+        // Index 0-3: edge bands; index 4: center (unused for outer-edge targets).
         return new Rectangle[]{
             new Rectangle(area.X, area.Y, length, area.Height),
             new Rectangle(area.Right - length, area.Y, length, area.Height),

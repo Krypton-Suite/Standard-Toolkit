@@ -13,7 +13,9 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides auto hidden docking functionality against a specific control edge.
+/// Auto-hidden edge element: owns the tab strip (<see cref="KryptonAutoHiddenPanel"/>) and the
+/// slide-out panel that hosts the active group's dockspace. Hides the slide panel before store/remove
+/// propagate actions so layout changes do not flash over an open slide.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -127,7 +129,7 @@ public class KryptonDockingEdgeAutoHidden : DockingElementClosedCollection
             case DockingPropogateAction.RemovePages:
             case DockingPropogateAction.RemoveAndDisposePages:
             case DockingPropogateAction.StorePages:
-                // Ask the sliding panel to remove its display if an incoming name matches
+                // Dismiss an open slide before the page is stored or removed from the group.
                 if (uniqueNames != null)
                 {
                     foreach (var uniqueName in uniqueNames)

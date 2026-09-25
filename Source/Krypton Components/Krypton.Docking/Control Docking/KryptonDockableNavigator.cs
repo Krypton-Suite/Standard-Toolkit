@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonNavigator to work within the docking framework.
+/// Designer-facing navigator wired into <see cref="KryptonDockingNavigator"/>; forwards docking events.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDockableWorkspace), "ToolboxBitmaps.KryptonDockableNavigator.bmp")]
 public class KryptonDockableNavigator : KryptonNavigator

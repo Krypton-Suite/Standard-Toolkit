@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides display and docking functionality for a group of auto hidden pages.
+/// Element for one auto-hidden tab group. Pages appear as <see cref="KryptonAutoHiddenProxyPage"/>
+/// tabs; the slide panel shows the real page in a <see cref="KryptonDockspaceSlide"/>.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -300,7 +301,7 @@ public class KryptonDockingAutoHiddenGroup : DockingElementClosedCollection
     {
         if (state == DockingPropogatePageState.PageForUniqueName)
         {
-            // If we have the page (stored via a proxy) then return the actual page reference (but not for a placeholder)
+            // Tabs hold proxies; callers need the wrapped page for store/restore and drag operations.
             KryptonPage? page = AutoHiddenGroupControl.Pages[uniqueName];
             if (page is KryptonAutoHiddenProxyPage proxyPage)
             {

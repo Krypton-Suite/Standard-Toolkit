@@ -12,7 +12,10 @@
 
 namespace Krypton.Docking;
 
-/// <summary>Extends the KryptonForm to act as a floating window within the docking framework.</summary>
+/// <summary>
+/// Top-level floating frame. Caption drag raises <see cref="WindowCaptionDragging"/> so
+/// <see cref="DockingDragManager"/> can reposition the window during a page drag operation.
+/// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
 [DesignTimeVisible(false)]

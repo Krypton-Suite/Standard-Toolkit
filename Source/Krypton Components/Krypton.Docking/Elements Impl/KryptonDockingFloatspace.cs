@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality within a floating window using a KryptonFloatspace.
+/// Floatspace inside a <see cref="KryptonFloatingWindow"/>. Store name "Floating"; hidden windows
+/// are recycled by <see cref="KryptonDockingManager.DoDragDrop"/> for live drag previews.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

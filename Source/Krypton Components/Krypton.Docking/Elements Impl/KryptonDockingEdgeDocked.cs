@@ -13,7 +13,9 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides edge docking functionality for a control using child dockspace control instances.
+/// Visible docked edge: stacks <see cref="KryptonDockingDockspace"/> controls with resize separators.
+/// Z-order places the innermost dockspace closest to the host center; separator drag is wrapped in
+/// <see cref="DockingMultiUpdate"/> to avoid layout churn.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

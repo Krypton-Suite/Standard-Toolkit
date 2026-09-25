@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace to work within the docking edge of a control.
+/// Visible docked workspace on a control edge. Store name "Docked" routes placeholder clears.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

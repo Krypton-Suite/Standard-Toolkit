@@ -16,7 +16,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality by attaching to an existing KryptonDockableWorkspace
+/// Filler-region workspace host. Extends <see cref="KryptonDockingSpace"/> with workspace-specific
+/// drag targets and filler store-page clearing.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

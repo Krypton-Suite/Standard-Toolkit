@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonSeparator so work between dockspace entries on a control edge.
+/// Resize grip between stacked <see cref="KryptonDockspace"/> controls on one edge.
+/// Dock/orientation are derived from the parent edge and whether the grip faces inward.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

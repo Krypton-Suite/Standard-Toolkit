@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonPanel to work as a panel for hosting KryptonAutoHiddenGroup controls.
+/// Edge strip that stacks <see cref="KryptonAutoHiddenGroup"/> tab controls. Preferred size accounts
+/// for group stacking along the dock orientation.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
