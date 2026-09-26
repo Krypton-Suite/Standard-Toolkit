@@ -379,7 +379,7 @@ public partial class FloatingToolbarsDemo : KryptonForm
                 "FloatingToolbarsDemo",
                 "toolbar_states.xml");
 
-            if (collection != null && collection.ToolbarStates.Count > 0)
+            if (collection is { ToolbarStates.Count: > 0 })
             {
                 kftsToolbar1.LoadState(collection.ToolbarStates.FirstOrDefault(s => s.Name == "Toolbar1"));
                 kftsToolbar2.LoadState(collection.ToolbarStates.FirstOrDefault(s => s.Name == "Toolbar2"));

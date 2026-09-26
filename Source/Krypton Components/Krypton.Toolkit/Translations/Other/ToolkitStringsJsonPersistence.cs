@@ -20,7 +20,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a JSON string.
     /// </summary>
-    public static string Export(object toolkitStrings, bool includeDefaults)
+    public static string Export(object? toolkitStrings, bool includeDefaults)
     {
         if (toolkitStrings == null)
         {
@@ -58,7 +58,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a stream as JSON.
     /// </summary>
-    public static void ExportToStream(object toolkitStrings, Stream stream, bool includeDefaults = false)
+    public static void ExportToStream(object toolkitStrings, Stream? stream, bool includeDefaults = false)
     {
         if (stream == null)
         {
@@ -89,7 +89,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Imports toolkit strings from a JSON stream.
     /// </summary>
-    public static void ImportFromStream(object toolkitStrings, Stream stream, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromStream(object toolkitStrings, Stream? stream, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (stream == null)
         {
@@ -107,7 +107,7 @@ internal static class ToolkitStringsJsonPersistence
     /// Uses the XML persistence helper by converting the JSON to an in-memory XmlDocument,
     /// keeping the import logic (reset, refresh, culture) centralised.
     /// </summary>
-    public static void ImportFromJson(object toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromJson(object? toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true)
     {
         if (toolkitStrings == null)
         {
@@ -215,15 +215,8 @@ internal static class ToolkitStringsJsonPersistence
 
     // Escape only characters that would break a JSON string literal.
     // Structural tokens ({ } [ ] : ,) are left as-is; inside quotes they are ordinary text.
-    private static string EscapeJsonString(string s)
-    {
-        return s
-            .Replace(@"\", @"\\")
-            .Replace(@"""", @"\""")
-            .Replace("\n", @"\n")
-            .Replace("\r", @"\r")
-            .Replace("\t", @"\t");
-    }
+    private static string EscapeJsonString(string s) =>
+        s.Replace(@"\", @"\\").Replace(@"""", @"\""").Replace("\n", @"\n").Replace("\r", @"\r").Replace("\t", @"\t");
 
     #endregion
 
@@ -423,5 +416,5 @@ internal static class ToolkitStringsJsonPersistence
         return tokens;
     }
 
-    #endregion
+#endregion
 }

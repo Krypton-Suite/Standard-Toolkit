@@ -118,7 +118,7 @@ internal sealed class ViewLayoutCaptionDocumentGroups : ViewLayoutDocker
         var areas = new List<Rectangle>(_lastSpareAreas.Count + 1);
         foreach (Rectangle windowSpare in _lastSpareAreas)
         {
-            if (windowSpare.Width > 8 && windowSpare.Height > 0)
+            if (windowSpare is { Width: > 8, Height: > 0 })
             {
                 areas.Add(new Rectangle(
                     windowSpare.X - borders.Left,
@@ -137,7 +137,7 @@ internal sealed class ViewLayoutCaptionDocumentGroups : ViewLayoutDocker
                 ClientRectangle.Y - borders.Top,
                 residual.Right - ClientRectangle.Right,
                 ClientRectangle.Height);
-            if (spare.Width > 8 && spare.Height > 0)
+            if (spare is { Width: > 8, Height: > 0 })
             {
                 areas.Add(spare);
             }

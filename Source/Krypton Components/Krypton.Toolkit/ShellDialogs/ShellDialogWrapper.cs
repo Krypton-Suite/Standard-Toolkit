@@ -187,9 +187,7 @@ public abstract class ShellDialogWrapper
         Console.WriteLine(@"Shell Dialog activated");
 
         // Chrome-only: embed after activation so Explorer has finished laying out.
-        if (_commonDialogHandler != null
-            && !_commonDialogHandler.ReplaceNativeControls
-            && !_commonDialogHandler.EmbeddingDone)
+        if (_commonDialogHandler is { ReplaceNativeControls: false, EmbeddingDone: false })
         {
             _commonDialogHandler.TryEmbedChrome(_handle);
             if (_commonDialogHandler._wrapperForm != null)

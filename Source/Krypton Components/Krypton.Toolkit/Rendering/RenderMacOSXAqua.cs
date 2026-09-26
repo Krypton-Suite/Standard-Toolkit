@@ -78,7 +78,7 @@ public class RenderMacOSXAqua : RenderOffice2010
             ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
-        if (rect.Width > 0 && rect.Height > 0)
+        if (rect is { Width: > 0, Height: > 0 })
         {
             AquaRenderHelper.DrawGelRectangle(
                 context.Graphics,
@@ -111,7 +111,7 @@ public class RenderMacOSXAqua : RenderOffice2010
             ThrowHelper.ThrowArgumentNullException(nameof(palette));
         }
 
-        if (rect.Width > 0 && rect.Height > 0)
+        if (rect is { Width: > 0, Height: > 0 })
         {
             var top = palette.GetRibbonBackColor1(state);
             var bottom = CommonHelper.MergeColors(top, 0.7f, Color.White, 0.3f);
