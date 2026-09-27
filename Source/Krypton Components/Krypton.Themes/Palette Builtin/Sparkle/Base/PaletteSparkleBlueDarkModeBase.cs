@@ -149,7 +149,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTableSparkle? _table;
     private readonly Color[] _sparkleColors;
     private readonly Color[] _appButtonNormal;
@@ -163,7 +163,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
     protected PaletteSparkleBlueDarkModeBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
@@ -178,10 +178,9 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         ThemeName = nameof(PaletteSparkleBlueDarkModeBase);
 
         // Save colors for use in the color table
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
         _sparkleColors = sparkleColors;
         _appButtonNormal = appButtonNormal;
         _appButtonTrack = appButtonTrack;
@@ -193,7 +192,6 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         // Get the font settings from the system
         DefineFonts();
 
-        BaseColors = scheme;
 
         SetTrackBarColors();
     }

@@ -430,7 +430,7 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
     /// <inheritdoc/>
     protected override Color[] SchemeColors => _ribbonColors!;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTable2010SilverDarkMode? _table;
     private readonly Color[]? _ribbonColors;
     private readonly ImageList _checkBoxList;
@@ -440,10 +440,8 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteOffice2010SilverDarkModeBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -458,10 +456,9 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
         // Remember incoming sets of values
         ThemeName = nameof(PaletteOffice2010SilverDarkModeBase);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -478,7 +475,6 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
-        BaseColors = scheme;
     }
 
     #endregion
