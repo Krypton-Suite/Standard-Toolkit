@@ -48,6 +48,8 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+* Resolved [#4466](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4466), Some strings/values are not being serialised
+  * Fresh controls no longer write factory message-box strings into the designer as if they were modified. `MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
 * Implemented [#4081](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4081), Use pattern matching where possible
 * Resolved [#4423](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4423), Documented why `GetButtonSpecImage` returns null for `PaletteButtonSpecStyle.Generic` (no stock palette glyph; consumers supply the image).
 * Resolved / Implemented [#4432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4432), ButtonSpecs do not cover the full height of the control

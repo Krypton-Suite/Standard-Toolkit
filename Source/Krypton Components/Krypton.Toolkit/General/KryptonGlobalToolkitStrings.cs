@@ -644,10 +644,14 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [Localizable(true)]
     public SplashScreenStrings SplashScreenStrings => KryptonSplashScreenStrings;
 
-    private bool ShouldSerializeSplashScreenStringsStrings() => !KryptonSplashScreenStrings.IsDefault;
+    private bool ShouldSerializeSplashScreenStrings() => !KryptonSplashScreenStrings.IsDefault;
 
     /// <summary>Resets the krypton splash screen strings.</summary>
-    public void ResetSplashScreenStringsStrings() => KryptonSplashScreenStrings.Reset();
+    public void ResetSplashScreenStrings() => KryptonSplashScreenStrings.Reset();
+
+    /// <summary>Resets the krypton splash screen strings.</summary>
+    /// <remarks>Kept so existing callers of the misnamed method continue to compile. The designer binds <see cref="ResetSplashScreenStrings"/>.</remarks>
+    public void ResetSplashScreenStringsStrings() => ResetSplashScreenStrings();
 
     /// <summary>Gets the miscellaneous strings.</summary>
     /// <value>The miscellaneous strings.</value>
@@ -671,7 +675,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [Localizable(true)]
     public MessageBoxStrings MessageBoxStrings => KryptonMessageBoxStrings;
 
-    private bool ShouldSerializeMessageBoxStringsStrings() => !KryptonMessageBoxStrings.IsDefault;
+    private bool ShouldSerializeMessageBoxStrings() => !KryptonMessageBoxStrings.IsDefault;
 
     /// <summary>Resets the krypton message box strings.</summary>
     public void ResetMessageBoxStrings() => KryptonMessageBoxStrings.Reset();
@@ -748,8 +752,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeToastNotificationIconStrings() ||
                                ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                ShouldSerializeToastNotificationStrings() || ShouldSerializeToolBarStrings() ||
-                               ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() || 
-                               ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings());
+                               ShouldSerializeSplashScreenStrings() || ShouldSerializeMiscellaneousStrings() || 
+                               ShouldSerializeMessageBoxStrings() || ShouldSerializeSystemMenuStrings());
 
     /// <summary>Resets this instance.</summary>
     public void Reset()
@@ -790,7 +794,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetToastNotificationIconStrings();
         ResetToastNotificationStrings();
         ResetToolBarStrings();
-        ResetSplashScreenStringsStrings();
+        ResetSplashScreenStrings();
         ResetMiscellaneousStrings();
         ResetMessageBoxStrings();
         ResetSearchBoxStrings();
