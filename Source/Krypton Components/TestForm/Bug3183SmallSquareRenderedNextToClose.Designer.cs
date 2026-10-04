@@ -48,10 +48,6 @@
 			// 
 			this.kryptonManager1.ToolkitStrings.MessageBoxStrings.LessDetails = "L&ess Details...";
 			this.kryptonManager1.ToolkitStrings.MessageBoxStrings.MoreDetails = "&More Details...";
-			this.kryptonManager1.ToolkitStrings.PrintPreviewDialogStrings.PaginationPartOneText = "of";
-			this.kryptonManager1.ToolkitStrings.PrintPreviewDialogStrings.PaginationPartTwoText = null;
-			this.kryptonManager1.ToolkitStrings.PrintPreviewDialogStrings.ZoomInButtonText = "Zoom &Out";
-			this.kryptonManager1.ToolkitStrings.PrintPreviewDialogStrings.ZoomOutButtonText = null;
 			// 
 			// Bug3183SmallSquareRenderedNextToClose
 			// 
