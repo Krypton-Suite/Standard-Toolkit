@@ -425,6 +425,8 @@ public static class KryptonThemeCatalog
         catch (Exception ex)
         {
             Debug.WriteLine(@"KryptonThemeCatalog.DiscoverThemes: " + ex.Message);
+
+            KryptonExceptionHandler.CaptureException(ex);
         }
 
         TryDiscoverFromDesigner(services);
@@ -453,6 +455,7 @@ public static class KryptonThemeCatalog
         catch (Exception ex)
         {
             Debug.WriteLine(@"KryptonThemeCatalog designer ITypeResolutionService: " + ex.Message);
+            KryptonExceptionHandler.CaptureException(ex);
         }
     }
 
@@ -645,7 +648,7 @@ public static class KryptonThemeCatalog
         return true;
     }
 
-    private static void TryRegisterFromAssembly(Assembly assembly)
+    private static void TryRegisterFromAssembly(Assembly? assembly)
     {
         if (assembly is null || assembly.IsDynamic)
         {
