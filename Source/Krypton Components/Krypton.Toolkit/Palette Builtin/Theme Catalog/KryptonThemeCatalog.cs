@@ -269,7 +269,10 @@ public static class KryptonThemeCatalog
         var eventArgs = new KryptonMissingThemeEventArgs(requestedMode, fallback, reason);
         MissingThemeFallback?.Invoke(null, eventArgs);
 
-        if (ShowMissingThemeWarningDialog && !eventArgs.Handled && SystemInformation.UserInteractive)
+        if (ShowMissingThemeWarningDialog
+            && !eventArgs.Handled
+            && SystemInformation.UserInteractive
+            && LicenseManager.UsageMode != LicenseUsageMode.Designtime)
         {
             var shouldWarn = false;
             lock (_sync)
@@ -346,7 +349,23 @@ public static class KryptonThemeCatalog
     /// <summary>
     /// Loads <c>Krypton.Themes.dll</c> from already-loaded assemblies and the application base directory.
     /// </summary>
-    public static void DiscoverThemes()
+    public static void DiscoverThemes() => DiscoverThemes(null);
+
+    /// <summary>
+    /// Loads <c>Krypton.Themes.dll</c> from already-loaded assemblies, the application base directory,
+    /// and, when <paramref name="services"/> is a designer host, the project reference resolved by
+    /// <see cref="ITypeResolutionService"/>.
+    /// </summary>
+    /// <param name="services">
+    /// Designer <see cref="IServiceProvider"/> (typically <see cref="ITypeDescriptorContext"/>).
+    /// Pass <see langword="null"/> for the runtime probe only.
+    /// </param>
+    /// <remarks>
+    /// The runtime probe runs once from <see cref="KryptonManager"/>'s static constructor, before Visual Studio
+    /// has sited the component. Property-grid and theme-selector calls pass the designer service so extra
+    /// palettes appear when the project references <c>Krypton.Themes</c>.
+    /// </remarks>
+    public static void DiscoverThemes(IServiceProvider? services)
     {
         if (!KryptonManager.AutoDiscoverThemes)
         {
@@ -407,6 +426,51 @@ public static class KryptonThemeCatalog
         {
             Debug.WriteLine(@"KryptonThemeCatalog.DiscoverThemes: " + ex.Message);
         }
+
+        TryDiscoverFromDesigner(services);
+    }
+
+    private static void TryDiscoverFromDesigner(IServiceProvider? services)
+    {
+        if (services is null || IsThemesAssemblyRegistered())
+        {
+            return;
+        }
+
+        try
+        {
+            if (!(services.GetService(typeof(ITypeResolutionService)) is ITypeResolutionService resolver))
+            {
+                return;
+            }
+
+            var themes = resolver.GetAssembly(new AssemblyName(@"Krypton.Themes"), false);
+            if (themes != null)
+            {
+                TryRegisterFromAssembly(themes);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(@"KryptonThemeCatalog designer ITypeResolutionService: " + ex.Message);
+        }
+    }
+
+    private static bool IsThemesAssemblyRegistered()
+    {
+        lock (_sync)
+        {
+            foreach (var name in _loadedAssemblies)
+            {
+                if (name.StartsWith(@"Krypton.Themes,", StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(name, @"Krypton.Themes", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     internal static void EnsureReady()
