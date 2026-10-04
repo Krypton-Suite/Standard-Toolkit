@@ -45,6 +45,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Resolved [#4463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4463), `KryptonSplitContainer` children stay visible on the .NET WinForms design surface and in Document Outline ([#4468](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4468)).
+  * Panel1 and Panel2 are sited before the splitter glyph is created, so a missing behavior service cannot hide the panels. The splitter panel designer accepts a `KryptonSplitContainer` parent.
 * Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
  * Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
  * `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
