@@ -5,13 +5,7 @@
  */
 #endregion
 
-using System.Collections.Generic;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.IO;
-
-namespace Krypton.Toolkit.ResourceFiles
-{
+namespace Krypton.Toolkit.ResourceFiles;
 
 /// <summary>
 /// Drawn stand-ins used when <c>Krypton.Resources.dll</c> was not deployed beside the application.
@@ -551,5 +545,4 @@ internal static class KryptonResourceFallback
 
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     private static extern bool DestroyIcon(IntPtr handle);
-}
 }
