@@ -19,6 +19,7 @@ internal static class KryptonCustomStringsPersistence
     private const string VersionAttribute = @"Version";
     private const string CultureAttribute = @"Culture";
     private const string GeneratedAttribute = @"Generated";
+    private const string ToolkitVersionAttribute = @"ToolkitVersion";
     private const string KeyAttribute = @"Key";
     private const string NameAttribute = @"Name";
     private const string ValueAttribute = @"Value";
@@ -34,6 +35,7 @@ internal static class KryptonCustomStringsPersistence
         root.SetAttribute(VersionAttribute, CurrentSupportedVersion.ToString(CultureInfo.InvariantCulture));
         root.SetAttribute(CultureAttribute, Thread.CurrentThread.CurrentUICulture.Name);
         root.SetAttribute(GeneratedAttribute, DateTime.Now.ToString(CultureInfo.InvariantCulture));
+        root.SetAttribute(ToolkitVersionAttribute, GetAssemblyVersionStamp());
         doc.AppendChild(root);
 
         ExportValues(doc, root);
@@ -62,7 +64,7 @@ internal static class KryptonCustomStringsPersistence
         ExportToXmlDocument(includeDefaults).Save(stream);
     }
 
-    public static void ImportFromXmlFile(string filename, bool resetFirst)
+    public static void ImportFromXmlFile(string filename, bool resetFirst, bool strictCatalog = false)
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
@@ -71,10 +73,10 @@ internal static class KryptonCustomStringsPersistence
 
         var doc = new XmlDocument();
         doc.Load(filename);
-        ImportFromXmlDocument(doc, resetFirst);
+        ImportFromXmlDocument(doc, resetFirst, strictCatalog);
     }
 
-    public static void ImportFromXmlStream(Stream stream, bool resetFirst)
+    public static void ImportFromXmlStream(Stream stream, bool resetFirst, bool strictCatalog = false)
     {
         if (stream == null)
         {
@@ -83,10 +85,10 @@ internal static class KryptonCustomStringsPersistence
 
         var doc = new XmlDocument();
         doc.Load(stream);
-        ImportFromXmlDocument(doc, resetFirst);
+        ImportFromXmlDocument(doc, resetFirst, strictCatalog);
     }
 
-    public static void ImportFromXmlDocument(XmlDocument doc, bool resetFirst)
+    public static void ImportFromXmlDocument(XmlDocument doc, bool resetFirst, bool strictCatalog = false)
     {
         if (doc == null)
         {
@@ -105,6 +107,11 @@ internal static class KryptonCustomStringsPersistence
             ThrowHelper.ThrowArgumentException($@"Custom translations format version '{fileVersion}' is incompatible. Supported version is {CurrentSupportedVersion} or above.");
         }
 
+        if (strictCatalog)
+        {
+            EnsureCatalogIsComplete(doc);
+        }
+
         if (resetFirst)
         {
             KryptonCustomStrings.ResetValues();
@@ -116,6 +123,74 @@ internal static class KryptonCustomStringsPersistence
         KryptonCustomStrings.OnCustomStringsImported();
     }
 
+    public static ToolkitStringsCoverage AnalyzeFromFile(string filename)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
+        }
+
+        if (Path.GetExtension(filename).Equals(@".json", StringComparison.OrdinalIgnoreCase))
+        {
+            return AnalyzeJson(File.ReadAllText(filename, Encoding.UTF8), filename);
+        }
+
+        var doc = new XmlDocument();
+        doc.Load(filename);
+        return Analyze(doc, filename);
+    }
+
+    public static ToolkitStringsCoverage Analyze(XmlDocument doc, string? filePath = null)
+    {
+        if (doc == null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(doc));
+        }
+
+        var coverage = new ToolkitStringsCoverage
+        {
+            FilePath = filePath
+        };
+
+        var root = doc.SelectSingleNode(RootElementName) as XmlElement;
+        if (root != null)
+        {
+            coverage.Culture = NullIfEmpty(root.GetAttribute(CultureAttribute));
+            coverage.ToolkitVersion = NullIfEmpty(root.GetAttribute(ToolkitVersionAttribute));
+            if (int.TryParse(root.GetAttribute(VersionAttribute), NumberStyles.Integer, CultureInfo.InvariantCulture, out var formatVersion))
+            {
+                coverage.FormatVersion = formatVersion;
+            }
+        }
+
+        FillCoverage(coverage, root);
+        return coverage;
+    }
+
+    public static ToolkitStringsCoverage MergeMissingToFile(string filename, bool includeDefaults = true)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
+        }
+
+        if (Path.GetExtension(filename).Equals(@".json", StringComparison.OrdinalIgnoreCase))
+        {
+            var json = File.ReadAllText(filename, Encoding.UTF8);
+            var before = AnalyzeJson(json, filename);
+            ImportFromJson(json, resetFirst: true);
+            ApplyAutoTranslation(before.MissingInFile, before.Culture);
+            ExportToJsonFile(filename, includeDefaults);
+            return AnalyzeJson(File.ReadAllText(filename, Encoding.UTF8), filename);
+        }
+
+        var beforeXml = AnalyzeFromFile(filename);
+        ImportFromXmlFile(filename, resetFirst: true);
+        ApplyAutoTranslation(beforeXml.MissingInFile, beforeXml.Culture);
+        ExportToXmlFile(filename, includeDefaults);
+        return AnalyzeFromFile(filename);
+    }
+
     public static string ExportToJson(bool includeDefaults)
     {
         var root = ExportToXmlDocument(includeDefaults).DocumentElement;
@@ -125,6 +200,7 @@ internal static class KryptonCustomStringsPersistence
         sb.AppendLine($@"  ""{VersionAttribute}"": {CurrentSupportedVersion},");
         sb.AppendLine($@"  ""{CultureAttribute}"": ""{EscapeJson(root!.GetAttribute(CultureAttribute))}"",");
         sb.AppendLine($@"  ""{GeneratedAttribute}"": ""{EscapeJson(root.GetAttribute(GeneratedAttribute))}"",");
+        sb.AppendLine($@"  ""{ToolkitVersionAttribute}"": ""{EscapeJson(root.GetAttribute(ToolkitVersionAttribute))}"",");
         AppendValuesJson(sb, root);
         sb.AppendLine(@"}");
         return sb.ToString();
@@ -151,7 +227,7 @@ internal static class KryptonCustomStringsPersistence
         stream.Write(bytes, 0, bytes.Length);
     }
 
-    public static void ImportFromJsonFile(string filename, bool resetFirst)
+    public static void ImportFromJsonFile(string filename, bool resetFirst, bool strictCatalog = false)
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
@@ -159,10 +235,10 @@ internal static class KryptonCustomStringsPersistence
         }
 
         var json = File.ReadAllText(filename, Encoding.UTF8);
-        ImportFromJson(json, resetFirst);
+        ImportFromJson(json, resetFirst, strictCatalog);
     }
 
-    public static void ImportFromJsonStream(Stream stream, bool resetFirst)
+    public static void ImportFromJsonStream(Stream stream, bool resetFirst, bool strictCatalog = false)
     {
         if (stream == null)
         {
@@ -170,14 +246,24 @@ internal static class KryptonCustomStringsPersistence
         }
 
         using var reader = new StreamReader(stream, Encoding.UTF8);
-        ImportFromJson(reader.ReadToEnd(), resetFirst);
+        ImportFromJson(reader.ReadToEnd(), resetFirst, strictCatalog);
     }
 
-    public static void ImportFromJson(string json, bool resetFirst)
+    public static void ImportFromJson(string json, bool resetFirst, bool strictCatalog = false)
     {
         if (string.IsNullOrWhiteSpace(json))
         {
             ThrowHelper.ThrowArgumentException(@"JSON content is empty.", nameof(json));
+        }
+
+        if (strictCatalog)
+        {
+            var preview = AnalyzeJson(json);
+            if (preview.HasMissing || preview.HasExtra)
+            {
+                ThrowHelper.ThrowArgumentException(
+                    $@"Custom translations catalog drift (missing {preview.MissingInFile.Count}, extra {preview.ExtraInFile.Count}). Strict import was not applied.");
+            }
         }
 
         var root = ParseJsonObject(json);
@@ -213,6 +299,347 @@ internal static class KryptonCustomStringsPersistence
         }
 
         KryptonCustomStrings.OnCustomStringsImported();
+    }
+
+    private static void EnsureCatalogIsComplete(XmlDocument doc)
+    {
+        var preview = Analyze(doc);
+        if (preview.HasMissing || preview.HasExtra)
+        {
+            ThrowHelper.ThrowArgumentException(
+                $@"Custom translations catalog drift (missing {preview.MissingInFile.Count}, extra {preview.ExtraInFile.Count}). Strict import was not applied.");
+        }
+    }
+
+    private static ToolkitStringsCoverage AnalyzeJson(string json, string? filePath = null)
+    {
+        var parsed = ParseJsonObject(json);
+        var coverage = new ToolkitStringsCoverage
+        {
+            FilePath = filePath,
+            Culture = parsed.TryGetValue(CultureAttribute, out var culture) ? culture?.ToString() : null,
+            ToolkitVersion = parsed.TryGetValue(ToolkitVersionAttribute, out var version) ? version?.ToString() : null
+        };
+
+        if (parsed.TryGetValue(VersionAttribute, out var format) &&
+            int.TryParse(format?.ToString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var formatVersion))
+        {
+            coverage.FormatVersion = formatVersion;
+        }
+
+        var fileKeys = new HashSet<string>(StringComparer.Ordinal);
+        if (parsed.TryGetValue(ValuesElementName, out var valuesObj) && valuesObj is Dictionary<string, object?> values)
+        {
+            foreach (var pair in values)
+            {
+                fileKeys.Add($@"Values.{pair.Key}");
+            }
+        }
+
+        if (parsed.TryGetValue(StringSetsElementName, out var setsObj) && setsObj is Dictionary<string, object?> sets)
+        {
+            foreach (var registration in sets)
+            {
+                if (registration.Value is Dictionary<string, object?> props)
+                {
+                    foreach (var prop in props)
+                    {
+                        fileKeys.Add($@"StringSets.{registration.Key}.{prop.Key}");
+                    }
+                }
+            }
+        }
+
+        FillCoverage(coverage, fileKeys);
+        return coverage;
+    }
+
+    private static void FillCoverage(ToolkitStringsCoverage coverage, XmlElement? root)
+    {
+        var fileKeys = new HashSet<string>(StringComparer.Ordinal);
+        if (root != null)
+        {
+            CollectXmlFileKeys(root, fileKeys);
+        }
+
+        FillCoverage(coverage, fileKeys);
+    }
+
+    private static void FillCoverage(ToolkitStringsCoverage coverage, ISet<string> fileKeys)
+    {
+        var liveKeys = new HashSet<string>(StringComparer.Ordinal);
+        CollectLiveKeys(liveKeys);
+
+        foreach (var key in liveKeys.OrderBy(k => k, StringComparer.Ordinal))
+        {
+            if (fileKeys.Contains(key))
+            {
+                coverage.Applied.Add(key);
+            }
+            else
+            {
+                coverage.MissingInFile.Add(key);
+            }
+        }
+
+        foreach (var key in fileKeys.OrderBy(k => k, StringComparer.Ordinal))
+        {
+            if (!liveKeys.Contains(key))
+            {
+                coverage.ExtraInFile.Add(key);
+            }
+        }
+    }
+
+    private static void CollectLiveKeys(ISet<string> keys)
+    {
+        foreach (var entry in KryptonCustomStrings.Values.Entries)
+        {
+            if (!string.IsNullOrEmpty(entry.Key))
+            {
+                keys.Add($@"Values.{entry.Key}");
+            }
+        }
+
+        foreach (var registration in KryptonCustomStringSetRegistry.Snapshot())
+        {
+            CollectObjectKeys(registration.Value, $@"StringSets.{registration.Key}", keys);
+        }
+    }
+
+    private static void CollectObjectKeys(object obj, string prefix, ISet<string> keys)
+    {
+        foreach (var prop in obj.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
+        {
+            if (!prop.CanRead || prop.GetIndexParameters().Length != 0)
+            {
+                continue;
+            }
+
+            var path = prefix + @"." + prop.Name;
+            if (prop.PropertyType == typeof(string))
+            {
+                var localizable = prop.GetCustomAttribute<LocalizableAttribute>(inherit: false);
+                if (localizable?.IsLocalizable == true)
+                {
+                    keys.Add(path);
+                }
+            }
+            else if (typeof(GlobalId).IsAssignableFrom(prop.PropertyType))
+            {
+                var nested = prop.GetValue(obj, null);
+                if (nested != null)
+                {
+                    CollectObjectKeys(nested, path, keys);
+                }
+            }
+        }
+    }
+
+    private static void CollectXmlFileKeys(XmlElement root, ISet<string> keys)
+    {
+        if (root.SelectSingleNode(ValuesElementName) is XmlElement values)
+        {
+            foreach (XmlNode childNode in values.ChildNodes)
+            {
+                if (childNode is XmlElement child && child.Name == ValueElementName)
+                {
+                    var key = child.GetAttribute(KeyAttribute);
+                    if (!string.IsNullOrWhiteSpace(key))
+                    {
+                        keys.Add($@"Values.{key}");
+                    }
+                }
+            }
+        }
+
+        if (root.SelectSingleNode(StringSetsElementName) is XmlElement stringSets)
+        {
+            foreach (XmlNode childNode in stringSets.ChildNodes)
+            {
+                if (childNode is XmlElement child && child.Name == StringSetElementName)
+                {
+                    var name = child.GetAttribute(NameAttribute);
+                    if (!string.IsNullOrWhiteSpace(name))
+                    {
+                        CollectXmlObjectKeys(child, $@"StringSets.{name}", keys);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void CollectXmlObjectKeys(XmlElement parent, string prefix, ISet<string> keys)
+    {
+        foreach (XmlNode childNode in parent.ChildNodes)
+        {
+            if (childNode is not XmlElement child)
+            {
+                continue;
+            }
+
+            var path = prefix + @"." + child.Name;
+            if (child.HasAttribute(ValueAttribute))
+            {
+                keys.Add(path);
+            }
+            else if (child.HasChildNodes)
+            {
+                CollectXmlObjectKeys(child, path, keys);
+            }
+        }
+    }
+
+    private static string? NullIfEmpty(string value) =>
+        string.IsNullOrWhiteSpace(value) ? null : value;
+
+    private static string GetAssemblyVersionStamp()
+    {
+        var assembly = typeof(KryptonCustomStrings).Assembly;
+        var informational = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
+        if (!string.IsNullOrWhiteSpace(informational))
+        {
+            var plus = informational!.IndexOf('+');
+            return plus >= 0 ? informational.Substring(0, plus) : informational;
+        }
+
+        return assembly.GetName().Version?.ToString() ?? @"0.0.0.0";
+    }
+
+    private static void ApplyAutoTranslation(IList<string> missingPaths, string? targetCulture)
+    {
+        if (!KryptonStringTranslation.AutoTranslateMissingStrings || missingPaths == null || missingPaths.Count == 0)
+        {
+            return;
+        }
+
+        if (KryptonStringTranslation.Translator == null)
+        {
+            Debug.WriteLine(@"[Krypton] AutoTranslateMissingStrings is set but Translator is null. New custom keys were left as placeholders.");
+            return;
+        }
+
+        foreach (var path in missingPaths)
+        {
+            if (!TryGetCustomString(path, out var current))
+            {
+                continue;
+            }
+
+            var translated = KryptonStringTranslation.TranslatePlaceholder(current, targetCulture, path);
+            if (translated != null)
+            {
+                TrySetCustomString(path, translated);
+            }
+        }
+    }
+
+    private static bool TryGetCustomString(string path, out string current)
+    {
+        current = string.Empty;
+        if (path.StartsWith(@"Values.", StringComparison.Ordinal))
+        {
+            var key = path.Substring(@"Values.".Length);
+            if (!KryptonCustomStrings.Values.TryGetValue(key, out string value))
+            {
+                return false;
+            }
+
+            current = value ?? string.Empty;
+            return true;
+        }
+
+        return TryResolveCustomProperty(path, out var owner, out var prop) && prop.CanRead
+            ? Assign(prop.GetValue(owner, null) as string, out current)
+            : false;
+    }
+
+    private static bool Assign(string? value, out string current)
+    {
+        current = value ?? string.Empty;
+        return true;
+    }
+
+    private static bool TrySetCustomString(string path, string value)
+    {
+        if (path.StartsWith(@"Values.", StringComparison.Ordinal))
+        {
+            KryptonCustomStrings.Set(path.Substring(@"Values.".Length), value);
+            return true;
+        }
+
+        if (!TryResolveCustomProperty(path, out var owner, out var prop) || !prop.CanWrite)
+        {
+            return false;
+        }
+
+        prop.SetValue(owner, value, null);
+        return true;
+    }
+
+    private static bool TryResolveCustomProperty(string path, out object owner, out PropertyInfo prop)
+    {
+        owner = null!;
+        prop = null!;
+        const string prefix = @"StringSets.";
+        if (!path.StartsWith(prefix, StringComparison.Ordinal))
+        {
+            return false;
+        }
+
+        var rest = path.Substring(prefix.Length);
+        var dot = rest.IndexOf('.');
+        if (dot <= 0)
+        {
+            return false;
+        }
+
+        var name = rest.Substring(0, dot);
+        var propertyPath = rest.Substring(dot + 1);
+        if (!KryptonCustomStrings.TryGetStringSet(name, out var stringSet) || stringSet == null)
+        {
+            return false;
+        }
+
+        owner = stringSet;
+        var remaining = propertyPath;
+        while (!string.IsNullOrEmpty(remaining))
+        {
+            var nextDot = remaining.IndexOf('.');
+            var segment = nextDot < 0 ? remaining : remaining.Substring(0, nextDot);
+            remaining = nextDot < 0 ? string.Empty : remaining.Substring(nextDot + 1);
+            var next = owner.GetType().GetProperty(segment, BindingFlags.Instance | BindingFlags.Public);
+            if (next == null || next.GetIndexParameters().Length != 0)
+            {
+                return false;
+            }
+
+            if (remaining.Length == 0)
+            {
+                if (next.PropertyType != typeof(string))
+                {
+                    return false;
+                }
+
+                prop = next;
+                return true;
+            }
+
+            if (!typeof(GlobalId).IsAssignableFrom(next.PropertyType) || !next.CanRead)
+            {
+                return false;
+            }
+
+            var nested = next.GetValue(owner, null);
+            if (nested == null)
+            {
+                return false;
+            }
+
+            owner = nested;
+        }
+
+        return false;
     }
 
     private static void ExportValues(XmlDocument doc, XmlElement root)

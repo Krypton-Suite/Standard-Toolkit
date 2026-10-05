@@ -48,6 +48,12 @@
 * Implemented [#4486](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4486), Extra themes appear in the form designer when the project references `Krypton.Themes`.
   * The `PaletteMode` drop-down and theme selectors ask Visual Studio for `Krypton.Themes.dll` after the startup probe, which runs before the designer sites the component.
   * Toolkit-only projects still list the 14 core palettes. The missing-theme warning dialog stays off inside the designer.
+* Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
+  * Grouped coverage summaries (`ToolkitStringsCoverage.FormatGrouped`) and CSV/JSON `ExportReport` for toolkit and custom catalogues.
+  * Opt-in `strictCatalog` on toolkit and `KryptonCustomStrings` import (default remains tolerant).
+  * Opt-in auto-translate for Merge Missing (`KryptonStringTranslation.AutoTranslateMissingStrings`, default off). Requires an `IKryptonStringTranslator`; the toolkit does not call a translation service itself. Only keys that were missing are translated.
+  * `KryptonCustomStrings.AnalyzeTranslationsFromFile` / `MergeMissingTranslationsToFile`, export `ToolkitVersion` stamp, designer Analyse / Merge Missing verbs, and TestForm coverage UI.
+  * `Scripts/UnitTests/UnitTest-ToolkitTranslationsCoverage.ps1` and `UnitTest-CustomTranslationsCoverage.ps1`.
 * Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
  * Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
  * `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.

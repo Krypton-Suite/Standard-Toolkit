@@ -81,7 +81,7 @@ internal static class KryptonManagerDesignerActions
     /// </summary>
     /// <param name="manager">Manager instance being designed.</param>
     public static void GenerateTemplateXml(KryptonManager? manager) =>
-        ExportTranslations(manager, xml: true, includeDefaults: true, fileName: @"Translations-Template.xml",
+        ExportTranslations(manager, xml: true, includeDefaults: true, fileName: @"ToolkitTranslations-Template.xml",
             title: @"Generate Translation Template (XML — all strings included)");
 
     /// <summary>
@@ -89,8 +89,50 @@ internal static class KryptonManagerDesignerActions
     /// </summary>
     /// <param name="manager">Manager instance being designed.</param>
     public static void GenerateTemplateJson(KryptonManager? manager) =>
-        ExportTranslations(manager, xml: false, includeDefaults: true, fileName: @"Translations-Template.json",
+        ExportTranslations(manager, xml: false, includeDefaults: true, fileName: @"ToolkitTranslations-Template.json",
             title: @"Generate Translation Template (JSON — all strings included)");
+
+    /// <summary>
+    /// Shows grouped missing/extra keys for a translations file.
+    /// </summary>
+    public static void AnalyzeTranslations(KryptonManager? manager)
+    {
+        if (manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var ofd = new OpenFileDialog();
+            ofd.CheckFileExists = true;
+            ofd.CheckPathExists = true;
+            ofd.FileName = @"ToolkitTranslations";
+            ofd.Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)";
+            ofd.Title = @"Analyze Translations Coverage";
+
+            var fileName = ofd.ShowDialog() == DialogResult.OK ? ofd.FileName : string.Empty;
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                return;
+            }
+
+            var coverage = manager.ToolkitStrings.AnalyzeTranslationsFromFile(fileName);
+            KryptonMessageBox.Show(
+                coverage + Environment.NewLine + Environment.NewLine +
+                @"Missing by section:" + Environment.NewLine +
+                ToolkitStringsCoverage.FormatGrouped(coverage.MissingInFile) + Environment.NewLine + Environment.NewLine +
+                @"Extra by section:" + Environment.NewLine +
+                ToolkitStringsCoverage.FormatGrouped(coverage.ExtraInFile),
+                @"Translations Coverage",
+                KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
 
     /// <summary>
     /// Merges missing toolkit strings into an existing translations file.
@@ -109,7 +151,7 @@ internal static class KryptonManagerDesignerActions
             using var ofd = new OpenFileDialog();
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.FileName = @"Translations";
+            ofd.FileName = @"ToolkitTranslations";
             ofd.Filter = @"Translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)";
             ofd.Title = @"Merge Missing Translations into File";
 
@@ -196,7 +238,7 @@ internal static class KryptonManagerDesignerActions
             using var ofd = new OpenFileDialog();
             ofd.CheckFileExists = true;
             ofd.CheckPathExists = true;
-            ofd.FileName = @"Translations";
+            ofd.FileName = @"ToolkitTranslations";
             ofd.DefaultExt = xml ? @"xml" : @"json";
             ofd.Filter = xml
                 ? @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)"
@@ -243,7 +285,7 @@ internal static class KryptonManagerDesignerActions
             using var sfd = new SaveFileDialog();
             sfd.OverwritePrompt = true;
             sfd.DefaultExt = xml ? @"xml" : @"json";
-            sfd.FileName = fileName ?? @"Translations";
+            sfd.FileName = fileName ?? @"ToolkitTranslations";
             sfd.Filter = xml
                 ? @"Translations files (*.xml)|*.xml|All files (*.*)|(*.*)"
                 : @"JSON Translations files (*.json)|*.json|All files (*.*)|(*.*)";
