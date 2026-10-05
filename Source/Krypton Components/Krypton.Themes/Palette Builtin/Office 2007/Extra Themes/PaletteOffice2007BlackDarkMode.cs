@@ -65,7 +65,7 @@ public class PaletteOffice2007BlackDarkMode : PaletteOffice2007BlackDarkModeBase
         };
         // The Office 2007 Black strip is a light box with a dark tick. Recolour it so the
         // box sits on the dark panel and the tick stays light.
-        _checkBoxList.Images.AddStrip(DarkenOffice2007SelectionGlyph(CheckBoxStripResources.CheckBoxStrip2007Black));
+        _checkBoxList.Images.AddStrip(DarkSelectionGlyph.Recolor(CheckBoxStripResources.CheckBoxStrip2007Black));
         _galleryButtonList = new ImageList
         {
             ImageSize = new Size(13, 7),
@@ -75,48 +75,15 @@ public class PaletteOffice2007BlackDarkMode : PaletteOffice2007BlackDarkModeBase
         _galleryButtonList.Images.AddStrip(GalleryImageResources.GallerySilverBlack);
         _radioButtonArray =
         [
-            DarkenOffice2007SelectionGlyph(Office2007RadioButtonImageResources.RadioButton2007BlueD),
-            DarkenOffice2007SelectionGlyph(Office2007RadioButtonImageResources.RadioButton2007BlackN),
-            DarkenOffice2007SelectionGlyph(Office2007RadioButtonImageResources.RadioButton2007BlackT),
-            DarkenOffice2007SelectionGlyph(Office2007RadioButtonImageResources.RadioButton2007BlackP),
-            DarkenOffice2007SelectionGlyph(Office2007RadioButtonImageResources.RadioButton2007BlueDC),
-            DarkenOffice2007SelectionGlyph(Office2007RadioButtonImageResources.RadioButton2007BlackNC),
-            DarkenOffice2007SelectionGlyph(Office2007RadioButtonImageResources.RadioButton2007BlackTC),
-            DarkenOffice2007SelectionGlyph(Office2007RadioButtonImageResources.RadioButton2007BlackPC)
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlueD),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlackN),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlackT),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlackP),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlueDC),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlackNC),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlackTC),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlackPC)
         ];
-    }
-
-    /// <summary>
-    /// Maps a light Office 2007 selection glyph onto the dark panel.
-    /// Light fills become a dark face; the ring, border, and mark become light.
-    /// </summary>
-    private static Bitmap DarkenOffice2007SelectionGlyph(Image source)
-    {
-        var bitmap = new Bitmap(source.Width, source.Height);
-        using (var graphics = Graphics.FromImage(bitmap))
-        {
-            graphics.DrawImage(source, 0, 0, source.Width, source.Height);
-        }
-
-        for (int y = 0; y < bitmap.Height; y++)
-        {
-            for (int x = 0; x < bitmap.Width; x++)
-            {
-                Color color = bitmap.GetPixel(x, y);
-                if (color.A == 0)
-                {
-                    continue;
-                }
-
-                int luminance = (color.R + color.G + color.B) / 3;
-                int value = luminance >= 205
-                    ? 30 + ((255 - luminance) / 2)
-                    : 255 - (luminance / 3);
-                bitmap.SetPixel(x, y, Color.FromArgb(color.A, value, value, value));
-            }
-        }
-
-        return bitmap;
     }
 
     /// <summary>
@@ -926,7 +893,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                         return style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _disabledBack;
 
                     case PaletteState.Normal:
-                        return style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : SystemColors.Window;
+                        return style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : Color.FromArgb(32, 32, 32);
 
                     case PaletteState.Pressed:
                     case PaletteState.Tracking:
@@ -936,7 +903,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                             PaletteBackStyle.TabHighProfile => state == PaletteState.Tracking
                                 ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3)
                                 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
-                            _ => SystemColors.Window
+                            _ => Color.FromArgb(32, 32, 32)
                         };
 
                     case PaletteState.CheckedNormal:
@@ -953,7 +920,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                         }
                         else
                         {
-                            return SystemColors.Window;
+                            return Color.FromArgb(32, 32, 32);
                         }
 
                     default:
@@ -964,7 +931,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 return state switch
                 {
                     PaletteState.Disabled => _disabledBack,
-                    PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.Tracking => SystemColors.Window,
+                    PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.Tracking => Color.FromArgb(32, 32, 32),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.HeaderForm:
@@ -1239,8 +1206,8 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _disabledBack,
                     PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : BaseColors!.ButtonNormalBack2,
-                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : SystemColors.Window,
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
+                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : Color.FromArgb(32, 32, 32),
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => Color.FromArgb(32, 32, 32),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDock:
@@ -1249,7 +1216,7 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal => BaseColors!.ButtonNormalBack2,
                     PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => Color.FromArgb(32, 32, 32),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDockAutoHidden:
@@ -1563,7 +1530,11 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             },
             PaletteBackStyle.ButtonAlternate => state switch
             {
-                PaletteState.Disabled or PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
+                PaletteState.Disabled or PaletteState.Normal => PaletteColorStyle.GlassNormalStump,
+                PaletteState.Tracking => PaletteColorStyle.GlassTrackingStump,
+                PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassPressedStump,
+                PaletteState.CheckedNormal => PaletteColorStyle.GlassCheckedStump,
+                PaletteState.CheckedTracking => PaletteColorStyle.GlassCheckedTrackingStump,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonStandalone
@@ -1578,17 +1549,28 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
                 or PaletteBackStyle.ButtonCustom3
                 or PaletteBackStyle.ContextMenuItemHighlight => state switch
                 {
-                    // Glass styles overlay white, which turns a dark button into a light face.
-                    PaletteState.Disabled or PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
+                    PaletteState.Disabled or PaletteState.Normal => style == PaletteBackStyle.ButtonCluster ? PaletteColorStyle.GlassThreeEdge : PaletteColorStyle.GlassNormalFull,
+                    PaletteState.Tracking => PaletteColorStyle.GlassTrackingFull,
+                    PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassPressedFull,
+                    PaletteState.CheckedNormal => PaletteColorStyle.GlassCheckedFull,
+                    PaletteState.CheckedTracking => PaletteColorStyle.GlassCheckedTrackingFull,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 },
             PaletteBackStyle.ContextMenuItemImage => PaletteColorStyle.Solid,
             PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonInputControl => state switch
             {
-                PaletteState.Disabled or PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking => PaletteColorStyle.Linear,
+                PaletteState.Disabled or PaletteState.Normal => PaletteColorStyle.GlassNormalSimple,
+                PaletteState.Tracking => PaletteColorStyle.GlassTrackingSimple,
+                PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassPressedSimple,
+                PaletteState.CheckedNormal => PaletteColorStyle.GlassCheckedSimple,
+                PaletteState.CheckedTracking => PaletteColorStyle.GlassCheckedTrackingSimple,
                 _ => throw DebugTools.NotImplemented(state.ToString())
             },
-            PaletteBackStyle.ButtonNavigatorMini => PaletteColorStyle.Solid,
+            PaletteBackStyle.ButtonNavigatorMini => state switch
+            {
+                PaletteState.Normal => PaletteColorStyle.RoundedTopLeftWhite,
+                _ => PaletteColorStyle.Solid
+            },
             _ => ThrowHelper.ThrowArgumentOutOfRangeException<PaletteColorStyle>(nameof(style))
         };
     }
@@ -5398,13 +5380,17 @@ public abstract class PaletteOffice2007BlackDarkModeBase : PaletteBase
             case PaletteRibbonTextStyle.RibbonAppMenuDocsEntry:
                 return BaseColors!.AppButtonMenuDocsText;
             case PaletteRibbonTextStyle.RibbonTab:
-            case PaletteRibbonTextStyle.RibbonGroupNormalTitle:
                 return state switch
                 {
                     PaletteState.Disabled => _disabledText,
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.ContextCheckedNormal or PaletteState.ContextCheckedTracking or PaletteState.FocusOverride => BaseColors!.RibbonTabTextChecked,
                     _ => BaseColors!.RibbonTabTextNormal
                 };
+            case PaletteRibbonTextStyle.RibbonGroupNormalTitle:
+                // The caption bar stays the Office 2007 silver gloss, so its text stays dark.
+                return state == PaletteState.Disabled
+                    ? Color.FromArgb(96, 96, 96)
+                    : Color.FromArgb(40, 40, 40);
             case PaletteRibbonTextStyle.RibbonGroupCollapsedText:
                 return GetRibbonGroupTextColor(state,
                     BaseColors!.RibbonGroupTextTracking,
