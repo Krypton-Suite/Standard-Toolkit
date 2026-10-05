@@ -54,4 +54,147 @@ public sealed class ToolkitStringsCoverage
     /// <inheritdoc />
     public override string ToString() =>
         $@"Applied={Applied.Count}, Missing={MissingInFile.Count}, Extra={ExtraInFile.Count}";
+
+    /// <summary>
+    /// Groups dotted catalog paths by their first segment (for example <c>CommonStrings</c>).
+    /// </summary>
+    public static string SectionOf(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            return @"(root)";
+        }
+
+        var dot = path.IndexOf('.');
+        return dot < 0 ? path : path.Substring(0, dot);
+    }
+
+    /// <summary>
+    /// Formats paths grouped by <see cref="SectionOf"/> for designer and TestForm summaries.
+    /// </summary>
+    public static string FormatGrouped(IList<string> paths)
+    {
+        if (paths == null || paths.Count == 0)
+        {
+            return @"none";
+        }
+
+        var groups = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+        foreach (var path in paths)
+        {
+            var section = SectionOf(path);
+            if (!groups.TryGetValue(section, out var list))
+            {
+                list = new List<string>();
+                groups[section] = list;
+            }
+
+            list.Add(path);
+        }
+
+        var sb = new StringBuilder();
+        foreach (var pair in groups.OrderBy(p => p.Key, StringComparer.Ordinal))
+        {
+            if (sb.Length > 0)
+            {
+                sb.AppendLine();
+            }
+
+            sb.Append(pair.Key);
+            sb.Append(@" (");
+            sb.Append(pair.Value.Count.ToString(CultureInfo.InvariantCulture));
+            sb.Append(@"): ");
+            var sample = pair.Value.Take(6);
+            sb.Append(string.Join(@", ", sample));
+            if (pair.Value.Count > 6)
+            {
+                sb.Append(@"…");
+            }
+        }
+
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Writes a CSV or JSON coverage report. <c>.json</c> writes JSON; any other extension writes CSV.
+    /// </summary>
+    public void ExportReport(string filename)
+    {
+        if (string.IsNullOrWhiteSpace(filename))
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(filename));
+        }
+
+        var json = Path.GetExtension(filename).Equals(@".json", StringComparison.OrdinalIgnoreCase);
+        File.WriteAllText(filename, json ? BuildJsonReport() : BuildCsvReport(), Encoding.UTF8);
+    }
+
+    private string BuildCsvReport()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine(@"Kind,Section,Path");
+        AppendCsvRows(sb, @"Missing", MissingInFile);
+        AppendCsvRows(sb, @"Extra", ExtraInFile);
+        AppendCsvRows(sb, @"Applied", Applied);
+        return sb.ToString();
+    }
+
+    private static void AppendCsvRows(StringBuilder sb, string kind, IList<string> paths)
+    {
+        foreach (var path in paths)
+        {
+            sb.Append(Csv(kind));
+            sb.Append(',');
+            sb.Append(Csv(SectionOf(path)));
+            sb.Append(',');
+            sb.AppendLine(Csv(path));
+        }
+    }
+
+    private static string Csv(string value)
+    {
+        if (value.IndexOfAny(new[] { ',', '"', '\r', '\n' }) < 0)
+        {
+            return value;
+        }
+
+        return $@"""{value.Replace(@"""", @"""""")}""";
+    }
+
+    private string BuildJsonReport()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine(@"{");
+        sb.AppendLine($@"  ""culture"": ""{EscapeJson(Culture)}"",");
+        sb.AppendLine($@"  ""toolkitVersion"": ""{EscapeJson(ToolkitVersion)}"",");
+        sb.AppendLine($@"  ""formatVersion"": {(FormatVersion.HasValue ? FormatVersion.Value.ToString(CultureInfo.InvariantCulture) : @"null")},");
+        sb.AppendLine($@"  ""filePath"": ""{EscapeJson(FilePath)}"",");
+        AppendJsonArray(sb, @"missing", MissingInFile, trailingComma: true);
+        AppendJsonArray(sb, @"extra", ExtraInFile, trailingComma: true);
+        AppendJsonArray(sb, @"applied", Applied, trailingComma: false);
+        sb.AppendLine(@"}");
+        return sb.ToString();
+    }
+
+    private static void AppendJsonArray(StringBuilder sb, string name, IList<string> paths, bool trailingComma)
+    {
+        sb.Append($@"  ""{name}"": [");
+        if (paths.Count == 0)
+        {
+            sb.AppendLine(trailingComma ? @"]," : @"]");
+            return;
+        }
+
+        sb.AppendLine();
+        for (var i = 0; i < paths.Count; i++)
+        {
+            sb.Append($@"    ""{EscapeJson(paths[i])}""");
+            sb.AppendLine(i < paths.Count - 1 ? @"," : string.Empty);
+        }
+
+        sb.AppendLine(trailingComma ? @"  ]," : @"  ]");
+    }
+
+    private static string EscapeJson(string? value) =>
+        (value ?? string.Empty).Replace(@"\", @"\\").Replace(@"""", @"\""").Replace("\r", @"\r").Replace("\n", @"\n");
 }

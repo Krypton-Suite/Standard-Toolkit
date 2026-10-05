@@ -142,24 +142,27 @@ public static class KryptonCustomStrings
     /// </summary>
     /// <param name="doc">The XML document to import.</param>
     /// <param name="resetFirst">When <c>true</c>, resets key/value strings and registered typed sets before import.</param>
-    public static void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true)
-        => KryptonCustomStringsPersistence.ImportFromXmlDocument(doc, resetFirst);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if registered keys are missing or the file has unknown keys.</param>
+    public static void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true, bool strictCatalog = false)
+        => KryptonCustomStringsPersistence.ImportFromXmlDocument(doc, resetFirst, strictCatalog);
 
     /// <summary>
     /// Imports custom strings from a versioned XML file.
     /// </summary>
     /// <param name="filename">Source file path.</param>
     /// <param name="resetFirst">When <c>true</c>, resets key/value strings and registered typed sets before import.</param>
-    public static void ImportFromXmlFile(string filename, bool resetFirst = true)
-        => KryptonCustomStringsPersistence.ImportFromXmlFile(filename, resetFirst);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if registered keys are missing or the file has unknown keys.</param>
+    public static void ImportFromXmlFile(string filename, bool resetFirst = true, bool strictCatalog = false)
+        => KryptonCustomStringsPersistence.ImportFromXmlFile(filename, resetFirst, strictCatalog);
 
     /// <summary>
     /// Imports custom strings from an XML stream.
     /// </summary>
     /// <param name="stream">Source stream.</param>
     /// <param name="resetFirst">When <c>true</c>, resets key/value strings and registered typed sets before import.</param>
-    public static void ImportFromXmlStream(Stream stream, bool resetFirst = true)
-        => KryptonCustomStringsPersistence.ImportFromXmlStream(stream, resetFirst);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if registered keys are missing or the file has unknown keys.</param>
+    public static void ImportFromXmlStream(Stream stream, bool resetFirst = true, bool strictCatalog = false)
+        => KryptonCustomStringsPersistence.ImportFromXmlStream(stream, resetFirst, strictCatalog);
 
     /// <summary>
     /// Exports the current custom strings to JSON.
@@ -189,16 +192,31 @@ public static class KryptonCustomStrings
     /// </summary>
     /// <param name="filename">Source file path.</param>
     /// <param name="resetFirst">When <c>true</c>, resets key/value strings and registered typed sets before import.</param>
-    public static void ImportFromJsonFile(string filename, bool resetFirst = true)
-        => KryptonCustomStringsPersistence.ImportFromJsonFile(filename, resetFirst);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if registered keys are missing or the file has unknown keys.</param>
+    public static void ImportFromJsonFile(string filename, bool resetFirst = true, bool strictCatalog = false)
+        => KryptonCustomStringsPersistence.ImportFromJsonFile(filename, resetFirst, strictCatalog);
 
     /// <summary>
     /// Imports custom strings from a JSON stream.
     /// </summary>
     /// <param name="stream">Source stream.</param>
     /// <param name="resetFirst">When <c>true</c>, resets key/value strings and registered typed sets before import.</param>
-    public static void ImportFromJsonStream(Stream stream, bool resetFirst = true)
-        => KryptonCustomStringsPersistence.ImportFromJsonStream(stream, resetFirst);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if registered keys are missing or the file has unknown keys.</param>
+    public static void ImportFromJsonStream(Stream stream, bool resetFirst = true, bool strictCatalog = false)
+        => KryptonCustomStringsPersistence.ImportFromJsonStream(stream, resetFirst, strictCatalog);
+
+    /// <summary>
+    /// Compares the live custom-string catalog with a CustomTranslations XML or JSON file.
+    /// </summary>
+    public static ToolkitStringsCoverage AnalyzeTranslationsFromFile(string filename)
+        => KryptonCustomStringsPersistence.AnalyzeFromFile(filename);
+
+    /// <summary>
+    /// Imports a custom translations file, then rewrites it so newly added typed-set keys appear
+    /// with their defaults while existing translations are preserved.
+    /// </summary>
+    public static ToolkitStringsCoverage MergeMissingTranslationsToFile(string filename, bool includeDefaults = true)
+        => KryptonCustomStringsPersistence.MergeMissingToFile(filename, includeDefaults);
 
     /// <summary>
     /// Attempts to auto-discover a custom translations file in the supplied directory.

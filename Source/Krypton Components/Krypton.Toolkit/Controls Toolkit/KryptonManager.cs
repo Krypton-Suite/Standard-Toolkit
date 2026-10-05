@@ -640,8 +640,8 @@ public sealed class KryptonManager : Component
     /// </summary>
     /// <param name="path">Path to the translations file to load.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
-    /// <exception cref="System.IO.FileNotFoundException">Thrown when the specified file does not exist.</exception>
-    public static void LoadTranslationsFromFile(string path, bool refreshOpenForms = false)
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the document if any catalog keys are missing or unknown.</param>
+    public static void LoadTranslationsFromFile(string path, bool refreshOpenForms = false, bool strictCatalog = false)
     {
         if (string.IsNullOrWhiteSpace(path))
         {
@@ -650,11 +650,11 @@ public sealed class KryptonManager : Component
 
         if (System.IO.Path.GetExtension(path).Equals(@".json", System.StringComparison.OrdinalIgnoreCase))
         {
-            Strings.ImportFromJsonFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+            Strings.ImportFromJsonFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms, strictCatalog: strictCatalog);
         }
         else
         {
-            Strings.ImportFromXmlFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+            Strings.ImportFromXmlFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms, strictCatalog: strictCatalog);
         }
 
         OnTranslationsImported();
