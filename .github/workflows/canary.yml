@@ -7,6 +7,9 @@
 #
 # Runs only when code is pushed to the Canary branch (or when triggered manually).
 # Does not run on a schedule.
+#
+# NUGET: Trusted publishing via NuGet/login. Secret NUGET_USER is the nuget.org profile name.
+# nuget.org needs a policy for this workflow file, Krypton-Suite/Standard-Toolkit, environment production.
 
 name: Canary Release
 
@@ -18,6 +21,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   canary:
@@ -305,16 +309,28 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
 
+      - name: NuGet login (OIDC)
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit'
+        id: nuget_login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         id: push_nuget
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          if (-not $env:NUGET_API_KEY) {
-            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Warning "NuGet trusted publishing is only configured for Krypton-Suite/Standard-Toolkit - skipping NuGet push"
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
+          }
+
+          if (-not $env:NUGET_API_KEY) {
+            Write-Error "NuGet trusted publishing did not provide an API key. Set the NUGET_USER secret to the nuget.org profile name."
+            exit 1
           }
 
           $packageCandidates = @(
@@ -357,7 +373,7 @@ jobs:
 
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
           STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
