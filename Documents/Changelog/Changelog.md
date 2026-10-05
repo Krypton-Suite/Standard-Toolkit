@@ -46,6 +46,12 @@
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#4483](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4483), Dark mode themes no longer leave light Office chrome on dark surfaces. Office glass buttons and silver group captions stay. Disabled text, separators, grid rows, tabs, and checkbox/radio glyphs are darkened so they stay readable.
+* Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
+  * Grouped coverage summaries (`ToolkitStringsCoverage.FormatGrouped`) and CSV/JSON `ExportReport` for toolkit and custom catalogues.
+  * Opt-in `strictCatalog` on toolkit and `KryptonCustomStrings` import (default remains tolerant).
+  * Opt-in auto-translate for Merge Missing (`KryptonStringTranslation.AutoTranslateMissingStrings`, default off). Requires an `IKryptonStringTranslator`; the toolkit does not call a translation service itself. Only keys that were missing are translated.
+  * `KryptonCustomStrings.AnalyzeTranslationsFromFile` / `MergeMissingTranslationsToFile`, export `ToolkitVersion` stamp, designer Analyse / Merge Missing verbs, and TestForm coverage UI.
+  * `Scripts/UnitTests/UnitTest-ToolkitTranslationsCoverage.ps1` and `UnitTest-CustomTranslationsCoverage.ps1`.
 * Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
  * Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
  * `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
