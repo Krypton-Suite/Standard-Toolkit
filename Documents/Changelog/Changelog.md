@@ -50,6 +50,12 @@
    * `MessageBoxStrings.MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
    * `KryptonProgressBar.TextShadowColor` and `TextBackdropColor` stay empty (automatic) without a designer line. `Values.DropDownArrowColor` already stays unset; existing `Color.Empty` lines drop the next time the designer saves the form.
    * Print-preview string defaults are `Zoom &In` / `Zoom &Out` and `Page` / `of` again, so those values are no longer stored as edits.
+* Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
+  * Grouped coverage summaries (`ToolkitStringsCoverage.FormatGrouped`) and CSV/JSON `ExportReport` for toolkit and custom catalogues.
+  * Opt-in `strictCatalog` on toolkit and `KryptonCustomStrings` import (default remains tolerant).
+  * Opt-in auto-translate for Merge Missing (`KryptonStringTranslation.AutoTranslateMissingStrings`, default off). Requires an `IKryptonStringTranslator`; the toolkit does not call a translation service itself. Only keys that were missing are translated.
+  * `KryptonCustomStrings.AnalyzeTranslationsFromFile` / `MergeMissingTranslationsToFile`, export `ToolkitVersion` stamp, designer Analyse / Merge Missing verbs, and TestForm coverage UI.
+  * `Scripts/UnitTests/UnitTest-ToolkitTranslationsCoverage.ps1` and `UnitTest-CustomTranslationsCoverage.ps1`.
 * Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
  * Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
  * `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.

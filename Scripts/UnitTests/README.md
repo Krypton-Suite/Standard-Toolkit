@@ -71,6 +71,8 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
 | `UnitTest-RibbonOverflowGlyph.ps1` | #4253 overflow glyph: `GetCachedRibbonOverflowImage` 16x16; `ViewLayoutRibbonGroups.IsOverflow` / `DisplayOverflowButton` | `include` |
 | `UnitTest-RibbonTranslations.ps1` | #4369 RibbonTranslations.xml/JSON round-trip plus Auto Discover of `RibbonTranslations.de.xml` | `include` |
+| `UnitTest-ToolkitTranslationsCoverage.ps1` | #4370 stale `ToolkitTranslations.xml` coverage, Merge Missing, tolerant vs strict import, CSV report | `include` |
+| `UnitTest-CustomTranslationsCoverage.ps1` | #4370 custom typed-set coverage, Merge Missing, `ToolkitVersion` stamp, strict import | `include` |
 | `UnitTest-CustomPaletteBasePaletteMode.ps1` | #1870 `KryptonCustomPaletteBase.BasePaletteMode` inherits the builtin colour table; builtin `BasePalette` keeps catalog mode | `include` |
 | `UnitTest-PaletteBinary.ps1` | #2117 custom palette `.kthemex` / `.ktheme` round-trip, `Convert`, `UpgradeXmlToKthemex` / `ConvertFile` (file and `KryptonCustomPaletteBase`), collections, `AddToCollection` / `RemoveFromCollection`, directory collections, and Utilities `FromDirectory` | `include` |
 | `UnitTest-KryptonFormRtl.ps1` | #2103 `KryptonForm` RTL: `ScreenToWindow` stays physical; Close hit-tests on the right in LTR and the left with `RightToLeftLayout`; window region includes both physical left and right chrome | `include` |
