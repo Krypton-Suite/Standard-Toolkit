@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -37,6 +37,10 @@ internal static class KryptonPreserializedResourceAssemblyResolve
     /// <summary>Registers <see cref="AppDomain.AssemblyResolve"/> once; returns 0 for use as a static field initializer.</summary>
     internal static int Register()
     {
+        // .NET Framework does not invoke [ModuleInitializer]. This field initializer is the first
+        // resource touch on KryptonManager and ToolkitStaticVariables, so hook the placeholder here too.
+        KryptonResourcesAssemblyResolve.Register();
+
         if (_registered)
         {
             return 0;
