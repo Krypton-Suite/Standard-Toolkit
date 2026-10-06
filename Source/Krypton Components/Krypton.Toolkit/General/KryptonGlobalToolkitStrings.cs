@@ -1056,8 +1056,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
-    public void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
-        ToolkitStringsXmlPersistence.Import(this, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if any catalog keys are missing or unknown. Default import stays tolerant.</param>
+    public void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true, bool strictCatalog = false) =>
+        ToolkitStringsXmlPersistence.Import(this, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch, strictCatalog);
 
     /// <summary>
     /// Imports toolkit strings from a versioned XML file.
@@ -1066,7 +1067,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
-    public void ImportFromXmlFile(string filename, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true)
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if any catalog keys are missing or unknown. Default import stays tolerant.</param>
+    public void ImportFromXmlFile(string filename, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true, bool strictCatalog = false)
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
@@ -1075,7 +1077,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
 
         var doc = new XmlDocument();
         doc.Load(filename);
-        ImportFromXmlDocument(doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+        ImportFromXmlDocument(doc, resetFirst, refreshOpenForms, warnOnCultureMismatch, strictCatalog);
     }
 
     /// <summary>
@@ -1093,8 +1095,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
-    public void ImportFromStream(Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
-        ToolkitStringsXmlPersistence.ImportFromStream(this, stream, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if any catalog keys are missing or unknown. Default import stays tolerant.</param>
+    public void ImportFromStream(Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true, bool strictCatalog = false) =>
+        ToolkitStringsXmlPersistence.ImportFromStream(this, stream, resetFirst, refreshOpenForms, warnOnCultureMismatch, strictCatalog);
 
     /// <summary>
     /// Exports the current toolkit string set to a JSON string.
@@ -1117,8 +1120,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <param name="filename">Path to the JSON file.</param>
     /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
-    public void ImportFromJsonFile(string filename, bool resetFirst = true, bool refreshOpenForms = true) =>
-        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst, refreshOpenForms);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if any catalog keys are missing or unknown. Default import stays tolerant.</param>
+    public void ImportFromJsonFile(string filename, bool resetFirst = true, bool refreshOpenForms = true, bool strictCatalog = false) =>
+        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst, refreshOpenForms, strictCatalog);
 
     /// <summary>
     /// Analyzes catalog coverage for a translations XML document without mutating live strings.
