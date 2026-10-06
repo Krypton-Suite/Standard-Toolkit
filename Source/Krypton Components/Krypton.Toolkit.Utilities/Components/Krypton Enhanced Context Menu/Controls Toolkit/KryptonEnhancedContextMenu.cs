@@ -317,12 +317,12 @@ public class KryptonEnhancedContextMenu : Component
     /// <param name="reason">Reason the menu is closing.</param>
     public void Close(ToolStripDropDownCloseReason reason)
     {
-        if (_popup != null && !_popup.IsDisposed)
+        if (_popup is { IsDisposed: false })
         {
             VisualPopupManager.Singleton.EndPopupTracking(_popup);
         }
 
-        if (_toolbarPopup != null && !_toolbarPopup.IsDisposed)
+        if (_toolbarPopup is { IsDisposed: false })
         {
             VisualPopupManager.Singleton.EndPopupTracking(_toolbarPopup);
         }
@@ -342,15 +342,15 @@ public class KryptonEnhancedContextMenu : Component
 
     #region Implementation
 
-    private bool IsMenuShowing => _popup != null && !_popup.IsDisposed && _popup.Visible;
+    private bool IsMenuShowing => _popup is { IsDisposed: false, Visible: true };
 
-    private bool IsToolbarShowing => _toolbarPopup != null && !_toolbarPopup.IsDisposed && _toolbarPopup.Visible;
+    private bool IsToolbarShowing => _toolbarPopup is { IsDisposed: false, Visible: true };
 
     private void OnMiniToolbarItemClick(object? sender, KryptonMiniToolbarItemClickEventArgs e)
     {
         if (KeepMiniToolbarAfterCommand)
         {
-            if (_popup != null && !_popup.IsDisposed)
+            if (_popup is { IsDisposed: false })
             {
                 VisualPopupManager.Singleton.EndPopupTracking(_popup);
             }

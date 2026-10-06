@@ -423,7 +423,7 @@ public class ButtonValues : Storage,
 
         set
         {
-            Color? normalized = value is Color c && c.IsEmpty ? null : value;
+            Color? normalized = value is Color { IsEmpty: true } ? null : value;
             if (_dropDownArrowColor != normalized)
             {
                 _dropDownArrowColor = normalized;
@@ -434,7 +434,7 @@ public class ButtonValues : Storage,
     }
     private void ResetDropDownArrowColor() => _dropDownArrowColor = null;
     public bool ShouldSerializeDropDownArrowColor() =>
-        _dropDownArrowColor.HasValue && !_dropDownArrowColor.Value.IsEmpty;
+        _dropDownArrowColor is { IsEmpty: false };
     #endregion
 
     #region CreateImageStates

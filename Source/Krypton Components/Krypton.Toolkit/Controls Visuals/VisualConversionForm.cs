@@ -101,7 +101,7 @@ internal partial class VisualConversionForm : KryptonForm
 
     private void VisualConversionForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-        if (ConversionWorker != null && ConversionWorker.IsBusy)
+        if (ConversionWorker is { IsBusy: true })
         {
             try
             {

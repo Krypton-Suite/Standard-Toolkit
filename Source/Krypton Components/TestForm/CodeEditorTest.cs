@@ -404,7 +404,7 @@ Get-PersonInfo -Name ""John"" -Age 30"
     private void kcmbLanguage_SelectedIndexChanged(object sender, EventArgs e)
     {
         var selected = kcmbLanguage.SelectedItem?.ToString();
-        if (selected != null && selected.Length > 0)
+        if (selected is { Length: > 0 })
         {
             kceEditor.Language = selected switch
             {

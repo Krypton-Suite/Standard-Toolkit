@@ -91,8 +91,7 @@ public static class KryptonCustomStringsXmlMerge
             XmlElement? targetEl = null;
             foreach (XmlNode targetNode in targetValues.ChildNodes)
             {
-                if (targetNode is XmlElement candidate &&
-                    candidate.Name == @"String" &&
+                if (targetNode is XmlElement { Name: @"String" } candidate &&
                     string.Equals(candidate.GetAttribute(@"Key"), key, StringComparison.Ordinal))
                 {
                     targetEl = candidate;
@@ -136,8 +135,7 @@ public static class KryptonCustomStringsXmlMerge
             XmlElement? targetEl = null;
             foreach (XmlNode targetNode in targetSets.ChildNodes)
             {
-                if (targetNode is XmlElement candidate &&
-                    candidate.Name == @"StringSet" &&
+                if (targetNode is XmlElement { Name: @"StringSet" } candidate &&
                     string.Equals(candidate.GetAttribute(@"Name"), name, StringComparison.Ordinal))
                 {
                     targetEl = candidate;

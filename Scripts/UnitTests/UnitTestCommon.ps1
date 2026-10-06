@@ -65,7 +65,8 @@ function Register-UnitTestAssemblyResolver {
 }
 
 function Initialize-UnitTestNativeInput {
-    Add-Type @"
+    if (-not ('UnitTestNative' -as [type])) {
+        Add-Type @"
 using System;
 using System.Runtime.InteropServices;
 public static class UnitTestNative
@@ -80,7 +81,149 @@ public static class UnitTestNative
     public const uint RIGHTUP = 0x0010;
 }
 "@
+    }
+
     [void][UnitTestNative]::SetProcessDPIAware()
+}
+
+function Initialize-UnitTestCaptureNative {
+    if (-not ('UnitTestCaptureNative' -as [type])) {
+        Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public static class UnitTestCaptureNative
+{
+    // PW_RENDERFULLCONTENT (2): capture DWM/composition content for modern WinForms chrome.
+    public const uint PW_RENDERFULLCONTENT = 2;
+    [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint nFlags);
+    [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+    public struct RECT { public int Left; public int Top; public int Right; public int Bottom; }
+}
+"@
+    }
+}
+
+function Save-UnitTestWindowPng {
+    <#
+    .SYNOPSIS
+        Captures a WinForms window to PNG without grabbing the IDE/Cursor overlay.
+
+    .DESCRIPTION
+        Prefer PrintWindow(PW_RENDERFULLCONTENT) for the HWND so CopyFromScreen cannot
+        capture Cursor, Visual Studio, or another occluding window. Use -InflateX/-InflateY
+        only when a popup must be included outside the form bounds (then TopMost +
+        SetForegroundWindow + CopyFromScreen). Always verify the PNG shows the demo.
+    #>
+    [CmdletBinding(DefaultParameterSetName = 'Form')]
+    param(
+        [Parameter(Mandatory = $true, ParameterSetName = 'Form')]
+        [System.Windows.Forms.Form]$Form,
+
+        [Parameter(Mandatory = $true, ParameterSetName = 'Handle')]
+        [System.IntPtr]$Handle,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+
+        [int]$InflateX = 0,
+        [int]$InflateY = 0,
+        [int]$SettleMs = 400
+    )
+
+    Add-Type -AssemblyName System.Drawing
+    Add-Type -AssemblyName System.Windows.Forms
+    Initialize-UnitTestNativeInput
+    Initialize-UnitTestCaptureNative
+
+    $hwnd = if ($PSCmdlet.ParameterSetName -eq 'Form') { $Form.Handle } else { $Handle }
+    if ($hwnd -eq [IntPtr]::Zero) {
+        throw 'Window handle is zero; Show the form before capturing.'
+    }
+
+    $wasTopMost = $false
+    if ($PSCmdlet.ParameterSetName -eq 'Form') {
+        $wasTopMost = [bool]$Form.TopMost
+        $Form.TopMost = $true
+        if (-not $Form.Visible) {
+            $Form.Show()
+        }
+        $Form.Activate()
+        $Form.BringToFront()
+    }
+
+    [void][UnitTestNative]::SetForegroundWindow($hwnd)
+    [System.Windows.Forms.Application]::DoEvents()
+    if ($SettleMs -gt 0) {
+        Start-Sleep -Milliseconds $SettleMs
+    }
+    [System.Windows.Forms.Application]::DoEvents()
+
+    $outDir = Split-Path -Parent $Path
+    if ($outDir -and -not (Test-Path -LiteralPath $outDir)) {
+        New-Item -ItemType Directory -Path $outDir | Out-Null
+    }
+
+    try {
+        if ($InflateX -eq 0 -and $InflateY -eq 0) {
+            # HWND capture: safe when Cursor/IDE covers the same screen region.
+            $rect = New-Object UnitTestCaptureNative+RECT
+            if (-not [UnitTestCaptureNative]::GetWindowRect($hwnd, [ref]$rect)) {
+                throw 'GetWindowRect failed.'
+            }
+
+            $width = $rect.Right - $rect.Left
+            $height = $rect.Bottom - $rect.Top
+            if ($width -le 0 -or $height -le 0) {
+                throw "Invalid window size ${width}x${height}."
+            }
+
+            $bmp = New-Object System.Drawing.Bitmap $width, $height
+            $g = [System.Drawing.Graphics]::FromImage($bmp)
+            $hdc = $g.GetHdc()
+            try {
+                [void][UnitTestCaptureNative]::PrintWindow(
+                    $hwnd,
+                    $hdc,
+                    [UnitTestCaptureNative]::PW_RENDERFULLCONTENT)
+                $bmp.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
+            }
+            finally {
+                $g.ReleaseHdc($hdc)
+                $g.Dispose()
+                $bmp.Dispose()
+            }
+        }
+        else {
+            # Expanded screen blit for popups outside the form; requires TopMost + foreground.
+            if ($PSCmdlet.ParameterSetName -ne 'Form') {
+                throw 'InflateX/InflateY require -Form so Bounds and TopMost can be applied.'
+            }
+
+            $bounds = $Form.Bounds
+            $x = [Math]::Max(0, $bounds.X - $InflateX)
+            $y = [Math]::Max(0, $bounds.Y - $InflateY)
+            $w = $bounds.Width + (2 * $InflateX)
+            $h = $bounds.Height + (2 * $InflateY)
+            $capture = [System.Drawing.Rectangle]::new($x, $y, $w, $h)
+            $bmp = New-Object System.Drawing.Bitmap $capture.Width, $capture.Height
+            $g = [System.Drawing.Graphics]::FromImage($bmp)
+            try {
+                $g.CopyFromScreen($capture.Location, [System.Drawing.Point]::Empty, $capture.Size)
+                $bmp.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
+            }
+            finally {
+                $g.Dispose()
+                $bmp.Dispose()
+            }
+        }
+    }
+    finally {
+        if (($PSCmdlet.ParameterSetName -eq 'Form') -and (-not $wasTopMost)) {
+            $Form.TopMost = $false
+        }
+    }
+
+    Write-Host "Wrote $Path"
 }
 
 function Get-UnitTestCiMarker {

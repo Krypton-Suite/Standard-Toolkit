@@ -964,16 +964,6 @@ public class KryptonPropertyGrid : VisualControlBase,
         }
     }
 
-    /// <inheritdoc />
-    protected override void OnNotifyMessage(Message m)
-    {
-        // TODO: What is this attempting to do ?
-        if (m.Msg != 0x14)
-        {
-            base.OnNotifyMessage(m);
-        }
-    }
-
     private void OnPropertyGridGotFocus(object? sender, EventArgs e)
     {
         OnGotFocus(e);
@@ -1066,7 +1056,7 @@ public class KryptonPropertyGrid : VisualControlBase,
 
     private void OnResetClick(object? sender, EventArgs e)
     {
-        if (_propertyGrid.SelectedGridItem is GridItem selectedGridItem && selectedGridItem.PropertyDescriptor != null)
+        if (_propertyGrid.SelectedGridItem is GridItem { PropertyDescriptor: not null } selectedGridItem)
         {
             PropertyDescriptor descriptor = selectedGridItem.PropertyDescriptor;
 

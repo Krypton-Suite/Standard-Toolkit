@@ -178,7 +178,7 @@ public partial class DockingConfigSaveLoadTest : KryptonForm
                 ? $"Configuration saved successfully! {pageCountBefore} pages saved. Size: {_savedConfig.Length} bytes"
                 : $"WARNING: Page count changed during save! Before: {pageCountBefore}, After: {pageCountAfter}");
 
-            btnLoadConfig.Enabled = _savedConfig != null && _savedConfig.Length > 0;
+            btnLoadConfig.Enabled = _savedConfig is { Length: > 0 };
         }
         catch (Exception ex)
         {

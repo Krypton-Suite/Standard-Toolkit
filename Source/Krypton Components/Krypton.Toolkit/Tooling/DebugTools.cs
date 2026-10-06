@@ -59,7 +59,7 @@ public static class DebugTools
     /// <summary>
     /// Gets a value indicating whether GitHub reporting is configured.
     /// </summary>
-    public static bool IsGitHubReportingConfigured => _secretKey != null && _secretKey.Length > 0;
+    public static bool IsGitHubReportingConfigured => _secretKey is { Length: > 0 };
 
     /// <summary>
     /// Allow Krypton to be improved by getting help from users.

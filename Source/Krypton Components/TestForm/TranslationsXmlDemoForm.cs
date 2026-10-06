@@ -30,9 +30,14 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
     private readonly KryptonButton _btnValidate;
     private readonly KryptonButton _btnAnalyze;
     private readonly KryptonButton _btnMerge;
+    private readonly KryptonButton _btnExportReport;
     private readonly KryptonCheckBox _chkIncludeDefaults;
     private readonly KryptonCheckBox _chkUseWindowsLanguagePack;
+    private readonly KryptonCheckBox _chkStrictCatalog;
+    private readonly KryptonCheckBox _chkAutoTranslate;
     private readonly KryptonComboBox _cmbCulture;
+    private readonly IKryptonStringTranslator _demoTranslator = new DemoPrefixTranslator();
+    private bool _installedDemoTranslator;
 
     // Path of the most recently imported/exported file, used for round-trip validation.
     private string? _lastFilePath;
@@ -49,11 +54,13 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         var instructions = new KryptonWrapLabel
         {
             Dock = DockStyle.Top,
-            Height = 90,
+            Height = 110,
             Text =
                 @"1) Edit OK/Cancel and Apply. 2) Use Windows language pack as needed." + Environment.NewLine +
-                @"3) Export/Import/Validate round-trips. Analyze reports missing/extra keys vs the live catalog." + Environment.NewLine +
+                @"3) Export/Import/Validate round-trips. Analyze groups missing/extra keys by section." + Environment.NewLine +
                 @"4) Merge Missing upgrades an older file with new English placeholders while preserving translations." + Environment.NewLine +
+                @"Auto-translate is off unless checked. It only fills new keys, and only through a translator you supply." + Environment.NewLine +
+                @"Strict catalog fails import when keys are missing or unknown. Default import stays tolerant." + Environment.NewLine +
                 @"Ribbon tab/group/button captions use RibbonTranslations.xml — open Ribbon Translations (#4369) from the start screen."
         };
 
@@ -154,6 +161,37 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         };
         optionsFlow.Controls.Add(_chkIncludeDefaults);
         optionsFlow.Controls.Add(_chkUseWindowsLanguagePack);
+        _chkStrictCatalog = new KryptonCheckBox
+        {
+            LabelStyle = LabelStyle.NormalPanel,
+            Values = { Text = @"Strict catalog (fail import on drift)" },
+            Checked = false
+        };
+        optionsFlow.Controls.Add(_chkStrictCatalog);
+        _chkAutoTranslate = new KryptonCheckBox
+        {
+            LabelStyle = LabelStyle.NormalPanel,
+            Values = { Text = @"Auto-translate missing keys" },
+            Checked = false
+        };
+        _chkAutoTranslate.CheckedChanged += (_, _) =>
+        {
+            KryptonStringTranslation.AutoTranslateMissingStrings = _chkAutoTranslate.Checked;
+            if (_chkAutoTranslate.Checked)
+            {
+                if (KryptonStringTranslation.Translator == null)
+                {
+                    KryptonStringTranslation.Translator = _demoTranslator;
+                    _installedDemoTranslator = true;
+                }
+            }
+            else if (_installedDemoTranslator)
+            {
+                KryptonStringTranslation.Translator = null;
+                _installedDemoTranslator = false;
+            }
+        };
+        optionsFlow.Controls.Add(_chkAutoTranslate);
         optionsFlow.Controls.Add(cultureLabel);
         optionsFlow.Controls.Add(_cmbCulture);
         optionsPanel.Controls.Add(optionsFlow);
@@ -179,6 +217,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         _btnValidate = new KryptonButton { Values = { Text = @"Validate Round-trip" }, Enabled = false };
         _btnAnalyze  = new KryptonButton { Values = { Text = @"Analyze..." } };
         _btnMerge    = new KryptonButton { Values = { Text = @"Merge Missing..." } };
+        _btnExportReport = new KryptonButton { Values = { Text = @"Save coverage report..." }, Enabled = false };
 
         buttonsFlow.Controls.Add(_btnApply);
         buttonsFlow.Controls.Add(_btnExport);
@@ -187,6 +226,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         buttonsFlow.Controls.Add(_btnValidate);
         buttonsFlow.Controls.Add(_btnAnalyze);
         buttonsFlow.Controls.Add(_btnMerge);
+        buttonsFlow.Controls.Add(_btnExportReport);
         buttonsPanel.Controls.Add(buttonsFlow);
 
         var valuesPanel = new KryptonPanel
@@ -278,7 +318,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
                 return;
             }
 
-            KryptonManager.Strings.ImportFromXmlFile(ofd.FileName, resetFirst: true, refreshOpenForms: true);
+            KryptonManager.Strings.ImportFromXmlFile(ofd.FileName, resetFirst: true, refreshOpenForms: true, strictCatalog: _chkStrictCatalog.Checked);
             _lastFilePath = ofd.FileName;
             _btnValidate.Enabled = true;
             UpdateDisplayedStrings();
@@ -296,6 +336,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
         _btnValidate.Click += (_, _) => RunRoundTripValidation();
         _btnAnalyze.Click += (_, _) => RunAnalyze();
         _btnMerge.Click += (_, _) => RunMergeMissing();
+        _btnExportReport.Click += (_, _) => RunExportReport();
 
         UpdateDisplayedStrings();
     }
@@ -321,19 +362,51 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
             var coverage = KryptonManager.AnalyzeTranslationsFromFile(ofd.FileName);
             _lastFilePath = ofd.FileName;
             _btnValidate.Enabled = true;
-
-            var missingSample = coverage.MissingInFile.Count == 0
-                ? @"none"
-                : string.Join(@", ", coverage.MissingInFile.Take(8))
-                  + (coverage.MissingInFile.Count > 8 ? @"…" : string.Empty);
+            _btnExportReport.Enabled = true;
 
             _lblStatus.Text =
                 $@"Analyze '{ofd.FileName}': {coverage}. ToolkitVersion={coverage.ToolkitVersion ?? @"n/a"}.{Environment.NewLine}" +
-                $@"Missing sample: {missingSample}";
+                @"Missing by section:" + Environment.NewLine +
+                ToolkitStringsCoverage.FormatGrouped(coverage.MissingInFile) + Environment.NewLine +
+                @"Extra by section:" + Environment.NewLine +
+                ToolkitStringsCoverage.FormatGrouped(coverage.ExtraInFile);
         }
         catch (Exception ex)
         {
             _lblStatus.Text = $@"Analyze: ERROR — {ex.Message}";
+        }
+    }
+
+    private void RunExportReport()
+    {
+        if (string.IsNullOrWhiteSpace(_lastFilePath))
+        {
+            _lblStatus.Text = @"Analyze a file before saving a coverage report.";
+            return;
+        }
+
+        using var sfd = new SaveFileDialog
+        {
+            OverwritePrompt = true,
+            FileName = @"ToolkitTranslations-coverage",
+            Filter = @"CSV (*.csv)|*.csv|JSON (*.json)|*.json",
+            Title = @"Save Coverage Report"
+        };
+
+        if (sfd.ShowDialog(this) != DialogResult.OK || string.IsNullOrWhiteSpace(sfd.FileName))
+        {
+            return;
+        }
+
+        try
+        {
+            var coverage = KryptonManager.AnalyzeTranslationsFromFile(_lastFilePath);
+            coverage.ExportReport(sfd.FileName);
+            _lblStatus.Text = $@"Coverage report saved to {sfd.FileName}.";
+        }
+        catch (Exception ex)
+        {
+            _lblStatus.Text = $@"Coverage report: ERROR — {ex.Message}";
         }
     }
 
@@ -491,6 +564,23 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
                 CollectValues(childEl, key, result);
             }
         }
+    }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        if (_installedDemoTranslator && ReferenceEquals(KryptonStringTranslation.Translator, _demoTranslator))
+        {
+            KryptonStringTranslation.Translator = null;
+        }
+
+        KryptonStringTranslation.AutoTranslateMissingStrings = false;
+        base.OnFormClosed(e);
+    }
+
+    private sealed class DemoPrefixTranslator : IKryptonStringTranslator
+    {
+        public string? Translate(string text, CultureInfo sourceCulture, CultureInfo targetCulture, string keyPath) =>
+            $@"[{targetCulture.TwoLetterISOLanguageName}] {text}";
     }
 }
 

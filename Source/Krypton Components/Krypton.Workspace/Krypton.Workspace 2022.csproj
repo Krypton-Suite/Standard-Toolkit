@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Krypton.Workspace</RootNamespace>
     <AssemblyName>Krypton.Workspace</AssemblyName>
-    <!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+    <!-- Disable CheckEolTargetFramework to suppress this warning. -->
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>

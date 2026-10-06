@@ -1038,7 +1038,7 @@ public class KryptonDropZone : KryptonPanel
 
     private void UpdateQuotaDisplay()
     {
-        bool show = _behavior.ShowUploadQuotaProgressBar && _behavior.UploadSizeQuota > 0;
+        bool show = _behavior is { ShowUploadQuotaProgressBar: true, UploadSizeQuota: > 0 };
         _quotaLabel.Visible = show;
         _quotaProgressBar.Visible = show;
         if (show)

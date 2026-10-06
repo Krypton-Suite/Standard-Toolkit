@@ -45,6 +45,27 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+* Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
+  * Grouped coverage summaries (`ToolkitStringsCoverage.FormatGrouped`) and CSV/JSON `ExportReport` for toolkit and custom catalogues.
+  * Opt-in `strictCatalog` on toolkit and `KryptonCustomStrings` import (default remains tolerant).
+  * Opt-in auto-translate for Merge Missing (`KryptonStringTranslation.AutoTranslateMissingStrings`, default off). Requires an `IKryptonStringTranslator`; the toolkit does not call a translation service itself. Only keys that were missing are translated.
+  * `KryptonCustomStrings.AnalyzeTranslationsFromFile` / `MergeMissingTranslationsToFile`, export `ToolkitVersion` stamp, designer Analyse / Merge Missing verbs, and TestForm coverage UI.
+  * `Scripts/UnitTests/UnitTest-ToolkitTranslationsCoverage.ps1` and `UnitTest-CustomTranslationsCoverage.ps1`.
+* Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
+ * Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
+ * `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
+* Implemented [#4081](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4081), Use pattern matching where possible
+* Implemented [#4417](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4417), `KryptonTextBox.InputMode` (`Any` / `Digits` / `Letters` / `Alphanumeric`) filters typing and paste; replaces the unfinished alphanumeric-mode stub.
+* Resolved [#4421](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4421) / [#4422](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4422), Calendar "today" border override no longer uses a dead `Disabled` check inside `TodayOverride` (always returns the today border colour across builtin palettes)
+* Resolved [#4412](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4412), `LabelStyle.AlternateControl` / `AlternatePanel` text colour now uses `StatusStripText` in all builtin palette bases (short and long text).
+* Implemented, Moved theme/image resource banks into `Krypton.Resources.dll` (bundled into `Krypton.Toolkit`, sibling module packages, and `Krypton.Standard.Toolkit`; not a separate NuGet package).
+* Resolved [#4414](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4414), Removed dead `OnNotifyMessage` overrides that filtered `WM_ERASEBKGND` without effect (`EnableNotifyMessage` was never enabled).
+* Resolved [#4419](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4419), Use scaling here, to support larger screens
+ * Toast notifications scale screen-edge and borderless height padding for high-DPI displays; toasts without a close box use borderless chrome.
+ * To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+* Resolved / Implemented [#4432](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4432), ButtonSpecs do not cover the full height of the control
+  * `ButtonSpec.FillHeight` stretches ButtonSpecs to the full height of the host control (default remains vertically centred).
+  * `ButtonSpecEdgeArrange.StackAlongEdge` (on TextBox, ComboBox, MaskedTextBox, DateTimePicker, NumericUpDown, DomainUpDown, CalcInput) stacks same-edge ButtonSpecs vertically; default remains side-by-side.
 * Resolved [#4423](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4423), Documented why `GetButtonSpecImage` returns null for `PaletteButtonSpecStyle.Generic` (no stock palette glyph; consumers supply the image)
 * Resolved `KryptonTagInput` design-time attribute: modern TFMs now resolve `KryptonTagInputDesigner` from `Krypton.Toolkit.Design` instead of `typeof` in the runtime assembly
 * Resolved [#4424](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4424), Replace this with the graphic DrawString to get around some drawing looking Very Poor

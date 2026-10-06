@@ -1617,7 +1617,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
 
     private void OnFormKeyDown(object? sender, KeyEventArgs e)
     {
-        if (e.KeyCode == Keys.Apps || (e.KeyCode == Keys.F10 && e.Shift))
+        if (e.KeyCode == Keys.Apps || e is { KeyCode: Keys.F10, Shift: true })
         {
             var contextLocation = _addressBar.PointToScreen(new Point(0, _addressBar.Height));
             ShowBreadcrumbContextMenu(contextLocation);
@@ -1626,7 +1626,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             return;
         }
 
-        if (e.KeyCode == Keys.L && e.Control && !e.Alt && !e.Shift)
+        if (e is { KeyCode: Keys.L, Control: true, Alt: false, Shift: false })
         {
             BeginAddressEdit();
             e.Handled = true;
@@ -1634,7 +1634,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
             return;
         }
 
-        if (e.KeyCode == Keys.F4 && !e.Alt && !e.Control && !e.Shift)
+        if (e is { KeyCode: Keys.F4, Alt: false, Control: false, Shift: false })
         {
             BeginAddressEdit();
             e.Handled = true;
@@ -2264,8 +2264,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
     private void TryAcceptFolderSelection()
     {
         var selectedPath = _fileList.SelectedItems.Count > 0
-                           && _fileList.SelectedItems[0].Tag is FileEntry entry
-                           && entry.IsDirectory
+                           && _fileList.SelectedItems[0].Tag is FileEntry { IsDirectory: true } entry
             ? entry.Path
             : _fileNameTextBox.Text;
 
@@ -2294,7 +2293,7 @@ internal sealed partial class VisualCustomFileDialogForm : KryptonForm
     private void TryAcceptOpenSelection()
     {
         var selectedEntry = _fileList.SelectedItems.Count > 0 ? _fileList.SelectedItems[0].Tag as FileEntry : null;
-        if (selectedEntry != null && selectedEntry.IsDirectory)
+        if (selectedEntry is { IsDirectory: true })
         {
             NavigateToPath(selectedEntry.Path, updatePathText: true, selectTreeNode: true);
             return;

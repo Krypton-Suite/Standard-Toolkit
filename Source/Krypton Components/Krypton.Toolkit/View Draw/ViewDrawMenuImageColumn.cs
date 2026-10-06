@@ -96,7 +96,7 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
         // overrides paint here too. Palette ContextMenuItemImageColumn is a solid theme
         // colour and would hide those gradients if painted first.
         var rect = ClientRectangle;
-        if (rect.Width > 0 && rect.Height > 0)
+        if (rect is { Width: > 0, Height: > 0 })
         {
             var ct = _provider.ProviderRedirector.ColorTable;
             KryptonProfessionalRenderer.FillImageMargin(context.Graphics, rect,

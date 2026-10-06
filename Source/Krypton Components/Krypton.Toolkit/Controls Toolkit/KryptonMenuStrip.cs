@@ -250,7 +250,7 @@ public class KryptonMenuStrip : MenuStrip,
     {
         if (!IsDisposed)
         {
-            if (e != null && e.NeedLayout)
+            if (e is { NeedLayout: true })
             {
                 PerformLayout();
             }
@@ -278,8 +278,7 @@ public class KryptonMenuStrip : MenuStrip,
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            if (Items[i] is ToolStripMenuItem dropDownItem
-                && dropDownItem.DropDown.Visible)
+            if (Items[i] is ToolStripMenuItem { DropDown.Visible: true } dropDownItem)
             {
                 dropDownItem.DropDown.Close(ToolStripDropDownCloseReason.AppFocusChange);
                 return;

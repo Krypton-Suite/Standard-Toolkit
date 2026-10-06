@@ -12,7 +12,7 @@ using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Toolkit.Utilities;
 
-internal partial class VisualToastBasicWithProgressBarForm : KryptonForm
+internal partial class VisualToastBasicWithProgressBarForm : VisualToastBaseForm
 {
     #region Instance Fields
 
@@ -25,8 +25,6 @@ internal partial class VisualToastBasicWithProgressBarForm : KryptonForm
     private PaletteBase _palette;
 
     private readonly KryptonBasicToastData _basicToastNotificationData;
-
-    private KryptonToastResult _notificationResult;
 
     #endregion
 
@@ -62,27 +60,6 @@ internal partial class VisualToastBasicWithProgressBarForm : KryptonForm
     internal bool ReturnValue => kchkDoNotShowAgain.Checked;
 
     internal CheckState ReturnCheckBoxStateValue => kchkDoNotShowAgain.CheckState;
-
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public new DialogResult DialogResult
-    {
-        get => base.DialogResult;
-
-        set => base.DialogResult = value;
-    }
-
-    /// <summary>Gets or sets the notification result.</summary>
-    /// <value>The notification result.</value>
-    [Category(@"Behaviour")]
-    [Description(@"")]
-    [DefaultValue(KryptonToastResult.None)]
-    public KryptonToastResult NotificationResult
-    {
-        get => _notificationResult;
-
-        set => _notificationResult = value;
-    }
 
     #endregion
 
@@ -158,18 +135,17 @@ internal partial class VisualToastBasicWithProgressBarForm : KryptonForm
         pbxImage.Image = image;
     }
 
-    private void UpdateLocation()
-    {
-        //Once loaded, position the form, or position it to the bottom left of the screen with added padding
-        Location = _basicToastNotificationData.NotificationLocation ?? new Point(Screen.PrimaryScreen!.WorkingArea.Width - Width - 5,
-            Screen.PrimaryScreen!.WorkingArea.Height - Height - 5);
-    }
+    private void UpdateLocation() =>
+        // Once loaded, position the form, or default to bottom-right with DPI-scaled edge padding.
+        Location = _basicToastNotificationData.NotificationLocation ?? GetDefaultBottomRightLocation();
 
     private void VisualToastNotificationBasicWithProgressBarForm_Load(object sender, EventArgs e)
     {
-        UpdateLocation();
-
         ShowCloseButton();
+
+        ApplyToastDpiLayout();
+
+        UpdateLocation();
 
         _timer.Start();
 
@@ -208,14 +184,8 @@ internal partial class VisualToastBasicWithProgressBarForm : KryptonForm
         Close();
     }
 
-    private void ShowCloseButton()
-    {
-        CloseBox = _basicToastNotificationData.ShowCloseBox ?? false;
-
-        FormBorderStyle = CloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.FixedSingle;
-
-        ControlBox = _basicToastNotificationData.ShowCloseBox ?? false;
-    }
+    private void ShowCloseButton() =>
+        ApplyCloseBoxChrome(_basicToastNotificationData.ShowCloseBox ?? false);
 
     private void UpdateProgressBarText() => kpbCountDown.Text = _basicToastNotificationData.ShowCountDownSecondsOnProgressBar ? $@"{_basicToastNotificationData.CountDownSeconds - _time}" : string.Empty;
 

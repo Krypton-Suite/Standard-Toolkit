@@ -111,6 +111,18 @@ public class ViewLayoutCenter : ViewComposite
 
     #endregion
 
+    #region FillHeight
+    /// <summary>
+    /// Gets and sets whether children stretch to the full client height instead of being centred.
+    /// </summary>
+    /// <remarks>
+    /// Used by <see cref="ButtonSpecView"/> when <see cref="ButtonSpec.FillHeight"/> is set.
+    /// Preferred width and horizontal centring are unchanged.
+    /// </remarks>
+    public bool FillHeight { get; set; }
+
+    #endregion
+
     #region Layout
     /// <summary>
     /// Discover the preferred size of the element.
@@ -275,14 +287,23 @@ public class ViewLayoutCenter : ViewComposite
                         childPreferred.Height = ClientHeight;
                     }
 
+                    // FillHeight stretches to the docked allocation (tall TextBox / ComboBox ButtonSpecs).
+                    // Keep preferred width and horizontal centring (#4432).
+                    if (FillHeight)
+                    {
+                        childPreferred.Height = ClientHeight;
+                    }
+
                     // Find vertical and horizontal offsets for centering
                     var xOffset = (ClientWidth - childPreferred.Width) / 2;
                     var yOffset = (ClientHeight - childPreferred.Height) / 2;
 
                     // Form caption ButtonSpecs take a fixed inset from the top of the caption rather
                     // than centring, so their top border can sit flush inside the form border (#4132).
-                    // A negative inset opts back into centring.
-                    if (MetricPadding == PaletteMetricPadding.HeaderButtonPaddingForm
+                    // A negative inset opts back into centring. Skip when FillHeight already owns the
+                    // vertical extent.
+                    if (!FillHeight
+                        && MetricPadding == PaletteMetricPadding.HeaderButtonPaddingForm
                         && child is ViewDrawButton
                         && ToolkitStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP >= 0)
                     {

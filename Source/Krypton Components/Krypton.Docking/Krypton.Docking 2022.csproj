@@ -4,7 +4,7 @@
 	<OutputType>Library</OutputType>
 	<RootNamespace>Krypton.Docking</RootNamespace>
 	<AssemblyName>Krypton.Docking</AssemblyName>
-	<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+	<!-- Disable CheckEolTargetFramework to suppress this warning. -->
 	<CheckEolTargetFramework>false</CheckEolTargetFramework>
 	<ApplicationIcon>Krypton.ico</ApplicationIcon>
 	<DelaySign>false</DelaySign>

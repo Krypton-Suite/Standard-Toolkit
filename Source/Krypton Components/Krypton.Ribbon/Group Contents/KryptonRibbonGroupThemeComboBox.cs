@@ -110,7 +110,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
     /// </summary>
     private string GetSelectedThemeName()
     {
-        if (SelectedIndex > -1 && SelectedItem is string s && s.Length > 0)
+        if (SelectedIndex > -1 && SelectedItem is string { Length: > 0 } s)
         {
             return s;
         }
@@ -179,7 +179,7 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
                 return;
             }
 
-            deferCommit = ThemeChangeCoordinator.InProgress && !ComboBox.IsDisposed && ComboBox.IsHandleCreated;
+            deferCommit = ThemeChangeCoordinator.InProgress && ComboBox is { IsDisposed: false, IsHandleCreated: true };
             if (deferCommit)
             {
                 ComboBox.BeginInvoke((System.Windows.Forms.MethodInvoker)(() => CommitThemeSelection(idx)));

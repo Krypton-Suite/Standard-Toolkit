@@ -505,7 +505,7 @@ public static partial class KryptonPaletteFile
             ThrowHelper.ThrowInvalidOperationException(@"Embedded palette file icon is missing.");
         }
 
-        var bytes = new byte[stream!.Length];
+        var bytes = new byte[stream.Length];
         var read = 0;
         while (read < bytes.Length)
         {
@@ -638,10 +638,15 @@ public static partial class KryptonPaletteFile
             : null;
     }
 
-    private static string QuotePath(string path) =>
-        path.Length >= 2 && path[0] == '"' && path[path.Length - 1] == '"'
-            ? path
-            : @"""" + path + @"""";
+    private static string QuotePath(string path)
+    {
+        if (path.Length >= 2 && path[0] == '"' && path[path.Length - 1] == '"')
+        {
+            return path;
+        }
+
+        return @"""" + path + @"""";
+    }
 
     private static void DeleteProgId(string progId)
     {

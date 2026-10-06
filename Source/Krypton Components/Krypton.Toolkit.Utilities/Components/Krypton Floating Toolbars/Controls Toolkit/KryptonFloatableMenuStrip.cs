@@ -461,7 +461,7 @@ public partial class KryptonFloatableMenuStrip : KryptonMenuStrip
         // Apply theme colors
         _menuStripContainerForm.BackColor = _windowTheme.BackColor;
         
-        if (_windowTheme.Opacity >= 0.0 && _windowTheme.Opacity <= 1.0)
+        if (_windowTheme.Opacity is >= 0.0 and <= 1.0)
         {
             _menuStripContainerForm.Opacity = _windowTheme.Opacity;
         }
@@ -642,7 +642,7 @@ public partial class KryptonFloatableMenuStrip : KryptonMenuStrip
         {
             foreach (var group in FloatingToolbarGroupManager.Groups)
             {
-                if (group.IsTabbed && group.TabbedContainerForm != null)
+                if (group is { IsTabbed: true, TabbedContainerForm: not null })
                 {
                     var containerForm = group.TabbedContainerForm;
                     Rectangle containerRect = containerForm.RectangleToScreen(containerForm.ClientRectangle);
@@ -693,7 +693,7 @@ public partial class KryptonFloatableMenuStrip : KryptonMenuStrip
         {
             foreach (var group in FloatingToolbarGroupManager.Groups)
             {
-                if (group.IsTabbed && group.TabbedContainerForm != null)
+                if (group is { IsTabbed: true, TabbedContainerForm: not null })
                 {
                     var containerForm = group.TabbedContainerForm;
                     Rectangle containerRect = containerForm.RectangleToScreen(containerForm.ClientRectangle);

@@ -309,7 +309,7 @@ internal class SuggestionPopup : KryptonForm
 
     private void OnSuggestionListBoxDoubleClick(object? sender, EventArgs e)
     {
-        if (_listBox != null && _listBox.SelectedIndex >= 0)
+        if (_listBox is { SelectedIndex: >= 0 })
         {
             OnSuggestionSelected(_listBox.SelectedIndex);
         }
@@ -337,8 +337,8 @@ internal class SuggestionPopup : KryptonForm
 
         // Check if any child control has focus
         return _suggestionDisplayType == SearchSuggestionDisplayType.DataGridView
-            ? _dataGridView != null && _dataGridView.Focused
-            : _listBox != null && _listBox.Focused;
+            ? _dataGridView is { Focused: true }
+            : _listBox is { Focused: true };
     }
 
     protected override void Dispose(bool disposing)
@@ -403,7 +403,7 @@ internal class SuggestionPopup : KryptonForm
 
     private void OnDataGridViewCellMouseDown(object? sender, DataGridViewCellMouseEventArgs e)
     {
-        if (_dataGridView != null && e.Button == MouseButtons.Left && e.RowIndex >= 0)
+        if (_dataGridView != null && e is { Button: MouseButtons.Left, RowIndex: >= 0 })
         {
             // Single click selects the suggestion immediately
             OnSuggestionSelected(e.RowIndex);
@@ -413,7 +413,7 @@ internal class SuggestionPopup : KryptonForm
     private void OnDataGridViewCellMouseClick(object? sender, DataGridViewCellMouseEventArgs e)
     {
         // Also handle MouseClick as a fallback
-        if (_dataGridView != null && e.Button == MouseButtons.Left && e.RowIndex >= 0)
+        if (_dataGridView != null && e is { Button: MouseButtons.Left, RowIndex: >= 0 })
         {
             OnSuggestionSelected(e.RowIndex);
         }
@@ -431,7 +431,7 @@ internal class SuggestionPopup : KryptonForm
     private void OnDataGridViewKeyDown(object? sender, KeyEventArgs e)
     {
         // Handle Enter key to select the current row
-        if (e.KeyCode == Keys.Enter && _dataGridView != null && _dataGridView.CurrentRow != null)
+        if (e.KeyCode == Keys.Enter && _dataGridView is { CurrentRow: not null })
         {
             OnSuggestionSelected(_dataGridView.CurrentRow.Index);
             e.Handled = true;

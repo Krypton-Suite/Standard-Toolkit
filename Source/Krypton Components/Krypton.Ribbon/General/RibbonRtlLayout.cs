@@ -34,7 +34,7 @@ internal static class RibbonRtlLayout
     /// <param name="context">Layout context.</param>
     /// <returns>True when both RTL flags are set on the context control.</returns>
     public static bool IsRtl(ViewLayoutContext? context) =>
-        context != null && context.IsRightToLeftLayout;
+        context is { IsRightToLeftLayout: true };
 
     /// <summary>
     /// Gets the running X for the first packed item.

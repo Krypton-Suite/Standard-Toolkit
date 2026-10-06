@@ -228,7 +228,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
     protected KryptonColorTable365? Table { get; set; }
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
 
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -240,11 +240,8 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     #region Constructor
 
     /// <summary>
-    /// Overload that accepts any KryptonColorSchemeBase implementation.
-    /// Converts it to a Color[] and forwards to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteMicrosoft365Base(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -256,54 +253,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         Debug.Assert(galleryButtonList != null);
         Debug.Assert(radioButtonArray != null);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
 
-        if (checkBoxList != null)
-        {
-            _checkBoxList = checkBoxList;
-        }
-
-        if (galleryButtonList != null)
-        {
-            _galleryButtonList = galleryButtonList;
-        }
-
-        if (radioButtonArray != null)
-        {
-            _radioButtonArray = radioButtonArray;
-        }
-
-        DefineFonts();
-        BaseColors = scheme;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PaletteMicrosoft365Base"/> class.
-    /// </summary>
-    /// <param name="schemeColors">The scheme colours.</param>
-    /// <param name="checkBoxList">The check box list.</param>
-    /// <param name="galleryButtonList">The gallery button list.</param>
-    /// <param name="radioButtonArray">The radio button array.</param>
-    /// <param name="trackBarColors">The track bar colours.</param>
-    protected PaletteMicrosoft365Base(
-        [DisallowNull] Color[] schemeColors,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
-    {
-        Debug.Assert(schemeColors != null);
-        Debug.Assert(checkBoxList != null);
-        Debug.Assert(galleryButtonList != null);
-        Debug.Assert(radioButtonArray != null);
-
-        if (schemeColors != null)
-        {
-            _ribbonColors = schemeColors;
-        }
+        _ribbonColors = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -1208,7 +1160,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -1336,7 +1288,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -2229,9 +2181,10 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => state == PaletteState.Disabled
                 ? _ribbonColors[(int)SchemeBaseColors.InputControlTextDisabled]
                 : _ribbonColors[(int)SchemeBaseColors.InputControlTextNormal],
-            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
-            PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
+            PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
+            PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
             PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextLabelControl),
+            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelAlternateControl => _ribbonColors[(int)SchemeBaseColors.StatusStripText],
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeBaseColors.ContextMenuHeadingText],
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state == PaletteState.Tracking || state == PaletteState.CheckedTracking
@@ -2721,9 +2674,10 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => state == PaletteState.Disabled
                 ? _ribbonColors[(int)SchemeBaseColors.InputControlTextDisabled]
                 : _ribbonColors[(int)SchemeBaseColors.InputControlTextNormal],
-            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
-            PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
+            PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
+            PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
             PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextLabelControl),
+            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelAlternateControl => _ribbonColors[(int)SchemeBaseColors.StatusStripText],
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeBaseColors.ContextMenuHeadingText],
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => state != PaletteState.Normal
@@ -4522,7 +4476,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             {
                 _ribbonColors[idx] = newColor;
             }
-            BaseColors?.ButtonTextTracking = newColor;
+            BaseColors.ButtonTextTracking = newColor;
         }
         base.OnSchemeExtraColorChanged(index, newColor);
     }

@@ -38,11 +38,10 @@ Delete any section that does not apply.
   1. <step>
   2. <expected result>
 - Build: `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug`
-- Build log screenshot (required; capture per AGENTS.md **Build Log Screenshot**. Save as `Documents/PR/<issue>-<short-title>-build.png`. Do not upload or attach it to the GitHub pull request.):
 
 ## Screenshots / GIFs
 
-<!-- Capture per AGENTS.md UI Screenshots / GIFs. Save PNG or GIF files next to this file as Documents/PR/<issue>-<short-title>-<state>.png or .gif. Embed relative images below for the local draft. Do not upload or attach them to the GitHub pull request. Remove this section only when there is no UI change; do not leave this placeholder. -->
+<!-- Capture per AGENTS.md UI Screenshots / GIFs. Use Save-UnitTestWindowPng (PrintWindow) from Scripts/UnitTests/UnitTestCommon.ps1 — do not bare CopyFromScreen after only Activate (IDE occlusion). Save PNG or GIF files next to this file as Documents/PR/<issue>-<short-title>-<state>.png or .gif. Embed relative images below for the local draft. Read each image in-session to confirm it shows the demo. Do not upload or attach them to the GitHub pull request. Remove this section only when there is no UI change; do not leave this placeholder. -->
 
 ![<state>](./<issue>-<short-title>-<state>.png)
 
@@ -63,6 +62,8 @@ Delete any section that does not apply.
 - `Documents/Development/<guide>.md` (add for substantial new features; omit for trivial fixes).
 
 ## Build log
+
+- Build log screenshot (required; capture per AGENTS.md **Build Log Screenshot**. Save as `Documents/PR/<issue>-<short-title>-build.png`. Do not upload or attach it to the GitHub pull request.):
 
 ![Build log](./<issue>-<short-title>-build.png)
 

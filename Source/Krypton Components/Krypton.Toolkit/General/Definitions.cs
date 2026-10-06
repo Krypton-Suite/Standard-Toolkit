@@ -1278,6 +1278,26 @@ public enum RelativeEdgeAlign
 }
 #endregion
 
+#region Enum ButtonSpecEdgeArrange
+
+/// <summary>
+/// Specifies how multiple <see cref="ButtonSpec"/> instances on the same edge are arranged.
+/// </summary>
+public enum ButtonSpecEdgeArrange
+{
+    /// <summary>
+    /// Pack ButtonSpecs side-by-side along the Near/Far axis (historic default).
+    /// </summary>
+    SideBySide,
+
+    /// <summary>
+    /// Stack ButtonSpecs along the host edge (vertically on a top/bottom docker).
+    /// </summary>
+    StackAlongEdge
+}
+
+#endregion
+
 #region Enum RelativePositionAlign
 /// <summary>
 /// Specifies a relative alignment position.
@@ -5044,6 +5064,28 @@ public enum KryptonPaletteFileFormat
     /// (kind 1). Default when exporting to a <c>.ktheme</c> path.
     /// </summary>
     PaletteBinary = 2
+}
+
+#endregion
+
+#region Enum KryptonTextBoxInputMode
+
+/// <summary>
+/// Restricts which characters <see cref="KryptonTextBox"/> accepts from typing and paste.
+/// </summary>
+public enum KryptonTextBoxInputMode
+{
+    /// <summary>Accept any character (default WinForms behaviour).</summary>
+    Any = 0,
+
+    /// <summary>Accept digit characters only (<see cref="char.IsDigit(char)"/>).</summary>
+    Digits = 1,
+
+    /// <summary>Accept letter characters only (<see cref="char.IsLetter(char)"/>).</summary>
+    Letters = 2,
+
+    /// <summary>Accept letters and digits (<see cref="char.IsLetterOrDigit(char)"/>).</summary>
+    Alphanumeric = 3
 }
 
 #endregion

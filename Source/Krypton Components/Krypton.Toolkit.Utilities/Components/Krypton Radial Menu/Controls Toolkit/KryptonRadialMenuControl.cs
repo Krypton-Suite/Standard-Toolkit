@@ -476,7 +476,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     protected override void OnInvalidated(InvalidateEventArgs e)
     {
         base.OnInvalidated(e);
-        if (_isFloating && _floatForm != null && !_floatForm.IsDisposed)
+        if (_isFloating && _floatForm is { IsDisposed: false })
         {
             _floatForm.RequestPublishFrame();
         }
@@ -857,7 +857,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     private RadialMenuMetrics CurrentMetrics()
     {
         UpdateDpiScale();
-        var available = ClientSize.Width > 0 && ClientSize.Height > 0
+        var available = ClientSize is { Width: > 0, Height: > 0 }
             ? ClientSize
             : new Size(
                 RadialMenuMetrics.DiameterFromRadius(Values.MenuRadius),
@@ -974,7 +974,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
     }
 
     private bool HasMoveCapture() =>
-        Capture || (_floatForm != null && _floatForm.Capture);
+        Capture || _floatForm is { Capture: true };
 
     private bool IsMouseOverMoveSurface()
     {
@@ -1054,7 +1054,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         // Cursor left the immediate parent (or the owning form) — promote to a top-level float host.
         var boundsHost = Parent;
         var form = FindForm();
-        if (form != null && form.IsHandleCreated)
+        if (form is { IsHandleCreated: true })
         {
             boundsHost = form;
         }
@@ -1165,7 +1165,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
         Visible = true;
         Dock = DockStyle.None;
 
-        if (dockBack && _dockParent != null && !_dockParent.IsDisposed)
+        if (dockBack && _dockParent is { IsDisposed: false })
         {
             Size = _dockSize;
             Dock = _dockStyle;
@@ -1302,7 +1302,7 @@ public class KryptonRadialMenuControl : Control, IRadialMenuAppearance, IRadialM
             return color;
         }
 
-        if (Parent != null && Parent.BackColor.A == 255 && Parent.BackColor != TransparencyKeyColor)
+        if (Parent is { BackColor.A: 255 } && Parent.BackColor != TransparencyKeyColor)
         {
             return Parent.BackColor;
         }

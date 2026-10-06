@@ -719,7 +719,7 @@ public class RenderStandard : RenderBase
 
 		// Use helper to create a border path in middle of the pen
 		var isForm = context.Control as KryptonForm;
-		var forBorder = isForm != null && isForm.MdiParent == null;
+		var forBorder = isForm is { MdiParent: null };
 		return CreateBorderBackPath(forBorder,
 			!forBorder,
 			rect,
@@ -1385,10 +1385,7 @@ public class RenderStandard : RenderBase
 		}
 
 		// Draw overlay image if present
-		if (standard.DrawOverlayImage && standard.OverlayImage != null &&
-			!standard.OverlayImageRect.IsEmpty &&
-			standard.OverlayImageRect.Width > 0 &&
-			standard.OverlayImageRect.Height > 0)
+		if (standard is { DrawOverlayImage: true, OverlayImage: not null, OverlayImageRect: { IsEmpty: false, Width: > 0, Height: > 0 } })
 		{
 			DrawImageHelper(context,
 				standard.OverlayImage,
@@ -4143,7 +4140,7 @@ public class RenderStandard : RenderBase
 		float roundingForPadding = paletteRounding;
 
 		// Match CreateBorderBackPath: rounding must fit inside the outer rectangle
-		if (borderOuterSize.Width > 0 && borderOuterSize.Height > 0)
+		if (borderOuterSize is { Width: > 0, Height: > 0 })
 		{
 			float maxRounding = Math.Min(borderOuterSize.Width / 2f, borderOuterSize.Height / 2f) - borderWidth;
 			if (maxRounding < 0f)
@@ -6467,7 +6464,7 @@ public class RenderStandard : RenderBase
 			memento.ImageRect.Location = PositionCellContent(rtl, posHImage, drawVImage, memento.ImageRect.Size, spacingGap, ref cellRect);
 
 			// Recalculate overlay image position now that main image location is set
-			if (memento.DrawOverlayImage && memento.OverlayImage != null)
+			if (memento is { DrawOverlayImage: true, OverlayImage: not null })
 			{
 				try
 				{
@@ -12597,7 +12594,7 @@ public class RenderStandard : RenderBase
 					float propTargetSize = propMainImageMinDim * OverlayImageScaleFactor;
 
 					// Validate target size and overlay dimensions before division
-					if (propTargetSize > 0 && originalOverlaySize.Width > 0 && originalOverlaySize.Height > 0)
+					if (propTargetSize > 0 && originalOverlaySize is { Width: > 0, Height: > 0 })
 					{
 						// Calculate scale to fit target size while maintaining aspect ratio
 						float propScale = Math.Min(

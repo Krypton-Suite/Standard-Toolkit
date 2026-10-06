@@ -3801,7 +3801,7 @@ public class KryptonWorkspace : VisualContainerControl,
     private void CompactAtLeastOneVisibleCell()
     {
         // If there are no visible cells found in entire hierarchy
-        if (Root.Children != null && !Root.Children.ContainsVisibleCell)
+        if (Root.Children is { ContainsVisibleCell: false })
         {
             Root.Children.Add(new KryptonWorkspaceCell());
         }

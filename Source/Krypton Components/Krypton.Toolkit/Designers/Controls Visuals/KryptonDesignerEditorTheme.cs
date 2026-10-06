@@ -312,7 +312,7 @@ public static class KryptonDesignerEditorTheme
     {
         foreach (Control control in controls)
         {
-            if (control is KryptonComboBox combo && combo.Name == ThemeSelectorName)
+            if (control is KryptonComboBox { Name: ThemeSelectorName } combo)
             {
                 return combo;
             }

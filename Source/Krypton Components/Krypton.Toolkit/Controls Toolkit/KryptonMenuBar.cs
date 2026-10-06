@@ -389,9 +389,7 @@ public class KryptonMenuBar : VisualSimpleBase
         {
             foreach (KryptonContextMenuItemBase item in Items)
             {
-                if (item is KryptonContextMenuItem menuItem
-                    && menuItem.Visible
-                    && menuItem.Enabled
+                if (item is KryptonContextMenuItem { Visible: true, Enabled: true } menuItem
                     && IsMnemonic(charCode, menuItem.Text))
                 {
                     OpenItem(menuItem, true);
@@ -601,7 +599,7 @@ public class KryptonMenuBar : VisualSimpleBase
         var list = new List<KryptonContextMenuItem>();
         foreach (KryptonContextMenuItemBase item in Items)
         {
-            if (item is KryptonContextMenuItem menuItem && menuItem.Visible && menuItem.Enabled)
+            if (item is KryptonContextMenuItem { Visible: true, Enabled: true } menuItem)
             {
                 list.Add(menuItem);
             }

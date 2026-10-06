@@ -58,7 +58,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(Configuration)' == 'RC'">
+		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<PropertyGroup>
 				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
@@ -128,8 +128,8 @@
 		<DefineConstants>$(DefineConstants);CANARY</DefineConstants>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)' == 'RC'">
-		<DefineConstants>$(DefineConstants);RC</DefineConstants>
+	<PropertyGroup Condition="'$(Configuration)' == 'ReleaseCandidate'">
+		<DefineConstants>$(DefineConstants);ReleaseCandidate</DefineConstants>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Alpha'">
