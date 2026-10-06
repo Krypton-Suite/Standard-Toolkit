@@ -48,3 +48,13 @@ Issue #4417: opens `TextBoxInputModeDemo` and writes `Documents/PR/4417-textbox-
 ```cmd
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-TextBoxInputModeScreenshot.ps1
 ```
+
+## Disabled caption glyph (`UnitTest-DisabledCaptionGlyph.ps1`)
+
+Issue #4413: disabled Office 2010 / 2013 / Microsoft 365 caption glyphs, with an empty close fill.
+
+```cmd
+dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-DisabledCaptionGlyph.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-4413DisabledCaptionScreenshot.ps1
+```
