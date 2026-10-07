@@ -4,11 +4,15 @@
 # Build and release Canary LTS NuGet packages. Only runs on the V105-LTS branch.
 # KILL-SWITCH: Set repository variable CANARY_LTS_DISABLED=true to disable.
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
+#
+# NUGET: Trusted publishing via NuGet/login. Secret NUGET_USER is the nuget.org profile name.
+# nuget.org needs a policy for this workflow file, Krypton-Suite/Standard-Toolkit, environment production.
 
 name: Canary LTS Release
 
 permissions:
   contents: read
+  id-token: write
 
 on:
   push:
@@ -19,6 +23,7 @@ on:
 jobs:
   canary-lts-release:
     runs-on: windows-2025-vs2026
+    environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/V105-LTS' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
@@ -275,16 +280,28 @@ jobs:
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
           Test-KryptonDesignerSdkInPackages -Configuration Canary -PackageSearchPaths 'Artefacts/Packages/Canary/*.nupkg' -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
 
+      - name: NuGet login (OIDC)
+        if: steps.canary_lts_kill_switch.outputs.enabled == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit'
+        id: nuget_login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_lts_kill_switch.outputs.enabled == 'true'
         id: push_nuget
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          if (-not $env:NUGET_API_KEY) {
-            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Warning "NuGet trusted publishing is only configured for Krypton-Suite/Standard-Toolkit - skipping NuGet push"
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
+          }
+
+          if (-not $env:NUGET_API_KEY) {
+            Write-Error "NuGet trusted publishing did not provide an API key. Set the NUGET_USER secret to the nuget.org profile name."
+            exit 1
           }
 
           $packages = Get-ChildItem "Artefacts/Packages/Canary/*.nupkg" -ErrorAction SilentlyContinue
@@ -323,7 +340,7 @@ jobs:
 
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
           STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
