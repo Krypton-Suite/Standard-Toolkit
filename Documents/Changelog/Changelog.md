@@ -45,6 +45,9 @@
 
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
+- Resolved [#4502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4502), Visual Studio templates releases
+  - Each release now has its own entry
+  - Updated Discord notifications to carry a link for each release
 - Implemented [#4480](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4480), Use trusted publishing
 - Resolved [#4485](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4485), `NullReferenceException` in `KryptonWorkspace.SeparatorCanMove` on mouse move after a layout removes the separator under the mouse
 - Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
