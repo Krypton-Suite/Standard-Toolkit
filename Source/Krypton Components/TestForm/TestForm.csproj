@@ -155,13 +155,13 @@
     <Compile Update="KryptonCheckedListComboBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonMultiColumnComboBoxDemo.cs">
+    <Compile Update="KryptonUtilities\Feature\KryptonMultiColumnComboBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonDropZoneDemo.cs">
+    <Compile Update="KryptonUtilities\Feature\KryptonDropZoneDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonDropZoneDemo.Designer.cs">
+    <Compile Update="KryptonUtilities\Feature\KryptonDropZoneDemo.Designer.cs">
       <DependentUpon>KryptonDropZoneDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="Feature3851RenderingDpiDemo.cs">
