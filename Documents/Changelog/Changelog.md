@@ -46,6 +46,7 @@
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
 * Resolved [#4413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4413), Disabled caption-button glyphs on Office 2010, Office 2013, and Microsoft 365 use a theme grey (light 205, dark 196, Microsoft 365 Black ghost white). The close-button fill stays transparent.
+* Resolved [#4485](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4485), `NullReferenceException` in `KryptonWorkspace.SeparatorCanMove` on mouse move after a layout removes the separator under the mouse
 * Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
   * Grouped coverage summaries (`ToolkitStringsCoverage.FormatGrouped`) and CSV/JSON `ExportReport` for toolkit and custom catalogues.
   * Opt-in `strictCatalog` on toolkit and `KryptonCustomStrings` import (default remains tolerant).
