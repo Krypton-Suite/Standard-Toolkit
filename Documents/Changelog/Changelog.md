@@ -48,6 +48,7 @@
 * Resolved [#4502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4502), Visual Studio templates releases
   * Each release now has its own entry
   * Updated Discord notifications to carry a link for each release
+* Resolved [#4485](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4485), `NullReferenceException` in `KryptonWorkspace.SeparatorCanMove` on mouse move after a layout removes the separator under the mouse
 * Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
   * Grouped coverage summaries (`ToolkitStringsCoverage.FormatGrouped`) and CSV/JSON `ExportReport` for toolkit and custom catalogues.
   * Opt-in `strictCatalog` on toolkit and `KryptonCustomStrings` import (default remains tolerant).
