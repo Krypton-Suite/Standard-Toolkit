@@ -122,28 +122,28 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Bug3382CueHintLinesDemo.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3382CueHintLinesDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Bug3382CueHintLinesDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bug3382CueHintLinesDemo.Designer.cs">
       <DependentUpon>Bug3382CueHintLinesDemo.cs</DependentUpon>
     </Compile>
-    <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.Designer.cs">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </Compile>
-    <Compile Update="Bug3383KryptonButtonStateTrackingRoundingDemo.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3383KryptonButtonStateTrackingRoundingDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Bug3383KryptonButtonStateTrackingRoundingDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bug3383KryptonButtonStateTrackingRoundingDemo.Designer.cs">
       <DependentUpon>Bug3383KryptonButtonStateTrackingRoundingDemo.cs</DependentUpon>
     </Compile>
-    <Compile Update="Bug3661KryptonContextMenuOverflowDemo.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3661KryptonContextMenuOverflowDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Bug3661KryptonContextMenuOverflowDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bug3661KryptonContextMenuOverflowDemo.Designer.cs">
       <DependentUpon>Bug3661KryptonContextMenuOverflowDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonComboBoxUserControlDemo.cs">
@@ -155,13 +155,13 @@
     <Compile Update="KryptonCheckedListComboBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonMultiColumnComboBoxDemo.cs">
+    <Compile Update="KryptonUtilities\Feature\KryptonMultiColumnComboBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonDropZoneDemo.cs">
+    <Compile Update="KryptonUtilities\Feature\KryptonDropZoneDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonDropZoneDemo.Designer.cs">
+    <Compile Update="KryptonUtilities\Feature\KryptonDropZoneDemo.Designer.cs">
       <DependentUpon>KryptonDropZoneDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="Feature3851RenderingDpiDemo.cs">
@@ -197,7 +197,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
+    <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
@@ -259,7 +259,6 @@
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonRibbon\Bugs\" />
-    <Folder Include="KryptonToolkit\Bugs\" />
     <Folder Include="KryptonRibbon\Feature\" />
     <Folder Include="KryptonUtilities\Bugs\" />
     <Folder Include="KryptonWorkspace\Bugs\" />
