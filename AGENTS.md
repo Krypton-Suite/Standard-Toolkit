@@ -511,8 +511,8 @@ When a **bug fix** or **feature** is **breaking** for consumers (API removal/ren
 Follow the existing `README.md` **Breaking Changes** pattern. Copy the consumer-facing changelog item (or the parent item when the break is a sub-bullet) and keep `**[Breaking Change]**`. Include indented sub-bullets for what consumers must update.
 
 ```markdown
-* Implemented [#9012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9012), **[Breaking Change]** Summary of what broke and what consumers must update.
-  * Migration detail (new type, namespace, property path, or package).
+- Implemented [#9012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9012), **[Breaking Change]** Summary of what broke and what consumers must update.
+  - Migration detail (new type, namespace, property path, or package).
 ```
 
 Match surrounding entries:
