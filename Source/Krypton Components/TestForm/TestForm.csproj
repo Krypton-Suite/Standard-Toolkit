@@ -122,28 +122,28 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Bug3382CueHintLinesDemo.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3382CueHintLinesDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Bug3382CueHintLinesDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3382CueHintLinesDemo.Designer.cs">
       <DependentUpon>Bug3382CueHintLinesDemo.cs</DependentUpon>
     </Compile>
-    <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.Designer.cs">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </Compile>
-    <Compile Update="Bug3383KryptonButtonStateTrackingRoundingDemo.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3383KryptonButtonStateTrackingRoundingDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Bug3383KryptonButtonStateTrackingRoundingDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3383KryptonButtonStateTrackingRoundingDemo.Designer.cs">
       <DependentUpon>Bug3383KryptonButtonStateTrackingRoundingDemo.cs</DependentUpon>
     </Compile>
-    <Compile Update="Bug3661KryptonContextMenuOverflowDemo.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3661KryptonContextMenuOverflowDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Bug3661KryptonContextMenuOverflowDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3661KryptonContextMenuOverflowDemo.Designer.cs">
       <DependentUpon>Bug3661KryptonContextMenuOverflowDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonComboBoxUserControlDemo.cs">
@@ -197,7 +197,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
+    <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
