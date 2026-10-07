@@ -47,6 +47,13 @@
 
 * Resolved [#4463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4463), `KryptonSplitContainer` children stay visible on the .NET WinForms design surface and in Document Outline ([#4468](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4468)).
   * Panel1 and Panel2 are sited before the splitter glyph is created, so a missing behavior service cannot hide the panels. The splitter panel designer accepts a `KryptonSplitContainer` parent.
+* Resolved [#4485](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4485), `NullReferenceException` in `KryptonWorkspace.SeparatorCanMove` on mouse move after a layout removes the separator under the mouse
+* Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
+  * Grouped coverage summaries (`ToolkitStringsCoverage.FormatGrouped`) and CSV/JSON `ExportReport` for toolkit and custom catalogues.
+  * Opt-in `strictCatalog` on toolkit and `KryptonCustomStrings` import (default remains tolerant).
+  * Opt-in auto-translate for Merge Missing (`KryptonStringTranslation.AutoTranslateMissingStrings`, default off). Requires an `IKryptonStringTranslator`; the toolkit does not call a translation service itself. Only keys that were missing are translated.
+  * `KryptonCustomStrings.AnalyzeTranslationsFromFile` / `MergeMissingTranslationsToFile`, export `ToolkitVersion` stamp, designer Analyse / Merge Missing verbs, and TestForm coverage UI.
+  * `Scripts/UnitTests/UnitTest-ToolkitTranslationsCoverage.ps1` and `UnitTest-CustomTranslationsCoverage.ps1`.
 * Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
  * Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
  * `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
