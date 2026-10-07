@@ -16,8 +16,8 @@ For maintainer-focused implementation and release details, see:
 ## Install (recommended — VSIX)
 
 1. Open the [GitHub Releases](https://github.com/Krypton-Suite/Standard-Toolkit/releases) page for this repository.
-2. Select the templates release for your channel (`templates-stable`, `templates-canary`, `templates-alpha`, or `templates-current`).
-3. Download `krypton-templates-*.vsix` and double-click to install (or use **Extensions > Manage Extensions > Install from file**).
+2. Open the newest release for your channel. Names look like `Krypton Templates (Stable) 2026-10-06 18:13 UTC`. Tags look like `templates-stable-20261006-1813` (`stable`, `canary`, `alpha`, `rc`, or `current`).
+3. Download the `.vsix` on that release and double-click to install (or use **Extensions > Manage Extensions > Install from file**). Each release has one package.
 4. Restart Visual Studio.
 5. Use **Add > New Item** or **Create a new project** and search for **Krypton**.
 
@@ -32,16 +32,6 @@ For maintainer-focused implementation and release details, see:
 
 ## Local VSIX build
 
-Source project templates default to the **stable** NuGet package (`Krypton.Standard.Toolkit`). Before building a canary or nightly VSIX locally, apply the matching channel (this matches CI):
-
-```cmd
-pwsh -NoProfile -File "Scripts\CI\Apply-TemplatesNuGetPackage.ps1" -Channel stable
-pwsh -NoProfile -File "Scripts\CI\Apply-TemplatesNuGetPackage.ps1" -Channel canary
-pwsh -NoProfile -File "Scripts\CI\Apply-TemplatesNuGetPackage.ps1" -Channel alpha
-```
-
-Then build:
-
 ```cmd
 dotnet restore "Templates\Vsix\Krypton.Templates.Vsix\Krypton.Templates.Vsix.csproj"
 dotnet msbuild "Templates\Vsix\Krypton.Templates.Vsix\Krypton.Templates.Vsix.csproj" /p:Configuration=Release /p:DeployExtension=false
@@ -53,4 +43,4 @@ Output: `Templates\Vsix\Krypton.Templates.Vsix\bin\Release\net472\Krypton.Templa
 
 - These templates use `Krypton.Toolkit` and `KryptonManager`.
 - The ribbon item template also uses `Krypton.Ribbon`.
-- Project templates reference a `Krypton.Standard.Toolkit` aggregate package from NuGet. Published VSIX/zip releases use the package for that channel: stable (`Krypton.Standard.Toolkit`), canary (`.Canary`), or alpha/nightly (`.Nightly`).
+- The project template references `Krypton.Standard.Toolkit` from NuGet.
