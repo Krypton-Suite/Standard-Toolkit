@@ -63,31 +63,26 @@ jobs:
           switch ($branch) {
             'master' {
               $channel = 'stable'
-              $tag = 'templates-stable'
               $title = 'Krypton Templates (Stable)'
               $prerelease = 'false'
             }
             'canary' {
               $channel = 'canary'
-              $tag = 'templates-canary'
               $title = 'Krypton Templates (Canary)'
               $prerelease = 'true'
             }
             'gold' {
               $channel = 'rc'
-              $tag = 'templates-rc'
               $title = 'Krypton Templates (Release Candidate)'
               $prerelease = 'true'
             }
             'alpha' {
               $channel = 'alpha'
-              $tag = 'templates-alpha'
               $title = 'Krypton Templates (Alpha)'
               $prerelease = 'true'
             }
             'V110' {
               $channel = 'current'
-              $tag = 'templates-current'
               $title = 'Krypton Templates (Current)'
               $prerelease = 'false'
             }
@@ -97,16 +92,20 @@ jobs:
               if ([string]::IsNullOrWhiteSpace($safeBranch)) { $safeBranch = 'custom' }
 
               $channel = "dev-$safeBranch"
-              $tag = "templates-$safeBranch"
               $title = "Krypton Templates ($branch)"
               $prerelease = 'true'
             }
           }
 
-          $dateStamp = (Get-Date).ToUniversalTime().ToString("yyyyMMdd-HHmm")
-          $version = "$channel-$dateStamp"
+          # One GitHub release per build. A fixed tag such as templates-stable makes
+          # action-gh-release update that release, and timestamped asset names then
+          # accumulate on it instead of showing up as their own release (#4502).
           $utcNow = (Get-Date).ToUniversalTime()
+          $dateStamp = $utcNow.ToString("yyyyMMdd-HHmm")
+          $version = "$channel-$dateStamp"
           $vsixVersion = "110.0.$($utcNow.ToString('MMdd')).$($utcNow.ToString('HHmm'))"
+          $tag = "templates-$version"
+          $title = "$title $($utcNow.ToString('yyyy-MM-dd HH:mm')) UTC"
 
           echo "branch=$branch" >> $env:GITHUB_OUTPUT
           echo "channel=$channel" >> $env:GITHUB_OUTPUT
@@ -232,7 +231,9 @@ jobs:
           body: |
             Visual Studio templates for Krypton Standard Toolkit.
 
-            **Recommended install:** download and run `krypton-templates-*.vsix`, then restart Visual Studio.
+            This release is one build. Older builds are separate releases; use the newest release for this channel.
+
+            **Recommended install:** download and run the `.vsix` attached to this release, then restart Visual Studio.
 
             Included assets:
             - VSIX package (one-click install for all templates)
