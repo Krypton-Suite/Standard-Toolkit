@@ -50,6 +50,7 @@
    * `MessageBoxStrings.MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
    * `KryptonProgressBar.TextShadowColor` and `TextBackdropColor` stay empty (automatic) without a designer line. `Values.DropDownArrowColor` already stays unset; existing `Color.Empty` lines drop the next time the designer saves the form.
    * Print-preview string defaults are `Zoom &In` / `Zoom &Out` and `Page` / `of` again, so those values are no longer stored as edits.
+* Resolved [#4485](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4485), `NullReferenceException` in `KryptonWorkspace.SeparatorCanMove` on mouse move after a layout removes the separator under the mouse
 * Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
   * Grouped coverage summaries (`ToolkitStringsCoverage.FormatGrouped`) and CSV/JSON `ExportReport` for toolkit and custom catalogues.
   * Opt-in `strictCatalog` on toolkit and `KryptonCustomStrings` import (default remains tolerant).
