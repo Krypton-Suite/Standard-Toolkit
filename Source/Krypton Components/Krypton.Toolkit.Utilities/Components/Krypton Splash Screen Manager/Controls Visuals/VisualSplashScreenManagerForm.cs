@@ -63,6 +63,7 @@ internal partial class VisualSplashScreenManagerForm : Form
         DoubleBuffered = true;
 
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
 
         _data = data;
         _targetOpacity = ClampOpacity(data.Opacity);
