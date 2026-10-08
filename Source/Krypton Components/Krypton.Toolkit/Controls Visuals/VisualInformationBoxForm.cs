@@ -16,4 +16,15 @@ internal partial class VisualInformationBoxForm : KryptonForm
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
     }
+
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+
+        Control label = kwlblMessageText.Visible ? kwlblMessageText : klwlblMessageText;
+        Font font = label.Font ?? SystemFonts.MessageBoxFont ?? SystemFonts.DefaultFont;
+        KryptonDialogLayout.FitClientToText(this, label.Text, font, new Size(80, 90), new Size(240, 140), null);
+        KryptonDialogLayout.EnableResizable(this);
+    }
 }

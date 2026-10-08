@@ -295,3 +295,69 @@ function Invoke-UnitTestDrag {
     [UnitTestNative]::mouse_event([UnitTestNative]::LEFTUP, 0, 0, 0, [IntPtr]::Zero)
     Start-Sleep -Milliseconds 1200
 }
+
+function Save-UnitTestWindowPng {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Windows.Forms.Form]$Form,
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+        [int]$InflateX = 0,
+        [int]$InflateY = 0,
+        [int]$SettleMs = 200
+    )
+
+    if (-not ([System.Management.Automation.PSTypeName]'UnitTestWindowCapture').Type) {
+        Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+public static class UnitTestWindowCapture
+{
+    [DllImport("user32.dll")] public static extern bool PrintWindow(IntPtr hwnd, IntPtr hdc, uint flags);
+    [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hwnd);
+    public const uint PW_RENDERFULLCONTENT = 2;
+}
+"@
+    }
+
+    $Form.TopMost = $true
+    $Form.Activate()
+    $Form.BringToFront()
+    [void][UnitTestWindowCapture]::SetForegroundWindow($Form.Handle)
+    [System.Windows.Forms.Application]::DoEvents()
+    if ($SettleMs -gt 0) {
+        Start-Sleep -Milliseconds $SettleMs
+    }
+
+    $bounds = $Form.Bounds
+    $bounds.Inflate($InflateX, $InflateY)
+    $bmp = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
+    $useCopy = ($InflateX -ne 0 -or $InflateY -ne 0)
+    if (-not $useCopy) {
+        $g = [System.Drawing.Graphics]::FromImage($bmp)
+        $hdc = $g.GetHdc()
+        $printed = [UnitTestWindowCapture]::PrintWindow($Form.Handle, $hdc, [UnitTestWindowCapture]::PW_RENDERFULLCONTENT)
+        $g.ReleaseHdc($hdc)
+        $g.Dispose()
+        $mid = $bmp.GetPixel([int]($bmp.Width / 2), [int]($bmp.Height / 2))
+        $useCopy = (-not $printed) -or ($mid.R -eq 0 -and $mid.G -eq 0 -and $mid.B -eq 0)
+        if ($useCopy) {
+            $bmp.Dispose()
+            $bmp = New-Object System.Drawing.Bitmap $bounds.Width, $bounds.Height
+        }
+    }
+
+    if ($useCopy) {
+        $g2 = [System.Drawing.Graphics]::FromImage($bmp)
+        $g2.CopyFromScreen($bounds.Location, [System.Drawing.Point]::Empty, $bounds.Size)
+        $g2.Dispose()
+    }
+
+    $dir = Split-Path -Parent $Path
+    if ($dir -and -not (Test-Path -LiteralPath $dir)) {
+        New-Item -ItemType Directory -Path $dir | Out-Null
+    }
+
+    $bmp.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
+    $bmp.Dispose()
+}

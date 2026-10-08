@@ -15,5 +15,7 @@ internal partial class VisualAboutBoxRtlAwareForm : KryptonForm
     {
         SetInheritedControlOverride();
         InitializeComponent();
+
+        KryptonDialogLayout.EnableResizable(this);
     }
 }

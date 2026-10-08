@@ -25,6 +25,8 @@ internal partial class VisualThemeBrowserForm : KryptonForm
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
+        KryptonDialogLayout.EnableResizable(this);
+
         _themeBrowserData = themeBrowserData;
 
         AdjustUI();

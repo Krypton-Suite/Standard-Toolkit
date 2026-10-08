@@ -36,4 +36,22 @@ public partial class KryptonDialogExamples: KryptonForm
 
         kpd.ShowDialog();
     }
+
+    private void kbtnLongInput_Click(object sender, EventArgs e)
+    {
+        var data = new KryptonInputBoxData
+        {
+            Owner = this,
+            Caption = "DPI-aware input",
+            Prompt = "This prompt is long enough to wrap. The dialog grows with the text and stays inside the working area. The response box and the OK and Cancel buttons stay visible.",
+            CueText = "Type a response"
+        };
+
+        KryptonInputBox.Show(data);
+    }
+
+    private void kbtnExceptionDialog_Click(object sender, EventArgs e)
+    {
+        KryptonExceptionDialog.Show(new InvalidOperationException("Sample exception used to check dialog DPI layout."), true, true);
+    }
 }

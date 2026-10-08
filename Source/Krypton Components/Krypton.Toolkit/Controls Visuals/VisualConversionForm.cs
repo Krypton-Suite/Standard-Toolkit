@@ -49,6 +49,8 @@ internal partial class VisualConversionForm : KryptonForm
     public VisualConversionForm()
     {
         InitializeComponent();
+
+        KryptonDialogLayout.EnableResizable(this);
     }
 
     #endregion
