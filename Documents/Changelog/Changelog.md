@@ -50,6 +50,10 @@
   - Larger dialogs (exception, GitHub issue, splash, theme browser, changelog, print preview, conversion, binary information, and designer editors) are resizable, scroll their detail text, and are clamped when they would be taller or wider than the monitor.
   - Shell dialogs scale the 900×600 fallback with DPI and follow a later DPI change.
   - To use the about box, bug report, foldable dialog, checksum, theme builder, log viewer, and toast updates, download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package. Those dialogs live in `Krypton.Toolkit.Utilities`.
+- Resolved [#4516](https://github.com/Krypton-Suite/Standard-Toolkit/pull/4516), Changes made only to `FormCustom2`/`FormCustom3` or `ControlCustom2`/`ControlCustom3` on a custom palette are not saved by the designer or included in palette export
+- Resolved [#4502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4502), Visual Studio templates releases
+  - Each release now has its own entry
+  - Updated Discord notifications to carry a link for each release
 - Implemented [#4480](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4480), Use trusted publishing
 - Resolved [#4485](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4485), `NullReferenceException` in `KryptonWorkspace.SeparatorCanMove` on mouse move after a layout removes the separator under the mouse
 - Implemented [#4370](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4370), Translations catalogue follow-ups
