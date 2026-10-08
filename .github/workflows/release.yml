@@ -3,11 +3,15 @@
 #
 # NUGET: Trusted publishing via NuGet/login. Secret NUGET_USER is the nuget.org profile name.
 # nuget.org needs a policy for this workflow file, Krypton-Suite/Standard-Toolkit, environment production.
+#
+# MARKETPLACE: publish-templates-marketplace submits the stable templates VSIX after
+# release-master. Secret VSMARKETPLACE_PAT (Marketplace Manage) on environment production.
+# VSMARKETPLACE_PRIVATE=false makes the listing public. Any other value keeps it private.
 
 name: Release
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 on:
@@ -24,6 +28,8 @@ jobs:
     runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    outputs:
+      templates_tag: ${{ steps.publish_templates.outputs.tag }}
 
     steps:
       # Release kill switch
@@ -376,6 +382,14 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
 
+      - name: Publish Visual Studio templates
+        id: publish_templates
+        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        uses: ./.github/actions/publish-templates
+        with:
+          channel: stable
+          source-branch: master
+
       - name: Announce Release on Discord
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
@@ -389,7 +403,10 @@ jobs:
           $sha = (git rev-parse HEAD).Trim()
           $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
           $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
-          $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'stable' | Select-Object -Last 1).ToString().Trim()
+          $templatesUrl = '${{ steps.publish_templates.outputs.release_url }}'.Trim()
+          if ([string]::IsNullOrWhiteSpace($templatesUrl)) {
+            $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'stable' | Select-Object -Last 1).ToString().Trim()
+          }
 
           $payload = @{
             embeds = @(
@@ -441,6 +458,36 @@ jobs:
           Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_MASTER }}" -Method Post -Body $payload -ContentType "application/json"
         env:
           DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
+
+  publish-templates-marketplace:
+    needs: release-master
+    if: needs.release-master.result == 'success' && needs.release-master.outputs.templates_tag != ''
+    runs-on: windows-2025-vs2026
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Download stable templates VSIX
+        uses: actions/download-artifact@v7
+        with:
+          name: templates-stable
+          path: artifacts/templates
+
+      - name: Publish VSIX to the Visual Studio Marketplace
+        shell: pwsh
+        env:
+          VSMARKETPLACE_PAT: ${{ secrets.VSMARKETPLACE_PAT }}
+          VSMARKETPLACE_PRIVATE: ${{ vars.VSMARKETPLACE_PRIVATE }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $vsix = Get-ChildItem -Path "artifacts\templates" -Filter *.vsix -Recurse -File |
+            Sort-Object LastWriteTime -Descending |
+            Select-Object -First 1
+          if (-not $vsix) { throw "Stable templates artifact did not contain a VSIX." }
+          & "$env:GITHUB_WORKSPACE/Scripts/CI/Publish-TemplatesMarketplace.ps1" `
+            -VsixPath $vsix.FullName `
+            -RepoRoot $env:GITHUB_WORKSPACE
 
   release-v105-lts:
     runs-on: windows-2025-vs2026
@@ -1177,6 +1224,14 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
 
+      - name: Publish Visual Studio templates
+        id: publish_templates
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        uses: ./.github/actions/publish-templates
+        with:
+          channel: canary
+          source-branch: canary
+
       - name: Announce Canary Release on Discord
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
@@ -1190,7 +1245,10 @@ jobs:
           $sha = (git rev-parse HEAD).Trim()
           $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
           $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
-          $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'canary' | Select-Object -Last 1).ToString().Trim()
+          $templatesUrl = '${{ steps.publish_templates.outputs.release_url }}'.Trim()
+          if ([string]::IsNullOrWhiteSpace($templatesUrl)) {
+            $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'canary' | Select-Object -Last 1).ToString().Trim()
+          }
 
           $payload = @{
             embeds = @(
