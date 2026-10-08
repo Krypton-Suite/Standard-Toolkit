@@ -50,6 +50,7 @@
  - `MessageBoxStrings.MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
  - `KryptonProgressBar.TextShadowColor` and `TextBackdropColor` stay empty (automatic) without a designer line. `Values.DropDownArrowColor` already stays unset; existing `Color.Empty` lines drop the next time the designer saves the form.
  - Print-preview string defaults are `Zoom &In` / `Zoom &Out` and `Page` / `of` again, so those values are no longer stored as edits.
+- Resolved [#4516](https://github.com/Krypton-Suite/Standard-Toolkit/pull/4516), Changes made only to `FormCustom2`/`FormCustom3` or `ControlCustom2`/`ControlCustom3` on a custom palette are not saved by the designer or included in palette export
 - Resolved [#4502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4502), Visual Studio templates releases
   - Each release now has its own entry
   - Updated Discord notifications to carry a link for each release
