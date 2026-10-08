@@ -77,18 +77,17 @@ runs:
           default { throw "Unknown templates channel '$channel'. Expected stable, canary, alpha, rc, or current." }
         }
 
-        # One GitHub release per build. A fixed tag such as templates-stable makes
-        # action-gh-release update that release, and timestamped asset names then
-        # accumulate on it instead of showing up as their own release (#4502).
-        $utcNow = (Get-Date).ToUniversalTime()
-        $dateStamp = $utcNow.ToString("yyyyMMdd-HHmm")
-        $version = "$channel-$dateStamp"
-        # Marketplace rejects a version that is not greater than the last published
-        # one. 110.0.MMdd.HHmm decreases every January, so the stamp is
-        # 110.{year-2000}.{dayOfYear}.{HHmm}. Each part fits in 0..65534.
-        $vsixVersion = "110.$($utcNow.Year - 2000).$($utcNow.DayOfYear).$($utcNow.ToString('HHmm'))"
+        # Same layout as LibraryVersion in Source/Krypton Components/Directory.Build.targets:
+        # 110.{yy}.{month}.{dayOfYear}. Local time matches MSBuild DateTime.Now.
+        # The channel stays in the tag so this release does not collide with the
+        # NuGet tag v110.yy.M.day. A second publish on the same day updates this
+        # release. A fixed tag such as templates-stable piled every build onto one
+        # release (#4502).
+        $now = Get-Date
+        $vsixVersion = "110.$($now.Year - 2000).$($now.Month).$($now.DayOfYear)"
+        $version = "$channel-$vsixVersion"
         $tag = "templates-$version"
-        $title = "$title $($utcNow.ToString('yyyy-MM-dd HH:mm')) UTC"
+        $title = "$title $vsixVersion"
 
         echo "branch=$branch" >> $env:GITHUB_OUTPUT
         echo "channel=$channel" >> $env:GITHUB_OUTPUT
@@ -215,7 +214,7 @@ runs:
         body: |
           Visual Studio templates for Krypton Standard Toolkit.
 
-          This release is one build, published with the matching toolkit channel. Older builds are separate releases.
+          This release matches the toolkit version. A later templates build on the same day updates this release.
 
           **Recommended install:** download and run the `.vsix` attached to this release, then restart Visual Studio.
 
@@ -230,8 +229,7 @@ runs:
           Project templates reference the NuGet package for this channel (`Krypton.Standard.Toolkit`, `.Canary`, or `.Nightly`).
 
           Source branch: `${{ steps.channel.outputs.branch }}`
-          Build stamp: `${{ steps.channel.outputs.version }}`
-          VSIX version: `${{ steps.channel.outputs.vsix_version }}`
+          Version: `${{ steps.channel.outputs.vsix_version }}`
           ${{ steps.channel.outputs.channel == 'stable' && 'This stable build is also submitted to the Visual Studio Marketplace when publishing is configured.' || '' }}
         files: |
           ${{ steps.build_vsix.outputs.vsix_path }}
