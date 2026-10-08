@@ -47,6 +47,7 @@
 
 - Resolved [#4463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4463), `KryptonSplitContainer` children stay visible on the .NET WinForms design surface and in Document Outline ([#4468](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4468)).
   - Panel1 and Panel2 are sited before the splitter glyph is created, so a missing behavior service cannot hide the panels. The splitter panel designer accepts a `KryptonSplitContainer` parent.
+- Resolved [#4516](https://github.com/Krypton-Suite/Standard-Toolkit/pull/4516), Changes made only to `FormCustom2`/`FormCustom3` or `ControlCustom2`/`ControlCustom3` on a custom palette are not saved by the designer or included in palette export
 - Resolved [#4502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4502), Visual Studio templates releases
   - Each release now has its own entry
   - Updated Discord notifications to carry a link for each release
