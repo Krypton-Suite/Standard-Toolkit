@@ -46,6 +46,7 @@
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
 - Resolved [#4413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4413), Disabled caption-button glyphs on Office 2010, Office 2013, and Microsoft 365 use a theme grey (light 205, dark 196, Microsoft 365 Black ghost white). The close-button fill stays transparent.
+- Resolved [#4516](https://github.com/Krypton-Suite/Standard-Toolkit/pull/4516), Changes made only to `FormCustom2`/`FormCustom3` or `ControlCustom2`/`ControlCustom3` on a custom palette are not saved by the designer or included in palette export
 - Resolved [#4502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4502), Visual Studio templates releases
   - Each release now has its own entry
   - Updated Discord notifications to carry a link for each release
