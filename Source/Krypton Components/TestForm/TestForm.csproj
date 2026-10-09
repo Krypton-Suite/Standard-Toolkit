@@ -170,6 +170,12 @@
     <Compile Update="KryptonRibbon\Feature\RibbonTranslationsDemo.Designer.cs">
       <DependentUpon>RibbonTranslationsDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonRibbon\Feature\Office2024RibbonDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonRibbon\Feature\Office2024RibbonDemo.Designer.cs">
+      <DependentUpon>Office2024RibbonDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.Designer.cs">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
     </Compile>

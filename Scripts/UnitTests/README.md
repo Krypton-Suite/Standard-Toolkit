@@ -108,6 +108,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonTranslationsScreenshot.ps1` | Hosts `RibbonTranslationsDemo` (#4369) and writes default/German PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-Office2024RibbonScreenshot.ps1` | Hosts `Office2024RibbonDemo` (#4496) and writes the Office 2024 themes plus Microsoft 365 Blue under `Documents/PR/` | `exclude` |
 | `Invoke-ToolkitRtlScreenshot.ps1` | Hosts `RTLControlsTest` (#2379) and writes LTR/RTL PNGs under `Documents/PR/`. Also: `-Demo ToolkitRtlGalleryDemo -WindowTitle 'Toolkit RTL Gallery (#2379)' -OutputStem 2379-toolkit-rtl-gallery -SingleCapture` | `exclude` |
 | `Invoke-PropertyGridRtlScreenshot.ps1` | Hosts `ToolkitRtlGalleryDemo` on the PropertyGrid tab (#2379) and writes `Documents/PR/2379-toolkit-rtl-propertygrid.png` | `exclude` |
 | `Invoke-WorkspaceRtlScreenshot.ps1` | Hosts `WorkspaceRtlDemo` (#2383) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
@@ -181,6 +182,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonTranslations.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonTranslationsScreenshot.ps1
+```
+
+## Typical usage (#4496 Office 2024 ribbon)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-Office2024RibbonScreenshot.ps1
 ```
 
 ## Typical usage (#4271 bug-report email body)

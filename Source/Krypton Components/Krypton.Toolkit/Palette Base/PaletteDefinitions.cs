@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -4260,7 +4260,22 @@ public enum PaletteRibbonColorStyle
     /// <summary>
     /// Specifies using colors to draw a rounded quick access toolbar overflow.
     /// </summary>
-    RibbonQATOverflow
+    RibbonQATOverflow,
+
+    /// <summary>
+    /// Specifies a selected Office 2024 ribbon tab: color 1 is the underline, with no tab outline.
+    /// </summary>
+    RibbonTabSelected2024,
+
+    /// <summary>
+    /// Specifies a tracking Office 2024 ribbon tab: color 1 is the hover fill.
+    /// </summary>
+    RibbonTabTracking2024,
+
+    /// <summary>
+    /// Specifies the Office 2024 group area: color 1 is the rounded ribbon body.
+    /// </summary>
+    RibbonGroupArea2024
 }
 #endregion
 
@@ -4336,7 +4351,12 @@ public enum PaletteRibbonShape
     /// <summary>
     /// Specifies the macOS unified-toolbar ribbon shape (flat tab strip, compact groups).
     /// </summary>
-    MacOS
+    MacOS,
+
+    /// <summary>
+    /// Specifies the Office 2024 ribbon shape (underline tabs, flat borderless groups, text File tab).
+    /// </summary>
+    Office2024
 }
 #endregion
 

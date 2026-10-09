@@ -116,6 +116,7 @@ public sealed class KryptonManager : Component
     private static RenderOffice2010? _renderOffice2010;
     private static RenderOffice2013? _renderOffice2013;
     private static RenderMicrosoft365? _renderMicrosoft365;
+    private static RenderOffice2024? _renderOffice2024;
     private static RenderMaterial? _renderMaterial;
     private static RenderRetro? _renderRetro;
     private static RenderMacOSXAqua? _renderMacOSXAqua;
@@ -2381,6 +2382,8 @@ public sealed class KryptonManager : Component
                 return RenderOffice2013;
             case RendererMode.Microsoft365:
                 return RenderMicrosoft365;
+            case RendererMode.Office2024:
+                return RenderOffice2024;
             case RendererMode.Professional:
                 return RenderProfessional;
             case RendererMode.Standard:
@@ -2436,6 +2439,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the 365 2013 renderer.
     /// </summary>
     public static RenderMicrosoft365 RenderMicrosoft365 => _renderMicrosoft365 ??= new RenderMicrosoft365();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2024 renderer.
+    /// </summary>
+    public static RenderOffice2024 RenderOffice2024 => _renderOffice2024 ??= new RenderOffice2024();
 
     /// <summary>
     /// Gets the single instance of the Material renderer.

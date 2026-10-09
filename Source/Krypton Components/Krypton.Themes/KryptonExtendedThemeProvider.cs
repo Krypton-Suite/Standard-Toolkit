@@ -150,7 +150,19 @@ public sealed class KryptonExtendedThemeProvider : IKryptonThemeProvider
             Extra(PaletteMode.MaterialMaterializeLightBlueRipple, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeLightBlueRipple), () => new PaletteMaterialMaterializeLightBlueRipple()),
             Extra(PaletteMode.MaterialMaterializeLightBlueDarkRipple, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialMaterializeLightBlueDarkRipple), () => new PaletteMaterialMaterializeLightBlueDarkRipple()),
             Extra(PaletteMode.MaterialSilverDarkModeAlternate, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialSilverDarkModeAlternate), () => new PaletteMaterialSilverDarkModeAlternate()),
-            Extra(PaletteMode.MaterialSilverDarkModeAlternateRipple, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialSilverDarkModeAlternateRipple), () => new PaletteMaterialSilverDarkModeAlternateRipple())
+            Extra(PaletteMode.MaterialSilverDarkModeAlternateRipple, KryptonThemeFamilies.Materialize, KryptonThemeChromeKind.Material, typeof(PaletteMaterialSilverDarkModeAlternateRipple), () => new PaletteMaterialSilverDarkModeAlternateRipple()),
+            Extra(PaletteMode.Office2024White, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024White), () => new PaletteOffice2024White()),
+            Extra(PaletteMode.Office2024LightGray, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024LightGray), () => new PaletteOffice2024LightGray()),
+            Extra(PaletteMode.Office2024DarkGray, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024DarkGray), () => new PaletteOffice2024DarkGray()),
+            Extra(PaletteMode.Office2024Black, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024Black), () => new PaletteOffice2024Black()),
+            Extra(PaletteMode.Office2024Blue, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024Blue), () => new PaletteOffice2024Blue()),
+            Extra(PaletteMode.Office2024BlueDarkMode, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024BlueDarkMode), () => new PaletteOffice2024BlueDarkMode()),
+            Extra(PaletteMode.Office2024BlueLightMode, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024BlueLightMode), () => new PaletteOffice2024BlueLightMode()),
+            Extra(PaletteMode.Office2024Silver, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024Silver), () => new PaletteOffice2024Silver()),
+            Extra(PaletteMode.Office2024SilverDarkMode, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024SilverDarkMode), () => new PaletteOffice2024SilverDarkMode()),
+            Extra(PaletteMode.Office2024SilverLightMode, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024SilverLightMode), () => new PaletteOffice2024SilverLightMode()),
+            Extra(PaletteMode.Office2024BlackDarkMode, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024BlackDarkMode), () => new PaletteOffice2024BlackDarkMode()),
+            Extra(PaletteMode.Office2024BlackDarkModeAlternate, KryptonThemeFamilies.Office2024, KryptonThemeChromeKind.Microsoft365, typeof(PaletteOffice2024BlackDarkModeAlternate), () => new PaletteOffice2024BlackDarkModeAlternate())
         };
     }
 

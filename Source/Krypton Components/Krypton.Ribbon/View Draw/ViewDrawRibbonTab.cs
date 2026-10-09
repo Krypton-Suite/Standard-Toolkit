@@ -288,6 +288,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 PaletteRibbonShape.Office2010 => _preferredBorder2010,
                 PaletteRibbonShape.Office2013 => _preferredBorder2010,
                 PaletteRibbonShape.Microsoft365 => _preferredBorder2010,
+                PaletteRibbonShape.Office2024 => _preferredBorder2010,
                 PaletteRibbonShape.VisualStudio => _preferredBorder2010,
                 PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => _preferredBorderMac,
                 _ => _preferredBorder2007
@@ -309,6 +310,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 PaletteRibbonShape.Office2010 => _layoutBorder2010,
                 PaletteRibbonShape.Office2013 => _layoutBorder2010,
                 PaletteRibbonShape.Microsoft365 => _layoutBorder2010,
+                PaletteRibbonShape.Office2024 => _layoutBorder2010,
                 PaletteRibbonShape.MacOS => _layoutBorderMac,
                 _ => _layoutBorder2007
             };
@@ -416,6 +418,9 @@ internal class ViewDrawRibbonTab : ViewComposite,
 
         switch (Ribbon.RibbonShape)
         {
+            case PaletteRibbonShape.Office2024:
+                _paletteContextCurrent.LightBackground = false;
+                break;
             default:
             case PaletteRibbonShape.Office2013:
             case PaletteRibbonShape.Microsoft365:

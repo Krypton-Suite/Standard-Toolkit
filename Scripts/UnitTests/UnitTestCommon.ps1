@@ -185,11 +185,17 @@ function Save-UnitTestWindowPng {
                     $hwnd,
                     $hdc,
                     [UnitTestCaptureNative]::PW_RENDERFULLCONTENT)
-                $bmp.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
             }
             finally {
                 $g.ReleaseHdc($hdc)
                 $g.Dispose()
+            }
+
+            try {
+                # Save after ReleaseHdc. GDI+ ignores bitmap bits while the HDC is checked out.
+                $bmp.Save($Path, [System.Drawing.Imaging.ImageFormat]::Png)
+            }
+            finally {
                 $bmp.Dispose()
             }
         }

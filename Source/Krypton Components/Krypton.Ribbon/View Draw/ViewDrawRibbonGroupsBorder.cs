@@ -25,6 +25,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     private readonly Padding _borderPadding2010; // = new(1, 1, 1, 3);
     private readonly Padding _borderPadding2013; // = new(1, 1, 1, 0);
     private readonly Padding _borderPadding365; // = new(1, 1, 1, 0);
+    private readonly Padding _borderPadding2024;
     private readonly Padding _borderPaddingVisualStudio2010;
     private readonly Padding _borderPaddingVisualStudio;
     private IPaletteRibbonBack _inherit;
@@ -55,6 +56,8 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         _borderPaddingVisualStudio2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
         _borderPadding2013 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
         _borderPadding365 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
+        // Clears the rounded card inset (6) plus space inside the card. Kept in step with CalculatedValues.
+        _borderPadding2024 = new Padding((int)(14 * FactorDpiX), (int)(12 * FactorDpiY), (int)(14 * FactorDpiX), (int)(8 * FactorDpiY));
         _borderPaddingVisualStudio = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
     }
 
@@ -105,6 +108,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
                 PaletteRibbonShape.VisualStudio2010 => _borderPaddingVisualStudio2010,
                 PaletteRibbonShape.Office2013 => _borderPadding2013,
                 PaletteRibbonShape.Microsoft365 => _borderPadding365,
+                PaletteRibbonShape.Office2024 => _borderOutside ? _borderPadding365 : _borderPadding2024,
                 PaletteRibbonShape.VisualStudio => _borderPaddingVisualStudio,
                 _ => _borderPadding2007
             };

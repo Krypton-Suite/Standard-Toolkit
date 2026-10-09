@@ -608,6 +608,15 @@ internal class ViewDrawRibbonGroup : ViewComposite,
                         _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
                         _lastRibbonShape = _ribbon.RibbonShape;
                         break;
+                    case PaletteRibbonShape.Office2024:
+                        _totalBorders = 0;
+                        _layoutNormalMain.VertOffset = 0;
+                        _layoutNormalSepTop.SeparatorSize = Size.Empty;
+                        _layoutNormalSepLeft.SeparatorSize = Size.Empty;
+                        _layoutNormalSepRight.SeparatorSize = Size.Empty;
+                        _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
+                        _lastRibbonShape = PaletteRibbonShape.Office2024;
+                        break;
                 }
             }
         }
@@ -895,6 +904,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             case PaletteRibbonShape.Office2010:
             case PaletteRibbonShape.OSXAqua:
             case PaletteRibbonShape.MacOS:
+            case PaletteRibbonShape.Office2024:
             {
                 Rectangle drawRect = ClientRectangle;
 

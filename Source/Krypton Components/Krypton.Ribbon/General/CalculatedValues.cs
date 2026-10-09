@@ -77,6 +77,7 @@ internal class CalculatedValues
                     break;
                 case PaletteRibbonShape.Office2013:
                 case PaletteRibbonShape.Microsoft365:
+                case PaletteRibbonShape.Office2024:
                 case PaletteRibbonShape.VisualStudio:
                 case PaletteRibbonShape.Office2010:
                 case PaletteRibbonShape.VisualStudio2010:
@@ -126,6 +127,14 @@ internal class CalculatedValues
         // Apply shape specific modifiers
         GroupHeight += _groupHeightModifier;
         GroupsHeight += _groupsHeightModifier;
+
+        if (_lastShape == PaletteRibbonShape.Office2024)
+        {
+            // ViewDrawRibbonGroupsBorder insets Office 2024 content by 12,8 instead of the shared 1,0.
+            // Grow the groups band by that difference so the button lines are not clipped.
+            float dpiY = _ribbon.DeviceDpi / 96f;
+            GroupsHeight += (int)(12 * dpiY) + (int)(8 * dpiY) - 1;
+        }
 
         // macOS unified toolbar: no labeled group captions under clusters
         if (_lastShape == PaletteRibbonShape.MacOS)

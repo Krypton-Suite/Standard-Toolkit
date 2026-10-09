@@ -2184,6 +2184,18 @@ public class RenderStandard : RenderBase
 				return DrawRibbonTabSelected2010(context, rect, state, palette, orientation, memento, false);
 			case PaletteRibbonColorStyle.RibbonTabContextSelected:
 				return DrawRibbonTabContextSelected(shape, context, rect, state, palette, orientation, memento);
+			case PaletteRibbonColorStyle.RibbonTabSelected2024:
+				memento?.Dispose();
+				DrawRibbonTabUnderline2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
+			case PaletteRibbonColorStyle.RibbonTabTracking2024:
+				memento?.Dispose();
+				DrawRibbonTabHover2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
+			case PaletteRibbonColorStyle.RibbonGroupArea2024:
+				memento?.Dispose();
+				DrawRibbonGroupArea2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
 			default:
 				// Should never happen!
 				Debug.Assert(false);
@@ -2192,6 +2204,101 @@ public class RenderStandard : RenderBase
 		}
 
 		return null;
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 selected-tab underline. Color 1 is the stroke; the tab outline is omitted.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="underline">Underline color.</param>
+	protected static void DrawRibbonTabUnderline2024(RenderContext context, Rectangle rect, Color underline)
+	{
+		if (underline.IsEmpty || rect.Width <= 4 || rect.Height <= 2)
+		{
+			return;
+		}
+
+		int inset = Math.Min(10, Math.Max(4, rect.Width / 6));
+		int thickness = 2;
+		int width = rect.Width - (inset * 2);
+		if (width <= 0)
+		{
+			return;
+		}
+
+		using var brush = new SolidBrush(underline);
+		context.Graphics.FillRectangle(brush, rect.X + inset, rect.Bottom - thickness, width, thickness);
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 tab hover pill. Color 1 is the fill.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="hover">Hover fill.</param>
+	protected static void DrawRibbonTabHover2024(RenderContext context, Rectangle rect, Color hover)
+	{
+		if (hover.IsEmpty || rect.Width <= 4 || rect.Height <= 4)
+		{
+			return;
+		}
+
+		var hoverRect = Rectangle.Inflate(rect, -4, -2);
+		if (hoverRect.Width <= 0 || hoverRect.Height <= 0)
+		{
+			return;
+		}
+
+		using GraphicsPath path = CommonHelper.RoundedRectanglePath(hoverRect, 4);
+		using var brush = new SolidBrush(hover);
+		context.Graphics.FillPath(brush, path);
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 group area as its own rounded card, inset from the ribbon edges.
+	/// Color 1 is the fill. All four corners are rounded. The tab strip is painted separately and stays square.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Group-area bounds.</param>
+	/// <param name="body">Ribbon body color.</param>
+	protected static void DrawRibbonGroupArea2024(RenderContext context, Rectangle rect, Color body)
+	{
+		if (body.IsEmpty || rect.Width <= 8 || rect.Height <= 8)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int inset = Math.Max(3, (int)(6 * dpi));
+		int radius = Math.Max(6, (int)(10 * dpi));
+		var rounded = new Rectangle(rect.X + inset, rect.Y + inset, Math.Max(0, rect.Width - (inset * 2)), Math.Max(0, rect.Height - (inset * 2)));
+		if (rounded.Width <= radius || rounded.Height <= radius)
+		{
+			return;
+		}
+
+		SmoothingMode previous = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		using (GraphicsPath path = RoundedRectanglePath(rounded, radius))
+		using (var brush = new SolidBrush(body))
+		{
+			context.Graphics.FillPath(brush, path);
+		}
+
+		context.Graphics.SmoothingMode = previous;
+	}
+
+	private static GraphicsPath RoundedRectanglePath(Rectangle rect, int radius)
+	{
+		var path = new GraphicsPath();
+		int diameter = Math.Min(radius * 2, Math.Min(rect.Width, rect.Height));
+		path.AddArc(rect.Left, rect.Top, diameter, diameter, 180f, 90f);
+		path.AddArc(rect.Right - diameter, rect.Top, diameter, diameter, 270f, 90f);
+		path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0f, 90f);
+		path.AddArc(rect.Left, rect.Bottom - diameter, diameter, diameter, 90f, 90f);
+		path.CloseFigure();
+		return path;
 	}
 
 	/// <summary>
@@ -2783,6 +2890,7 @@ public class RenderStandard : RenderBase
 			case PaletteRibbonShape.Office2010:
 			case PaletteRibbonShape.OSXAqua:
 			case PaletteRibbonShape.MacOS:
+			case PaletteRibbonShape.Office2024:
 			{
 				var dialogBrush = new LinearGradientBrush(
 					new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
@@ -2867,6 +2975,7 @@ public class RenderStandard : RenderBase
 			case PaletteRibbonShape.Office2010:
 			case PaletteRibbonShape.OSXAqua:
 			case PaletteRibbonShape.MacOS:
+			case PaletteRibbonShape.Office2024:
 				{
 				using var fillBrush = new LinearGradientBrush(
 					new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
@@ -3207,6 +3316,10 @@ public class RenderStandard : RenderBase
 				context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
 				context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
 			}
+				break;
+
+			case PaletteRibbonShape.Office2024:
+				// Groups are separated by spacing only.
 				break;
 
 			case PaletteRibbonShape.Office2010:
