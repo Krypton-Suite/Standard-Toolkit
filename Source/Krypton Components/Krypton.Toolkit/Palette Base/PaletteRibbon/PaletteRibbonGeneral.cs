@@ -44,6 +44,7 @@ public class PaletteRibbonGeneral : Storage,
     private int _groupAreaBevelSize;
     private int _groupAreaGap;
     private bool _showContextTitles;
+    private PaletteRibbonTabMarker _tabMarker;
     private Color _tabSeparatorColor;
     private Color _tabSeparatorContextColor;
     private Font? _textFont;
@@ -100,6 +101,7 @@ public class PaletteRibbonGeneral : Storage,
         _groupAreaBevelSize = GroupAreaBevelSizeDefault;
         _groupAreaGap = 0;
         _showContextTitles = false;
+        _tabMarker = PaletteRibbonTabMarker.Line;
     }
     #endregion
 
@@ -139,7 +141,8 @@ public class PaletteRibbonGeneral : Storage,
                                       !ShouldSerializeGroupAreaBevelDark() &&
                                       !ShouldSerializeGroupAreaBevelSize() &&
                                       !ShouldSerializeGroupAreaGap() &&
-                                      !ShouldSerializeShowContextTitles();
+                                      !ShouldSerializeShowContextTitles() &&
+                                      !ShouldSerializeTabMarker();
     #endregion
 
     #region SetInherit
@@ -1256,6 +1259,35 @@ public class PaletteRibbonGeneral : Storage,
     private void ResetShowContextTitles() => ShowContextTitles = false;
 
     private bool ShouldSerializeShowContextTitles() => ShowContextTitles;
+
+    #endregion
+
+    #region TabMarker
+    /// <summary>
+    /// Gets and sets whether Office 2024 selected and hover tabs use a line or a pill.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Office 2024 selected and hover tabs use a line under the label, or a pill behind it.")]
+    [DefaultValue(PaletteRibbonTabMarker.Line)]
+    [RefreshProperties(RefreshProperties.All)]
+    public PaletteRibbonTabMarker TabMarker
+    {
+        get => _tabMarker;
+
+        set
+        {
+            if (_tabMarker != value)
+            {
+                _tabMarker = value;
+                PerformNeedPaint();
+            }
+        }
+    }
+
+    private void ResetTabMarker() => TabMarker = PaletteRibbonTabMarker.Line;
+
+    private bool ShouldSerializeTabMarker() => TabMarker != PaletteRibbonTabMarker.Line;
 
     #endregion
 }

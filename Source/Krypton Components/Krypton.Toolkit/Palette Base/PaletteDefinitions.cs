@@ -4268,14 +4268,42 @@ public enum PaletteRibbonColorStyle
     RibbonTabSelected2024,
 
     /// <summary>
-    /// Specifies a tracking Office 2024 ribbon tab: color 1 is the hover fill.
+    /// Specifies a tracking Office 2024 ribbon tab: color 1 is the hover mark.
     /// </summary>
     RibbonTabTracking2024,
+
+    /// <summary>
+    /// Specifies a selected Office 2024 ribbon tab drawn as a rounded pill. Color 1 is the fill.
+    /// </summary>
+    RibbonTabSelected2024Pill,
+
+    /// <summary>
+    /// Specifies a tracking Office 2024 ribbon tab drawn as a rounded pill. Color 1 is the fill.
+    /// </summary>
+    RibbonTabTracking2024Pill,
 
     /// <summary>
     /// Specifies the Office 2024 group area: color 1 is the rounded ribbon body.
     /// </summary>
     RibbonGroupArea2024
+}
+#endregion
+
+#region Enum PaletteRibbonTabMarker
+/// <summary>
+/// Shape of the Office 2024 selected-tab and hover mark.
+/// </summary>
+public enum PaletteRibbonTabMarker
+{
+    /// <summary>
+    /// A line under the tab label.
+    /// </summary>
+    Line,
+
+    /// <summary>
+    /// A rounded pill behind the tab label.
+    /// </summary>
+    Pill
 }
 #endregion
 

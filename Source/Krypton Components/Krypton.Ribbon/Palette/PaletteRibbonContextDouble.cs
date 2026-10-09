@@ -69,7 +69,28 @@ public class PaletteRibbonContextDouble : IPaletteRibbonBack,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inherit.GetRibbonBackColorStyle(state);
+    public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
+    {
+        PaletteRibbonColorStyle style = _inherit.GetRibbonBackColorStyle(state);
+        if (_ribbon.RibbonShape != PaletteRibbonShape.Office2024
+            || _ribbon.StateCommon.RibbonGeneral.TabMarker != PaletteRibbonTabMarker.Pill)
+        {
+            return style;
+        }
+
+        // The theme always reports the line styles. Pill is a per-ribbon choice.
+        if (style == PaletteRibbonColorStyle.RibbonTabSelected2024)
+        {
+            return PaletteRibbonColorStyle.RibbonTabSelected2024Pill;
+        }
+
+        if (style == PaletteRibbonColorStyle.RibbonTabTracking2024)
+        {
+            return PaletteRibbonColorStyle.RibbonTabTracking2024Pill;
+        }
+
+        return style;
+    }
 
     #endregion
 

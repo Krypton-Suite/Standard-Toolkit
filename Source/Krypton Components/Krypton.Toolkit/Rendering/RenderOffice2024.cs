@@ -48,11 +48,11 @@ public class RenderOffice2024 : RenderMicrosoft365
 
         if ((state & PaletteState.Pressed) == PaletteState.Pressed)
         {
-            DrawRibbonTabUnderline2024(context, rect, palette.GetRibbonFileAppTabTopColor(state));
+            RenderStandard.DrawRibbonTabMarker2024(context, rect, palette.GetRibbonFileAppTabTopColor(state), PaletteRibbonTabMarker.Line);
         }
         else if ((state & PaletteState.Tracking) == PaletteState.Tracking)
         {
-            DrawRibbonTabHover2024(context, rect, palette.GetRibbonFileAppTabBottomColor(state));
+            RenderStandard.DrawRibbonTabMarker2024(context, rect, palette.GetRibbonFileAppTabBottomColor(state), PaletteRibbonTabMarker.Line);
         }
 
         return null;

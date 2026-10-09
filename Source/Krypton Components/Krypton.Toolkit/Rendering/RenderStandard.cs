@@ -2190,7 +2190,12 @@ public class RenderStandard : RenderBase
 				break;
 			case PaletteRibbonColorStyle.RibbonTabTracking2024:
 				memento?.Dispose();
-				DrawRibbonTabHover2024(context, rect, palette.GetRibbonBackColor1(state));
+				DrawRibbonTabUnderline2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
+			case PaletteRibbonColorStyle.RibbonTabSelected2024Pill:
+			case PaletteRibbonColorStyle.RibbonTabTracking2024Pill:
+				memento?.Dispose();
+				DrawRibbonTabPill2024(context, rect, palette.GetRibbonBackColor1(state));
 				break;
 			case PaletteRibbonColorStyle.RibbonGroupArea2024:
 				memento?.Dispose();
@@ -2232,14 +2237,50 @@ public class RenderStandard : RenderBase
 		context.Graphics.FillRectangle(brush, rect.X + inset, rect.Bottom - thickness, width, thickness);
 	}
 
-    /// <summary>
-    /// Draw the Office 2024 tab hover line. Color 1 is the grey stroke under the label.
-    /// </summary>
-    /// <param name="context">Rendering context.</param>
-    /// <param name="rect">Tab bounds.</param>
-    /// <param name="hover">Hover line color.</param>
-    protected static void DrawRibbonTabHover2024(RenderContext context, Rectangle rect, Color hover) =>
-        DrawRibbonTabUnderline2024(context, rect, hover);
+	/// <summary>
+	/// Draw the Office 2024 tab mark as a line or a pill.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="color">Mark colour.</param>
+	/// <param name="marker">Line under the label, or a pill behind it.</param>
+	internal static void DrawRibbonTabMarker2024(RenderContext context, Rectangle rect, Color color, PaletteRibbonTabMarker marker)
+	{
+		if (marker == PaletteRibbonTabMarker.Pill)
+		{
+			DrawRibbonTabPill2024(context, rect, color);
+		}
+		else
+		{
+			DrawRibbonTabUnderline2024(context, rect, color);
+		}
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 tab pill. Color 1 is the fill behind the label.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="fill">Pill fill.</param>
+	protected static void DrawRibbonTabPill2024(RenderContext context, Rectangle rect, Color fill)
+	{
+		if (fill.IsEmpty || rect.Width <= 4 || rect.Height <= 4)
+		{
+			return;
+		}
+
+		var pill = Rectangle.Inflate(rect, -4, -2);
+		if (pill.Width <= 0 || pill.Height <= 0)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int radius = Math.Min(pill.Height / 2, Math.Max(4, (int)Math.Round(8f * dpi)));
+		using GraphicsPath path = CommonHelper.RoundedRectanglePath(pill, radius);
+		using var brush = new SolidBrush(fill);
+		context.Graphics.FillPath(brush, path);
+	}
 
 	/// <summary>
 	/// Draw the Office 2024 group area as its own rounded card, inset from the ribbon edges.

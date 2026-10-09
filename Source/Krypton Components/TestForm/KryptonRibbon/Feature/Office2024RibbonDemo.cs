@@ -22,10 +22,12 @@ public partial class Office2024RibbonDemo : KryptonForm
     private readonly KryptonWrapLabel _status;
     private readonly KryptonCheckBox _bevel;
     private readonly KryptonCheckBox _contextTitles;
+    private readonly KryptonCheckBox _pills;
     private readonly KryptonNumericUpDown _bevelSize;
     private readonly KryptonNumericUpDown _gap;
     private bool _syncingBevel;
     private bool _syncingContextTitles;
+    private bool _syncingPills;
     private bool _syncingBevelSize;
     private bool _syncingGap;
 
@@ -78,7 +80,7 @@ public partial class Office2024RibbonDemo : KryptonForm
         var instructions = new KryptonWrapLabel
         {
             Dock = DockStyle.Top,
-            Height = 124,
+            Height = 140,
             Text =
                 @"Issue #4496: Office 2024 ribbon. The selected tab is an underline, groups have no boxes, and File is text." +
                 Environment.NewLine +
@@ -88,13 +90,15 @@ public partial class Office2024RibbonDemo : KryptonForm
                 Environment.NewLine +
                 @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card." +
                 Environment.NewLine +
-                @"Context titles in the title bar are optional for Office 2024 and stay off until you turn them on. Microsoft 365 still shows them."
+                @"Context titles in the title bar are optional for Office 2024 and stay off until you turn them on. Microsoft 365 still shows them." +
+                Environment.NewLine +
+                @"Tab marks can be a line under the label or a pill behind it."
         };
 
         var buttons = new FlowLayoutPanel
         {
             Dock = DockStyle.Top,
-            Height = 264,
+            Height = 296,
             Padding = new Padding(8, 8, 8, 0)
         };
         buttons.Controls.Add(CreateThemeButton(@"Office 2024 Blue", PaletteMode.Office2024Blue));
@@ -138,6 +142,20 @@ public partial class Office2024RibbonDemo : KryptonForm
             }
         };
         buttons.Controls.Add(_contextTitles);
+        _pills = new KryptonCheckBox
+        {
+            Text = @"Pill tab markers",
+            AutoSize = true,
+            Margin = new Padding(8, 6, 8, 0)
+        };
+        _pills.CheckedChanged += (_, _) =>
+        {
+            if (!_syncingPills)
+            {
+                SetTabMarker(_pills.Checked ? PaletteRibbonTabMarker.Pill : PaletteRibbonTabMarker.Line);
+            }
+        };
+        buttons.Controls.Add(_pills);
         var bevelSizeLabel = new KryptonLabel
         {
             Text = @"Bevel size",
@@ -245,6 +263,24 @@ public partial class Office2024RibbonDemo : KryptonForm
     }
 
     /// <summary>
+    /// Sets Office 2024 selected and hover tabs to a line or a pill.
+    /// </summary>
+    /// <param name="marker">Line under the label, or a pill behind it.</param>
+    public void SetTabMarker(PaletteRibbonTabMarker marker)
+    {
+        _ribbon.StateCommon.RibbonGeneral.TabMarker = marker;
+        var pills = marker == PaletteRibbonTabMarker.Pill;
+        if (_pills.Checked != pills)
+        {
+            _syncingPills = true;
+            _pills.Checked = pills;
+            _syncingPills = false;
+        }
+
+        _status.Text = StatusText();
+    }
+
+    /// <summary>
     /// Selects the first contextual tab so its coloured label and underline can be seen.
     /// </summary>
     public void SelectContextualTab()
@@ -294,7 +330,7 @@ public partial class Office2024RibbonDemo : KryptonForm
     }
 
     private string StatusText() =>
-        $@"Palette: {_ribbon.PaletteMode}. Ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}. Bevel: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelEdges}. Bevel size: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize}. Gap: {_ribbon.StateCommon.RibbonGeneral.GroupAreaGap}. Context titles: {_ribbon.StateCommon.RibbonGeneral.ShowContextTitles}.";
+        $@"Palette: {_ribbon.PaletteMode}. Ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}. Bevel: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelEdges}. Bevel size: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize}. Gap: {_ribbon.StateCommon.RibbonGeneral.GroupAreaGap}. Context titles: {_ribbon.StateCommon.RibbonGeneral.ShowContextTitles}. Tab marker: {_ribbon.StateCommon.RibbonGeneral.TabMarker}.";
 
     private KryptonButton CreateThemeButton(string text, PaletteMode mode)
     {

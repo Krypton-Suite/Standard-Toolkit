@@ -151,6 +151,25 @@ internal class ViewDrawRibbonFileAppTab : ViewComposite,
                 break;
         }
 
+        // Office 2024 draws its own line or pill. Older shapes use the renderer.
+        if (_ribbon.RibbonShape == PaletteRibbonShape.Office2024)
+        {
+            Color marker = Color.Empty;
+            if ((localState & PaletteState.Pressed) == PaletteState.Pressed)
+            {
+                marker = palette.GetRibbonFileAppTabTopColor(localState);
+            }
+            else if ((localState & PaletteState.Tracking) == PaletteState.Tracking)
+            {
+                marker = palette.GetRibbonFileAppTabBottomColor(localState);
+            }
+
+            RenderStandard.DrawRibbonTabMarker2024(context, ClientRectangle, marker, _paletteGeneral.TabMarker);
+            _mementos[memento]?.Dispose();
+            _mementos[memento] = null;
+            return;
+        }
+
         // Draw the background
         _mementos[memento] = context.Renderer.RenderRibbon.DrawRibbonFileApplicationTab(_ribbon.RibbonShape, context, ClientRectangle, 
             localState,

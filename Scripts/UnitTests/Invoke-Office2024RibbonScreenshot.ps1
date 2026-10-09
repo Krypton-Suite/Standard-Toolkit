@@ -94,6 +94,17 @@ Start-Sleep -Milliseconds 300
 $hoverPath = Join-Path $OutputDir '4496-office-2024-black-hover.png'
 Save-UnitTestWindowPng -Form $form -Path $hoverPath
 Write-Host "Wrote $hoverPath"
+$setMarker = $formType.GetMethod('SetTabMarker')
+$markerType = $toolkit.GetType('Krypton.Toolkit.PaletteRibbonTabMarker')
+$pill = [Enum]::Parse($markerType, 'Pill')
+$line = [Enum]::Parse($markerType, 'Line')
+[void]$setMarker.Invoke($form, @($pill))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$pillPath = Join-Path $OutputDir '4496-office-2024-black-pills.png'
+Save-UnitTestWindowPng -Form $form -Path $pillPath
+Write-Host "Wrote $pillPath"
+[void]$setMarker.Invoke($form, @($line))
 $away = $form.PointToScreen((New-Object System.Drawing.Point 40, 320))
 [void][UnitTestNative]::SetCursorPos($away.X, $away.Y)
 [System.Windows.Forms.Application]::DoEvents()
