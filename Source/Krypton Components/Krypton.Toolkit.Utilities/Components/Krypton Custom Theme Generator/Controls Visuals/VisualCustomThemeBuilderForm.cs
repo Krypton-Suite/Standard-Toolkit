@@ -23,6 +23,7 @@ internal partial class VisualCustomThemeBuilderForm : KryptonForm
     {
         _initialSeed = seed;
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
         ConfigureScreenPickers();
         LoadSeed(seed);
         UpdatePreview();

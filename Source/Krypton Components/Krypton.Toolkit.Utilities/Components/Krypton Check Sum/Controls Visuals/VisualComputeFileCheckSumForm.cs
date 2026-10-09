@@ -49,6 +49,7 @@ internal partial class VisualComputeFileCheckSumForm : KryptonForm
     public VisualComputeFileCheckSumForm(string? initialFilePath , SupportedHashAlgorithims? hashAlgorithm, SafeNETAndNewerSupportedHashAlgorithms? safeNETAndNewerHashAlgorithm)
     {
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
 
         CancelButton = kbtnCancel;
 

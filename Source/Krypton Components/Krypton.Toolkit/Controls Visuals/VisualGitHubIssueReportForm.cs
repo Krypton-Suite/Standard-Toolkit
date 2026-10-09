@@ -42,6 +42,7 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
         _additionalInfoContext = additionalInfoContext;
 
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
 
         _errorProvider = new KryptonErrorProvider
         {
