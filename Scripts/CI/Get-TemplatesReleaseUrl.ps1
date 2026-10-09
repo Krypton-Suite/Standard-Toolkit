@@ -1,7 +1,8 @@
 # Resolves the GitHub release page for the newest Visual Studio templates build
 # on a channel (stable, canary, alpha, rc, current).
-# Dated tags (templates-stable-yyyyMMdd-HHmm) are preferred. The legacy fixed tag
-# (templates-stable) is used when no dated release exists yet.
+# Versioned tags (templates-stable-110.26.10.281) and older dated tags
+# (templates-stable-yyyyMMdd-HHmm) are matched by the templates-{channel}- prefix.
+# The legacy fixed tag (templates-stable) is used when no prefixed release exists yet.
 # Prints a URL on stdout. Falls back to the repository releases page.
 
 [CmdletBinding()]
