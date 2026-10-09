@@ -379,7 +379,8 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
 
     private void RunExportReport()
     {
-        if (string.IsNullOrWhiteSpace(_lastFilePath))
+        var lastFilePath = _lastFilePath;
+        if (lastFilePath is null || string.IsNullOrWhiteSpace(lastFilePath))
         {
             _lblStatus.Text = @"Analyze a file before saving a coverage report.";
             return;
@@ -400,7 +401,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
 
         try
         {
-            var coverage = KryptonManager.AnalyzeTranslationsFromFile(_lastFilePath);
+            var coverage = KryptonManager.AnalyzeTranslationsFromFile(lastFilePath);
             coverage.ExportReport(sfd.FileName);
             _lblStatus.Text = $@"Coverage report saved to {sfd.FileName}.";
         }
@@ -475,7 +476,8 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
 
     private void RunRoundTripValidation()
     {
-        if (string.IsNullOrWhiteSpace(_lastFilePath) || !System.IO.File.Exists(_lastFilePath))
+        var lastFilePath = _lastFilePath;
+        if (lastFilePath is null || string.IsNullOrWhiteSpace(lastFilePath) || !System.IO.File.Exists(lastFilePath))
         {
             _lblStatus.Text = @"Validate: no file to compare against. Export or Import first.";
             return;
@@ -492,7 +494,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
 
             // Load the on-disk file.
             var diskDoc = new System.Xml.XmlDocument();
-            diskDoc.Load(_lastFilePath);
+            diskDoc.Load(lastFilePath);
 
             // Compare each Value attribute in the disk document against the live document.
             var diskStrings = ExtractValues(diskDoc);
