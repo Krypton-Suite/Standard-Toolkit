@@ -50,6 +50,10 @@
 
 - Resolved [#4466](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4466), Some strings/values are not being serialised
   - Fresh controls no longer write factory message-box strings into the designer as if they were modified. `MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
+- Implemented [#4465](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4465), Toolkit dialogs size to their content and the owner monitor instead of a fixed 96 DPI client size.
+  - Prompts (`KryptonInputBox`, including RTL, the wait dialog, and the information box) grow with wrapped text and stay inside the working area. `KryptonMessageBox` is unchanged.
+  - Larger dialogs (exception, about, splash, theme browser, changelog, conversion, binary information, and the multiline string editor) are resizable and are clamped when they would be taller or wider than the monitor.
+  - Shell dialogs scale the 900×600 fallback with DPI and follow a later DPI change. Toasts with a close box can be resized; borderless toasts stay borderless.
 - Implemented [#4480](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4480), Use trusted publishing
 - Resolved [#4485](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4485), `NullReferenceException` in `KryptonWorkspace.SeparatorCanMove` on mouse move after a layout removes the separator under the mouse
 - Implemented [#4081](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4081), Use pattern matching where possible

@@ -135,7 +135,10 @@ internal partial class VisualToastNotificationBaseForm : KryptonForm
     {
         CloseBox = showCloseBox;
         ControlBox = showCloseBox;
-        FormBorderStyle = showCloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.None;
+        FormBorderStyle = showCloseBox ? FormBorderStyle.Sizable : FormBorderStyle.None;
+
+        // ReleaseFixedChrome leaves FormBorderStyle.None alone, so a borderless toast stays borderless.
+        KryptonDialogLayout.EnableResizable(this);
     }
 
     /// <summary>

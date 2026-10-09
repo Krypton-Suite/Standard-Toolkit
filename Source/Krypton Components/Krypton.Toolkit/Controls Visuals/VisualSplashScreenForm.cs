@@ -36,6 +36,8 @@ internal partial class VisualSplashScreenForm : KryptonForm/*, ISplashScreenData
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
 
+        KryptonDialogLayout.EnableResizable(this);
+
         _splashScreenData = splashScreenData;
     }
 
@@ -49,6 +51,8 @@ internal partial class VisualSplashScreenForm : KryptonForm/*, ISplashScreenData
     {
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
         InitializeComponent();
+
+        KryptonDialogLayout.EnableResizable(this);
 
         _entryAssembly = entryAssembly;
 
