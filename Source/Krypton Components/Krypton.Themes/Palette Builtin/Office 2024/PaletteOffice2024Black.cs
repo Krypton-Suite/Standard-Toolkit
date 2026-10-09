@@ -11,7 +11,7 @@ namespace Krypton.Themes;
 
 /// <summary>
 /// Office 2024 Black ribbon on the Microsoft 365 Black control chrome.
-/// Matches the flat near-black Fluent ribbon: white selected text and a white underline.
+/// Matches the flat near-black Fluent ribbon: white selected text and a contrasting underline.
 /// </summary>
 public class PaletteOffice2024Black : PaletteMicrosoft365Black
 {
@@ -35,7 +35,7 @@ public class PaletteOffice2024Black : PaletteMicrosoft365Black
 
     /// <inheritdoc />
     public override Color GetRibbonBackColor1(PaletteRibbonBackStyle style, PaletteState state) =>
-        _chrome.TryGetBackColor1(style, state, out Color color) ? color : base.GetRibbonBackColor1(style, state);
+        _chrome.TryGetBackColor1(style, state, GetBackColor1(PaletteBackStyle.PanelClient, state), out Color color) ? color : base.GetRibbonBackColor1(style, state);
 
     /// <inheritdoc />
     public override Color GetRibbonTextColor(PaletteRibbonTextStyle style, PaletteState state) =>
@@ -52,7 +52,8 @@ public class PaletteOffice2024Black : PaletteMicrosoft365Black
         _chrome.MarkOn(GetBackColor1(PaletteBackStyle.PanelClient, state));
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => _chrome.Hover;
+    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) =>
+        _chrome.TabHoverLineOn(GetBackColor1(PaletteBackStyle.PanelClient, state));
 
     /// <inheritdoc />
     public override Color GetRibbonFileAppTabTextColor(PaletteState state) =>

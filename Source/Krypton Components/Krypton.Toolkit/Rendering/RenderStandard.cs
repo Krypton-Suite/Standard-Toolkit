@@ -2220,7 +2220,8 @@ public class RenderStandard : RenderBase
 		}
 
 		int inset = Math.Min(10, Math.Max(4, rect.Width / 6));
-		int thickness = 2;
+		float dpi = context.Graphics.DpiX / 96f;
+		int thickness = Math.Max(2, (int)Math.Round(3f * dpi));
 		int width = rect.Width - (inset * 2);
 		if (width <= 0)
 		{
@@ -2231,29 +2232,14 @@ public class RenderStandard : RenderBase
 		context.Graphics.FillRectangle(brush, rect.X + inset, rect.Bottom - thickness, width, thickness);
 	}
 
-	/// <summary>
-	/// Draw the Office 2024 tab hover pill. Color 1 is the fill.
-	/// </summary>
-	/// <param name="context">Rendering context.</param>
-	/// <param name="rect">Tab bounds.</param>
-	/// <param name="hover">Hover fill.</param>
-	protected static void DrawRibbonTabHover2024(RenderContext context, Rectangle rect, Color hover)
-	{
-		if (hover.IsEmpty || rect.Width <= 4 || rect.Height <= 4)
-		{
-			return;
-		}
-
-		var hoverRect = Rectangle.Inflate(rect, -4, -2);
-		if (hoverRect.Width <= 0 || hoverRect.Height <= 0)
-		{
-			return;
-		}
-
-		using GraphicsPath path = CommonHelper.RoundedRectanglePath(hoverRect, 4);
-		using var brush = new SolidBrush(hover);
-		context.Graphics.FillPath(brush, path);
-	}
+    /// <summary>
+    /// Draw the Office 2024 tab hover line. Color 1 is the grey stroke under the label.
+    /// </summary>
+    /// <param name="context">Rendering context.</param>
+    /// <param name="rect">Tab bounds.</param>
+    /// <param name="hover">Hover line color.</param>
+    protected static void DrawRibbonTabHover2024(RenderContext context, Rectangle rect, Color hover) =>
+        DrawRibbonTabUnderline2024(context, rect, hover);
 
 	/// <summary>
 	/// Draw the Office 2024 group area as its own rounded card, inset from the ribbon edges.

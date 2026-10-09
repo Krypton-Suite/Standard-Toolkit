@@ -49,6 +49,9 @@
   - Office 2024 group area can draw an optional bevel. Set `StateCommon.RibbonGeneral.GroupAreaBevelEdges`. Leave `GroupAreaBevelLight` and `GroupAreaBevelDark` empty to derive the edges from the group area, or set those colours yourself.
     - Group-area bevel width is configurable. Set `StateCommon.RibbonGeneral.GroupAreaBevelSize` to the visible width in pixels at 96 DPI. The default is 2.
   - Office 2024 groups can be split by an optional gap. Set `StateCommon.RibbonGeneral.GroupAreaGap` to the gap in pixels at 96 DPI. Zero keeps one continuous group area.
+  - A selected tab draws a contrasting line under its label. A selected context tab uses the context colour for its label and for that line.
+  - Hovering a tab draws a grey line under its label.
+  - Office 2024 contextual titles in the title bar are optional. Set `StateCommon.RibbonGeneral.ShowContextTitles`. The default is off. Microsoft 365 and older ribbon shapes still show those titles.
   - Group items sit inside the card. Separated cards keep space on the left and right, and the group area keeps the same space above and below the items.
   - To use the themes, reference `Krypton.Themes` (included in the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) package).
 - Implemented [#4465](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4465), Toolkit dialogs size to their content and the owner monitor instead of a fixed 96 DPI client size.

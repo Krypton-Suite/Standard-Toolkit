@@ -84,6 +84,20 @@ foreach ($capture in $captures) {
     Write-Host "Wrote $path"
 }
 
+$hoverMode = [Enum]::Parse($modeType, 'Office2024Black')
+[void]$apply.Invoke($form, @($hoverMode))
+[System.Windows.Forms.Application]::DoEvents()
+$hoverPoint = $form.PointToScreen((New-Object System.Drawing.Point 168, 18))
+[void][UnitTestNative]::SetCursorPos($hoverPoint.X, $hoverPoint.Y)
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$hoverPath = Join-Path $OutputDir '4496-office-2024-black-hover.png'
+Save-UnitTestWindowPng -Form $form -Path $hoverPath
+Write-Host "Wrote $hoverPath"
+$away = $form.PointToScreen((New-Object System.Drawing.Point 40, 320))
+[void][UnitTestNative]::SetCursorPos($away.X, $away.Y)
+[System.Windows.Forms.Application]::DoEvents()
+
 $setBevel = $formType.GetMethod('SetGroupAreaBevel')
 $bevelMode = [Enum]::Parse($modeType, 'Office2024BlueDarkMode')
 [void]$apply.Invoke($form, @($bevelMode))
@@ -94,6 +108,16 @@ $bevelPath = Join-Path $OutputDir '4496-office-2024-blue-dark-bevel.png'
 Save-UnitTestWindowPng -Form $form -Path $bevelPath
 Write-Host "Wrote $bevelPath"
 
+$setTitles = $formType.GetMethod('SetShowContextTitles')
+[void]$setTitles.Invoke($form, @($true))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$titlePath = Join-Path $OutputDir '4496-office-2024-blue-dark-context-title.png'
+Save-UnitTestWindowPng -Form $form -Path $titlePath
+Write-Host "Wrote $titlePath"
+[void]$setTitles.Invoke($form, @($false))
+[System.Windows.Forms.Application]::DoEvents()
+
 $setBevelSize = $formType.GetMethod('SetGroupAreaBevelSize')
 [void]$setBevelSize.Invoke($form, @(8))
 [System.Windows.Forms.Application]::DoEvents()
@@ -103,6 +127,18 @@ Save-UnitTestWindowPng -Form $form -Path $widePath
 Write-Host "Wrote $widePath"
 [void]$setBevelSize.Invoke($form, @(2))
 [void]$setBevel.Invoke($form, @($false))
+$setContext = $formType.GetMethod('SelectContextualTab')
+$contextMode = [Enum]::Parse($modeType, 'Office2024Black')
+[void]$apply.Invoke($form, @($contextMode))
+[void]$setContext.Invoke($form, @())
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$contextPath = Join-Path $OutputDir '4496-office-2024-black-context.png'
+Save-UnitTestWindowPng -Form $form -Path $contextPath
+Write-Host "Wrote $contextPath"
+
+$gapMode = [Enum]::Parse($modeType, 'Office2024BlueDarkMode')
+[void]$apply.Invoke($form, @($gapMode))
 $setGap = $formType.GetMethod('SetGroupAreaGap')
 [void]$setGap.Invoke($form, @(16))
 [System.Windows.Forms.Application]::DoEvents()

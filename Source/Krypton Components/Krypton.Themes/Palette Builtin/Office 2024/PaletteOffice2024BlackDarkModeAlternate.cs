@@ -34,7 +34,7 @@ public class PaletteOffice2024BlackDarkModeAlternate : PaletteMicrosoft365BlackD
 
     /// <inheritdoc />
     public override Color GetRibbonBackColor1(PaletteRibbonBackStyle style, PaletteState state) =>
-        _chrome.TryGetBackColor1(style, state, out Color color) ? color : base.GetRibbonBackColor1(style, state);
+        _chrome.TryGetBackColor1(style, state, GetBackColor1(PaletteBackStyle.PanelClient, state), out Color color) ? color : base.GetRibbonBackColor1(style, state);
 
     /// <inheritdoc />
     public override Color GetRibbonTextColor(PaletteRibbonTextStyle style, PaletteState state) =>
@@ -51,7 +51,8 @@ public class PaletteOffice2024BlackDarkModeAlternate : PaletteMicrosoft365BlackD
         _chrome.MarkOn(GetBackColor1(PaletteBackStyle.PanelClient, state));
 
     /// <inheritdoc />
-    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) => _chrome.Hover;
+    public override Color GetRibbonFileAppTabBottomColor(PaletteState state) =>
+        _chrome.TabHoverLineOn(GetBackColor1(PaletteBackStyle.PanelClient, state));
 
     /// <inheritdoc />
     public override Color GetRibbonFileAppTabTextColor(PaletteState state) =>

@@ -11,7 +11,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>
 /// Microsoft 365 renderer with Office 2024 ribbon chrome: a text File tab and no cluster edge.
-/// Tab underlines and hover pills are drawn by <see cref="RenderStandard"/> from
+/// Tab underlines and hover lines are drawn by <see cref="RenderStandard"/> from
 /// <see cref="PaletteRibbonColorStyle.RibbonTabSelected2024"/> and
 /// <see cref="PaletteRibbonColorStyle.RibbonTabTracking2024"/>.
 /// </summary>

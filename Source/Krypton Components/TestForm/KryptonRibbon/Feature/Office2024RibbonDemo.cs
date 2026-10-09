@@ -21,9 +21,11 @@ public partial class Office2024RibbonDemo : KryptonForm
     private readonly KryptonRibbon _ribbon;
     private readonly KryptonWrapLabel _status;
     private readonly KryptonCheckBox _bevel;
+    private readonly KryptonCheckBox _contextTitles;
     private readonly KryptonNumericUpDown _bevelSize;
     private readonly KryptonNumericUpDown _gap;
     private bool _syncingBevel;
+    private bool _syncingContextTitles;
     private bool _syncingBevelSize;
     private bool _syncingGap;
 
@@ -76,7 +78,7 @@ public partial class Office2024RibbonDemo : KryptonForm
         var instructions = new KryptonWrapLabel
         {
             Dock = DockStyle.Top,
-            Height = 108,
+            Height = 124,
             Text =
                 @"Issue #4496: Office 2024 ribbon. The selected tab is an underline, groups have no boxes, and File is text." +
                 Environment.NewLine +
@@ -84,13 +86,15 @@ public partial class Office2024RibbonDemo : KryptonForm
                 Environment.NewLine +
                 @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the application menu." +
                 Environment.NewLine +
-                @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card."
+                @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card." +
+                Environment.NewLine +
+                @"Context titles in the title bar are optional for Office 2024 and stay off until you turn them on. Microsoft 365 still shows them."
         };
 
         var buttons = new FlowLayoutPanel
         {
             Dock = DockStyle.Top,
-            Height = 232,
+            Height = 264,
             Padding = new Padding(8, 8, 8, 0)
         };
         buttons.Controls.Add(CreateThemeButton(@"Office 2024 Blue", PaletteMode.Office2024Blue));
@@ -120,6 +124,20 @@ public partial class Office2024RibbonDemo : KryptonForm
             }
         };
         buttons.Controls.Add(_bevel);
+        _contextTitles = new KryptonCheckBox
+        {
+            Text = @"Context titles in title bar",
+            AutoSize = true,
+            Margin = new Padding(8, 6, 8, 0)
+        };
+        _contextTitles.CheckedChanged += (_, _) =>
+        {
+            if (!_syncingContextTitles)
+            {
+                SetShowContextTitles(_contextTitles.Checked);
+            }
+        };
+        buttons.Controls.Add(_contextTitles);
         var bevelSizeLabel = new KryptonLabel
         {
             Text = @"Bevel size",
@@ -210,6 +228,38 @@ public partial class Office2024RibbonDemo : KryptonForm
     }
 
     /// <summary>
+    /// Shows or hides Office 2024 contextual tab titles in the title bar.
+    /// </summary>
+    /// <param name="visible">True to draw the context title in the caption.</param>
+    public void SetShowContextTitles(bool visible)
+    {
+        _ribbon.StateCommon.RibbonGeneral.ShowContextTitles = visible;
+        if (_contextTitles.Checked != visible)
+        {
+            _syncingContextTitles = true;
+            _contextTitles.Checked = visible;
+            _syncingContextTitles = false;
+        }
+
+        _status.Text = StatusText();
+    }
+
+    /// <summary>
+    /// Selects the first contextual tab so its coloured label and underline can be seen.
+    /// </summary>
+    public void SelectContextualTab()
+    {
+        foreach (KryptonRibbonTab tab in _ribbon.RibbonTabs)
+        {
+            if (!string.IsNullOrEmpty(tab.ContextName))
+            {
+                _ribbon.SelectedTab = tab;
+                return;
+            }
+        }
+    }
+
+    /// <summary>
     /// Sets the visible width of the Office 2024 group-area bevel.
     /// </summary>
     /// <param name="size">Width in pixels at 96 DPI.</param>
@@ -244,7 +294,7 @@ public partial class Office2024RibbonDemo : KryptonForm
     }
 
     private string StatusText() =>
-        $@"Palette: {_ribbon.PaletteMode}. Ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}. Bevel: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelEdges}. Bevel size: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize}. Gap: {_ribbon.StateCommon.RibbonGeneral.GroupAreaGap}.";
+        $@"Palette: {_ribbon.PaletteMode}. Ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}. Bevel: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelEdges}. Bevel size: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize}. Gap: {_ribbon.StateCommon.RibbonGeneral.GroupAreaGap}. Context titles: {_ribbon.StateCommon.RibbonGeneral.ShowContextTitles}.";
 
     private KryptonButton CreateThemeButton(string text, PaletteMode mode)
     {

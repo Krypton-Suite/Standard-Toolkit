@@ -100,14 +100,15 @@ internal sealed class Office2024RibbonChrome
     /// </summary>
     /// <param name="style">Ribbon background style.</param>
     /// <param name="state">Palette state.</param>
+    /// <param name="tabStrip">Tab-strip colour used to keep selected and hover underlines visible.</param>
     /// <param name="color">Color when this method returns <see langword="true"/>.</param>
     /// <returns><see langword="true"/> when the Office 2024 chrome owns the color.</returns>
-    public bool TryGetBackColor1(PaletteRibbonBackStyle style, PaletteState state, out Color color)
+    public bool TryGetBackColor1(PaletteRibbonBackStyle style, PaletteState state, Color tabStrip, out Color color)
     {
         switch (style)
         {
             case PaletteRibbonBackStyle.RibbonTab:
-                color = IsSelectedTab(state) ? Underline : Hover;
+                color = IsSelectedTab(state) ? TabUnderlineOn(tabStrip) : TabHoverLineOn(tabStrip);
                 return true;
             case PaletteRibbonBackStyle.RibbonGroupArea:
             case PaletteRibbonBackStyle.RibbonQATMinibar:
@@ -140,6 +141,46 @@ internal sealed class Office2024RibbonChrome
     /// <returns>Underline colour.</returns>
     public Color MarkOn(Color tabStrip) =>
         Readable(Underline, tabStrip, Luminance(tabStrip) >= 140000 ? Color.FromArgb(15, 108, 189) : Color.White);
+
+    /// <summary>
+    /// Selected-tab line that stays visible on <paramref name="tabStrip"/> and distinct from the selected label.
+    /// </summary>
+    /// <param name="tabStrip">Tab-strip colour, <see cref="PaletteBackStyle.PanelClient"/>.</param>
+    /// <returns>Underline colour.</returns>
+    public Color TabUnderlineOn(Color tabStrip)
+    {
+        if (Contrast(Underline, tabStrip) >= 3d && !Similar(Underline, TabTextSelected))
+        {
+            return Underline;
+        }
+
+        bool lightStrip = Luminance(tabStrip) >= 140000;
+        Color accent = lightStrip ? Color.FromArgb(15, 108, 189) : Color.FromArgb(180, 214, 250);
+        if (Contrast(accent, tabStrip) >= 3d && !Similar(accent, TabTextSelected))
+        {
+            return accent;
+        }
+
+        Color alternate = lightStrip ? Color.FromArgb(15, 40, 80) : Color.White;
+        return Contrast(alternate, tabStrip) >= 3d ? alternate : accent;
+    }
+
+    /// <summary>
+    /// Grey line drawn under a tab while the pointer is over it.
+    /// </summary>
+    /// <param name="tabStrip">Tab-strip colour, <see cref="PaletteBackStyle.PanelClient"/>.</param>
+    /// <returns>Hover line colour.</returns>
+    public Color TabHoverLineOn(Color tabStrip)
+    {
+        bool lightStrip = Luminance(tabStrip) >= 140000;
+        Color grey = lightStrip ? Color.FromArgb(120, 120, 120) : Color.FromArgb(190, 190, 190);
+        if (Contrast(grey, tabStrip) >= 2.2d)
+        {
+            return grey;
+        }
+
+        return lightStrip ? Color.FromArgb(80, 80, 80) : Color.FromArgb(220, 220, 220);
+    }
 
     /// <summary>
     /// Supplies ribbon text colours for tabs and group captions.
@@ -179,7 +220,11 @@ internal sealed class Office2024RibbonChrome
         }
     }
 
-    private static bool IsSelectedTab(PaletteState state) => (state & PaletteState.Checked) == PaletteState.Checked;
+    // ContextChecked* does not set PaletteState.Checked, but those tabs are still the selected tab.
+    private static bool IsSelectedTab(PaletteState state) =>
+        (state & PaletteState.Checked) == PaletteState.Checked
+        || state == PaletteState.ContextCheckedNormal
+        || state == PaletteState.ContextCheckedTracking;
 
     private static bool IsTrackingTab(PaletteState state) =>
         state == PaletteState.Tracking
@@ -208,4 +253,7 @@ internal sealed class Office2024RibbonChrome
     }
 
     private static int Luminance(Color color) => (color.R * 299) + (color.G * 587) + (color.B * 114);
+
+    private static bool Similar(Color a, Color b) =>
+        Math.Abs(a.R - b.R) < 24 && Math.Abs(a.G - b.G) < 24 && Math.Abs(a.B - b.B) < 24;
 }

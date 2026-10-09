@@ -43,6 +43,7 @@ public class PaletteRibbonGeneral : Storage,
     private Color _groupAreaBevelDark;
     private int _groupAreaBevelSize;
     private int _groupAreaGap;
+    private bool _showContextTitles;
     private Color _tabSeparatorColor;
     private Color _tabSeparatorContextColor;
     private Font? _textFont;
@@ -98,6 +99,7 @@ public class PaletteRibbonGeneral : Storage,
         _groupAreaBevelDark = SharedStaticVariables.EMPTY_COLOR;
         _groupAreaBevelSize = GroupAreaBevelSizeDefault;
         _groupAreaGap = 0;
+        _showContextTitles = false;
     }
     #endregion
 
@@ -136,7 +138,8 @@ public class PaletteRibbonGeneral : Storage,
                                       !ShouldSerializeGroupAreaBevelLight() &&
                                       !ShouldSerializeGroupAreaBevelDark() &&
                                       !ShouldSerializeGroupAreaBevelSize() &&
-                                      !ShouldSerializeGroupAreaGap();
+                                      !ShouldSerializeGroupAreaGap() &&
+                                      !ShouldSerializeShowContextTitles();
     #endregion
 
     #region SetInherit
@@ -1223,6 +1226,36 @@ public class PaletteRibbonGeneral : Storage,
     private void ResetGroupAreaGap() => GroupAreaGap = 0;
 
     private bool ShouldSerializeGroupAreaGap() => GroupAreaGap != 0;
+
+    #endregion
+
+    #region ContextTitles
+    /// <summary>
+    /// Gets and sets a value indicating whether Office 2024 shows contextual tab titles in the title bar.
+    /// Microsoft 365 and older ribbon shapes always show those titles.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Show contextual tab titles in the title bar for the Office 2024 ribbon. Microsoft 365 and older shapes always show them.")]
+    [DefaultValue(false)]
+    [RefreshProperties(RefreshProperties.All)]
+    public bool ShowContextTitles
+    {
+        get => _showContextTitles;
+
+        set
+        {
+            if (_showContextTitles != value)
+            {
+                _showContextTitles = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetShowContextTitles() => ShowContextTitles = false;
+
+    private bool ShouldSerializeShowContextTitles() => ShowContextTitles;
 
     #endregion
 }
