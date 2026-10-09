@@ -215,7 +215,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ControlsTest>("Controls Test", string.Empty);
         CreateButton<DataGridViewDemo>("KryptonDataGridView Demo", string.Empty);
         CreateButton<BindingNavigatorDemo>("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding");
-        CreateButton<KryptonDialogExamples>("Krypton Dialog tests", "Tests the various types of dialogs.");
+        CreateButton<KryptonDialogExamples>("Krypton Dialog tests", "Colour, font, print, and print-preview dialogs, plus a long input prompt and a resizable exception dialog (DPI clamp).");
         CreateButton<FadeFormTest>("KryptonForm FadeValues", "Native opt-in fade in/out on KryptonForm. This demo fades in on open; use Fade In / Fade Out / Fade Out and Close, open a faded child, or edit FadeValues in the property grid.");
         CreateButton<GroupBoxTest>("GroupBox", string.Empty);
         CreateButton<Bug3879KryptonComboBoxDisabledDemo>("3879 ComboBox Disabled", "Issue #3879: KryptonComboBox disabled at startup (DropDown and DropDownList) should use theme disabled colors. Toggle Enabled and switch themes to verify.");

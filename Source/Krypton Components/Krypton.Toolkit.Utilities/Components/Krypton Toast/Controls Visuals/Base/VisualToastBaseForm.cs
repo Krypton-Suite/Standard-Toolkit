@@ -140,7 +140,14 @@ internal partial class VisualToastBaseForm : KryptonForm
     {
         CloseBox = showCloseBox;
         ControlBox = showCloseBox;
-        FormBorderStyle = showCloseBox ? FormBorderStyle.Fixed3D : FormBorderStyle.None;
+        FormBorderStyle = showCloseBox ? FormBorderStyle.Sizable : FormBorderStyle.None;
+
+        // Design size is the minimum. AutoScale scales it; a later clamp can only shrink it
+        // when the scaled window is larger than the working area.
+        if (showCloseBox && MinimumSize.IsEmpty)
+        {
+            MinimumSize = Size;
+        }
     }
 
     /// <summary>
@@ -243,6 +250,61 @@ internal partial class VisualToastBaseForm : KryptonForm
     {
         ApplyBorderlessHeightPadding();
         ApplyScaledButtonStripInsets();
+        ApplyToastContentBounds();
+    }
+
+    /// <summary>
+    /// Widens the toast when a label's text does not fit, then keeps the window on the working area.
+    /// Safe to call more than once: a second pass lays out first, so docked labels are not grown twice.
+    /// </summary>
+    private void ApplyToastContentBounds()
+    {
+        PerformLayout();
+
+        var desiredWidth = Width;
+        GrowLabelsToText(this, ref desiredWidth);
+
+        if (desiredWidth > Width)
+        {
+            Width = desiredWidth;
+        }
+
+        KryptonDialogLayout.EnableResizable(this);
+    }
+
+    /// <summary>
+    /// Grows <see cref="KryptonLabel"/> controls that clip their text, and reports the form width that contains them.
+    /// </summary>
+    /// <param name="root">Control tree to walk.</param>
+    /// <param name="desiredWidth">Running form width required to show the text.</param>
+    private void GrowLabelsToText(Control root, ref int desiredWidth)
+    {
+        foreach (Control child in root.Controls)
+        {
+            if (child is KryptonLabel label && label.Visible && !string.IsNullOrEmpty(label.Text))
+            {
+                var measured = TextRenderer.MeasureText(label.Text, label.Font).Width + label.Margin.Horizontal;
+                var overflow = measured - label.Width;
+
+                if (overflow > 2)
+                {
+                    if (label.Dock != DockStyle.None)
+                    {
+                        desiredWidth = Math.Max(desiredWidth, Width + overflow);
+                    }
+                    else
+                    {
+                        label.Width += overflow;
+                        desiredWidth = Math.Max(desiredWidth, label.Right + label.Margin.Right + 8);
+                    }
+                }
+            }
+
+            if (child.HasChildren)
+            {
+                GrowLabelsToText(child, ref desiredWidth);
+            }
+        }
     }
 
     #endregion
@@ -256,6 +318,7 @@ internal partial class VisualToastBaseForm : KryptonForm
 
         // Dismiss text (with countdown) is often applied in Show() after Load; re-inset once visible.
         ApplyScaledButtonStripInsets();
+        ApplyToastContentBounds();
     }
 
     #endregion

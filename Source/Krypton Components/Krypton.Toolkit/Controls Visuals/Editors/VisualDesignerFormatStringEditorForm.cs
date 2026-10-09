@@ -74,14 +74,13 @@ internal partial class VisualDesignerFormatStringEditorForm : KryptonForm
         InitializeComponent();
         ConfigureDesignerChrome();
 
-        // Fixed dialog: size is set in design units then scaled for the hosting monitor DPI.
+        // Size is set in design units then scaled for the hosting monitor DPI.
         Text = @"Format String Editor";
         ControlBox = false;
-        FormBorderStyle = FormBorderStyle.FixedDialog;
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(420, 280));
         MinimumSize = ClientSize;
-        MaximumSize = new Size(ClientSize.Width + 1, ClientSize.Height + 1);
+        KryptonDialogLayout.EnableResizable(this);
 
         LoadInitialValues();
 
