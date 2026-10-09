@@ -48,6 +48,8 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+- Resolved [#4466](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4466), Some strings/values are not being serialised
+  - Fresh controls no longer write factory message-box strings into the designer as if they were modified. `MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
 - Implemented [#4465](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4465), Toolkit dialogs size to their content and the owner monitor instead of a fixed 96 DPI client size.
   - Prompts (`KryptonInputBox`, including RTL, the wait dialog, and the information box) grow with wrapped text and stay inside the working area. `KryptonMessageBox` is unchanged.
   - Larger dialogs (exception, about, splash, theme browser, changelog, conversion, binary information, and the multiline string editor) are resizable and are clamped when they would be taller or wider than the monitor.
