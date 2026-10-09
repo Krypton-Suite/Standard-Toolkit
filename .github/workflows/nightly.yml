@@ -22,7 +22,7 @@
 name: Nightly Release
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 on:
@@ -525,6 +525,45 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-nightly" >> $env:GITHUB_OUTPUT
 
+      # Nightly checks out alpha. Copy the action from the workflow commit when alpha does not have it yet.
+      - name: Checkout templates publish action overlay
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: .github/actions/publish-templates
+          sparse-checkout-cone-mode: true
+          path: _templates-action-overlay
+
+      - name: Ensure templates publish action
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $dest = Join-Path $env:GITHUB_WORKSPACE '.github/actions/publish-templates/action.yml'
+          if (Test-Path -LiteralPath $dest) {
+            Write-Host 'Templates publish action already present on the checked-out branch.'
+            exit 0
+          }
+          $src = Join-Path $env:GITHUB_WORKSPACE '_templates-action-overlay/.github/actions/publish-templates/action.yml'
+          if (-not (Test-Path -LiteralPath $src)) {
+            Write-Error @"
+          .github/actions/publish-templates/action.yml is missing on alpha and on workflow ref ($env:GITHUB_SHA).
+          Merge the templates publish action into alpha in the same change set as these workflow updates.
+          "@
+          }
+          New-Item -ItemType Directory -Force -Path (Split-Path -Parent $dest) | Out-Null
+          Copy-Item -LiteralPath $src -Destination $dest -Force
+          Write-Host 'Copied templates publish action from workflow ref onto alpha checkout.'
+
+      - name: Publish Visual Studio templates
+        id: publish_templates
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        uses: ./.github/actions/publish-templates
+        with:
+          channel: alpha
+          source-branch: alpha
+
       - name: Announce Nightly Release on Discord
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
@@ -537,7 +576,10 @@ jobs:
           $sha = (git rev-parse HEAD).Trim()
           $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
           $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
-          $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'alpha' | Select-Object -Last 1).ToString().Trim()
+          $templatesUrl = '${{ steps.publish_templates.outputs.release_url }}'.Trim()
+          if ([string]::IsNullOrWhiteSpace($templatesUrl)) {
+            $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'alpha' | Select-Object -Last 1).ToString().Trim()
+          }
 
           $payload = @{
             embeds = @(
