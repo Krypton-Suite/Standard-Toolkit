@@ -21,7 +21,7 @@ on:
   workflow_dispatch:  # Allow manual triggering from gold
 
 permissions:
-  contents: read
+  contents: write
   id-token: write
 
 jobs:
@@ -434,6 +434,14 @@ jobs:
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-rc" >> $env:GITHUB_OUTPUT
 
+      - name: Publish Visual Studio templates
+        id: publish_templates
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        uses: ./.github/actions/publish-templates
+        with:
+          channel: rc
+          source-branch: ${{ github.ref_name }}
+
       - name: Announce Release Candidate Release on Discord
         if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
@@ -446,7 +454,10 @@ jobs:
           $sha = (git rev-parse HEAD).Trim()
           $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
           $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
-          $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'rc' | Select-Object -Last 1).ToString().Trim()
+          $templatesUrl = '${{ steps.publish_templates.outputs.release_url }}'.Trim()
+          if ([string]::IsNullOrWhiteSpace($templatesUrl)) {
+            $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'rc' | Select-Object -Last 1).ToString().Trim()
+          }
 
           $payload = @{
             embeds = @(
