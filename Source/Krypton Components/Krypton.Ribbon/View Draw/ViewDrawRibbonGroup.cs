@@ -468,7 +468,31 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             }
         }
 
+        int side = GroupCardSidePadding();
+        if (side > 0)
+        {
+            foreach (GroupSizeWidth entry in retWidths)
+            {
+                entry.Width += side * 2;
+            }
+        }
+
         return retWidths.ToArray();
+    }
+
+    /// <summary>
+    /// Horizontal padding inside an Office 2024 group card when groups are separated.
+    /// Zero when the group area is one card.
+    /// </summary>
+    private int GroupCardSidePadding()
+    {
+        if (_ribbon.RibbonShape != PaletteRibbonShape.Office2024 ||
+            _ribbon.StateCommon.RibbonGeneral.GroupAreaGap <= 0)
+        {
+            return 0;
+        }
+
+        return Math.Max(4, (int)(10 * FactorDpiX));
     }
 
     /// <summary>
@@ -507,6 +531,13 @@ internal class ViewDrawRibbonGroup : ViewComposite,
 
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
+
+        // Separated Office 2024 cards keep the side padding inside the group, clear of the card edge.
+        int side = GroupCardSidePadding();
+        if (side > 0 && ClientWidth > side * 2)
+        {
+            context.DisplayRectangle = new Rectangle(ClientLocation.X + side, ClientLocation.Y, ClientWidth - (side * 2), ClientHeight);
+        }
 
         // Update the title element with the height of the group title area
         bool macRibbon = _ribbon.RibbonShape == PaletteRibbonShape.MacOS;

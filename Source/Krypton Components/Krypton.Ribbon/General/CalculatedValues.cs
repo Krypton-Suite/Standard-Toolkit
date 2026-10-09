@@ -130,10 +130,10 @@ internal class CalculatedValues
 
         if (_lastShape == PaletteRibbonShape.Office2024)
         {
-            // ViewDrawRibbonGroupsBorder insets Office 2024 content by 12,8 instead of the shared 1,0.
+            // ViewDrawRibbonGroupsBorder insets Office 2024 content by 16,16 instead of the shared 1,0.
             // Grow the groups band by that difference so the button lines are not clipped.
             float dpiY = _ribbon.DeviceDpi / 96f;
-            GroupsHeight += (int)(12 * dpiY) + (int)(8 * dpiY) - 1;
+            GroupsHeight += (int)(16 * dpiY) + (int)(16 * dpiY) - 1;
         }
 
         // macOS unified toolbar: no labeled group captions under clusters

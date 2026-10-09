@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-    Hosts Office2024RibbonDemo and captures the Office 2024 themes plus Microsoft 365 Blue.
+    Hosts Office2024RibbonDemo and captures the Office 2024 themes, Microsoft 365 Blue, and a beveled Blue Dark group area.
 
 .DESCRIPTION
     Loads TestForm in-process (STA) and writes Documents/PR/4496-office-2024-*.png
@@ -83,6 +83,33 @@ foreach ($capture in $captures) {
     Save-UnitTestWindowPng -Form $form -Path $path
     Write-Host "Wrote $path"
 }
+
+$setBevel = $formType.GetMethod('SetGroupAreaBevel')
+$bevelMode = [Enum]::Parse($modeType, 'Office2024BlueDarkMode')
+[void]$apply.Invoke($form, @($bevelMode))
+[void]$setBevel.Invoke($form, @($true))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$bevelPath = Join-Path $OutputDir '4496-office-2024-blue-dark-bevel.png'
+Save-UnitTestWindowPng -Form $form -Path $bevelPath
+Write-Host "Wrote $bevelPath"
+
+$setBevelSize = $formType.GetMethod('SetGroupAreaBevelSize')
+[void]$setBevelSize.Invoke($form, @(8))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$widePath = Join-Path $OutputDir '4496-office-2024-blue-dark-bevel-wide.png'
+Save-UnitTestWindowPng -Form $form -Path $widePath
+Write-Host "Wrote $widePath"
+[void]$setBevelSize.Invoke($form, @(2))
+[void]$setBevel.Invoke($form, @($false))
+$setGap = $formType.GetMethod('SetGroupAreaGap')
+[void]$setGap.Invoke($form, @(16))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$gapPath = Join-Path $OutputDir '4496-office-2024-blue-dark-gap.png'
+Save-UnitTestWindowPng -Form $form -Path $gapPath
+Write-Host "Wrote $gapPath"
 
 $form.Close()
 $form.Dispose()

@@ -20,6 +20,12 @@ public partial class Office2024RibbonDemo : KryptonForm
     private readonly KryptonManager _manager = new();
     private readonly KryptonRibbon _ribbon;
     private readonly KryptonWrapLabel _status;
+    private readonly KryptonCheckBox _bevel;
+    private readonly KryptonNumericUpDown _bevelSize;
+    private readonly KryptonNumericUpDown _gap;
+    private bool _syncingBevel;
+    private bool _syncingBevelSize;
+    private bool _syncingGap;
 
     public Office2024RibbonDemo()
     {
@@ -70,19 +76,21 @@ public partial class Office2024RibbonDemo : KryptonForm
         var instructions = new KryptonWrapLabel
         {
             Dock = DockStyle.Top,
-            Height = 88,
+            Height = 108,
             Text =
                 @"Issue #4496: Office 2024 ribbon. The selected tab is an underline, groups have no boxes, and File is text." +
                 Environment.NewLine +
                 @"Switch Blue, Silver, White, grays, and Black, including dark and light modes. Microsoft 365 Blue keeps the folder-tab chrome." +
                 Environment.NewLine +
-                @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the application menu."
+                @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the application menu." +
+                Environment.NewLine +
+                @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card."
         };
 
         var buttons = new FlowLayoutPanel
         {
             Dock = DockStyle.Top,
-            Height = 132,
+            Height = 232,
             Padding = new Padding(8, 8, 8, 0)
         };
         buttons.Controls.Add(CreateThemeButton(@"Office 2024 Blue", PaletteMode.Office2024Blue));
@@ -98,6 +106,66 @@ public partial class Office2024RibbonDemo : KryptonForm
         buttons.Controls.Add(CreateThemeButton(@"Black Dark", PaletteMode.Office2024BlackDarkMode));
         buttons.Controls.Add(CreateThemeButton(@"Black Dark Alternate", PaletteMode.Office2024BlackDarkModeAlternate));
         buttons.Controls.Add(CreateThemeButton(@"Microsoft 365 Blue", PaletteMode.Microsoft365Blue));
+        _bevel = new KryptonCheckBox
+        {
+            Text = @"Beveled group edges",
+            AutoSize = true,
+            Margin = new Padding(8, 6, 8, 0)
+        };
+        _bevel.CheckedChanged += (_, _) =>
+        {
+            if (!_syncingBevel)
+            {
+                SetGroupAreaBevel(_bevel.Checked);
+            }
+        };
+        buttons.Controls.Add(_bevel);
+        var bevelSizeLabel = new KryptonLabel
+        {
+            Text = @"Bevel size",
+            AutoSize = true,
+            Margin = new Padding(8, 8, 0, 0)
+        };
+        _bevelSize = new KryptonNumericUpDown
+        {
+            Minimum = 1,
+            Maximum = 16,
+            Value = PaletteRibbonGeneral.GroupAreaBevelSizeDefault,
+            Width = 64,
+            Margin = new Padding(4, 4, 8, 0)
+        };
+        _bevelSize.ValueChanged += (_, _) =>
+        {
+            if (!_syncingBevelSize)
+            {
+                SetGroupAreaBevelSize((int)_bevelSize.Value);
+            }
+        };
+        buttons.Controls.Add(bevelSizeLabel);
+        buttons.Controls.Add(_bevelSize);
+        var gapLabel = new KryptonLabel
+        {
+            Text = @"Group gap",
+            AutoSize = true,
+            Margin = new Padding(8, 8, 0, 0)
+        };
+        _gap = new KryptonNumericUpDown
+        {
+            Minimum = 0,
+            Maximum = 48,
+            Value = 0,
+            Width = 64,
+            Margin = new Padding(4, 4, 8, 0)
+        };
+        _gap.ValueChanged += (_, _) =>
+        {
+            if (!_syncingGap)
+            {
+                SetGroupAreaGap((int)_gap.Value);
+            }
+        };
+        buttons.Controls.Add(gapLabel);
+        buttons.Controls.Add(_gap);
 
         _status = new KryptonWrapLabel
         {
@@ -121,8 +189,62 @@ public partial class Office2024RibbonDemo : KryptonForm
         _manager.GlobalPaletteMode = mode;
         PaletteMode = mode;
         _ribbon.PaletteMode = mode;
-        _status.Text = $@"Palette: {mode}. Ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}.";
+        _status.Text = StatusText();
     }
+
+    /// <summary>
+    /// Turns the Office 2024 group-area bevel on or off.
+    /// </summary>
+    /// <param name="enabled">True to draw the bevel.</param>
+    public void SetGroupAreaBevel(bool enabled)
+    {
+        _ribbon.StateCommon.RibbonGeneral.GroupAreaBevelEdges = enabled;
+        if (_bevel.Checked != enabled)
+        {
+            _syncingBevel = true;
+            _bevel.Checked = enabled;
+            _syncingBevel = false;
+        }
+
+        _status.Text = StatusText();
+    }
+
+    /// <summary>
+    /// Sets the visible width of the Office 2024 group-area bevel.
+    /// </summary>
+    /// <param name="size">Width in pixels at 96 DPI.</param>
+    public void SetGroupAreaBevelSize(int size)
+    {
+        _ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize = size;
+        if ((int)_bevelSize.Value != _ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize)
+        {
+            _syncingBevelSize = true;
+            _bevelSize.Value = _ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize;
+            _syncingBevelSize = false;
+        }
+
+        _status.Text = StatusText();
+    }
+
+    /// <summary>
+    /// Sets the Office 2024 gap between group cards. Zero keeps one continuous card.
+    /// </summary>
+    /// <param name="gap">Gap in pixels at 96 DPI.</param>
+    public void SetGroupAreaGap(int gap)
+    {
+        _ribbon.StateCommon.RibbonGeneral.GroupAreaGap = gap;
+        if ((int)_gap.Value != gap)
+        {
+            _syncingGap = true;
+            _gap.Value = gap;
+            _syncingGap = false;
+        }
+
+        _status.Text = StatusText();
+    }
+
+    private string StatusText() =>
+        $@"Palette: {_ribbon.PaletteMode}. Ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}. Bevel: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelEdges}. Bevel size: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize}. Gap: {_ribbon.StateCommon.RibbonGeneral.GroupAreaGap}.";
 
     private KryptonButton CreateThemeButton(string text, PaletteMode mode)
     {

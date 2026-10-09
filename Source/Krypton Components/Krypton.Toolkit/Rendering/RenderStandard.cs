@@ -2289,6 +2289,145 @@ public class RenderStandard : RenderBase
 		context.Graphics.SmoothingMode = previous;
 	}
 
+	/// <summary>
+	/// Gets the inset rounded card used by <see cref="DrawRibbonGroupArea2024"/>.
+	/// </summary>
+	/// <param name="rect">Group-area bounds.</param>
+	/// <param name="dpi">Horizontal DPI scale (1 at 96 DPI).</param>
+	/// <param name="card">Inset card, when the area is large enough to round.</param>
+	/// <returns><see langword="true"/> when <paramref name="card"/> can be drawn.</returns>
+	internal static bool TryGetRibbonGroupArea2024Card(Rectangle rect, float dpi, out Rectangle card)
+	{
+		int inset = Math.Max(3, (int)(6 * dpi));
+		int radius = Math.Max(6, (int)(10 * dpi));
+		card = new Rectangle(rect.X + inset, rect.Y + inset, Math.Max(0, rect.Width - (inset * 2)), Math.Max(0, rect.Height - (inset * 2)));
+		return rect.Width > 8 && rect.Height > 8 && card.Width > radius && card.Height > radius;
+	}
+
+	/// <summary>
+	/// Draw one Office 2024 group card. <paramref name="card"/> is the final bounds and is not inset again.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="card">Card bounds.</param>
+	/// <param name="body">Ribbon body color.</param>
+	/// <param name="bevel"><see langword="true"/> to stroke a light top-left and dark bottom-right edge.</param>
+	/// <param name="light">Light edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="dark">Dark edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="bevelSize">Visible bevel width in pixels at 96 DPI.</param>
+	internal static void DrawRibbonGroupArea2024Exact(RenderContext context, Rectangle card, Color body, bool bevel, Color light, Color dark, int bevelSize)
+	{
+		if (body.IsEmpty || card.Width <= 4 || card.Height <= 4)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int radius = Math.Max(6, (int)(10 * dpi));
+		if (card.Width <= radius || card.Height <= radius)
+		{
+			return;
+		}
+
+		SmoothingMode previous = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		using (GraphicsPath path = RoundedRectanglePath(card, radius))
+		using (var brush = new SolidBrush(body))
+		{
+			context.Graphics.FillPath(brush, path);
+		}
+
+		context.Graphics.SmoothingMode = previous;
+		if (bevel)
+		{
+			DrawRibbonGroupArea2024BevelOnCard(context, card, radius, dpi, body, light, dark, bevelSize);
+		}
+	}
+
+	/// <summary>
+	/// Draw the optional Office 2024 group-area bevel on the same rounded card as <see cref="DrawRibbonGroupArea2024"/>.
+	/// Empty light or dark colours are derived from <paramref name="body"/>.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Group-area bounds.</param>
+	/// <param name="body">Ribbon body color.</param>
+	/// <param name="light">Light top-left edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="dark">Dark bottom-right edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="bevelSize">Visible bevel width in pixels at 96 DPI.</param>
+	internal static void DrawRibbonGroupArea2024Bevel(RenderContext context, Rectangle rect, Color body, Color light, Color dark, int bevelSize)
+	{
+		if (body.IsEmpty || rect.Width <= 8 || rect.Height <= 8)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int inset = Math.Max(3, (int)(6 * dpi));
+		int radius = Math.Max(6, (int)(10 * dpi));
+		var rounded = new Rectangle(rect.X + inset, rect.Y + inset, Math.Max(0, rect.Width - (inset * 2)), Math.Max(0, rect.Height - (inset * 2)));
+		if (rounded.Width <= radius || rounded.Height <= radius)
+		{
+			return;
+		}
+
+		DrawRibbonGroupArea2024BevelOnCard(context, rounded, radius, dpi, body, light, dark, bevelSize);
+	}
+
+	private static void DrawRibbonGroupArea2024BevelOnCard(RenderContext context, Rectangle rounded, int radius, float dpi, Color body, Color light, Color dark, int bevelSize)
+	{
+		Color lightEdge = light.IsEmpty ? ShiftColor(body, 56) : light;
+		Color darkEdge = dark.IsEmpty ? ShiftColor(body, -48) : dark;
+		// Half the stroke is clipped away, so the pen is twice the visible width.
+		int size = bevelSize < 1 ? 1 : bevelSize;
+		float thickness = Math.Max(1f, size * 2f * dpi);
+		SmoothingMode previous = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		using (GraphicsPath path = RoundedRectanglePath(rounded, radius))
+		using (var lightPen = new Pen(lightEdge, thickness))
+		using (var darkPen = new Pen(darkEdge, thickness))
+		{
+			GraphicsState state = context.Graphics.Save();
+			context.Graphics.SetClip(path, CombineMode.Intersect);
+			using (var clip = new GraphicsPath())
+			{
+				clip.AddPolygon(new[]
+				{
+					new Point(rounded.Left - 2, rounded.Top - 2),
+					new Point(rounded.Right + 2, rounded.Top - 2),
+					new Point(rounded.Left - 2, rounded.Bottom + 2)
+				});
+				context.Graphics.SetClip(clip, CombineMode.Intersect);
+				context.Graphics.DrawPath(lightPen, path);
+			}
+
+			context.Graphics.Restore(state);
+			state = context.Graphics.Save();
+			context.Graphics.SetClip(path, CombineMode.Intersect);
+			using (var clip = new GraphicsPath())
+			{
+				clip.AddPolygon(new[]
+				{
+					new Point(rounded.Right + 2, rounded.Top - 2),
+					new Point(rounded.Right + 2, rounded.Bottom + 2),
+					new Point(rounded.Left - 2, rounded.Bottom + 2)
+				});
+				context.Graphics.SetClip(clip, CombineMode.Intersect);
+				context.Graphics.DrawPath(darkPen, path);
+			}
+
+			context.Graphics.Restore(state);
+		}
+
+		context.Graphics.SmoothingMode = previous;
+	}
+
+	private static Color ShiftColor(Color color, int delta) =>
+		Color.FromArgb(color.A,
+			ClampChannel(color.R + delta),
+			ClampChannel(color.G + delta),
+			ClampChannel(color.B + delta));
+
+	private static int ClampChannel(int channel) => channel < 0 ? 0 : channel > 255 ? 255 : channel;
+
 	private static GraphicsPath RoundedRectanglePath(Rectangle rect, int radius)
 	{
 		var path = new GraphicsPath();

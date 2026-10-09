@@ -38,6 +38,11 @@ public class PaletteRibbonGeneral : Storage,
     private Color _tabRowBackgroundGradientFirstColor;
     private Color _qatButtonDarkColor;
     private Color _qatButtonLightColor;
+    private bool _groupAreaBevelEdges;
+    private Color _groupAreaBevelLight;
+    private Color _groupAreaBevelDark;
+    private int _groupAreaBevelSize;
+    private int _groupAreaGap;
     private Color _tabSeparatorColor;
     private Color _tabSeparatorContextColor;
     private Font? _textFont;
@@ -88,6 +93,11 @@ public class PaletteRibbonGeneral : Storage,
         _textHint = PaletteTextHint.Inherit;
         _qatButtonDarkColor = SharedStaticVariables.EMPTY_COLOR;
         _qatButtonLightColor = SharedStaticVariables.EMPTY_COLOR;
+        _groupAreaBevelEdges = false;
+        _groupAreaBevelLight = SharedStaticVariables.EMPTY_COLOR;
+        _groupAreaBevelDark = SharedStaticVariables.EMPTY_COLOR;
+        _groupAreaBevelSize = GroupAreaBevelSizeDefault;
+        _groupAreaGap = 0;
     }
     #endregion
 
@@ -121,7 +131,12 @@ public class PaletteRibbonGeneral : Storage,
                                       !ShouldSerializeTextFont() &&
                                       !ShouldSerializeTextHint() &&
                                       !ShouldSerializeQATButtonDarkColor() &&
-                                      !ShouldSerializeQATButtonLightColor();
+                                      !ShouldSerializeQATButtonLightColor() &&
+                                      !ShouldSerializeGroupAreaBevelEdges() &&
+                                      !ShouldSerializeGroupAreaBevelLight() &&
+                                      !ShouldSerializeGroupAreaBevelDark() &&
+                                      !ShouldSerializeGroupAreaBevelSize() &&
+                                      !ShouldSerializeGroupAreaGap();
     #endregion
 
     #region SetInherit
@@ -1057,6 +1072,157 @@ public class PaletteRibbonGeneral : Storage,
     public Color GetRibbonQATButtonLight(PaletteState state) => ShouldSerializeQATButtonLightColor()
         ? QATButtonLightColor
         : _inherit.GetRibbonQATButtonLight(state);
+
+    #endregion
+
+    #region GroupAreaBevel
+    /// <summary>
+    /// Gets and sets a value indicating whether the Office 2024 group area draws a bevel on the rounded card.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Draw a light top-left and dark bottom-right edge on the Office 2024 group area.")]
+    [DefaultValue(false)]
+    [RefreshProperties(RefreshProperties.All)]
+    public bool GroupAreaBevelEdges
+    {
+        get => _groupAreaBevelEdges;
+
+        set
+        {
+            if (_groupAreaBevelEdges != value)
+            {
+                _groupAreaBevelEdges = value;
+                PerformNeedPaint();
+            }
+        }
+    }
+
+    private void ResetGroupAreaBevelEdges() => GroupAreaBevelEdges = false;
+
+    private bool ShouldSerializeGroupAreaBevelEdges() => GroupAreaBevelEdges;
+
+    /// <summary>
+    /// Gets and sets the light edge of the Office 2024 group-area bevel.
+    /// <see cref="Color.Empty"/> derives a lighter colour from the group area.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Light edge of the Office 2024 group-area bevel. Empty uses a lighter group-area colour.")]
+    [KryptonDefaultColor]
+    [RefreshProperties(RefreshProperties.All)]
+    public Color GroupAreaBevelLight
+    {
+        get => _groupAreaBevelLight;
+
+        set
+        {
+            if (_groupAreaBevelLight != value)
+            {
+                _groupAreaBevelLight = value;
+                PerformNeedPaint();
+            }
+        }
+    }
+
+    private void ResetGroupAreaBevelLight() => GroupAreaBevelLight = SharedStaticVariables.EMPTY_COLOR;
+
+    private bool ShouldSerializeGroupAreaBevelLight() => GroupAreaBevelLight != SharedStaticVariables.EMPTY_COLOR;
+
+    /// <summary>
+    /// Gets and sets the dark edge of the Office 2024 group-area bevel.
+    /// <see cref="Color.Empty"/> derives a darker colour from the group area.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Dark edge of the Office 2024 group-area bevel. Empty uses a darker group-area colour.")]
+    [KryptonDefaultColor]
+    [RefreshProperties(RefreshProperties.All)]
+    public Color GroupAreaBevelDark
+    {
+        get => _groupAreaBevelDark;
+
+        set
+        {
+            if (_groupAreaBevelDark != value)
+            {
+                _groupAreaBevelDark = value;
+                PerformNeedPaint();
+            }
+        }
+    }
+
+    private void ResetGroupAreaBevelDark() => GroupAreaBevelDark = SharedStaticVariables.EMPTY_COLOR;
+
+    private bool ShouldSerializeGroupAreaBevelDark() => GroupAreaBevelDark != SharedStaticVariables.EMPTY_COLOR;
+
+    /// <summary>
+    /// Default visible width, in pixels at 96 DPI, of the Office 2024 group-area bevel.
+    /// </summary>
+    public const int GroupAreaBevelSizeDefault = 2;
+
+    /// <summary>
+    /// Gets and sets the visible width, in pixels at 96 DPI, of the Office 2024 group-area bevel.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Visible width, in pixels at 96 DPI, of the Office 2024 group-area bevel.")]
+    [DefaultValue(GroupAreaBevelSizeDefault)]
+    [RefreshProperties(RefreshProperties.All)]
+    public int GroupAreaBevelSize
+    {
+        get => _groupAreaBevelSize;
+
+        set
+        {
+            if (value < 1)
+            {
+                value = 1;
+            }
+
+            if (_groupAreaBevelSize != value)
+            {
+                _groupAreaBevelSize = value;
+                PerformNeedPaint();
+            }
+        }
+    }
+
+    private void ResetGroupAreaBevelSize() => GroupAreaBevelSize = GroupAreaBevelSizeDefault;
+
+    private bool ShouldSerializeGroupAreaBevelSize() => GroupAreaBevelSize != GroupAreaBevelSizeDefault;
+
+    /// <summary>
+    /// Gets and sets the gap, in pixels at 96 DPI, between Office 2024 group cards.
+    /// Zero draws one continuous group area.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Gap, in pixels at 96 DPI, between Office 2024 group cards. Zero draws one continuous group area.")]
+    [DefaultValue(0)]
+    [RefreshProperties(RefreshProperties.All)]
+    public int GroupAreaGap
+    {
+        get => _groupAreaGap;
+
+        set
+        {
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (_groupAreaGap != value)
+            {
+                _groupAreaGap = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetGroupAreaGap() => GroupAreaGap = 0;
+
+    private bool ShouldSerializeGroupAreaGap() => GroupAreaGap != 0;
 
     #endregion
 }
