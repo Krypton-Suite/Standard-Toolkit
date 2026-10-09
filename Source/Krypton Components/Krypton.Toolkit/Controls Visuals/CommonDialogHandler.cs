@@ -443,8 +443,8 @@ internal class CommonDialogHandler
         var measuredWidth = winInfo.rcClient.right - winInfo.rcClient.left;
         var measuredHeight = winInfo.rcClient.bottom - winInfo.rcClient.top;
         // Modern IFileDialog often reports a tiny client size during WM_INITDIALOG.
-        var clientWidth = measuredWidth >= 400 ? measuredWidth : 900;
-        var clientHeight = measuredHeight >= 300 ? measuredHeight : 600;
+        // The fallback is 96 DPI pixels, scaled for the monitor that will host the dialog.
+        var clientSize = ResolveInitialClientSize(measuredWidth, measuredHeight);
         var windowLeft = winInfo.rcWindow.left;
         var windowTop = winInfo.rcWindow.top;
 
@@ -467,7 +467,7 @@ internal class CommonDialogHandler
         _wrapperForm = new KryptonForm
         {
             AutoScaleMode = AutoScaleMode.None,
-            ClientSize = new Size(clientWidth, clientHeight),
+            ClientSize = clientSize,
             FormBorderStyle = useKryptonFrame
                 ? (_isResizable ? FormBorderStyle.Sizable : FormBorderStyle.FixedDialog)
                 : (_isResizable ? FormBorderStyle.SizableToolWindow : FormBorderStyle.FixedToolWindow),
@@ -505,6 +505,8 @@ internal class CommonDialogHandler
 
         _resizeHandle = hWnd;
         _hostPanel = hostPanel;
+        KryptonDialogLayout.ClampToWorkingArea(_wrapperForm, null, false);
+        _wrapperForm.DpiChanged += OnWrapperDpiChanged;
         _wrapperForm.Resize += FormResize;
         _wrapperForm.Shown += OnWrapperShown;
 
@@ -595,6 +597,42 @@ internal class CommonDialogHandler
     }
 
     private void OnWrapperShown(object? sender, EventArgs e) => FitShellDialogToHost();
+
+    /// <summary>
+    /// 96 DPI fallback used when the native dialog has not reported a real client size yet.
+    /// </summary>
+    private static Size ResolveInitialClientSize(int measuredWidth, int measuredHeight)
+    {
+        var factorX = Math.Max(KryptonManager.GetDpiFactorX(), 0.1f);
+        var factorY = Math.Max(KryptonManager.GetDpiFactorY(), 0.1f);
+        var minWidth = (int)Math.Round(400 * factorX);
+        var minHeight = (int)Math.Round(300 * factorY);
+        var clientWidth = measuredWidth >= minWidth ? measuredWidth : (int)Math.Round(900 * factorX);
+        var clientHeight = measuredHeight >= minHeight ? measuredHeight : (int)Math.Round(600 * factorY);
+
+        return new Size(Math.Max(1, clientWidth), Math.Max(1, clientHeight));
+    }
+
+    /// <summary>
+    /// AutoScaleMode.None does not follow a monitor change. Apply the suggested bounds, then
+    /// keep the Krypton frame inside the working area and refit the native child.
+    /// </summary>
+    private void OnWrapperDpiChanged(object? sender, DpiChangedEventArgs e)
+    {
+        if (_wrapperForm == null || _wrapperForm.IsDisposed)
+        {
+            return;
+        }
+
+        var suggested = e.SuggestedRectangle.Size;
+        if (suggested.Width > 0 && suggested.Height > 0 && _wrapperForm.Size != suggested)
+        {
+            _wrapperForm.Size = suggested;
+        }
+
+        KryptonDialogLayout.ClampToWorkingArea(_wrapperForm, null, false);
+        FitShellDialogToHost();
+    }
 
     private void OnResizeTimedEvent(object? sender, ElapsedEventArgs e)
     {

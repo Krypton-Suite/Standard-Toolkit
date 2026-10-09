@@ -32,6 +32,7 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
     {
         _strings = strings ?? new KryptonPaletteCollectionEditorStrings();
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
         kbtnBrowse.Click += (_, _) => BrowseCollection();
         kbtnSaveName.Click += (_, _) => SaveCollectionName();
         kbtnAdd.Click += (_, _) => AddThemes();

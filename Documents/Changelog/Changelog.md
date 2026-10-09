@@ -48,6 +48,12 @@
 - Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
  - Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
  - `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
+- Implemented [#4465](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4465), Toolkit dialogs size to their content and the owner monitor instead of a fixed 96 DPI client size.
+  - Prompts (`KryptonInputBox`, the wait dialog, the information box) grow with wrapped text and stay inside the working area. `KryptonMessageBox` is unchanged.
+  - Larger dialogs (exception, GitHub issue, splash, theme browser, changelog, print preview, conversion, binary information, and designer editors) are resizable, scroll their detail text, and are clamped when they would be taller or wider than the monitor.
+  - Shell dialogs scale the 900×600 fallback with DPI and follow a later DPI change.
+  - To use the about box, bug report, foldable dialog, checksum, theme builder, log viewer, and toast updates, download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package. Those dialogs live in `Krypton.Toolkit.Utilities`.
+- Implemented [#4518](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4518), Release Visual Studio templates on the marketplace
 - Resolved [#4516](https://github.com/Krypton-Suite/Standard-Toolkit/pull/4516), Changes made only to `FormCustom2`/`FormCustom3` or `ControlCustom2`/`ControlCustom3` on a custom palette are not saved by the designer or included in palette export
 - Resolved [#4502](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4502), Visual Studio templates releases
   - Each release now has its own entry

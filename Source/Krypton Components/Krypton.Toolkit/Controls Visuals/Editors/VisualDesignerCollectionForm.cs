@@ -148,6 +148,7 @@ _editor ?? ThrowHelper.ThrowInvalidOperationException<KryptonDesignerCollectionE
     {
         ConfigureDesignerDpi();
         base.OnLoad(e);
+        KryptonDialogLayout.EnableResizable(this);
     }
 
     /// <inheritdoc />

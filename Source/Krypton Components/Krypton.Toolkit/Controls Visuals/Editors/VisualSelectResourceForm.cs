@@ -82,6 +82,7 @@ internal partial class VisualSelectResourceForm : KryptonForm
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(520, 420));
         MinimumSize = KryptonDesignerEditorDpi.Scale(this, new Size(460, 360));
+        KryptonDialogLayout.EnableResizable(this);
 
         _source = currentImage is null ? ResourceSource.Local : ResourceSource.Local;
         _updating = true;
