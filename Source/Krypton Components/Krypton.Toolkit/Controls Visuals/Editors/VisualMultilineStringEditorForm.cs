@@ -86,11 +86,10 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
     private void ConfigureDialogChrome()
     {
         ControlBox = false;
-        FormBorderStyle = FormBorderStyle.FixedDialog;
         StartPosition = FormStartPosition.CenterScreen;
         ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(584, 361));
         MinimumSize = ClientSize;
-        MaximumSize = new Size(ClientSize.Width + 1, ClientSize.Height + 1);
+        KryptonDialogLayout.EnableResizable(this);
     }
 
     private void SetupControlsText()

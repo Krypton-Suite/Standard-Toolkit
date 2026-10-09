@@ -30,6 +30,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="icon.png">
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <Target Name="StageVsixLicense" BeforeTargets="GetVsixSourceItems">
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\..\..\..\LICENSE" DestinationFiles="$(IntermediateOutputPath)License.txt" />
+    <ItemGroup>
+      <Content Include="$(IntermediateOutputPath)License.txt">
+        <Link>License.txt</Link>
+        <IncludeInVSIX>true</IncludeInVSIX>
+      </Content>
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
     <Content Include="..\..\ItemTemplates\KryptonForm\**\*">
       <Link>ItemTemplates\CSharp\1033\KryptonForm\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -40,12 +57,12 @@
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\ProjectTemplates\KryptonWinFormsApp\**\*">
+    <Content Include="..\..\ProjectTemplates\KryptonWinFormsApp\**\*" Exclude="..\..\ProjectTemplates\KryptonWinFormsApp\**\bin\**;..\..\ProjectTemplates\KryptonWinFormsApp\**\obj\**">
       <Link>ProjectTemplates\CSharp\1033\KryptonWinFormsApp\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\..\ProjectTemplates\KryptonRibbonWinFormsApp\**\*">
+    <Content Include="..\..\ProjectTemplates\KryptonRibbonWinFormsApp\**\*" Exclude="..\..\ProjectTemplates\KryptonRibbonWinFormsApp\**\bin\**;..\..\ProjectTemplates\KryptonRibbonWinFormsApp\**\obj\**">
       <Link>ProjectTemplates\CSharp\1033\KryptonRibbonWinFormsApp\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
