@@ -32,6 +32,7 @@ internal sealed partial class VisualOAuth2LoginForm : KryptonForm
     public VisualOAuth2LoginForm(string authorizationUrl, string redirectUri, string title = "Sign in")
     {
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
 #if WEBVIEW2_AVAILABLE
         _authorizationUrl = authorizationUrl;
         _redirectUri = redirectUri.TrimEnd('/');
