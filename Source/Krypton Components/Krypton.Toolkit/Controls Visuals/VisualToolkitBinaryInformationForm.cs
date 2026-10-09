@@ -39,6 +39,8 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
 
         InitializeComponent();
 
+        KryptonDialogLayout.EnableResizable(this);
+
         _toolkitType = toolkitType;
 
         _showChangeLogButton = showChangeLogButton;

@@ -51,6 +51,22 @@ public partial class VisualInputBoxForm : KryptonForm
         UpdateButtons();
     }
 
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        UpdatePromptLayout();
+    }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        // Palette fonts are resolved by the first show. Measure again so the prompt is not clipped.
+        UpdatePromptLayout();
+    }
+
     #endregion
 
     #region Implementation
@@ -98,6 +114,27 @@ public partial class VisualInputBoxForm : KryptonForm
     {
         _buttonOk.Text = KryptonManager.Strings.GeneralStrings.OK;
         _buttonCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+    }
+
+    /// <summary>
+    /// Sizes the prompt to its wrapped text and the owner monitor. The text box minimum width is
+    /// relaxed when it would force the dialog wider than that monitor.
+    /// </summary>
+    private void UpdatePromptLayout()
+    {
+        IWin32Window? owner = _inputBoxData.Owner;
+        var maxClient = KryptonDialogLayout.GetMaximumClientSize(this, owner, true);
+        if (_textBoxResponse.MinimumSize.Width > maxClient.Width - 24)
+        {
+            _textBoxResponse.MinimumSize = new Size(Math.Max(120, maxClient.Width - 24), _textBoxResponse.MinimumSize.Height);
+        }
+
+        var buttonWidth = _buttonOk.GetPreferredSize(Size.Empty).Width
+                          + _buttonCancel.GetPreferredSize(Size.Empty).Width
+                          + 32;
+        var minimum = Math.Max(_textBoxResponse.MinimumSize.Width, buttonWidth);
+        KryptonDialogLayout.FitWrappedPrompt(this, _labelPrompt, _tableLayoutPanel1, owner, minimum);
+        KryptonDialogLayout.PackButtonsRight(_kryptonPanel1, _buttonOk, _buttonCancel);
     }
 
     private void Response_KeyDown(object sender, KeyEventArgs e)

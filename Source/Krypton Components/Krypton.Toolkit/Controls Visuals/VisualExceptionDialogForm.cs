@@ -31,6 +31,9 @@ public partial class VisualExceptionDialogForm : KryptonForm
     {
         InitializeComponent();
 
+        rtbExceptionDetails.ScrollBars = RichTextBoxScrollBars.Both;
+        KryptonDialogLayout.EnableResizable(this);
+
         SetInheritedControlOverride();
 
         _showCopyButton = showCopyButton ?? false;
@@ -79,6 +82,15 @@ public partial class VisualExceptionDialogForm : KryptonForm
         {
             GeneralToolkitUtilities.AdjustFormDimensions(this, 1108, 687);
         }
+
+        KryptonDialogLayout.PackButtonsRight(kryptonPanel1, kbtnCopy, kbtnOk);
+    }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        KryptonDialogLayout.PackButtonsRight(kryptonPanel1, kbtnCopy, kbtnOk);
     }
 
     private string? FormatExceptionDetails(Exception exception) =>

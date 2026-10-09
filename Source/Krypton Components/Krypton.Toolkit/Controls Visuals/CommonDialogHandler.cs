@@ -414,10 +414,11 @@ internal class CommonDialogHandler
         PI.GetWindowInfo(hWnd, out var winInfo);
         var text = new StringBuilder(256);
         PI.GetWindowText(hWnd, text, 256);
+        var measuredWidth = Math.Max(0, winInfo.rcClient.right - winInfo.rcClient.left);
+        var measuredHeight = Math.Max(0, winInfo.rcClient.bottom - winInfo.rcClient.top);
         _wrapperForm = new KryptonForm
         {
             AutoScaleMode = AutoScaleMode.None,
-            ClientSize = new Size(winInfo.rcClient.right - winInfo.rcClient.left, winInfo.rcClient.bottom - winInfo.rcClient.top),
             FormBorderStyle = _isResizable ? FormBorderStyle.SizableToolWindow : FormBorderStyle.FixedToolWindow,
             StartPosition = FormStartPosition.Manual,
             Name = text.ToString(),
@@ -435,6 +436,10 @@ internal class CommonDialogHandler
             _wrapperForm.MinimizeBox = false;
             _wrapperForm.Icon = Icon;
         }
+
+        _wrapperForm.ClientSize = KryptonDialogLayout.ResolveShellClientSize(_wrapperForm, measuredWidth, measuredHeight);
+        KryptonDialogLayout.ClampToWorkingArea(_wrapperForm, null, false);
+        _wrapperForm.DpiChanged += OnWrapperDpiChanged;
 
         Size toolBoxClientSize = _wrapperForm.ClientSize;
         var kryptonPanel1 = new KryptonPanel
@@ -475,6 +480,26 @@ internal class CommonDialogHandler
             };
             // Hook up the Elapsed event for the timer.
             _resizeTimer.Elapsed += OnResizeTimedEvent;
+        }
+    }
+
+    private void OnWrapperDpiChanged(object? sender, DpiChangedEventArgs e)
+    {
+        if (_wrapperForm == null || _wrapperForm.IsDisposed)
+        {
+            return;
+        }
+
+        var suggested = e.SuggestedRectangle.Size;
+        if (suggested.Width > 0 && suggested.Height > 0 && _wrapperForm.Size != suggested)
+        {
+            _wrapperForm.Size = suggested;
+        }
+
+        KryptonDialogLayout.ClampToWorkingArea(_wrapperForm, null, false);
+        if (_resizeHandle != IntPtr.Zero)
+        {
+            FormResize(_wrapperForm, EventArgs.Empty);
         }
     }
 
