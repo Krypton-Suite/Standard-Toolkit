@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json.schemastore.org/vsix-publish",
+  "categories": [ "windows forms templates" ],
+  "identity": {
+    "internalName": "Krypton.Suite.StandardToolkit.Templates"
+  },
+  "overview": "overview.md",
+  "priceCategory": "free",
+  "publisher": "KryptonSuite",
+  "private": true,
+  "qna": false,
+  "repo": "https://github.com/Krypton-Suite/Standard-Toolkit"
+}

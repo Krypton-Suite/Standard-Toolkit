@@ -261,7 +261,6 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         using var form = new KryptonForm
         {
             ControlBox = false,
-            FormBorderStyle = FormBorderStyle.FixedDialog,
             MaximizeBox = false,
             MinimizeBox = false,
             ShowInTaskbar = false,
@@ -270,6 +269,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
             ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(520, 340)),
             MinimumSize = KryptonDesignerEditorDpi.Scale(this, new Size(500, 300))
         };
+        KryptonDialogLayout.EnableResizable(form);
         form.SetInheritedControlOverride();
         KryptonDesignerEditorTheme.ApplyFromContext(form, Context);
 
