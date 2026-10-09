@@ -96,7 +96,8 @@ public partial class StartScreen : KryptonForm
         CreateButton<DataGridViewDemo>("KryptonDataGridView Demo", string.Empty);
         CreateButton<FadeFormTest>("FadeForm", string.Empty);
         CreateButton<GroupBoxTest>("GroupBox", string.Empty);
-        CreateButton<InputBoxTest>("InputBox", string.Empty);
+        CreateButton<InputBoxTest>("InputBox", "Issue #4465: use a long prompt. The dialog grows with the text and keeps OK and Cancel evenly spaced.");
+        CreateButton<KryptonDialogExamples>("Krypton Dialog tests", "Issue #4465: Long input prompt grows with the text. Exception dialog is resizable and stays on the monitor.");
         CreateButton<KryptonFolderBrowserDialogDemo>("Folder Browser Dialog", "Comprehensive demo of KryptonFolderBrowserDialog: configure Title, Icon, SelectedPath, RootFolder, and InitialDirectory, compare with the standard dialog, and try preset scenarios.");
         CreateButton<MessageBoxTest>("MessageBox", string.Empty);
         CreateButton<Main>("Old Style Main: Fullscreen", string.Empty);

@@ -80,6 +80,13 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
         Application.AddMessageFilter(this);
     }
 
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        LayoutMessage();
+    }
+
     #endregion
 
     #region Protected
@@ -181,6 +188,21 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
     /// <summary>Shows the progress bar.</summary>
     /// <param name="showProgressBar">if set to <c>true</c> [show progress bar].</param>
     private void ShowProgressBar(bool showProgressBar) => kpbModalProgress.Visible = showProgressBar;
+
+    /// <summary>
+    /// Grows the wait dialog so the message wraps inside the owner monitor.
+    /// </summary>
+    private void LayoutMessage()
+    {
+        Font font = labelMessage.Font ?? SystemFonts.MessageBoxFont ?? SystemFonts.DefaultFont;
+        var progress = kpbModalProgress.Visible ? kpbModalProgress.Height + 12 : 0;
+        KryptonDialogLayout.FitClientToText(this, labelMessage.Text, font, new Size(160, 36 + progress), new Size(320, 96), null);
+
+        var width = Math.Max(120, ClientSize.Width - labelMessage.Left - 12);
+        var measured = KryptonDialogLayout.MeasureWrappedText(labelMessage.Text, font, width);
+        labelMessage.AutoSize = false;
+        labelMessage.Size = new Size(width, Math.Max(labelMessage.Height, measured.Height));
+    }
 
     /// <summary>Updates the progress bar value.</summary>
     /// <param name="value">The value.</param>

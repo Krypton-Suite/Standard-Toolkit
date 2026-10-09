@@ -49,6 +49,10 @@
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
 - Resolved [#4413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4413), Disabled caption-button glyphs on Office 2010, Office 2013, and Microsoft 365 use a theme grey (light 205, dark 196, Microsoft 365 Black ghost white). The close-button fill stays transparent.
+- Implemented [#4465](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4465), Toolkit dialogs size to their content and the owner monitor instead of a fixed 96 DPI client size.
+  - Prompts (`KryptonInputBox`, including RTL, the wait dialog, and the information box) grow with wrapped text and stay inside the working area. `KryptonMessageBox` is unchanged.
+  - Larger dialogs (exception, about, splash, theme browser, changelog, conversion, binary information, and the multiline string editor) are resizable and are clamped when they would be taller or wider than the monitor.
+  - Shell dialogs scale the 900×600 fallback with DPI and follow a later DPI change. Toasts with a close box can be resized; borderless toasts stay borderless.
 - Implemented [#4480](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4480), Use trusted publishing
 - Resolved [#4485](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4485), `NullReferenceException` in `KryptonWorkspace.SeparatorCanMove` on mouse move after a layout removes the separator under the mouse
 - Implemented [#4081](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4081), Use pattern matching where possible

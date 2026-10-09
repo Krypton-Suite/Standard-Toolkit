@@ -40,6 +40,20 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
         UpdateButtons();
     }
 
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        UpdatePromptLayout();
+    }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        UpdatePromptLayout();
+    }
+
     #endregion
 
     #region Implementation
@@ -87,6 +101,33 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
     {
         kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
         kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+    }
+
+    /// <summary>
+    /// Sizes the prompt to its wrapped text. The button strip is docked below the table, so its height
+    /// is added after the prompt is measured.
+    /// </summary>
+    private void UpdatePromptLayout()
+    {
+        IWin32Window? owner = _inputBoxData.Owner;
+        var maxClient = KryptonDialogLayout.GetMaximumClientSize(this, owner, true);
+        if (ktxtUserResponse.MinimumSize.Width > maxClient.Width - 24)
+        {
+            ktxtUserResponse.MinimumSize = new Size(Math.Max(120, maxClient.Width - 24), ktxtUserResponse.MinimumSize.Height);
+        }
+
+        var buttonWidth = kbtnOk.GetPreferredSize(Size.Empty).Width
+                          + kbtnCancel.GetPreferredSize(Size.Empty).Width
+                          + 32;
+        var minimum = Math.Max(ktxtUserResponse.Width, buttonWidth);
+        KryptonDialogLayout.FitWrappedPrompt(this, kwlblPrompt, tableLayoutPanel2, owner, minimum);
+
+        // The button strip is docked to the bottom and is not a child of the prompt table.
+        var extra = kryptonPanel1.Height;
+        if (extra > 0 && ClientSize.Height < kwlblPrompt.Bottom + ktxtUserResponse.Height + extra)
+        {
+            ClientSize = new Size(ClientSize.Width, ClientSize.Height + extra);
+        }
     }
 
     private void ktxtUserResponse_KeyDown(object sender, KeyEventArgs e)

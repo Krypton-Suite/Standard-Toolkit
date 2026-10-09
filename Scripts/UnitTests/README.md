@@ -1,5 +1,18 @@
 ﻿# Unit test scripts
 
+## Dialog DPI layout (`UnitTest-DialogDpiLayout.ps1`)
+
+Issue #4465: fixed chrome becomes sizable, a huge window is clamped to the working area, and a long input prompt grows without clipping the label or collapsing the OK/Cancel gap.
+
+Requires Debug `net472` output (`Bin\Debug\net472\Krypton.Toolkit.dll`).
+
+```cmd
+dotnet build "Source\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-DialogDpiLayout.ps1
+```
+
+`Invoke-DialogDpiScreenshot.ps1` (`exclude`) writes `Documents/PR/4465-dialog-dpi-input.png` and `4465-dialog-dpi-exception.png`.
+
 ## Borderless form caption (`UnitTest-BorderlessFormCaption.ps1`)
 
 Issue #2922: after `Show`, a `FormBorderStyle.None` `KryptonForm` must not keep `WS_CAPTION`, and an MDI `Dock.Fill` child must fire `MdiChildActivate` with the MDI client 3D edge already stripped.
