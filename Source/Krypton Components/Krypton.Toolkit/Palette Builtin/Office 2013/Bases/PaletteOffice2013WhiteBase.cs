@@ -1979,6 +1979,15 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
     }
 
     /// <summary>
+    /// Gets the disabled glyph colour for caption buttons
+    /// (<see cref="PaletteContentStyle.ButtonForm"/> and <see cref="PaletteContentStyle.ButtonFormClose"/>).
+    /// </summary>
+    /// <remarks>
+    /// The button fill stays empty so the caption shows through.
+    /// </remarks>
+    protected virtual Color FormButtonDisabledText => Color.FromArgb(205, 205, 205);
+
+    /// <summary>
     /// Gets the first back color for the short text.
     /// </summary>
     /// <param name="style">Content style.</param>
@@ -2027,7 +2036,9 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
             (style != PaletteContentStyle.ButtonInputControl) &&
-            (style != PaletteContentStyle.ButtonCalendarDay))
+            (style != PaletteContentStyle.ButtonCalendarDay) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2059,6 +2070,7 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors!.TextButtonFormTracking,
                 PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal => BaseColors!.TextButtonFormPressed,
                 _ => BaseColors!.TextButtonFormNormal
@@ -2105,7 +2117,9 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
             (style != PaletteContentStyle.ButtonInputControl) &&
-            (style != PaletteContentStyle.ButtonCalendarDay))
+            (style != PaletteContentStyle.ButtonCalendarDay) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2137,6 +2151,7 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors!.TextButtonFormTracking,
                 PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors!.TextButtonFormPressed,
                 _ => BaseColors!.TextButtonFormNormal
@@ -2505,7 +2520,9 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
             (style != PaletteContentStyle.InputControlCustom1) &&
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
-            (style != PaletteContentStyle.ButtonInputControl))
+            (style != PaletteContentStyle.ButtonInputControl) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2536,6 +2553,7 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors!.TextButtonFormTracking,
                 PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors!.TextButtonFormPressed,
                 _ => BaseColors!.TextButtonFormNormal
@@ -2581,7 +2599,9 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
             (style != PaletteContentStyle.InputControlCustom1) &&
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
-            (style != PaletteContentStyle.ButtonInputControl))
+            (style != PaletteContentStyle.ButtonInputControl) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2612,6 +2632,7 @@ public abstract class PaletteOffice2013WhiteBase : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors!.TextButtonFormTracking,
                 PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors!.TextButtonFormPressed,
                 _ => BaseColors!.TextButtonFormNormal

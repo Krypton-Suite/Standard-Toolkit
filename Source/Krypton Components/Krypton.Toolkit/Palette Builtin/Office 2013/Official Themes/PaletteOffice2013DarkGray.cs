@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -99,6 +99,9 @@ public class PaletteOffice2013DarkGray : PaletteOffice2013Base
             Office2010RadioButtonImageResources.RadioButton2010SilverPC
         ];
     }
+
+    /// <inheritdoc />
+    protected override Color FormButtonDisabledText => Color.FromArgb(196, 196, 196);
 
     /// <summary>
     /// Initialize a new instance of the PaletteOffice2013DarkGray class.
