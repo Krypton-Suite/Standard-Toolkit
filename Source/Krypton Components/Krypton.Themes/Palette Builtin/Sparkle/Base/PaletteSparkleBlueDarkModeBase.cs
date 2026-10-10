@@ -100,12 +100,12 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
     private static readonly Color _disabledText = Color.FromArgb(160, 160, 160);
-    private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);
+    private static readonly Color _disabledBack = Color.FromArgb(48, 48, 48);
     private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
-    private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
+    private static readonly Color _disabledBorder = Color.FromArgb(96, 96, 96);
     private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
     private static readonly Color _disabledGlyphLight = Color.FromArgb(237, 237, 237);
-    private static readonly Color _contextGroupFrameTop = Color.FromArgb(200, 249, 249, 249);
+    private static readonly Color _contextGroupFrameTop = Color.FromArgb(200, 48, 48, 48);
     private static readonly Color _contextGroupFrameBottom = Color.FromArgb(249, 249, 249);
     private static readonly Color _ribbonFrameBack4 = Color.White;
     private static readonly Color _toolTipBack1 = Color.FromArgb(255, 255, 234);

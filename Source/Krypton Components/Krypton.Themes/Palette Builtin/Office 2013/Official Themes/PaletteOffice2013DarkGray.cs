@@ -100,6 +100,9 @@ public class PaletteOffice2013DarkGray : PaletteOffice2013Base
         ];
     }
 
+    /// <inheritdoc />
+    protected override Color FormButtonDisabledText => Color.FromArgb(196, 196, 196);
+
     /// <summary>
     /// Initialize a new instance of the PaletteOffice2013DarkGray class.
     /// </summary>

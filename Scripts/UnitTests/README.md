@@ -51,7 +51,8 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
-| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false) | `include` |
+| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false). #4466 factory message-box strings, print-preview string defaults, and empty progress-bar / drop-down colours must not `ShouldSerialize` | `include` |
+| `UnitTest-ButtonSpecCollectionEditorDisplayText.ps1` | #4536 ButtonSpec collection editor lists the designer component name (`buttonSpecAny1`); `Name` edits that name; `UniqueName` stays the persistence key | `include` |
 | `UnitTest-DialogDpiLayout.ps1` | #4465 fixed dialog chrome becomes sizable, oversized windows clamp to the working area, and a long input prompt grows the client | `include` |
 | `UnitTest-KryptonSplitButton.ps1` | #4366 `KryptonSplitButton` always-on splitter, not a `KryptonButton`, `AccessibleRole.SplitButton`, `Values.IsDefault` | `include` |
 | `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
@@ -70,6 +71,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
 | `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
+| `UnitTest-ResourcesFallback.ps1` | Missing `Krypton.Resources.dll`: Toolkit still loads, control text is readable, palette schema strings resolve, and image accessors draw named fallback glyphs | `include` |
 | `UnitTest-RibbonOverflowGlyph.ps1` | #4253 overflow glyph: `GetCachedRibbonOverflowImage` 16x16; `ViewLayoutRibbonGroups.IsOverflow` / `DisplayOverflowButton` | `include` |
 | `UnitTest-RibbonTranslations.ps1` | #4369 RibbonTranslations.xml/JSON round-trip plus Auto Discover of `RibbonTranslations.de.xml` | `include` |
 | `UnitTest-ToolkitTranslationsCoverage.ps1` | #4370 stale `ToolkitTranslations.xml` coverage, Merge Missing, tolerant vs strict import, CSV report | `include` |
@@ -91,6 +93,8 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-4412LabelAlternateScreenshot.ps1` | Hosts Normal vs Alternate labels (#4412) and writes `Documents/PR/4412-label-alternate-status-strip-text-demo.png` | `exclude` |
+| `UnitTest-DisabledCaptionGlyph.ps1` | #4413 disabled caption glyph colours and empty close fill for Office 2010 / 2013 / Microsoft 365 | `include` |
+| `Invoke-4413DisabledCaptionScreenshot.ps1` | Hosts `Bug4413DisabledCaptionGlyphDemo` (#4413) and writes `Documents/PR/4413-disabled-caption-glyph-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
 | `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
 | `Invoke-TextBoxInputModeScreenshot.ps1` | Opens `TextBoxInputModeDemo` (#4417) and writes `Documents/PR/4417-textbox-input-mode-demo.png` | `exclude` |
@@ -218,4 +222,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 ```
 
 Writes `Documents/PR/3859-ribbon-caption-palette-*.png` (local PR assets; do not commit).
+
+## Typical usage (#4483 dark mode themes)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net8.0-windows
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-DarkModeThemeScreenshots.ps1 -TargetFramework net8.0-windows
+```
+
+Writes `Documents/PR/4483-dark-*.png` (local PR assets; do not commit).
 

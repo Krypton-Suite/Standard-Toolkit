@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -108,17 +108,17 @@ public class PaletteSparkleOrangeDarkMode : PaletteSparkleBase
             ImageSize = new Size(13, 13),
             ColorDepth = ColorDepth.Depth24Bit
         };
-        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStripSparkleOrange);
+        _checkBoxList.Images.AddStrip(DarkSelectionGlyph.Recolor(CheckBoxStripResources.CheckBoxStripSparkleOrange));
         _radioButtonArray =
         [
-            SparkleRadioButtonImageResources.RadioButtonSparkleD,
-            SparkleRadioButtonImageResources.RadioButtonSparkleN,
-            SparkleRadioButtonImageResources.RadioButtonSparkleOrangeT,
-            SparkleRadioButtonImageResources.RadioButtonSparkleOrangeP,
-            SparkleRadioButtonImageResources.RadioButtonSparkleDC,
-            SparkleRadioButtonImageResources.RadioButtonSparkleOrangeNC,
-            SparkleRadioButtonImageResources.RadioButtonSparkleOrangeTC,
-            SparkleRadioButtonImageResources.RadioButtonSparkleOrangePC
+            DarkSelectionGlyph.Recolor(SparkleRadioButtonImageResources.RadioButtonSparkleD),
+            DarkSelectionGlyph.Recolor(SparkleRadioButtonImageResources.RadioButtonSparkleN),
+            DarkSelectionGlyph.Recolor(SparkleRadioButtonImageResources.RadioButtonSparkleOrangeT),
+            DarkSelectionGlyph.Recolor(SparkleRadioButtonImageResources.RadioButtonSparkleOrangeP),
+            DarkSelectionGlyph.Recolor(SparkleRadioButtonImageResources.RadioButtonSparkleDC),
+            DarkSelectionGlyph.Recolor(SparkleRadioButtonImageResources.RadioButtonSparkleOrangeNC),
+            DarkSelectionGlyph.Recolor(SparkleRadioButtonImageResources.RadioButtonSparkleOrangeTC),
+            DarkSelectionGlyph.Recolor(SparkleRadioButtonImageResources.RadioButtonSparkleOrangePC)
         ];
     }
 
@@ -138,5 +138,18 @@ public class PaletteSparkleOrangeDarkMode : PaletteSparkleBase
     {
         ThemeName = nameof(PaletteSparkleOrangeDarkMode);
     }
+
+    public override Color GetBackColor1(PaletteBackStyle style, PaletteState state) =>
+        RemapDisabledLightFill(base.GetBackColor1(style, state), state);
+
+    public override Color GetBackColor2(PaletteBackStyle style, PaletteState state) =>
+        RemapDisabledLightFill(base.GetBackColor2(style, state), state);
+
+    // Sparkle light buttons stay. Only the shared light disabled fill is pulled down.
+    private static Color RemapDisabledLightFill(Color color, PaletteState state) =>
+        state == PaletteState.Disabled && color.R >= 200 && color.G >= 200 && color.B >= 200
+            ? Color.FromArgb(48, 48, 48)
+            : color;
+
     #endregion
 }
