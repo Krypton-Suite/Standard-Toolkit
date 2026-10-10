@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -29,14 +29,14 @@ public sealed class PaletteSparklePurpleDarkMode_BaseScheme : KryptonColorScheme
     public override Color SeparatorHighBorder2             { get; set; } = Color.FromArgb(119, 119, 119);
     public override Color HeaderPrimaryBack1               { get; set; } = Color.FromArgb(240, 241, 242);
     public override Color HeaderPrimaryBack2               { get; set; } = Color.FromArgb(189, 193, 200);
-    public override Color HeaderSecondaryBack1             { get; set; } = Color.FromArgb(221, 224, 227);
-    public override Color HeaderSecondaryBack2             { get; set; } = Color.FromArgb(221, 224, 227);
-    public override Color HeaderText                       { get; set; } = Color.Black;
+    public override Color HeaderSecondaryBack1             { get; set; } = Color.FromArgb(58, 58, 58);
+    public override Color HeaderSecondaryBack2             { get; set; } = Color.FromArgb(42, 42, 42);
+    public override Color HeaderText                       { get; set; } = Color.White;
     public override Color StatusStripText                  { get; set; } = Color.White;
     public override Color ButtonBorder                     { get; set; } = Color.FromArgb(155, 163, 167);
-    public override Color SeparatorLight                   { get; set; } = Color.FromArgb(200, 200, 200);
+    public override Color SeparatorLight                   { get; set; } = Color.FromArgb(72, 72, 72);
     public override Color SeparatorDark                    { get; set; } = Color.FromArgb(86, 94, 118);
-    public override Color GripLight                        { get; set; } = Color.FromArgb(190, 190, 190);
+    public override Color GripLight                        { get; set; } = Color.FromArgb(168, 168, 168);
     public override Color GripDark                         { get; set; } = Color.Black;
     public override Color ToolStripBack                    { get; set; } = Color.FromArgb(99, 108, 135);
     public override Color StatusStripLight                 { get; set; } = Color.FromArgb(99, 108, 135);
@@ -167,11 +167,11 @@ public sealed class PaletteSparklePurpleDarkMode_BaseScheme : KryptonColorScheme
     public override Color RibbonQATOverflow2               { get; set; } = Color.Black;
     public override Color RibbonGroupSeparatorDark         { get; set; } = Color.Gray;
     public override Color RibbonGroupSeparatorLight        { get; set; } = Color.Black;
-    public override Color ButtonClusterButtonBack1         { get; set; } = Color.FromArgb(210, 217, 219);
-    public override Color ButtonClusterButtonBack2         { get; set; } = Color.FromArgb(214, 222, 223);
+    public override Color ButtonClusterButtonBack1         { get; set; } = Color.FromArgb(64, 64, 64);
+    public override Color ButtonClusterButtonBack2         { get; set; } = Color.FromArgb(48, 48, 48);
     public override Color ButtonClusterButtonBorder1       { get; set; } = Color.FromArgb(179, 188, 191);
     public override Color ButtonClusterButtonBorder2       { get; set; } = Color.FromArgb(145, 156, 159);
-    public override Color NavigatorMiniBackColor           { get; set; } = Color.FromArgb(235, 235, 235);
+    public override Color NavigatorMiniBackColor           { get; set; } = Color.FromArgb(48, 48, 48);
     public override Color GridListNormal1                  { get; set; } = Color.White;
     public override Color GridListNormal2                  { get; set; } = Color.FromArgb(212, 215, 219);
     public override Color GridListPressed1                 { get; set; } = Color.FromArgb(213, 210, 218);
@@ -179,21 +179,21 @@ public sealed class PaletteSparklePurpleDarkMode_BaseScheme : KryptonColorScheme
     public override Color GridListSelected                 { get; set; } = Color.FromArgb(186, 189, 194);
     public override Color GridSheetColNormal1              { get; set; } = Color.FromArgb(248, 248, 248);
     public override Color GridSheetColNormal2              { get; set; } = Color.FromArgb(222, 222, 222);
-    public override Color GridSheetColPressed1             { get; set; } = Color.FromArgb(224, 224, 224);
-    public override Color GridSheetColPressed2             { get; set; } = Color.FromArgb(195, 195, 195);
+    public override Color GridSheetColPressed1             { get; set; } = Color.FromArgb(70, 70, 70);
+    public override Color GridSheetColPressed2             { get; set; } = Color.FromArgb(52, 52, 52);
     public override Color GridSheetColSelected1            { get; set; } = Color.FromArgb(217, 249, 159);
     public override Color GridSheetColSelected2            { get; set; } = Color.FromArgb(193, 241, 95);
-    public override Color GridSheetRowNormal               { get; set; } = Color.FromArgb(237, 237, 237);
-    public override Color GridSheetRowPressed              { get; set; } = Color.FromArgb(196, 196, 196);
+    public override Color GridSheetRowNormal               { get; set; } = Color.FromArgb(48, 48, 48);
+    public override Color GridSheetRowPressed              { get; set; } = Color.FromArgb(64, 64, 64);
     public override Color GridSheetRowSelected             { get; set; } = Color.FromArgb( 213,255, 141);
     public override Color GridDataCellBorder               { get; set; } = Color.FromArgb(195,188, 209);
     public override Color GridDataCellSelected             { get; set; } = Color.FromArgb(217,194, 240);
     public override Color InputControlTextNormal           { get; set; } = Color.Black;
     public override Color InputControlTextDisabled         { get; set; } = Color.FromArgb(172, 168, 153);
     public override Color InputControlBorderNormal         { get; set; } = Color.FromArgb(137, 137, 137);
-    public override Color InputControlBorderDisabled       { get; set; } = Color.FromArgb(204, 204, 204);
+    public override Color InputControlBorderDisabled       { get; set; } = Color.FromArgb(96, 96, 96);
     public override Color InputControlBackNormal           { get; set; } = Color.FromArgb(121, 121, 121);
-    public override Color InputControlBackDisabled         { get; set; } = SystemColors.Control;
+    public override Color InputControlBackDisabled         { get; set; } = Color.FromArgb(48, 48, 48);
     public override Color InputControlBackInactive         { get; set; } = Color.FromArgb(232, 232, 232);
     public override Color InputDropDownNormal1             { get; set; } = Color.FromArgb(124, 124, 124);
     public override Color InputDropDownNormal2             { get; set; } = Color.FromArgb(255, 248, 203);
@@ -212,7 +212,7 @@ public sealed class PaletteSparklePurpleDarkMode_BaseScheme : KryptonColorScheme
     public override Color AppButtonInner2                  { get; set; } = Color.Black;
     public override Color AppButtonMenuDocsBack            { get; set; } = Color.FromArgb(237, 237, 242);
     public override Color AppButtonMenuDocsText            { get; set; } = Color.Black;
-    public override Color SeparatorHighInternalBorder1     { get; set; } = Color.FromArgb(240, 241, 242);
+    public override Color SeparatorHighInternalBorder1     { get; set; } = Color.FromArgb(64, 64, 64);
     public override Color SeparatorHighInternalBorder2     { get; set; } = Color.FromArgb(195, 200, 206);
     public override Color RibbonGalleryBorder              { get; set; } = Color.Black;
     public override Color RibbonGalleryBackNormal          { get; set; } = Color.FromArgb(215, 215, 215);
