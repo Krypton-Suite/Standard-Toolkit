@@ -60,6 +60,22 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
         ThemeManager.RegisteredThemesChanged += ThemeManagerRegisteredThemesChanged;
     }
+
+    /// <summary>
+    /// When the designer sites this component, resolve <c>Krypton.Themes</c> from the project references.
+    /// </summary>
+    public override ISite? Site
+    {
+        get => base.Site;
+        set
+        {
+            base.Site = value;
+            if (value != null)
+            {
+                KryptonThemeCatalog.DiscoverThemes(value);
+            }
+        }
+    }
     #endregion
 
     #region Public

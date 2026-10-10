@@ -99,6 +99,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
         // React to theme changes from outside this control.
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
         ThemeManager.RegisteredThemesChanged += ThemeManagerRegisteredThemesChanged;
+        KryptonThemeCatalog.DiscoverThemes(Site);
         base.OnHandleCreated(e);
     }
 

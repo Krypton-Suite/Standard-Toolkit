@@ -25,6 +25,14 @@
 		<Description>Shared image and string resource bank for the Krypton suite (theme chrome, toolbars, glyphs, dialogs). Bundled into Krypton.Toolkit and sibling NuGet packages; not published as a separate package.</Description>
 	</PropertyGroup>
 
+	<!-- The placeholder project lives under this folder. Its sources and obj output must not compile into the real resource bank. -->
+	<ItemGroup>
+		<Compile Remove="Fallback\**" />
+		<EmbeddedResource Remove="Fallback\**" />
+		<None Remove="Fallback\**" />
+		<Content Remove="Fallback\**" />
+	</ItemGroup>
+
 	<ItemGroup>
 	<Compile Update="ResourceFiles\AboutToolkit\AboutToolkitImageResources.Designer.cs">
 	  <DesignTime>True</DesignTime>
