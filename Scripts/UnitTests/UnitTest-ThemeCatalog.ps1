@@ -151,6 +151,84 @@ if ($themesHiddenForFallback) {
 
 Assert-True (Test-Path -LiteralPath $themesPath) 'Krypton.Themes.dll exists in the bin folder'
 
+# The startup probe already failed while the DLL was hidden. The designer path asks ITypeResolutionService.
+if (-not ('UnitTestThemeResolutionService' -as [type])) {
+    Add-Type -TypeDefinition @'
+using System;
+using System.IO;
+using System.Reflection;
+using System.ComponentModel.Design;
+
+public sealed class UnitTestThemeResolutionService : ITypeResolutionService, IServiceProvider
+{
+    private readonly string _path;
+
+    public UnitTestThemeResolutionService(string path)
+    {
+        _path = path;
+    }
+
+    public Assembly GetAssembly(AssemblyName name, bool throwOnError)
+    {
+        if (name != null && string.Equals(name.Name, "Krypton.Themes", StringComparison.OrdinalIgnoreCase))
+        {
+            return Assembly.LoadFrom(_path);
+        }
+
+        if (throwOnError)
+        {
+            throw new FileNotFoundException(name == null ? string.Empty : name.FullName);
+        }
+
+        return null;
+    }
+
+    public Assembly GetAssembly(AssemblyName name)
+    {
+        return GetAssembly(name, true);
+    }
+
+    public string GetPathOfAssembly(AssemblyName name)
+    {
+        return _path;
+    }
+
+    public Type GetType(string name)
+    {
+        return GetType(name, true, false);
+    }
+
+    public Type GetType(string name, bool throwOnError)
+    {
+        return GetType(name, throwOnError, false);
+    }
+
+    public Type GetType(string name, bool throwOnError, bool ignoreCase)
+    {
+        return null;
+    }
+
+    public void ReferenceAssembly(AssemblyName name)
+    {
+    }
+
+    public object GetService(Type serviceType)
+    {
+        if (serviceType == typeof(ITypeResolutionService))
+        {
+            return this;
+        }
+
+        return null;
+    }
+}
+'@
+}
+
+$resolver = New-Object UnitTestThemeResolutionService $themesPath
+[Krypton.Toolkit.KryptonThemeCatalog]::DiscoverThemes($resolver)
+Assert-True ([Krypton.Toolkit.KryptonThemeCatalog]::IsImplementationAvailable($vsDark)) 'VisualStudio2022Dark is available via ITypeResolutionService'
+
 # Toolkit-directory probe should load sibling Krypton.Themes.dll without an explicit LoadFrom.
 [Krypton.Toolkit.KryptonThemeCatalog]::DiscoverThemes()
 Assert-True ([Krypton.Toolkit.KryptonThemeCatalog]::IsImplementationAvailable($vsDark)) 'VisualStudio2022Dark is available via Toolkit-directory probe'
