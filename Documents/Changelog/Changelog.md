@@ -45,6 +45,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Resolved [#4463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4463), `KryptonSplitContainer` children stay visible on the .NET WinForms design surface and in Document Outline ([#4468](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4468)).
+  - Panel1 and Panel2 are sited before the splitter glyph is created, so a missing behavior service cannot hide the panels. The splitter panel designer accepts a `KryptonSplitContainer` parent.
 - Resolved [#4536](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4536), `ButtonSpec` Collection Editor uses unique name instead of the text
   - The members list shows the designer name (`buttonSpecAny1`).
   - `(Name)` in the property grid edits that name. `UniqueName` stays the persistence key.
