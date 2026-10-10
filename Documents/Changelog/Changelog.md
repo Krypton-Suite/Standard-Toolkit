@@ -46,7 +46,8 @@
 ## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
 
 - Resolved [#4536](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4536), `ButtonSpec` Collection Editor uses unique name instead of the text
-  - ButtonSpec collection editor lists the designer component name (`buttonSpecAny1`).
+  - The members list shows the designer name (`buttonSpecAny1`).
+  - `(Name)` in the property grid edits that name. `UniqueName` stays the persistence key.
 - Implemented [#4465](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4465), Toolkit dialogs size to their content and the owner monitor instead of a fixed 96 DPI client size.
   - Prompts (`KryptonInputBox`, the wait dialog, the information box) grow with wrapped text and stay inside the working area. `KryptonMessageBox` is unchanged.
   - Larger dialogs (exception, GitHub issue, splash, theme browser, changelog, print preview, conversion, binary information, and designer editors) are resizable, scroll their detail text, and are clamped when they would be taller or wider than the monitor.

@@ -97,6 +97,9 @@ public sealed class ButtonSpecDisplayTextProbe
     public string SitedLabel;
     public string UnsitedLabel;
     public string UniqueName;
+    public string RenamedLabel;
+    public string RenamedName;
+    public string UnsitedName;
 
     public static ButtonSpecDisplayTextProbe Run()
     {
@@ -116,7 +119,11 @@ public sealed class ButtonSpecDisplayTextProbe
             var probe = new ButtonSpecDisplayTextProbe();
             probe.SitedLabel = (string)method.Invoke(editor, new object[] { sited });
             probe.UnsitedLabel = (string)method.Invoke(editor, new object[] { unsited });
+            probe.UnsitedName = unsited.Name;
             probe.UniqueName = sited.UniqueName;
+            sited.Name = "buttonSpecAny9";
+            probe.RenamedLabel = (string)method.Invoke(editor, new object[] { sited });
+            probe.RenamedName = sited.Name;
             return probe;
         }
         finally
@@ -166,6 +173,9 @@ $probe = [ButtonSpecDisplayTextProbe]::Run()
 Assert-True ($probe.SitedLabel -eq 'buttonSpecAny1') "Sited ButtonSpecAny label is buttonSpecAny1 (actual: $($probe.SitedLabel))"
 Assert-True ($probe.UniqueName -eq '2dea0edf052e49c18c582399c403b6b7') 'UniqueName remains the persistence key'
 Assert-True ($probe.UnsitedLabel -eq 'ButtonSpecAny') "Unsited ButtonSpecAny label is the type name (actual: $($probe.UnsitedLabel))"
+Assert-True ([string]::IsNullOrEmpty($probe.UnsitedName)) "Unsited ButtonSpec.Name is empty (actual: $($probe.UnsitedName))"
+Assert-True ($probe.RenamedName -eq 'buttonSpecAny9') "ButtonSpec.Name writes the designer site name (actual: $($probe.RenamedName))"
+Assert-True ($probe.RenamedLabel -eq 'buttonSpecAny9') "Members list follows the edited name (actual: $($probe.RenamedLabel))"
 
 if ($failed.Count -gt 0) {
     Write-UnitTestBanner -Status FAIL -Message "$($failed.Count) assertion(s) failed"
