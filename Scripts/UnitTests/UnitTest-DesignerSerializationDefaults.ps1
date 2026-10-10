@@ -182,6 +182,17 @@ public static class DesignerDefaultAudit
             return null;
         }
     }
+
+    public static bool ShouldSerialize(object instance, string propertyName)
+    {
+        PropertyDescriptor pd = TypeDescriptor.GetProperties(instance)[propertyName];
+        if (pd == null)
+        {
+            throw new InvalidOperationException("Missing property " + propertyName + " on " + instance.GetType().FullName);
+        }
+
+        return pd.ShouldSerializeValue(instance);
+    }
 }
 '@
 
@@ -199,6 +210,52 @@ foreach ($name in @(
     $path = Join-Path $bin $name
     if (Test-Path -LiteralPath $path) {
         [void][System.Reflection.Assembly]::LoadFrom($path)
+    }
+}
+
+# #4466: factory strings and empty colours must not look modified to the designer.
+$serializationFailures = New-Object System.Collections.Generic.List[string]
+function Add-SerializeFailure([string]$name, [bool]$shouldSerialize) {
+    if ($shouldSerialize) {
+        $script:serializationFailures.Add("$name ShouldSerialize=true")
+    }
+}
+
+$toolkitAsm = [AppDomain]::CurrentDomain.GetAssemblies() | Where-Object { $_.GetName().Name -eq 'Krypton.Toolkit' } | Select-Object -First 1
+if ($null -eq $toolkitAsm) {
+    $serializationFailures.Add('Krypton.Toolkit was not loaded')
+}
+else {
+    $globalStrings = $toolkitAsm.CreateInstance('Krypton.Toolkit.KryptonGlobalToolkitStrings')
+    $messageBox = $globalStrings.MessageBoxStrings
+    $preview = $toolkitAsm.CreateInstance('Krypton.Toolkit.KryptonPrintPreviewDialogStrings')
+    Add-SerializeFailure 'ToolkitStrings.MessageBoxStrings' ([DesignerDefaultAudit]::ShouldSerialize($globalStrings, 'MessageBoxStrings'))
+    Add-SerializeFailure 'MessageBoxStrings.MoreDetails' ([DesignerDefaultAudit]::ShouldSerialize($messageBox, 'MoreDetails'))
+    Add-SerializeFailure 'MessageBoxStrings.LessDetails' ([DesignerDefaultAudit]::ShouldSerialize($messageBox, 'LessDetails'))
+    Add-SerializeFailure 'ToolkitStrings.SplashScreenStrings' ([DesignerDefaultAudit]::ShouldSerialize($globalStrings, 'SplashScreenStrings'))
+    Add-SerializeFailure 'ToolkitStrings.PrintPreviewDialogStrings' ([DesignerDefaultAudit]::ShouldSerialize($globalStrings, 'PrintPreviewDialogStrings'))
+    if (-not $preview.IsDefault) {
+        $serializationFailures.Add('KryptonPrintPreviewDialogStrings.IsDefault is false after Reset')
+    }
+    if ($preview.ZoomInButtonText -ne 'Zoom &In' -or $preview.ZoomOutButtonText -ne 'Zoom &Out' -or $preview.PaginationPartOneText -ne 'Page' -or $preview.PaginationPartTwoText -ne 'of') {
+        $serializationFailures.Add("Print preview defaults are ZoomIn='$($preview.ZoomInButtonText)' ZoomOut='$($preview.ZoomOutButtonText)' Page1='$($preview.PaginationPartOneText)' Page2='$($preview.PaginationPartTwoText)'")
+    }
+
+    $progress = $toolkitAsm.CreateInstance('Krypton.Toolkit.KryptonProgressBar')
+    try {
+        Add-SerializeFailure 'KryptonProgressBar.TextShadowColor' ([DesignerDefaultAudit]::ShouldSerialize($progress, 'TextShadowColor'))
+        Add-SerializeFailure 'KryptonProgressBar.TextBackdropColor' ([DesignerDefaultAudit]::ShouldSerialize($progress, 'TextBackdropColor'))
+    }
+    finally {
+        $progress.Dispose()
+    }
+
+    $button = $toolkitAsm.CreateInstance('Krypton.Toolkit.KryptonButton')
+    try {
+        Add-SerializeFailure 'KryptonButton.Values.DropDownArrowColor' ([DesignerDefaultAudit]::ShouldSerialize($button.Values, 'DropDownArrowColor'))
+    }
+    finally {
+        $button.Dispose()
     }
 }
 
@@ -344,6 +401,12 @@ if ($errors.Count -gt 0) {
 if ($coreModified.Count -gt 0) {
     Write-Host "FAIL: core toolbox controls have designer Modified storage (#4325):" -ForegroundColor Red
     $coreModified | ForEach-Object { Write-Host "  $_" }
+    $failed = $true
+}
+
+if ($serializationFailures.Count -gt 0) {
+    Write-Host "FAIL: factory values are still treated as designer-modified (#4466):" -ForegroundColor Red
+    $serializationFailures | ForEach-Object { Write-Host "  $_" }
     $failed = $true
 }
 
