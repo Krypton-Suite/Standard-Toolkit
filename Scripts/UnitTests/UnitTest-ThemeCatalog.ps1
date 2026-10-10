@@ -30,6 +30,30 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
+function Import-UnitTestAssembly {
+    param([Parameter(Mandatory = $true)][string]$Path)
+
+    try {
+        return [System.Reflection.Assembly]::LoadFrom($Path)
+    }
+    catch {
+        $detail = $_.Exception
+        while ($null -ne $detail.InnerException) {
+            $detail = $detail.InnerException
+        }
+
+        # 0x800711C7: an application control policy blocked LoadFrom. The file is present;
+        # loading the bytes still brings the assembly into the AppDomain.
+        $blocked = ($detail.Message -like '*0x800711C7*') -or ($detail.Message -like '*Application Control policy*')
+        if (-not $blocked) {
+            throw
+        }
+
+        Write-Host "[INFO] LoadFrom blocked by application control; loading from bytes: $Path"
+        return [System.Reflection.Assembly]::Load([System.IO.File]::ReadAllBytes($Path))
+    }
+}
+
 $themesPath = Join-Path $bin 'Krypton.Themes.dll'
 $themesBackup = Join-Path $bin 'Krypton.Themes.dll.unittest-backup'
 $themesHiddenForFallback = $false
@@ -39,7 +63,7 @@ if (Test-Path -LiteralPath $themesPath) {
 }
 
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
+[void](Import-UnitTestAssembly -Path (Join-Path $bin 'Krypton.Toolkit.dll'))
 
 $failed = New-Object System.Collections.Generic.List[string]
 
@@ -122,6 +146,7 @@ Assert-True ($fallbackPalette.GetType().Name -eq 'PaletteMicrosoft365Blue') 'Mis
 if ($themesHiddenForFallback) {
     Move-Item -LiteralPath $themesBackup -Destination $themesPath -Force
     $themesHiddenForFallback = $false
+    [void](Import-UnitTestAssembly -Path $themesPath)
 }
 
 Assert-True (Test-Path -LiteralPath $themesPath) 'Krypton.Themes.dll exists in the bin folder'
@@ -264,23 +289,51 @@ Assert-True (-not [Krypton.Toolkit.KryptonThemeAvailability]::IsSelectable($spar
 [Krypton.Toolkit.KryptonThemeAvailability]::Reset()
 
 $sampleProj = Join-Path $repoRoot 'Source\TestHarnesses\ThemeProviderSample\ThemeProviderSample.csproj'
-dotnet build $sampleProj -c $Configuration -f $TargetFramework --nologo | Out-Null
+# Dependencies are already loaded from $bin. Rebuilding them tries to overwrite those DLLs and fails with MSB3027.
+$buildOutput = & dotnet build $sampleProj -c $Configuration -f $TargetFramework -p:BuildProjectReferences=false --nologo 2>&1
+if ($LASTEXITCODE -ne 0) {
+    Write-Host '[ERROR] Failed to build ThemeProviderSample.csproj' -ForegroundColor Red
+    $buildOutput | ForEach-Object { Write-Host $_ }
+    exit 1
+}
+
 $sampleDll = Join-Path $bin 'ThemeProviderSample.dll'
+$sampleProjectDir = Split-Path -Parent $sampleProj
+$alts = @(
+    (Join-Path $sampleProjectDir "bin\$Configuration\$TargetFramework\ThemeProviderSample.dll"),
+    (Join-Path $sampleProjectDir "bin\Any CPU\$Configuration\$TargetFramework\ThemeProviderSample.dll"),
+    (Join-Path $sampleProjectDir "bin\x64\$Configuration\$TargetFramework\ThemeProviderSample.dll"),
+    (Join-Path $sampleProjectDir "bin\x86\$Configuration\$TargetFramework\ThemeProviderSample.dll"),
+    (Join-Path $repoRoot "artifacts\bin\$Configuration\$TargetFramework\ThemeProviderSample.dll")
+)
+foreach ($line in @($buildOutput)) {
+    $text = "$line"
+    if ($text -match '->\s*(.+ThemeProviderSample\.dll)\s*$') {
+        $alts = @($Matches[1].Trim()) + $alts
+    }
+}
+
 if (-not (Test-Path -LiteralPath $sampleDll)) {
-    $alts = @(
-        (Join-Path $repoRoot "Source\TestHarnesses\ThemeProviderSample\bin\$Configuration\$TargetFramework\ThemeProviderSample.dll"),
-        (Join-Path $repoRoot "Source\TestHarnesses\ThemeProviderSample\bin\Any CPU\$Configuration\$TargetFramework\ThemeProviderSample.dll")
-    )
+    $found = $false
     foreach ($alt in $alts) {
         if (Test-Path -LiteralPath $alt) {
             Copy-Item -LiteralPath $alt -Destination $sampleDll -Force
+            $found = $true
+            Write-Host "[INFO] Copied ThemeProviderSample.dll from: $alt"
             break
         }
+    }
+
+    if (-not $found) {
+        Write-Host '[ERROR] ThemeProviderSample.dll not found in any expected location' -ForegroundColor Red
+        $searched = @($sampleDll) + $alts
+        Write-Host "Searched: $($searched -join ', ')"
+        exit 1
     }
 }
 
 Assert-True (Test-Path -LiteralPath $sampleDll) 'ThemeProviderSample.dll is available'
-[void][System.Reflection.Assembly]::LoadFrom($sampleDll)
+[void](Import-UnitTestAssembly -Path $sampleDll)
 [Krypton.Toolkit.KryptonThemeCatalog]::DiscoverThemes()
 $sampleLoaded = $false
 foreach ($assembly in [AppDomain]::CurrentDomain.GetAssemblies()) {

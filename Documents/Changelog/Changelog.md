@@ -45,6 +45,9 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
+ - Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
+ - `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
 - Implemented [#4486](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4486), Extra themes appear in the form designer when the project references `Krypton.Themes`.
   - The `PaletteMode` drop-down and theme selectors ask Visual Studio for `Krypton.Themes.dll` after the startup probe, which runs before the designer sites the component.
   - Toolkit-only projects still list the 14 core palettes. The missing-theme warning dialog stays off inside the designer.
