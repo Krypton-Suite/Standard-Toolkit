@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -138,7 +138,7 @@ public class PaletteMicrosoft365BlueDarkMode : PaletteMicrosoft365BlueDarkModeBa
             ImageSize = new Size(13, 13),
             ColorDepth = ColorDepth.Depth24Bit
         };
-        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Blue);
+        _checkBoxList.Images.AddStrip(DarkSelectionGlyph.Recolor(CheckBoxStripResources.CheckBoxStrip2010Blue));
 
         _galleryButtonList = new ImageList
         {
@@ -150,14 +150,14 @@ public class PaletteMicrosoft365BlueDarkMode : PaletteMicrosoft365BlueDarkModeBa
 
         _radioButtonArray =
         [
-            Office2010RadioButtonImageResources.RadioButton2010BlueD,
-            Office2010RadioButtonImageResources.RadioButton2010BlueN,
-            Office2010RadioButtonImageResources.RadioButton2010BlueT,
-            Office2010RadioButtonImageResources.RadioButton2010BlueP,
-            Office2010RadioButtonImageResources.RadioButton2010BlueDC,
-            Office2010RadioButtonImageResources.RadioButton2010BlueNC,
-            Office2010RadioButtonImageResources.RadioButton2010BlueTC,
-            Office2010RadioButtonImageResources.RadioButton2010BluePC
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueD),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueN),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueT),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueP),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueDC),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueNC),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueTC),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BluePC)
         ];
     }
 
