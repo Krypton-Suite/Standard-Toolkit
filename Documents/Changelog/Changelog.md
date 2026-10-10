@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-- [2026-11-30 - Build 2611 (V110 Nightly) - November 2026](#2026-11-30---build-2611-v110-nightly---november-2026)
+- [2026-11-30 - Build 2611 (V110 RTM) - November 2026](#2026-11-30---build-2611-v110-rtm---november-2026)
 - [2025-11-24 - Build 2511 (V100 RTM) - November 2025](#2025-11-24---build-2511-v100-rtm---november-2025)
 - [2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025](#2025-06-23---build-2506-version-95---patch-7---june-2025)
 - [2025-04-21 - Build 2504 (Version 95 - Patch 6) - April 2025](#2025-04-21---build-2504-version-95---patch-6---april-2025)
@@ -43,8 +43,11 @@
 
 =======
 
-## 2026-11-30 - Build 2611 (V110 Nightly) - November 2026
+## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Resolved [#4536](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4536), `ButtonSpec` Collection Editor uses unique name instead of the text
+  - The members list shows the designer name (`buttonSpecAny1`).
+  - `(Name)` in the property grid edits that name. `UniqueName` stays the persistence key.
 - Implemented [#4465](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4465), Toolkit dialogs size to their content and the owner monitor instead of a fixed 96 DPI client size.
   - Prompts (`KryptonInputBox`, the wait dialog, the information box) grow with wrapped text and stay inside the working area. `KryptonMessageBox` is unchanged.
   - Larger dialogs (exception, GitHub issue, splash, theme browser, changelog, print preview, conversion, binary information, and designer editors) are resizable, scroll their detail text, and are clamped when they would be taller or wider than the monitor.

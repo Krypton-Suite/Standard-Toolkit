@@ -17,6 +17,9 @@ public class ToolkitStaticVariables
     /// <summary>The default UAC shield icon size</summary>
     public static IconSize DEFAULT_UAC_SHIELD_ICON_SIZE = IconSize.ExtraSmall;
 
+    /// <summary>Should collection editors be shown in the taskbar</summary>
+    internal static bool SHOW_COLLECTION_EDITORS_IN_TASKBAR = false;
+
     #region Arrays
 
     #region Images
