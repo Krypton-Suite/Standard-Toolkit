@@ -440,6 +440,7 @@ jobs:
         with:
           channel: canary
           source-branch: ${{ github.ref_name }}
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
 
       - name: Announce Canary Release on Discord
         # Kill switch check
