@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -37,22 +37,21 @@ public class KryptonDesignerButtonSpecAnyCollectionEditor : KryptonDesignerStand
     /// <inheritdoc />
     protected override Type[] CreateNewItemTypes() => [DesignerCollectionItemType];
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Returns the designer component name for the members list.
+    /// </summary>
+    /// <param name="value">Collection item.</param>
+    /// <returns>
+    /// <see cref="ISite.Name"/> when the spec is sited (<c>buttonSpecAny1</c>); otherwise the type name.
+    /// <see cref="ButtonSpec.UniqueName"/> remains the persistence key. <see cref="ButtonSpec.Text"/> is the button caption.
+    /// </returns>
     protected override string GetDisplayText(object? value)
     {
-        if (value is ButtonSpecAny buttonSpecAny)
+        // Site.Name is the designer host name (buttonSpecAny1). UniqueName is a GUID persistence key and must not label the list.
+        if (value is ButtonSpec buttonSpec)
         {
-            if (!string.IsNullOrEmpty(buttonSpecAny.Text))
-            {
-                return buttonSpecAny.Text;
-            }
-
-            if (!string.IsNullOrEmpty(buttonSpecAny.UniqueName))
-            {
-                return buttonSpecAny.UniqueName!;
-            }
-
-            return buttonSpecAny.Type.ToString();
+            var siteName = buttonSpec.Site?.Name;
+            return string.IsNullOrEmpty(siteName) ? buttonSpec.GetType().Name : siteName!;
         }
 
         return base.GetDisplayText(value);
