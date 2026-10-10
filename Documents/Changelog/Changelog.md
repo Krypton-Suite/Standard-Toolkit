@@ -45,6 +45,9 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Implemented [#4486](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4486), Extra themes appear in the form designer when the project references `Krypton.Themes`.
+  - The `PaletteMode` drop-down and theme selectors ask Visual Studio for `Krypton.Themes.dll` after the startup probe, which runs before the designer sites the component.
+  - Toolkit-only projects still list the 14 core palettes. The missing-theme warning dialog stays off inside the designer.
 - Resolved [#4466](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4466), Some strings/values are not being serialised
  - Fresh controls no longer write factory message-box strings or empty progress-bar text colours into the designer as if they were modified.
  - `MessageBoxStrings.MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
