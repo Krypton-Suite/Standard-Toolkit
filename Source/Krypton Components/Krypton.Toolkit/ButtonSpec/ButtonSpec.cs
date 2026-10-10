@@ -433,6 +433,35 @@ public abstract class ButtonSpec : Component,
     private void ResetToolTipShadow() => ToolTipShadow = true;
     #endregion
 
+    #region Name
+    /// <summary>
+    /// Gets or sets the designer name of the button specification.
+    /// </summary>
+    /// <remarks>
+    /// This is the component name shown in the collection editor (<c>buttonSpecAny1</c>). It is stored on <see cref="IComponent.Site"/> and is not serialized as a property. <see cref="UniqueName"/> remains the persistence key.
+    /// </remarks>
+    [Category(@"Design")]
+    [ParenthesizePropertyName(true)]
+    [Description(@"The designer name of the button specification.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public string Name
+    {
+        get => Site?.Name ?? string.Empty;
+
+        set
+        {
+            if (Site is null || value is null || Site.Name == value)
+            {
+                return;
+            }
+
+            Site.Name = value;
+        }
+    }
+
+    private bool ShouldSerializeName() => false;
+    #endregion
+
     #region UniqueName
     /// <summary>
     /// Gets and sets the unique name of the ButtonSpec.
