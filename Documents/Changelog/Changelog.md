@@ -53,6 +53,8 @@
   - Hovering a tab draws a grey line under its label.
   - Office 2024 selected and hover tabs can use a straight line or a pill-shaped line under the label. Set `StateCommon.RibbonGeneral.TabMarker`. The default is a straight line.
   - Office 2024 tab lines can draw an optional soft halo. Set `StateCommon.RibbonGeneral.TabMarkerGlow`. The default is off. The line and the halo stay clear of the tab label.
+  - The Office 2024 File tab opens a backstage rail with compact rows, a rounded selection pill, separators, and items that can be pinned to the bottom. Set `NavigationOrder`, `SeparatorBefore`, and `PlaceAtBottom` on pages and commands. `NavigationStyle` defaults to `Inherit`, which follows the ribbon shape. Microsoft 365 keeps the Office 2010 rail.
+  - Office 2024 forms use the same rounded window corners as Office 2007 and Office 2010. Microsoft 365 forms stay square. An explicit form border `Rounding` still wins.
   - Office 2024 contextual titles in the title bar are optional. Set `StateCommon.RibbonGeneral.ShowContextTitles`. The default is off. Microsoft 365 and older ribbon shapes still show those titles.
   - Group items sit inside the card. Separated cards keep space on the left and right, and the group area keeps the same space above and below the items.
   - To use the themes, reference `Krypton.Themes` (included in the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) package).

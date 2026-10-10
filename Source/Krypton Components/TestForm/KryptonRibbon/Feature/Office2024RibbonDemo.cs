@@ -70,8 +70,7 @@ public partial class Office2024RibbonDemo : KryptonForm
         _ribbon.SelectedContext = @"Table";
 
         _ribbon.QATButtons.Add(new KryptonRibbonQATButton { Text = @"Undo", ToolTipTitle = @"Undo" });
-        _ribbon.RibbonFileAppButton.AppButtonMenuItems.Add(new KryptonContextMenuItem(@"New"));
-        _ribbon.RibbonFileAppButton.AppButtonMenuItems.Add(new KryptonContextMenuItem(@"Open"));
+        CreateOffice2024Backstage();
 
         Controls.Add(_ribbon);
 
@@ -88,7 +87,7 @@ public partial class Office2024RibbonDemo : KryptonForm
                 Environment.NewLine +
                 @"Switch Blue, Silver, White, grays, and Black, including dark and light modes. Microsoft 365 Blue keeps the folder-tab chrome." +
                 Environment.NewLine +
-                @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the application menu." +
+                @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the backstage." +
                 Environment.NewLine +
                 @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card." +
                 Environment.NewLine +
@@ -230,6 +229,62 @@ public partial class Office2024RibbonDemo : KryptonForm
         panel.Controls.Add(instructions);
 
         ApplyTheme(PaletteMode.Office2024Black);
+    }
+
+    /// <summary>
+    /// Hosts an Office 2024 backstage on the File tab. Page content is a label so the rail can be checked.
+    /// </summary>
+    private void CreateOffice2024Backstage()
+    {
+        var backstage = new KryptonBackstageView
+        {
+            OverlayMode = BackstageOverlayMode.FullClient
+        };
+        backstage.Pages.Add(CreateBackstagePage(@"Home", 0, false, false));
+        backstage.Pages.Add(CreateBackstagePage(@"New", 1, false, false));
+        backstage.Pages.Add(CreateBackstagePage(@"Open", 2, false, false));
+        backstage.Pages.Add(CreateBackstagePage(@"Info", 3, false, true));
+        backstage.Pages.Add(CreateBackstagePage(@"Print", 4, false, false));
+        backstage.Pages.Add(CreateBackstagePage(@"Options", 10, true, false));
+
+        var close = new KryptonBackstageCommand(@"Close")
+        {
+            NavigationOrder = 5
+        };
+        close.Click += (_, _) => _ribbon.CloseBackstageView();
+        backstage.Commands.Add(close);
+
+        _ribbon.RibbonFileAppTab.UseBackstageView = true;
+        _ribbon.RibbonFileAppTab.BackstageView = backstage;
+    }
+
+    private static KryptonBackstagePage CreateBackstagePage(string text, int order, bool placeAtBottom, bool separatorBefore)
+    {
+        var page = new KryptonBackstagePage
+        {
+            Text = text,
+            NavigationOrder = order,
+            PlaceAtBottom = placeAtBottom,
+            SeparatorBefore = separatorBefore
+        };
+        page.Controls.Add(new KryptonLabel
+        {
+            Text = text,
+            Dock = DockStyle.Top,
+            Padding = new Padding(24, 20, 24, 0)
+        });
+        return page;
+    }
+
+    /// <summary>
+    /// Opens the File backstage the same way the File tab does.
+    /// </summary>
+    public void ShowFileBackstage()
+    {
+        System.Reflection.MethodInfo? method = typeof(KryptonRibbon).GetMethod(
+            @"TryToggleBackstageView",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+        method?.Invoke(_ribbon, null);
     }
 
     /// <summary>

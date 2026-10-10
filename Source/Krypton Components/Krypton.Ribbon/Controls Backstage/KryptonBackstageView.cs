@@ -36,6 +36,7 @@ public class KryptonBackstageView : KryptonPanel
     private readonly BackStageViewColorValues _colorValues;
     private readonly BackstageCloseItem _closeItem;
     private BackstageOverlayMode _overlayMode;
+    private BackstageNavigationStyle _navigationStyle;
 
     #endregion
 
@@ -67,6 +68,7 @@ public class KryptonBackstageView : KryptonPanel
         _navigationWidth = 200;
         _columns = 1;
         _overlayMode = BackstageOverlayMode.FullClient;
+        _navigationStyle = BackstageNavigationStyle.Inherit;
 
         _pages = new KryptonBackstagePageCollection();
         _pages.Inserted += OnPagesInserted;
@@ -275,6 +277,56 @@ public class KryptonBackstageView : KryptonPanel
                 PerformNeedPaint(false);
             }
         }
+    }
+
+    /// <summary>
+    /// Gets and sets which navigation rail to draw.
+    /// </summary>
+    [Category(@"Backstage")]
+    [Description(@"Navigation rail style. Inherit follows the ribbon shape.")]
+    [DefaultValue(BackstageNavigationStyle.Inherit)]
+    public BackstageNavigationStyle NavigationStyle
+    {
+        get => _navigationStyle;
+        set
+        {
+            if (_navigationStyle != value)
+            {
+                _navigationStyle = value;
+                RebuildNavigationList();
+                _navigationList.Invalidate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the rail style after resolving <see cref="BackstageNavigationStyle.Inherit"/>.
+    /// </summary>
+    internal BackstageNavigationStyle ResolvedNavigationStyle =>
+        _navigationStyle != BackstageNavigationStyle.Inherit
+            ? _navigationStyle
+            : GetPalette()?.GetRibbonShape() == PaletteRibbonShape.Office2024
+                ? BackstageNavigationStyle.Office2024
+                : BackstageNavigationStyle.Office2010;
+
+    /// <summary>
+    /// Gets a value indicating whether the Office 2024 compact rail is active.
+    /// </summary>
+    internal bool IsOffice2024Navigation => ResolvedNavigationStyle == BackstageNavigationStyle.Office2024;
+
+    /// <summary>
+    /// Gets a caller-supplied selected highlight, when one has been set.
+    /// </summary>
+    internal bool TryGetCustomSelectedHighlight(out Color color)
+    {
+        if (_colorValues.SelectedItemHighlightColor.HasValue)
+        {
+            color = _colorValues.SelectedItemHighlightColor.Value;
+            return true;
+        }
+
+        color = Color.Empty;
+        return false;
     }
 
     #endregion
@@ -826,26 +878,68 @@ public class KryptonBackstageView : KryptonPanel
             _navigationList.BeginUpdate();
             _navigationList.Items.Clear();
 
-            // Add all visible pages
+            var entries = new List<object>();
             foreach (KryptonBackstagePage page in _pages)
             {
                 if (page.VisibleInNavigation)
                 {
-                    _navigationList.Items.Add(page);
+                    entries.Add(page);
                 }
             }
 
-            // Add all visible commands
             foreach (KryptonBackstageCommand command in _commands)
             {
                 if (command.VisibleInNavigation)
                 {
-                    _navigationList.Items.Add(command);
+                    entries.Add(command);
                 }
             }
 
-            // Always add the Close button as the last item
-            _navigationList.Items.Add(_closeItem);
+            bool customOrder = false;
+            foreach (object entry in entries)
+            {
+                if (GetNavigationOrder(entry) != 0)
+                {
+                    customOrder = true;
+                    break;
+                }
+            }
+
+            var main = new List<object>();
+            var footer = new List<object>();
+            foreach (object entry in entries)
+            {
+                if (GetPlaceAtBottom(entry))
+                {
+                    footer.Add(entry);
+                }
+                else
+                {
+                    main.Add(entry);
+                }
+            }
+
+            if (customOrder)
+            {
+                main = main.OrderBy(GetNavigationOrder).ToList();
+                footer = footer.OrderBy(GetNavigationOrder).ToList();
+            }
+
+            foreach (object entry in main)
+            {
+                _navigationList.Items.Add(entry);
+            }
+
+            foreach (object entry in footer)
+            {
+                _navigationList.Items.Add(entry);
+            }
+
+            // Office 2010 keeps the permanent Close row. Office 2024 leaves Close to the caller.
+            if (!IsOffice2024Navigation)
+            {
+                _navigationList.Items.Add(_closeItem);
+            }
 
             if (_selectedPage is { VisibleInNavigation: true })
             {
@@ -902,7 +996,33 @@ public class KryptonBackstageView : KryptonPanel
     {
         UpdateNavigationColors();
         UpdateContentColors();
+        RebuildNavigationList();
         _navigationList.Invalidate();
     }
+
+    /// <inheritdoc />
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        RebuildNavigationList();
+        _navigationList.Invalidate();
+    }
+
+    private static int GetNavigationOrder(object item) =>
+        item switch
+        {
+            KryptonBackstagePage page => page.NavigationOrder,
+            KryptonBackstageCommand command => command.NavigationOrder,
+            _ => 0
+        };
+
+    private static bool GetPlaceAtBottom(object item) =>
+        item switch
+        {
+            KryptonBackstagePage page => page.PlaceAtBottom,
+            KryptonBackstageCommand command => command.PlaceAtBottom,
+            _ => false
+        };
+
     #endregion
 }

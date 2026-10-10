@@ -30,6 +30,9 @@ public class KryptonForm : VisualForm,
 
 	internal class FormPaletteRedirect : PaletteRedirect
 	{
+		// Same FormMain radius as Office 2007 and Office 2010.
+		private const float Office2024FormCornerRounding = 5f;
+
 		private readonly KryptonForm _kryptonForm;
 
 		public FormPaletteRedirect(PaletteBase palette, KryptonForm kryptonForm)
@@ -37,6 +40,38 @@ public class KryptonForm : VisualForm,
 		{
 			_kryptonForm = kryptonForm;
 		}
+
+		/// <summary>
+		/// Office 2024 window chrome uses the Office 2007/2010 corner radius.
+		/// Microsoft 365 stays square. A palette that already defines a radius is left alone.
+		/// </summary>
+		public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
+		{
+			float rounding = base.GetBorderRounding(style, state);
+			return rounding == 0f && IsOffice2024FormBorder(style)
+				? Office2024FormCornerRounding
+				: rounding;
+		}
+
+		/// <inheritdoc />
+		public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state)
+		{
+			PaletteCornerRounding corners = base.GetBorderCornerRounding(style, state);
+			return IsOffice2024FormBorder(style)
+				   && corners.TopLeft == 0f
+				   && corners.TopRight == 0f
+				   && corners.BottomRight == 0f
+				   && corners.BottomLeft == 0f
+				? PaletteCornerRounding.Uniform(Office2024FormCornerRounding)
+				: corners;
+		}
+
+		private bool IsOffice2024FormBorder(PaletteBorderStyle style) =>
+			style is PaletteBorderStyle.FormMain
+				or PaletteBorderStyle.FormCustom1
+				or PaletteBorderStyle.FormCustom2
+				or PaletteBorderStyle.FormCustom3
+			&& (Target?.GetRibbonShape() == PaletteRibbonShape.Office2024);
 
 		public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
 		{

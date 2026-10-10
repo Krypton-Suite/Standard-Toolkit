@@ -173,5 +173,26 @@ $gapPath = Join-Path $OutputDir '4496-office-2024-blue-dark-gap.png'
 Save-UnitTestWindowPng -Form $form -Path $gapPath
 Write-Host "Wrote $gapPath"
 
+$blueBack = [Enum]::Parse($modeType, 'Office2024Blue')
+[void]$apply.Invoke($form, @($blueBack))
+[System.Windows.Forms.Application]::DoEvents()
+$showBackstage = $formType.GetMethod('ShowFileBackstage')
+[void]$showBackstage.Invoke($form, @())
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 400
+$overlay = $null
+foreach ($open in [System.Windows.Forms.Application]::OpenForms) {
+    if ($open.GetType().Name -eq 'VisualBackstageOverlayForm') {
+        $overlay = $open
+        break
+    }
+}
+if ($null -eq $overlay) {
+    throw 'Backstage overlay was not shown.'
+}
+$backstagePath = Join-Path $OutputDir '4496-office-2024-blue-backstage.png'
+Save-UnitTestWindowPng -Form $overlay -Path $backstagePath
+Write-Host "Wrote $backstagePath"
+
 $form.Close()
 $form.Dispose()
