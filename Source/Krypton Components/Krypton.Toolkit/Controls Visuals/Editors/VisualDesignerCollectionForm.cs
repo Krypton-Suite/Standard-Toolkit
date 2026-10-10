@@ -29,6 +29,8 @@ public abstract class VisualDesignerCollectionForm : KryptonForm
         SetInheritedControlOverride();
         ControlBox = false;
         StartPosition = FormStartPosition.CenterScreen;
+        // Match CollectionEditor.CollectionForm. Unowned designer dialogs otherwise get a taskbar button.
+        ShowInTaskbar = ToolkitStaticVariables.SHOW_COLLECTION_EDITORS_IN_TASKBAR;
     }
 
     /// <summary>

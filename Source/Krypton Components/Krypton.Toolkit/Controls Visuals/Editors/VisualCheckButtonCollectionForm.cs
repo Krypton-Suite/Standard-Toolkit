@@ -91,6 +91,8 @@ internal partial class VisualCheckButtonCollectionForm : KryptonForm
     #region Implementation
     private void ConfigureDesignerChrome()
     {
+        // Unowned designer dialogs otherwise get a taskbar button.
+        ShowInTaskbar = ToolkitStaticVariables.SHOW_COLLECTION_EDITORS_IN_TASKBAR;
         InternalDesignerEditorFormChrome.Apply(this, kpnlContent, kpnlButtonBar);
         kpnlButtonBar.OkButton.Values.Text = KryptonManager.Strings.GeneralStrings.OK;
         kpnlButtonBar.CancelButton.Values.Text = KryptonManager.Strings.GeneralStrings.Cancel;
