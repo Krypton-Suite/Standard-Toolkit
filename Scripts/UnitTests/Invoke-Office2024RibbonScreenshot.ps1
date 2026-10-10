@@ -112,12 +112,19 @@ $bluePillPath = Join-Path $OutputDir '4496-office-2024-blue-pills.png'
 Save-UnitTestWindowPng -Form $form -Path $bluePillPath
 Write-Host "Wrote $bluePillPath"
 $setGlow = $formType.GetMethod('SetTabMarkerGlow')
+[void]$setMarker.Invoke($form, @($line))
 [void]$setGlow.Invoke($form, @($true))
 [System.Windows.Forms.Application]::DoEvents()
 Start-Sleep -Milliseconds 300
 $glowPath = Join-Path $OutputDir '4496-office-2024-blue-glow.png'
 Save-UnitTestWindowPng -Form $form -Path $glowPath
 Write-Host "Wrote $glowPath"
+[void]$setMarker.Invoke($form, @($pill))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$glowPillPath = Join-Path $OutputDir '4496-office-2024-blue-glow-pill.png'
+Save-UnitTestWindowPng -Form $form -Path $glowPillPath
+Write-Host "Wrote $glowPillPath"
 [void]$setGlow.Invoke($form, @($false))
 [void]$setMarker.Invoke($form, @($line))
 $away = $form.PointToScreen((New-Object System.Drawing.Point 40, 320))

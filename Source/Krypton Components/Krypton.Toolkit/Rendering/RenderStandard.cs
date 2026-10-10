@@ -20,6 +20,8 @@ public class RenderStandard : RenderBase
 	#region Static Fields
 	// Constants
 	private const int DRAG_ARROW_WIDTH = 13;
+	// Extra pixels around the crisp mark. Half of this is the bloom above and below the line.
+	private const int RibbonTabGlowSpread2024 = 8;
 	private const int DRAG_ARROW_HEIGHT = 7;
 	private const int DRAG_ARROW_GAP = 4;
 	private const int SPACING_TAB_DOCK_OUTSIZE = 3;
@@ -2268,153 +2270,139 @@ public class RenderStandard : RenderBase
 			using var brush = new SolidBrush(color);
 			context.Graphics.FillRectangle(brush, mark);
 		}
+
+		if (glow)
+		{
+			DrawRibbonTabShine2024(context, mark, color, pill);
+		}
 	}
 
 	/// <summary>
-	/// Soft halo behind an Office 2024 tab line. A blurred copy of the mark, with the solid line drawn on top.
+	/// Static bloom behind an Office 2024 tab line. The crisp mark is drawn afterwards.
 	/// </summary>
 	private static void DrawRibbonTabGlow2024(RenderContext context, Rectangle mark, Color color)
 	{
-		float dpi = context.Graphics.DpiX / 96f;
-		int spread = RibbonTabGlowSpread2024(dpi);
-		int width = mark.Width + (spread * 2);
-		int height = mark.Height + (spread * 2);
-		if (width <= 0 || height <= 0)
+		if (mark.Width <= 2 || mark.Height <= 0)
 		{
 			return;
 		}
 
-		using var bitmap = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
-		using (var graphics = Graphics.FromImage(bitmap))
+		Graphics g = context.Graphics;
+		using var antiAlias = new AntiAlias(g);
+		float dpi = g.DpiX / 96f;
+		float spread = Math.Max(RibbonTabGlowSpread2024, RibbonTabGlowSpread2024 * dpi);
+		DrawRibbonTabGlowHalo2024(g, mark, color, spread);
+
+		using GraphicsPath path = RibbonTabGlowLinePath(mark);
+		using var haloPen = new Pen(Color.FromArgb(130, color), mark.Height + (spread * 0.65f))
 		{
-			graphics.SmoothingMode = SmoothingMode.AntiAlias;
-			graphics.Clear(Color.Transparent);
-			var local = new Rectangle(spread, spread, mark.Width, mark.Height);
-			using GraphicsPath path = PillLinePath(local);
-			using var brush = new SolidBrush(Color.FromArgb(200, color));
-			graphics.FillPath(brush, path);
-		}
-
-		// Three box passes approximate a gaussian falloff.
-		int pass = Math.Max(1, spread / 3);
-		BlurTabGlow(bitmap, pass);
-		BlurTabGlow(bitmap, pass);
-		BlurTabGlow(bitmap, pass);
-
-		InterpolationMode interpolation = context.Graphics.InterpolationMode;
-		context.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
-		context.Graphics.DrawImage(bitmap, mark.X - spread, mark.Y - spread, width, height);
-		context.Graphics.InterpolationMode = interpolation;
+			LineJoin = LineJoin.Round,
+			StartCap = LineCap.Round,
+			EndCap = LineCap.Round
+		};
+		g.DrawPath(haloPen, path);
 	}
 
 	/// <summary>
-	/// Separable box blur. The bitmap is premultiplied, so the fringe fades instead of turning dark.
+	/// Bright centre on the crisp line. The ends stay the mark colour. It does not animate.
 	/// </summary>
-	private static void BlurTabGlow(Bitmap bitmap, int radius)
+	private static void DrawRibbonTabShine2024(RenderContext context, Rectangle mark, Color color, bool pill)
 	{
-		if (radius < 1)
+		if (mark.Width <= 4 || mark.Height <= 0)
 		{
 			return;
 		}
 
-		int width = bitmap.Width;
-		int height = bitmap.Height;
-		var bounds = new Rectangle(0, 0, width, height);
-		BitmapData data = bitmap.LockBits(bounds, ImageLockMode.ReadWrite, PixelFormat.Format32bppPArgb);
-		try
+		Graphics g = context.Graphics;
+		Color highlight = BlendTowardWhite(color, 0.92f);
+		using var brush = new LinearGradientBrush(
+			new PointF(mark.Left, mark.Top),
+			new PointF(mark.Right - 1f, mark.Top),
+			Color.Transparent,
+			Color.Transparent);
+		brush.InterpolationColors = new ColorBlend(5)
 		{
-			int stride = data.Stride;
-			int length = stride * height;
-			var source = new byte[length];
-			var swap = new byte[length];
-			Marshal.Copy(data.Scan0, source, 0, length);
-			BoxBlurHorizontal(source, swap, width, height, stride, radius);
-			BoxBlurVertical(swap, source, width, height, stride, radius);
-			Marshal.Copy(source, 0, data.Scan0, length);
-		}
-		finally
+			Colors = new[]
+			{
+				Color.FromArgb(0, highlight),
+				Color.FromArgb(0, highlight),
+				Color.FromArgb(255, highlight),
+				Color.FromArgb(0, highlight),
+				Color.FromArgb(0, highlight)
+			},
+			Positions = new[] { 0f, 0.32f, 0.5f, 0.68f, 1f }
+		};
+
+		if (!pill)
 		{
-			bitmap.UnlockBits(data);
+			SmoothingMode smoothing = g.SmoothingMode;
+			g.SmoothingMode = SmoothingMode.None;
+			g.FillRectangle(brush, mark);
+			g.SmoothingMode = smoothing;
+			return;
 		}
+
+		using var antiAlias = new AntiAlias(g);
+		using GraphicsPath path = PillLinePath(mark);
+		g.FillPath(brush, path);
 	}
 
-	private static void BoxBlurHorizontal(byte[] source, byte[] destination, int width, int height, int stride, int radius)
+	private static Color BlendTowardWhite(Color color, float amount)
 	{
-		int window = (radius * 2) + 1;
-		for (int y = 0; y < height; y++)
-		{
-			int row = y * stride;
-			for (int x = 0; x < width; x++)
-			{
-				int sumB = 0;
-				int sumG = 0;
-				int sumR = 0;
-				int sumA = 0;
-				for (int k = -radius; k <= radius; k++)
-				{
-					int sample = x + k;
-					if (sample < 0)
-					{
-						sample = 0;
-					}
-					else if (sample >= width)
-					{
-						sample = width - 1;
-					}
-
-					int index = row + (sample * 4);
-					sumB += source[index];
-					sumG += source[index + 1];
-					sumR += source[index + 2];
-					sumA += source[index + 3];
-				}
-
-				int dest = row + (x * 4);
-				destination[dest] = (byte)(sumB / window);
-				destination[dest + 1] = (byte)(sumG / window);
-				destination[dest + 2] = (byte)(sumR / window);
-				destination[dest + 3] = (byte)(sumA / window);
-			}
-		}
+		int channel = (int)Math.Round(255f * amount);
+		return Color.FromArgb(
+			255,
+			color.R + ((255 - color.R) * channel / 255),
+			color.G + ((255 - color.G) * channel / 255),
+			color.B + ((255 - color.B) * channel / 255));
 	}
 
-	private static void BoxBlurVertical(byte[] source, byte[] destination, int width, int height, int stride, int radius)
+	/// <summary>
+	/// Centerline of the mark, inset so the round caps stay inside the line.
+	/// </summary>
+	private static GraphicsPath RibbonTabGlowLinePath(Rectangle mark)
 	{
-		int window = (radius * 2) + 1;
-		for (int x = 0; x < width; x++)
+		var path = new GraphicsPath();
+		float radius = mark.Height / 2f;
+		float y = mark.Top + radius;
+		float left = mark.Left + radius;
+		float right = mark.Right - radius;
+		if (right <= left)
 		{
-			for (int y = 0; y < height; y++)
-			{
-				int sumB = 0;
-				int sumG = 0;
-				int sumR = 0;
-				int sumA = 0;
-				for (int k = -radius; k <= radius; k++)
-				{
-					int sample = y + k;
-					if (sample < 0)
-					{
-						sample = 0;
-					}
-					else if (sample >= height)
-					{
-						sample = height - 1;
-					}
-
-					int index = (sample * stride) + (x * 4);
-					sumB += source[index];
-					sumG += source[index + 1];
-					sumR += source[index + 2];
-					sumA += source[index + 3];
-				}
-
-				int dest = (y * stride) + (x * 4);
-				destination[dest] = (byte)(sumB / window);
-				destination[dest + 1] = (byte)(sumG / window);
-				destination[dest + 2] = (byte)(sumR / window);
-				destination[dest + 3] = (byte)(sumA / window);
-			}
+			path.AddEllipse(mark);
+			return path;
 		}
+
+		path.AddLine(left, y, right, y);
+		return path;
+	}
+
+	/// <summary>
+	/// Elliptical bloom centred on the line. It extends into the gap under the label without moving the line down.
+	/// </summary>
+	private static void DrawRibbonTabGlowHalo2024(Graphics g, Rectangle mark, Color color, float spread)
+	{
+		float ellipseWidth = mark.Width * 0.92f;
+		float ellipseHeight = mark.Height + spread;
+		var ellipseRect = new RectangleF(
+			mark.Left + ((mark.Width - ellipseWidth) / 2f),
+			mark.Top + ((mark.Height - ellipseHeight) / 2f),
+			ellipseWidth,
+			ellipseHeight);
+		if (ellipseRect.Width <= 0f || ellipseRect.Height <= 0f)
+		{
+			return;
+		}
+
+		using var ellipsePath = new GraphicsPath();
+		ellipsePath.AddEllipse(ellipseRect);
+		using var glowBrush = new PathGradientBrush(ellipsePath)
+		{
+			CenterColor = Color.FromArgb(160, color),
+			CenterPoint = new PointF(ellipseRect.Left + (ellipseRect.Width / 2f), ellipseRect.Top + (ellipseRect.Height / 2f))
+		};
+		glowBrush.SurroundColors = new[] { Color.Transparent };
+		g.FillPath(glowBrush, ellipsePath);
 	}
 
 	/// <summary>
@@ -2488,12 +2476,10 @@ public class RenderStandard : RenderBase
 	{
 		float dpi = dpiY <= 0f ? 1f : dpiY;
 		int thickness = RibbonTabMarkThickness2024(dpi, pill);
-		int spread = glow ? RibbonTabGlowSpread2024(dpi) : 0;
+		int below = RibbonTabMarkBelow2024(dpi, pill, glow);
 		int gap = Math.Max(4, (int)Math.Round(4f * dpi));
-		return thickness + RibbonTabMarkBelow2024(dpi, pill, glow) + gap + spread;
+		return thickness + below + gap;
 	}
-
-	private static int RibbonTabGlowSpread2024(float dpi) => Math.Max(5, (int)Math.Round(6f * dpi));
 
 	private static int RibbonTabMarkBelow2024(float dpi, bool pill, bool glow)
 	{
@@ -2503,8 +2489,9 @@ public class RenderStandard : RenderBase
 			return below;
 		}
 
-		int spread = RibbonTabGlowSpread2024(dpi);
-		return spread > below ? spread : below;
+		// Room under the line for the lower half of the bloom. The gap above the line stays put.
+		int haloBelow = Math.Max(RibbonTabGlowSpread2024 / 2, (int)Math.Round((RibbonTabGlowSpread2024 / 2f) * dpi));
+		return haloBelow > below ? haloBelow : below;
 	}
 
 	private static int RibbonTabMarkThickness2024(float dpi, bool pill)

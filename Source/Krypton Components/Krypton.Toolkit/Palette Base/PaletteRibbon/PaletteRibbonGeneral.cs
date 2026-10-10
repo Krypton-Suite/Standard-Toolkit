@@ -1293,11 +1293,12 @@ public class PaletteRibbonGeneral : Storage,
     private bool ShouldSerializeTabMarker() => TabMarker != PaletteRibbonTabMarker.Line;
 
     /// <summary>
-    /// Gets and sets a value indicating whether Office 2024 tab lines draw a soft halo.
+    /// Gets and sets a value indicating whether Office 2024 tab lines draw a static glow.
+    /// The mark stays crisp and close to the label, with a bloom and a bright shine along its middle.
     /// </summary>
     [KryptonPersist(false)]
     [Category(@"Visuals")]
-    [Description(@"Draw a soft halo behind Office 2024 selected and hover tab lines.")]
+    [Description(@"Draw a static glow and shine on Office 2024 selected and hover tab lines.")]
     [DefaultValue(false)]
     [RefreshProperties(RefreshProperties.All)]
     public bool TabMarkerGlow
