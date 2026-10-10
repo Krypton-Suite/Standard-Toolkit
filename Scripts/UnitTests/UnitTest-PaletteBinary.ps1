@@ -111,6 +111,7 @@ $source.SetPaletteName('2117-roundtrip')
 $source.ToolMenuStatus.StatusStrip.StatusStripGradientBegin = $marker
 $corners = [Krypton.Toolkit.PaletteCornerRounding]::new([float]2, [float]3, [float]4, [float]5)
 $source.Common.StateCommon.Border.CornerRounding = $corners
+$source.Ribbon.RibbonGeneral.TabMarker = [Krypton.Toolkit.PaletteRibbonTabMarker]::Pill
 
 $temp = Join-Path ([System.IO.Path]::GetTempPath()) ('krypton-2117-' + [Guid]::NewGuid().ToString('N'))
 [void][System.IO.Directory]::CreateDirectory($temp)
@@ -165,6 +166,7 @@ try {
     Assert-True ($fromKthemex.GetPaletteName() -eq '2117-roundtrip') '.kthemex restores the palette name'
     $importedCorners = $fromKthemex.Common.StateCommon.Border.CornerRounding
     Assert-True (($importedCorners.TopLeft -eq 2) -and ($importedCorners.TopRight -eq 3) -and ($importedCorners.BottomRight -eq 4) -and ($importedCorners.BottomLeft -eq 5)) '.kthemex restores PaletteCornerRounding'
+    Assert-True ($fromKthemex.Ribbon.RibbonGeneral.TabMarker -eq [Krypton.Toolkit.PaletteRibbonTabMarker]::Pill) '.kthemex restores TabMarker'
 
     $convertedKthemex = Join-Path $temp 'converted.kthemex'
     $convertedKpal = Join-Path $temp 'converted.ktheme'

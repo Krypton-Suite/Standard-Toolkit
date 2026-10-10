@@ -187,8 +187,8 @@ internal class ViewDrawRibbonQATBorder : ViewComposite
             ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
-        // We never draw the background/border for Office 2010 shape QAT
-        if (_minibar && (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS))
+        // Office 2010 and Office 2024 place quick-access icons directly on the caption.
+        if (_minibar && (_ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2024))
         {
             return;
         }

@@ -370,12 +370,26 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                 retSize = _ribbon.RibbonShape switch
                 {
                     PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
+                    PaletteRibbonShape.Office2024 => Office2024SeparatorSize(),
                     _ => new Size(SEP_LENGTH_2007, SEP_LENGTH_2007)
                 };
             }
 
             return retSize;
         }
+    }
+
+    private Size Office2024SeparatorSize()
+    {
+        int gap = _ribbon!.StateCommon.RibbonGeneral.GroupAreaGap;
+        if (gap <= 0)
+        {
+            return new Size(8, 8);
+        }
+
+        float dpi = _ribbon.DeviceDpi / 96f;
+        int pixels = Math.Max(1, (int)(gap * dpi));
+        return new Size(pixels, pixels);
     }
 
     private void SyncChildrenToRibbonGroups()
@@ -488,8 +502,16 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                     // Find list of possible sizes for this group
                     var widths = childSize.GetPossibleSizes(context);
 
-                    // Track how many extra pixels are needed for inter group gaps
-                    pixelGaps += SEP_LENGTH_2007;
+                    // Track how many extra pixels are needed for inter group gaps.
+                    // A configured Office 2024 gap replaces the small default so groups can shrink to fit.
+                    int sep = SEP_LENGTH_2007;
+                    if (_ribbon?.RibbonShape == PaletteRibbonShape.Office2024 &&
+                        _ribbon.StateCommon.RibbonGeneral.GroupAreaGap > 0)
+                    {
+                        sep = SeparatorSize.Width;
+                    }
+
+                    pixelGaps += sep;
 
                     // Add into list of all container values
                     listWidths.Add(widths);

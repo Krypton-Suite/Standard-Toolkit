@@ -520,6 +520,31 @@ public enum BackstageOverlayMode
 
 #endregion
 
+#region Enum BackstageNavigationStyle
+
+/// <summary>
+/// Specifies which backstage navigation rail to draw.
+/// </summary>
+public enum BackstageNavigationStyle
+{
+    /// <summary>
+    /// Follow the ribbon shape. Office 2024 uses the compact pill rail. Other shapes keep the Office 2010 rail.
+    /// </summary>
+    Inherit = 0,
+
+    /// <summary>
+    /// Office 2010 full-width navigation bars.
+    /// </summary>
+    Office2010 = 1,
+
+    /// <summary>
+    /// Office 2024 compact rail with rounded selection pills.
+    /// </summary>
+    Office2024 = 2
+}
+
+#endregion
+
 #region Enum RibbonNotificationBarType
 
 /// <summary>

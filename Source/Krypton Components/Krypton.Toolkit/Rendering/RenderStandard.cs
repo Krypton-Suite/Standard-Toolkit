@@ -20,6 +20,8 @@ public class RenderStandard : RenderBase
 	#region Static Fields
 	// Constants
 	private const int DRAG_ARROW_WIDTH = 13;
+	// Extra pixels around the crisp mark. Half of this is the bloom above and below the line.
+	private const int RibbonTabGlowSpread2024 = 8;
 	private const int DRAG_ARROW_HEIGHT = 7;
 	private const int DRAG_ARROW_GAP = 4;
 	private const int SPACING_TAB_DOCK_OUTSIZE = 3;
@@ -2184,6 +2186,23 @@ public class RenderStandard : RenderBase
 				return DrawRibbonTabSelected2010(context, rect, state, palette, orientation, memento, false);
 			case PaletteRibbonColorStyle.RibbonTabContextSelected:
 				return DrawRibbonTabContextSelected(shape, context, rect, state, palette, orientation, memento);
+			case PaletteRibbonColorStyle.RibbonTabSelected2024:
+				memento?.Dispose();
+				DrawRibbonTabUnderline2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
+			case PaletteRibbonColorStyle.RibbonTabTracking2024:
+				memento?.Dispose();
+				DrawRibbonTabUnderline2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
+			case PaletteRibbonColorStyle.RibbonTabSelected2024Pill:
+			case PaletteRibbonColorStyle.RibbonTabTracking2024Pill:
+				memento?.Dispose();
+				DrawRibbonTabPill2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
+			case PaletteRibbonColorStyle.RibbonGroupArea2024:
+				memento?.Dispose();
+				DrawRibbonGroupArea2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
 			default:
 				// Should never happen!
 				Debug.Assert(false);
@@ -2192,6 +2211,505 @@ public class RenderStandard : RenderBase
 		}
 
 		return null;
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 selected-tab underline. Color 1 is the stroke; the tab outline is omitted.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="underline">Underline color.</param>
+	protected static void DrawRibbonTabUnderline2024(RenderContext context, Rectangle rect, Color underline)
+	{
+		if (underline.IsEmpty || !TryGetRibbonTabMark2024(context, rect, false, false, out Rectangle mark))
+		{
+			return;
+		}
+
+		using var brush = new SolidBrush(underline);
+		context.Graphics.FillRectangle(brush, mark);
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 tab mark as a straight line or a pill-shaped line under the label.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="color">Mark colour.</param>
+	/// <param name="marker">Straight line, or a pill-shaped line.</param>
+	internal static void DrawRibbonTabMarker2024(RenderContext context, Rectangle rect, Color color, PaletteRibbonTabMarker marker) =>
+		DrawRibbonTabMarker2024(context, rect, color, marker, false);
+
+	/// <summary>
+	/// Draw the Office 2024 tab mark as a straight line or a pill-shaped line under the label.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="color">Mark colour.</param>
+	/// <param name="marker">Straight line, or a pill-shaped line.</param>
+	/// <param name="glow">True to draw a soft halo behind the mark.</param>
+	internal static void DrawRibbonTabMarker2024(RenderContext context, Rectangle rect, Color color, PaletteRibbonTabMarker marker, bool glow)
+	{
+		bool pill = marker == PaletteRibbonTabMarker.Pill;
+		if (color.IsEmpty || !TryGetRibbonTabMark2024(context, rect, pill, glow, out Rectangle mark))
+		{
+			return;
+		}
+
+		if (glow)
+		{
+			DrawRibbonTabGlow2024(context, mark, color);
+		}
+
+		if (pill)
+		{
+			FillRibbonTabPill2024(context, mark, color);
+		}
+		else
+		{
+			using var brush = new SolidBrush(color);
+			context.Graphics.FillRectangle(brush, mark);
+		}
+
+		if (glow)
+		{
+			DrawRibbonTabShine2024(context, mark, color, pill);
+		}
+	}
+
+	/// <summary>
+	/// Static bloom behind an Office 2024 tab line. The crisp mark is drawn afterwards.
+	/// </summary>
+	private static void DrawRibbonTabGlow2024(RenderContext context, Rectangle mark, Color color)
+	{
+		if (mark.Width <= 2 || mark.Height <= 0)
+		{
+			return;
+		}
+
+		Graphics g = context.Graphics;
+		using var antiAlias = new AntiAlias(g);
+		float dpi = g.DpiX / 96f;
+		float spread = Math.Max(RibbonTabGlowSpread2024, RibbonTabGlowSpread2024 * dpi);
+		DrawRibbonTabGlowHalo2024(g, mark, color, spread);
+
+		using GraphicsPath path = RibbonTabGlowLinePath(mark);
+		using var haloPen = new Pen(Color.FromArgb(130, color), mark.Height + (spread * 0.65f))
+		{
+			LineJoin = LineJoin.Round,
+			StartCap = LineCap.Round,
+			EndCap = LineCap.Round
+		};
+		g.DrawPath(haloPen, path);
+	}
+
+	/// <summary>
+	/// Bright centre on the crisp line. The ends stay the mark colour. It does not animate.
+	/// </summary>
+	private static void DrawRibbonTabShine2024(RenderContext context, Rectangle mark, Color color, bool pill)
+	{
+		if (mark.Width <= 4 || mark.Height <= 0)
+		{
+			return;
+		}
+
+		Graphics g = context.Graphics;
+		Color highlight = BlendTowardWhite(color, 0.92f);
+		using var brush = new LinearGradientBrush(
+			new PointF(mark.Left, mark.Top),
+			new PointF(mark.Right - 1f, mark.Top),
+			Color.Transparent,
+			Color.Transparent);
+		brush.InterpolationColors = new ColorBlend(5)
+		{
+			Colors = new[]
+			{
+				Color.FromArgb(0, highlight),
+				Color.FromArgb(0, highlight),
+				Color.FromArgb(255, highlight),
+				Color.FromArgb(0, highlight),
+				Color.FromArgb(0, highlight)
+			},
+			Positions = new[] { 0f, 0.32f, 0.5f, 0.68f, 1f }
+		};
+
+		if (!pill)
+		{
+			SmoothingMode smoothing = g.SmoothingMode;
+			g.SmoothingMode = SmoothingMode.None;
+			g.FillRectangle(brush, mark);
+			g.SmoothingMode = smoothing;
+			return;
+		}
+
+		using var antiAlias = new AntiAlias(g);
+		using GraphicsPath path = PillLinePath(mark);
+		g.FillPath(brush, path);
+	}
+
+	private static Color BlendTowardWhite(Color color, float amount)
+	{
+		int channel = (int)Math.Round(255f * amount);
+		return Color.FromArgb(
+			255,
+			color.R + ((255 - color.R) * channel / 255),
+			color.G + ((255 - color.G) * channel / 255),
+			color.B + ((255 - color.B) * channel / 255));
+	}
+
+	/// <summary>
+	/// Centerline of the mark, inset so the round caps stay inside the line.
+	/// </summary>
+	private static GraphicsPath RibbonTabGlowLinePath(Rectangle mark)
+	{
+		var path = new GraphicsPath();
+		float radius = mark.Height / 2f;
+		float y = mark.Top + radius;
+		float left = mark.Left + radius;
+		float right = mark.Right - radius;
+		if (right <= left)
+		{
+			path.AddEllipse(mark);
+			return path;
+		}
+
+		path.AddLine(left, y, right, y);
+		return path;
+	}
+
+	/// <summary>
+	/// Elliptical bloom centred on the line. It extends into the gap under the label without moving the line down.
+	/// </summary>
+	private static void DrawRibbonTabGlowHalo2024(Graphics g, Rectangle mark, Color color, float spread)
+	{
+		float ellipseWidth = mark.Width * 0.92f;
+		float ellipseHeight = mark.Height + spread;
+		var ellipseRect = new RectangleF(
+			mark.Left + ((mark.Width - ellipseWidth) / 2f),
+			mark.Top + ((mark.Height - ellipseHeight) / 2f),
+			ellipseWidth,
+			ellipseHeight);
+		if (ellipseRect.Width <= 0f || ellipseRect.Height <= 0f)
+		{
+			return;
+		}
+
+		using var ellipsePath = new GraphicsPath();
+		ellipsePath.AddEllipse(ellipseRect);
+		using var glowBrush = new PathGradientBrush(ellipsePath)
+		{
+			CenterColor = Color.FromArgb(160, color),
+			CenterPoint = new PointF(ellipseRect.Left + (ellipseRect.Width / 2f), ellipseRect.Top + (ellipseRect.Height / 2f))
+		};
+		glowBrush.SurroundColors = new[] { Color.Transparent };
+		g.FillPath(glowBrush, ellipsePath);
+	}
+
+	/// <summary>
+	/// Fill a pill-shaped Office 2024 tab line.
+	/// </summary>
+	private static void FillRibbonTabPill2024(RenderContext context, Rectangle mark, Color fill)
+	{
+		using GraphicsPath path = PillLinePath(mark);
+		using var brush = new SolidBrush(fill);
+		SmoothingMode smoothing = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		context.Graphics.FillPath(brush, path);
+		context.Graphics.SmoothingMode = smoothing;
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 tab mark as a capsule under the label. Color 1 is the stroke.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="fill">Pill line colour.</param>
+	protected static void DrawRibbonTabPill2024(RenderContext context, Rectangle rect, Color fill)
+	{
+		if (fill.IsEmpty || !TryGetRibbonTabMark2024(context, rect, true, false, out Rectangle mark))
+		{
+			return;
+		}
+
+		FillRibbonTabPill2024(context, mark, fill);
+	}
+
+	/// <summary>
+	/// Office 2024 underline bounds. A pill is taller so the rounded ends read as a capsule.
+	/// </summary>
+	private static bool TryGetRibbonTabMark2024(RenderContext context, Rectangle rect, bool pill, bool glow, out Rectangle mark)
+	{
+		mark = Rectangle.Empty;
+		if (rect.Width <= 4 || rect.Height <= 2)
+		{
+			return false;
+		}
+
+		int inset = Math.Min(10, Math.Max(4, rect.Width / 6));
+		float dpi = context.Graphics.DpiX / 96f;
+		int thickness = RibbonTabMarkThickness2024(dpi, pill);
+		int width = rect.Width - (inset * 2);
+		if (width <= thickness)
+		{
+			return false;
+		}
+
+		// Keep the lower curve, and the halo when it is on, inside the tab.
+		int y = rect.Bottom - thickness - RibbonTabMarkBelow2024(dpi, pill, glow);
+		if (y < rect.Y)
+		{
+			y = rect.Y;
+		}
+
+		mark = new Rectangle(rect.X + inset, y, width, thickness);
+		return true;
+	}
+
+	/// <summary>
+	/// Height Office 2024 tabs should leave under the label so the line and its glow stay clear of the text.
+	/// </summary>
+	/// <param name="dpiY">Vertical DPI scale, where 1 is 96 DPI.</param>
+	/// <param name="pill">True when the mark is a pill-shaped line.</param>
+	/// <param name="glow">True when the soft halo is enabled.</param>
+	/// <returns>Bottom padding in pixels.</returns>
+	internal static int RibbonTabMarkBand2024(float dpiY, bool pill, bool glow)
+	{
+		float dpi = dpiY <= 0f ? 1f : dpiY;
+		int thickness = RibbonTabMarkThickness2024(dpi, pill);
+		int below = RibbonTabMarkBelow2024(dpi, pill, glow);
+		int gap = Math.Max(4, (int)Math.Round(4f * dpi));
+		return thickness + below + gap;
+	}
+
+	private static int RibbonTabMarkBelow2024(float dpi, bool pill, bool glow)
+	{
+		int below = pill ? Math.Max(1, (int)Math.Round(dpi)) : 0;
+		if (!glow)
+		{
+			return below;
+		}
+
+		// Room under the line for the lower half of the bloom. The gap above the line stays put.
+		int haloBelow = Math.Max(RibbonTabGlowSpread2024 / 2, (int)Math.Round((RibbonTabGlowSpread2024 / 2f) * dpi));
+		return haloBelow > below ? haloBelow : below;
+	}
+
+	private static int RibbonTabMarkThickness2024(float dpi, bool pill)
+	{
+		int thickness = pill
+			? Math.Max(8, (int)Math.Round(10f * dpi))
+			: Math.Max(2, (int)Math.Round(3f * dpi));
+		if (pill && (thickness & 1) == 1)
+		{
+			thickness++;
+		}
+
+		return thickness;
+	}
+
+	/// <summary>
+	/// Stadium path. <see cref="CommonHelper.RoundedRectanglePath"/> flattens a radius of half the height.
+	/// </summary>
+	private static GraphicsPath PillLinePath(Rectangle mark)
+	{
+		var path = new GraphicsPath();
+		var bounds = new RectangleF(mark.X, mark.Y, mark.Width, mark.Height);
+		if (mark.Width <= mark.Height)
+		{
+			path.AddEllipse(bounds);
+			return path;
+		}
+
+		float diameter = mark.Height;
+		path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 90f, 180f);
+		path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270f, 180f);
+		path.CloseFigure();
+		return path;
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 group area as its own rounded card, inset from the ribbon edges.
+	/// Color 1 is the fill. All four corners are rounded. The tab strip is painted separately and stays square.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Group-area bounds.</param>
+	/// <param name="body">Ribbon body color.</param>
+	protected static void DrawRibbonGroupArea2024(RenderContext context, Rectangle rect, Color body)
+	{
+		if (body.IsEmpty || rect.Width <= 8 || rect.Height <= 8)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int inset = Math.Max(3, (int)(6 * dpi));
+		int radius = Math.Max(6, (int)(10 * dpi));
+		var rounded = new Rectangle(rect.X + inset, rect.Y + inset, Math.Max(0, rect.Width - (inset * 2)), Math.Max(0, rect.Height - (inset * 2)));
+		if (rounded.Width <= radius || rounded.Height <= radius)
+		{
+			return;
+		}
+
+		SmoothingMode previous = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		using (GraphicsPath path = RoundedRectanglePath(rounded, radius))
+		using (var brush = new SolidBrush(body))
+		{
+			context.Graphics.FillPath(brush, path);
+		}
+
+		context.Graphics.SmoothingMode = previous;
+	}
+
+	/// <summary>
+	/// Gets the inset rounded card used by <see cref="DrawRibbonGroupArea2024"/>.
+	/// </summary>
+	/// <param name="rect">Group-area bounds.</param>
+	/// <param name="dpi">Horizontal DPI scale (1 at 96 DPI).</param>
+	/// <param name="card">Inset card, when the area is large enough to round.</param>
+	/// <returns><see langword="true"/> when <paramref name="card"/> can be drawn.</returns>
+	internal static bool TryGetRibbonGroupArea2024Card(Rectangle rect, float dpi, out Rectangle card)
+	{
+		int inset = Math.Max(3, (int)(6 * dpi));
+		int radius = Math.Max(6, (int)(10 * dpi));
+		card = new Rectangle(rect.X + inset, rect.Y + inset, Math.Max(0, rect.Width - (inset * 2)), Math.Max(0, rect.Height - (inset * 2)));
+		return rect.Width > 8 && rect.Height > 8 && card.Width > radius && card.Height > radius;
+	}
+
+	/// <summary>
+	/// Draw one Office 2024 group card. <paramref name="card"/> is the final bounds and is not inset again.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="card">Card bounds.</param>
+	/// <param name="body">Ribbon body color.</param>
+	/// <param name="bevel"><see langword="true"/> to stroke a light top-left and dark bottom-right edge.</param>
+	/// <param name="light">Light edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="dark">Dark edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="bevelSize">Visible bevel width in pixels at 96 DPI.</param>
+	internal static void DrawRibbonGroupArea2024Exact(RenderContext context, Rectangle card, Color body, bool bevel, Color light, Color dark, int bevelSize)
+	{
+		if (body.IsEmpty || card.Width <= 4 || card.Height <= 4)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int radius = Math.Max(6, (int)(10 * dpi));
+		if (card.Width <= radius || card.Height <= radius)
+		{
+			return;
+		}
+
+		SmoothingMode previous = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		using (GraphicsPath path = RoundedRectanglePath(card, radius))
+		using (var brush = new SolidBrush(body))
+		{
+			context.Graphics.FillPath(brush, path);
+		}
+
+		context.Graphics.SmoothingMode = previous;
+		if (bevel)
+		{
+			DrawRibbonGroupArea2024BevelOnCard(context, card, radius, dpi, body, light, dark, bevelSize);
+		}
+	}
+
+	/// <summary>
+	/// Draw the optional Office 2024 group-area bevel on the same rounded card as <see cref="DrawRibbonGroupArea2024"/>.
+	/// Empty light or dark colours are derived from <paramref name="body"/>.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Group-area bounds.</param>
+	/// <param name="body">Ribbon body color.</param>
+	/// <param name="light">Light top-left edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="dark">Dark bottom-right edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="bevelSize">Visible bevel width in pixels at 96 DPI.</param>
+	internal static void DrawRibbonGroupArea2024Bevel(RenderContext context, Rectangle rect, Color body, Color light, Color dark, int bevelSize)
+	{
+		if (body.IsEmpty || rect.Width <= 8 || rect.Height <= 8)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int inset = Math.Max(3, (int)(6 * dpi));
+		int radius = Math.Max(6, (int)(10 * dpi));
+		var rounded = new Rectangle(rect.X + inset, rect.Y + inset, Math.Max(0, rect.Width - (inset * 2)), Math.Max(0, rect.Height - (inset * 2)));
+		if (rounded.Width <= radius || rounded.Height <= radius)
+		{
+			return;
+		}
+
+		DrawRibbonGroupArea2024BevelOnCard(context, rounded, radius, dpi, body, light, dark, bevelSize);
+	}
+
+	private static void DrawRibbonGroupArea2024BevelOnCard(RenderContext context, Rectangle rounded, int radius, float dpi, Color body, Color light, Color dark, int bevelSize)
+	{
+		Color lightEdge = light.IsEmpty ? ShiftColor(body, 56) : light;
+		Color darkEdge = dark.IsEmpty ? ShiftColor(body, -48) : dark;
+		// Half the stroke is clipped away, so the pen is twice the visible width.
+		int size = bevelSize < 1 ? 1 : bevelSize;
+		float thickness = Math.Max(1f, size * 2f * dpi);
+		SmoothingMode previous = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		using (GraphicsPath path = RoundedRectanglePath(rounded, radius))
+		using (var lightPen = new Pen(lightEdge, thickness))
+		using (var darkPen = new Pen(darkEdge, thickness))
+		{
+			GraphicsState state = context.Graphics.Save();
+			context.Graphics.SetClip(path, CombineMode.Intersect);
+			using (var clip = new GraphicsPath())
+			{
+				clip.AddPolygon(new[]
+				{
+					new Point(rounded.Left - 2, rounded.Top - 2),
+					new Point(rounded.Right + 2, rounded.Top - 2),
+					new Point(rounded.Left - 2, rounded.Bottom + 2)
+				});
+				context.Graphics.SetClip(clip, CombineMode.Intersect);
+				context.Graphics.DrawPath(lightPen, path);
+			}
+
+			context.Graphics.Restore(state);
+			state = context.Graphics.Save();
+			context.Graphics.SetClip(path, CombineMode.Intersect);
+			using (var clip = new GraphicsPath())
+			{
+				clip.AddPolygon(new[]
+				{
+					new Point(rounded.Right + 2, rounded.Top - 2),
+					new Point(rounded.Right + 2, rounded.Bottom + 2),
+					new Point(rounded.Left - 2, rounded.Bottom + 2)
+				});
+				context.Graphics.SetClip(clip, CombineMode.Intersect);
+				context.Graphics.DrawPath(darkPen, path);
+			}
+
+			context.Graphics.Restore(state);
+		}
+
+		context.Graphics.SmoothingMode = previous;
+	}
+
+	private static Color ShiftColor(Color color, int delta) =>
+		Color.FromArgb(color.A,
+			ClampChannel(color.R + delta),
+			ClampChannel(color.G + delta),
+			ClampChannel(color.B + delta));
+
+	private static int ClampChannel(int channel) => channel < 0 ? 0 : channel > 255 ? 255 : channel;
+
+	private static GraphicsPath RoundedRectanglePath(Rectangle rect, int radius)
+	{
+		var path = new GraphicsPath();
+		int diameter = Math.Min(radius * 2, Math.Min(rect.Width, rect.Height));
+		path.AddArc(rect.Left, rect.Top, diameter, diameter, 180f, 90f);
+		path.AddArc(rect.Right - diameter, rect.Top, diameter, diameter, 270f, 90f);
+		path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0f, 90f);
+		path.AddArc(rect.Left, rect.Bottom - diameter, diameter, diameter, 90f, 90f);
+		path.CloseFigure();
+		return path;
 	}
 
 	/// <summary>
@@ -2783,6 +3301,7 @@ public class RenderStandard : RenderBase
 			case PaletteRibbonShape.Office2010:
 			case PaletteRibbonShape.OSXAqua:
 			case PaletteRibbonShape.MacOS:
+			case PaletteRibbonShape.Office2024:
 			{
 				var dialogBrush = new LinearGradientBrush(
 					new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
@@ -2867,6 +3386,7 @@ public class RenderStandard : RenderBase
 			case PaletteRibbonShape.Office2010:
 			case PaletteRibbonShape.OSXAqua:
 			case PaletteRibbonShape.MacOS:
+			case PaletteRibbonShape.Office2024:
 				{
 				using var fillBrush = new LinearGradientBrush(
 					new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
@@ -3207,6 +3727,10 @@ public class RenderStandard : RenderBase
 				context.Graphics.DrawLine(lightPen, x, displayRect.Top + 2, x, displayRect.Bottom - 3);
 				context.Graphics.DrawLine(darkPen, x + 1, displayRect.Top + 2, x + 1, displayRect.Bottom - 3);
 			}
+				break;
+
+			case PaletteRibbonShape.Office2024:
+				// Groups are separated by spacing only.
 				break;
 
 			case PaletteRibbonShape.Office2010:

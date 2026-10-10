@@ -208,10 +208,16 @@ internal class ViewLayoutRibbonContextTitles : ViewLayoutDocker
         }
     }
 
+    // Older shapes keep the caption title. Office 2024 shows it only when ShowContextTitles is set.
+    private bool ShowCaptionContextTitles =>
+        _ribbon.RibbonShape != PaletteRibbonShape.Office2024
+        || _ribbon.StateCommon.RibbonGeneral.ShowContextTitles;
+
     private void SyncChildrenToContexts()
     {
         // Context titles mimic tab strip geometry — nothing to show in toolbar mode.
-        if (!_ribbon.ShowTabHeaders)
+        // Office 2024 hides caption context titles unless the ribbon asks for them.
+        if (!_ribbon.ShowTabHeaders || !ShowCaptionContextTitles)
         {
             ClearContextTitles();
             return;
