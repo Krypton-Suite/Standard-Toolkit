@@ -14,6 +14,10 @@ namespace Krypton.Toolkit;
 /// </summary>
 public abstract class KryptonDesignerCollectionEditor : CollectionEditor
 {
+    #region Instance Fields
+    private ITypeDescriptorContext? _editorContext;
+    #endregion
+
     #region Identity
     
     /// <summary>
@@ -32,7 +36,10 @@ public abstract class KryptonDesignerCollectionEditor : CollectionEditor
     /// <summary>
     /// Gets the designer context for the current edit session.
     /// </summary>
-    internal ITypeDescriptorContext? DesignerContext => Context;
+    /// <remarks>
+    /// <see cref="CollectionEditor.EditValue"/> stores this on the base editor. The Krypton form hosts its own dialog, so the context passed to <see cref="EditValue"/> is kept here for <see cref="IDesignerHost"/> creation and the property grid.
+    /// </remarks>
+    internal ITypeDescriptorContext? DesignerContext => _editorContext ?? Context;
 
     /// <summary>
     /// Extracts the items from the collection instance being edited.
@@ -103,17 +110,52 @@ public abstract class KryptonDesignerCollectionEditor : CollectionEditor
         /// <inheritdoc />
         public override object? EditValue(ITypeDescriptorContext? context, IServiceProvider? provider, object? value)
         {
-            if (provider?.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService editorService)
+            // The base editor only records this inside its own EditValue. Keep it for CreateInstance and the dialog.
+            _editorContext = context;
+            try
             {
-                using var form = CreateKryptonDesignerCollectionForm();
-                form.InitializeEditValue(value);
-                if (editorService.ShowDialog(form) == DialogResult.OK)
+                if (provider?.GetService(typeof(IWindowsFormsEditorService)) is IWindowsFormsEditorService editorService)
                 {
-                    value = form.EditValue;
+                    using var form = CreateKryptonDesignerCollectionForm();
+                    form.InitializeEditValue(value);
+                    if (editorService.ShowDialog(form) == DialogResult.OK)
+                    {
+                        value = form.EditValue;
+                    }
                 }
+
+                return value;
+            }
+            finally
+            {
+                _editorContext = null;
+            }
+        }
+
+        /// <inheritdoc />
+        protected override object CreateInstance(Type itemType)
+        {
+            // Sited components receive a designer name (buttonSpecAny1) that the property grid can edit.
+            var host = DesignerContext?.GetService(typeof(IDesignerHost)) as IDesignerHost;
+            if (host != null && typeof(IComponent).IsAssignableFrom(itemType))
+            {
+                return CommonHelper.CreateInstance(itemType, host);
             }
 
-            return value;
+            return base.CreateInstance(itemType);
+        }
+
+        /// <inheritdoc />
+        protected override void DestroyInstance(object instance)
+        {
+            var host = DesignerContext?.GetService(typeof(IDesignerHost)) as IDesignerHost;
+            if (host != null && instance is IComponent)
+            {
+                CommonHelper.DestroyInstance(instance, host);
+                return;
+            }
+
+            base.DestroyInstance(instance);
         }
         #endregion
 }

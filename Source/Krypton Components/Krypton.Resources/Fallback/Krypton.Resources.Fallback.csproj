@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<!-- Same assembly identity as the full resource bank so AssemblyResolve can substitute it. -->
+		<AssemblyName>Krypton.Resources</AssemblyName>
+		<RootNamespace>Krypton.Toolkit</RootNamespace>
+		<IsPackable>false</IsPackable>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<EnableNETAnalyzers>false</EnableNETAnalyzers>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>..\StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<Nullable>disable</Nullable>
+		<NoWarn>$(NoWarn);CS1591;CA1812;NU1510</NoWarn>
+		<Description>Placeholder Krypton.Resources used only when the full resource DLL is missing. Not shipped as its own file.</Description>
+		<!-- Keep this out of Bin so it cannot overwrite the real Krypton.Resources.dll. -->
+		<KryptonOverrideOutputPath>$(MSBuildProjectDirectory)\obj\fallback-bin\$(Configuration)\$(TargetFramework)\</KryptonOverrideOutputPath>
+	</PropertyGroup>
+
+	<!-- Toolkit builds one TFM at a time. Directory.Build.props would otherwise multi-target the inner build. -->
+	<PropertyGroup Condition="'$(KryptonFallbackSingleTargetFramework)' != ''">
+		<TargetFrameworks>$(KryptonFallbackSingleTargetFramework)</TargetFrameworks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Generated stubs for every TFM sit under obj. Compile only the file added by GenerateKryptonResourceFallback. -->
+		<Compile Remove="obj\**\*.cs" />
+		<EmbeddedResource Remove="obj\**\*" />
+		<None Remove="obj\**\*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Include="..\Global\GlobalDeclarations.cs" Link="Global\GlobalDeclarations.cs" />
+		<Compile Include="..\ResourceFiles\OutlookGrid\Strings\OutlookGridStringResources.Designer.cs" Link="ResourceFiles\OutlookGrid\Strings\OutlookGridStringResources.Designer.cs" />
+		<Compile Include="..\ResourceFiles\PaletteSchemas\PaletteSchemaResources.Designer.cs" Link="ResourceFiles\PaletteSchemas\PaletteSchemaResources.Designer.cs" />
+		<Compile Include="..\ResourceFiles\Cursors\CursorResources.Designer.cs" Link="ResourceFiles\Cursors\CursorResources.Designer.cs" />
+		<EmbeddedResource Include="..\ResourceFiles\OutlookGrid\Strings\OutlookGridStringResources.resx" Link="ResourceFiles\OutlookGrid\Strings\OutlookGridStringResources.resx" />
+		<EmbeddedResource Include="..\ResourceFiles\PaletteSchemas\PaletteSchemaResources.resx" Link="ResourceFiles\PaletteSchemas\PaletteSchemaResources.resx" />
+		<EmbeddedResource Include="..\ResourceFiles\Cursors\CursorResources.resx" Link="ResourceFiles\Cursors\CursorResources.resx" />
+	</ItemGroup>
+
+	<Target Name="GenerateKryptonResourceFallback" BeforeTargets="CoreCompile">
+		<Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\New-KryptonResourceFallback.ps1&quot; -OutputPath &quot;$(IntermediateOutputPath)KryptonResourceFallbackImages.g.cs&quot;" />
+		<ItemGroup>
+			<Compile Include="$(IntermediateOutputPath)KryptonResourceFallbackImages.g.cs" />
+		</ItemGroup>
+	</Target>
+
+</Project>
