@@ -147,6 +147,18 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_LIGHT_BLUE = @"Office 2013 - Materialize Light Blue";
     internal const string DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_LIGHT_BLUE_DARK = @"Office 2013 - Materialize Light Blue - Dark Mode";
     internal const string DEFAULT_PALETTE_OFFICE_2013_SILVER_DARK_MODE_ALTERNATE = @"Office 2013 - Silver (Dark Mode - Alternate)";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_WHITE = @"Office 2024 - White";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_LIGHT_GRAY = @"Office 2024 - Light Gray";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_DARK_GRAY = @"Office 2024 - Dark Gray";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_BLACK = @"Office 2024 - Black";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_BLUE = @"Office 2024 - Blue";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_BLUE_DARK_MODE = @"Office 2024 - Blue (Dark Mode)";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_BLUE_LIGHT_MODE = @"Office 2024 - Blue (Light Mode)";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_SILVER = @"Office 2024 - Silver";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_SILVER_DARK_MODE = @"Office 2024 - Silver (Dark Mode)";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_SILVER_LIGHT_MODE = @"Office 2024 - Silver (Light Mode)";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE = @"Office 2024 - Black (Dark Mode)";
+    internal const string DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE_ALTERNATE = @"Office 2024 - Black (Dark Mode - Alternate)";
     internal const string DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_BLUE = @"Microsoft 365 - Materialize Blue";
     internal const string DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_BLUE_DARK = @"Microsoft 365 - Materialize Blue - Dark Mode";
     internal const string DEFAULT_PALETTE_MICROSOFT_365_MATERIALIZE_LIGHT_BLUE = @"Microsoft 365 - Materialize Light Blue";
@@ -162,18 +174,6 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE_DARK_RIPPLE = @"Material - Materialize Light Blue - Dark Mode (Ripple)";
     internal const string DEFAULT_PALETTE_MATERIAL_SILVER_DARK_MODE_ALTERNATE = @"Material - Silver (Dark Mode - Alternate)";
     internal const string DEFAULT_PALETTE_MATERIAL_SILVER_DARK_MODE_ALTERNATE_RIPPLE = @"Material - Silver (Dark Mode - Alternate) (Ripple)";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_WHITE = @"Office 2024 - White";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_LIGHT_GRAY = @"Office 2024 - Light Gray";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_DARK_GRAY = @"Office 2024 - Dark Gray";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_BLACK = @"Office 2024 - Black";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_BLUE = @"Office 2024 - Blue";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_BLUE_DARK_MODE = @"Office 2024 - Blue (Dark Mode)";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_BLUE_LIGHT_MODE = @"Office 2024 - Blue (Light Mode)";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_SILVER = @"Office 2024 - Silver";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_SILVER_DARK_MODE = @"Office 2024 - Silver (Dark Mode)";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_SILVER_LIGHT_MODE = @"Office 2024 - Silver (Light Mode)";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE = @"Office 2024 - Black (Dark Mode)";
-    internal const string DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE_ALTERNATE = @"Office 2024 - Black (Dark Mode - Alternate)";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -247,6 +247,18 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_LIGHT_BLUE, PaletteMode.Office2013MaterializeLightBlue },
             { DEFAULT_PALETTE_OFFICE_2013_MATERIALIZE_LIGHT_BLUE_DARK, PaletteMode.Office2013MaterializeLightBlueDark },
             { DEFAULT_PALETTE_OFFICE_2013_SILVER_DARK_MODE_ALTERNATE, PaletteMode.Office2013SilverDarkModeAlternate },
+            { DEFAULT_PALETTE_OFFICE_2024_WHITE, PaletteMode.Office2024White },
+            { DEFAULT_PALETTE_OFFICE_2024_LIGHT_GRAY, PaletteMode.Office2024LightGray },
+            { DEFAULT_PALETTE_OFFICE_2024_DARK_GRAY, PaletteMode.Office2024DarkGray },
+            { DEFAULT_PALETTE_OFFICE_2024_BLACK, PaletteMode.Office2024Black },
+            { DEFAULT_PALETTE_OFFICE_2024_BLUE, PaletteMode.Office2024Blue },
+            { DEFAULT_PALETTE_OFFICE_2024_BLUE_DARK_MODE, PaletteMode.Office2024BlueDarkMode },
+            { DEFAULT_PALETTE_OFFICE_2024_BLUE_LIGHT_MODE, PaletteMode.Office2024BlueLightMode },
+            { DEFAULT_PALETTE_OFFICE_2024_SILVER, PaletteMode.Office2024Silver },
+            { DEFAULT_PALETTE_OFFICE_2024_SILVER_DARK_MODE, PaletteMode.Office2024SilverDarkMode },
+            { DEFAULT_PALETTE_OFFICE_2024_SILVER_LIGHT_MODE, PaletteMode.Office2024SilverLightMode },
+            { DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE, PaletteMode.Office2024BlackDarkMode },
+            { DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE_ALTERNATE, PaletteMode.Office2024BlackDarkModeAlternate },
             { DEFAULT_PALETTE_SPARKLE_BLUE, PaletteMode.SparkleBlue },
             { DEFAULT_PALETTE_SPARKLE_BLUE_DARK_MODE, PaletteMode.SparkleBlueDarkMode },
             { DEFAULT_PALETTE_SPARKLE_BLUE_LIGHT_MODE, PaletteMode.SparkleBlueLightMode },
@@ -338,18 +350,6 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_HIGH_CONTRAST, PaletteMode.HighContrast },
             { DEFAULT_PALETTE_DEUTERANOPIA, PaletteMode.Deuteranopia },
             { DEFAULT_PALETTE_PROTANOPIA, PaletteMode.Protanopia },
-            { DEFAULT_PALETTE_OFFICE_2024_WHITE, PaletteMode.Office2024White },
-            { DEFAULT_PALETTE_OFFICE_2024_LIGHT_GRAY, PaletteMode.Office2024LightGray },
-            { DEFAULT_PALETTE_OFFICE_2024_DARK_GRAY, PaletteMode.Office2024DarkGray },
-            { DEFAULT_PALETTE_OFFICE_2024_BLACK, PaletteMode.Office2024Black },
-            { DEFAULT_PALETTE_OFFICE_2024_BLUE, PaletteMode.Office2024Blue },
-            { DEFAULT_PALETTE_OFFICE_2024_BLUE_DARK_MODE, PaletteMode.Office2024BlueDarkMode },
-            { DEFAULT_PALETTE_OFFICE_2024_BLUE_LIGHT_MODE, PaletteMode.Office2024BlueLightMode },
-            { DEFAULT_PALETTE_OFFICE_2024_SILVER, PaletteMode.Office2024Silver },
-            { DEFAULT_PALETTE_OFFICE_2024_SILVER_DARK_MODE, PaletteMode.Office2024SilverDarkMode },
-            { DEFAULT_PALETTE_OFFICE_2024_SILVER_LIGHT_MODE, PaletteMode.Office2024SilverLightMode },
-            { DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE, PaletteMode.Office2024BlackDarkMode },
-            { DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE_ALTERNATE, PaletteMode.Office2024BlackDarkModeAlternate },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 
@@ -404,6 +404,18 @@ public class PaletteModeStrings : GlobalId
         Office2013DarkGray.Equals(DEFAULT_PALETTE_OFFICE_2013_DARK_GRAY) &&
         Office2013LightGray.Equals(DEFAULT_PALETTE_OFFICE_2013_LIGHT_GRAY) &&
         Office2013White.Equals(DEFAULT_PALETTE_OFFICE_2013_WHITE) &&
+        Office2024White.Equals(DEFAULT_PALETTE_OFFICE_2024_WHITE) &&
+        Office2024LightGray.Equals(DEFAULT_PALETTE_OFFICE_2024_LIGHT_GRAY) &&
+        Office2024DarkGray.Equals(DEFAULT_PALETTE_OFFICE_2024_DARK_GRAY) &&
+        Office2024Black.Equals(DEFAULT_PALETTE_OFFICE_2024_BLACK) &&
+        Office2024Blue.Equals(DEFAULT_PALETTE_OFFICE_2024_BLUE) &&
+        Office2024BlueDarkMode.Equals(DEFAULT_PALETTE_OFFICE_2024_BLUE_DARK_MODE) &&
+        Office2024BlueLightMode.Equals(DEFAULT_PALETTE_OFFICE_2024_BLUE_LIGHT_MODE) &&
+        Office2024Silver.Equals(DEFAULT_PALETTE_OFFICE_2024_SILVER) &&
+        Office2024SilverDarkMode.Equals(DEFAULT_PALETTE_OFFICE_2024_SILVER_DARK_MODE) &&
+        Office2024SilverLightMode.Equals(DEFAULT_PALETTE_OFFICE_2024_SILVER_LIGHT_MODE) &&
+        Office2024BlackDarkMode.Equals(DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE) &&
+        Office2024BlackDarkModeAlternate.Equals(DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE_ALTERNATE) &&
         Microsoft365Black.Equals(DEFAULT_PALETTE_MICROSOFT_365_BLACK) &&
         Microsoft365BlackDarkMode.Equals(DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE) &&
         Microsoft365BlackDarkModeAlternate.Equals(DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE_ALTERNATE) &&
@@ -428,19 +440,7 @@ public class PaletteModeStrings : GlobalId
         VisualStudio2010With2007Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2007) &&
         VisualStudio2010With2010Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2010) &&
         VisualStudio2010With2013Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013) &&
-        VisualStudio2010With365Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365) &&
-        Office2024White.Equals(DEFAULT_PALETTE_OFFICE_2024_WHITE) &&
-        Office2024LightGray.Equals(DEFAULT_PALETTE_OFFICE_2024_LIGHT_GRAY) &&
-        Office2024DarkGray.Equals(DEFAULT_PALETTE_OFFICE_2024_DARK_GRAY) &&
-        Office2024Black.Equals(DEFAULT_PALETTE_OFFICE_2024_BLACK) &&
-        Office2024Blue.Equals(DEFAULT_PALETTE_OFFICE_2024_BLUE) &&
-        Office2024BlueDarkMode.Equals(DEFAULT_PALETTE_OFFICE_2024_BLUE_DARK_MODE) &&
-        Office2024BlueLightMode.Equals(DEFAULT_PALETTE_OFFICE_2024_BLUE_LIGHT_MODE) &&
-        Office2024Silver.Equals(DEFAULT_PALETTE_OFFICE_2024_SILVER) &&
-        Office2024SilverDarkMode.Equals(DEFAULT_PALETTE_OFFICE_2024_SILVER_DARK_MODE) &&
-        Office2024SilverLightMode.Equals(DEFAULT_PALETTE_OFFICE_2024_SILVER_LIGHT_MODE) &&
-        Office2024BlackDarkMode.Equals(DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE) &&
-        Office2024BlackDarkModeAlternate.Equals(DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE_ALTERNATE);
+        VisualStudio2010With365Renderer.Equals(DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365);
 
     public void Reset()
     {
@@ -500,6 +500,30 @@ public class PaletteModeStrings : GlobalId
 
         Office2013White = DEFAULT_PALETTE_OFFICE_2013_WHITE;
 
+        Office2024White = DEFAULT_PALETTE_OFFICE_2024_WHITE;
+
+        Office2024LightGray = DEFAULT_PALETTE_OFFICE_2024_LIGHT_GRAY;
+
+        Office2024DarkGray = DEFAULT_PALETTE_OFFICE_2024_DARK_GRAY;
+
+        Office2024Black = DEFAULT_PALETTE_OFFICE_2024_BLACK;
+
+        Office2024Blue = DEFAULT_PALETTE_OFFICE_2024_BLUE;
+
+        Office2024BlueDarkMode = DEFAULT_PALETTE_OFFICE_2024_BLUE_DARK_MODE;
+
+        Office2024BlueLightMode = DEFAULT_PALETTE_OFFICE_2024_BLUE_LIGHT_MODE;
+
+        Office2024Silver = DEFAULT_PALETTE_OFFICE_2024_SILVER;
+
+        Office2024SilverDarkMode = DEFAULT_PALETTE_OFFICE_2024_SILVER_DARK_MODE;
+
+        Office2024SilverLightMode = DEFAULT_PALETTE_OFFICE_2024_SILVER_LIGHT_MODE;
+
+        Office2024BlackDarkMode = DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE;
+
+        Office2024BlackDarkModeAlternate = DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE_ALTERNATE;
+
         Microsoft365Black = DEFAULT_PALETTE_MICROSOFT_365_BLACK;
 
         Microsoft365BlackDarkMode = DEFAULT_PALETTE_MICROSOFT_365_BLACK_DARK_MODE;
@@ -549,30 +573,6 @@ public class PaletteModeStrings : GlobalId
         VisualStudio2010With2013Renderer = DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_2013;
 
         VisualStudio2010With365Renderer = DEFAULT_PALETTE_VISUAL_STUDIO_2010_RENDER_365;
-
-        Office2024White = DEFAULT_PALETTE_OFFICE_2024_WHITE;
-
-        Office2024LightGray = DEFAULT_PALETTE_OFFICE_2024_LIGHT_GRAY;
-
-        Office2024DarkGray = DEFAULT_PALETTE_OFFICE_2024_DARK_GRAY;
-
-        Office2024Black = DEFAULT_PALETTE_OFFICE_2024_BLACK;
-
-        Office2024Blue = DEFAULT_PALETTE_OFFICE_2024_BLUE;
-
-        Office2024BlueDarkMode = DEFAULT_PALETTE_OFFICE_2024_BLUE_DARK_MODE;
-
-        Office2024BlueLightMode = DEFAULT_PALETTE_OFFICE_2024_BLUE_LIGHT_MODE;
-
-        Office2024Silver = DEFAULT_PALETTE_OFFICE_2024_SILVER;
-
-        Office2024SilverDarkMode = DEFAULT_PALETTE_OFFICE_2024_SILVER_DARK_MODE;
-
-        Office2024SilverLightMode = DEFAULT_PALETTE_OFFICE_2024_SILVER_LIGHT_MODE;
-
-        Office2024BlackDarkMode = DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE;
-
-        Office2024BlackDarkModeAlternate = DEFAULT_PALETTE_OFFICE_2024_BLACK_DARK_MODE_ALTERNATE;
     }
 
     /// <summary>Gets or sets the custom palette name string.</summary>
