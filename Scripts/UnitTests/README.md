@@ -213,3 +213,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 
 Writes `Documents/PR/3859-ribbon-caption-palette-*.png` (local PR assets; do not commit).
 
+## Typical usage (#4483 dark mode themes)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net8.0-windows
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-DarkModeThemeScreenshots.ps1 -TargetFramework net8.0-windows
+```
+
+Writes `Documents/PR/4483-dark-*.png` (local PR assets; do not commit).
+
