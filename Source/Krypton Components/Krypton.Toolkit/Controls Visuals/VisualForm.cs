@@ -1384,7 +1384,7 @@ public abstract class VisualForm : Form,
 	/// <summary>
 	/// Gets whether automatic fade-in should run for this show.
 	/// </summary>
-	protected bool CanAutoFadeIn => !DesignMode && FadeValues.FadingEnabled && FadeValues.FadeIn;
+	protected bool CanAutoFadeIn => !DesignMode && FadeValues is { FadingEnabled: true, FadeIn: true };
 
 	private static bool IsImmediateCloseReason(CloseReason closeReason) =>
 		closeReason is CloseReason.WindowsShutDown or CloseReason.TaskManagerClosing or CloseReason.ApplicationExitCall;

@@ -153,12 +153,12 @@ public sealed class Feature3959WorkspacePageTagPersistDemo : KryptonForm
 
         while (reader.Read())
         {
-            if (reader.NodeType == XmlNodeType.EndElement && reader.Name == @"CPD")
+            if (reader is { NodeType: XmlNodeType.EndElement, Name: @"CPD" })
             {
                 break;
             }
 
-            if (reader.NodeType == XmlNodeType.Element && reader.Name == CustomElement)
+            if (reader is { NodeType: XmlNodeType.Element, Name: CustomElement })
             {
                 string name = reader.GetAttribute(@"Name") ?? string.Empty;
                 int value = int.TryParse(reader.GetAttribute(@"Value"), NumberStyles.Integer, CultureInfo.InvariantCulture, out int parsed)

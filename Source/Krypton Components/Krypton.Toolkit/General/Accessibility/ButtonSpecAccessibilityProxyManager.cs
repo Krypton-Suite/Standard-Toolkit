@@ -63,7 +63,7 @@ internal sealed class ButtonSpecAccessibilityProxyManager : IDisposable
 
             public override void DoDefaultAction()
             {
-                if (_owner.Enabled && _owner.Visible)
+                if (_owner is { Enabled: true, Visible: true })
                 {
                     _owner.ButtonSpec.PerformClick();
                 }

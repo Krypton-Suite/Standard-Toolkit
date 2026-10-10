@@ -94,17 +94,35 @@ public partial class ModalWaitDialog : KryptonForm, IMessageFilter
     /// </summary>
     private void ConfigureLayout()
     {
-        const int minClientWidth = 460;
-        const int minClientHeight = 110;
-
-        MinimumSize = new Size(400, 100);
-
-        if (ClientSize.Width < minClientWidth || ClientSize.Height < minClientHeight)
+        // Measure after AutoScale has run. The constructor calls this before the handle exists.
+        if (IsHandleCreated)
         {
-            ClientSize = new Size(
-                Math.Max(ClientSize.Width, minClientWidth),
-                Math.Max(ClientSize.Height, minClientHeight));
+            LayoutMessage();
         }
+    }
+
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        LayoutMessage();
+    }
+
+    /// <summary>
+    /// Sizes the wait dialog from the message text, the spinner, and the optional progress bar.
+    /// </summary>
+    private void LayoutMessage()
+    {
+        kwlMessage.AutoSize = false;
+        Font font = kwlMessage.Font ?? SystemFonts.MessageBoxFont ?? SystemFonts.DefaultFont;
+        var progress = kpbModalProgress.Visible ? kpbModalProgress.Height + 12 : 0;
+        KryptonDialogLayout.FitClientToText(
+            this,
+            kwlMessage.Text,
+            font,
+            new Size(160, 36 + progress),
+            new Size(320, 96),
+            null);
     }
 
     /// <summary>

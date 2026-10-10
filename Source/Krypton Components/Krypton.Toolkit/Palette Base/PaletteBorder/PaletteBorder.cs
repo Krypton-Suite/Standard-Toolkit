@@ -755,7 +755,7 @@ public class PaletteBorder : Storage,
     /// </summary>
     /// <returns>Configured rounding, or -1 when no positive override exists.</returns>
     public float GetConfiguredRounding() =>
-        _storage != null && _storage.BorderRounding > 0f ? _storage.BorderRounding : -1f;
+        _storage is { BorderRounding: > 0f } ? _storage.BorderRounding : -1f;
 
     /// <summary>
     /// Gets and sets per-corner border rounding.
@@ -778,7 +778,7 @@ public class PaletteBorder : Storage,
         }
     }
 
-    private bool ShouldSerializeCornerRounding() => !CornerRounding.HasInherit && !CornerRounding.IsUniform;
+    private bool ShouldSerializeCornerRounding() => CornerRounding is { HasInherit: false, IsUniform: false };
 
     private void ResetCornerRounding()
     {

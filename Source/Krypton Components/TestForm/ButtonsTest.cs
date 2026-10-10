@@ -75,7 +75,7 @@ public partial class ButtonsTest : KryptonForm
 
     private void KryptonCalcInput1_ButtonSpecClicked(object sender, ButtonSpecEventArgs e)
     {
-        if (e.ButtonSpec is ButtonSpecAny any && any.Type == PaletteButtonSpecStyle.Close)
+        if (e.ButtonSpec is ButtonSpecAny { Type: PaletteButtonSpecStyle.Close })
         {
             KryptonCalcInput1.Value = 0m;
         }

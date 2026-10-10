@@ -75,6 +75,7 @@ internal class KryptonManagerDesigner : ComponentDesigner
                     new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson),
                     new DesignerVerb(@"Generate Translation Template (XML)...", OnGenerateTemplateXml),
                     new DesignerVerb(@"Generate Translation Template (JSON)...", OnGenerateTemplateJson),
+                    new DesignerVerb(@"Analyze Translations...", OnAnalyzeTranslations),
                     new DesignerVerb(@"Merge Missing Translations...", OnMergeMissingTranslations),
                     new DesignerVerb(@"Switch Translations Culture...", OnSwitchTranslationsCulture)
                 };
@@ -137,6 +138,9 @@ internal class KryptonManagerDesigner : ComponentDesigner
 
     private void OnGenerateTemplateJson(object? sender, EventArgs e) =>
         KryptonManagerDesignerActions.GenerateTemplateJson(_manager);
+
+    private void OnAnalyzeTranslations(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.AnalyzeTranslations(_manager);
 
     private void OnMergeMissingTranslations(object? sender, EventArgs e) =>
         KryptonManagerDesignerActions.MergeMissingTranslations(_manager, _service);

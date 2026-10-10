@@ -53,7 +53,7 @@ internal static class CustomThemeColorMath
         try
         {
             Color parsed = ColorTranslator.FromHtml(trimmed);
-            if (!parsed.IsEmpty && parsed.A > 0)
+            if (parsed is { IsEmpty: false, A: > 0 })
             {
                 color = parsed;
                 return true;
@@ -287,7 +287,7 @@ internal static class CustomThemeColorMath
             return false;
         }
 
-        return value >= 0 && value <= 255;
+        return value is >= 0 and <= 255;
     }
 
     private static double Linearize(double channel) =>

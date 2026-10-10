@@ -1591,7 +1591,7 @@ public class KryptonScrollbarManager : IDisposable
             RemoveScrollbarFromHost(scrollbar);
         }
 
-        if (host != null && host.IsHandleCreated)
+        if (host is { IsHandleCreated: true })
         {
             AddScrollbarToHost(host, scrollbar);
             scrollbar.BringToFront();
@@ -1654,7 +1654,7 @@ public class KryptonScrollbarManager : IDisposable
         _horizontalScrollBar.Scroll += OnHorizontalScroll;
 
         Control? host = GetScrollbarHostControl();
-        if (host != null && host.IsHandleCreated)
+        if (host is { IsHandleCreated: true })
         {
             AddScrollbarToHost(host, _horizontalScrollBar);
             _horizontalScrollBar.BringToFront();
@@ -1683,7 +1683,7 @@ public class KryptonScrollbarManager : IDisposable
         _verticalScrollBar.Scroll += OnVerticalScroll;
 
         Control? host = GetScrollbarHostControl();
-        if (host != null && host.IsHandleCreated)
+        if (host is { IsHandleCreated: true })
         {
             AddScrollbarToHost(host, _verticalScrollBar);
             _verticalScrollBar.BringToFront();
@@ -1822,7 +1822,7 @@ public class KryptonScrollbarManager : IDisposable
         };
 
         Control? host = GetScrollbarHostControl();
-        if (host != null && host.IsHandleCreated)
+        if (host is { IsHandleCreated: true })
         {
             AddScrollbarToHost(host, _scrollBarCorner);
         }
@@ -1887,17 +1887,17 @@ public class KryptonScrollbarManager : IDisposable
 
     private void BringScrollbarsToFront()
     {
-        if (_scrollBarCorner != null && _scrollBarCorner.Visible)
+        if (_scrollBarCorner is { Visible: true })
         {
             _scrollBarCorner.BringToFront();
         }
 
-        if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
+        if (_horizontalScrollBar is { Visible: true })
         {
             _horizontalScrollBar.BringToFront();
         }
 
-        if (_verticalScrollBar != null && _verticalScrollBar.Visible)
+        if (_verticalScrollBar is { Visible: true })
         {
             _verticalScrollBar.BringToFront();
         }

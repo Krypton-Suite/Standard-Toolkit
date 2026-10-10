@@ -199,7 +199,7 @@ public class FloatingToolbarGroup
             MenuStripNames = MenuStrips.Select(m => m.Name).ToList(),
             Location = _tabbedContainerForm?.Location ?? Point.Empty,
             Size = _tabbedContainerForm?.Size ?? Size.Empty,
-            IsFloating = _tabbedContainerForm != null && _tabbedContainerForm.Visible
+            IsFloating = _tabbedContainerForm is { Visible: true }
         };
     }
 

@@ -48,6 +48,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         Text = $"{CollectionItemTypeName} Collection Editor";
         ApplyButtonSizes();
         _listBox.SelectedIndexChanged += (_, _) => UpdatePropertyGrid();
+        _propertyGrid.PropertyValueChanged += OnPropertyValueChanged;
         ControlBox = false;
         ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(640, 420));
         MinimumSize = KryptonDesignerEditorDpi.Scale(this, new Size(520, 320));
@@ -192,9 +193,29 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
 
         _pendingDestroy.Clear();
         Context?.OnComponentChanged();
+        _standardEditor?.OnDesignerEditCommitted();
     }
 
-    private void OnCancelClick(object? sender, EventArgs e) => RevertSessionChanges();
+    private void OnCancelClick(object? sender, EventArgs e)
+    {
+        RevertSessionChanges();
+        _standardEditor?.OnDesignerEditCancelled();
+    }
+
+    private void OnPropertyValueChanged(object? sender, PropertyValueChangedEventArgs e)
+    {
+        if (_listBox.SelectedItem is not CollectionListItem entry || _standardEditor is null)
+        {
+            return;
+        }
+
+        entry.Text = _standardEditor.GetDesignerDisplayText(entry.Item);
+        _propertiesLabel.Values.Text = string.Format(
+            CultureInfo.CurrentCulture,
+            @"{0} properties",
+            entry.Text);
+        _listBox.Refresh();
+    }
 
     private void RevertSessionChanges()
     {
@@ -261,7 +282,6 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         using var form = new KryptonForm
         {
             ControlBox = false,
-            FormBorderStyle = FormBorderStyle.FixedDialog,
             MaximizeBox = false,
             MinimizeBox = false,
             ShowInTaskbar = false,
@@ -270,6 +290,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
             ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(520, 340)),
             MinimumSize = KryptonDesignerEditorDpi.Scale(this, new Size(500, 300))
         };
+        KryptonDialogLayout.EnableResizable(form);
         form.SetInheritedControlOverride();
         KryptonDesignerEditorTheme.ApplyFromContext(form, Context);
 
@@ -374,7 +395,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
 
         public object Item { get; }
 
-        public string Text { get; }
+        public string Text { get; set; }
 
         public override string ToString() => Text;
     }

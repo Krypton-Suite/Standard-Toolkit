@@ -229,7 +229,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTable2007? _table;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -240,43 +240,43 @@ public abstract class PaletteOffice2007Base : PaletteBase
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the PaletteOffice2007Base class.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
     /// <param name="themeName">The name of the theme.</param>
-    /// <param name="schemeColors">Array of palette specific colors.</param>
+    /// <param name="scheme">Typed color scheme for this palette.</param>
     /// <param name="checkBoxList">List of images for check box.</param>
     /// <param name="galleryButtonList">List of images for gallery buttons.</param>
     /// <param name="radioButtonArray">Array of images for radio button.</param>
-    /// <param name="trackBarColors">Array of track bar specific colors.</param>
-    protected PaletteOffice2007Base(string themeName,
-        [DisallowNull] Color[] schemeColors,
+    protected PaletteOffice2007Base(
+        string themeName,
+        [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
+        [DisallowNull] Image?[] radioButtonArray)
     {
-        Debug.Assert(schemeColors != null);
+        Debug.Assert(scheme != null);
         Debug.Assert(checkBoxList != null);
         Debug.Assert(galleryButtonList != null);
         Debug.Assert(radioButtonArray != null);
 
-        // Remember incoming sets of values
         ThemeName = string.IsNullOrWhiteSpace(themeName)
             ? @"PaletteOffice2007Base"
             : themeName;
 
-        if (schemeColors != null)
-        {
-            _ribbonColors = schemeColors;
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
+
         if (checkBoxList != null)
         {
             _checkBoxList = checkBoxList;
         }
+
         if (galleryButtonList != null)
         {
             _galleryButtonList = galleryButtonList;
         }
+
         if (radioButtonArray != null)
         {
             _radioButtonArray = radioButtonArray;
@@ -284,27 +284,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
-    }
-
-    /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
-    /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
-    protected PaletteOffice2007Base(
-        string themeName,
-        [DisallowNull] KryptonColorSchemeBase scheme,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray)
-        : this(themeName,
-               scheme.ToArray(),
-               checkBoxList,
-               galleryButtonList,
-               radioButtonArray,
-               scheme.ToTrackBarArray())
-    {
-        BaseColors = scheme;
     }
 
     #endregion
@@ -1857,7 +1836,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -1979,7 +1958,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
             {
                 if (style == PaletteBorderStyle.ButtonCalendarDay)
                 {
-                    return state == PaletteState.Disabled ? _disabledBorder : _todayBorder;
+                    return _todayBorder;
                 }
             }
 
@@ -2743,9 +2722,10 @@ public abstract class PaletteOffice2007Base : PaletteBase
             PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => state == PaletteState.Disabled
                 ? _ribbonColors[(int)SchemeBaseColors.InputControlTextDisabled]
                 : _ribbonColors[(int)SchemeBaseColors.InputControlTextNormal],
-            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
-            PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
+            PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
+            PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
             PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextLabelControl),
+            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelAlternateControl => _ribbonColors[(int)SchemeBaseColors.StatusStripText],
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeBaseColors.ContextMenuHeadingText],
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => (state & PaletteState.Checked) == PaletteState.Checked
@@ -3232,9 +3212,10 @@ public abstract class PaletteOffice2007Base : PaletteBase
             PaletteContentStyle.InputControlStandalone or PaletteContentStyle.InputControlRibbon or PaletteContentStyle.InputControlCustom1 or PaletteContentStyle.InputControlCustom2 or PaletteContentStyle.InputControlCustom3 => state == PaletteState.Disabled
                 ? _ribbonColors[(int)SchemeBaseColors.InputControlTextDisabled]
                 : _ribbonColors[(int)SchemeBaseColors.InputControlTextNormal],
-            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
-            PaletteContentStyle.LabelAlternateControl or PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
+            PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption => _ribbonColors[(int)SchemeBaseColors.TextLabelPanel],
+            PaletteContentStyle.LabelNormalControl or PaletteContentStyle.LabelBoldControl or PaletteContentStyle.LabelItalicControl or PaletteContentStyle.LabelTitleControl or PaletteContentStyle.LabelCustom1 or PaletteContentStyle.LabelCustom2 or PaletteContentStyle.LabelCustom3 or PaletteContentStyle.ContextMenuItemImage => _ribbonColors[(int)SchemeBaseColors.TextLabelControl],
             PaletteContentStyle.ContextMenuItemTextStandard or PaletteContentStyle.ContextMenuItemTextAlternate or PaletteContentStyle.ContextMenuItemShortcutText => _ribbonColors.Resolve(SchemeBaseColors.MenuItemText, SchemeBaseColors.TextLabelControl),
+            PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelAlternateControl => _ribbonColors[(int)SchemeBaseColors.StatusStripText],
             PaletteContentStyle.LabelToolTip or PaletteContentStyle.LabelSuperTip or PaletteContentStyle.LabelKeyTip => _toolTipText,
             PaletteContentStyle.ContextMenuHeading => _ribbonColors[(int)SchemeBaseColors.ContextMenuHeadingText],
             PaletteContentStyle.TabHighProfile or PaletteContentStyle.TabStandardProfile or PaletteContentStyle.TabLowProfile or PaletteContentStyle.TabOneNote or PaletteContentStyle.TabDock or PaletteContentStyle.TabCustom1 or PaletteContentStyle.TabCustom2 or PaletteContentStyle.TabCustom3 or PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 => (state & PaletteState.Checked) == PaletteState.Checked

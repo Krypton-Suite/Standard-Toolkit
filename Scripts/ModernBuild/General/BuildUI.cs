@@ -143,7 +143,7 @@ public static class BuildUI
         var hk4 = MakeHK("F4", 3, () =>
         {
             state.TasksPage = state.TasksPage == TasksPage.Ops ? TasksPage.NuGet : TasksPage.Ops;
-            if (state.TasksPage == TasksPage.Ops && state.Action == BuildAction.NuGetTools)
+            if (state is { TasksPage: TasksPage.Ops, Action: BuildAction.NuGetTools })
             {
                 state.Action = BuildAction.Build;
             }
@@ -516,7 +516,7 @@ public static class BuildUI
                 case KeyCode.F4:
                 {
                     state.TasksPage = state.TasksPage == TasksPage.Ops ? TasksPage.NuGet : TasksPage.Ops;
-                    if (state.TasksPage == TasksPage.Ops && state.Action == BuildAction.NuGetTools)
+                    if (state is { TasksPage: TasksPage.Ops, Action: BuildAction.NuGetTools })
                     {
                         state.Action = BuildAction.Build;
                     }
@@ -593,7 +593,7 @@ public static class BuildUI
                 }
                 case KeyCode.PageUp:
                 {
-                    if (ui.Summary != null && ui.Summary.HasFocus)
+                    if (ui.Summary is { HasFocus: true })
                     {
                         // let TextView handle
                         break;
@@ -604,7 +604,7 @@ public static class BuildUI
                 }
                 case KeyCode.PageDown:
                 {
-                    if (ui.Summary != null && ui.Summary.HasFocus)
+                    if (ui.Summary is { HasFocus: true })
                     {
                         // let TextView handle
                         break;
@@ -615,7 +615,7 @@ public static class BuildUI
                 }
                 case KeyCode.Home:
                 {
-                    if (ui.Summary != null && ui.Summary.HasFocus)
+                    if (ui.Summary is { HasFocus: true })
                     {
                         // let TextView handle
                         break;
@@ -626,7 +626,7 @@ public static class BuildUI
                 }
                 case KeyCode.End:
                 {
-                    if (ui.Summary != null && ui.Summary.HasFocus)
+                    if (ui.Summary is { HasFocus: true })
                     {
                         // let TextView handle
                         break;
@@ -859,8 +859,7 @@ public static class BuildUI
     /// <returns>True when PackMode should be cycled; otherwise false.</returns>
     private static bool IsPackModeContext(AppState state)
     {
-        return state.TasksPage == TasksPage.Ops &&
-               state.Channel == ChannelType.Stable &&
+        return state is { TasksPage: TasksPage.Ops, Channel: ChannelType.Stable } &&
                (state.Action == BuildAction.Pack || state.Action == BuildAction.BuildPack);
     }
 
@@ -968,7 +967,7 @@ public static class BuildUI
         {
             st = "FAILED";
         }
-        TimeSpan? elapsed = state.IsRunning && state.StartTimeUtc.HasValue ? DateTime.UtcNow - state.StartTimeUtc.Value : (TimeSpan?)null;
+        TimeSpan? elapsed = state is { IsRunning: true, StartTimeUtc: not null } ? DateTime.UtcNow - state.StartTimeUtc.Value : (TimeSpan?)null;
         string elapsedText = elapsed.HasValue ? elapsed.Value.ToString("hh\\:mm\\:ss") : "--:--:--";
         if (ui.SummaryFrame != null)
         {

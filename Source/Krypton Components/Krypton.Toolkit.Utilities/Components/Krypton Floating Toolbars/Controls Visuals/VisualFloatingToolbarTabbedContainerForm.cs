@@ -219,7 +219,7 @@ public partial class VisualFloatingToolbarTabbedContainerForm : KryptonForm
 
     private void Navigator_SelectedPageChanged(object? sender, EventArgs e)
     {
-        if (_group != null && _navigator != null && _navigator.SelectedIndex >= 0)
+        if (_group != null && _navigator is { SelectedIndex: >= 0 })
         {
             _group.ActiveTabIndex = _navigator.SelectedIndex;
         }

@@ -20,7 +20,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a JSON string.
     /// </summary>
-    public static string Export(object toolkitStrings, bool includeDefaults)
+    public static string Export(object? toolkitStrings, bool includeDefaults)
     {
         if (toolkitStrings == null)
         {
@@ -58,7 +58,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Exports toolkit strings to a stream as JSON.
     /// </summary>
-    public static void ExportToStream(object toolkitStrings, Stream stream, bool includeDefaults = false)
+    public static void ExportToStream(object toolkitStrings, Stream? stream, bool includeDefaults = false)
     {
         if (stream == null)
         {
@@ -74,7 +74,7 @@ internal static class ToolkitStringsJsonPersistence
     /// <summary>
     /// Imports toolkit strings from a JSON file.
     /// </summary>
-    public static void ImportFromFile(object toolkitStrings, string filename, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromFile(object toolkitStrings, string filename, bool resetFirst = true, bool refreshOpenForms = true, bool strictCatalog = false)
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
@@ -83,13 +83,13 @@ internal static class ToolkitStringsJsonPersistence
 
         // Match export: UTF-8 preserves the full Unicode repertoire used in translations.
         var json = File.ReadAllText(filename, Encoding.UTF8);
-        ImportFromJson(toolkitStrings, json, resetFirst, refreshOpenForms);
+        ImportFromJson(toolkitStrings, json, resetFirst, refreshOpenForms, strictCatalog);
     }
 
     /// <summary>
     /// Imports toolkit strings from a JSON stream.
     /// </summary>
-    public static void ImportFromStream(object toolkitStrings, Stream stream, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromStream(object toolkitStrings, Stream? stream, bool resetFirst = true, bool refreshOpenForms = true, bool strictCatalog = false)
     {
         if (stream == null)
         {
@@ -99,7 +99,7 @@ internal static class ToolkitStringsJsonPersistence
         // Match export: UTF-8 preserves the full Unicode repertoire used in translations.
         using var reader = new StreamReader(stream, Encoding.UTF8);
         var json = reader.ReadToEnd();
-        ImportFromJson(toolkitStrings, json, resetFirst, refreshOpenForms);
+        ImportFromJson(toolkitStrings, json, resetFirst, refreshOpenForms, strictCatalog);
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ internal static class ToolkitStringsJsonPersistence
     /// Uses the XML persistence helper by converting the JSON to an in-memory XmlDocument,
     /// keeping the import logic (reset, refresh, culture) centralised.
     /// </summary>
-    public static void ImportFromJson(object toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true)
+    public static void ImportFromJson(object? toolkitStrings, string json, bool resetFirst = true, bool refreshOpenForms = true, bool strictCatalog = false)
     {
         if (toolkitStrings == null)
         {
@@ -122,7 +122,7 @@ internal static class ToolkitStringsJsonPersistence
         // Parse minimally and build an XmlDocument matching the canonical XML format,
         // then delegate to the standard XML import path.
         var doc = JsonToXmlDocument(json);
-        ToolkitStringsXmlPersistence.Import(toolkitStrings, doc, resetFirst, refreshOpenForms);
+        ToolkitStringsXmlPersistence.Import(toolkitStrings, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch: true, strictCatalog);
     }
 
     #region Export helpers
@@ -215,15 +215,8 @@ internal static class ToolkitStringsJsonPersistence
 
     // Escape only characters that would break a JSON string literal.
     // Structural tokens ({ } [ ] : ,) are left as-is; inside quotes they are ordinary text.
-    private static string EscapeJsonString(string s)
-    {
-        return s
-            .Replace(@"\", @"\\")
-            .Replace(@"""", @"\""")
-            .Replace("\n", @"\n")
-            .Replace("\r", @"\r")
-            .Replace("\t", @"\t");
-    }
+    private static string EscapeJsonString(string s) =>
+        s.Replace(@"\", @"\\").Replace(@"""", @"\""").Replace("\n", @"\n").Replace("\r", @"\r").Replace("\t", @"\t");
 
     #endregion
 
@@ -270,7 +263,9 @@ internal static class ToolkitStringsJsonPersistence
         }
 
         var json = File.ReadAllText(filename, Encoding.UTF8);
+        var before = Analyze(toolkitStrings, json, filename);
         ImportFromJson(toolkitStrings, json, resetFirst: true, refreshOpenForms: false);
+        ToolkitStringsXmlPersistence.ApplyAutoTranslation(toolkitStrings, before.MissingInFile, before.Culture);
         ExportToFile(toolkitStrings, filename, includeDefaults);
         var mergedJson = File.ReadAllText(filename, Encoding.UTF8);
         return Analyze(toolkitStrings, mergedJson, filename);
@@ -423,5 +418,5 @@ internal static class ToolkitStringsJsonPersistence
         return tokens;
     }
 
-    #endregion
+#endregion
 }

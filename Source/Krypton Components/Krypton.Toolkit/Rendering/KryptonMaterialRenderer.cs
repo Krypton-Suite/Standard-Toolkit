@@ -221,7 +221,7 @@ public class KryptonMaterialRenderer : KryptonProfessionalRenderer
         // Slightly inset to keep fills inside drawn border
         Rectangle r = new Rectangle(rect.X + 1, rect.Y + 1, Math.Max(0, rect.Width - 2), Math.Max(0, rect.Height - 2));
         var path = new GraphicsPath();
-        if (r.Width > 0 && r.Height > 0)
+        if (r is { Width: > 0, Height: > 0 })
         {
             path.AddRectangle(r);
         }

@@ -94,6 +94,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ToolStripMRUDemo>("ToolStrip MRU", "Most-recently-used files: KryptonMRUMenuItem, KryptonMRUOpenFileMenuItem, MostRecentlyUsedFileManager (registry). Save/SaveAs items shown as stubs until OnClick is implemented.");
         CreateButton<CheckBoxExtendedDemo>("CheckBox Extended", "Issue #3833: KryptonCheckBoxExtended in Krypton.Toolkit.Utilities for word-wrapped check box text and optional subtext. Compare with standard KryptonCheckBox at the same width.");
         CreateButton<KryptonTagInputDemo>("Tag Input (#3927)", "Issue #3927: KryptonTagInput wrap chips with Enter/comma commit, Backspace remove, suggestions, category colours, duplicates/max, read-only, and theme switching.");
+        CreateButton<TextBoxInputModeDemo>("TextBox InputMode (#4417)", "Issue #4417: KryptonTextBox.InputMode filters typing and paste (Any / Digits / Letters / Alphanumeric). Compare with native TextBox; try Paste sample on the live mode box.");
         CreateButton<KryptonTagInputControlDemo>("Tag Input Control (Utilities)", "KryptonTagInputControl in Krypton.Toolkit.Utilities: same wrap/commit behaviour as KryptonTagInput, using KryptonPanel chrome and header-style chips.");
         CreateButton<KryptonColorButtonDemo>("KryptonColorButton Custom Colours", "Comprehensive demo of KryptonColorButton custom colours (Issue #776): CustomColors, MaxCustomColors, and visibility. Only 10 colours, or custom + theme + standard, or cap display count.");
         CreateButton<KryptonComboBoxUserControlDemo>("KryptonComboBoxUserControl", "Demo for Issue #3443: a ComboBox-style control whose drop-down hosts any UserControl. Shows tree-picker, grid-picker and a plain (non-contract) UserControl scenario.");
@@ -126,6 +127,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<PaletteCollectionEditorDemo>("2117 Palette collection editor", "Issue #2117: KryptonPaletteCollectionEditor in Krypton.Toolkit.Utilities adds .kthemex files to a .ktheme collection and removes named themes (AddToCollection / RemoveFromCollection). Create a sample collection, Add Collection - Violet.kthemex, Remove it, and confirm the last theme cannot be removed.");
         CreateButton<Bug3367KryptonTextBoxButtonSpecHoverDemo>("Bug 3367 TextBox ButtonSpec Hover", "Demo for issue #3367: ButtonSpec hover flicker on KryptonTextBox/KryptonMaskedTextBox, including ImageStates.ImageNormal without the Image property.");
         CreateButton<Bug4432ButtonSpecFillHeightDemo>("Bug 4432 ButtonSpec FillHeight", "Issue #4432: ButtonSpec.FillHeight stretches specs to full host height; ButtonSpecEdgeArrange.StackAlongEdge stacks same-edge specs vertically. Toggle FillHeight / StackAlongEdge and resize tall TextBox/ComboBox/DTP/MaskedTextBox.");
+        CreateButton<Bug4413DisabledCaptionGlyphDemo>("Bug 4413 Disabled caption glyph", "Issue #4413: disabled min/max/close glyphs on Office 2010, Office 2013, and Microsoft 365. Disabled Close text matches the swatch (205 gray, 2010 Black / 2013 Dark Gray 196, Microsoft 365 Black ghost white). Close fill stays empty.");
         CreateButton<Bug3382CueHintLinesDemo>("Bug 3382 CueHint line artifacts", "Demo for issue #3382: KryptonTextBox CueHint with TextH Near and mixed cue/content fonts - verify no stray top/left lines; cue remains vertically centered.");
         CreateButton<Bug3383KryptonButtonStateTrackingRoundingDemo>("Bug 3383 KryptonButton hover rounding vs OverrideFocus", "Demo for issue #3383: large StateCommon rounding with different StateTracking rounding and OverrideFocus rounding - Tab to focus, then hover (left repro vs right matched control). Corner fill and stroke should align after the palette merge fix.");
         CreateButton<Bug3382CueHintLinesDemo>("Bug 3382 CueHint line artifacts", "Demo for issue #3382: KryptonTextBox CueHint with TextH Near and mixed cue/content fonts — verify no stray top/left lines; cue remains vertically centered.");
@@ -214,7 +216,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ControlsTest>("Controls Test", string.Empty);
         CreateButton<DataGridViewDemo>("KryptonDataGridView Demo", string.Empty);
         CreateButton<BindingNavigatorDemo>("KryptonBindingNavigator Demo", "Comprehensive example of KryptonBindingNavigator with data binding");
-        CreateButton<KryptonDialogExamples>("Krypton Dialog tests", "Tests the various types of dialogs.");
+        CreateButton<KryptonDialogExamples>("Krypton Dialog tests", "Colour, font, print, and print-preview dialogs, plus a long input prompt and a resizable exception dialog (DPI clamp).");
         CreateButton<FadeFormTest>("KryptonForm FadeValues", "Native opt-in fade in/out on KryptonForm. This demo fades in on open; use Fade In / Fade Out / Fade Out and Close, open a faded child, or edit FadeValues in the property grid.");
         CreateButton<GroupBoxTest>("GroupBox", string.Empty);
         CreateButton<Bug3879KryptonComboBoxDisabledDemo>("3879 ComboBox Disabled", "Issue #3879: KryptonComboBox disabled at startup (DropDown and DropDownList) should use theme disabled colors. Toggle Enabled and switch themes to verify.");
@@ -325,7 +327,7 @@ public partial class StartScreen : KryptonForm
     private void RestoreFormSize()
     {
         Size size = _registryAccess.FormSize;
-        if (size.Width > 0 && size.Height > 0)
+        if (size is { Width: > 0, Height: > 0 })
         {
             this.Size = _registryAccess.FormSize;
         }

@@ -1035,7 +1035,7 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        if (sender is VisualPopupToolTip popupToolTip && popupToolTip is not null)
+        if (sender is VisualPopupToolTip popupToolTip)
         {
             popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 

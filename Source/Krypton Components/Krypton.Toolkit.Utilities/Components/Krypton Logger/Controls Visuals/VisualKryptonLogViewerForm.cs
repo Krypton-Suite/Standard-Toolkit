@@ -18,6 +18,7 @@ internal partial class VisualKryptonLogViewerForm : KryptonForm
     public VisualKryptonLogViewerForm()
     {
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
         _syncContext = SynchronizationContext.Current;
         ApplyStrings();
         PopulateLevelFilter();

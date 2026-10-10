@@ -21,6 +21,8 @@ public partial class ApplicationStringsTest : KryptonForm
     private readonly KryptonButton _btnImportXml = new KryptonButton();
     private readonly KryptonButton _btnExportJson = new KryptonButton();
     private readonly KryptonButton _btnImportJson = new KryptonButton();
+    private readonly KryptonButton _btnAnalyze = new KryptonButton();
+    private readonly KryptonButton _btnMerge = new KryptonButton();
     private readonly KryptonWrapLabel _lblStatus = new KryptonWrapLabel();
 
     public ApplicationStringsTest()
@@ -85,8 +87,8 @@ public partial class ApplicationStringsTest : KryptonForm
     private void ConfigurePersistenceDemoUi()
     {
         Text = @"Custom Strings Persistence Test";
-        ClientSize = new Size(484, 420);
-        kryptonPanel1.Height = 84;
+        ClientSize = new Size(484, 452);
+        kryptonPanel1.Height = 116;
         kryptonPanel1.Location = new Point(0, ClientSize.Height - kryptonPanel1.Height);
         kryptonBorderEdge1.Location = new Point(0, kryptonPanel1.Top - 1);
         kryptonPanel2.Size = new Size(484, kryptonBorderEdge1.Top);
@@ -101,11 +103,15 @@ public partial class ApplicationStringsTest : KryptonForm
         ConfigureBottomButton(_btnExportJson, new Point(120, secondRowTop), @"Export JSON", kbtnExportJson_Click);
         ConfigureBottomButton(_btnImportXml, new Point(228, secondRowTop), @"Import XML", kbtnImportXml_Click);
         ConfigureBottomButton(_btnExportXml, new Point(336, secondRowTop), @"Export XML", kbtnExportXml_Click);
+        ConfigureBottomButton(_btnAnalyze, new Point(228, secondRowTop + 32), @"Analyze", kbtnAnalyze_Click);
+        ConfigureBottomButton(_btnMerge, new Point(336, secondRowTop + 32), @"Merge Missing", kbtnMerge_Click);
 
         kryptonPanel1.Controls.Add(_btnImportJson);
         kryptonPanel1.Controls.Add(_btnExportJson);
         kryptonPanel1.Controls.Add(_btnImportXml);
         kryptonPanel1.Controls.Add(_btnExportXml);
+        kryptonPanel1.Controls.Add(_btnAnalyze);
+        kryptonPanel1.Controls.Add(_btnMerge);
 
         _lblStatus.AutoSize = false;
         _lblStatus.Location = new Point(13, 285);
@@ -114,7 +120,8 @@ public partial class ApplicationStringsTest : KryptonForm
             @"Persistence demo:" + Environment.NewLine +
             @"1) Edit the dictionary and typed values." + Environment.NewLine +
             @"2) Export XML or JSON." + Environment.NewLine +
-            @"3) Change or reset values, then import the file back and verify both sections restore.";
+            @"3) Change or reset values, then import the file back and verify both sections restore." + Environment.NewLine +
+            @"4) Analyze groups missing/extra keys. Merge Missing fills new typed-set keys with defaults.";
         kryptonPanel2.Controls.Add(_lblStatus);
     }
 
@@ -213,6 +220,53 @@ public partial class ApplicationStringsTest : KryptonForm
         _lblStatus.Text = ValidateCurrentCustomStrings(ofd.FileName, isJson: true);
     }
 
+    private void kbtnAnalyze_Click(object? sender, EventArgs e)
+    {
+        using var ofd = new OpenFileDialog
+        {
+            CheckFileExists = true,
+            CheckPathExists = true,
+            FileName = @"CustomTranslations",
+            Filter = @"Custom translations files (*.xml;*.json)|*.xml;*.json|All files (*.*)|(*.*)",
+            Title = @"Analyze Custom Translations"
+        };
+
+        if (ofd.ShowDialog(this) != DialogResult.OK || string.IsNullOrWhiteSpace(ofd.FileName))
+        {
+            return;
+        }
+
+        var coverage = KryptonCustomStrings.AnalyzeTranslationsFromFile(ofd.FileName);
+        _lblStatus.Text =
+            coverage + Environment.NewLine +
+            @"Missing:" + Environment.NewLine + ToolkitStringsCoverage.FormatGrouped(coverage.MissingInFile) + Environment.NewLine +
+            @"Extra:" + Environment.NewLine + ToolkitStringsCoverage.FormatGrouped(coverage.ExtraInFile);
+    }
+
+    private void kbtnMerge_Click(object? sender, EventArgs e)
+    {
+        using var ofd = new OpenFileDialog
+        {
+            CheckFileExists = true,
+            CheckPathExists = true,
+            FileName = @"CustomTranslations",
+            Filter = @"Custom translations files (*.xml;*.json)|*.xml;*.json|All files (*.*)|(*.*)",
+            Title = @"Merge Missing Custom Translations"
+        };
+
+        if (ofd.ShowDialog(this) != DialogResult.OK || string.IsNullOrWhiteSpace(ofd.FileName))
+        {
+            return;
+        }
+
+        var before = KryptonCustomStrings.AnalyzeTranslationsFromFile(ofd.FileName);
+        var after = KryptonCustomStrings.MergeMissingTranslationsToFile(ofd.FileName, includeDefaults: true);
+        ApplyDictionaryDemoString();
+        ApplyTypedDemoString();
+        _lblStatus.Text =
+            $@"Merge missing {before.MissingInFile.Count} -> {after.MissingInFile.Count} in {System.IO.Path.GetFileName(ofd.FileName)}.";
+    }
+
     private string ValidateCurrentCustomStrings(string fileName, bool isJson)
     {
         try
@@ -253,7 +307,7 @@ public partial class ApplicationStringsTest : KryptonForm
         {
             foreach (System.Xml.XmlNode node in values.ChildNodes)
             {
-                if (node is System.Xml.XmlElement el && el.Name == @"String")
+                if (node is System.Xml.XmlElement { Name: @"String" } el)
                 {
                     result[$@"Values.{el.GetAttribute(@"Key")}"] = el.GetAttribute(@"Value");
                 }

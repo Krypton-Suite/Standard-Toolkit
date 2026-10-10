@@ -382,7 +382,7 @@ public class KryptonMultiSelectTreeView : KryptonTreeView
         Point start = PointToClient(TreeView.PointToScreen(_rubberBandStart));
         Point end = PointToClient(TreeView.PointToScreen(_rubberBandEnd));
         Rectangle band = TreeViewMultiSelectHelper.NormalizeRectangle(start, end);
-        if (band.Width <= 0 && band.Height <= 0)
+        if (band is { Width: <= 0, Height: <= 0 })
         {
             return;
         }
@@ -397,7 +397,7 @@ public class KryptonMultiSelectTreeView : KryptonTreeView
     private void CompleteRubberBandSelection()
     {
         Rectangle band = TreeViewMultiSelectHelper.NormalizeRectangle(_rubberBandStart, _rubberBandEnd);
-        if (band.Width <= 0 && band.Height <= 0)
+        if (band is { Width: <= 0, Height: <= 0 })
         {
             return;
         }

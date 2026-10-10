@@ -30,7 +30,7 @@ internal static class RibbonTranslationsJsonPersistence
         File.WriteAllText(filename, Export(ribbon, options), Encoding.UTF8);
     }
 
-    public static void ExportToStream(KryptonRibbon ribbon, Stream stream, RibbonTranslationOptions? options)
+    public static void ExportToStream(KryptonRibbon ribbon, Stream? stream, RibbonTranslationOptions? options)
     {
         if (stream == null)
         {
@@ -62,7 +62,7 @@ internal static class RibbonTranslationsJsonPersistence
         ImportFromJson(ribbon, File.ReadAllText(filename, Encoding.UTF8), options);
     }
 
-    public static void ImportFromStream(KryptonRibbon ribbon, Stream stream, RibbonTranslationOptions? options)
+    public static void ImportFromStream(KryptonRibbon ribbon, Stream? stream, RibbonTranslationOptions? options)
     {
         if (stream == null)
         {

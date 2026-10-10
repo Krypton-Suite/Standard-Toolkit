@@ -669,7 +669,7 @@ internal static class BuildLogic
     {
         try
         {
-            if (state.Process != null && !state.Process.HasExited)
+            if (state.Process is { HasExited: false })
             {
                 state.Process.Kill(entireProcessTree: true);
             }
@@ -977,7 +977,7 @@ internal static class BuildLogic
             }
 
             // Success path
-            if (state.PendingTargets != null && state.PendingTargets.Count > 0)
+            if (state.PendingTargets is { Count: > 0 })
             {
                 // Intermediate step (e.g., Rebuild before Pack). Advance only if the last completed
                 // target matches what we started for this process; otherwise ignore spurious exits.

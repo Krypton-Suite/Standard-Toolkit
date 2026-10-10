@@ -6,7 +6,9 @@
 	<!-- Per-TFM output under $(KryptonBuildOutputRoot)$(Configuration)\: legacy builds use Bin\Release\net472\;
 	     UseArtifactsOutput=true uses artifacts\bin\Release\net472\. A single shared folder makes the last
 	     inner multi-target build overwrite Krypton.Toolkit.dll (etc.), so net472 then references net10+ (CS1705). -->
-	<PropertyGroup Condition="'$(TargetFramework)' != ''">
+	<!-- KryptonOverrideOutputPath: projects that must not write into the shared Bin folder
+	     (the embedded Krypton.Resources placeholder, which uses the same assembly name). -->
+	<PropertyGroup Condition="'$(TargetFramework)' != '' And '$(KryptonOverrideOutputPath)' == ''">
 		<OutputPath>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</OutputPath>
 		<!-- Keep OutDir in sync: props set OutputPath before this; SDK freezes OutDir unless updated with OutputPath. -->
 		<OutDir>$(OutputPath)</OutDir>
@@ -15,6 +17,11 @@
 		<!-- NuGet packs netX.0-windows as lib\netX.0-windows7.0\ (GetShortFolderName). Extra TfmSpecificPackageFile
 		     items must use this folder or NU5128 reports unmatched dependency groups vs lib/ref. -->
 		<_KryptonPackageLibFolder>$(TargetFramework)</_KryptonPackageLibFolder>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)' != '' And '$(KryptonOverrideOutputPath)' != ''">
+		<OutputPath>$(KryptonOverrideOutputPath)</OutputPath>
+		<OutDir>$(KryptonOverrideOutputPath)</OutDir>
+		<UseCommonOutputDirectory>false</UseCommonOutputDirectory>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(TargetFramework)' != '' And $([System.String]::Copy('$(TargetFramework)').EndsWith('-windows'))">
 		<_KryptonPackageLibFolder>$(TargetFramework)7.0</_KryptonPackageLibFolder>
@@ -128,7 +135,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(Configuration)' == 'RC'">
+		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<PropertyGroup>
 				<Minor>$([System.DateTime]::Now.ToString(yy))</Minor>
 				<Build>$([System.DateTime]::Now.ToString(MM))</Build>
@@ -237,7 +244,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(Configuration)' == 'RC'">
+		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<PropertyGroup>
 				<PackageId Condition="'$(TFMs)' == 'lite' And '$(PackageId)' != ''">$(PackageId).RC.Lite</PackageId>
 

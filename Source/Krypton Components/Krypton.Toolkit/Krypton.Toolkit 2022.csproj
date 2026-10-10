@@ -4,7 +4,7 @@
 	<OutputType>Library</OutputType>
 	<RootNamespace>Krypton.Toolkit</RootNamespace>
 	<AssemblyName>Krypton.Toolkit</AssemblyName>
-	<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+	<!-- Disable CheckEolTargetFramework to suppress this warning. -->
 	<CheckEolTargetFramework>false</CheckEolTargetFramework>
 	<SignAssembly>True</SignAssembly>
 	<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
@@ -374,6 +374,27 @@
 	  <_KryptonPackRuntimeDll Include="$(PkgSystem_Memory)\lib\net461\System.Memory.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Memory)\lib\net461\System.Memory.dll')" />
 	  <TfmSpecificPackageFile Include="@(_KryptonPackRuntimeDll)" PackagePath="lib\$(_KryptonPackageLibFolder)\" />
 	  <TfmSpecificPackageFile Include="Krypton.Toolkit.dll.config" PackagePath="lib\$(_KryptonPackageLibFolder)\" Condition="$(TargetFramework.StartsWith('net4'))" />
+	</ItemGroup>
+  </Target>
+
+  <!-- Embedded placeholder used only when Krypton.Resources.dll is missing at runtime. -->
+  <!-- AssignTargetPaths is the first target that snapshots EmbeddedResource. PrepareResourceNames is too late: its work is in DependsOnTargets that may already have run. -->
+  <Target Name="EmbedKryptonResourcesFallback" BeforeTargets="AssignTargetPaths">
+	<MSBuild Projects="$(MSBuildThisFileDirectory)..\Krypton.Resources\Fallback\Krypton.Resources.Fallback.csproj"
+	         Targets="Restore"
+	         Properties="Configuration=$(Configuration);KryptonFallbackSingleTargetFramework=$(TargetFramework)" />
+	<MSBuild Projects="$(MSBuildThisFileDirectory)..\Krypton.Resources\Fallback\Krypton.Resources.Fallback.csproj"
+	         Targets="Build"
+	         Properties="Configuration=$(Configuration);KryptonFallbackSingleTargetFramework=$(TargetFramework)" />
+	<PropertyGroup>
+	  <_KryptonResourcesFallbackDll>$(MSBuildThisFileDirectory)..\Krypton.Resources\Fallback\obj\fallback-bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll</_KryptonResourcesFallbackDll>
+	</PropertyGroup>
+	<Error Text="Krypton.Resources placeholder was not built at $(_KryptonResourcesFallbackDll)." Condition="!Exists('$(_KryptonResourcesFallbackDll)')" />
+	<ItemGroup>
+	  <EmbeddedResource Include="$(_KryptonResourcesFallbackDll)">
+		<Link>ResourcesFallback.dll</Link>
+		<LogicalName>Krypton.Toolkit.ResourcesFallback.dll</LogicalName>
+	  </EmbeddedResource>
 	</ItemGroup>
   </Target>
 
