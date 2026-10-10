@@ -362,9 +362,10 @@ public class KryptonProgressBar : Control, IContentValues
         }
     }
 
+    // "Empty" does not convert in DefaultValueAttribute; KryptonDefaultColor stores Color.Empty directly.
     [Category(@"Visuals")]
     [Description(@"Shadow color for the text; Empty for automatic.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
+    [KryptonDefaultColor]
     public Color TextShadowColor
     {
         get => _textShadowColor;
@@ -400,9 +401,10 @@ public class KryptonProgressBar : Control, IContentValues
         }
     }
 
+    // "Empty" does not convert in DefaultValueAttribute; KryptonDefaultColor stores Color.Empty directly.
     [Category(@"Visuals")]
     [Description(@"Backdrop color for the text; Empty for automatic semi-transparent.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
+    [KryptonDefaultColor]
     public Color TextBackdropColor
     {
         get => _textBackdropColor;

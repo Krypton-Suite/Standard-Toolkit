@@ -47,7 +47,7 @@ public abstract class PaletteVisualStudio2022DarkBase : PaletteVisualStudioBase
             return GetDropDownItemBackColor(state);
         }
 
-        return base.GetBackColor1(style, state);
+        return RemapDarkChrome(base.GetBackColor1(style, state), state);
     }
 
     public override Color GetBackColor2(PaletteBackStyle style, PaletteState state)
@@ -62,7 +62,7 @@ public abstract class PaletteVisualStudio2022DarkBase : PaletteVisualStudioBase
             return GetDropDownItemBackColor(state);
         }
 
-        return base.GetBackColor2(style, state);
+        return RemapDarkChrome(base.GetBackColor2(style, state), state);
     }
 
     public override Color GetContentShortTextColor1(PaletteContentStyle style, PaletteState state)
@@ -85,6 +85,25 @@ public abstract class PaletteVisualStudio2022DarkBase : PaletteVisualStudioBase
         return base.GetContentShortTextColor2(style, state);
     }
 
+    /// <summary>
+    /// The shared Visual Studio base still returns the system window colour and a light disabled fill.
+    /// On the dark themes those become a dark page and a dark disabled face.
+    /// </summary>
+    private static Color RemapDarkChrome(Color color, PaletteState state)
+    {
+        if (color.ToArgb() == SystemColors.Window.ToArgb())
+        {
+            return Color.FromArgb(45, 45, 48);
+        }
+
+        if (state == PaletteState.Disabled && color.R >= 200 && color.G >= 200 && color.B >= 200)
+        {
+            return Color.FromArgb(42, 42, 42);
+        }
+
+        return color;
+    }
+
     private Color GetDropDownItemBackColor(PaletteState state)
     {
         return state switch
@@ -100,7 +119,7 @@ public abstract class PaletteVisualStudio2022DarkBase : PaletteVisualStudioBase
     {
         if (state == PaletteState.Disabled)
         {
-            return Color.FromArgb(100, 100, 100);
+            return Color.FromArgb(168, 168, 168);
         }
 
         var color = GetSchemeColor(SchemeBaseColors.TextListItem);

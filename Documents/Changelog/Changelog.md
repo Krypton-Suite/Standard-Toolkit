@@ -46,6 +46,19 @@
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
 - Resolved [#4547](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4547), Krypton collection editor dialogs no longer appear on the taskbar.
+- Resolved [#4413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4413), Disabled caption-button glyphs on Office 2010, Office 2013, and Microsoft 365 use a theme grey (light 205, dark 196, Microsoft 365 Black ghost white). The close-button fill stays transparent.
+- Resolved [#4483](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4483), Dark mode themes no longer leave light Office chrome on dark surfaces. Office glass buttons and silver group captions stay. Disabled text, separators, grid rows, tabs, and checkbox/radio glyphs are darkened so they stay readable.
+- Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
+ - Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
+ - `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
+- Implemented [#4486](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4486), Extra themes appear in the form designer when the project references `Krypton.Themes`.
+  - The `PaletteMode` drop-down and theme selectors ask Visual Studio for `Krypton.Themes.dll` after the startup probe, which runs before the designer sites the component.
+  - Toolkit-only projects still list the 14 core palettes. The missing-theme warning dialog stays off inside the designer.
+- Resolved [#4466](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4466), Some strings/values are not being serialised
+ - Fresh controls no longer write factory message-box strings or empty progress-bar text colours into the designer as if they were modified.
+ - `MessageBoxStrings.MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
+ - `KryptonProgressBar.TextShadowColor` and `TextBackdropColor` stay empty (automatic) without a designer line. `Values.DropDownArrowColor` already stays unset; existing `Color.Empty` lines drop the next time the designer saves the form.
+ - Print-preview string defaults are `Zoom &In` / `Zoom &Out` and `Page` / `of` again, so those values are no longer stored as edits.
 - Resolved [#4463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4463), `KryptonSplitContainer` children stay visible on the .NET WinForms design surface and in Document Outline ([#4468](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4468)).
   - Panel1 and Panel2 are sited before the splitter glyph is created, so a missing behavior service cannot hide the panels. The splitter panel designer accepts a `KryptonSplitContainer` parent.
 - Resolved [#4536](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4536), `ButtonSpec` Collection Editor uses unique name instead of the text
