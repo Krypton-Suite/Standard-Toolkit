@@ -2489,7 +2489,7 @@ public class RenderStandard : RenderBase
 		float dpi = dpiY <= 0f ? 1f : dpiY;
 		int thickness = RibbonTabMarkThickness2024(dpi, pill);
 		int spread = glow ? RibbonTabGlowSpread2024(dpi) : 0;
-		int gap = Math.Max(8, (int)Math.Round(8f * dpi));
+		int gap = Math.Max(4, (int)Math.Round(4f * dpi));
 		return thickness + RibbonTabMarkBelow2024(dpi, pill, glow) + gap + spread;
 	}
 
