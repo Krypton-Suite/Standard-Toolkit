@@ -51,6 +51,8 @@ internal class ViewDrawRibbonTab : ViewComposite,
     private Rectangle _displayRect;
     private int _dirtyPaletteSize;
     private int _dirtyPaletteLayout;
+    private int _markBandSize = -1;
+    private int _markBandLayout = -1;
     private PaletteState _cacheState;
     #endregion
 
@@ -288,7 +290,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 PaletteRibbonShape.Office2010 => _preferredBorder2010,
                 PaletteRibbonShape.Office2013 => _preferredBorder2010,
                 PaletteRibbonShape.Microsoft365 => _preferredBorder2010,
-                PaletteRibbonShape.Office2024 => _preferredBorder2010,
+                PaletteRibbonShape.Office2024 => Office2024Border(_preferredBorder2010),
                 PaletteRibbonShape.VisualStudio => _preferredBorder2010,
                 PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => _preferredBorderMac,
                 _ => _preferredBorder2007
@@ -310,13 +312,21 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 PaletteRibbonShape.Office2010 => _layoutBorder2010,
                 PaletteRibbonShape.Office2013 => _layoutBorder2010,
                 PaletteRibbonShape.Microsoft365 => _layoutBorder2010,
-                PaletteRibbonShape.Office2024 => _layoutBorder2010,
+                PaletteRibbonShape.Office2024 => Office2024Border(_layoutBorder2010),
                 PaletteRibbonShape.MacOS => _layoutBorderMac,
                 _ => _layoutBorder2007
             };
         }
     }
     #endregion
+
+    private Padding Office2024Border(Padding basis) =>
+        new Padding(basis.Left, basis.Top, basis.Right, Office2024MarkBand());
+
+    private int Office2024MarkBand() =>
+        Ribbon.RibbonShape == PaletteRibbonShape.Office2024
+            ? RenderStandard.RibbonTabMarkBand2024(FactorDpiY, Ribbon.StateCommon.RibbonGeneral.TabMarker == PaletteRibbonTabMarker.Pill, Ribbon.StateCommon.RibbonGeneral.TabMarkerGlow)
+            : 0;
 
     #region Layout
     /// <summary>
@@ -335,8 +345,11 @@ internal class ViewDrawRibbonTab : ViewComposite,
             _cacheState = State;
         }
 
+        // Pill lines and the glow need a taller band under the label than a straight line.
+        int markBand = Office2024MarkBand();
+
         // If the palette has changed since we last calculated
-        if (Ribbon.DirtyPaletteCounter != _dirtyPaletteSize)
+        if ((Ribbon.DirtyPaletteCounter != _dirtyPaletteSize) || (markBand != _markBandSize))
         {
             // Get the preferred size of the contained content
             _preferredSize = base.GetPreferredSize(context);
@@ -348,6 +361,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
 
             // Cached value is valid till dirty palette noticed
             _dirtyPaletteSize = Ribbon.DirtyPaletteCounter;
+            _markBandSize = markBand;
         }
 
         return _preferredSize;
@@ -375,8 +389,10 @@ internal class ViewDrawRibbonTab : ViewComposite,
         }
 
         // Do we need to actually perform the re-layout?
+        int markBand = Office2024MarkBand();
         if ((_displayRect != ClientRectangle) ||
-            (Ribbon.DirtyPaletteCounter != _dirtyPaletteLayout))
+            (Ribbon.DirtyPaletteCounter != _dirtyPaletteLayout) ||
+            (markBand != _markBandLayout))
         {
             // Reduce display rect by our border size
             Padding layoutBorder = LayoutBorder;
@@ -394,6 +410,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
             // Cache values that are needed to decide if layout is needed
             _displayRect = ClientRectangle;
             _dirtyPaletteLayout = Ribbon.DirtyPaletteCounter;
+            _markBandLayout = markBand;
         }
     }
     #endregion
@@ -447,10 +464,26 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 break;
         }
 
-        // Use renderer to draw the tab background
+        // Use renderer to draw the tab background. Office 2024 lines are drawn here so the glow option is honoured.
         var mementoIndex = StateIndex(State);
-        _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, ClientRectangle, State, _paletteContextCurrent, VisualOrientation.Top, _mementos[mementoIndex]);
+        PaletteRibbonColorStyle backStyle = _paletteContextCurrent.GetRibbonBackColorStyle(State);
+        if (Ribbon.RibbonShape == PaletteRibbonShape.Office2024 && IsOffice2024TabMark(backStyle))
+        {
+            RenderStandard.DrawRibbonTabMarker2024(context, ClientRectangle, _paletteContextCurrent.GetRibbonBackColor1(State), Ribbon.StateCommon.RibbonGeneral.TabMarker, Ribbon.StateCommon.RibbonGeneral.TabMarkerGlow);
+            _mementos[mementoIndex]?.Dispose();
+            _mementos[mementoIndex] = null;
+        }
+        else
+        {
+            _mementos[mementoIndex] = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, ClientRectangle, State, _paletteContextCurrent, VisualOrientation.Top, _mementos[mementoIndex]);
+        }
     }
+
+    private static bool IsOffice2024TabMark(PaletteRibbonColorStyle style) =>
+        style == PaletteRibbonColorStyle.RibbonTabSelected2024
+        || style == PaletteRibbonColorStyle.RibbonTabTracking2024
+        || style == PaletteRibbonColorStyle.RibbonTabSelected2024Pill
+        || style == PaletteRibbonColorStyle.RibbonTabTracking2024Pill;
 
     /// <summary>
     /// Perform rendering after child elements are rendered.

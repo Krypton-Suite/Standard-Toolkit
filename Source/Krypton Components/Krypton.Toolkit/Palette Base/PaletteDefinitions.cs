@@ -4272,15 +4272,15 @@ public enum PaletteRibbonColorStyle
     /// </summary>
     RibbonTabTracking2024,
 
-    /// <summary>
-    /// Specifies a selected Office 2024 ribbon tab drawn as a rounded pill. Color 1 is the fill.
-    /// </summary>
-    RibbonTabSelected2024Pill,
+	/// <summary>
+	/// Specifies a selected Office 2024 ribbon tab drawn as a pill-shaped line. Color 1 is the stroke.
+	/// </summary>
+	RibbonTabSelected2024Pill,
 
-    /// <summary>
-    /// Specifies a tracking Office 2024 ribbon tab drawn as a rounded pill. Color 1 is the fill.
-    /// </summary>
-    RibbonTabTracking2024Pill,
+	/// <summary>
+	/// Specifies a tracking Office 2024 ribbon tab drawn as a pill-shaped line. Color 1 is the stroke.
+	/// </summary>
+	RibbonTabTracking2024Pill,
 
     /// <summary>
     /// Specifies the Office 2024 group area: color 1 is the rounded ribbon body.
@@ -4301,7 +4301,7 @@ public enum PaletteRibbonTabMarker
     Line,
 
     /// <summary>
-    /// A rounded pill behind the tab label.
+    /// A pill-shaped line under the tab label.
     /// </summary>
     Pill
 }

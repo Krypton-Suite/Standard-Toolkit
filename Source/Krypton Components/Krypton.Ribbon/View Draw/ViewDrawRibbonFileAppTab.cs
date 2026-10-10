@@ -91,6 +91,11 @@ internal class ViewDrawRibbonFileAppTab : ViewComposite,
         // Add on the fixed border extra
         preferredSize.Width += _preferredBorder.Horizontal;
         preferredSize.Height += _preferredBorder.Vertical;
+        if (_ribbon.RibbonShape == PaletteRibbonShape.Office2024)
+        {
+            int band = RenderStandard.RibbonTabMarkBand2024(FactorDpiY, _paletteGeneral.TabMarker == PaletteRibbonTabMarker.Pill, _paletteGeneral.TabMarkerGlow);
+            preferredSize.Height += Math.Max(0, band - _preferredBorder.Bottom);
+        }
 
         return preferredSize;
     }
@@ -105,7 +110,18 @@ internal class ViewDrawRibbonFileAppTab : ViewComposite,
 
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
+        if (_ribbon.RibbonShape != PaletteRibbonShape.Office2024)
+        {
+            base.Layout(context);
+            return;
+        }
+
+        // Keep the label above the line and its glow.
+        int band = RenderStandard.RibbonTabMarkBand2024(FactorDpiY, _paletteGeneral.TabMarker == PaletteRibbonTabMarker.Pill, _paletteGeneral.TabMarkerGlow);
+        Rectangle display = context.DisplayRectangle;
+        context.DisplayRectangle = new Rectangle(display.X, display.Y + _preferredBorder.Top, display.Width, Math.Max(0, display.Height - _preferredBorder.Top - band));
         base.Layout(context);
+        context.DisplayRectangle = display;
     }
     #endregion
 
@@ -164,7 +180,7 @@ internal class ViewDrawRibbonFileAppTab : ViewComposite,
                 marker = palette.GetRibbonFileAppTabBottomColor(localState);
             }
 
-            RenderStandard.DrawRibbonTabMarker2024(context, ClientRectangle, marker, _paletteGeneral.TabMarker);
+            RenderStandard.DrawRibbonTabMarker2024(context, ClientRectangle, marker, _paletteGeneral.TabMarker, _paletteGeneral.TabMarkerGlow);
             _mementos[memento]?.Dispose();
             _mementos[memento] = null;
             return;

@@ -2219,67 +2219,325 @@ public class RenderStandard : RenderBase
 	/// <param name="underline">Underline color.</param>
 	protected static void DrawRibbonTabUnderline2024(RenderContext context, Rectangle rect, Color underline)
 	{
-		if (underline.IsEmpty || rect.Width <= 4 || rect.Height <= 2)
-		{
-			return;
-		}
-
-		int inset = Math.Min(10, Math.Max(4, rect.Width / 6));
-		float dpi = context.Graphics.DpiX / 96f;
-		int thickness = Math.Max(2, (int)Math.Round(3f * dpi));
-		int width = rect.Width - (inset * 2);
-		if (width <= 0)
+		if (underline.IsEmpty || !TryGetRibbonTabMark2024(context, rect, false, false, out Rectangle mark))
 		{
 			return;
 		}
 
 		using var brush = new SolidBrush(underline);
-		context.Graphics.FillRectangle(brush, rect.X + inset, rect.Bottom - thickness, width, thickness);
+		context.Graphics.FillRectangle(brush, mark);
 	}
 
 	/// <summary>
-	/// Draw the Office 2024 tab mark as a line or a pill.
+	/// Draw the Office 2024 tab mark as a straight line or a pill-shaped line under the label.
 	/// </summary>
 	/// <param name="context">Rendering context.</param>
 	/// <param name="rect">Tab bounds.</param>
 	/// <param name="color">Mark colour.</param>
-	/// <param name="marker">Line under the label, or a pill behind it.</param>
-	internal static void DrawRibbonTabMarker2024(RenderContext context, Rectangle rect, Color color, PaletteRibbonTabMarker marker)
+	/// <param name="marker">Straight line, or a pill-shaped line.</param>
+	internal static void DrawRibbonTabMarker2024(RenderContext context, Rectangle rect, Color color, PaletteRibbonTabMarker marker) =>
+		DrawRibbonTabMarker2024(context, rect, color, marker, false);
+
+	/// <summary>
+	/// Draw the Office 2024 tab mark as a straight line or a pill-shaped line under the label.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="color">Mark colour.</param>
+	/// <param name="marker">Straight line, or a pill-shaped line.</param>
+	/// <param name="glow">True to draw a soft halo behind the mark.</param>
+	internal static void DrawRibbonTabMarker2024(RenderContext context, Rectangle rect, Color color, PaletteRibbonTabMarker marker, bool glow)
 	{
-		if (marker == PaletteRibbonTabMarker.Pill)
+		bool pill = marker == PaletteRibbonTabMarker.Pill;
+		if (color.IsEmpty || !TryGetRibbonTabMark2024(context, rect, pill, glow, out Rectangle mark))
 		{
-			DrawRibbonTabPill2024(context, rect, color);
+			return;
+		}
+
+		if (glow)
+		{
+			DrawRibbonTabGlow2024(context, mark, color);
+		}
+
+		if (pill)
+		{
+			FillRibbonTabPill2024(context, mark, color);
 		}
 		else
 		{
-			DrawRibbonTabUnderline2024(context, rect, color);
+			using var brush = new SolidBrush(color);
+			context.Graphics.FillRectangle(brush, mark);
 		}
 	}
 
 	/// <summary>
-	/// Draw the Office 2024 tab pill. Color 1 is the fill behind the label.
+	/// Soft halo behind an Office 2024 tab line. A blurred copy of the mark, with the solid line drawn on top.
+	/// </summary>
+	private static void DrawRibbonTabGlow2024(RenderContext context, Rectangle mark, Color color)
+	{
+		float dpi = context.Graphics.DpiX / 96f;
+		int spread = RibbonTabGlowSpread2024(dpi);
+		int width = mark.Width + (spread * 2);
+		int height = mark.Height + (spread * 2);
+		if (width <= 0 || height <= 0)
+		{
+			return;
+		}
+
+		using var bitmap = new Bitmap(width, height, PixelFormat.Format32bppPArgb);
+		using (var graphics = Graphics.FromImage(bitmap))
+		{
+			graphics.SmoothingMode = SmoothingMode.AntiAlias;
+			graphics.Clear(Color.Transparent);
+			var local = new Rectangle(spread, spread, mark.Width, mark.Height);
+			using GraphicsPath path = PillLinePath(local);
+			using var brush = new SolidBrush(Color.FromArgb(200, color));
+			graphics.FillPath(brush, path);
+		}
+
+		// Three box passes approximate a gaussian falloff.
+		int pass = Math.Max(1, spread / 3);
+		BlurTabGlow(bitmap, pass);
+		BlurTabGlow(bitmap, pass);
+		BlurTabGlow(bitmap, pass);
+
+		InterpolationMode interpolation = context.Graphics.InterpolationMode;
+		context.Graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+		context.Graphics.DrawImage(bitmap, mark.X - spread, mark.Y - spread, width, height);
+		context.Graphics.InterpolationMode = interpolation;
+	}
+
+	/// <summary>
+	/// Separable box blur. The bitmap is premultiplied, so the fringe fades instead of turning dark.
+	/// </summary>
+	private static void BlurTabGlow(Bitmap bitmap, int radius)
+	{
+		if (radius < 1)
+		{
+			return;
+		}
+
+		int width = bitmap.Width;
+		int height = bitmap.Height;
+		var bounds = new Rectangle(0, 0, width, height);
+		BitmapData data = bitmap.LockBits(bounds, ImageLockMode.ReadWrite, PixelFormat.Format32bppPArgb);
+		try
+		{
+			int stride = data.Stride;
+			int length = stride * height;
+			var source = new byte[length];
+			var swap = new byte[length];
+			Marshal.Copy(data.Scan0, source, 0, length);
+			BoxBlurHorizontal(source, swap, width, height, stride, radius);
+			BoxBlurVertical(swap, source, width, height, stride, radius);
+			Marshal.Copy(source, 0, data.Scan0, length);
+		}
+		finally
+		{
+			bitmap.UnlockBits(data);
+		}
+	}
+
+	private static void BoxBlurHorizontal(byte[] source, byte[] destination, int width, int height, int stride, int radius)
+	{
+		int window = (radius * 2) + 1;
+		for (int y = 0; y < height; y++)
+		{
+			int row = y * stride;
+			for (int x = 0; x < width; x++)
+			{
+				int sumB = 0;
+				int sumG = 0;
+				int sumR = 0;
+				int sumA = 0;
+				for (int k = -radius; k <= radius; k++)
+				{
+					int sample = x + k;
+					if (sample < 0)
+					{
+						sample = 0;
+					}
+					else if (sample >= width)
+					{
+						sample = width - 1;
+					}
+
+					int index = row + (sample * 4);
+					sumB += source[index];
+					sumG += source[index + 1];
+					sumR += source[index + 2];
+					sumA += source[index + 3];
+				}
+
+				int dest = row + (x * 4);
+				destination[dest] = (byte)(sumB / window);
+				destination[dest + 1] = (byte)(sumG / window);
+				destination[dest + 2] = (byte)(sumR / window);
+				destination[dest + 3] = (byte)(sumA / window);
+			}
+		}
+	}
+
+	private static void BoxBlurVertical(byte[] source, byte[] destination, int width, int height, int stride, int radius)
+	{
+		int window = (radius * 2) + 1;
+		for (int x = 0; x < width; x++)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				int sumB = 0;
+				int sumG = 0;
+				int sumR = 0;
+				int sumA = 0;
+				for (int k = -radius; k <= radius; k++)
+				{
+					int sample = y + k;
+					if (sample < 0)
+					{
+						sample = 0;
+					}
+					else if (sample >= height)
+					{
+						sample = height - 1;
+					}
+
+					int index = (sample * stride) + (x * 4);
+					sumB += source[index];
+					sumG += source[index + 1];
+					sumR += source[index + 2];
+					sumA += source[index + 3];
+				}
+
+				int dest = (y * stride) + (x * 4);
+				destination[dest] = (byte)(sumB / window);
+				destination[dest + 1] = (byte)(sumG / window);
+				destination[dest + 2] = (byte)(sumR / window);
+				destination[dest + 3] = (byte)(sumA / window);
+			}
+		}
+	}
+
+	/// <summary>
+	/// Fill a pill-shaped Office 2024 tab line.
+	/// </summary>
+	private static void FillRibbonTabPill2024(RenderContext context, Rectangle mark, Color fill)
+	{
+		using GraphicsPath path = PillLinePath(mark);
+		using var brush = new SolidBrush(fill);
+		SmoothingMode smoothing = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		context.Graphics.FillPath(brush, path);
+		context.Graphics.SmoothingMode = smoothing;
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 tab mark as a capsule under the label. Color 1 is the stroke.
 	/// </summary>
 	/// <param name="context">Rendering context.</param>
 	/// <param name="rect">Tab bounds.</param>
-	/// <param name="fill">Pill fill.</param>
+	/// <param name="fill">Pill line colour.</param>
 	protected static void DrawRibbonTabPill2024(RenderContext context, Rectangle rect, Color fill)
 	{
-		if (fill.IsEmpty || rect.Width <= 4 || rect.Height <= 4)
+		if (fill.IsEmpty || !TryGetRibbonTabMark2024(context, rect, true, false, out Rectangle mark))
 		{
 			return;
 		}
 
-		var pill = Rectangle.Inflate(rect, -4, -2);
-		if (pill.Width <= 0 || pill.Height <= 0)
+		FillRibbonTabPill2024(context, mark, fill);
+	}
+
+	/// <summary>
+	/// Office 2024 underline bounds. A pill is taller so the rounded ends read as a capsule.
+	/// </summary>
+	private static bool TryGetRibbonTabMark2024(RenderContext context, Rectangle rect, bool pill, bool glow, out Rectangle mark)
+	{
+		mark = Rectangle.Empty;
+		if (rect.Width <= 4 || rect.Height <= 2)
 		{
-			return;
+			return false;
 		}
 
+		int inset = Math.Min(10, Math.Max(4, rect.Width / 6));
 		float dpi = context.Graphics.DpiX / 96f;
-		int radius = Math.Min(pill.Height / 2, Math.Max(4, (int)Math.Round(8f * dpi)));
-		using GraphicsPath path = CommonHelper.RoundedRectanglePath(pill, radius);
-		using var brush = new SolidBrush(fill);
-		context.Graphics.FillPath(brush, path);
+		int thickness = RibbonTabMarkThickness2024(dpi, pill);
+		int width = rect.Width - (inset * 2);
+		if (width <= thickness)
+		{
+			return false;
+		}
+
+		// Keep the lower curve, and the halo when it is on, inside the tab.
+		int y = rect.Bottom - thickness - RibbonTabMarkBelow2024(dpi, pill, glow);
+		if (y < rect.Y)
+		{
+			y = rect.Y;
+		}
+
+		mark = new Rectangle(rect.X + inset, y, width, thickness);
+		return true;
+	}
+
+	/// <summary>
+	/// Height Office 2024 tabs should leave under the label so the line and its glow stay clear of the text.
+	/// </summary>
+	/// <param name="dpiY">Vertical DPI scale, where 1 is 96 DPI.</param>
+	/// <param name="pill">True when the mark is a pill-shaped line.</param>
+	/// <param name="glow">True when the soft halo is enabled.</param>
+	/// <returns>Bottom padding in pixels.</returns>
+	internal static int RibbonTabMarkBand2024(float dpiY, bool pill, bool glow)
+	{
+		float dpi = dpiY <= 0f ? 1f : dpiY;
+		int thickness = RibbonTabMarkThickness2024(dpi, pill);
+		int spread = glow ? RibbonTabGlowSpread2024(dpi) : 0;
+		int gap = Math.Max(8, (int)Math.Round(8f * dpi));
+		return thickness + RibbonTabMarkBelow2024(dpi, pill, glow) + gap + spread;
+	}
+
+	private static int RibbonTabGlowSpread2024(float dpi) => Math.Max(5, (int)Math.Round(6f * dpi));
+
+	private static int RibbonTabMarkBelow2024(float dpi, bool pill, bool glow)
+	{
+		int below = pill ? Math.Max(1, (int)Math.Round(dpi)) : 0;
+		if (!glow)
+		{
+			return below;
+		}
+
+		int spread = RibbonTabGlowSpread2024(dpi);
+		return spread > below ? spread : below;
+	}
+
+	private static int RibbonTabMarkThickness2024(float dpi, bool pill)
+	{
+		int thickness = pill
+			? Math.Max(8, (int)Math.Round(10f * dpi))
+			: Math.Max(2, (int)Math.Round(3f * dpi));
+		if (pill && (thickness & 1) == 1)
+		{
+			thickness++;
+		}
+
+		return thickness;
+	}
+
+	/// <summary>
+	/// Stadium path. <see cref="CommonHelper.RoundedRectanglePath"/> flattens a radius of half the height.
+	/// </summary>
+	private static GraphicsPath PillLinePath(Rectangle mark)
+	{
+		var path = new GraphicsPath();
+		var bounds = new RectangleF(mark.X, mark.Y, mark.Width, mark.Height);
+		if (mark.Width <= mark.Height)
+		{
+			path.AddEllipse(bounds);
+			return path;
+		}
+
+		float diameter = mark.Height;
+		path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 90f, 180f);
+		path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270f, 180f);
+		path.CloseFigure();
+		return path;
 	}
 
 	/// <summary>

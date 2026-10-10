@@ -45,6 +45,7 @@ public class PaletteRibbonGeneral : Storage,
     private int _groupAreaGap;
     private bool _showContextTitles;
     private PaletteRibbonTabMarker _tabMarker;
+    private bool _tabMarkerGlow;
     private Color _tabSeparatorColor;
     private Color _tabSeparatorContextColor;
     private Font? _textFont;
@@ -102,6 +103,7 @@ public class PaletteRibbonGeneral : Storage,
         _groupAreaGap = 0;
         _showContextTitles = false;
         _tabMarker = PaletteRibbonTabMarker.Line;
+        _tabMarkerGlow = false;
     }
     #endregion
 
@@ -142,7 +144,8 @@ public class PaletteRibbonGeneral : Storage,
                                       !ShouldSerializeGroupAreaBevelSize() &&
                                       !ShouldSerializeGroupAreaGap() &&
                                       !ShouldSerializeShowContextTitles() &&
-                                      !ShouldSerializeTabMarker();
+                                      !ShouldSerializeTabMarker() &&
+                                      !ShouldSerializeTabMarkerGlow();
     #endregion
 
     #region SetInherit
@@ -1099,7 +1102,7 @@ public class PaletteRibbonGeneral : Storage,
             if (_groupAreaBevelEdges != value)
             {
                 _groupAreaBevelEdges = value;
-                PerformNeedPaint();
+                PerformNeedPaint(true);
             }
         }
     }
@@ -1126,7 +1129,7 @@ public class PaletteRibbonGeneral : Storage,
             if (_groupAreaBevelLight != value)
             {
                 _groupAreaBevelLight = value;
-                PerformNeedPaint();
+                PerformNeedPaint(true);
             }
         }
     }
@@ -1153,7 +1156,7 @@ public class PaletteRibbonGeneral : Storage,
             if (_groupAreaBevelDark != value)
             {
                 _groupAreaBevelDark = value;
-                PerformNeedPaint();
+                PerformNeedPaint(true);
             }
         }
     }
@@ -1189,7 +1192,7 @@ public class PaletteRibbonGeneral : Storage,
             if (_groupAreaBevelSize != value)
             {
                 _groupAreaBevelSize = value;
-                PerformNeedPaint();
+                PerformNeedPaint(true);
             }
         }
     }
@@ -1264,11 +1267,11 @@ public class PaletteRibbonGeneral : Storage,
 
     #region TabMarker
     /// <summary>
-    /// Gets and sets whether Office 2024 selected and hover tabs use a line or a pill.
+    /// Gets and sets whether Office 2024 selected and hover tabs use a straight line or a pill-shaped line.
     /// </summary>
     [KryptonPersist(false)]
     [Category(@"Visuals")]
-    [Description(@"Office 2024 selected and hover tabs use a line under the label, or a pill behind it.")]
+    [Description(@"Office 2024 selected and hover tabs use a straight line or a pill-shaped line under the label.")]
     [DefaultValue(PaletteRibbonTabMarker.Line)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteRibbonTabMarker TabMarker
@@ -1280,7 +1283,7 @@ public class PaletteRibbonGeneral : Storage,
             if (_tabMarker != value)
             {
                 _tabMarker = value;
-                PerformNeedPaint();
+                PerformNeedPaint(true);
             }
         }
     }
@@ -1288,6 +1291,32 @@ public class PaletteRibbonGeneral : Storage,
     private void ResetTabMarker() => TabMarker = PaletteRibbonTabMarker.Line;
 
     private bool ShouldSerializeTabMarker() => TabMarker != PaletteRibbonTabMarker.Line;
+
+    /// <summary>
+    /// Gets and sets a value indicating whether Office 2024 tab lines draw a soft halo.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Draw a soft halo behind Office 2024 selected and hover tab lines.")]
+    [DefaultValue(false)]
+    [RefreshProperties(RefreshProperties.All)]
+    public bool TabMarkerGlow
+    {
+        get => _tabMarkerGlow;
+
+        set
+        {
+            if (_tabMarkerGlow != value)
+            {
+                _tabMarkerGlow = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetTabMarkerGlow() => TabMarkerGlow = false;
+
+    private bool ShouldSerializeTabMarkerGlow() => TabMarkerGlow;
 
     #endregion
 }

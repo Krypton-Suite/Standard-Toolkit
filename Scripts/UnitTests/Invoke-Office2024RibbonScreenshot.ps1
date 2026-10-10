@@ -104,6 +104,21 @@ Start-Sleep -Milliseconds 300
 $pillPath = Join-Path $OutputDir '4496-office-2024-black-pills.png'
 Save-UnitTestWindowPng -Form $form -Path $pillPath
 Write-Host "Wrote $pillPath"
+$blueMode = [Enum]::Parse($modeType, 'Office2024Blue')
+[void]$apply.Invoke($form, @($blueMode))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$bluePillPath = Join-Path $OutputDir '4496-office-2024-blue-pills.png'
+Save-UnitTestWindowPng -Form $form -Path $bluePillPath
+Write-Host "Wrote $bluePillPath"
+$setGlow = $formType.GetMethod('SetTabMarkerGlow')
+[void]$setGlow.Invoke($form, @($true))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$glowPath = Join-Path $OutputDir '4496-office-2024-blue-glow.png'
+Save-UnitTestWindowPng -Form $form -Path $glowPath
+Write-Host "Wrote $glowPath"
+[void]$setGlow.Invoke($form, @($false))
 [void]$setMarker.Invoke($form, @($line))
 $away = $form.PointToScreen((New-Object System.Drawing.Point 40, 320))
 [void][UnitTestNative]::SetCursorPos($away.X, $away.Y)
