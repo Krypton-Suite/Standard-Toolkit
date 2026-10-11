@@ -352,7 +352,9 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
     public void GetGroupKeyTips(KeyTipInfoList keyTipList)
     {
         var visibleIndex = 0;
-        var lineHint = _currentSize == GroupItemSize.Small ? 1 : 4;
+        var lineHint = _ribbon.CompactMode
+            ? 2
+            : (_currentSize == GroupItemSize.Small ? 1 : 4);
 
         // Scan all the children, which must be containers or items
         foreach (ViewBase child in this)
@@ -369,31 +371,35 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                     case IRibbonViewGroupItemView item:
                         item.GetGroupKeyTips(keyTipList, lineHint);
 
-                        // Depending on size we check to adjust the lint hint
-                        switch (_currentSize)
+                        // Depending on size we check to adjust the lint hint.
+                        // Compact mode keeps every item on the single row.
+                        if (!_ribbon.CompactMode)
                         {
-                            case GroupItemSize.Large:
-                                if (visibleIndex == _split1Large)
-                                {
-                                    lineHint = 5;
-                                }
-                                break;
-                            case GroupItemSize.Medium:
-                                if (visibleIndex == _split1Medium)
-                                {
-                                    lineHint = 5;
-                                }
-                                break;
-                            case GroupItemSize.Small:
-                                if (visibleIndex == _split1Small)
-                                {
-                                    lineHint = 2;
-                                }
-                                else if (visibleIndex == _split2Small)
-                                {
-                                    lineHint = 3;
-                                }
-                                break;
+                            switch (_currentSize)
+                            {
+                                case GroupItemSize.Large:
+                                    if (visibleIndex == _split1Large)
+                                    {
+                                        lineHint = 5;
+                                    }
+                                    break;
+                                case GroupItemSize.Medium:
+                                    if (visibleIndex == _split1Medium)
+                                    {
+                                        lineHint = 5;
+                                    }
+                                    break;
+                                case GroupItemSize.Small:
+                                    if (visibleIndex == _split1Small)
+                                    {
+                                        lineHint = 2;
+                                    }
+                                    else if (visibleIndex == _split2Small)
+                                    {
+                                        lineHint = 3;
+                                    }
+                                    break;
+                            }
                         }
 
                         break;
@@ -793,6 +799,12 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
     private Size LargeMediumPreferredSize(int totalWidth, ref int split1)
     {
+        if (_ribbon.CompactMode)
+        {
+            split1 = int.MaxValue;
+            return CompactRowSize(totalWidth);
+        }
+
         var preferredSize = Size.Empty;
 
         // Default to not splitting anywhere
@@ -861,6 +873,13 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
     private Size SmallPreferredSize(int totalWidth)
     {
+        if (_ribbon.CompactMode)
+        {
+            _split1Small = int.MaxValue;
+            _split2Small = int.MaxValue;
+            return CompactRowSize(totalWidth);
+        }
+
         var preferredSize = Size.Empty;
 
         // Default to not splitting anywhere
@@ -973,7 +992,9 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
     {
         var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
         var x = LineStartX(isRtl);
-        var y = ClientLocation.Y + _ribbon.CalculatedValues.GroupLineGapHeight;
+        var y = _ribbon.CompactMode
+            ? ClientLocation.Y
+            : ClientLocation.Y + _ribbon.CalculatedValues.GroupLineGapHeight;
 
         ViewBase? previousChild = null;
 
@@ -1019,7 +1040,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 this[i]?.Layout(context);
 
                 // Do we need to split after this item
-                if (split1 == visibleIndex)
+                if (!_ribbon.CompactMode && (split1 == visibleIndex))
                 {
                     // Move back to start of line and downwards to next line
                     x = LineStartX(isRtl);
@@ -1092,7 +1113,8 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 this[i]?.Layout(context);
 
                 // Do we need to split after this item
-                if ((_split1Small == visibleIndex) || (_split2Small == visibleIndex))
+                if (!_ribbon.CompactMode &&
+                    ((_split1Small == visibleIndex) || (_split2Small == visibleIndex)))
                 {
                     // Move back to start of line and downwards to next line
                     x = LineStartX(isRtl);
@@ -1136,6 +1158,28 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
         }
 
         return gapTotal;
+    }
+
+    /// <summary>
+    /// Preferred size of every visible child on one row.
+    /// </summary>
+    /// <param name="totalWidth">Sum of child widths, without inter-item gaps.</param>
+    /// <returns>Single-row size.</returns>
+    private Size CompactRowSize(int totalWidth)
+    {
+        var preferredSize = new Size(totalWidth, _ribbon.CalculatedValues.GroupTripleHeight);
+
+        if (_sizeList.Count > 1)
+        {
+            preferredSize.Width += GetItemSpacingGap(0, _sizeList.Count - 1);
+        }
+
+        if (_ribbon.InDesignHelperMode)
+        {
+            preferredSize.Width += DesignTimeDraw.FlapWidth + DesignTimeDraw.SepWidth;
+        }
+
+        return preferredSize;
     }
 
     private void OnLinesPropertyChanged(object? sender, PropertyChangedEventArgs e)

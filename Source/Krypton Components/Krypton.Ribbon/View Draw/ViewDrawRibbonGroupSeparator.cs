@@ -241,7 +241,7 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
             ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
-        if (_ribbon.RibbonShape == PaletteRibbonShape.Office2024)
+        if (_ribbon.RibbonShape == PaletteRibbonShape.Office2024 && !_ribbon.CompactMode)
         {
             return;
         }

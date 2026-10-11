@@ -1,10 +1,11 @@
 ﻿<#
 .SYNOPSIS
-    Hosts Office2024RibbonDemo and captures the Office 2024 themes, Microsoft 365 Blue, and a beveled Blue Dark group area.
+    Hosts Office2024RibbonDemo and captures the Office 2024 themes, Microsoft 365 Blue, a beveled Blue Dark group area, and compact ribbon (#4533).
 
 .DESCRIPTION
     Loads TestForm in-process (STA) and writes Documents/PR/4496-office-2024-*.png
-    via Save-UnitTestWindowPng (PrintWindow).
+    via Save-UnitTestWindowPng (PrintWindow). Compact mode also writes
+    4533-compact-ribbon-switch.gif while the groups area eases.
 
     # UnitTest-CI: exclude
 
@@ -16,7 +17,8 @@ param(
     [string]$Configuration = 'Debug',
     [string]$TargetFramework = 'net472',
     [string]$BinDir,
-    [string]$OutputDir
+    [string]$OutputDir,
+    [switch]$CompactOnly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -58,6 +60,7 @@ $form.BringToFront()
 [void][UnitTestNative]::SetForegroundWindow($form.Handle)
 [System.Windows.Forms.Application]::DoEvents()
 
+if (-not $CompactOnly) {
 $captures = @(
     @{ Mode = 'Office2024Blue'; File = '4496-office-2024-blue.png' },
     @{ Mode = 'Office2024BlueDarkMode'; File = '4496-office-2024-blue-dark.png' },
@@ -179,7 +182,172 @@ Start-Sleep -Milliseconds 300
 $gapPath = Join-Path $OutputDir '4496-office-2024-blue-dark-gap.png'
 Save-UnitTestWindowPng -Form $form -Path $gapPath
 Write-Host "Wrote $gapPath"
+}
 
+$setCompact = $formType.GetMethod('SetCompactMode')
+[void]$formType.GetMethod('SetGroupAreaBevel').Invoke($form, @($false))
+[void]$formType.GetMethod('SetGroupAreaGap').Invoke($form, @(0))
+$markerType = $toolkit.GetType('Krypton.Toolkit.PaletteRibbonTabMarker')
+$lineMarker = [Enum]::Parse($markerType, 'Line')
+[void]$formType.GetMethod('SetTabMarker').Invoke($form, @($lineMarker))
+[void]$formType.GetMethod('SetTabMarkerGlow').Invoke($form, @($false))
+[void]$formType.GetMethod('SetShowContextTitles').Invoke($form, @($false))
+[void]$formType.GetMethod('SelectHomeTab').Invoke($form, @())
+$compactBlue = [Enum]::Parse($modeType, 'Office2024Blue')
+[void]$apply.Invoke($form, @($compactBlue))
+$form.ClientSize = New-Object System.Drawing.Size 1100, 760
+[void]$formType.GetMethod('SetAnimateCompactMode').Invoke($form, @($false))
+[void]$setCompact.Invoke($form, @($false))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$classicPath = Join-Path $OutputDir '4533-compact-ribbon-classic.png'
+Save-UnitTestWindowPng -Form $form -Path $classicPath
+Write-Host "Wrote $classicPath"
+
+[void]$setCompact.Invoke($form, @($true))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$compactPath = Join-Path $OutputDir '4533-compact-ribbon-compact.png'
+Save-UnitTestWindowPng -Form $form -Path $compactPath
+Write-Host "Wrote $compactPath"
+
+$setLocation = $formType.GetMethod('SetCompactButtonLocation')
+$locType = $setLocation.GetParameters()[0].ParameterType
+[void]$setLocation.Invoke($form, @([Enum]::Parse($locType, 'GroupsTrailing')))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 200
+$groupsArrowPath = Join-Path $OutputDir '4533-compact-ribbon-arrow-groups.png'
+Save-UnitTestWindowPng -Form $form -Path $groupsArrowPath
+Write-Host "Wrote $groupsArrowPath"
+[void]$setLocation.Invoke($form, @([Enum]::Parse($locType, 'Tabs')))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 200
+$tabsArrowPath = Join-Path $OutputDir '4533-compact-ribbon-arrow-tabs.png'
+Save-UnitTestWindowPng -Form $form -Path $tabsArrowPath
+Write-Host "Wrote $tabsArrowPath"
+[void]$setLocation.Invoke($form, @([Enum]::Parse($locType, 'BelowGroups')))
+[System.Windows.Forms.Application]::DoEvents()
+
+# Height animation. PrintWindow is slower than the live tween, so the GIF
+# steps AnimatedGroupsHeight through the same values the timer eases.
+$ribbonFlags = [System.Reflection.BindingFlags]'Instance,NonPublic,Public'
+$ribbon = $formType.GetField('_ribbon', $ribbonFlags).GetValue($form)
+$calc = $ribbon.GetType().GetProperty('CalculatedValues', $ribbonFlags).GetValue($ribbon)
+$groupsHeightProp = $calc.GetType().GetProperty('GroupsHeight')
+$animatedHeightProp = $calc.GetType().GetProperty('AnimatedGroupsHeight', $ribbonFlags)
+$needPaint = $ribbon.GetType().GetMethod('PerformNeedPaint')
+function Get-CompactGroupsHeight([bool]$compact) {
+    $animatedHeightProp.SetValue($calc, $null)
+    [void]$setCompact.Invoke($form, @($compact))
+    [System.Windows.Forms.Application]::DoEvents()
+    return [int]$groupsHeightProp.GetValue($calc)
+}
+$classicGroupsHeight = Get-CompactGroupsHeight $false
+$compactGroupsHeight = Get-CompactGroupsHeight $true
+$gifFrames = New-Object System.Collections.Generic.List[string]
+$gifDir = Join-Path $env:TEMP 'krypton-4533-compact-frames'
+if (Test-Path -LiteralPath $gifDir) {
+    Remove-Item -LiteralPath $gifDir -Recurse -Force
+}
+New-Item -ItemType Directory -Path $gifDir | Out-Null
+function Save-CompactHeightFrame([bool]$compact, [int]$fromHeight, [int]$toHeight, [double]$t) {
+    $animatedHeightProp.SetValue($calc, $null)
+    [void]$setCompact.Invoke($form, @($compact))
+    $eased = 1.0 - [Math]::Pow(1.0 - $t, 3)
+    $height = [int][Math]::Round($fromHeight + (($toHeight - $fromHeight) * $eased))
+    $animatedHeightProp.SetValue($calc, $height)
+    [void]$needPaint.Invoke($ribbon, @($true))
+    [System.Windows.Forms.Application]::DoEvents()
+    $framePath = Join-Path $gifDir ('frame{0:D3}.png' -f $gifFrames.Count)
+    Save-UnitTestWindowPng -Form $form -Path $framePath
+    $gifFrames.Add($framePath)
+}
+foreach ($step in 0..6) {
+    Save-CompactHeightFrame $true $classicGroupsHeight $compactGroupsHeight ($step / 6.0)
+}
+foreach ($step in 0..6) {
+    Save-CompactHeightFrame $false $compactGroupsHeight $classicGroupsHeight ($step / 6.0)
+}
+$animatedHeightProp.SetValue($calc, $null)
+[void]$needPaint.Invoke($ribbon, @($true))
+$gifPath = Join-Path $OutputDir '4533-compact-ribbon-switch.gif'
+try {
+    Add-Type -AssemblyName PresentationCore
+    $encoder = New-Object System.Windows.Media.Imaging.GifBitmapEncoder
+    foreach ($framePath in $gifFrames) {
+        $bytes = [System.IO.File]::ReadAllBytes($framePath)
+        $ms = New-Object System.IO.MemoryStream
+        $ms.Write($bytes, 0, $bytes.Length)
+        $ms.Position = 0
+        $decoder = [System.Windows.Media.Imaging.BitmapDecoder]::Create(
+            $ms,
+            [System.Windows.Media.Imaging.BitmapCreateOptions]::PreservePixelFormat,
+            [System.Windows.Media.Imaging.BitmapCacheOption]::OnLoad)
+        $meta = New-Object System.Windows.Media.Imaging.BitmapMetadata 'gif'
+        $meta.SetQuery('/grctlext/Delay', [uint16]8)
+        $encoder.Frames.Add([System.Windows.Media.Imaging.BitmapFrame]::Create($decoder.Frames[0], $null, $meta, $null))
+        $ms.Dispose()
+    }
+    $gifStream = [System.IO.File]::Open($gifPath, [System.IO.FileMode]::Create)
+    $encoder.Save($gifStream)
+    $gifStream.Dispose()
+    Write-Host "Wrote $gifPath"
+}
+catch {
+    Write-Warning "GIF encode failed: $($_.Exception.Message)"
+}
+[void]$formType.GetMethod('SetAnimateCompactMode').Invoke($form, @($false))
+[void]$setCompact.Invoke($form, @($true))
+[System.Windows.Forms.Application]::DoEvents()
+
+$compactBlack = [Enum]::Parse($modeType, 'Office2024Black')
+[void]$apply.Invoke($form, @($compactBlack))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$blackPath = Join-Path $OutputDir '4533-compact-ribbon-black.png'
+Save-UnitTestWindowPng -Form $form -Path $blackPath
+Write-Host "Wrote $blackPath"
+[void]$apply.Invoke($form, @($compactBlue))
+[System.Windows.Forms.Application]::DoEvents()
+
+$shapeShots = @(
+    @{ Mode = 'Office2007Blue'; File = '4533-compact-ribbon-office2007.png' },
+    @{ Mode = 'Office2010Blue'; File = '4533-compact-ribbon-office2010.png' },
+    @{ Mode = 'Office2013White'; File = '4533-compact-ribbon-office2013.png' },
+    @{ Mode = 'SparkleBlue'; File = '4533-compact-ribbon-sparkle.png' },
+    @{ Mode = 'VisualStudio2010Render2010'; File = '4533-compact-ribbon-visualstudio2010.png' }
+)
+foreach ($shot in $shapeShots) {
+    $shapeMode = [Enum]::Parse($modeType, $shot.Mode)
+    [void]$apply.Invoke($form, @($shapeMode))
+    [System.Windows.Forms.Application]::DoEvents()
+    Start-Sleep -Milliseconds 250
+    $shapePath = Join-Path $OutputDir $shot.File
+    Save-UnitTestWindowPng -Form $form -Path $shapePath
+    Write-Host "Wrote $shapePath"
+}
+[void]$apply.Invoke($form, @($compactBlue))
+[System.Windows.Forms.Application]::DoEvents()
+
+[void]$formType.GetMethod('SetHideRibbonSize').Invoke($form, @(80, 80))
+$form.ClientSize = New-Object System.Drawing.Size 240, 760
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$narrowPath = Join-Path $OutputDir '4533-compact-ribbon-narrow.png'
+Save-UnitTestWindowPng -Form $form -Path $narrowPath
+Write-Host "Wrote $narrowPath"
+
+$form.ClientSize = New-Object System.Drawing.Size 1100, 760
+$compact365 = [Enum]::Parse($modeType, 'Microsoft365Blue')
+[void]$apply.Invoke($form, @($compact365))
+[System.Windows.Forms.Application]::DoEvents()
+Start-Sleep -Milliseconds 300
+$compact365Path = Join-Path $OutputDir '4533-compact-ribbon-microsoft365.png'
+Save-UnitTestWindowPng -Form $form -Path $compact365Path
+Write-Host "Wrote $compact365Path"
+[void]$setCompact.Invoke($form, @($false))
+
+if (-not $CompactOnly) {
 $blueBack = [Enum]::Parse($modeType, 'Office2024Blue')
 [void]$apply.Invoke($form, @($blueBack))
 [System.Windows.Forms.Application]::DoEvents()
@@ -200,6 +368,7 @@ if ($null -eq $overlay) {
 $backstagePath = Join-Path $OutputDir '4496-office-2024-blue-backstage.png'
 Save-UnitTestWindowPng -Form $overlay -Path $backstagePath
 Write-Host "Wrote $backstagePath"
+}
 
 $form.Close()
 $form.Dispose()

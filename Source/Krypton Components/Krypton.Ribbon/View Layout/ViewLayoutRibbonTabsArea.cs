@@ -508,7 +508,16 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         _buttonSpecMin = new ButtonSpecMdiChildMin(_ribbon);
         _buttonSpecMinimize = new ButtonSpecMinimizeRibbon(_ribbon);
         _buttonSpecExpand = new ButtonSpecExpandRibbon(_ribbon);
-        _buttonSpecsFixed.AddRange(new ButtonSpec[] { _buttonSpecMinimize, _buttonSpecExpand, _buttonSpecMin, _buttonSpecRestore, _buttonSpecClose });
+        _buttonSpecsFixed.AddRange(new ButtonSpec[]
+        {
+            new ButtonSpecCompactRibbon(_ribbon, true, true),
+            new ButtonSpecCompactRibbon(_ribbon, false, true),
+            _buttonSpecMinimize,
+            _buttonSpecExpand,
+            _buttonSpecMin,
+            _buttonSpecRestore,
+            _buttonSpecClose
+        });
     }
 
     private void CreateViewElements(PaletteRedirect redirect)

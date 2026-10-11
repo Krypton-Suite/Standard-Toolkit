@@ -309,7 +309,8 @@ internal class ViewDrawRibbonGroupGallery : ViewComposite,
             var results = new List<ItemSizeWidth>();
 
             // Are we allowed to be in the large size?
-            if (GroupGallery!.ItemSizeMaximum == GroupItemSize.Large)
+            // Compact mode keeps a single swatch row (the medium count) instead of the shrinking large steps.
+            if (GroupGallery!.ItemSizeMaximum == GroupItemSize.Large && !_ribbon.CompactMode)
             {
                 // Allow a maximum of 39 steps between the large and medium values (with a minimum of 1)
                 var step = Math.Max(1, (GroupGallery.LargeItemCount - GroupGallery.MediumItemCount) / 20);
@@ -381,6 +382,15 @@ internal class ViewDrawRibbonGroupGallery : ViewComposite,
                 }
             }
 
+            // A large-only gallery still needs one compact row when the tall steps are omitted.
+            if (_ribbon.CompactMode && (results.Count == 0) &&
+                (GroupGallery.ItemSizeMaximum == GroupItemSize.Large))
+            {
+                LastGallery.InternalPreferredItemSize = new Size(GroupGallery.MediumItemCount, 1);
+                _currentSize = GroupItemSize.Medium;
+                results.Add(new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width));
+            }
+
             // Ensure original value is put back
             LastGallery.InternalPreferredItemSize = originalItemSize;
             _currentSize = originalSize;
@@ -389,7 +399,7 @@ internal class ViewDrawRibbonGroupGallery : ViewComposite,
         }
         else
         {
-            return [new ItemSizeWidth(GroupItemSize.Large, _nullControlWidth)];
+            return [new ItemSizeWidth(_ribbon.CompactMode ? GroupItemSize.Medium : GroupItemSize.Large, _nullControlWidth)];
         }
     }
 
@@ -450,9 +460,9 @@ internal class ViewDrawRibbonGroupGallery : ViewComposite,
             }
         }
 
-        preferredSize.Height = _currentSize == GroupItemSize.Large
-            ? _ribbon.CalculatedValues.GroupTripleHeight
-            : _ribbon.CalculatedValues.GroupLineHeight;
+        preferredSize.Height = _ribbon.CompactMode || _currentSize != GroupItemSize.Large
+            ? _ribbon.CalculatedValues.GroupLineHeight
+            : _ribbon.CalculatedValues.GroupTripleHeight;
 
         return preferredSize;
     }

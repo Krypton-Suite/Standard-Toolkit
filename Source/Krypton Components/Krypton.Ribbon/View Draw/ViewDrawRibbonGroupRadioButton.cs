@@ -213,12 +213,19 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
             switch (_currentSize)
             {
                 case GroupItemSize.Large:
+                    if (_ribbon.CompactMode)
+                    {
+                        screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, 2);
+                        controller = _viewMediumSmallController;
+                        break;
+                    }
+
                     screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
                     controller = _viewLargeController;
                     break;
                 case GroupItemSize.Medium:
                 case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
+                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, _ribbon.CompactMode ? 2 : lineHint);
                     controller = _viewMediumSmallController;
                     break;
             }
@@ -250,7 +257,7 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
         // Get the preferred size of radio button view
         Size preferredSize = base.GetPreferredSize(context);
 
-        preferredSize.Height = _currentSize == GroupItemSize.Large
+        preferredSize.Height = _currentSize == GroupItemSize.Large && !_ribbon.CompactMode
             ? _ribbon.CalculatedValues.GroupTripleHeight
             : _ribbon.CalculatedValues.GroupLineHeight;
 
@@ -428,7 +435,7 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
                 DefineRootView(_viewMediumSmall);
                 break;
             case GroupItemSize.Large:
-                DefineRootView(_viewLarge);
+                DefineRootView(_ribbon.CompactMode ? _viewMediumSmall : _viewLarge);
                 break;
         }
     }

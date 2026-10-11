@@ -214,12 +214,20 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
             switch (_currentSize)
             {
                 case GroupItemSize.Large:
+                    if (_ribbon.CompactMode)
+                    {
+                        // The large tree is the tall image-over-text layout. Compact uses the one-line view.
+                        screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, 2);
+                        controller = _viewMediumSmall.Controller;
+                        break;
+                    }
+
                     screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
                     controller = _viewLarge.Controller;
                     break;
                 case GroupItemSize.Medium:
                 case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
+                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, _ribbon.CompactMode ? 2 : lineHint);
                     controller = _viewMediumSmall.Controller;
                     break;
             }
@@ -259,7 +267,7 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
         // Get the preferred size of button view
         Size preferredSize = base.GetPreferredSize(context);
 
-        preferredSize.Height = _currentSize == GroupItemSize.Large
+        preferredSize.Height = _currentSize == GroupItemSize.Large && !_ribbon.CompactMode
             ? _ribbon.CalculatedValues.GroupTripleHeight
             : _ribbon.CalculatedValues.GroupLineHeight;
 
@@ -531,6 +539,16 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
                 DefineRootView(_viewMediumSmall);
                 break;
             case GroupItemSize.Large:
+                if (_ribbon.CompactMode)
+                {
+                    // Icon beside the text, on the single compact row.
+                    _viewMediumSmallCenter.CurrentSize = GroupItemSize.Medium;
+                    _viewMediumSmallText1.Visible = true;
+                    _viewMediumSmallText2.Visible = true;
+                    DefineRootView(_viewMediumSmall);
+                    break;
+                }
+
                 _viewLargeCenter.CurrentSize = size;
                 DefineRootView(_viewLarge);
                 break;

@@ -24,12 +24,16 @@ public partial class Office2024RibbonDemo : KryptonForm
     private readonly KryptonCheckBox _contextTitles;
     private readonly KryptonCheckBox _pills;
     private readonly KryptonCheckBox _glow;
+    private readonly KryptonCheckBox _compact;
+    private readonly KryptonComboBox _arrowLocation;
     private readonly KryptonNumericUpDown _bevelSize;
     private readonly KryptonNumericUpDown _gap;
     private bool _syncingBevel;
     private bool _syncingContextTitles;
     private bool _syncingPills;
     private bool _syncingGlow;
+    private bool _syncingCompact;
+    private bool _syncingArrowLocation;
     private bool _syncingBevelSize;
     private bool _syncingGap;
 
@@ -70,6 +74,7 @@ public partial class Office2024RibbonDemo : KryptonForm
         _ribbon.SelectedContext = @"Table";
 
         _ribbon.QATButtons.Add(new KryptonRibbonQATButton { Text = @"Undo", ToolTipTitle = @"Undo" });
+        _ribbon.ShowCompactButton = true;
         CreateOffice2024Backstage();
 
         Controls.Add(_ribbon);
@@ -81,13 +86,15 @@ public partial class Office2024RibbonDemo : KryptonForm
         var instructions = new KryptonWrapLabel
         {
             Dock = DockStyle.Top,
-            Height = 140,
+            Height = 188,
             Text =
                 @"Issue #4496: Office 2024 ribbon. The selected tab is an underline, groups have no boxes, and File is text." +
                 Environment.NewLine +
                 @"Switch Blue, Silver, White, grays, and Black, including dark and light modes. Microsoft 365 Blue keeps the folder-tab chrome." +
                 Environment.NewLine +
                 @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the backstage." +
+                Environment.NewLine +
+                @"Compact ribbon (#4533) lays those same groups on one row for every ribbon shape: icon and text, then icons only as the form narrows. Group captions and group boxes hide. Each shape keeps its own tabs. Arrow place chooses under the groups, the end of the groups, or the tab row. Switching eases the groups area. The arrow is optional." +
                 Environment.NewLine +
                 @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card." +
                 Environment.NewLine +
@@ -99,7 +106,7 @@ public partial class Office2024RibbonDemo : KryptonForm
         var buttons = new FlowLayoutPanel
         {
             Dock = DockStyle.Top,
-            Height = 328,
+            Height = 408,
             Padding = new Padding(8, 8, 8, 0)
         };
         buttons.Controls.Add(CreateThemeButton(@"Office 2024 Blue", PaletteMode.Office2024Blue));
@@ -115,6 +122,11 @@ public partial class Office2024RibbonDemo : KryptonForm
         buttons.Controls.Add(CreateThemeButton(@"Black Dark", PaletteMode.Office2024BlackDarkMode));
         buttons.Controls.Add(CreateThemeButton(@"Black Dark Alternate", PaletteMode.Office2024BlackDarkModeAlternate));
         buttons.Controls.Add(CreateThemeButton(@"Microsoft 365 Blue", PaletteMode.Microsoft365Blue));
+        buttons.Controls.Add(CreateThemeButton(@"Office 2007 Blue", PaletteMode.Office2007Blue));
+        buttons.Controls.Add(CreateThemeButton(@"Office 2010 Blue", PaletteMode.Office2010Blue));
+        buttons.Controls.Add(CreateThemeButton(@"Office 2013 White", PaletteMode.Office2013White));
+        buttons.Controls.Add(CreateThemeButton(@"Sparkle Blue", PaletteMode.SparkleBlue));
+        buttons.Controls.Add(CreateThemeButton(@"Visual Studio 2010", PaletteMode.VisualStudio2010Render2010));
         _bevel = new KryptonCheckBox
         {
             Text = @"Beveled group edges",
@@ -171,6 +183,44 @@ public partial class Office2024RibbonDemo : KryptonForm
             }
         };
         buttons.Controls.Add(_glow);
+        _compact = new KryptonCheckBox
+        {
+            Text = @"Compact ribbon",
+            AutoSize = true,
+            Margin = new Padding(8, 6, 8, 0)
+        };
+        _compact.CheckedChanged += (_, _) =>
+        {
+            if (!_syncingCompact)
+            {
+                SetCompactMode(_compact.Checked);
+            }
+        };
+        buttons.Controls.Add(_compact);
+        var arrowLabel = new KryptonLabel
+        {
+            Text = @"Arrow place",
+            AutoSize = true,
+            Margin = new Padding(8, 8, 0, 0)
+        };
+        _arrowLocation = new KryptonComboBox
+        {
+            DropDownStyle = ComboBoxStyle.DropDownList,
+            DropDownWidth = 140,
+            Width = 140,
+            Margin = new Padding(4, 4, 8, 0)
+        };
+        _arrowLocation.Items.AddRange(new object[] { @"Below groups", @"End of groups", @"Tab row" });
+        _arrowLocation.SelectedIndex = 0;
+        _arrowLocation.SelectedIndexChanged += (_, _) =>
+        {
+            if (!_syncingArrowLocation && _arrowLocation.SelectedIndex >= 0)
+            {
+                SetCompactButtonLocation(LocationFromIndex(_arrowLocation.SelectedIndex));
+            }
+        };
+        buttons.Controls.Add(arrowLabel);
+        buttons.Controls.Add(_arrowLocation);
         var bevelSizeLabel = new KryptonLabel
         {
             Text = @"Bevel size",
@@ -227,6 +277,20 @@ public partial class Office2024RibbonDemo : KryptonForm
         panel.Controls.Add(_status);
         panel.Controls.Add(buttons);
         panel.Controls.Add(instructions);
+
+        _ribbon.CompactModeChanged += (_, _) =>
+        {
+            if (_compact.Checked == _ribbon.CompactMode)
+            {
+                _status.Text = StatusText();
+                return;
+            }
+
+            _syncingCompact = true;
+            _compact.Checked = _ribbon.CompactMode;
+            _syncingCompact = false;
+            _status.Text = StatusText();
+        };
 
         ApplyTheme(PaletteMode.Office2024Black);
     }
@@ -334,6 +398,85 @@ public partial class Office2024RibbonDemo : KryptonForm
     }
 
     /// <summary>
+    /// Lays the ribbon groups out as one command row, or restores the classic three-line band.
+    /// </summary>
+    /// <param name="compact">True for the single-row compact ribbon.</param>
+    public void SetCompactMode(bool compact)
+    {
+        _ribbon.CompactMode = compact;
+        if (_compact.Checked != compact)
+        {
+            _syncingCompact = true;
+            _compact.Checked = compact;
+            _syncingCompact = false;
+        }
+
+        _status.Text = StatusText();
+    }
+
+    /// <summary>
+    /// Moves the compact-mode arrow under the groups, to the end of the groups, or onto the tab row.
+    /// </summary>
+    /// <param name="location">Placement of the arrow.</param>
+    public void SetCompactButtonLocation(CompactButtonLocation location)
+    {
+        _ribbon.CompactButtonLocation = location;
+        int index = location == CompactButtonLocation.GroupsTrailing
+            ? 1
+            : location == CompactButtonLocation.Tabs
+                ? 2
+                : 0;
+        if (_arrowLocation.SelectedIndex != index)
+        {
+            _syncingArrowLocation = true;
+            _arrowLocation.SelectedIndex = index;
+            _syncingArrowLocation = false;
+        }
+
+        _status.Text = StatusText();
+    }
+
+    private static CompactButtonLocation LocationFromIndex(int index)
+    {
+        if (index == 1)
+        {
+            return CompactButtonLocation.GroupsTrailing;
+        }
+
+        if (index == 2)
+        {
+            return CompactButtonLocation.Tabs;
+        }
+
+        return CompactButtonLocation.BelowGroups;
+    }
+
+    /// <summary>
+    /// Turns the compact-mode height animation on or off.
+    /// </summary>
+    /// <param name="animate">True to ease the groups area when compact mode changes.</param>
+    public void SetAnimateCompactMode(bool animate) => _ribbon.AnimateCompactMode = animate;
+
+    /// <summary>
+    /// Selects the Home tab so the clipboard and font groups can be checked.
+    /// </summary>
+    public void SelectHomeTab()
+    {
+        if (_ribbon.RibbonTabs.Count > 0)
+        {
+            _ribbon.SelectedTab = _ribbon.RibbonTabs[0];
+            _status.Text = StatusText();
+        }
+    }
+
+    /// <summary>
+    /// Sets the size at which the ribbon hides, so a narrow compact row can be checked.
+    /// </summary>
+    /// <param name="width">Minimum width before the ribbon hides.</param>
+    /// <param name="height">Minimum height before the ribbon hides.</param>
+    public void SetHideRibbonSize(int width, int height) => _ribbon.HideRibbonSize = new Size(width, height);
+
+    /// <summary>
     /// Sets Office 2024 selected and hover tabs to a straight line or a pill-shaped line.
     /// </summary>
     /// <param name="marker">Straight line, or a pill-shaped line, under the label.</param>
@@ -418,7 +561,7 @@ public partial class Office2024RibbonDemo : KryptonForm
     }
 
     private string StatusText() =>
-        $@"Palette: {_ribbon.PaletteMode}. Ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}. Bevel: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelEdges}. Bevel size: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize}. Gap: {_ribbon.StateCommon.RibbonGeneral.GroupAreaGap}. Context titles: {_ribbon.StateCommon.RibbonGeneral.ShowContextTitles}. Tab marker: {_ribbon.StateCommon.RibbonGeneral.TabMarker}. Glow: {_ribbon.StateCommon.RibbonGeneral.TabMarkerGlow}.";
+        $@"Palette: {_ribbon.PaletteMode}. Ribbon shape: {_ribbon.StateCommon.RibbonGeneral.GetRibbonShape()}. Compact: {_ribbon.CompactMode}. Bevel: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelEdges}. Bevel size: {_ribbon.StateCommon.RibbonGeneral.GroupAreaBevelSize}. Gap: {_ribbon.StateCommon.RibbonGeneral.GroupAreaGap}. Context titles: {_ribbon.StateCommon.RibbonGeneral.ShowContextTitles}. Tab marker: {_ribbon.StateCommon.RibbonGeneral.TabMarker}. Glow: {_ribbon.StateCommon.RibbonGeneral.TabMarkerGlow}.";
 
     private KryptonButton CreateThemeButton(string text, PaletteMode mode)
     {

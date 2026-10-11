@@ -26,11 +26,13 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     private readonly Padding _borderPadding2013; // = new(1, 1, 1, 0);
     private readonly Padding _borderPadding365; // = new(1, 1, 1, 0);
     private readonly Padding _borderPadding2024;
+    private readonly Padding _borderPadding2024Compact;
     private readonly Padding _borderPaddingVisualStudio2010;
     private readonly Padding _borderPaddingVisualStudio;
     private IPaletteRibbonBack _inherit;
     private IDisposable? _memento;
     private readonly bool _borderOutside;
+    private Region? _compactAnimationClip;
     #endregion
 
     #region Identity
@@ -58,6 +60,8 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         _borderPadding365 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
         // Clears the rounded card inset (6) and leaves 10px inside the card above and below the items.
         _borderPadding2024 = new Padding((int)(14 * FactorDpiX), (int)(16 * FactorDpiY), (int)(14 * FactorDpiX), (int)(16 * FactorDpiY));
+        // Single command row: keep a small card inset so the row is actually short.
+        _borderPadding2024Compact = new Padding((int)(8 * FactorDpiX), (int)(4 * FactorDpiY), (int)(8 * FactorDpiX), (int)(4 * FactorDpiY));
         _borderPaddingVisualStudio = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
     }
 
@@ -82,6 +86,12 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             {
                 _memento.Dispose();
                 _memento = null;
+            }
+
+            if (_compactAnimationClip != null)
+            {
+                _compactAnimationClip.Dispose();
+                _compactAnimationClip = null;
             }
         }
 
@@ -108,7 +118,9 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
                 PaletteRibbonShape.VisualStudio2010 => _borderPaddingVisualStudio2010,
                 PaletteRibbonShape.Office2013 => _borderPadding2013,
                 PaletteRibbonShape.Microsoft365 => _borderPadding365,
-                PaletteRibbonShape.Office2024 => _borderOutside ? _borderPadding365 : _borderPadding2024,
+                PaletteRibbonShape.Office2024 => _borderOutside
+                    ? _borderPadding365
+                    : (Ribbon.CompactMode ? _borderPadding2024Compact : _borderPadding2024),
                 PaletteRibbonShape.VisualStudio => _borderPaddingVisualStudio,
                 _ => _borderPadding2007
             };
@@ -150,6 +162,27 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
 
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
+
+        // During a compact switch the visible band is the eased height, but the commands
+        // lay out at the target height so they are revealed rather than squashed.
+        Rectangle layoutRect = ClientRectangle;
+        if (Ribbon.CalculatedValues.AnimatedGroupsHeight.HasValue)
+        {
+            int delta = Ribbon.CalculatedValues.NaturalGroupsHeight - ClientHeight;
+            if (delta != 0)
+            {
+                layoutRect.Height = ClientHeight + delta;
+            }
+        }
+
+        // The below-groups arrow is drawn inside the card. Keep the groups above that band
+        // so captions and commands line up with the card instead of sliding under the arrow.
+        if (Ribbon.CompactBelowGroupsReserve > 0 && !Ribbon.CalculatedValues.AnimatedGroupsHeight.HasValue)
+        {
+            layoutRect.Height = Math.Max(0, layoutRect.Height - Ribbon.CompactBelowGroupsReserve);
+        }
+
+        context.DisplayRectangle = layoutRect;
 
         // Do we need to add on our own border size
         if (!_borderOutside)
@@ -241,6 +274,27 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         {
             using var separatorPen = new Pen(separatorColor, 1f);
             context.Graphics.DrawLine(separatorPen, drawRect.X, drawRect.Bottom - 1, drawRect.Right - 1, drawRect.Bottom - 1);
+        }
+
+        // Children may extend below the eased band. Clip them to the visible card.
+        if (Ribbon.CalculatedValues.AnimatedGroupsHeight.HasValue)
+        {
+            _compactAnimationClip = context.Graphics.Clip;
+            context.Graphics.SetClip(ClientRectangle, CombineMode.Intersect);
+        }
+    }
+
+    /// <summary>
+    /// Perform rendering after child elements are rendered.
+    /// </summary>
+    /// <param name="context">Rendering context.</param>
+    public override void RenderAfter(RenderContext context)
+    {
+        if (_compactAnimationClip != null)
+        {
+            context.Graphics.Clip = _compactAnimationClip;
+            _compactAnimationClip.Dispose();
+            _compactAnimationClip = null;
         }
     }
     #endregion

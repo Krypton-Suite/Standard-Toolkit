@@ -53,6 +53,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     private PaletteRibbonContextBack _paletteContextBackArea;
     private PaletteRibbonContextBack _paletteContextBorder;
     private PaletteRibbonShape _lastRibbonShape;
+    private bool _lastCompactMode;
     private readonly NeedPaintHandler _needPaint;
     private IDisposable? _mementoRibbonBackArea;
     private IDisposable? _mementoRibbonBackBorder;
@@ -539,10 +540,9 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             context.DisplayRectangle = new Rectangle(ClientLocation.X + side, ClientLocation.Y, ClientWidth - (side * 2), ClientHeight);
         }
 
-        // Update the title element with the height of the group title area
-        bool macRibbon = _ribbon.RibbonShape == PaletteRibbonShape.MacOS;
-        _viewNormalTitle.Visible = !macRibbon;
-        _viewNormalTitle.Height = macRibbon ? 0 : _ribbon.CalculatedValues.GroupTitleHeight;
+        // Update the title element with the height of the group title area.
+        // Compact mode drops the caption and hosts the dialog launcher on the command row.
+        PlaceGroupTitle();
 
         // We only show the dialog box launcher button if group says we need one
         _viewNormalDialog.Visible = _ribbonGroup.DialogBoxLauncher;
@@ -610,12 +610,56 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     #endregion
 
     #region Implementation
+    private void PlaceGroupTitle()
+    {
+        if (_ribbon.CompactMode)
+        {
+            // The caption band is hidden. A launcher stays reachable at the trailing edge of the row.
+            _layoutNormalTitle.Visible = false;
+            _viewNormalTitle.Visible = false;
+            _viewNormalTitle.Height = 0;
+
+            if (_layoutNormalTitle.Contains(_viewNormalDialog))
+            {
+                _layoutNormalTitle.Remove(_viewNormalDialog);
+                _layoutNormalMain.Add(_viewNormalDialog, ViewDockStyle.Right);
+            }
+
+            return;
+        }
+
+        if (!_layoutNormalTitle.Contains(_viewNormalDialog))
+        {
+            _layoutNormalMain.Remove(_viewNormalDialog);
+            _layoutNormalTitle.Add(_viewNormalDialog, ViewDockStyle.Right);
+        }
+
+        _layoutNormalTitle.Visible = true;
+        bool macRibbon = _ribbon.RibbonShape == PaletteRibbonShape.MacOS;
+        _viewNormalTitle.Visible = !macRibbon;
+        _viewNormalTitle.Height = macRibbon ? 0 : _ribbon.CalculatedValues.GroupTitleHeight;
+    }
+
     private void UpdateShapeValues()
     {
         if (_ribbon != null)
         {
-            if (_lastRibbonShape != _ribbon.RibbonShape)
+            if ((_lastRibbonShape != _ribbon.RibbonShape) || (_lastCompactMode != _ribbon.CompactMode))
             {
+                _lastCompactMode = _ribbon.CompactMode;
+                if (_ribbon.CompactMode)
+                {
+                    // Every ribbon shape drops its group box in compact mode. Tab chrome stays.
+                    _totalBorders = 0;
+                    _layoutNormalMain.VertOffset = 0;
+                    _layoutNormalSepTop.SeparatorSize = Size.Empty;
+                    _layoutNormalSepLeft.SeparatorSize = Size.Empty;
+                    _layoutNormalSepRight.SeparatorSize = Size.Empty;
+                    _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
+                    _lastRibbonShape = _ribbon.RibbonShape;
+                    return;
+                }
+
                 switch (_ribbon.RibbonShape)
                 {
                     default:
@@ -791,6 +835,12 @@ internal class ViewDrawRibbonGroup : ViewComposite,
         }
 
         ElementState = elementState;
+
+        // Compact mode is one flat command row. The groups-area background still uses this ribbon shape.
+        if (_ribbon.CompactMode)
+        {
+            return;
+        }
 
         // Indicate the showing of the group inside a popup by adding focus override
         if (_ribbonGroup.ShowingAsPopup)

@@ -261,7 +261,9 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
             {
                 if (child is IRibbonViewGroupItemView item)
                 {
-                    item.GetGroupKeyTips(keyTipList, IndexOf(child) + 1);
+                    // Compact items share one row, so every key tip uses the single-line anchor.
+                    var line = _ribbon.CompactMode ? 2 : IndexOf(child) + 1;
+                    item.GetGroupKeyTips(keyTipList, line);
                 }
             }
         }
@@ -283,10 +285,19 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         var results = new List<ItemSizeWidth>();
 
         // Are we allowed to be in the large size?
+        // Compact mode has no tall image-over-text layout. Measure the icon-and-text row instead.
         if (_ribbonTriple.ItemSizeMaximum == GroupItemSize.Large)
         {
-            ApplySize(GroupItemSize.Large);
-            results.Add(new ItemSizeWidth(GroupItemSize.Large, GetPreferredSize(context).Width));
+            if (_ribbon.CompactMode)
+            {
+                ApplySize(GroupItemSize.Medium);
+                results.Add(new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width));
+            }
+            else
+            {
+                ApplySize(GroupItemSize.Large);
+                results.Add(new ItemSizeWidth(GroupItemSize.Large, GetPreferredSize(context).Width));
+            }
         }
 
         // Are we allowed to be in the medium size?
@@ -394,8 +405,8 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
 
         var preferredSize = Size.Empty;
 
-        // Are we sizing horizontal or vertical?
-        var horizontal = _currentSize == GroupItemSize.Large;
+        // Compact mode places every size on one row. Classic large is the only horizontal size.
+        var horizontal = _currentSize == GroupItemSize.Large || _ribbon.CompactMode;
 
         // Find total width and maximum height across all child elements
         for (var i = 0; i < Count; i++)
@@ -470,8 +481,8 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         // Store the provided client area
         ClientRectangle = context!.DisplayRectangle;
 
-        // Are we sizing horizontal or vertical?
-        var horizontal = _currentSize == GroupItemSize.Large;
+        // Compact mode places every size on one row. Classic large is the only horizontal size.
+        var horizontal = _currentSize == GroupItemSize.Large || _ribbon.CompactMode;
         var widest = _currentSize == GroupItemSize.Small ? _smallWidest : _mediumWidest;
 
         // Are there any children to layout?
@@ -591,11 +602,16 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
     #region Implementation
     private void ApplySize(GroupItemSize size)
     {
+        // A compact large child would be the tall button. Cap it at icon-and-text.
+        var childSize = _ribbon.CompactMode && size == GroupItemSize.Large
+            ? GroupItemSize.Medium
+            : size;
+
         foreach (ViewBase item in this)
         {
             if (item is IRibbonViewGroupItemView viewItem)
             {
-                viewItem.SetGroupItemSize(size);
+                viewItem.SetGroupItemSize(childSize);
             }
         }
 

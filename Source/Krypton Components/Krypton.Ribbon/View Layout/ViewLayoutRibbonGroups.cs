@@ -358,6 +358,42 @@ internal class ViewLayoutRibbonGroups : ViewComposite
     }
     #endregion
 
+    #region Paint
+    /// <summary>
+    /// Draws the short rule between compact groups. The separator view itself only reserves space.
+    /// </summary>
+    /// <param name="context">Rendering context.</param>
+    public override void RenderBefore(RenderContext context)
+    {
+        base.RenderBefore(context);
+
+        if ((_ribbon == null) || !_ribbon.CompactMode)
+        {
+            return;
+        }
+
+        Color color = _ribbon.StateCommon.RibbonGeneral.GetRibbonGroupSeparatorDark(PaletteState.Normal);
+        if (color.IsEmpty || (color.A == 0))
+        {
+            color = Color.FromArgb(160, 128, 128, 128);
+        }
+
+        using var pen = new Pen(color);
+        foreach (ViewLayoutRibbonSeparator sep in _groupSepCache)
+        {
+            if (!sep.Visible || (sep.ClientWidth <= 0) || (sep.ClientHeight <= 4))
+            {
+                continue;
+            }
+
+            Rectangle bounds = sep.ClientRectangle;
+            int x = bounds.X + (bounds.Width / 2);
+            int inset = Math.Max(2, bounds.Height / 5);
+            context.Graphics.DrawLine(pen, x, bounds.Top + inset, x, bounds.Bottom - inset);
+        }
+    }
+    #endregion
+
     #region Implementation
     private Size SeparatorSize
     {
@@ -367,12 +403,14 @@ internal class ViewLayoutRibbonGroups : ViewComposite
 
             if (_ribbon != null)
             {
-                retSize = _ribbon.RibbonShape switch
-                {
-                    PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
-                    PaletteRibbonShape.Office2024 => Office2024SeparatorSize(),
-                    _ => new Size(SEP_LENGTH_2007, SEP_LENGTH_2007)
-                };
+                retSize = _ribbon.CompactMode
+                    ? CompactSeparatorSize()
+                    : _ribbon.RibbonShape switch
+                    {
+                        PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
+                        PaletteRibbonShape.Office2024 => Office2024SeparatorSize(),
+                        _ => new Size(SEP_LENGTH_2007, SEP_LENGTH_2007)
+                    };
             }
 
             return retSize;
@@ -389,6 +427,13 @@ internal class ViewLayoutRibbonGroups : ViewComposite
 
         float dpi = _ribbon.DeviceDpi / 96f;
         int pixels = Math.Max(1, (int)(gap * dpi));
+        return new Size(pixels, pixels);
+    }
+
+    private Size CompactSeparatorSize()
+    {
+        float dpi = _ribbon!.DeviceDpi / 96f;
+        int pixels = Math.Max(1, (int)(9 * dpi));
         return new Size(pixels, pixels);
     }
 
@@ -504,9 +549,11 @@ internal class ViewLayoutRibbonGroups : ViewComposite
 
                     // Track how many extra pixels are needed for inter group gaps.
                     // A configured Office 2024 gap replaces the small default so groups can shrink to fit.
+                    // Compact mode uses the drawn rule width so the solver reserves that space.
                     int sep = SEP_LENGTH_2007;
-                    if (_ribbon?.RibbonShape == PaletteRibbonShape.Office2024 &&
-                        _ribbon.StateCommon.RibbonGeneral.GroupAreaGap > 0)
+                    if (_ribbon?.CompactMode == true ||
+                        (_ribbon?.RibbonShape == PaletteRibbonShape.Office2024 &&
+                         _ribbon.StateCommon.RibbonGeneral.GroupAreaGap > 0))
                     {
                         sep = SeparatorSize.Width;
                     }
