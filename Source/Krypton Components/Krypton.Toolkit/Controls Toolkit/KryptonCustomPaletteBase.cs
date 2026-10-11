@@ -3870,6 +3870,8 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Remember the current culture setting
         var culture = Thread.CurrentThread.CurrentCulture;
 
+        // Let export failures propagate. Public Export uses silent to decide whether to show UI.
+        // Catching here used to show a modal exception dialog and return an empty document.
         try
         {
             // Use the invariant culture for persistence
@@ -3922,12 +3924,6 @@ public class KryptonCustomPaletteBase : PaletteBase
             ExportImagesToElement(doc, images, imageCache);
 
             return doc;
-        }
-        catch (Exception e)
-        {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
-
-            return new XmlDocument();
         }
         finally
         {
@@ -4494,6 +4490,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         [typeof(PaletteContentImage)] = nameof(PaletteContentImage),
         [typeof(PaletteDragFeedback)] = nameof(PaletteDragFeedback),
         [typeof(PaletteRibbonShape)] = nameof(PaletteRibbonShape),
+        [typeof(PaletteRibbonTabMarker)] = nameof(PaletteRibbonTabMarker),
         [typeof(PaletteCornerRounding)] = nameof(PaletteCornerRounding)
     };
     internal static string TypeToString(Type t)
