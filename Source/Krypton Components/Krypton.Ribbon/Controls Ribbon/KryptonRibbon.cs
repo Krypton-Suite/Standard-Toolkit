@@ -56,6 +56,7 @@ public partial class KryptonRibbon : VisualSimple,
     private bool _keyboardFocusCaret;
     private bool _designHelpers;
     private bool _invalidateOnResize;
+    private bool _forcingRefresh;
     private bool _uxthemeNotAvailable;
     private bool _altDown;
     private int _altUpCount;
@@ -2482,6 +2483,21 @@ public partial class KryptonRibbon : VisualSimple,
 
         // Let base class perform usual painting
         base.OnNeedPaint(sender, e);
+
+        // Layout-only invalidation leaves the groups child control stale until the next
+        // mouse move. Paint the ribbon and its children before the caller returns.
+        if (e.NeedLayout && IsHandleCreated && !IsDisposed && !_forcingRefresh)
+        {
+            _forcingRefresh = true;
+            try
+            {
+                Refresh();
+            }
+            finally
+            {
+                _forcingRefresh = false;
+            }
+        }
     }
 
     /// <summary>

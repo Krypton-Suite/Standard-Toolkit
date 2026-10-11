@@ -25,6 +25,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     private readonly Padding _borderPadding2010; // = new(1, 1, 1, 3);
     private readonly Padding _borderPadding2013; // = new(1, 1, 1, 0);
     private readonly Padding _borderPadding365; // = new(1, 1, 1, 0);
+    private readonly Padding _borderPadding2024;
     private readonly Padding _borderPaddingVisualStudio2010;
     private readonly Padding _borderPaddingVisualStudio;
     private IPaletteRibbonBack _inherit;
@@ -55,6 +56,8 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         _borderPaddingVisualStudio2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
         _borderPadding2013 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
         _borderPadding365 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
+        // Clears the rounded card inset (6) and leaves 10px inside the card above and below the items.
+        _borderPadding2024 = new Padding((int)(14 * FactorDpiX), (int)(16 * FactorDpiY), (int)(14 * FactorDpiX), (int)(16 * FactorDpiY));
         _borderPaddingVisualStudio = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
     }
 
@@ -105,6 +108,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
                 PaletteRibbonShape.VisualStudio2010 => _borderPaddingVisualStudio2010,
                 PaletteRibbonShape.Office2013 => _borderPadding2013,
                 PaletteRibbonShape.Microsoft365 => _borderPadding365,
+                PaletteRibbonShape.Office2024 => _borderOutside ? _borderPadding365 : _borderPadding2024,
                 PaletteRibbonShape.VisualStudio => _borderPaddingVisualStudio,
                 _ => _borderPadding2007
             };
@@ -204,8 +208,28 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             drawRect.Width += 2;
         }
 
-        // Use renderer to draw the tab background
-        _memento = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, drawRect, State, this, VisualOrientation.Top, _memento);
+        // A positive Office 2024 gap paints one rounded card per group. Otherwise the area is one card.
+        PaletteRibbonGeneral general = Ribbon.StateCommon.RibbonGeneral;
+        if (Ribbon.RibbonShape == PaletteRibbonShape.Office2024 &&
+            general.GroupAreaGap > 0 &&
+            TryDrawOffice2024GroupGaps(context, drawRect, general))
+        {
+            if (_memento != null)
+            {
+                _memento.Dispose();
+                _memento = null;
+            }
+        }
+        else
+        {
+            // Use renderer to draw the tab background
+            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, drawRect, State, this, VisualOrientation.Top, _memento);
+
+            if (Ribbon.RibbonShape == PaletteRibbonShape.Office2024 && general.GroupAreaBevelEdges)
+            {
+                RenderStandard.DrawRibbonGroupArea2024Bevel(context, drawRect, GetRibbonBackColor1(State), general.GroupAreaBevelLight, general.GroupAreaBevelDark, general.GroupAreaBevelSize);
+            }
+        }
 
         if (TryGetRetroPopupBorderColor(out Color popupBorderColor))
         {
@@ -220,6 +244,89 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         }
     }
     #endregion
+
+    private bool TryDrawOffice2024GroupGaps(RenderContext context, Rectangle drawRect, PaletteRibbonGeneral general)
+    {
+        float dpi = context.Graphics.DpiX / 96f;
+        if (!RenderStandard.TryGetRibbonGroupArea2024Card(drawRect, dpi, out Rectangle band))
+        {
+            return false;
+        }
+
+        var groups = new List<Rectangle>();
+        CollectGroupCards(groups);
+        if (groups.Count < 2)
+        {
+            return false;
+        }
+
+        groups.Sort((left, right) => left.Left.CompareTo(right.Left));
+        Color body = GetRibbonBackColor1(State);
+        bool bevel = general.GroupAreaBevelEdges;
+        for (var i = 0; i < groups.Count; i++)
+        {
+            // The card is the group bounds. Side padding lives inside the group, so the edges match.
+            int left = Math.Max(band.Left, groups[i].Left);
+            int right = Math.Min(band.Right, groups[i].Right);
+            if (right - left < 8)
+            {
+                continue;
+            }
+
+            var card = Rectangle.FromLTRB(left, band.Top, right, band.Bottom);
+            RenderStandard.DrawRibbonGroupArea2024Exact(context, card, body, bevel, general.GroupAreaBevelLight, general.GroupAreaBevelDark, general.GroupAreaBevelSize);
+        }
+
+        return true;
+    }
+
+    private void CollectGroupCards(List<Rectangle> groups)
+    {
+        foreach (ViewBase child in this)
+        {
+            if (child is not ViewLayoutRibbonScrollPort port || !port.Visible)
+            {
+                continue;
+            }
+
+            ViewBase? filler = port.ViewLayoutControl.ChildView;
+            Control? host = port.ViewLayoutControl.ChildControl;
+            if (filler == null || host == null)
+            {
+                continue;
+            }
+
+            var found = new List<Rectangle>();
+            CollectVisibleGroups(filler, found);
+            foreach (Rectangle rect in found)
+            {
+                // Group rectangles are in the scroll-port child control, which is parented to the ribbon.
+                groups.Add(new Rectangle(host.Left + rect.Left, host.Top + rect.Top, rect.Width, rect.Height));
+            }
+        }
+    }
+
+    private static void CollectVisibleGroups(ViewBase view, List<Rectangle> groups)
+    {
+        if (!view.Visible)
+        {
+            return;
+        }
+
+        if (view is ViewDrawRibbonGroup group && group.ClientRectangle.Width > 0)
+        {
+            groups.Add(group.ClientRectangle);
+            return;
+        }
+
+        if (view is ViewComposite composite)
+        {
+            foreach (ViewBase child in composite)
+            {
+                CollectVisibleGroups(child, groups);
+            }
+        }
+    }
 
     #region IPaletteRibbonBack
     /// <summary>

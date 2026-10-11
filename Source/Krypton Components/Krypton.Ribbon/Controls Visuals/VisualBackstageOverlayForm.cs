@@ -178,6 +178,8 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
             _content.Visible = true;
             _contentHost.Controls.Add(_content);
         }
+
+        UpdateOffice2024Header();
     }
 
     /// <summary>
@@ -315,6 +317,12 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
     /// Back button requests close (actual close orchestration is owned by <see cref="KryptonRibbon"/>).
     /// </summary>
     private void OnBackButtonClick(object? sender, EventArgs e) => BackRequested?.Invoke(this, EventArgs.Empty);
+
+    /// <summary>
+    /// Office 2024 backstage has no separate Back strip. Esc still closes the overlay.
+    /// </summary>
+    private void UpdateOffice2024Header() =>
+        _header.Visible = !(_content is KryptonBackstageView view && view.IsOffice2024Navigation);
 
     /// <summary>
     /// Handle ESC as a request to close the overlay.
