@@ -33,7 +33,7 @@ internal partial class VisualKryptonPaletteCollectionEditorForm : KryptonForm
         _strings = strings ?? new KryptonPaletteCollectionEditorStrings();
         InitializeComponent();
         // Modal collection editor; an unowned show otherwise gets a taskbar button.
-        ShowInTaskbar = false;
+        ShowInTaskbar = SharedStaticVariables.SHOW_COLLECTION_EDITORS_IN_TASKBAR;
         KryptonDialogLayout.EnableResizable(this);
         kbtnBrowse.Click += (_, _) => BrowseCollection();
         kbtnSaveName.Click += (_, _) => SaveCollectionName();
