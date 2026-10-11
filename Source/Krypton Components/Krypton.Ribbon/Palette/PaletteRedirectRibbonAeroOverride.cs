@@ -130,6 +130,7 @@ public class PaletteRedirectRibbonAeroOverride : PaletteRedirect
     private bool RibbonShapeIs2010OrHigher() => _ribbon.RibbonShape is PaletteRibbonShape.OSXAqua
         or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010
         or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365
+        or PaletteRibbonShape.Office2024
         or PaletteRibbonShape.VisualStudio;
 
     #endregion

@@ -45,6 +45,19 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Implemented [#4496](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4496), Office 2024 ribbon chrome: underline tabs, flat borderless groups, and a text File tab. Extra themes are Blue, Silver, White, Light Gray, Dark Gray, and Black, plus Blue, Silver, and Black dark and light mode variants (`PaletteMode.Office2024Blue`, `Office2024BlueDarkMode`, `Office2024BlueLightMode`, `Office2024Silver`, `Office2024SilverDarkMode`, `Office2024SilverLightMode`, `Office2024White`, `Office2024LightGray`, `Office2024DarkGray`, `Office2024Black`, `Office2024BlackDarkMode`, `Office2024BlackDarkModeAlternate`). Microsoft 365 ribbon chrome is unchanged.
+  - Office 2024 group area can draw an optional bevel. Set `StateCommon.RibbonGeneral.GroupAreaBevelEdges`. Leave `GroupAreaBevelLight` and `GroupAreaBevelDark` empty to derive the edges from the group area, or set those colours yourself.
+    - Group-area bevel width is configurable. Set `StateCommon.RibbonGeneral.GroupAreaBevelSize` to the visible width in pixels at 96 DPI. The default is 2.
+  - Office 2024 groups can be split by an optional gap. Set `StateCommon.RibbonGeneral.GroupAreaGap` to the gap in pixels at 96 DPI. Zero keeps one continuous group area.
+  - A selected tab draws a contrasting line under its label. A selected context tab uses the context colour for its label and for that line.
+  - Hovering a tab draws a grey line under its label.
+  - Office 2024 selected and hover tabs can use a straight line or a pill-shaped line under the label. Set `StateCommon.RibbonGeneral.TabMarker`. The default is a straight line.
+  - Office 2024 tab lines can draw an optional static glow. Set `StateCommon.RibbonGeneral.TabMarkerGlow`. The default is off. The line stays crisp and close under the label, with a bloom and a bright shine along the middle.
+  - The Office 2024 File tab opens a backstage rail with compact rows, a rounded selection pill, separators, and items that can be pinned to the bottom. Set `NavigationOrder`, `SeparatorBefore`, and `PlaceAtBottom` on pages and commands. `NavigationStyle` defaults to `Inherit`, which follows the ribbon shape. Microsoft 365 keeps the Office 2010 rail.
+  - Office 2024 forms use the same rounded window corners as Office 2007 and Office 2010. Microsoft 365 forms stay square. An explicit form border `Rounding` still wins.
+  - Office 2024 contextual titles in the title bar are optional. Set `StateCommon.RibbonGeneral.ShowContextTitles`. The default is off. Microsoft 365 and older ribbon shapes still show those titles.
+  - Group items sit inside the card. Separated cards keep space on the left and right, and the group area keeps the same space above and below the items.
+  - To use the themes, reference `Krypton.Themes` (included in the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) package).
 - Resolved [#4413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4413), Disabled caption-button glyphs on Office 2010, Office 2013, and Microsoft 365 use a theme grey (light 205, dark 196, Microsoft 365 Black ghost white). The close-button fill stays transparent.
 - Resolved [#4483](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4483), Dark mode themes no longer leave light Office chrome on dark surfaces. Office glass buttons and silver group captions stay. Disabled text, separators, grid rows, tabs, and checkbox/radio glyphs are darkened so they stay readable.
 - Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).

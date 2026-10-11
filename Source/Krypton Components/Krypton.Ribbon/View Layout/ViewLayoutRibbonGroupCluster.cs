@@ -488,10 +488,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         // Grab the shape of the ribbon
         _lastShape = _ribbon.RibbonShape;
 
-        var itemEdgeVisible = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
-        var itemEdgeIgnoreNormal = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
-        var itemConstantBorder = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
-        var itemDrawNonTrackingAreas = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        var itemEdgeVisible = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2024);
+        var itemEdgeIgnoreNormal = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2024);
+        var itemConstantBorder = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2024);
+        var itemDrawNonTrackingAreas = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2024);
 
         // Remove all child elements
         Clear();
@@ -586,6 +586,7 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
                         case PaletteRibbonShape.Office2010:
                         case PaletteRibbonShape.OSXAqua:
                         case PaletteRibbonShape.MacOS:
+                        case PaletteRibbonShape.Office2024:
                             maxBorders = PaletteDrawBorders.All;
                             break;
                     }
