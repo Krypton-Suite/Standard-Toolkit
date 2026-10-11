@@ -125,7 +125,7 @@
     <Compile Update="KryptonToolkit\Bugs\Bug3382CueHintLinesDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonToolkit\Bug3382CueHintLinesDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3382CueHintLinesDemo.Designer.cs">
       <DependentUpon>Bug3382CueHintLinesDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.cs">
@@ -137,13 +137,13 @@
     <Compile Update="KryptonToolkit\Bugs\Bug3383KryptonButtonStateTrackingRoundingDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonToolkit\Bug3383KryptonButtonStateTrackingRoundingDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3383KryptonButtonStateTrackingRoundingDemo.Designer.cs">
       <DependentUpon>Bug3383KryptonButtonStateTrackingRoundingDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonToolkit\Bugs\Bug3661KryptonContextMenuOverflowDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonToolkit\Bug3661KryptonContextMenuOverflowDemo.Designer.cs">
+    <Compile Update="KryptonToolkit\Bugs\Bug3661KryptonContextMenuOverflowDemo.Designer.cs">
       <DependentUpon>Bug3661KryptonContextMenuOverflowDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonComboBoxUserControlDemo.cs">
@@ -155,13 +155,13 @@
     <Compile Update="KryptonCheckedListComboBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonUtilities\Feature\KryptonMultiColumnComboBoxDemo.cs">
+    <Compile Update="KryptonMultiColumnComboBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonUtilities\Feature\KryptonDropZoneDemo.cs">
+    <Compile Update="KryptonDropZoneDemo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="KryptonUtilities\Feature\KryptonDropZoneDemo.Designer.cs">
+    <Compile Update="KryptonDropZoneDemo.Designer.cs">
       <DependentUpon>KryptonDropZoneDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="Feature3851RenderingDpiDemo.cs">

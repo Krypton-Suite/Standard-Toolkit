@@ -379,7 +379,8 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
 
     private void RunExportReport()
     {
-        if (string.IsNullOrWhiteSpace(_lastFilePath))
+        var path = _lastFilePath;
+        if (path is null || string.IsNullOrWhiteSpace(path))
         {
             _lblStatus.Text = @"Analyze a file before saving a coverage report.";
             return;
@@ -400,7 +401,7 @@ public sealed class TranslationsXmlDemoForm : KryptonForm
 
         try
         {
-            var coverage = KryptonManager.AnalyzeTranslationsFromFile(_lastFilePath);
+            var coverage = KryptonManager.AnalyzeTranslationsFromFile(path);
             coverage.ExportReport(sfd.FileName);
             _lblStatus.Text = $@"Coverage report saved to {sfd.FileName}.";
         }

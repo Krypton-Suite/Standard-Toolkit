@@ -124,6 +124,7 @@ public static class KryptonDesignerEditorTheme
         combo.Name = ThemeSelectorName;
         combo.DropDownStyle = ComboBoxStyle.DropDownList;
         state.CustomPalette = initialCustom;
+        KryptonThemeCatalog.DiscoverThemes(form.Site);
 
         if (combo.Items.Count == 0)
         {

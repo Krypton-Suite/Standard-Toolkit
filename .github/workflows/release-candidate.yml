@@ -441,6 +441,7 @@ jobs:
         with:
           channel: rc
           source-branch: ${{ github.ref_name }}
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
 
       - name: Announce Release Candidate Release on Discord
         if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'

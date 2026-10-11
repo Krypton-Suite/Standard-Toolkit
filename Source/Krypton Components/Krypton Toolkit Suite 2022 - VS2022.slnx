@@ -167,6 +167,12 @@
     <Project Path="Krypton.Interop/Krypton.Interop.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
+    <Project Path="Krypton.Resources/Fallback/Krypton.Resources.Fallback.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
     <Project Path="Krypton.Resources/Krypton.Resources.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>

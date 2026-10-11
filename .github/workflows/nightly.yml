@@ -563,6 +563,7 @@ jobs:
         with:
           channel: alpha
           source-branch: alpha
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
 
       - name: Announce Nightly Release on Discord
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'

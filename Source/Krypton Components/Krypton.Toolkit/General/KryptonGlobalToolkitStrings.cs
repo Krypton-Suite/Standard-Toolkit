@@ -674,7 +674,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [Localizable(true)]
     public KryptonPrintPreviewDialogStrings PrintPreviewDialogStrings => KryptonPrintPreviewDialogStrings;
     private bool ShouldSerializePrintPreviewDialogStrings() => !KryptonPrintPreviewDialogStrings.IsDefault;
-    private void ResetMiscellaneousPrintPreviewDialogStrings() => KryptonPrintPreviewDialogStrings.Reset();
+    private void ResetPrintPreviewDialogStrings() => KryptonPrintPreviewDialogStrings.Reset();
 
     /// <summary>Gets the krypton miscellaneous theme strings.</summary>
     /// <value>The krypton miscellaneous theme strings.</value>
@@ -801,10 +801,14 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [Localizable(true)]
     public SplashScreenStrings SplashScreenStrings => KryptonSplashScreenStrings;
 
-    private bool ShouldSerializeSplashScreenStringsStrings() => !KryptonSplashScreenStrings.IsDefault;
+    private bool ShouldSerializeSplashScreenStrings() => !KryptonSplashScreenStrings.IsDefault;
 
     /// <summary>Resets the krypton splash screen strings.</summary>
-    public void ResetSplashScreenStringsStrings() => KryptonSplashScreenStrings.Reset();
+    public void ResetSplashScreenStrings() => KryptonSplashScreenStrings.Reset();
+
+    /// <summary>Resets the krypton splash screen strings.</summary>
+    /// <remarks>Kept so existing callers of the misnamed method continue to compile. The designer binds <see cref="ResetSplashScreenStrings"/>.</remarks>
+    public void ResetSplashScreenStringsStrings() => ResetSplashScreenStrings();
 
     /// <summary>Gets the miscellaneous strings.</summary>
     /// <value>The miscellaneous strings.</value>
@@ -828,7 +832,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [Localizable(true)]
     public MessageBoxStrings MessageBoxStrings => KryptonMessageBoxStrings;
 
-    private bool ShouldSerializeMessageBoxStringsStrings() => !KryptonMessageBoxStrings.IsDefault;
+    private bool ShouldSerializeMessageBoxStrings() => !KryptonMessageBoxStrings.IsDefault;
 
     /// <summary>Resets the krypton message box strings.</summary>
     public void ResetMessageBoxStrings() => KryptonMessageBoxStrings.Reset();
@@ -963,8 +967,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeToastNotificationIconStrings() ||
                                ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                ShouldSerializeToastNotificationStrings() || ShouldSerializeToolStripItemStrings() || ShouldSerializeToolBarStrings() ||
-                               ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
-                               ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
+                               ShouldSerializeSplashScreenStrings() || ShouldSerializeMiscellaneousStrings() ||
+                               ShouldSerializeMessageBoxStrings() || ShouldSerializeSystemMenuStrings() ||
                                ShouldSerializeControlBoxButtonStrings() ||
                                ShouldSerializeTitleBarStrings() || ShouldSerializeEditorSettingStrings() || 
                                ShouldSerializeCollectionEditorStrings() ||
@@ -988,7 +992,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetFileSystemListViewStrings();
         ResetUseWindowsLanguagePackStrings();
         ResetCommonStrings();
-        ResetMiscellaneousPrintPreviewDialogStrings();
+        ResetPrintPreviewDialogStrings();
         ResetGeneralRibbonStrings();
         ResetGeneralStrings();
         ResetGridStyleStrings();
@@ -1015,7 +1019,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetToolStripItemStrings();
         ResetToastNotificationStrings();
         ResetToolBarStrings();
-        ResetSplashScreenStringsStrings();
+        ResetSplashScreenStrings();
         ResetMiscellaneousStrings();
         ResetMessageBoxStrings();
         ResetSearchBoxStrings();
