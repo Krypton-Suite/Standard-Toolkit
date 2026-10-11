@@ -93,6 +93,9 @@ public partial class KryptonRibbon : VisualSimple,
     /// <summary>
     /// Height reserved at the bottom of the groups border when the compact arrow sits inside the card.
     /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     internal int CompactBelowGroupsReserve { get; set; }
     // Field default must be true so CreateViewManager never builds a tabless ribbon by accident (#331 / #2501).
     private bool _showTabHeaders = true;
