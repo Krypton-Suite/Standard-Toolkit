@@ -725,6 +725,66 @@ public enum PaletteMode
     MaterialLightGrayRipple,
 
     /// <summary>
+    /// Office 2024 White ribbon on Microsoft 365 White control chrome.
+    /// </summary>
+    Office2024White,
+
+    /// <summary>
+    /// Office 2024 Light Gray ribbon on Microsoft 365 Light Gray control chrome.
+    /// </summary>
+    Office2024LightGray,
+
+    /// <summary>
+    /// Office 2024 Dark Gray ribbon on Microsoft 365 Dark Gray control chrome.
+    /// </summary>
+    Office2024DarkGray,
+
+    /// <summary>
+    /// Office 2024 Black ribbon on Microsoft 365 Black control chrome.
+    /// </summary>
+    Office2024Black,
+
+    /// <summary>
+    /// Office 2024 Blue ribbon on Microsoft 365 Blue control chrome.
+    /// </summary>
+    Office2024Blue,
+
+    /// <summary>
+    /// Office 2024 Blue Dark Mode ribbon on Microsoft 365 Blue Dark Mode control chrome.
+    /// </summary>
+    Office2024BlueDarkMode,
+
+    /// <summary>
+    /// Office 2024 Blue Light Mode ribbon on Microsoft 365 Blue Light Mode control chrome.
+    /// </summary>
+    Office2024BlueLightMode,
+
+    /// <summary>
+    /// Office 2024 Silver ribbon on Microsoft 365 Silver control chrome.
+    /// </summary>
+    Office2024Silver,
+
+    /// <summary>
+    /// Office 2024 Silver Dark Mode ribbon on Microsoft 365 Silver Dark Mode control chrome.
+    /// </summary>
+    Office2024SilverDarkMode,
+
+    /// <summary>
+    /// Office 2024 Silver Light Mode ribbon on Microsoft 365 Silver Light Mode control chrome.
+    /// </summary>
+    Office2024SilverLightMode,
+
+    /// <summary>
+    /// Office 2024 Black Dark Mode ribbon on Microsoft 365 Black Dark Mode control chrome.
+    /// </summary>
+    Office2024BlackDarkMode,
+
+    /// <summary>
+    /// Office 2024 Black Dark Mode Alternate ribbon on Microsoft 365 Black Dark Mode Alternate control chrome.
+    /// </summary>
+    Office2024BlackDarkModeAlternate,
+
+    /// <summary>
     /// Specifies a custom palette be used.
     /// </summary>
     Custom

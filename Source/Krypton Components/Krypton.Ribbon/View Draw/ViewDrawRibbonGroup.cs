@@ -468,7 +468,31 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             }
         }
 
+        int side = GroupCardSidePadding();
+        if (side > 0)
+        {
+            foreach (GroupSizeWidth entry in retWidths)
+            {
+                entry.Width += side * 2;
+            }
+        }
+
         return retWidths.ToArray();
+    }
+
+    /// <summary>
+    /// Horizontal padding inside an Office 2024 group card when groups are separated.
+    /// Zero when the group area is one card.
+    /// </summary>
+    private int GroupCardSidePadding()
+    {
+        if (_ribbon.RibbonShape != PaletteRibbonShape.Office2024 ||
+            _ribbon.StateCommon.RibbonGeneral.GroupAreaGap <= 0)
+        {
+            return 0;
+        }
+
+        return Math.Max(4, (int)(10 * FactorDpiX));
     }
 
     /// <summary>
@@ -507,6 +531,13 @@ internal class ViewDrawRibbonGroup : ViewComposite,
 
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
+
+        // Separated Office 2024 cards keep the side padding inside the group, clear of the card edge.
+        int side = GroupCardSidePadding();
+        if (side > 0 && ClientWidth > side * 2)
+        {
+            context.DisplayRectangle = new Rectangle(ClientLocation.X + side, ClientLocation.Y, ClientWidth - (side * 2), ClientHeight);
+        }
 
         // Update the title element with the height of the group title area
         bool macRibbon = _ribbon.RibbonShape == PaletteRibbonShape.MacOS;
@@ -607,6 +638,15 @@ internal class ViewDrawRibbonGroup : ViewComposite,
                         _layoutNormalSepRight.SeparatorSize = new Size(_normalBorderRight2010, _normalBorderRight2010);
                         _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
                         _lastRibbonShape = _ribbon.RibbonShape;
+                        break;
+                    case PaletteRibbonShape.Office2024:
+                        _totalBorders = 0;
+                        _layoutNormalMain.VertOffset = 0;
+                        _layoutNormalSepTop.SeparatorSize = Size.Empty;
+                        _layoutNormalSepLeft.SeparatorSize = Size.Empty;
+                        _layoutNormalSepRight.SeparatorSize = Size.Empty;
+                        _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
+                        _lastRibbonShape = PaletteRibbonShape.Office2024;
                         break;
                 }
             }
@@ -895,6 +935,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             case PaletteRibbonShape.Office2010:
             case PaletteRibbonShape.OSXAqua:
             case PaletteRibbonShape.MacOS:
+            case PaletteRibbonShape.Office2024:
             {
                 Rectangle drawRect = ClientRectangle;
 
