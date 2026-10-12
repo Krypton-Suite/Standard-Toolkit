@@ -37,6 +37,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     private readonly KryptonRibbonGroupLines _ribbonLines;
+    private readonly bool _showOnlyOverflow;
     private ViewDrawRibbonDesignGroupLines _viewAddItem;
     private readonly NeedPaintHandler? _needPaint;
     private GroupItemSize _currentSize;
@@ -79,6 +80,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _ribbonLines = ribbonLines ?? ThrowHelper.ThrowArgumentNullException(ribbonLines);
         _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyOverflow = _ribbon.CompactOverflowCapture;
 
         // Associate the component with this view element for design time selection
         Component = _ribbonLines;
@@ -101,7 +103,11 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
         // Hook into changes in the ribbon triple definition
         _ribbonLines.PropertyChanged += OnLinesPropertyChanged;
-        _ribbonLines.LinesView = this;
+        // Only the on-ribbon view owns the design-time back reference.
+        if (!_showOnlyOverflow)
+        {
+            _ribbonLines.LinesView = this;
+        }
 
         // At design time we want to track the mouse and show feedback
         if (_ribbon.InDesignMode)
@@ -531,6 +537,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
         var totalWidth = 0;
         ViewBase? previousChild = null;
+        Rectangle area = context.DisplayRectangle;
 
         // Find the size of each individual visible child item
         for (var i = 0; i < Count; i++)
@@ -568,6 +575,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 }
 
                 // Get requested size of the child
+                context.DisplayRectangle = area;
                 Size childSize = child.GetPreferredSize(context);
 
                 // Add to list of visible child sizes
@@ -747,6 +755,12 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
         // Add a view element for each group item
         foreach (IRibbonGroupItem item in _ribbonLines.Items!)
         {
+            // The popup builds views only for commands that did not fit.
+            if (_showOnlyOverflow && _ribbon.CompactOverflowHides(item, true))
+            {
+                continue;
+            }
+
             ViewBase? itemView;
 
             // Do we already have a view for this item definition
@@ -760,11 +774,13 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
             else
             {
                 // Ask the item definition to return an appropriate view
-                itemView = item.CreateView(_ribbon, _needPaint!);
+                itemView = _ribbon.CreateCompactOverflowView(_showOnlyOverflow, () => item.CreateView(_ribbon, _needPaint!));
             }
 
-            // Update the visible state of the item
-            itemView.Visible = _ribbon.InDesignHelperMode || item.Visible;
+            // Update the visible state of the item.
+            // Overflow hiding is layout-only and does not change the item Visible property.
+            itemView.Visible = (_ribbon.InDesignHelperMode || item.Visible) &&
+                               !_ribbon.CompactOverflowHides(item, _showOnlyOverflow);
 
             // We need to keep this association
             regenItemToView.Add(item, itemView);

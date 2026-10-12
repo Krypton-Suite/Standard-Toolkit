@@ -61,6 +61,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     private IDisposable? _mementoStandardBack;
     private Control _container;
     private bool _collapsed;
+    private readonly bool _showOnlyCompactOverflow;
     private int _totalBorders;
     #endregion
 
@@ -71,9 +72,11 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     /// <param name="ribbon">Reference to owning ribbon control.</param>
     /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <param name="showOnlyCompactOverflow">True when the view shows only commands that did not fit the compact row.</param>
     public ViewDrawRibbonGroup([DisallowNull] KryptonRibbon ribbon,
         [DisallowNull] KryptonRibbonGroup ribbonGroup,
-        [DisallowNull] NeedPaintHandler needPaint)
+        [DisallowNull] NeedPaintHandler needPaint,
+        bool showOnlyCompactOverflow = false)
     {
         Debug.Assert(ribbon is not null);
         Debug.Assert(ribbonGroup is not null);
@@ -83,6 +86,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException(ribbonGroup);
         _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyCompactOverflow = showOnlyCompactOverflow;
 
         // Associate this view with the source component (required for design time selection)
         Component = _ribbonGroup;
@@ -160,6 +164,13 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             DisposeMementos();
         }
     }
+    #endregion
+
+    #region HideDialogLauncher
+    /// <summary>
+    /// Gets and sets whether the dialog launcher is omitted from this view.
+    /// </summary>
+    internal bool HideDialogLauncher { get; set; }
     #endregion
 
     #region Tracking
@@ -450,7 +461,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
 
         // Does the group allow itself to become collapsed?
         // (at design time we are never allowed to be collapsed)
-        if (_ribbonGroup.AllowCollapsed && !_ribbon.InDesignHelperMode)
+        if (_ribbonGroup.AllowCollapsed && !_ribbon.InDesignHelperMode && !_ribbon.CompactMode)
         {
             // We never allow a collapsed state if that is bigger than the smallest valid permutation
             if (smallestWidth > _minimumGroupWidth)
@@ -544,8 +555,9 @@ internal class ViewDrawRibbonGroup : ViewComposite,
         // Compact mode drops the caption and hosts the dialog launcher on the command row.
         PlaceGroupTitle();
 
-        // We only show the dialog box launcher button if group says we need one
-        _viewNormalDialog.Visible = _ribbonGroup.DialogBoxLauncher;
+        // We only show the dialog box launcher button if group says we need one.
+        // A partial overflow keeps the launcher on the row, so the popup copy stays hidden.
+        _viewNormalDialog.Visible = _ribbonGroup.DialogBoxLauncher && !HideDialogLauncher;
 
         // Let contained content element be laid out
         base.Layout(context);
@@ -712,7 +724,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
 
         // Create layout elements
         _layoutNormalTitle = new ViewLayoutDocker();
-        _layoutNormalContent = new ViewLayoutRibbonGroupContent(_ribbon, _ribbonGroup, _needPaint);
+        _layoutNormalContent = new ViewLayoutRibbonGroupContent(_ribbon, _ribbonGroup, _needPaint, _showOnlyCompactOverflow);
         _layoutNormalSepTop = new ViewLayoutRibbonSeparator(_normalBorderTopleft2007, true);
         _layoutNormalSepLeft = new ViewLayoutRibbonSeparator(_normalBorderTopleft2007, true);
         _layoutNormalSepRight = new ViewLayoutRibbonSeparator(_normalBorderRight2007, true);

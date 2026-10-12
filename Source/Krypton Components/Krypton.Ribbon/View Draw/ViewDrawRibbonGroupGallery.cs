@@ -88,7 +88,10 @@ internal class ViewDrawRibbonGroupGallery : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the gallery definition
-        GroupGallery.GalleryView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupGallery.GalleryView = this;
+        }
 
         // Give paint delegate to gallery so its palette changes are redrawn
         GroupGallery.ViewPaintDelegate = needPaint;
@@ -135,7 +138,10 @@ internal class ViewDrawRibbonGroupGallery : ViewComposite,
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupGallery.GalleryView = null; 
+                if (ReferenceEquals(GroupGallery.GalleryView, this))
+                {
+                    GroupGallery.GalleryView = null;
+                } 
                 GroupGallery = null;
             }
         }

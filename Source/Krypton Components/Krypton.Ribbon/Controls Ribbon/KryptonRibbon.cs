@@ -97,6 +97,113 @@ public partial class KryptonRibbon : VisualSimple,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [EditorBrowsable(EditorBrowsableState.Never)]
     internal int CompactBelowGroupsReserve { get; set; }
+
+    private readonly HashSet<IRibbonGroupItem> _compactOverflowItems = new HashSet<IRibbonGroupItem>();
+
+    /// <summary>
+    /// True while a compact-overflow popup view is being created.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal bool CompactOverflowCapture { get; set; }
+
+    /// <summary>
+    /// True when the command is currently held in the compact overflow set.
+    /// </summary>
+    /// <param name="item">Command to test.</param>
+    /// <returns>True when the command did not fit on the compact row.</returns>
+    internal bool IsCompactOverflow(IRibbonGroupItem item) => _compactOverflowItems.Contains(item);
+
+    /// <summary>
+    /// Layout-only hiding. Does not change the item <see cref="IRibbonGroupItem.Visible"/> property.
+    /// </summary>
+    /// <param name="item">Command or separator to test.</param>
+    /// <param name="showOnlyOverflow">True inside the overflow popup.</param>
+    /// <returns>True when this view should skip the item.</returns>
+    internal bool CompactOverflowHides(IRibbonGroupItem item, bool showOnlyOverflow)
+    {
+        if (!CompactMode || (_compactOverflowItems.Count == 0))
+        {
+            return false;
+        }
+
+        // Containers stay in the tree. Their children are hidden one command at a time.
+        if (item is KryptonRibbonGroupLines ||
+            item is KryptonRibbonGroupTriple ||
+            item is KryptonRibbonGroupCluster)
+        {
+            return false;
+        }
+
+        if (showOnlyOverflow && item is KryptonRibbonGroupSeparator)
+        {
+            return true;
+        }
+
+        bool overflowed = _compactOverflowItems.Contains(item);
+        return showOnlyOverflow ? !overflowed : overflowed;
+    }
+
+    /// <summary>
+    /// Clears commands hidden by the compact ellipsis.
+    /// </summary>
+    internal void ClearCompactOverflow() => _compactOverflowItems.Clear();
+
+    /// <summary>
+    /// Replaces the commands hidden by the compact ellipsis.
+    /// </summary>
+    /// <param name="items">Commands that do not fit, in reading order.</param>
+    internal void SetCompactOverflow(IEnumerable<IRibbonGroupItem> items)
+    {
+        _compactOverflowItems.Clear();
+        foreach (IRibbonGroupItem item in items)
+        {
+            _compactOverflowItems.Add(item);
+        }
+    }
+
+    /// <summary>
+    /// Adds one separator or command to the compact overflow set.
+    /// </summary>
+    /// <param name="item">Item that should leave the compact row.</param>
+    internal void AddCompactOverflow(IRibbonGroupItem item) => _compactOverflowItems.Add(item);
+
+    /// <summary>
+    /// Creates a group view while <see cref="CompactOverflowCapture"/> selects popup filtering.
+    /// </summary>
+    /// <param name="showOnlyOverflow">True when the new view belongs to the overflow popup.</param>
+    /// <param name="create">Builds the view.</param>
+    /// <returns>The view returned by <paramref name="create"/>.</returns>
+    internal ViewBase CreateCompactOverflowView(bool showOnlyOverflow, Func<ViewBase> create)
+    {
+        bool previous = CompactOverflowCapture;
+        CompactOverflowCapture = showOnlyOverflow;
+        try
+        {
+            return create();
+        }
+        finally
+        {
+            CompactOverflowCapture = previous;
+        }
+    }
+
+    /// <summary>
+    /// True when this view should publish itself as the ribbon item's view.
+    /// Overflow popup copies must not replace the on-ribbon view.
+    /// </summary>
+    /// <param name="overflowCopy">Remembered creation mode. Set on the first call.</param>
+    /// <returns>True for the on-ribbon view.</returns>
+    internal bool ShouldClaimRibbonItemView(ref bool? overflowCopy)
+    {
+        if (!overflowCopy.HasValue)
+        {
+            overflowCopy = CompactOverflowCapture;
+        }
+
+        return overflowCopy == false;
+    }
     // Field default must be true so CreateViewManager never builds a tabless ribbon by accident (#331 / #2501).
     private bool _showTabHeaders = true;
     private bool _scrollTabGroupArea;

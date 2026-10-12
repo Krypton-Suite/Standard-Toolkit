@@ -86,7 +86,7 @@ public partial class Office2024RibbonDemo : KryptonForm
         var instructions = new KryptonWrapLabel
         {
             Dock = DockStyle.Top,
-            Height = 188,
+            Height = 220,
             Text =
                 @"Issue #4496: Office 2024 ribbon. The selected tab is an underline, groups have no boxes, and File is text." +
                 Environment.NewLine +
@@ -94,7 +94,7 @@ public partial class Office2024RibbonDemo : KryptonForm
                 Environment.NewLine +
                 @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the backstage." +
                 Environment.NewLine +
-                @"Compact ribbon (#4533) lays those same groups on one row for every ribbon shape: icon and text, then icons only as the form narrows. Group captions and group boxes hide. Each shape keeps its own tabs. Arrow place chooses under the groups, the end of the groups, or the tab row. Switching eases the groups area. The arrow is optional." +
+                @"Compact ribbon (#4533) lays those same groups on one row for every ribbon shape: icon and text, then icons only as the form narrows. Group captions and group boxes hide. Each shape keeps its own tabs. Arrow place chooses under the groups, the end of the groups, or the tab row. Switching eases the groups area. The arrow is optional. Narrow the window until ... appears at the end of the row, then click it for the commands that did not fit." +
                 Environment.NewLine +
                 @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card." +
                 Environment.NewLine +
@@ -106,7 +106,7 @@ public partial class Office2024RibbonDemo : KryptonForm
         var buttons = new FlowLayoutPanel
         {
             Dock = DockStyle.Top,
-            Height = 408,
+            Height = 440,
             Padding = new Padding(8, 8, 8, 0)
         };
         buttons.Controls.Add(CreateThemeButton(@"Office 2024 Blue", PaletteMode.Office2024Blue));
@@ -586,15 +586,11 @@ public partial class Office2024RibbonDemo : KryptonForm
 
     private static KryptonRibbonGroup CreateClipboardGroup()
     {
-        var paste = new KryptonRibbonGroupButton
-        {
-            TextLine1 = @"Paste",
-            KeyTip = @"V",
-            ItemSizeMaximum = GroupItemSize.Large,
-            ItemSizeMinimum = GroupItemSize.Large
-        };
-        var cut = new KryptonRibbonGroupButton { TextLine1 = @"Cut", KeyTip = @"X" };
-        var copy = new KryptonRibbonGroupButton { TextLine1 = @"Copy", KeyTip = @"C" };
+        var paste = Command(@"Paste", @"V", Color.FromArgb(46, 125, 50));
+        paste.ItemSizeMaximum = GroupItemSize.Large;
+        paste.ItemSizeMinimum = GroupItemSize.Large;
+        var cut = Command(@"Cut", @"X", Color.FromArgb(198, 40, 40));
+        var copy = Command(@"Copy", @"C", Color.FromArgb(21, 101, 192));
 
         var lines = new KryptonRibbonGroupTriple();
         lines.Items!.Add(paste);
@@ -612,16 +608,32 @@ public partial class Office2024RibbonDemo : KryptonForm
 
     private static KryptonRibbonGroup CreateFontGroup()
     {
-        var bold = new KryptonRibbonGroupButton { TextLine1 = @"Bold", KeyTip = @"1" };
-        var italic = new KryptonRibbonGroupButton { TextLine1 = @"Italic", KeyTip = @"2" };
-        var underline = new KryptonRibbonGroupButton { TextLine1 = @"Underline", KeyTip = @"3" };
-        var lines = new KryptonRibbonGroupTriple();
-        lines.Items!.Add(bold);
-        lines.Items.Add(italic);
-        lines.Items.Add(underline);
+        var bold = Command(@"Bold", @"1", Color.FromArgb(66, 66, 66));
+        var italic = Command(@"Italic", @"2", Color.FromArgb(106, 27, 154));
+        var underline = Command(@"Underline", @"3", Color.FromArgb(0, 105, 92));
+        var strike = Command(@"Strikethrough", @"4", Color.FromArgb(191, 54, 12));
+        var highlight = Command(@"Highlight", @"I", Color.FromArgb(249, 168, 37));
+        var fontColor = Command(@"Font Color", @"FC", Color.FromArgb(183, 28, 28));
+        var alignLeft = Command(@"Align Left", @"AL", Color.FromArgb(2, 119, 189));
+        var center = Command(@"Center", @"AC", Color.FromArgb(0, 131, 143));
+        var alignRight = Command(@"Align Right", @"AR", Color.FromArgb(69, 90, 100));
+        var styles = new KryptonRibbonGroupTriple();
+        styles.Items!.Add(bold);
+        styles.Items.Add(italic);
+        styles.Items.Add(underline);
+        var colors = new KryptonRibbonGroupTriple();
+        colors.Items!.Add(strike);
+        colors.Items.Add(highlight);
+        colors.Items.Add(fontColor);
+        var align = new KryptonRibbonGroupTriple();
+        align.Items!.Add(alignLeft);
+        align.Items.Add(center);
+        align.Items.Add(alignRight);
 
         var group = new KryptonRibbonGroup { TextLine1 = @"Font" };
-        group.Items.Add(lines);
+        group.Items.Add(styles);
+        group.Items.Add(colors);
+        group.Items.Add(align);
         return group;
     }
 
@@ -649,5 +661,23 @@ public partial class Office2024RibbonDemo : KryptonForm
         var group = new KryptonRibbonGroup { TextLine1 = @"Table Styles" };
         group.Items.Add(lines);
         return group;
+    }
+
+    private static KryptonRibbonGroupButton Command(string text, string keyTip, Color color)
+    {
+        var image = new Bitmap(16, 16);
+        using (var graphics = Graphics.FromImage(image))
+        using (var brush = new SolidBrush(color))
+        {
+            graphics.FillRectangle(brush, 0, 0, 16, 16);
+        }
+
+        return new KryptonRibbonGroupButton
+        {
+            TextLine1 = text,
+            KeyTip = keyTip,
+            ImageSmall = image,
+            ImageLarge = (Image)image.Clone()
+        };
     }
 }

@@ -24,6 +24,7 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
     private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
     private readonly Padding _smallImagePadding; // = new(3);
     private readonly KryptonRibbon _ribbon;
+    private bool? _overflowCopy;
     private readonly NeedPaintHandler _needPaint;
     private ViewDrawRibbonGroupButtonBackBorder _viewLarge;
     private ViewLayoutRibbonRowCenter _viewLargeCenter;
@@ -106,7 +107,10 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
                 GroupColorButton.PropertyChanged -= OnButtonPropertyChanged;
 
                 // Remove association with definition
-                GroupColorButton.ColorButtonView = null;
+                if (_overflowCopy == false)
+                {
+                    GroupColorButton.ColorButtonView = null;
+                }
                 GroupColorButton = null;
             }
         }
@@ -456,7 +460,10 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
         Add(view);
 
         // Provide back reference to the button definition
-        GroupColorButton!.ColorButtonView = view;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupColorButton!.ColorButtonView = view;
+        }
     }
 
     private void UpdateEnabledState()

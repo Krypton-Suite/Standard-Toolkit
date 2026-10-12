@@ -28,6 +28,7 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     private readonly KryptonRibbonGroupTriple _ribbonTriple;
+    private readonly bool _showOnlyOverflow;
     private ViewDrawRibbonDesignGroupTriple _viewAddItem;
     private readonly NeedPaintHandler _needPaint;
     private GroupItemSize _currentSize;
@@ -58,6 +59,7 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _ribbonTriple = ribbonTriple ?? ThrowHelper.ThrowArgumentNullException(ribbonTriple);
         _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyOverflow = _ribbon.CompactOverflowCapture;
 
         // Associate the component with this view element for design time selection
         Component = _ribbonTriple;
@@ -73,7 +75,11 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
 
         // Hook into changes in the ribbon triple definition
         _ribbonTriple!.PropertyChanged += OnTriplePropertyChanged;
-        _ribbonTriple.TripleView = this;
+        // Only the on-ribbon view owns the design-time back reference.
+        if (!_showOnlyOverflow)
+        {
+            _ribbonTriple.TripleView = this;
+        }
 
         // At design time we want to track the mouse and show feedback
         if (_ribbon!.InDesignMode)
@@ -404,6 +410,7 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         SyncChildrenToRibbonGroupItems();
 
         var preferredSize = Size.Empty;
+        Rectangle area = context.DisplayRectangle;
 
         // Compact mode places every size on one row. Classic large is the only horizontal size.
         var horizontal = _currentSize == GroupItemSize.Large || _ribbon.CompactMode;
@@ -417,6 +424,7 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
             if (child!.Visible)
             {
                 // Cache preferred size of the child
+                context.DisplayRectangle = area;
                 Size childSize = child.GetPreferredSize(context);
 
                 // Add into the size cache for use in layout code
@@ -651,6 +659,12 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         // Add a view element for each group item
         foreach (IRibbonGroupItem item in _ribbonTriple.Items!)
         {
+            // The popup builds views only for commands that did not fit.
+            if (_showOnlyOverflow && _ribbon.CompactOverflowHides(item, true))
+            {
+                continue;
+            }
+
             ViewBase itemView;
 
             // Do we already have a view for this item definition
@@ -664,11 +678,14 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
             else
             {
                 // Ask the item definition to return an appropriate view
-                itemView = item.CreateView(_ribbon, _needPaint);
+                itemView = _ribbon.CreateCompactOverflowView(_showOnlyOverflow, () => item.CreateView(_ribbon, _needPaint));
             }
 
             // Update the visible state of the item
-            itemView.Visible = _ribbon.InDesignHelperMode || item.Visible;
+            // Update the visible state of the item.
+            // Overflow hiding is layout-only and does not change the item Visible property.
+            itemView.Visible = (_ribbon.InDesignHelperMode || item.Visible) &&
+                               !_ribbon.CompactOverflowHides(item, _showOnlyOverflow);
 
             // We need to keep this association
             regenerate.Add(item, itemView);

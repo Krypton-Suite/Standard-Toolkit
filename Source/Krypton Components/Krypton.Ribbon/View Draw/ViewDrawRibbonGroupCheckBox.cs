@@ -25,6 +25,7 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
     private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
     private readonly Padding _smallImagePadding; // = new(3);
     private readonly KryptonRibbon _ribbon;
+    private bool? _overflowCopy;
     private ViewLayoutRibbonCheckBox _viewLarge;
     private ViewDrawRibbonGroupCheckBoxImage _viewLargeImage;
     private ViewDrawRibbonGroupCheckBoxText _viewLargeText1;
@@ -107,7 +108,10 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
                 GroupCheckBox.PropertyChanged -= OnCheckBoxPropertyChanged;
 
                 // Remove association with definition
-                GroupCheckBox.CheckBoxView = null!;
+                if (_overflowCopy == false)
+                {
+                    GroupCheckBox.CheckBoxView = null!;
+                }
                 GroupCheckBox = null!;
             }
         }
@@ -396,7 +400,10 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
         Add(view);
 
         // Provide back reference to the check box definition
-        GroupCheckBox.CheckBoxView = view;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupCheckBox.CheckBoxView = view;
+        }
     }
 
     private void UpdateEnabledState()

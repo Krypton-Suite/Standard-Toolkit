@@ -61,7 +61,10 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
         }
 
         // Define back reference to view for the separator definition
-        _ribbonSeparator.SeparatorView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            _ribbonSeparator.SeparatorView = this;
+        }
 
         // Hook into changes in the ribbon separator definition
         _ribbonSeparator.PropertyChanged += OnSeparatorPropertyChanged;
@@ -94,7 +97,10 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
             _ribbonSeparator!.PropertyChanged -= OnSeparatorPropertyChanged;
 
             // Remove association with definition
-            _ribbonSeparator.SeparatorView = null;
+            if (ReferenceEquals(_ribbonSeparator.SeparatorView, this))
+            {
+                _ribbonSeparator.SeparatorView = null;
+            }
             _ribbonSeparator = null;
         }
 

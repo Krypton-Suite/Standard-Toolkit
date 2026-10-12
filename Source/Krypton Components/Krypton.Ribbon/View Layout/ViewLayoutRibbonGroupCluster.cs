@@ -30,6 +30,7 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     private readonly KryptonRibbonGroupCluster _ribbonCluster;
+    private readonly bool _showOnlyOverflow;
     private ViewDrawRibbonDesignCluster _viewAddItem;
     private readonly ViewDrawRibbonGroupClusterSeparator _startSep;
     private readonly ViewDrawRibbonGroupClusterSeparator _endSep;
@@ -64,6 +65,7 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _ribbonCluster = ribbonCluster ?? ThrowHelper.ThrowArgumentNullException(ribbonCluster);
         _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyOverflow = _ribbon.CompactOverflowCapture;
         _currentSize = GroupItemSize.Medium;
 
         // Associate the component with this view element for design time selection
@@ -88,7 +90,11 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
 
         // Hook into changes in the ribbon cluster definition
         _ribbonCluster.PropertyChanged += OnClusterPropertyChanged;
-        _ribbonCluster.ClusterView = this;
+        // Only the on-ribbon view owns the design-time back reference.
+        if (!_showOnlyOverflow)
+        {
+            _ribbonCluster.ClusterView = this;
+        }
 
         // At design time we want to track the mouse and show feedback
         if (_ribbon.InDesignMode)
@@ -117,7 +123,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         {
             // Must unhook to prevent memory leaks
             _ribbonCluster.PropertyChanged -= OnClusterPropertyChanged;
-            _ribbonCluster.ClusterView = null;
+            if (ReferenceEquals(_ribbonCluster.ClusterView, this))
+            {
+                _ribbonCluster.ClusterView = null;
+            }
         }
 
         base.Dispose(disposing);
@@ -510,6 +519,12 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         // Add a view element for each group item
         foreach (IRibbonGroupItem item in _ribbonCluster.Items)
         {
+            // The popup builds views only for commands that did not fit.
+            if (_showOnlyOverflow && _ribbon.CompactOverflowHides(item, true))
+            {
+                continue;
+            }
+
             ViewBase? itemView;
             ViewDrawRibbonGroupClusterEdge? itemEdge;
 
@@ -526,15 +541,19 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
             else
             {
                 // Ask the item definition to return an appropriate view
-                itemView = item.CreateView(_ribbon, _needPaint!);
+                itemView = _ribbon.CreateCompactOverflowView(_showOnlyOverflow, () => item.CreateView(_ribbon, _needPaint!));
 
                 // Create a border edge to go with the item view
                 itemEdge = new ViewDrawRibbonGroupClusterEdge(_ribbon, _paletteBorderEdge);
             }
 
             // Update the visible state
-            itemView.Visible = _ribbon.InDesignHelperMode || item.Visible;
-            itemEdge.Visible = itemEdgeVisible && (_ribbon.InDesignHelperMode || item.Visible);
+            // Update the visible state of the item.
+            // Overflow hiding is layout-only and does not change the item Visible property.
+            bool showItem = (_ribbon.InDesignHelperMode || item.Visible) &&
+                            !_ribbon.CompactOverflowHides(item, _showOnlyOverflow);
+            itemView.Visible = showItem;
+            itemEdge.Visible = itemEdgeVisible && showItem;
 
             // We need to remember associations
             regenView.Add(item, itemView);

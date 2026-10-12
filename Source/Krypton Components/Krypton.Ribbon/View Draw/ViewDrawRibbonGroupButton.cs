@@ -108,7 +108,10 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
                 GroupButton.PropertyChanged -= OnButtonPropertyChanged;
 
                 // Remove association with definition
-                GroupButton.ButtonView = null;
+                if (_overflowCopy == false)
+                {
+                    GroupButton.ButtonView = null;
+                }
                 GroupButton = null;
             }
         }
@@ -450,6 +453,8 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
             _viewMediumSmall, _viewMediumSmall.MouseController);
     }
 
+    private bool? _overflowCopy;
+
     private void DefineRootView(ViewBase view)
     {
         // Remove any existing view
@@ -459,7 +464,10 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
         Add(view);
 
         // Provide back reference to the button definition
-        GroupButton!.ButtonView = view;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupButton!.ButtonView = view;
+        }
     }
 
     private void UpdateEnabledState()
