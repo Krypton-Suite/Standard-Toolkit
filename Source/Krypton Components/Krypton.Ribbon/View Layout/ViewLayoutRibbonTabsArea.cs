@@ -69,6 +69,10 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
 
     // Monitoring the containing form and mdi status
     private Timer _invalidateTimer;
+
+    // Holds the File backstage open until the double-click window passes, so a double-click closes without flashing it.
+    private Timer? _backstageOpenTimer;
+    private bool _backstageOpenPending;
     private Form? _formContainer;
     private Form? _activeMdiChild;
     private int _paintCount;
@@ -131,6 +135,14 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         {
             // Remove any showing tooltip
             OnCancelToolTip(this, EventArgs.Empty);
+
+            CancelPendingBackstageOpen();
+            if (_backstageOpenTimer != null)
+            {
+                _backstageOpenTimer.Tick -= OnBackstageOpenTick;
+                _backstageOpenTimer.Dispose();
+                _backstageOpenTimer = null;
+            }
 
             // Unhook from the parent control
             _ribbon.ParentChanged += OnRibbonParentChanged;
@@ -433,13 +445,13 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
     /// <summary>
     /// Test if there has been a double click of the app button.
     /// </summary>
-    /// <returns>True if a double click was detected and pressed.</returns>
-    public void TestForAppButtonDoubleClick()
+    /// <returns>True when the second release is inside the double-click time and the owner form is closed.</returns>
+    public bool TestForAppButtonDoubleClick()
     {
-        // Office 2010 does not close on a double click
-        if (_ribbon.IgnoreDoubleClickClose || _ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
+        // OSX Aqua and macOS do not close on a double click
+        if (_ribbon.IgnoreDoubleClickClose || _ribbon.RibbonShape is PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
         {
-            return;
+            return false;
         }
 
         DateTime nowClick = DateTime.Now;
@@ -449,10 +461,24 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         // If this is the second click within the double click time...
         if (elapsed.TotalMilliseconds < SystemInformation.DoubleClickTime)
         {
+            // Drop a deferred backstage open so it cannot appear as the form closes.
+            CancelPendingBackstageOpen();
+
             // Close down the associated application window
             Form? ownerForm = _ribbon.FindForm();
-            ownerForm?.Close();
+            if (ownerForm != null)
+            {
+                ownerForm.Close();
+                if (!ownerForm.IsDisposed && ownerForm.Visible)
+                {
+                    RemoveFixedAppTab();
+                }
+
+                return true;
+            }
         }
+
+        return false;
     }
 
     /// <summary>
@@ -758,6 +784,14 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
             return;
         }
 
+        // A double-click must close without painting the backstage. Wait out the double-click
+        // interval, then open. The second press cancels this.
+        if (ShouldDeferBackstageOpen())
+        {
+            ScheduleBackstageOpen();
+            return;
+        }
+
         // Prefer backstage view when configured, fallback to the default app menu popup
         if (_ribbon.TryToggleBackstageView())
         {
@@ -771,6 +805,62 @@ internal class ViewLayoutRibbonTabsArea : ViewLayoutDocker
         }
 
         ShowAppButtonMenu(_appTabController?.Keyboard ?? false);
+    }
+
+    /// <summary>
+    /// True when a mouse File click should wait before opening backstage, so a double-click can close instead.
+    /// </summary>
+    private bool ShouldDeferBackstageOpen()
+    {
+        if (_appTabController?.Keyboard == true || _ribbon.BackstageVisible)
+        {
+            return false;
+        }
+
+        // Shapes that do not close on a double-click open backstage immediately.
+        // Office 2007 has no backstage; the application button opens its menu at once.
+        if (_ribbon.IgnoreDoubleClickClose || _ribbon.RibbonShape is PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2007)
+        {
+            return false;
+        }
+
+        return _ribbon.RibbonFileAppTab.UseBackstageView && _ribbon.RibbonFileAppTab.BackstageContent != null;
+    }
+
+    private void ScheduleBackstageOpen()
+    {
+        _backstageOpenPending = true;
+        if (_backstageOpenTimer == null)
+        {
+            _backstageOpenTimer = new Timer();
+            _backstageOpenTimer.Tick += OnBackstageOpenTick;
+        }
+
+        _backstageOpenTimer.Interval = Math.Max(1, SystemInformation.DoubleClickTime);
+        _backstageOpenTimer.Stop();
+        _backstageOpenTimer.Start();
+    }
+
+    /// <summary>
+    /// Drops a File click that is waiting to open backstage.
+    /// </summary>
+    internal void CancelPendingBackstageOpen()
+    {
+        _backstageOpenPending = false;
+        _backstageOpenTimer?.Stop();
+    }
+
+    private void OnBackstageOpenTick(object? sender, EventArgs e)
+    {
+        _backstageOpenTimer?.Stop();
+        if (!_backstageOpenPending || _ribbon.IsDisposed || _ribbon.InDesignMode)
+        {
+            _backstageOpenPending = false;
+            return;
+        }
+
+        _backstageOpenPending = false;
+        _ribbon.TryToggleBackstageView();
     }
 
     private void ShowAppButtonMenu(bool keyboardActivated)

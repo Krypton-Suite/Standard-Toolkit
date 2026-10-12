@@ -1803,6 +1803,14 @@ public partial class KryptonRibbon : VisualSimple,
                     // Pressing the mouse in keyboard mode always kills keyboard mode
                     KillKeyboardMode();
                     break;
+                case PI.WM_.LBUTTONUP:
+                case PI.WM_.NCLBUTTONUP:
+                    // FullClient backstage covers the File button, so the second release never reaches it.
+                    if (NoteBackstageAppButtonMouseUp())
+                    {
+                        return true;
+                    }
+                    break;
                 case PI.WM_.SYSKEYUP:
                     CheckForAltUp();
                     break;
@@ -2903,7 +2911,67 @@ public partial class KryptonRibbon : VisualSimple,
         }
     }
 
-    internal void TestForAppButtonDoubleClick() => TabsArea?.TestForAppButtonDoubleClick();
+    internal bool TestForAppButtonDoubleClick() => TabsArea?.TestForAppButtonDoubleClick() ?? false;
+
+    /// <summary>
+    /// Screen rectangle of the File / application button, or empty when that button is hidden.
+    /// </summary>
+    private Rectangle AppButtonScreenRectangle()
+    {
+        if (TabsArea == null)
+        {
+            return Rectangle.Empty;
+        }
+
+        // Office 2007 uses the orb. Later shapes use the File tab.
+        if (RibbonShape == PaletteRibbonShape.Office2007)
+        {
+            return TabsArea.LayoutAppButton.Visible
+                ? RectangleToScreen(TabsArea.LayoutAppButton.AppButton.ClientRectangle)
+                : Rectangle.Empty;
+        }
+
+        return TabsArea.LayoutAppTab.Visible
+            ? RectangleToScreen(TabsArea.LayoutAppTab.AppTab.ClientRectangle)
+            : Rectangle.Empty;
+    }
+
+    /// <summary>
+    /// Counts a left release on the File button while the backstage overlay is covering it.
+    /// </summary>
+    /// <returns>True when that release closes the owner form.</returns>
+    private bool NoteBackstageAppButtonMouseUp()
+    {
+        if (_backstageOverlay == null)
+        {
+            return false;
+        }
+
+        Rectangle appRect = AppButtonScreenRectangle();
+        if (appRect.IsEmpty || !appRect.Contains(Cursor.Position))
+        {
+            return false;
+        }
+
+        Control? under = MouseControlFinder.ControlUnderMouse(Cursor.Position);
+        if (under == null)
+        {
+            return false;
+        }
+
+        // BelowRibbon leaves the File button uncovered. OnAppButtonReleased already counts that release.
+        if (ReferenceEquals(under, this) || Contains(under))
+        {
+            return false;
+        }
+
+        if (!ReferenceEquals(under, _backstageOverlay) && !_backstageOverlay.Contains(under))
+        {
+            return false;
+        }
+
+        return TestForAppButtonDoubleClick();
+    }
 
     internal void HideFocus(Control? c)
     {

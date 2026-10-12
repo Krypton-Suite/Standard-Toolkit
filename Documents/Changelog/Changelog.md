@@ -45,6 +45,7 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Resolved [#4552](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4552), Double-clicking the File button closes the form without opening the backstage, including Office 2010. A single click still opens the backstage, once the double-click interval has passed. OS X Aqua and macOS stay unchanged.
 - Implemented [#4496](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4496), Office 2024 ribbon chrome: underline tabs, flat borderless groups, and a text File tab. Extra themes are Blue, Silver, White, Light Gray, Dark Gray, and Black, plus Blue, Silver, and Black dark and light mode variants (`PaletteMode.Office2024Blue`, `Office2024BlueDarkMode`, `Office2024BlueLightMode`, `Office2024Silver`, `Office2024SilverDarkMode`, `Office2024SilverLightMode`, `Office2024White`, `Office2024LightGray`, `Office2024DarkGray`, `Office2024Black`, `Office2024BlackDarkMode`, `Office2024BlackDarkModeAlternate`). Microsoft 365 ribbon chrome is unchanged.
   - Office 2024 group area can draw an optional bevel. Set `StateCommon.RibbonGeneral.GroupAreaBevelEdges`. Leave `GroupAreaBevelLight` and `GroupAreaBevelDark` empty to derive the edges from the group area, or set those colours yourself.
     - Group-area bevel width is configurable. Set `StateCommon.RibbonGeneral.GroupAreaBevelSize` to the visible width in pixels at 96 DPI. The default is 2.
