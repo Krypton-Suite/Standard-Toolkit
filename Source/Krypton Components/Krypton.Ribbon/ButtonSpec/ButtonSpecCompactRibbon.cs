@@ -49,6 +49,7 @@ public class ButtonSpecCompactRibbon : ButtonSpec
     /// </summary>
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool AllowComponent => false;
 
     #endregion

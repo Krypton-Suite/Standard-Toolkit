@@ -1285,6 +1285,7 @@ public partial class KryptonRibbon : VisualSimple,
     [Category(@"Values")]
     [Description(@"Lay groups out as a single row of commands.")]
     [DefaultValue(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool CompactMode
     {
         get => _compactMode;
@@ -1328,6 +1329,7 @@ public partial class KryptonRibbon : VisualSimple,
     [Category(@"Values")]
     [Description(@"Ease the groups area height when CompactMode changes.")]
     [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool AnimateCompactMode
     {
         get => _animateCompactMode;
@@ -1515,6 +1517,7 @@ public partial class KryptonRibbon : VisualSimple,
     [Category(@"Values")]
     [Description(@"Does an arrow switch between classic and compact ribbons.")]
     [DefaultValue(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public bool ShowCompactButton
     {
         get => _showCompactButton;
@@ -1544,7 +1547,8 @@ public partial class KryptonRibbon : VisualSimple,
     /// </remarks>
     [Category(@"Values")]
     [Description(@"Where the compact-mode arrow is drawn.")]
-    [DefaultValue(CompactButtonLocation.BelowGroups)]
+    [DefaultValue(typeof(CompactButtonLocation), nameof(CompactButtonLocation.BelowGroups))]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public CompactButtonLocation CompactButtonLocation
     {
         get => _compactButtonLocation;
