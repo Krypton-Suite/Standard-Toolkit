@@ -45,6 +45,7 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Resolved [#4552](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4552), Double-clicking the File button closes the form without opening the backstage, including Office 2010. A single click still opens the backstage, once the double-click interval has passed. OS X Aqua and macOS stay unchanged.
 - Resolved [#4557](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4557), Ribbon notification bar shows as modified
    - A new ribbon notification bar stays blank in the property grid until a value changes, then shows Modified.
 - Implemented [#4496](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4496), Office 2024 ribbon chrome: underline tabs, flat borderless groups, and a text File tab. Extra themes are Blue, Silver, White, Light Gray, Dark Gray, and Black, plus Blue, Silver, and Black dark and light mode variants (`PaletteMode.Office2024Blue`, `Office2024BlueDarkMode`, `Office2024BlueLightMode`, `Office2024Silver`, `Office2024SilverDarkMode`, `Office2024SilverLightMode`, `Office2024White`, `Office2024LightGray`, `Office2024DarkGray`, `Office2024Black`, `Office2024BlackDarkMode`, `Office2024BlackDarkModeAlternate`). Microsoft 365 ribbon chrome is unchanged.
