@@ -51,7 +51,8 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
-| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false). #4466 factory message-box strings, print-preview string defaults, and empty progress-bar / drop-down colours must not `ShouldSerialize` | `include` |
+| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false). #4466 factory message-box strings, print-preview string defaults, and empty progress-bar / drop-down colours must not `ShouldSerialize`. #4557 a fresh ribbon `NotificationBar` is blank, then `Modified` after an edit | `include` |
+| `Invoke-NotificationBarModifiedScreenshot.ps1` | #4557 hosts `Bug4557NotificationBarModifiedDemo` and captures the fresh (blank) and edited (`Modified`) property-grid states | `exclude` |
 | `UnitTest-ButtonSpecCollectionEditorDisplayText.ps1` | #4536 ButtonSpec collection editor lists the designer component name (`buttonSpecAny1`); `Name` edits that name; `UniqueName` stays the persistence key | `include` |
 | `UnitTest-DialogDpiLayout.ps1` | #4465 fixed dialog chrome becomes sizable, oversized windows clamp to the working area, and a long input prompt grows the client | `include` |
 | `UnitTest-KryptonSplitButton.ps1` | #4366 `KryptonSplitButton` always-on splitter, not a `KryptonButton`, `AccessibleRole.SplitButton`, `Values.IsDefault` | `include` |
