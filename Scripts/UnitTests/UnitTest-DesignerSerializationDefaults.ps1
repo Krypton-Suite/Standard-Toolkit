@@ -259,6 +259,46 @@ else {
     }
 }
 
+# #4557: a fresh ribbon notification bar must look unmodified, then Modified after a real edit.
+$ribbonAsm = [AppDomain]::CurrentDomain.GetAssemblies() | Where-Object { $_.GetName().Name -eq 'Krypton.Ribbon' } | Select-Object -First 1
+if ($null -eq $ribbonAsm) {
+    $serializationFailures.Add('Krypton.Ribbon was not loaded')
+}
+else {
+    $ribbon = $ribbonAsm.CreateInstance('Krypton.Ribbon.KryptonRibbon')
+    try {
+        $bar = $ribbon.NotificationBar
+        if (-not $bar.IsDefault -or $bar.ToString() -ne '') {
+            $serializationFailures.Add("NotificationBar fresh display='$($bar.ToString())' IsDefault=$($bar.IsDefault)")
+        }
+
+        Add-SerializeFailure 'KryptonRibbon.NotificationBar' ([DesignerDefaultAudit]::ShouldSerialize($ribbon, 'NotificationBar'))
+        Add-SerializeFailure 'NotificationBar.ActionButtonTexts' ([DesignerDefaultAudit]::ShouldSerialize($bar, 'ActionButtonTexts'))
+        Add-SerializeFailure 'NotificationBar.Icon' ([DesignerDefaultAudit]::ShouldSerialize($bar, 'Icon'))
+        Add-SerializeFailure 'NotificationBar.ActionButtonImages' ([DesignerDefaultAudit]::ShouldSerialize($bar, 'ActionButtonImages'))
+        Add-SerializeFailure 'NotificationBar.ActionButtonCommands' ([DesignerDefaultAudit]::ShouldSerialize($bar, 'ActionButtonCommands'))
+        Add-SerializeFailure 'NotificationBar.CustomBackColor' ([DesignerDefaultAudit]::ShouldSerialize($bar, 'CustomBackColor'))
+        Add-SerializeFailure 'NotificationBar.Padding' ([DesignerDefaultAudit]::ShouldSerialize($bar, 'Padding'))
+
+        $bar.Title = 'UPDATES AVAILABLE'
+        if ($bar.IsDefault -or $bar.ToString() -ne 'Modified') {
+            $serializationFailures.Add("NotificationBar edited display='$($bar.ToString())' IsDefault=$($bar.IsDefault)")
+        }
+
+        if (-not [DesignerDefaultAudit]::ShouldSerialize($ribbon, 'NotificationBar')) {
+            $serializationFailures.Add('KryptonRibbon.NotificationBar ShouldSerialize=false after Title change')
+        }
+
+        $ribbon.ResetNotificationBar()
+        if (-not $bar.IsDefault -or $bar.ToString() -ne '') {
+            $serializationFailures.Add("NotificationBar after reset display='$($bar.ToString())' IsDefault=$($bar.IsDefault)")
+        }
+    }
+    finally {
+        $ribbon.Dispose()
+    }
+}
+
 $hits = New-Object System.Collections.Generic.List[string]
 $created = 0
 $skipped = 0
