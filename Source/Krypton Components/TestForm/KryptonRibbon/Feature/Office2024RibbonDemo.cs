@@ -81,13 +81,15 @@ public partial class Office2024RibbonDemo : KryptonForm
         var instructions = new KryptonWrapLabel
         {
             Dock = DockStyle.Top,
-            Height = 140,
+            Height = 164,
             Text =
                 @"Issue #4496: Office 2024 ribbon. The selected tab is an underline, groups have no boxes, and File is text." +
                 Environment.NewLine +
                 @"Switch Blue, Silver, White, grays, and Black, including dark and light modes. Microsoft 365 Blue keeps the folder-tab chrome." +
                 Environment.NewLine +
                 @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the backstage." +
+                Environment.NewLine +
+                @"Issue #4552: double-click File closes the form. A single click only opens the backstage." +
                 Environment.NewLine +
                 @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card." +
                 Environment.NewLine +

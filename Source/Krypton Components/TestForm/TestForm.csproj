@@ -270,7 +270,6 @@
   <ItemGroup>
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
-    <Folder Include="KryptonRibbon\Bugs\" />
     <Folder Include="KryptonUtilities\Bugs\" />
     <Folder Include="KryptonWorkspace\Bugs\" />
   </ItemGroup>
