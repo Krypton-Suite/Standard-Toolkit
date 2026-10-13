@@ -45,6 +45,9 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Implemented [#4559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4559), Use different designer 'Modified' types
+   - Fresh toolbox controls stay blank in the property grid until a value changes.
+   - Expandable palette and navigator values no longer show Modified on a new drop. Empty colours, factory text, and stock colours such as the progress-bar green are not written into the designer file until you change them.
 - Resolved [#4547](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4547), Krypton collection editor dialogs no longer appear on the taskbar.
 - Resolved [#4552](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4552), Double-clicking the File button closes the form without opening the backstage, including Office 2010. A single click still opens the backstage, once the double-click interval has passed. OS X Aqua and macOS stay unchanged.
 - Resolved [#4557](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4557), Ribbon notification bar shows as modified

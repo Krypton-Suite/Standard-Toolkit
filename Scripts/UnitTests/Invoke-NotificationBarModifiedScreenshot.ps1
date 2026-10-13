@@ -34,6 +34,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Initialize-UnitTestNativeInput
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Ribbon.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Navigator.dll'))
 $asm = [System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'TestForm.exe'))
 
 [System.Windows.Forms.Application]::EnableVisualStyles()
@@ -57,6 +58,7 @@ Start-Sleep -Milliseconds 600
 
 $defaultPath = Join-Path $OutputDirectory '4557-notification-bar-default.png'
 Save-UnitTestWindowPng -Form $form -Path $defaultPath -SettleMs 200
+Copy-Item -LiteralPath $defaultPath -Destination (Join-Path $OutputDirectory '4559-designer-modified-defaults-default.png') -Force
 
 $ribbon = $formType.GetField('_ribbon', $flags).GetValue($form)
 $ribbon.NotificationBar.Title = 'UPDATES AVAILABLE'
@@ -67,6 +69,7 @@ Start-Sleep -Milliseconds 400
 
 $modifiedPath = Join-Path $OutputDirectory '4557-notification-bar-modified.png'
 Save-UnitTestWindowPng -Form $form -Path $modifiedPath -SettleMs 200
+Copy-Item -LiteralPath $modifiedPath -Destination (Join-Path $OutputDirectory '4559-designer-modified-defaults-modified.png') -Force
 
 $form.Close()
 $form.Dispose()
