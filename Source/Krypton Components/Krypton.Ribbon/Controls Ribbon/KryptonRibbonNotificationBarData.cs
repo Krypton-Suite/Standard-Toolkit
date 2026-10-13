@@ -10,11 +10,19 @@
 namespace Krypton.Ribbon;
 
 /// <summary>
-/// Provides customizable data for the ribbon notification bar.
+/// Storage for ribbon notification bar appearance and behavior.
+/// A fresh instance reports as unmodified (<see cref="Storage.ToString"/> is empty) until a value differs from the factory default.
 /// </summary>
-[TypeConverter(typeof(ExpandableObjectConverter))]
-public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
+public class KryptonRibbonNotificationBarData : Storage, INotifyPropertyChanged
 {
+    #region Static Fields
+    private const string DefaultActionButtonText = @"Update now";
+    private static readonly Color DefaultCustomBackColor = Color.FromArgb(255, 242, 204);
+    private static readonly Color DefaultCustomForeColor = Color.Black;
+    private static readonly Color DefaultCustomBorderColor = Color.FromArgb(255, 192, 0);
+    private static readonly Padding DefaultPadding = new Padding(12, 8, 12, 8);
+    #endregion
+
     #region Instance Fields
     private bool _visible;
     private RibbonNotificationBarType _type;
@@ -56,21 +64,64 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
         _showIcon = true;
         _showCloseButton = true;
         _showActionButtons = true;
-        _actionButtonTexts = new[] { "Update now" };
+        _actionButtonTexts = new[] { DefaultActionButtonText };
         _actionButtonImages = null;
-        _customBackColor = Color.FromArgb(255, 242, 204);
-        _customForeColor = Color.Black;
-        _customBorderColor = Color.FromArgb(255, 192, 0);
+        _customBackColor = DefaultCustomBackColor;
+        _customForeColor = DefaultCustomForeColor;
+        _customBorderColor = DefaultCustomBorderColor;
         _autoDismissSeconds = 0;
-        _padding = new Padding(12, 8, 12, 8);
+        _padding = DefaultPadding;
         _height = 0; // Auto-calculate
     }
+    #endregion
+
+    #region IsDefault
+    /// <summary>
+    /// Gets a value indicating if all values are default.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override bool IsDefault => !_visible &&
+                                      _type == RibbonNotificationBarType.Information &&
+                                      _text.Length == 0 &&
+                                      _title.Length == 0 &&
+                                      _icon == null &&
+                                      _showIcon &&
+                                      _showCloseButton &&
+                                      _showActionButtons &&
+                                      IsFactoryActionButtonTexts() &&
+                                      _actionButtonImages == null &&
+                                      _actionButtonCommands == null &&
+                                      _customBackColor == DefaultCustomBackColor &&
+                                      _customForeColor == DefaultCustomForeColor &&
+                                      _customBorderColor == DefaultCustomBorderColor &&
+                                      _autoDismissSeconds == 0 &&
+                                      _padding == DefaultPadding &&
+                                      _height == 0;
 
     /// <summary>
-    /// Returns a string that represents the current object.
+    /// Resets every notification bar value to its factory default.
     /// </summary>
-    /// <returns>A string that represents the current object.</returns>
-    public override string ToString() => $"Visible: {_visible}, Type: {_type}, Text: {_text}";
+    public void Reset()
+    {
+        Visible = false;
+        Type = RibbonNotificationBarType.Information;
+        Text = string.Empty;
+        Title = string.Empty;
+        Icon = null;
+        ShowIcon = true;
+        ShowCloseButton = true;
+        ShowActionButtons = true;
+        ResetActionButtonTexts();
+        ActionButtonImages = null;
+        ActionButtonCommands = null;
+        CustomBackColor = DefaultCustomBackColor;
+        CustomForeColor = DefaultCustomForeColor;
+        CustomBorderColor = DefaultCustomBorderColor;
+        AutoDismissSeconds = 0;
+        Padding = DefaultPadding;
+        Height = 0;
+    }
     #endregion
 
     #region Public Properties
@@ -172,6 +223,13 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
         }
     }
 
+    private bool ShouldSerializeIcon() => _icon != null;
+
+    /// <summary>
+    /// Resets the <see cref="Icon"/> property to its default value.
+    /// </summary>
+    public void ResetIcon() => Icon = null;
+
     /// <summary>
     /// Gets or sets whether to show the icon.
     /// </summary>
@@ -234,7 +292,6 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The array of action button texts.")]
-    [DefaultValue(null)]
     [Localizable(true)]
     public string[] ActionButtonTexts
     {
@@ -246,6 +303,19 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
                 _actionButtonTexts = value ?? Array.Empty<string>();
                 OnPropertyChanged();
             }
+        }
+    }
+
+    private bool ShouldSerializeActionButtonTexts() => !IsFactoryActionButtonTexts();
+
+    /// <summary>
+    /// Resets the <see cref="ActionButtonTexts"/> property to its default value.
+    /// </summary>
+    public void ResetActionButtonTexts()
+    {
+        if (!IsFactoryActionButtonTexts())
+        {
+            ActionButtonTexts = new[] { DefaultActionButtonText };
         }
     }
 
@@ -268,6 +338,13 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
         }
     }
 
+    private bool ShouldSerializeActionButtonImages() => _actionButtonImages != null;
+
+    /// <summary>
+    /// Resets the <see cref="ActionButtonImages"/> property to its default value.
+    /// </summary>
+    public void ResetActionButtonImages() => ActionButtonImages = null;
+
     /// <summary>
     /// Gets or sets the array of KryptonCommand objects for action buttons.
     /// If provided, these will be used instead of ActionButtonTexts.
@@ -287,6 +364,13 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
             }
         }
     }
+
+    private bool ShouldSerializeActionButtonCommands() => _actionButtonCommands != null;
+
+    /// <summary>
+    /// Resets the <see cref="ActionButtonCommands"/> property to its default value.
+    /// </summary>
+    public void ResetActionButtonCommands() => ActionButtonCommands = null;
 
     /// <summary>
     /// Gets or sets the custom background color (used when Type is Custom).
@@ -412,5 +496,12 @@ public class KryptonRibbonNotificationBarData : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+    #endregion
+
+    #region Implementation
+    // Factory text is a real default, so a one-element "Update now" array must not look edited.
+    private bool IsFactoryActionButtonTexts() =>
+        _actionButtonTexts.Length == 1 &&
+        string.Equals(_actionButtonTexts[0], DefaultActionButtonText, StringComparison.Ordinal);
     #endregion
 }

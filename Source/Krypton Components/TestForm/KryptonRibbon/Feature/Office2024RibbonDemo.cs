@@ -95,6 +95,7 @@ public partial class Office2024RibbonDemo : KryptonForm
                 @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the backstage." +
                 Environment.NewLine +
                 @"Compact ribbon (#4533) lays those same groups on one row for every ribbon shape: icon and text, then icons only as the form narrows. Group captions and group boxes hide. Each shape keeps its own tabs. Arrow place chooses under the groups, the end of the groups, or the tab row. Switching eases the groups area. The arrow is optional. Narrow the window until ... appears at the end of the row, then click it for the commands that did not fit." +
+                @"Issue #4552: double-click File closes the form. A single click only opens the backstage." +
                 Environment.NewLine +
                 @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card." +
                 Environment.NewLine +
