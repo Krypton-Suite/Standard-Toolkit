@@ -48,6 +48,7 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+- Resolved [#4483](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4483), Dark mode themes no longer leave light Office chrome on dark surfaces. Office glass buttons and silver group captions stay. Disabled text, separators, grid rows, tabs, and checkbox/radio glyphs are darkened so they stay readable.
 - Implemented [#4465](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4465), Toolkit dialogs size to their content and the owner monitor instead of a fixed 96 DPI client size.
   - Prompts (`KryptonInputBox`, including RTL, the wait dialog, and the information box) grow with wrapped text and stay inside the working area. `KryptonMessageBox` is unchanged.
   - Larger dialogs (exception, about, splash, theme browser, changelog, conversion, binary information, and the multiline string editor) are resizable and are clamped when they would be taller or wider than the monitor.
