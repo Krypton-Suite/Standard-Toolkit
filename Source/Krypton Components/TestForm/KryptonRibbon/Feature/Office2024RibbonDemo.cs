@@ -17,17 +17,6 @@ namespace TestForm;
 /// </summary>
 public partial class Office2024RibbonDemo : KryptonForm
 {
-    private readonly KryptonManager _manager = new();
-    private readonly KryptonRibbon _ribbon;
-    private readonly KryptonWrapLabel _status;
-    private readonly KryptonCheckBox _bevel;
-    private readonly KryptonCheckBox _contextTitles;
-    private readonly KryptonCheckBox _pills;
-    private readonly KryptonCheckBox _glow;
-    private readonly KryptonCheckBox _compact;
-    private readonly KryptonComboBox _arrowLocation;
-    private readonly KryptonNumericUpDown _bevelSize;
-    private readonly KryptonNumericUpDown _gap;
     private bool _syncingBevel;
     private bool _syncingContextTitles;
     private bool _syncingPills;
@@ -40,305 +29,85 @@ public partial class Office2024RibbonDemo : KryptonForm
     public Office2024RibbonDemo()
     {
         InitializeComponent();
-
-        _ribbon = new KryptonRibbon
-        {
-            Dock = DockStyle.Top,
-            Name = @"office2024Ribbon"
-        };
-        _ribbon.RibbonFileAppTab.FileAppTabText = @"File";
-
-        var home = new KryptonRibbonTab { Text = @"Home", KeyTip = @"H" };
-        var insert = new KryptonRibbonTab { Text = @"Insert", KeyTip = @"N" };
-        var table = new KryptonRibbonTab
-        {
-            Text = @"Table Design",
-            KeyTip = @"JT",
-            ContextName = @"Table"
-        };
-
-        home.Groups.Add(CreateClipboardGroup());
-        home.Groups.Add(CreateFontGroup());
-        insert.Groups.Add(CreateInsertGroup());
-        table.Groups.Add(CreateTableGroup());
-
-        _ribbon.RibbonTabs.Add(home);
-        _ribbon.RibbonTabs.Add(insert);
-        _ribbon.RibbonTabs.Add(table);
-        _ribbon.RibbonContexts.Add(new KryptonRibbonContext
-        {
-            ContextName = @"Table",
-            ContextTitle = @"Table Tools",
-            ContextColor = Color.FromArgb(15, 108, 189)
-        });
-        _ribbon.SelectedContext = @"Table";
-
-        _ribbon.QATButtons.Add(new KryptonRibbonQATButton { Text = @"Undo", ToolTipTitle = @"Undo" });
-        _ribbon.ShowCompactButton = true;
-        CreateOffice2024Backstage();
-
-        Controls.Add(_ribbon);
-
-        var panel = new KryptonPanel { Dock = DockStyle.Fill };
-        Controls.Add(panel);
-        panel.BringToFront();
-
-        var instructions = new KryptonWrapLabel
-        {
-            Dock = DockStyle.Top,
-            Height = 220,
-            Text =
-                @"Issue #4496: Office 2024 ribbon. The selected tab is an underline, groups have no boxes, and File is text." +
-                Environment.NewLine +
-                @"Switch Blue, Silver, White, grays, and Black, including dark and light modes. Microsoft 365 Blue keeps the folder-tab chrome." +
-                Environment.NewLine +
-                @"Home has two groups and a dialog launcher. Table Design is a contextual tab. File opens the backstage." +
-                Environment.NewLine +
-                @"Compact ribbon (#4533) lays those same groups on one row for every ribbon shape: icon and text, then icons only as the form narrows. Group captions and group boxes hide. Each shape keeps its own tabs. Arrow place chooses under the groups, the end of the groups, or the tab row. Switching eases the groups area. The arrow is optional. Narrow the window until ... appears at the end of the row, then click it for the commands that did not fit." +
-                @"Issue #4552: double-click File closes the form. A single click only opens the backstage." +
-                Environment.NewLine +
-                @"Beveled edges and gaps between groups are optional. Bevel size and group gap are pixels at 96 DPI. A gap of zero keeps one card." +
-                Environment.NewLine +
-                @"Context titles in the title bar are optional for Office 2024 and stay off until you turn them on. Microsoft 365 still shows them." +
-                Environment.NewLine +
-                @"Tab marks can be a straight line or a pill-shaped line under the label. An optional glow can be turned on."
-        };
-
-        var buttons = new FlowLayoutPanel
-        {
-            Dock = DockStyle.Top,
-            Height = 440,
-            Padding = new Padding(8, 8, 8, 0)
-        };
-        buttons.Controls.Add(CreateThemeButton(@"Office 2024 Blue", PaletteMode.Office2024Blue));
-        buttons.Controls.Add(CreateThemeButton(@"Blue Dark", PaletteMode.Office2024BlueDarkMode));
-        buttons.Controls.Add(CreateThemeButton(@"Blue Light", PaletteMode.Office2024BlueLightMode));
-        buttons.Controls.Add(CreateThemeButton(@"Office 2024 Silver", PaletteMode.Office2024Silver));
-        buttons.Controls.Add(CreateThemeButton(@"Silver Dark", PaletteMode.Office2024SilverDarkMode));
-        buttons.Controls.Add(CreateThemeButton(@"Silver Light", PaletteMode.Office2024SilverLightMode));
-        buttons.Controls.Add(CreateThemeButton(@"Office 2024 White", PaletteMode.Office2024White));
-        buttons.Controls.Add(CreateThemeButton(@"Office 2024 Light Gray", PaletteMode.Office2024LightGray));
-        buttons.Controls.Add(CreateThemeButton(@"Office 2024 Dark Gray", PaletteMode.Office2024DarkGray));
-        buttons.Controls.Add(CreateThemeButton(@"Office 2024 Black", PaletteMode.Office2024Black));
-        buttons.Controls.Add(CreateThemeButton(@"Black Dark", PaletteMode.Office2024BlackDarkMode));
-        buttons.Controls.Add(CreateThemeButton(@"Black Dark Alternate", PaletteMode.Office2024BlackDarkModeAlternate));
-        buttons.Controls.Add(CreateThemeButton(@"Microsoft 365 Blue", PaletteMode.Microsoft365Blue));
-        buttons.Controls.Add(CreateThemeButton(@"Office 2007 Blue", PaletteMode.Office2007Blue));
-        buttons.Controls.Add(CreateThemeButton(@"Office 2010 Blue", PaletteMode.Office2010Blue));
-        buttons.Controls.Add(CreateThemeButton(@"Office 2013 White", PaletteMode.Office2013White));
-        buttons.Controls.Add(CreateThemeButton(@"Sparkle Blue", PaletteMode.SparkleBlue));
-        buttons.Controls.Add(CreateThemeButton(@"Visual Studio 2010", PaletteMode.VisualStudio2010Render2010));
-        _bevel = new KryptonCheckBox
-        {
-            Text = @"Beveled group edges",
-            AutoSize = true,
-            Margin = new Padding(8, 6, 8, 0)
-        };
-        _bevel.CheckedChanged += (_, _) =>
-        {
-            if (!_syncingBevel)
-            {
-                SetGroupAreaBevel(_bevel.Checked);
-            }
-        };
-        buttons.Controls.Add(_bevel);
-        _contextTitles = new KryptonCheckBox
-        {
-            Text = @"Context titles in title bar",
-            AutoSize = true,
-            Margin = new Padding(8, 6, 8, 0)
-        };
-        _contextTitles.CheckedChanged += (_, _) =>
-        {
-            if (!_syncingContextTitles)
-            {
-                SetShowContextTitles(_contextTitles.Checked);
-            }
-        };
-        buttons.Controls.Add(_contextTitles);
-        _pills = new KryptonCheckBox
-        {
-            Text = @"Pill shaped lines",
-            AutoSize = true,
-            Margin = new Padding(8, 6, 8, 0)
-        };
-        _pills.CheckedChanged += (_, _) =>
-        {
-            if (!_syncingPills)
-            {
-                SetTabMarker(_pills.Checked ? PaletteRibbonTabMarker.Pill : PaletteRibbonTabMarker.Line);
-            }
-        };
-        buttons.Controls.Add(_pills);
-        _glow = new KryptonCheckBox
-        {
-            Text = @"Glow tab lines",
-            AutoSize = true,
-            Margin = new Padding(8, 6, 8, 0)
-        };
-        _glow.CheckedChanged += (_, _) =>
-        {
-            if (!_syncingGlow)
-            {
-                SetTabMarkerGlow(_glow.Checked);
-            }
-        };
-        buttons.Controls.Add(_glow);
-        _compact = new KryptonCheckBox
-        {
-            Text = @"Compact ribbon",
-            AutoSize = true,
-            Margin = new Padding(8, 6, 8, 0)
-        };
-        _compact.CheckedChanged += (_, _) =>
-        {
-            if (!_syncingCompact)
-            {
-                SetCompactMode(_compact.Checked);
-            }
-        };
-        buttons.Controls.Add(_compact);
-        var arrowLabel = new KryptonLabel
-        {
-            Text = @"Arrow place",
-            AutoSize = true,
-            Margin = new Padding(8, 8, 0, 0)
-        };
-        _arrowLocation = new KryptonComboBox
-        {
-            DropDownStyle = ComboBoxStyle.DropDownList,
-            DropDownWidth = 140,
-            Width = 140,
-            Margin = new Padding(4, 4, 8, 0)
-        };
-        _arrowLocation.Items.AddRange(new object[] { @"Below groups", @"End of groups", @"Tab row" });
-        _arrowLocation.SelectedIndex = 0;
-        _arrowLocation.SelectedIndexChanged += (_, _) =>
-        {
-            if (!_syncingArrowLocation && _arrowLocation.SelectedIndex >= 0)
-            {
-                SetCompactButtonLocation(LocationFromIndex(_arrowLocation.SelectedIndex));
-            }
-        };
-        buttons.Controls.Add(arrowLabel);
-        buttons.Controls.Add(_arrowLocation);
-        var bevelSizeLabel = new KryptonLabel
-        {
-            Text = @"Bevel size",
-            AutoSize = true,
-            Margin = new Padding(8, 8, 0, 0)
-        };
-        _bevelSize = new KryptonNumericUpDown
-        {
-            Minimum = 1,
-            Maximum = 16,
-            Value = PaletteRibbonGeneral.GroupAreaBevelSizeDefault,
-            Width = 64,
-            Margin = new Padding(4, 4, 8, 0)
-        };
-        _bevelSize.ValueChanged += (_, _) =>
-        {
-            if (!_syncingBevelSize)
-            {
-                SetGroupAreaBevelSize((int)_bevelSize.Value);
-            }
-        };
-        buttons.Controls.Add(bevelSizeLabel);
-        buttons.Controls.Add(_bevelSize);
-        var gapLabel = new KryptonLabel
-        {
-            Text = @"Group gap",
-            AutoSize = true,
-            Margin = new Padding(8, 8, 0, 0)
-        };
-        _gap = new KryptonNumericUpDown
-        {
-            Minimum = 0,
-            Maximum = 48,
-            Value = 0,
-            Width = 64,
-            Margin = new Padding(4, 4, 8, 0)
-        };
-        _gap.ValueChanged += (_, _) =>
-        {
-            if (!_syncingGap)
-            {
-                SetGroupAreaGap((int)_gap.Value);
-            }
-        };
-        buttons.Controls.Add(gapLabel);
-        buttons.Controls.Add(_gap);
-
-        _status = new KryptonWrapLabel
-        {
-            Dock = DockStyle.Fill,
-            Text = @"Select a theme."
-        };
-
-        panel.Controls.Add(_status);
-        panel.Controls.Add(buttons);
-        panel.Controls.Add(instructions);
-
-        _ribbon.CompactModeChanged += (_, _) =>
-        {
-            if (_compact.Checked == _ribbon.CompactMode)
-            {
-                _status.Text = StatusText();
-                return;
-            }
-
-            _syncingCompact = true;
-            _compact.Checked = _ribbon.CompactMode;
-            _syncingCompact = false;
-            _status.Text = StatusText();
-        };
-
         ApplyTheme(PaletteMode.Office2024Black);
     }
 
-    /// <summary>
-    /// Hosts an Office 2024 backstage on the File tab. Page content is a label so the rail can be checked.
-    /// </summary>
-    private void CreateOffice2024Backstage()
+    private void OnBevelCheckedChanged(object? sender, EventArgs e)
     {
-        var backstage = new KryptonBackstageView
+        if (!_syncingBevel)
         {
-            OverlayMode = BackstageOverlayMode.FullClient
-        };
-        backstage.Pages.Add(CreateBackstagePage(@"Home", 0, false, false));
-        backstage.Pages.Add(CreateBackstagePage(@"New", 1, false, false));
-        backstage.Pages.Add(CreateBackstagePage(@"Open", 2, false, false));
-        backstage.Pages.Add(CreateBackstagePage(@"Info", 3, false, true));
-        backstage.Pages.Add(CreateBackstagePage(@"Print", 4, false, false));
-        backstage.Pages.Add(CreateBackstagePage(@"Options", 10, true, false));
-
-        var close = new KryptonBackstageCommand(@"Close")
-        {
-            NavigationOrder = 5
-        };
-        close.Click += (_, _) => _ribbon.CloseBackstageView();
-        backstage.Commands.Add(close);
-
-        _ribbon.RibbonFileAppTab.UseBackstageView = true;
-        _ribbon.RibbonFileAppTab.BackstageView = backstage;
+            SetGroupAreaBevel(_bevel.Checked);
+        }
     }
 
-    private static KryptonBackstagePage CreateBackstagePage(string text, int order, bool placeAtBottom, bool separatorBefore)
+    private void OnContextTitlesCheckedChanged(object? sender, EventArgs e)
     {
-        var page = new KryptonBackstagePage
+        if (!_syncingContextTitles)
         {
-            Text = text,
-            NavigationOrder = order,
-            PlaceAtBottom = placeAtBottom,
-            SeparatorBefore = separatorBefore
-        };
-        page.Controls.Add(new KryptonLabel
+            SetShowContextTitles(_contextTitles.Checked);
+        }
+    }
+
+    private void OnPillsCheckedChanged(object? sender, EventArgs e)
+    {
+        if (!_syncingPills)
         {
-            Text = text,
-            Dock = DockStyle.Top,
-            Padding = new Padding(24, 20, 24, 0)
-        });
-        return page;
+            SetTabMarker(_pills.Checked ? PaletteRibbonTabMarker.Pill : PaletteRibbonTabMarker.Line);
+        }
+    }
+
+    private void OnGlowCheckedChanged(object? sender, EventArgs e)
+    {
+        if (!_syncingGlow)
+        {
+            SetTabMarkerGlow(_glow.Checked);
+        }
+    }
+
+    private void OnCompactCheckedChanged(object? sender, EventArgs e)
+    {
+        if (!_syncingCompact)
+        {
+            SetCompactMode(_compact.Checked);
+        }
+    }
+
+    private void OnArrowLocationChanged(object? sender, EventArgs e)
+    {
+        if (!_syncingArrowLocation && _arrowLocation.SelectedIndex >= 0)
+        {
+            SetCompactButtonLocation(LocationFromIndex(_arrowLocation.SelectedIndex));
+        }
+    }
+
+    private void OnBevelSizeChanged(object? sender, EventArgs e)
+    {
+        if (!_syncingBevelSize)
+        {
+            SetGroupAreaBevelSize((int)_bevelSize.Value);
+        }
+    }
+
+    private void OnGapChanged(object? sender, EventArgs e)
+    {
+        if (!_syncingGap)
+        {
+            SetGroupAreaGap((int)_gap.Value);
+        }
+    }
+
+    private void OnCompactModeChanged(object? sender, EventArgs e)
+    {
+        if (_compact.Checked == _ribbon.CompactMode)
+        {
+            _status.Text = StatusText();
+            return;
+        }
+
+        _syncingCompact = true;
+        _compact.Checked = _ribbon.CompactMode;
+        _syncingCompact = false;
+        _status.Text = StatusText();
     }
 
     /// <summary>
@@ -583,85 +352,6 @@ public partial class Office2024RibbonDemo : KryptonForm
         {
             ApplyTheme(mode);
         }
-    }
-
-    private static KryptonRibbonGroup CreateClipboardGroup()
-    {
-        var paste = Command(@"Paste", @"V", Color.FromArgb(46, 125, 50));
-        paste.ItemSizeMaximum = GroupItemSize.Large;
-        paste.ItemSizeMinimum = GroupItemSize.Large;
-        var cut = Command(@"Cut", @"X", Color.FromArgb(198, 40, 40));
-        var copy = Command(@"Copy", @"C", Color.FromArgb(21, 101, 192));
-
-        var lines = new KryptonRibbonGroupTriple();
-        lines.Items!.Add(paste);
-        lines.Items.Add(cut);
-        lines.Items.Add(copy);
-
-        var group = new KryptonRibbonGroup
-        {
-            TextLine1 = @"Clipboard",
-            DialogBoxLauncher = true
-        };
-        group.Items.Add(lines);
-        return group;
-    }
-
-    private static KryptonRibbonGroup CreateFontGroup()
-    {
-        var bold = Command(@"Bold", @"1", Color.FromArgb(66, 66, 66));
-        var italic = Command(@"Italic", @"2", Color.FromArgb(106, 27, 154));
-        var underline = Command(@"Underline", @"3", Color.FromArgb(0, 105, 92));
-        var strike = Command(@"Strikethrough", @"4", Color.FromArgb(191, 54, 12));
-        var highlight = Command(@"Highlight", @"I", Color.FromArgb(249, 168, 37));
-        var fontColor = Command(@"Font Color", @"FC", Color.FromArgb(183, 28, 28));
-        var alignLeft = Command(@"Align Left", @"AL", Color.FromArgb(2, 119, 189));
-        var center = Command(@"Center", @"AC", Color.FromArgb(0, 131, 143));
-        var alignRight = Command(@"Align Right", @"AR", Color.FromArgb(69, 90, 100));
-        var styles = new KryptonRibbonGroupTriple();
-        styles.Items!.Add(bold);
-        styles.Items.Add(italic);
-        styles.Items.Add(underline);
-        var colors = new KryptonRibbonGroupTriple();
-        colors.Items!.Add(strike);
-        colors.Items.Add(highlight);
-        colors.Items.Add(fontColor);
-        var align = new KryptonRibbonGroupTriple();
-        align.Items!.Add(alignLeft);
-        align.Items.Add(center);
-        align.Items.Add(alignRight);
-
-        var group = new KryptonRibbonGroup { TextLine1 = @"Font" };
-        group.Items.Add(styles);
-        group.Items.Add(colors);
-        group.Items.Add(align);
-        return group;
-    }
-
-    private static KryptonRibbonGroup CreateInsertGroup()
-    {
-        var table = new KryptonRibbonGroupButton
-        {
-            TextLine1 = @"Table",
-            KeyTip = @"T",
-            ItemSizeMaximum = GroupItemSize.Large,
-            ItemSizeMinimum = GroupItemSize.Large
-        };
-        var lines = new KryptonRibbonGroupTriple();
-        lines.Items!.Add(table);
-        var group = new KryptonRibbonGroup { TextLine1 = @"Tables" };
-        group.Items.Add(lines);
-        return group;
-    }
-
-    private static KryptonRibbonGroup CreateTableGroup()
-    {
-        var shading = new KryptonRibbonGroupButton { TextLine1 = @"Shading", KeyTip = @"SH" };
-        var lines = new KryptonRibbonGroupTriple();
-        lines.Items!.Add(shading);
-        var group = new KryptonRibbonGroup { TextLine1 = @"Table Styles" };
-        group.Items.Add(lines);
-        return group;
     }
 
     private static KryptonRibbonGroupButton Command(string text, string keyTip, Color color)
