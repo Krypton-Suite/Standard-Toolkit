@@ -487,6 +487,8 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
                     return triple.Items;
                 case KryptonRibbonGroupLines lines:
                     return lines.Items;
+                case KryptonRibbonGroupStack stack:
+                    return stack.Items;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

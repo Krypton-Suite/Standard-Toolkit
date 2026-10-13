@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -477,6 +477,25 @@ public enum RibbonItemAlignment
     /// Specifies all items are aligned to the far edge.
     /// </summary>
     Far
+}
+#endregion
+
+#region Enum RibbonGroupStackLayout
+/// <summary>
+/// Specifies how a <see cref="KryptonRibbonGroupStack"/> arranges its children inside the three-line ribbon height.
+/// </summary>
+public enum RibbonGroupStackLayout
+{
+    /// <summary>
+    /// Fills down a column of at most three items, then the next column.
+    /// A large container uses medium children. Medium and small containers use small children.
+    /// </summary>
+    Columns = 0,
+
+    /// <summary>
+    /// Large children sit in one horizontal row. Medium and small children wrap into columns of three.
+    /// </summary>
+    Adaptive = 1
 }
 #endregion
 
