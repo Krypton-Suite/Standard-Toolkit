@@ -1145,6 +1145,13 @@ public partial class KryptonRibbon : VisualSimple,
         get => _notificationBarData;
     }
 
+    private bool ShouldSerializeNotificationBar() => !NotificationBar.IsDefault;
+
+    /// <summary>
+    /// Resets the <see cref="NotificationBar"/> property to its default value.
+    /// </summary>
+    public void ResetNotificationBar() => NotificationBar.Reset();
+
     /// <summary>
     /// Gets and sets the display method for the quick access toolbar.
     /// </summary>
