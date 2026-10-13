@@ -45,6 +45,7 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Resolved [#4547](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4547), Krypton collection editor dialogs no longer appear on the taskbar.
 - Resolved [#4552](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4552), Double-clicking the File button closes the form without opening the backstage, including Office 2010. A single click still opens the backstage, once the double-click interval has passed. OS X Aqua and macOS stay unchanged.
 - Resolved [#4557](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4557), Ribbon notification bar shows as modified
    - A new ribbon notification bar stays blank in the property grid until a value changes, then shows Modified.
