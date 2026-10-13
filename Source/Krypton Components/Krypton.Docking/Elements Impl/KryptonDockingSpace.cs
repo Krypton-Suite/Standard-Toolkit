@@ -16,7 +16,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Base class for docking elements that manage a KryptonSpace derived class.
+/// Element owning a <see cref="KryptonSpace"/> (dockspace, floatspace, or workspace). Handles
+/// page-level propagate actions against workspace cells, including store/restore via <see cref="KryptonStorePage"/>.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
@@ -91,6 +92,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
 
     private void ObserveAutoHiddenSlideSize(KryptonPage[] pages)
     {
+        // Track the largest AutoHiddenSlideSize so a later slide-out panel can size to content.
         if (SpaceControl != null)
         {
             Size currentHintSize = SpaceControl.Size;
@@ -257,7 +259,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
         switch (action)
         {
             case DockingPropogateAction.Loading:
-                // Force layout so that the correct number of pages is recognized
+                // Layout before clear so cell/page counts are current; second layout lets empty spaces self-remove.
                 SpaceControl.PerformLayout();
 
                 // Remove all the pages including store pages
@@ -354,7 +356,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
                 }
                 foreach (var uniqueName in uniqueNames)
                 {
-                    // Swap pages that are not placeholders to become placeholders
+                    // Insert placeholder at the live page index, then remove the page (index preserved).
                     KryptonPage? page = SpaceControl.PageForUniqueName(uniqueName);
                     if (page is not null and not KryptonStorePage)
                     {
@@ -397,7 +399,7 @@ public abstract class KryptonDockingSpace : DockingElementClosedCollection
             case DockingPropogateAction.ClearFloatingStoredPages:
             case DockingPropogateAction.ClearDockedStoredPages:
             case DockingPropogateAction.ClearStoredPages:
-                // Only process an attempt to clear all pages or those related to this docking location
+                // Location-specific clears ignore hosts whose ClearStoreAction does not match.
                 if ((action == DockingPropogateAction.ClearStoredPages) || (action == ClearStoreAction))
                 {
                     if (uniqueNames == null)

@@ -16,7 +16,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality by attaching to an existing KryptonDockableNavigator
+/// Filler-region navigator host (center of a control). Uses store name "Filler" and the same
+/// store/restore propagate pattern as <see cref="KryptonDockingSpace"/>.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

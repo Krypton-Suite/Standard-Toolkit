@@ -13,7 +13,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality for floating windows.
+/// Factory for floating tool windows owned by a single <see cref="OwnerForm"/>. Locates an existing
+/// float host via store-page lookup before creating another window.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

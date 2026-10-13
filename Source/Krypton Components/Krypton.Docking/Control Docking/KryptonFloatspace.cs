@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace to work within the docking floating window.
+/// Workspace inside a floating window. Store name "Floating"; pin action is disabled.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

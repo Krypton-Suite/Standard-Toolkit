@@ -13,7 +13,9 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Acts as a placeholder for a KryptonPage so that it can be restored to this location at a later time.
+/// Invisible placeholder left at the original tab/cell index while the real page is shown elsewhere.
+/// <see cref="StoreName"/> scopes clears (<c>ClearDockedStoredPages</c>, etc.) so only the matching
+/// host removes its placeholder when the page returns or is discarded.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

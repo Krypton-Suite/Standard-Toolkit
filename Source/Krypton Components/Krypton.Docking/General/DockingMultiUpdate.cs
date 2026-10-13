@@ -13,7 +13,9 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Helper class used inside a 'using' statement to notify start and end of a multi-part update.
+/// RAII wrapper that broadcasts <see cref="DockingPropogateAction.StartUpdate"/> /
+/// <see cref="DockingPropogateAction.EndUpdate"/> so nested layout, paint, and inner-minimum
+/// enforcement are deferred until a location switch or drag-drop sequence completes.
 /// </summary>
 public class DockingMultiUpdate : IDisposable
 {

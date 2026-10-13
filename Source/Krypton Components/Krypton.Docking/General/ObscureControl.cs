@@ -12,6 +12,8 @@
 
 namespace Krypton.Docking;
 
+// Transparent overlay that suppresses child paint during batch layout; retained for reference from
+// commented code in KryptonDockingControl.StartUpdate.
 internal class ObscureControl : Control
 {
     #region Protected

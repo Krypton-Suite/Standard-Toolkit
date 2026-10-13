@@ -1,7 +1,14 @@
 ﻿# Repository Guidelines
 
-## Recent Tooling Mistakes To Avoid
+## Always
 
+Before considering a task complete:
+
+- Build the affected project if instructed.
+- Treat new analyzer warnings as part of the build unless they already existed.
+- Update TestForm when adding a feature.
+- Update Changelog.md for completed features and bug fixes.
+- Add developer documentation for substantial new features.
 These are recurring issues observed when using AI coding agents and shell wrappers. Follow these guidelines even if the commands appear syntactically correct.
 
 - Do not combine `cmd.exe` variable assignment and use in the same command line. `%VAR%` is expanded before `set` takes effect, which created a stash named `"%STASH_MSG%"`. Correct example: `git stash push -m "3493-followup" -- .`
@@ -76,6 +83,12 @@ Before considering a task complete:
 - Rendering flows through the palette and renderer abstractions.
 - New controls should integrate with the palette system rather than hardcoding appearance.
 
+## Editing Philosophy
+
+- Make the smallest change that correctly solves the task.
+- Preserve existing formatting and coding style.
+- Do not refactor unrelated code.
+- Do not rename identifiers unless requested.
 ## WinForms Designer Extensibility SDK
 
 Issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593). Modern Windows TFMs (`net8.0-windows` and later) load designers out-of-process via the WinForms Designer Extensibility SDK. .NET Framework still uses in-process designers inside the runtime assemblies.

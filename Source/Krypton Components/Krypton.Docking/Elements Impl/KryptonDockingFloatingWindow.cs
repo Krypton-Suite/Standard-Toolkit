@@ -15,7 +15,8 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Provides docking functionality for a floating window that contains just a dockspace.
+/// Element wrapping one <see cref="KryptonFloatingWindow"/> and its <see cref="KryptonDockingFloatspace"/>.
+/// Reuses the same StartUpdate/EndUpdate suspend pattern as <see cref="KryptonDockingControl"/>.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

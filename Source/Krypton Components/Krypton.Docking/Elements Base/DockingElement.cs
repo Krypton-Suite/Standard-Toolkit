@@ -15,7 +15,10 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Implements base docking element functionality.
+/// Root of the docking element composite tree. Each node implements <see cref="IDockingElement"/> and
+/// forwards <c>Propogate*</c> requests to children; leaf nodes (spaces, groups, navigators) own the
+/// actual WinForms controls. Path resolution walks down by comma-separated element names; parent lookup
+/// walks up to reach <see cref="KryptonDockingManager"/>.
 /// </summary>
 public abstract class DockingElement : Component,
     IDockingElement
@@ -107,7 +110,7 @@ public abstract class DockingElement : Component,
             }
             else
             {
-                // Extract the remainder of the path
+                // Remainder keeps the leading comma so child names still parse as "Child,Grandchild"
                 var remainder = path.Substring(comma, path.Length - comma);
 
                 // Give each child a chance to resolve the remainder of the path

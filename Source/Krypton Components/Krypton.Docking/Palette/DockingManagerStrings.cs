@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Storage for docking manager strings.
+/// Localized tooltips and context-menu strings pushed to spaces via <see cref="DockingPropogateAction.StringChanged"/>.
 /// </summary>
 public class DockingManagerStrings : Storage
 {
