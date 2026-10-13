@@ -244,11 +244,12 @@ public partial class StartScreen : KryptonForm
         CreateButton<ProgressBarTriStateTest>("ProgressBar Tri-State", string.Empty);
         CreateButton<OverlayImageTest>("Overlay Image Test", "Overlay images on KryptonButton, KryptonLabel, KryptonColorButton, and ButtonSpec — positions, scaling, per-state overlays, and RTL-aware corners (#1205 / #4157).");
         CreateButton<PropertyGridTest>("PropertyGridTest", string.Empty);
-        CreateButton<RibbonTest>("Ribbon", string.Empty);
-        CreateButton<Office2024RibbonDemo>("Office 2024 Ribbon (#4496)", "Issue #4496: Office 2024 Blue, Silver, White, Light Gray, Dark Gray, and Black, including dark and light modes. Selected tab is an underline, groups have no boxes, and File is text. File opens the Office 2024 backstage. Microsoft 365 Blue still uses the folder-tab ribbon.");
+        CreateButton<RibbonTest>("Ribbon", "File opens the backstage. Issue #4552: double-click File closes the form. A single click only opens the backstage.");
+        CreateButton<Office2024RibbonDemo>("Office 2024 Ribbon (#4496)", "Issue #4496: Office 2024 Blue, Silver, White, Light Gray, Dark Gray, and Black, including dark and light modes. Selected tab is an underline, groups have no boxes, and File is text. File opens the Office 2024 backstage. Microsoft 365 Blue still uses the folder-tab ribbon. Issue #4552: double-click File closes the form. A single click only opens the backstage.");
         CreateButton<RibbonRtlDemo>("Ribbon RTL (#2382)", "Issue #2382: Office-style logical RTL for KryptonRibbon. Toggle RightToLeft + RightToLeftLayout; tabs, groups, QAT, clusters, File button, and key tips pack from the start edge.");
         CreateButton<RibbonShowTabHeadersDemo>("Ribbon ShowTabHeaders / Toolbar (#331)", "Issue #331: ShowTabHeaders property and KryptonRibbonToolbar. Compare a normal ribbon (toggle headers) with the toolbar subclass; groups stay visible when the tab strip is hidden.");
         CreateButton<RibbonNotificationBarDemo>("Ribbon Notification Bar", "Comprehensive demonstration of the Krypton Ribbon Notification Bar feature with all customization options.");
+        CreateButton<Bug4557NotificationBarModifiedDemo>("4557 Notification Bar Modified", "Issue #4557: a fresh ribbon NotificationBar is blank in the property grid. Change Title, and the row shows Modified. Reset clears it.");
         CreateButton<RibbonMergerDemo>("Ribbon Merger Demo", "Demonstrates UserControl hosting and ribbon merging for plugin architectures");
         CreateButton<RibbonDetachableTest>("Detachable Ribbons", "Demonstrates detachable ribbons feature - allows ribbon to be moved to a floating window (Issue #595)");
         CreateButton<TextBoxEventTest>("TextBox", string.Empty);
