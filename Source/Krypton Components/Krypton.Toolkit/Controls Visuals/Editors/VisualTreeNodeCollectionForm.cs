@@ -155,6 +155,16 @@ internal partial class VisualTreeNodeCollectionForm : VisualDesignerCollectionFo
         UpdateButtons();
     }
 
+    private void ButtonAddRoot_Click(object? sender, EventArgs e) => AddNode(null);
+
+    private void ButtonAddChild_Click(object? sender, EventArgs e) => AddNode(_selectedNode);
+
+    private void ButtonDelete_Click(object? sender, EventArgs e) => DeleteSelectedNode();
+
+    private void ButtonMoveUp_Click(object? sender, EventArgs e) => MoveSelectedNode(true);
+
+    private void ButtonMoveDown_Click(object? sender, EventArgs e) => MoveSelectedNode(false);
+
     private void DeleteSelectedNode()
     {
         if (_selectedNode is null)

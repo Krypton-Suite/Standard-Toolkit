@@ -154,7 +154,7 @@ internal partial class VisualStandardCollectionForm
         //
         Controls.Add(kpnlContent);
         Controls.Add(kpnlButtonBar);
-        Name = nameof(VisualStandardCollectionForm);
+        Name = "VisualStandardCollectionForm";
         _membersPanel.ResumeLayout(false);
         _membersPanel.PerformLayout();
         _propertiesPanel.ResumeLayout(false);

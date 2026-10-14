@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -102,31 +102,31 @@ internal partial class VisualTreeNodeCollectionForm
         //
         _buttonAddRoot.Name = "_buttonAddRoot";
         _buttonAddRoot.Values.Text = @"Add Root";
-        _buttonAddRoot.Click += (_, _) => AddNode(null);
+        _buttonAddRoot.Click += ButtonAddRoot_Click;
         //
         // _buttonAddChild
         //
         _buttonAddChild.Name = "_buttonAddChild";
         _buttonAddChild.Values.Text = @"Add Child";
-        _buttonAddChild.Click += (_, _) => AddNode(_selectedNode);
+        _buttonAddChild.Click += ButtonAddChild_Click;
         //
         // _buttonDelete
         //
         _buttonDelete.Name = "_buttonDelete";
         _buttonDelete.Values.Text = @"Delete";
-        _buttonDelete.Click += (_, _) => DeleteSelectedNode();
+        _buttonDelete.Click += ButtonDelete_Click;
         //
         // _buttonMoveUp
         //
         _buttonMoveUp.Name = "_buttonMoveUp";
         _buttonMoveUp.Values.Text = @"Move Up";
-        _buttonMoveUp.Click += (_, _) => MoveSelectedNode(true);
+        _buttonMoveUp.Click += ButtonMoveUp_Click;
         //
         // _buttonMoveDown
         //
         _buttonMoveDown.Name = "_buttonMoveDown";
         _buttonMoveDown.Values.Text = @"Move Down";
-        _buttonMoveDown.Click += (_, _) => MoveSelectedNode(false);
+        _buttonMoveDown.Click += ButtonMoveDown_Click;
         //
         // _navPanel
         //
@@ -187,7 +187,7 @@ internal partial class VisualTreeNodeCollectionForm
         //
         Controls.Add(kpnlContent);
         Controls.Add(kpnlButtonBar);
-        Name = nameof(VisualTreeNodeCollectionForm);
+        Name = "VisualTreeNodeCollectionForm";
         _membersPanel.ResumeLayout(false);
         _membersPanel.PerformLayout();
         _propertiesPanel.ResumeLayout(false);

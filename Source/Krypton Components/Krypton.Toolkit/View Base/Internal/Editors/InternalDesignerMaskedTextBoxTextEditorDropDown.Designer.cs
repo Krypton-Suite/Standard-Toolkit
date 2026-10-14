@@ -47,8 +47,7 @@ internal partial class InternalDesignerMaskedTextBoxTextEditorDropDown
         Padding = new Padding(16);
         Size = new Size(180, 52);
         Controls.Add(_maskedTextBox);
-        _maskedTextBox.KeyDown += (_, _) => { };
-        Name = nameof(InternalDesignerMaskedTextBoxTextEditorDropDown);
+        Name = "InternalDesignerMaskedTextBoxTextEditorDropDown";
     }
 
     #endregion

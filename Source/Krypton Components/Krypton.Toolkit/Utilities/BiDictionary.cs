@@ -21,9 +21,14 @@ public class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond 
 
     private readonly IDictionary<TFirst, TSecond> _firstToSecond = new Dictionary<TFirst, TSecond>();
     private readonly IDictionary<TSecond, TFirst> _secondToFirst = new Dictionary<TSecond, TFirst>();
+    private readonly IReadOnlyDictionary<TFirst, TSecond> _firstToSecondReadOnly;
+    private readonly IReadOnlyDictionary<TSecond, TFirst> _secondToFirstReadOnly;
 
     public BiDictionary(IDictionary<TFirst, TSecond> dictionary)
     {
+        _firstToSecondReadOnly = new ReadOnlyDictionary<TFirst, TSecond>(_firstToSecond);
+        _secondToFirstReadOnly = new ReadOnlyDictionary<TSecond, TFirst>(_secondToFirst);
+
         if (dictionary == null)
         {
             ThrowHelper.ThrowArgumentNullException(nameof(dictionary));
@@ -61,6 +66,6 @@ public class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond 
 
     public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;
 
-    public IReadOnlyDictionary<TFirst, TSecond> FirstToSecond => new ReadOnlyDictionary<TFirst, TSecond>(_firstToSecond);
-    public IReadOnlyDictionary<TSecond, TFirst> SecondToFirst => new ReadOnlyDictionary<TSecond, TFirst>(_secondToFirst);
+    public IReadOnlyDictionary<TFirst, TSecond> FirstToSecond => _firstToSecondReadOnly;
+    public IReadOnlyDictionary<TSecond, TFirst> SecondToFirst => _secondToFirstReadOnly;
 }
