@@ -45,6 +45,10 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Resolved [#4547](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4547), Krypton collection editor dialogs no longer appear on the taskbar.
+- Resolved [#4552](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4552), Double-clicking the File button closes the form without opening the backstage, including Office 2010. A single click still opens the backstage, once the double-click interval has passed. OS X Aqua and macOS stay unchanged.
+- Resolved [#4557](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4557), Ribbon notification bar shows as modified
+   - A new ribbon notification bar stays blank in the property grid until a value changes, then shows Modified.
 - Implemented [#4496](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4496), Office 2024 ribbon chrome: underline tabs, flat borderless groups, and a text File tab. Extra themes are Blue, Silver, White, Light Gray, Dark Gray, and Black, plus Blue, Silver, and Black dark and light mode variants (`PaletteMode.Office2024Blue`, `Office2024BlueDarkMode`, `Office2024BlueLightMode`, `Office2024Silver`, `Office2024SilverDarkMode`, `Office2024SilverLightMode`, `Office2024White`, `Office2024LightGray`, `Office2024DarkGray`, `Office2024Black`, `Office2024BlackDarkMode`, `Office2024BlackDarkModeAlternate`). Microsoft 365 ribbon chrome is unchanged.
   - Office 2024 group area can draw an optional bevel. Set `StateCommon.RibbonGeneral.GroupAreaBevelEdges`. Leave `GroupAreaBevelLight` and `GroupAreaBevelDark` empty to derive the edges from the group area, or set those colours yourself.
     - Group-area bevel width is configurable. Set `StateCommon.RibbonGeneral.GroupAreaBevelSize` to the visible width in pixels at 96 DPI. The default is 2.
@@ -177,7 +181,7 @@
   - To save & load palettes as `.kthemex` XML
   - Custom palette export recognises `PaletteCornerRounding` so per-corner border radii persist in `.kthemex` / XML / `.ktheme`.
   - Import restores the palette `Name` attribute from XML / `.kthemex`.
-  - Explorer uses per-user file associations under `HKCU\Software\Classes` for `*.kthemex` (`kthemexfile`) and `*.ktheme` (`kthemefile`) via `KryptonPaletteFile.EnsureShellAssociations`. Palette Designer registers Open as itself and uses its executable icon (`path,0`); other hosts register the Stable Kr tile as `DefaultIcon` without replacing an existing Open verb. No admin rights. Explorer is notified in-place (`SHChangeNotify`) so icons and Open verbs refresh without restarting `explorer.exe`.
+  - Explorer uses per-user file associations under `HKCU\Software\Classes` for `*.kthemex` (`kthemexfile`) and `*.ktheme` (`kthemefile`) via `KryptonPaletteFile.EnsureShellAssociations`. Palette Designer registers **Open with Palette Designer** and **Edit with Palette Designer** (same executable; menu items use the Designer `.ico`, files use `path,0`); other hosts register the Stable Kr tile as `DefaultIcon` without replacing those verbs. Unreleased `.kpal` / `.kpalx` are not registered. No admin rights. Explorer is notified in-place (`SHChangeNotify`) so icons and verbs refresh without restarting `explorer.exe`.
   - Extra palettes in `Krypton.Themes` export through `KryptonThemeCustomPaletteHelper` (macOS still has `MacOSCustomPaletteHelper`) using the same `.kthemex` / `.ktheme` / XML import and export APIs.
   - `KryptonCustomPaletteBase.Export(string)` writes XML for `.kthemex` and `.xml`; `.ktheme` writes the optional native persist stream. Use the `KryptonPaletteFileFormat` overload for compressed-XML `.ktheme`. `Export(bool)` still returns XML bytes.
   - `KryptonPaletteFile.Convert` rewrites a legacy `.xml` (or current `.kthemex` / `.ktheme`) through `ImportWithUpgrade` and writes `.kthemex`, `.xml`, or native `.ktheme`. JSON is not a palette format.
