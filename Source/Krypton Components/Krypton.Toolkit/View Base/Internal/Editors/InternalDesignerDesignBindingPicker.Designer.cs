@@ -47,7 +47,7 @@ internal partial class InternalDesignerDesignBindingPicker
             HideSelection = false,
             FullRowSelect = true
         };
-        _treeView.AfterSelect += (_, e) => UpdateHelp(e.Node);
+        _treeView.AfterSelect += TreeView_AfterSelect;
 
         _layout = new TableLayoutPanel
         {
@@ -64,7 +64,7 @@ internal partial class InternalDesignerDesignBindingPicker
         MinimumSize = new Size(250, 250);
         Size = new Size(320, 320);
         Controls.Add(_layout);
-        Name = nameof(InternalDesignerDesignBindingPicker);
+        Name = "InternalDesignerDesignBindingPicker";
     }
 
     #endregion

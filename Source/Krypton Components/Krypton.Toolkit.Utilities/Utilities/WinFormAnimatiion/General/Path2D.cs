@@ -300,12 +300,14 @@ internal class Path2D
     /// <summary>
     ///     Gets the starting point of the path
     /// </summary>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Start is derived from live path endpoints; a new Float2D is required each read.")]
     public Float2D Start => new(HorizontalPath.Start, VerticalPath.Start);
 
 
     /// <summary>
     ///     Gets the ending point of the path
     /// </summary>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "End is derived from live path endpoints; a new Float2D is required each read.")]
     public Float2D End => new(HorizontalPath.End, VerticalPath.End);
 
     /// <summary>

@@ -264,6 +264,8 @@ internal partial class VisualDesignerFormatStringEditorForm : KryptonForm
         }
     }
 
+    private void FormatStringTextBox_TextChanged(object? sender, EventArgs e) => UpdatePreview();
+
     /// <summary>
     /// Writes the edited format string (and optional null value) back to the designer instance.
     /// </summary>
