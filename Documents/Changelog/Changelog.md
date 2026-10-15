@@ -1,4 +1,4 @@
-﻿# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
+# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
 
 =======
 
@@ -52,6 +52,8 @@
    - The arrow and the ellipsis use the ribbon group text colour. Opening and closing the overflow popup eases its height. 
    - `AnimateCompactMode` turns off the groups-band ease and that popup ease. 
    - Compact mode applies to every ribbon shape: group boxes hide and a short rule separates groups, while each shape keeps its own tabs.
+- Resolved [#4564](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4564), WFO 2xxx/3xxx issues (.NET 11 RC2)
+   - Designer editor forms build cleanly on .NET 11 (WinForms WFO3004/WFO3010/WFO3005 and related WFO2000 diagnostics).
 - Resolved [#4547](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4547), Krypton collection editor dialogs no longer appear on the taskbar.
 - Resolved [#4552](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4552), Double-clicking the File button closes the form without opening the backstage, including Office 2010. A single click still opens the backstage, once the double-click interval has passed. OS X Aqua and macOS stay unchanged.
 - Resolved [#4557](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4557), Ribbon notification bar shows as modified
