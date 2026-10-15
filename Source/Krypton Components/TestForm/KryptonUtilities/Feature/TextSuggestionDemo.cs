@@ -28,7 +28,82 @@ public partial class TextSuggestionDemo : KryptonForm
 
     private void SetupSuggestions()
     {
-        // Suggestions are already set up in InitializeComponent
+        string[] fruits =
+        {
+            "Apple", "Apricot", "Avocado",
+            "Banana", "Blackberry", "Blueberry",
+            "Cherry", "Coconut", "Cranberry",
+            "Date",
+            "Elderberry",
+            "Fig",
+            "Grape", "Grapefruit", "Guava",
+            "Kiwi",
+            "Lemon", "Lime", "Lychee",
+            "Mango", "Melon",
+            "Orange",
+            "Papaya", "Peach", "Pear", "Pineapple", "Plum",
+            "Raspberry",
+            "Strawberry",
+            "Tangerine",
+            "Watermelon"
+        };
+
+        foreach (string fruit in fruits)
+        {
+            _suggestionProvider1.Suggestions.Add(new KryptonAutoTextSuggestItem(fruit));
+        }
+
+        string[] countries =
+        {
+            "United States", "United Kingdom", "Canada",
+            "Australia", "Austria",
+            "Brazil", "Belgium", "Bulgaria",
+            "China", "Chile", "Colombia",
+            "Denmark",
+            "Egypt", "Estonia",
+            "France", "Finland",
+            "Germany", "Greece",
+            "India", "Italy", "Ireland", "Iceland", "Indonesia",
+            "Japan",
+            "Kenya",
+            "Mexico", "Malaysia",
+            "Netherlands", "Norway", "New Zealand",
+            "Poland", "Portugal",
+            "Russia",
+            "Spain", "Sweden", "Switzerland", "South Africa", "South Korea",
+            "Thailand", "Turkey",
+            "Ukraine",
+            "Vietnam"
+        };
+
+        foreach (string country in countries)
+        {
+            _suggestionProvider2.Suggestions.Add(new KryptonAutoTextSuggestItem(country));
+        }
+
+        var languages = new[]
+        {
+            new KryptonAutoTextSuggestItem("C#", "C# (.NET)", "Microsoft's object-oriented programming language"),
+            new KryptonAutoTextSuggestItem("JavaScript", "JavaScript (JS)", "Dynamic scripting language for web"),
+            new KryptonAutoTextSuggestItem("Python", "Python", "High-level interpreted programming language"),
+            new KryptonAutoTextSuggestItem("Java", "Java", "Object-oriented programming language"),
+            new KryptonAutoTextSuggestItem("C++", "C++", "General-purpose programming language"),
+            new KryptonAutoTextSuggestItem("TypeScript", "TypeScript (TS)", "Typed superset of JavaScript"),
+            new KryptonAutoTextSuggestItem("Go", "Go (Golang)", "Google's compiled programming language"),
+            new KryptonAutoTextSuggestItem("Rust", "Rust", "Systems programming language"),
+            new KryptonAutoTextSuggestItem("Swift", "Swift", "Apple's programming language"),
+            new KryptonAutoTextSuggestItem("Kotlin", "Kotlin", "JVM-based programming language"),
+            new KryptonAutoTextSuggestItem("PHP", "PHP", "Server-side scripting language"),
+            new KryptonAutoTextSuggestItem("Ruby", "Ruby", "Dynamic object-oriented language"),
+            new KryptonAutoTextSuggestItem("R", "R", "Statistical computing language"),
+            new KryptonAutoTextSuggestItem("Scala", "Scala", "Functional programming language"),
+            new KryptonAutoTextSuggestItem("Dart", "Dart", "Google's programming language")
+        };
+
+        foreach (var lang in languages)
+        {
+            _suggestionProvider3.Suggestions.Add(lang);
+        }
     }
 
     private void SetupEventHandlers()

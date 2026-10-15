@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -29,12 +29,24 @@ internal class KryptonTagInputDesigner : ControlDesigner
     public override SelectionRules SelectionRules =>
         SelectionRules.Visible | SelectionRules.Moveable | SelectionRules.AllSizeable;
 
+    private DesignerActionListCollection? _actionLists;
+
     /// <inheritdoc />
-    public override DesignerActionListCollection ActionLists =>
-        new DesignerActionListCollection
+    public override DesignerActionListCollection ActionLists
+    {
+        get
         {
-            new KryptonTagInputActionList(this)
-        };
+            if (_actionLists == null)
+            {
+                _actionLists = new DesignerActionListCollection
+                {
+                    new KryptonTagInputActionList(this)
+                };
+            }
+
+            return _actionLists;
+        }
+    }
 
     #endregion
 }

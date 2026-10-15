@@ -244,6 +244,12 @@ internal partial class VisualSelectResourceForm : KryptonForm
         }
     }
 
+    private void ResourceList_SelectedIndexChanged(object? sender, EventArgs e) => OnResourceSelected();
+
+    private void ButtonImport_Click(object? sender, EventArgs e) => ImportImage();
+
+    private void ButtonClear_Click(object? sender, EventArgs e) => ClearImage();
+
     private void UpdatePreview()
     {
         _preview.Image = _selectedImage;

@@ -355,12 +355,14 @@ internal class Path3D
     /// <summary>
     ///     Gets the starting point of the path
     /// </summary>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Start is derived from live path endpoints; a new Float3D is required each read.")]
     public Float3D Start => new(HorizontalPath.Start, VerticalPath.Start, DepthPath.Start);
 
 
     /// <summary>
     ///     Gets the ending point of the path
     /// </summary>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "End is derived from live path endpoints; a new Float3D is required each read.")]
     public Float3D End => new(HorizontalPath.End, VerticalPath.End, DepthPath.End);
 
     /// <summary>
