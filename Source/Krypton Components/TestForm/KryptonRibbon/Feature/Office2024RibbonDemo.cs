@@ -371,4 +371,161 @@ public partial class Office2024RibbonDemo : KryptonForm
             ImageLarge = (Image)image.Clone()
         };
     }
+
+    /// <summary>
+    /// Adds the Home, Insert, and Table Design tabs, the quick-access button, and the File backstage.
+    /// </summary>
+    private void CreateRibbonContent()
+    {
+        var home = new KryptonRibbonTab { Text = @"Home", KeyTip = @"H" };
+        var insert = new KryptonRibbonTab { Text = @"Insert", KeyTip = @"N" };
+        var table = new KryptonRibbonTab
+        {
+            Text = @"Table Design",
+            KeyTip = @"JT",
+            ContextName = @"Table"
+        };
+
+        home.Groups.Add(CreateClipboardGroup());
+        home.Groups.Add(CreateFontGroup());
+        insert.Groups.Add(CreateInsertGroup());
+        table.Groups.Add(CreateTableGroup());
+
+        _ribbon.RibbonTabs.Add(home);
+        _ribbon.RibbonTabs.Add(insert);
+        _ribbon.RibbonTabs.Add(table);
+        _ribbon.RibbonContexts.Add(new KryptonRibbonContext
+        {
+            ContextName = @"Table",
+            ContextTitle = @"Table Tools",
+            ContextColor = Color.FromArgb(15, 108, 189)
+        });
+        _ribbon.SelectedContext = @"Table";
+        _ribbon.QATButtons.Add(new KryptonRibbonQATButton { Text = @"Undo", ToolTipTitle = @"Undo" });
+        CreateOffice2024Backstage();
+    }
+
+    /// <summary>
+    /// Hosts an Office 2024 backstage on the File tab. Page content is a label so the rail can be checked.
+    /// </summary>
+    private void CreateOffice2024Backstage()
+    {
+        var backstage = new KryptonBackstageView
+        {
+            OverlayMode = BackstageOverlayMode.FullClient
+        };
+        backstage.Pages.Add(CreateBackstagePage(@"Home", 0, false, false));
+        backstage.Pages.Add(CreateBackstagePage(@"New", 1, false, false));
+        backstage.Pages.Add(CreateBackstagePage(@"Open", 2, false, false));
+        backstage.Pages.Add(CreateBackstagePage(@"Info", 3, false, true));
+        backstage.Pages.Add(CreateBackstagePage(@"Print", 4, false, false));
+        backstage.Pages.Add(CreateBackstagePage(@"Options", 10, true, false));
+
+        var close = new KryptonBackstageCommand(@"Close")
+        {
+            NavigationOrder = 5
+        };
+        close.Click += (_, _) => _ribbon.CloseBackstageView();
+        backstage.Commands.Add(close);
+
+        _ribbon.RibbonFileAppTab.UseBackstageView = true;
+        _ribbon.RibbonFileAppTab.BackstageView = backstage;
+    }
+
+    private static KryptonBackstagePage CreateBackstagePage(string text, int order, bool placeAtBottom, bool separatorBefore)
+    {
+        var page = new KryptonBackstagePage
+        {
+            Text = text,
+            NavigationOrder = order,
+            PlaceAtBottom = placeAtBottom,
+            SeparatorBefore = separatorBefore
+        };
+        page.Controls.Add(new KryptonLabel
+        {
+            Text = text,
+            Dock = DockStyle.Top,
+            Padding = new Padding(24, 20, 24, 0)
+        });
+        return page;
+    }
+
+    private static KryptonRibbonGroup CreateClipboardGroup()
+    {
+        var paste = Command(@"Paste", @"V", Color.FromArgb(46, 125, 50));
+        paste.ItemSizeMaximum = GroupItemSize.Large;
+        paste.ItemSizeMinimum = GroupItemSize.Large;
+        var cut = Command(@"Cut", @"X", Color.FromArgb(198, 40, 40));
+        var copy = Command(@"Copy", @"C", Color.FromArgb(21, 101, 192));
+
+        var lines = new KryptonRibbonGroupTriple();
+        lines.Items!.Add(paste);
+        lines.Items.Add(cut);
+        lines.Items.Add(copy);
+
+        var group = new KryptonRibbonGroup
+        {
+            TextLine1 = @"Clipboard",
+            DialogBoxLauncher = true
+        };
+        group.Items.Add(lines);
+        return group;
+    }
+
+    private static KryptonRibbonGroup CreateFontGroup()
+    {
+        var bold = Command(@"Bold", @"1", Color.FromArgb(66, 66, 66));
+        var italic = Command(@"Italic", @"2", Color.FromArgb(106, 27, 154));
+        var underline = Command(@"Underline", @"3", Color.FromArgb(0, 105, 92));
+        var strike = Command(@"Strikethrough", @"4", Color.FromArgb(191, 54, 12));
+        var highlight = Command(@"Highlight", @"I", Color.FromArgb(249, 168, 37));
+        var fontColor = Command(@"Font Color", @"FC", Color.FromArgb(183, 28, 28));
+        var alignLeft = Command(@"Align Left", @"AL", Color.FromArgb(2, 119, 189));
+        var center = Command(@"Center", @"AC", Color.FromArgb(0, 131, 143));
+        var alignRight = Command(@"Align Right", @"AR", Color.FromArgb(69, 90, 100));
+        var styles = new KryptonRibbonGroupTriple();
+        styles.Items!.Add(bold);
+        styles.Items.Add(italic);
+        styles.Items.Add(underline);
+        var colors = new KryptonRibbonGroupTriple();
+        colors.Items!.Add(strike);
+        colors.Items.Add(highlight);
+        colors.Items.Add(fontColor);
+        var align = new KryptonRibbonGroupTriple();
+        align.Items!.Add(alignLeft);
+        align.Items.Add(center);
+        align.Items.Add(alignRight);
+
+        var group = new KryptonRibbonGroup { TextLine1 = @"Font" };
+        group.Items.Add(styles);
+        group.Items.Add(colors);
+        group.Items.Add(align);
+        return group;
+    }
+
+    private static KryptonRibbonGroup CreateInsertGroup()
+    {
+        var table = new KryptonRibbonGroupButton
+        {
+            TextLine1 = @"Table",
+            KeyTip = @"T",
+            ItemSizeMaximum = GroupItemSize.Large,
+            ItemSizeMinimum = GroupItemSize.Large
+        };
+        var lines = new KryptonRibbonGroupTriple();
+        lines.Items!.Add(table);
+        var group = new KryptonRibbonGroup { TextLine1 = @"Tables" };
+        group.Items.Add(lines);
+        return group;
+    }
+
+    private static KryptonRibbonGroup CreateTableGroup()
+    {
+        var shading = new KryptonRibbonGroupButton { TextLine1 = @"Shading", KeyTip = @"SH" };
+        var lines = new KryptonRibbonGroupTriple();
+        lines.Items!.Add(shading);
+        var group = new KryptonRibbonGroup { TextLine1 = @"Table Styles" };
+        group.Items.Add(lines);
+        return group;
+    }
 }
