@@ -15,10 +15,10 @@
 				<TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
-		<!-- Otherwise, build for .NET Framework 4.8+ and .NET 8+ (default) -->
+		<!-- Otherwise, Release and property-less restore. TFMs defaults to lite; include net472 so Extended Toolkit can reference it. -->
 		<Otherwise>
 			<PropertyGroup>
-				<TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
 				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
 				<TargetFrameworks Condition="'$(TFMs)' == 'all'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
 			</PropertyGroup>
@@ -49,10 +49,10 @@
 				<TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
-		<!-- Otherwise, build for .NET Framework 4.8+ and .NET 8+ (default) -->
+		<!-- Otherwise, Release and property-less restore. TFMs defaults to lite; include net472 so Extended Toolkit can reference it. -->
 		<Otherwise>
 			<PropertyGroup>
-				<TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
 				<TargetFrameworks Condition="'$(TFMs)' == 'all'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
