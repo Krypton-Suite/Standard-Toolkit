@@ -427,6 +427,29 @@ public enum QATLocation
 }
 #endregion
 
+#region Enum CompactButtonLocation
+/// <summary>
+/// Where the compact-mode arrow is drawn when <see cref="KryptonRibbon.ShowCompactButton"/> is set.
+/// </summary>
+public enum CompactButtonLocation
+{
+    /// <summary>
+    /// Places the arrow at the right of the groups card.
+    /// </summary>
+    BelowGroups,
+
+    /// <summary>
+    /// Places the arrow at the trailing edge of the groups area.
+    /// </summary>
+    GroupsTrailing,
+
+    /// <summary>
+    /// Places the arrow on the tab row, beside the window buttons.
+    /// </summary>
+    Tabs
+}
+#endregion
+
 #region Enum KeyTipMode
 internal enum KeyTipMode
 {
