@@ -35,8 +35,8 @@ internal partial class VisualDesignerFormatStringEditorForm
         components = new Container();
         var formatTypeLabel = new KryptonLabel { AutoSize = true, Values = { Text = @"Format type:" } };
         _formatTypeCombo = new KryptonComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Dock = DockStyle.Top };
-        _formatTypeCombo.Items.AddRange(
-        [
+        _formatTypeCombo.Items.AddRange(new object[]
+        {
             @"No formatting",
             @"Numeric",
             @"Decimal",
@@ -45,11 +45,11 @@ internal partial class VisualDesignerFormatStringEditorForm
             @"Time",
             @"Percent",
             @"Custom"
-        ]);
+        });
 
         var formatStringLabel = new KryptonLabel { AutoSize = true, Values = { Text = @"Format string:" } };
         _formatStringTextBox = new KryptonTextBox { Dock = DockStyle.Top };
-        _formatStringTextBox.TextChanged += (_, _) => UpdatePreview();
+        _formatStringTextBox.TextChanged += FormatStringTextBox_TextChanged;
 
         var nullValueLabel = new KryptonLabel { AutoSize = true, Values = { Text = @"Null value:" } };
         _nullValueTextBox = new KryptonTextBox { Dock = DockStyle.Top };
@@ -101,7 +101,7 @@ internal partial class VisualDesignerFormatStringEditorForm
 
         Controls.Add(kpnlContent);
         Controls.Add(kpnlButtonBar);
-        Name = nameof(VisualDesignerFormatStringEditorForm);
+        Name = "VisualDesignerFormatStringEditorForm";
 
         ((ISupportInitialize)kpnlContent).EndInit();
         kpnlContent.ResumeLayout(false);

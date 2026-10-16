@@ -35,12 +35,24 @@ internal class KryptonRadialMenuControlDesigner : ControlDesigner
         }
     }
 
+    private DesignerActionListCollection? _actionLists;
+
     /// <inheritdoc />
-    public override DesignerActionListCollection ActionLists =>
-        new DesignerActionListCollection
+    public override DesignerActionListCollection ActionLists
+    {
+        get
         {
-            new KryptonRadialMenuControlActionList(this)
-        };
+            if (_actionLists == null)
+            {
+                _actionLists = new DesignerActionListCollection
+                {
+                    new KryptonRadialMenuControlActionList(this)
+                };
+            }
+
+            return _actionLists;
+        }
+    }
 
     /// <inheritdoc />
 #if KRYPTON_WINFORMS_DESIGNER_SDK

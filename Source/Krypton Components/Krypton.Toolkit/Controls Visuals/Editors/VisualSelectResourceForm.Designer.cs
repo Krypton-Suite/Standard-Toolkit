@@ -41,7 +41,7 @@ internal partial class VisualSelectResourceForm
         {
             Dock = DockStyle.Fill
         };
-        _resourceList.SelectedIndexChanged += (_, _) => OnResourceSelected();
+        _resourceList.SelectedIndexChanged += ResourceList_SelectedIndexChanged;
 
         _preview = new PictureBox
         {
@@ -63,7 +63,7 @@ internal partial class VisualSelectResourceForm
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
             Values = { Text = @"Import..." }
         };
-        _buttonImport.Click += (_, _) => ImportImage();
+        _buttonImport.Click += ButtonImport_Click;
 
         _buttonClear = new KryptonButton
         {
@@ -71,7 +71,7 @@ internal partial class VisualSelectResourceForm
             AutoSizeMode = AutoSizeMode.GrowAndShrink,
             Values = { Text = @"Clear" }
         };
-        _buttonClear.Click += (_, _) => ClearImage();
+        _buttonClear.Click += ButtonClear_Click;
 
         var sourceGroup = new KryptonGroupBox
         {
@@ -169,7 +169,7 @@ internal partial class VisualSelectResourceForm
 
         Controls.Add(kpnlContent);
         Controls.Add(kpnlButtonBar);
-        Name = nameof(VisualSelectResourceForm);
+        Name = "VisualSelectResourceForm";
 
         ((ISupportInitialize)kpnlContent).EndInit();
         kpnlContent.ResumeLayout(false);
