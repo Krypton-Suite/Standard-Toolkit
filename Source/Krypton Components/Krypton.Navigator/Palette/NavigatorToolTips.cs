@@ -102,7 +102,7 @@ public class NavigatorToolTips : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the tooltip image.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageImage), "ToolTip")]
+    [DefaultValue(typeof(MapKryptonPageImage), "ToolTip")]
     public virtual MapKryptonPageImage MapImage
     {
         get => _mapImage;
@@ -122,7 +122,7 @@ public class NavigatorToolTips : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the tooltip text.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "ToolTipTitle")]
+    [DefaultValue(typeof(MapKryptonPageText), "ToolTipTitle")]
     public MapKryptonPageText MapText { get; set; }
 
     /// <summary>
@@ -138,7 +138,7 @@ public class NavigatorToolTips : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the tooltip description.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "ToolTipBody")]
+    [DefaultValue(typeof(MapKryptonPageText), "ToolTipBody")]
     public MapKryptonPageText MapExtraText { get; set; }
 
     /// <summary>

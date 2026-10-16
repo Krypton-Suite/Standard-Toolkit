@@ -86,6 +86,8 @@ public class KryptonWorkspace : VisualContainerControl,
 
     // Exposed fields
     private CompactFlags _compactFlags;
+    private CompactFlags _factoryCompactFlags = CompactFlags.All;
+    private bool _factoryShowMaximizeButton = true;
     private KryptonWorkspaceCell? _maximizedCell;
     private KryptonWorkspaceCell? _activeCell;
     private bool _allowResizing;
@@ -262,6 +264,16 @@ public class KryptonWorkspace : VisualContainerControl,
 
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawPanel);
+        CaptureWorkspaceFactoryDefaults();
+    }
+
+    /// <summary>
+    /// Records compact flags and the maximize button as the designer factory values.
+    /// </summary>
+    protected void CaptureWorkspaceFactoryDefaults()
+    {
+        _factoryCompactFlags = _compactFlags;
+        _factoryShowMaximizeButton = _showMaximizeButton;
     }
 
     /// <summary>
@@ -434,12 +446,15 @@ public class KryptonWorkspace : VisualContainerControl,
      DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public KryptonPage? ActivePage { get; set; }
 
+    protected bool ShouldSerializeActivePage() => ActivePage != null;
+
+    protected void ResetActivePage() => ActivePage = null;
+
     /// <summary>
     /// Gets and sets the compacting options to be applied.
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Determines the compacting options to be applied.")]
-    //[DefaultValue(typeof(CompactFlags), "All")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public CompactFlags CompactFlags
     {
@@ -454,6 +469,10 @@ public class KryptonWorkspace : VisualContainerControl,
             }
         }
     }
+
+    protected bool ShouldSerializeCompactFlags() => _compactFlags != _factoryCompactFlags;
+
+    protected void ResetCompactFlags() => CompactFlags = _factoryCompactFlags;
 
     /// <summary>
     /// Gets and sets the cell to maximize inside the client area.
@@ -482,7 +501,7 @@ public class KryptonWorkspace : VisualContainerControl,
     [Category(@"Visuals")]
     [Description(@"Determines the thickness of the splitters.")]
     [Localizable(true)]
-    //[DefaultValue(typeof(int), "5")]
+    [DefaultValue(5)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public int SplitterWidth
     {
@@ -533,7 +552,7 @@ public class KryptonWorkspace : VisualContainerControl,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Container background style.")]
-    //[DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
+    [DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public PaletteBackStyle ContainerBackStyle
     {
@@ -554,7 +573,7 @@ public class KryptonWorkspace : VisualContainerControl,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Separator style.")]
-    //[DefaultValue(typeof(SeparatorStyle), "Low Profile")]
+    [DefaultValue(typeof(SeparatorStyle), "Low Profile")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public SeparatorStyle SeparatorStyle
     {
@@ -661,7 +680,6 @@ public class KryptonWorkspace : VisualContainerControl,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Determines if the maximized/restore button is Displayed.")]
-    [DefaultValue(true)]
     public bool ShowMaximizeButton
     {
         get => _showMaximizeButton;
@@ -675,6 +693,10 @@ public class KryptonWorkspace : VisualContainerControl,
             }
         }
     }
+
+    protected bool ShouldSerializeShowMaximizeButton() => _showMaximizeButton != _factoryShowMaximizeButton;
+
+    protected void ResetShowMaximizeButton() => ShowMaximizeButton = _factoryShowMaximizeButton;
 
     /// <summary>
     /// Gets the number of of defined pages in the workspace hierarchy.

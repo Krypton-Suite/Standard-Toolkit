@@ -633,6 +633,8 @@ public class KryptonRibbon : VisualSimple,
         // Update selection to match ribbon settings
         ValidateSelectedTab();
 
+    private bool ShouldSerializeSelectedTab() => _selectedTab != null;
+
     /// <summary>
     /// Gets and sets the common separated list of selected context names.
     /// </summary>

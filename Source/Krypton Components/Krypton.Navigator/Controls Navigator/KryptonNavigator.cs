@@ -700,7 +700,7 @@ public class KryptonNavigator : VisualSimple,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Display mode of the control instance.")]
-    //[DefaultValue(typeof(NavigatorMode), "Bar - Tab - Group")]
+    [DefaultValue(typeof(NavigatorMode), "Bar - Tab - Group")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public NavigatorMode NavigatorMode
     {
@@ -742,7 +742,7 @@ public class KryptonNavigator : VisualSimple,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Page back style.")]
-    //[DefaultValue(typeof(PaletteBackStyle), "ControlClient")]
+    [DefaultValue(PaletteBackStyle.PanelClient)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public PaletteBackStyle PageBackStyle
     {
