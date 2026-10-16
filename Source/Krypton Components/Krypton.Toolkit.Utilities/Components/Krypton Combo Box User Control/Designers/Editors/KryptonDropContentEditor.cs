@@ -115,7 +115,7 @@ internal class KryptonDropContentEditor : UITypeEditor
             {
                 string s => s,
                 Type t => $"[New] {t.Name} ({t.Namespace ?? "<global>"})",
-                Component c when c.Site != null && !string.IsNullOrEmpty(c.Site.Name) =>
+                Component { Site: not null } c when !string.IsNullOrEmpty(c.Site.Name) =>
                     $"{c.Site.Name} ({c.GetType().Name})",
                 _ => e.ListItem?.GetType().Name ?? string.Empty
             };
@@ -181,7 +181,7 @@ internal class KryptonDropContentEditor : UITypeEditor
     /// <summary>Decide whether <paramref name="item"/> can be selected as a final value.</summary>
     private static bool CanCommitItem(object? item) =>
         item is null
-        || (item is string s && s == NoneEntry)
+        || item is string and NoneEntry
         || item is Control
         || item is Type;
 

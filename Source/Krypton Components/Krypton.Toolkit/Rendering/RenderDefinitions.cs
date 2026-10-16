@@ -923,6 +923,11 @@ public enum RendererMode
     MacOS,
 
     /// <summary>
+    /// Specifies the RenderOffice2024 be used.
+    /// </summary>
+    Office2024,
+
+    /// <summary>
     /// Specifies a custom renderer be used.
     /// </summary>
     Custom

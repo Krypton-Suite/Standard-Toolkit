@@ -108,7 +108,7 @@ internal abstract class UtilitiesActionControlAccessibleObject<T> : Control.Cont
 
     public override void DoDefaultAction()
     {
-        if (OwnerControl.Enabled && OwnerControl.Visible)
+        if (OwnerControl is { Enabled: true, Visible: true })
         {
             PerformAction();
         }

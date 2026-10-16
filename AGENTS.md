@@ -68,7 +68,7 @@ Before considering a task complete:
 
 - `Krypton.Toolkit` contains the shared infrastructure.
 - `Krypton.Interop` holds shared internal Win32/P/Invoke and net472 nullable polyfills; referenced by `Krypton.Toolkit` and consumed transitively by sibling assemblies.
-- `Krypton.Resources` holds the shared image/string resource bank (`ResourceFiles` / theme bitmaps); `IsPackable=false` and bundled into `Krypton.Toolkit` / sibling / `Krypton.Standard.Toolkit` nupkgs via `Krypton.Resources.Package.targets` (same pattern as Interop). Typed accessors stay under `Krypton.Toolkit.ResourceFiles.*` namespaces.
+- `Krypton.Resources` holds the shared image/string resource bank (`ResourceFiles` / theme bitmaps); `IsPackable=false` and bundled into `Krypton.Toolkit` / sibling / `Krypton.Standard.Toolkit` nupkgs via `Krypton.Resources.Package.targets` (same pattern as Interop). Typed accessors stay under `Krypton.Toolkit.ResourceFiles.*` namespaces. If the DLL is missing at runtime, Toolkit loads an embedded placeholder with the same assembly identity: the process still starts, control text stays visible, and string resources (palette schemas, Outlook grid) still resolve. Theme images are drawn fallbacks (checks, arrows, window buttons) at the original size, on the magenta colour key, until `Krypton.Resources.dll` is deployed beside `Krypton.Toolkit.dll`.
 - `Krypton.Themes` holds **extra** builtin palettes (optional assembly, auto-discovered). Toolkit must **not** project-reference Themes (cycle). `Krypton.Standard.Toolkit` **does** reference Themes and must pack `Krypton.Themes.dll` into `lib\{tfm}\` so extra palettes auto-discover. Individual `Krypton.Toolkit` packages do not include Themes.
 - Out-of-process designers for modern Windows TFMs live in `Krypton.*.Design` (issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593)). Runtime libraries must not reference `Microsoft.WinForms.Designer.SDK` or ProjectReference a Design project (cycle). See **WinForms Designer Extensibility SDK**.
 - `Krypton.Ribbon` depends on `Krypton.Toolkit`.
@@ -511,8 +511,8 @@ When a **bug fix** or **feature** is **breaking** for consumers (API removal/ren
 Follow the existing `README.md` **Breaking Changes** pattern. Copy the consumer-facing changelog item (or the parent item when the break is a sub-bullet) and keep `**[Breaking Change]**`. Include indented sub-bullets for what consumers must update.
 
 ```markdown
-* Implemented [#9012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9012), **[Breaking Change]** Summary of what broke and what consumers must update.
-  * Migration detail (new type, namespace, property path, or package).
+- Implemented [#9012](https://github.com/Krypton-Suite/Standard-Toolkit/issues/9012), **[Breaking Change]** Summary of what broke and what consumers must update.
+  - Migration detail (new type, namespace, property path, or package).
 ```
 
 Match surrounding entries:

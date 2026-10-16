@@ -42,6 +42,7 @@ internal class CalculatedValues
     private readonly KryptonRibbon _ribbon;
     private int _groupHeightModifier;
     private int _groupsHeightModifier;
+    private int? _animatedGroupsHeight;
     #endregion
 
     #region Identity
@@ -77,6 +78,7 @@ internal class CalculatedValues
                     break;
                 case PaletteRibbonShape.Office2013:
                 case PaletteRibbonShape.Microsoft365:
+                case PaletteRibbonShape.Office2024:
                 case PaletteRibbonShape.VisualStudio:
                 case PaletteRibbonShape.Office2010:
                 case PaletteRibbonShape.VisualStudio2010:
@@ -127,11 +129,47 @@ internal class CalculatedValues
         GroupHeight += _groupHeightModifier;
         GroupsHeight += _groupsHeightModifier;
 
-        // macOS unified toolbar: no labeled group captions under clusters
-        if (_lastShape == PaletteRibbonShape.MacOS)
+        if (_ribbon.CompactMode)
         {
-            GroupHeight -= GroupTitleHeight;
+            // One command row and no group caption. Recompute from the line height so the
+            // classic three-line total and the negative shape modifier cannot clip the row.
             GroupTitleHeight = 0;
+            GroupTripleHeight = GroupLineHeight;
+            GroupHeight = GroupTripleHeight + GROUP_INSIDE_BOTTOM_GAP + GROUP_TOP_BORDER;
+            GroupsHeight = GroupHeight + GROUPS_BOTTOM_GAP + GROUPS_TOP_GAP;
+
+            if (_lastShape == PaletteRibbonShape.Office2024)
+            {
+                // Matches ViewDrawRibbonGroupsBorder compact inset (4 DIP top and bottom).
+                float dpiY = _ribbon.DeviceDpi / 96f;
+                int inset = (int)(4 * dpiY);
+                GroupsHeight += inset + inset;
+            }
+        }
+        else
+        {
+            if (_lastShape == PaletteRibbonShape.Office2024)
+            {
+                // ViewDrawRibbonGroupsBorder insets Office 2024 content by 16,16 instead of the shared 1,0.
+                // Grow the groups band by that difference so the button lines are not clipped.
+                float dpiY = _ribbon.DeviceDpi / 96f;
+                GroupsHeight += (int)(16 * dpiY) + (int)(16 * dpiY) - 1;
+            }
+
+            // macOS unified toolbar: no labeled group captions under clusters
+            if (_lastShape == PaletteRibbonShape.MacOS)
+            {
+                GroupHeight -= GroupTitleHeight;
+                GroupTitleHeight = 0;
+            }
+        }
+
+        // CompactMode eases the band height. Content metrics stay at the target mode
+        // so the commands lay out full size and the band reveals or closes around them.
+        NaturalGroupsHeight = GroupsHeight;
+        if (_animatedGroupsHeight.HasValue)
+        {
+            GroupsHeight = _animatedGroupsHeight.Value;
         }
     }
     #endregion
@@ -212,7 +250,27 @@ internal class CalculatedValues
     /// <summary>
     /// Gets the drawing height of the entire groups area not including top pixel line.
     /// </summary>
+    /// <remarks>
+    /// While <see cref="AnimatedGroupsHeight"/> is set, this is the eased height. <see cref="NaturalGroupsHeight"/> stays at the target mode.
+    /// </remarks>
     public int GroupsHeight { get; private set; }
+
+    /// <summary>
+    /// Gets the groups area height for the current mode before any compact-switch animation.
+    /// </summary>
+    public int NaturalGroupsHeight { get; private set; }
+
+    /// <summary>
+    /// Gets or sets a replacement for <see cref="GroupsHeight"/> applied at the end of <see cref="Recalculate"/>.
+    /// </summary>
+    /// <remarks>
+    /// Null uses the natural height. The compact-mode animation sets this so the band eases while group content stays at <see cref="NaturalGroupsHeight"/>.
+    /// </remarks>
+    internal int? AnimatedGroupsHeight
+    {
+        get => _animatedGroupsHeight;
+        set => _animatedGroupsHeight = value;
+    }
 
     #endregion
 

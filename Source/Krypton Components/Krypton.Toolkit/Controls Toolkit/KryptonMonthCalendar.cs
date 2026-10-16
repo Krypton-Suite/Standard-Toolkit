@@ -682,6 +682,7 @@ public class KryptonMonthCalendar : VisualSimpleBase,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [RefreshProperties(RefreshProperties.All)]
     [Bindable(true)]
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Matches System.Windows.Forms.MonthCalendar.SelectionRange, which returns a new SelectionRange each get.")]
     public SelectionRange SelectionRange
     {
         get => new SelectionRange(SelectionStart, SelectionEnd);

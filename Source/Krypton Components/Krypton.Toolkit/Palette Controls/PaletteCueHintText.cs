@@ -324,7 +324,7 @@ public class PaletteCueHintText : PaletteInputControlContentStates
             return true;
         }
 
-        return textBox is KryptonTextBox multilineTextBox && multilineTextBox.Multiline;
+        return textBox is KryptonTextBox { Multiline: true };
     }
 
     private TextFormatFlags BuildCueTextRendererFormatFlags(VisualControlBase textBox)

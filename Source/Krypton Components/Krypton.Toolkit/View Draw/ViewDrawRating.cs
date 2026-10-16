@@ -425,7 +425,7 @@ public class ViewDrawRating : ViewLeaf
             return;
         }
 
-        if (e.KeyChar >= '1' && e.KeyChar <= '9')
+        if (e.KeyChar is >= '1' and <= '9')
         {
             int digit = e.KeyChar - '0';
             if (digit <= _maximum)

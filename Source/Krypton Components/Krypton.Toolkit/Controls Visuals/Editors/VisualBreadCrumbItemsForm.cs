@@ -329,7 +329,7 @@ internal partial class VisualBreadCrumbItemsForm : VisualDesignerCollectionForm
         {
             KryptonBreadCrumbItem? rootItem = null;
 
-            if (Items != null && Items.Length > 0 && Items[0] is KryptonBreadCrumbItem firstItem)
+            if (Items is { Length: > 0 } && Items[0] is KryptonBreadCrumbItem firstItem)
             {
                 rootItem = firstItem.Parent;
                 while (rootItem?.Parent != null)

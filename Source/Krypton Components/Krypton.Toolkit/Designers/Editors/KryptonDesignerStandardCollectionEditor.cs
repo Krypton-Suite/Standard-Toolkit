@@ -37,6 +37,20 @@ public abstract class KryptonDesignerStandardCollectionEditor : KryptonDesignerC
     internal virtual void OnDesignerItemRemoving(object? item)
     {
     }
+
+    /// <summary>
+    /// Called when the collection editor dialog is accepted.
+    /// </summary>
+    internal virtual void OnDesignerEditCommitted()
+    {
+    }
+
+    /// <summary>
+    /// Called when the collection editor dialog is cancelled.
+    /// </summary>
+    internal virtual void OnDesignerEditCancelled()
+    {
+    }
     #endregion
 }
 

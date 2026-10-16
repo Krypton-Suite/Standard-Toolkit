@@ -53,6 +53,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     private PaletteRibbonContextBack _paletteContextBackArea;
     private PaletteRibbonContextBack _paletteContextBorder;
     private PaletteRibbonShape _lastRibbonShape;
+    private bool _lastCompactMode;
     private readonly NeedPaintHandler _needPaint;
     private IDisposable? _mementoRibbonBackArea;
     private IDisposable? _mementoRibbonBackBorder;
@@ -60,6 +61,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     private IDisposable? _mementoStandardBack;
     private Control _container;
     private bool _collapsed;
+    private readonly bool _showOnlyCompactOverflow;
     private int _totalBorders;
     #endregion
 
@@ -70,9 +72,11 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     /// <param name="ribbon">Reference to owning ribbon control.</param>
     /// <param name="ribbonGroup">Reference to ribbon group this represents.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <param name="showOnlyCompactOverflow">True when the view shows only commands that did not fit the compact row.</param>
     public ViewDrawRibbonGroup([DisallowNull] KryptonRibbon ribbon,
         [DisallowNull] KryptonRibbonGroup ribbonGroup,
-        [DisallowNull] NeedPaintHandler needPaint)
+        [DisallowNull] NeedPaintHandler needPaint,
+        bool showOnlyCompactOverflow = false)
     {
         Debug.Assert(ribbon is not null);
         Debug.Assert(ribbonGroup is not null);
@@ -82,6 +86,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException(ribbonGroup);
         _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyCompactOverflow = showOnlyCompactOverflow;
 
         // Associate this view with the source component (required for design time selection)
         Component = _ribbonGroup;
@@ -159,6 +164,13 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             DisposeMementos();
         }
     }
+    #endregion
+
+    #region HideDialogLauncher
+    /// <summary>
+    /// Gets and sets whether the dialog launcher is omitted from this view.
+    /// </summary>
+    internal bool HideDialogLauncher { get; set; }
     #endregion
 
     #region Tracking
@@ -449,7 +461,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
 
         // Does the group allow itself to become collapsed?
         // (at design time we are never allowed to be collapsed)
-        if (_ribbonGroup.AllowCollapsed && !_ribbon.InDesignHelperMode)
+        if (_ribbonGroup.AllowCollapsed && !_ribbon.InDesignHelperMode && !_ribbon.CompactMode)
         {
             // We never allow a collapsed state if that is bigger than the smallest valid permutation
             if (smallestWidth > _minimumGroupWidth)
@@ -468,7 +480,31 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             }
         }
 
+        int side = GroupCardSidePadding();
+        if (side > 0)
+        {
+            foreach (GroupSizeWidth entry in retWidths)
+            {
+                entry.Width += side * 2;
+            }
+        }
+
         return retWidths.ToArray();
+    }
+
+    /// <summary>
+    /// Horizontal padding inside an Office 2024 group card when groups are separated.
+    /// Zero when the group area is one card.
+    /// </summary>
+    private int GroupCardSidePadding()
+    {
+        if (_ribbon.RibbonShape != PaletteRibbonShape.Office2024 ||
+            _ribbon.StateCommon.RibbonGeneral.GroupAreaGap <= 0)
+        {
+            return 0;
+        }
+
+        return Math.Max(4, (int)(10 * FactorDpiX));
     }
 
     /// <summary>
@@ -508,13 +544,20 @@ internal class ViewDrawRibbonGroup : ViewComposite,
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
-        // Update the title element with the height of the group title area
-        bool macRibbon = _ribbon.RibbonShape == PaletteRibbonShape.MacOS;
-        _viewNormalTitle.Visible = !macRibbon;
-        _viewNormalTitle.Height = macRibbon ? 0 : _ribbon.CalculatedValues.GroupTitleHeight;
+        // Separated Office 2024 cards keep the side padding inside the group, clear of the card edge.
+        int side = GroupCardSidePadding();
+        if (side > 0 && ClientWidth > side * 2)
+        {
+            context.DisplayRectangle = new Rectangle(ClientLocation.X + side, ClientLocation.Y, ClientWidth - (side * 2), ClientHeight);
+        }
 
-        // We only show the dialog box launcher button if group says we need one
-        _viewNormalDialog.Visible = _ribbonGroup.DialogBoxLauncher;
+        // Update the title element with the height of the group title area.
+        // Compact mode drops the caption and hosts the dialog launcher on the command row.
+        PlaceGroupTitle();
+
+        // We only show the dialog box launcher button if group says we need one.
+        // A partial overflow keeps the launcher on the row, so the popup copy stays hidden.
+        _viewNormalDialog.Visible = _ribbonGroup.DialogBoxLauncher && !HideDialogLauncher;
 
         // Let contained content element be laid out
         base.Layout(context);
@@ -579,12 +622,56 @@ internal class ViewDrawRibbonGroup : ViewComposite,
     #endregion
 
     #region Implementation
+    private void PlaceGroupTitle()
+    {
+        if (_ribbon.CompactMode)
+        {
+            // The caption band is hidden. A launcher stays reachable at the trailing edge of the row.
+            _layoutNormalTitle.Visible = false;
+            _viewNormalTitle.Visible = false;
+            _viewNormalTitle.Height = 0;
+
+            if (_layoutNormalTitle.Contains(_viewNormalDialog))
+            {
+                _layoutNormalTitle.Remove(_viewNormalDialog);
+                _layoutNormalMain.Add(_viewNormalDialog, ViewDockStyle.Right);
+            }
+
+            return;
+        }
+
+        if (!_layoutNormalTitle.Contains(_viewNormalDialog))
+        {
+            _layoutNormalMain.Remove(_viewNormalDialog);
+            _layoutNormalTitle.Add(_viewNormalDialog, ViewDockStyle.Right);
+        }
+
+        _layoutNormalTitle.Visible = true;
+        bool macRibbon = _ribbon.RibbonShape == PaletteRibbonShape.MacOS;
+        _viewNormalTitle.Visible = !macRibbon;
+        _viewNormalTitle.Height = macRibbon ? 0 : _ribbon.CalculatedValues.GroupTitleHeight;
+    }
+
     private void UpdateShapeValues()
     {
         if (_ribbon != null)
         {
-            if (_lastRibbonShape != _ribbon.RibbonShape)
+            if ((_lastRibbonShape != _ribbon.RibbonShape) || (_lastCompactMode != _ribbon.CompactMode))
             {
+                _lastCompactMode = _ribbon.CompactMode;
+                if (_ribbon.CompactMode)
+                {
+                    // Every ribbon shape drops its group box in compact mode. Tab chrome stays.
+                    _totalBorders = 0;
+                    _layoutNormalMain.VertOffset = 0;
+                    _layoutNormalSepTop.SeparatorSize = Size.Empty;
+                    _layoutNormalSepLeft.SeparatorSize = Size.Empty;
+                    _layoutNormalSepRight.SeparatorSize = Size.Empty;
+                    _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
+                    _lastRibbonShape = _ribbon.RibbonShape;
+                    return;
+                }
+
                 switch (_ribbon.RibbonShape)
                 {
                     default:
@@ -608,6 +695,15 @@ internal class ViewDrawRibbonGroup : ViewComposite,
                         _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
                         _lastRibbonShape = _ribbon.RibbonShape;
                         break;
+                    case PaletteRibbonShape.Office2024:
+                        _totalBorders = 0;
+                        _layoutNormalMain.VertOffset = 0;
+                        _layoutNormalSepTop.SeparatorSize = Size.Empty;
+                        _layoutNormalSepLeft.SeparatorSize = Size.Empty;
+                        _layoutNormalSepRight.SeparatorSize = Size.Empty;
+                        _layoutCollapsedImagePadding.PreferredPadding = _collapsedImagePadding2010;
+                        _lastRibbonShape = PaletteRibbonShape.Office2024;
+                        break;
                 }
             }
         }
@@ -628,7 +724,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
 
         // Create layout elements
         _layoutNormalTitle = new ViewLayoutDocker();
-        _layoutNormalContent = new ViewLayoutRibbonGroupContent(_ribbon, _ribbonGroup, _needPaint);
+        _layoutNormalContent = new ViewLayoutRibbonGroupContent(_ribbon, _ribbonGroup, _needPaint, _showOnlyCompactOverflow);
         _layoutNormalSepTop = new ViewLayoutRibbonSeparator(_normalBorderTopleft2007, true);
         _layoutNormalSepLeft = new ViewLayoutRibbonSeparator(_normalBorderTopleft2007, true);
         _layoutNormalSepRight = new ViewLayoutRibbonSeparator(_normalBorderRight2007, true);
@@ -751,6 +847,12 @@ internal class ViewDrawRibbonGroup : ViewComposite,
         }
 
         ElementState = elementState;
+
+        // Compact mode is one flat command row. The groups-area background still uses this ribbon shape.
+        if (_ribbon.CompactMode)
+        {
+            return;
+        }
 
         // Indicate the showing of the group inside a popup by adding focus override
         if (_ribbonGroup.ShowingAsPopup)
@@ -895,6 +997,7 @@ internal class ViewDrawRibbonGroup : ViewComposite,
             case PaletteRibbonShape.Office2010:
             case PaletteRibbonShape.OSXAqua:
             case PaletteRibbonShape.MacOS:
+            case PaletteRibbonShape.Office2024:
             {
                 Rectangle drawRect = ClientRectangle;
 

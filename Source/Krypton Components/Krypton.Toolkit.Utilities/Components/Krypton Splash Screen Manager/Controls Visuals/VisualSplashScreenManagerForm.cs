@@ -63,6 +63,7 @@ internal partial class VisualSplashScreenManagerForm : Form
         DoubleBuffered = true;
 
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
 
         _data = data;
         _targetOpacity = ClampOpacity(data.Opacity);
@@ -202,7 +203,7 @@ internal partial class VisualSplashScreenManagerForm : Form
         ShowInTaskbar = false;
         TopMost = _data.TopMost;
         StartPosition = _data.StartPosition;
-        Size clientSize = _data.Size.Width > 0 && _data.Size.Height > 0
+        Size clientSize = _data.Size is { Width: > 0, Height: > 0 }
             ? _data.Size
             : new Size(520, 320);
         ClientSize = clientSize;
@@ -244,7 +245,7 @@ internal partial class VisualSplashScreenManagerForm : Form
         pbxLogo.Visible = _data.Logo != null;
 
         kpbProgress.Visible = _data.ShowProgressBar;
-        if (_data.ShowProgressBar && !_data.ExpectedStepCount.HasValue)
+        if (_data is { ShowProgressBar: true, ExpectedStepCount: null })
         {
             kpbProgress.Style = ProgressBarStyle.Marquee;
         }
@@ -436,7 +437,7 @@ internal partial class VisualSplashScreenManagerForm : Form
 
     private Color ResolveBorderColor()
     {
-        if (_data.BorderAnimationColor.HasValue && !_data.BorderAnimationColor.Value.IsEmpty)
+        if (_data.BorderAnimationColor is { IsEmpty: false })
         {
             return _data.BorderAnimationColor.Value;
         }

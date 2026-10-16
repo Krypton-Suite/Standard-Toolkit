@@ -407,7 +407,7 @@ public partial class KryptonSearchBox : KryptonTextBox
     {
         if (e.KeyCode == Keys.Enter)
         {
-            if (_suggestionPopup != null && _suggestionPopup.Visible && _selectedSuggestionIndex >= 0)
+            if (_suggestionPopup is { Visible: true } && _selectedSuggestionIndex >= 0)
             {
                 // Select the highlighted suggestion
                 SelectSuggestion(_selectedSuggestionIndex);
@@ -424,7 +424,7 @@ public partial class KryptonSearchBox : KryptonTextBox
         }
         else if (e.KeyCode == Keys.Escape)
         {
-            if (_suggestionPopup != null && _suggestionPopup.Visible)
+            if (_suggestionPopup is { Visible: true })
             {
                 // Hide suggestions
                 HideSuggestions();
@@ -441,7 +441,7 @@ public partial class KryptonSearchBox : KryptonTextBox
         }
         else if (e.KeyCode == Keys.Down)
         {
-            if (_suggestionPopup != null && _suggestionPopup.Visible)
+            if (_suggestionPopup is { Visible: true })
             {
                 NavigateSuggestions(1);
                 e.Handled = true;
@@ -450,7 +450,7 @@ public partial class KryptonSearchBox : KryptonTextBox
         }
         else if (e.KeyCode == Keys.Up)
         {
-            if (_suggestionPopup != null && _suggestionPopup.Visible)
+            if (_suggestionPopup is { Visible: true })
             {
                 NavigateSuggestions(-1);
                 e.Handled = true;
@@ -467,7 +467,7 @@ public partial class KryptonSearchBox : KryptonTextBox
     private void OnLostFocusInternal(object? sender, EventArgs e)
     {
         // Hide suggestions when focus is lost (with a small delay to allow clicking on suggestions)
-        if (_suggestionPopup != null && _suggestionPopup.Visible)
+        if (_suggestionPopup is { Visible: true })
         {
             // Check if focus is going to the popup or its child controls
             if (_suggestionPopup.HasFocus())

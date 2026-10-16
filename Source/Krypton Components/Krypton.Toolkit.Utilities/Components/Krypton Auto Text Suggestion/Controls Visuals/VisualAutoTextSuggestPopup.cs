@@ -200,7 +200,7 @@ internal class VisualAutoTextSuggestPopup : VisualPopup
         // Forward keyboard messages to the attached control if it has focus
         // This allows typing to continue in the text control while the popup is visible
         Control? attachedControl = _provider.AttachedControl;
-        if (attachedControl != null && attachedControl.IsHandleCreated && attachedControl.Focused)
+        if (attachedControl is { IsHandleCreated: true, Focused: true })
         {
             // Check if this is a keyboard message
             if (m.Msg is PI.WM_.KEYDOWN or PI.WM_.KEYUP or PI.WM_.CHAR or PI.WM_.SYSKEYDOWN or PI.WM_.SYSKEYUP or PI.WM_.SYSCHAR or PI.WM_.DEADCHAR or PI.WM_.SYSDEADCHAR)

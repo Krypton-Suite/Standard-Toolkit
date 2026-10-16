@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -43,7 +43,7 @@ public class KryptonTreeComboBox : KryptonComboBoxUserControl
     private TreeNode? _selectedNode;
     private KryptonTreeComboBoxDisplayMode _displayMode = KryptonTreeComboBoxDisplayMode.LeafText;
     private KryptonTreeComboBoxSelectMode _selectMode = KryptonTreeComboBoxSelectMode.LeafOnly;
-    private string _pathSeparator = DefaultPathSeparator;
+    private string? _pathSeparator = DefaultPathSeparator;
     private string _breadcrumbSeparator = DefaultBreadcrumbSeparator;
     private bool _commitOnNodeClick;
 
@@ -185,7 +185,7 @@ public class KryptonTreeComboBox : KryptonComboBoxUserControl
     [Category(@"Behavior")]
     [Description(@"Separator used for FullPath display mode.")]
     [DefaultValue(DefaultPathSeparator)]
-    public string PathSeparator
+    public string? PathSeparator
     {
         get => _pathSeparator;
         set => _pathSeparator = value ?? DefaultPathSeparator;
@@ -198,7 +198,7 @@ public class KryptonTreeComboBox : KryptonComboBoxUserControl
     [Category(@"Behavior")]
     [Description(@"Separator used for Breadcrumb display mode.")]
     [DefaultValue(DefaultBreadcrumbSeparator)]
-    public string BreadcrumbSeparator
+    public string? BreadcrumbSeparator
     {
         get => _breadcrumbSeparator;
         set => _breadcrumbSeparator = value ?? DefaultBreadcrumbSeparator;
@@ -312,7 +312,7 @@ public class KryptonTreeComboBox : KryptonComboBoxUserControl
     /// </summary>
     /// <param name="node">The candidate node.</param>
     /// <returns><see langword="true"/> when the node may be selected.</returns>
-    public bool CanSelectNode(TreeNode node)
+    public bool CanSelectNode(TreeNode? node)
     {
         if (node == null)
         {
@@ -362,12 +362,17 @@ public class KryptonTreeComboBox : KryptonComboBoxUserControl
     private string FormatFullPath(TreeNode node)
     {
         string fullPath = node.FullPath;
-        if (_pathSeparator.Length == 1 && _pathSeparator[0] == '\\')
+        if (_pathSeparator is not null && _pathSeparator.Length == 1 && _pathSeparator[0] == '\\')
         {
             return fullPath;
         }
 
-        return fullPath.Replace('\\', _pathSeparator[0]);
+        if (_pathSeparator != null)
+        {
+            return fullPath.Replace('\\', _pathSeparator[0]);
+        }
+
+        return fullPath;
     }
 
     private string FormatBreadcrumb(TreeNode node)

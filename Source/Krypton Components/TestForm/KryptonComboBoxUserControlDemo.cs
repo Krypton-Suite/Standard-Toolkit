@@ -193,7 +193,7 @@ public sealed class KryptonComboBoxUserControlDemo : KryptonForm
 
         private void OnNodeDoubleClick(object? sender, TreeNodeMouseClickEventArgs e)
         {
-            if (e.Node != null && e.Node.Nodes.Count == 0)
+            if (e.Node is { Nodes.Count: 0 })
             {
                 CommitValue?.Invoke(this, new KryptonDropDownCommitEventArgs(e.Node.FullPath, e.Node.Text));
             }

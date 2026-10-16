@@ -38,7 +38,7 @@ public static class KryptonLogViewer
     public static string? TryCreateLogExcerptFile(int recentLineCount = 200)
     {
         var memory = KryptonLog.Memory;
-        if (memory != null && memory.Count > 0)
+        if (memory is { Count: > 0 })
         {
             var path = Path.Combine(Path.GetTempPath(), $"Krypton-{DateTime.Now:yyyyMMdd-HHmmss}.log");
             File.WriteAllText(path, memory.FormatRecent(recentLineCount), Encoding.UTF8);

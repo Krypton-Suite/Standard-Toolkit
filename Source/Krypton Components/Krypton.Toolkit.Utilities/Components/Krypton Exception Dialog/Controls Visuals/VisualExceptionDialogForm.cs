@@ -43,6 +43,9 @@ internal partial class VisualExceptionDialogForm : KryptonForm
     {
         InitializeComponent();
 
+        krtbExceptionDetails.ScrollBars = RichTextBoxScrollBars.Both;
+        KryptonDialogLayout.EnableResizable(this);
+
         SetInheritedControlOverride();
 
         _showCopyButton = showCopyButton ?? false;

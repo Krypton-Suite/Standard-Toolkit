@@ -70,6 +70,12 @@ internal class KryptonCustomStringsManagerActionList : DesignerActionList
             actions.Add(new KryptonDesignerActionItem(
                 new DesignerVerb(@"Export Custom Strings to Json file...", OnExportCustomStringsJson),
                 @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(
+                new DesignerVerb(@"Analyze Custom Translations...", OnAnalyzeCustomStrings),
+                @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(
+                new DesignerVerb(@"Merge Missing Custom Translations...", OnMergeMissingCustomStrings),
+                @"Actions"));
             actions.Add(new DesignerActionHeaderItem(@"Data"));
             actions.Add(new DesignerActionPropertyItem(
                 nameof(CustomStrings),
@@ -218,6 +224,86 @@ internal class KryptonCustomStringsManagerActionList : DesignerActionList
             {
                 KryptonCustomStrings.ExportToJsonFile(sfd.FileName, includeDefaults: true);
             }
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: false);
+        }
+    }
+
+    private void OnAnalyzeCustomStrings(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var ofd = new OpenFileDialog
+            {
+                CheckFileExists = true,
+                CheckPathExists = true,
+                FileName = @"CustomTranslations",
+                Filter = @"Custom translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)",
+                Title = @"Analyze Custom Translations Coverage"
+            };
+
+            if (ofd.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(ofd.FileName))
+            {
+                return;
+            }
+
+            var coverage = KryptonCustomStrings.AnalyzeTranslationsFromFile(ofd.FileName);
+            KryptonMessageBox.Show(
+                coverage + Environment.NewLine + Environment.NewLine +
+                @"Missing by section:" + Environment.NewLine +
+                ToolkitStringsCoverage.FormatGrouped(coverage.MissingInFile) + Environment.NewLine + Environment.NewLine +
+                @"Extra by section:" + Environment.NewLine +
+                ToolkitStringsCoverage.FormatGrouped(coverage.ExtraInFile),
+                @"Custom Translations Coverage",
+                KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information);
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionHandler.CaptureException(exc, showStackTrace: false);
+        }
+    }
+
+    private void OnMergeMissingCustomStrings(object? sender, EventArgs e)
+    {
+        if (_manager == null)
+        {
+            return;
+        }
+
+        try
+        {
+            using var ofd = new OpenFileDialog
+            {
+                CheckFileExists = true,
+                CheckPathExists = true,
+                FileName = @"CustomTranslations",
+                Filter = @"Custom translations files (*.xml;*.json)|*.xml;*.json|XML (*.xml)|*.xml|JSON (*.json)|*.json|All files (*.*)|(*.*)",
+                Title = @"Merge Missing Custom Translations"
+            };
+
+            if (ofd.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(ofd.FileName))
+            {
+                return;
+            }
+
+            var before = KryptonCustomStrings.AnalyzeTranslationsFromFile(ofd.FileName);
+            var after = KryptonCustomStrings.MergeMissingTranslationsToFile(ofd.FileName, includeDefaults: true);
+            _service?.OnComponentChanged(_manager, null, _manager.CustomStrings, _manager.CustomStrings);
+            KryptonMessageBox.Show(
+                $@"Merged '{ofd.FileName}'.{Environment.NewLine}" +
+                $@"Previously missing: {before.MissingInFile.Count}{Environment.NewLine}" +
+                $@"After merge missing: {after.MissingInFile.Count}",
+                @"Merge Missing Custom Translations",
+                KryptonMessageBoxButtons.OK,
+                KryptonMessageBoxIcon.Information);
         }
         catch (Exception exc)
         {

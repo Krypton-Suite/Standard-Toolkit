@@ -674,7 +674,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [Localizable(true)]
     public KryptonPrintPreviewDialogStrings PrintPreviewDialogStrings => KryptonPrintPreviewDialogStrings;
     private bool ShouldSerializePrintPreviewDialogStrings() => !KryptonPrintPreviewDialogStrings.IsDefault;
-    private void ResetMiscellaneousPrintPreviewDialogStrings() => KryptonPrintPreviewDialogStrings.Reset();
+    private void ResetPrintPreviewDialogStrings() => KryptonPrintPreviewDialogStrings.Reset();
 
     /// <summary>Gets the krypton miscellaneous theme strings.</summary>
     /// <value>The krypton miscellaneous theme strings.</value>
@@ -801,10 +801,14 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [Localizable(true)]
     public SplashScreenStrings SplashScreenStrings => KryptonSplashScreenStrings;
 
-    private bool ShouldSerializeSplashScreenStringsStrings() => !KryptonSplashScreenStrings.IsDefault;
+    private bool ShouldSerializeSplashScreenStrings() => !KryptonSplashScreenStrings.IsDefault;
 
     /// <summary>Resets the krypton splash screen strings.</summary>
-    public void ResetSplashScreenStringsStrings() => KryptonSplashScreenStrings.Reset();
+    public void ResetSplashScreenStrings() => KryptonSplashScreenStrings.Reset();
+
+    /// <summary>Resets the krypton splash screen strings.</summary>
+    /// <remarks>Kept so existing callers of the misnamed method continue to compile. The designer binds <see cref="ResetSplashScreenStrings"/>.</remarks>
+    public void ResetSplashScreenStringsStrings() => ResetSplashScreenStrings();
 
     /// <summary>Gets the miscellaneous strings.</summary>
     /// <value>The miscellaneous strings.</value>
@@ -828,7 +832,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
     [Localizable(true)]
     public MessageBoxStrings MessageBoxStrings => KryptonMessageBoxStrings;
 
-    private bool ShouldSerializeMessageBoxStringsStrings() => !KryptonMessageBoxStrings.IsDefault;
+    private bool ShouldSerializeMessageBoxStrings() => !KryptonMessageBoxStrings.IsDefault;
 
     /// <summary>Resets the krypton message box strings.</summary>
     public void ResetMessageBoxStrings() => KryptonMessageBoxStrings.Reset();
@@ -963,8 +967,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
                                ShouldSerializeToastNotificationIconStrings() ||
                                ShouldSerializeTabBorderStyleStrings() || ShouldSerializeTabStyleStrings() ||
                                ShouldSerializeToastNotificationStrings() || ShouldSerializeToolStripItemStrings() || ShouldSerializeToolBarStrings() ||
-                               ShouldSerializeSplashScreenStringsStrings() || ShouldSerializeMiscellaneousStrings() ||
-                               ShouldSerializeMessageBoxStringsStrings() || ShouldSerializeSystemMenuStrings() ||
+                               ShouldSerializeSplashScreenStrings() || ShouldSerializeMiscellaneousStrings() ||
+                               ShouldSerializeMessageBoxStrings() || ShouldSerializeSystemMenuStrings() ||
                                ShouldSerializeControlBoxButtonStrings() ||
                                ShouldSerializeTitleBarStrings() || ShouldSerializeEditorSettingStrings() || 
                                ShouldSerializeCollectionEditorStrings() ||
@@ -988,7 +992,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetFileSystemListViewStrings();
         ResetUseWindowsLanguagePackStrings();
         ResetCommonStrings();
-        ResetMiscellaneousPrintPreviewDialogStrings();
+        ResetPrintPreviewDialogStrings();
         ResetGeneralRibbonStrings();
         ResetGeneralStrings();
         ResetGridStyleStrings();
@@ -1015,7 +1019,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
         ResetToolStripItemStrings();
         ResetToastNotificationStrings();
         ResetToolBarStrings();
-        ResetSplashScreenStringsStrings();
+        ResetSplashScreenStrings();
         ResetMiscellaneousStrings();
         ResetMessageBoxStrings();
         ResetSearchBoxStrings();
@@ -1056,8 +1060,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
-    public void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
-        ToolkitStringsXmlPersistence.Import(this, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if any catalog keys are missing or unknown. Default import stays tolerant.</param>
+    public void ImportFromXmlDocument(XmlDocument doc, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true, bool strictCatalog = false) =>
+        ToolkitStringsXmlPersistence.Import(this, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch, strictCatalog);
 
     /// <summary>
     /// Imports toolkit strings from a versioned XML file.
@@ -1066,7 +1071,8 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
-    public void ImportFromXmlFile(string filename, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true)
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if any catalog keys are missing or unknown. Default import stays tolerant.</param>
+    public void ImportFromXmlFile(string filename, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true, bool strictCatalog = false)
     {
         if (string.IsNullOrWhiteSpace(filename))
         {
@@ -1075,7 +1081,7 @@ public class KryptonGlobalToolkitStrings : GlobalId
 
         var doc = new XmlDocument();
         doc.Load(filename);
-        ImportFromXmlDocument(doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+        ImportFromXmlDocument(doc, resetFirst, refreshOpenForms, warnOnCultureMismatch, strictCatalog);
     }
 
     /// <summary>
@@ -1093,8 +1099,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
     /// <param name="warnOnCultureMismatch">When <c>true</c>, writes a debug warning if the file culture differs from the current UI culture.</param>
-    public void ImportFromStream(Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true) =>
-        ToolkitStringsXmlPersistence.ImportFromStream(this, stream, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if any catalog keys are missing or unknown. Default import stays tolerant.</param>
+    public void ImportFromStream(Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true, bool strictCatalog = false) =>
+        ToolkitStringsXmlPersistence.ImportFromStream(this, stream, resetFirst, refreshOpenForms, warnOnCultureMismatch, strictCatalog);
 
     /// <summary>
     /// Exports the current toolkit string set to a JSON string.
@@ -1117,8 +1124,9 @@ public class KryptonGlobalToolkitStrings : GlobalId
     /// <param name="filename">Path to the JSON file.</param>
     /// <param name="resetFirst">When <c>true</c>, resets all strings to their defaults before applying the file values.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
-    public void ImportFromJsonFile(string filename, bool resetFirst = true, bool refreshOpenForms = true) =>
-        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst, refreshOpenForms);
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the file if any catalog keys are missing or unknown. Default import stays tolerant.</param>
+    public void ImportFromJsonFile(string filename, bool resetFirst = true, bool refreshOpenForms = true, bool strictCatalog = false) =>
+        ToolkitStringsJsonPersistence.ImportFromFile(this, filename, resetFirst, refreshOpenForms, strictCatalog);
 
     /// <summary>
     /// Analyzes catalog coverage for a translations XML document without mutating live strings.

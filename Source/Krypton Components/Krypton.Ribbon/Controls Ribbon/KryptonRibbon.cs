@@ -56,6 +56,7 @@ public partial class KryptonRibbon : VisualSimple,
     private bool _keyboardFocusCaret;
     private bool _designHelpers;
     private bool _invalidateOnResize;
+    private bool _forcingRefresh;
     private bool _uxthemeNotAvailable;
     private bool _altDown;
     private int _altUpCount;
@@ -83,7 +84,126 @@ public partial class KryptonRibbon : VisualSimple,
 
     // Properties
     private bool _minimizedMode;
+    private bool _compactMode;
+    private bool _animateCompactMode;
     private bool _showMinimizeButton;
+    private bool _showCompactButton;
+    private CompactButtonLocation _compactButtonLocation;
+
+    /// <summary>
+    /// Height reserved at the bottom of the groups border when the compact arrow sits inside the card.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal int CompactBelowGroupsReserve { get; set; }
+
+    private readonly HashSet<IRibbonGroupItem> _compactOverflowItems = new HashSet<IRibbonGroupItem>();
+
+    /// <summary>
+    /// True while a compact-overflow popup view is being created.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal bool CompactOverflowCapture { get; set; }
+
+    /// <summary>
+    /// True when the command is currently held in the compact overflow set.
+    /// </summary>
+    /// <param name="item">Command to test.</param>
+    /// <returns>True when the command did not fit on the compact row.</returns>
+    internal bool IsCompactOverflow(IRibbonGroupItem item) => _compactOverflowItems.Contains(item);
+
+    /// <summary>
+    /// Layout-only hiding. Does not change the item <see cref="IRibbonGroupItem.Visible"/> property.
+    /// </summary>
+    /// <param name="item">Command or separator to test.</param>
+    /// <param name="showOnlyOverflow">True inside the overflow popup.</param>
+    /// <returns>True when this view should skip the item.</returns>
+    internal bool CompactOverflowHides(IRibbonGroupItem item, bool showOnlyOverflow)
+    {
+        if (!CompactMode || (_compactOverflowItems.Count == 0))
+        {
+            return false;
+        }
+
+        // Containers stay in the tree. Their children are hidden one command at a time.
+        if (item is KryptonRibbonGroupLines ||
+            item is KryptonRibbonGroupTriple ||
+            item is KryptonRibbonGroupCluster)
+        {
+            return false;
+        }
+
+        if (showOnlyOverflow && item is KryptonRibbonGroupSeparator)
+        {
+            return true;
+        }
+
+        bool overflowed = _compactOverflowItems.Contains(item);
+        return showOnlyOverflow ? !overflowed : overflowed;
+    }
+
+    /// <summary>
+    /// Clears commands hidden by the compact ellipsis.
+    /// </summary>
+    internal void ClearCompactOverflow() => _compactOverflowItems.Clear();
+
+    /// <summary>
+    /// Replaces the commands hidden by the compact ellipsis.
+    /// </summary>
+    /// <param name="items">Commands that do not fit, in reading order.</param>
+    internal void SetCompactOverflow(IEnumerable<IRibbonGroupItem> items)
+    {
+        _compactOverflowItems.Clear();
+        foreach (IRibbonGroupItem item in items)
+        {
+            _compactOverflowItems.Add(item);
+        }
+    }
+
+    /// <summary>
+    /// Adds one separator or command to the compact overflow set.
+    /// </summary>
+    /// <param name="item">Item that should leave the compact row.</param>
+    internal void AddCompactOverflow(IRibbonGroupItem item) => _compactOverflowItems.Add(item);
+
+    /// <summary>
+    /// Creates a group view while <see cref="CompactOverflowCapture"/> selects popup filtering.
+    /// </summary>
+    /// <param name="showOnlyOverflow">True when the new view belongs to the overflow popup.</param>
+    /// <param name="create">Builds the view.</param>
+    /// <returns>The view returned by <paramref name="create"/>.</returns>
+    internal ViewBase CreateCompactOverflowView(bool showOnlyOverflow, Func<ViewBase> create)
+    {
+        bool previous = CompactOverflowCapture;
+        CompactOverflowCapture = showOnlyOverflow;
+        try
+        {
+            return create();
+        }
+        finally
+        {
+            CompactOverflowCapture = previous;
+        }
+    }
+
+    /// <summary>
+    /// True when this view should publish itself as the ribbon item's view.
+    /// Overflow popup copies must not replace the on-ribbon view.
+    /// </summary>
+    /// <param name="overflowCopy">Remembered creation mode. Set on the first call.</param>
+    /// <returns>True for the on-ribbon view.</returns>
+    internal bool ShouldClaimRibbonItemView(ref bool? overflowCopy)
+    {
+        if (!overflowCopy.HasValue)
+        {
+            overflowCopy = CompactOverflowCapture;
+        }
+
+        return overflowCopy == false;
+    }
     // Field default must be true so CreateViewManager never builds a tabless ribbon by accident (#331 / #2501).
     private bool _showTabHeaders = true;
     private bool _scrollTabGroupArea;
@@ -108,6 +228,10 @@ public partial class KryptonRibbon : VisualSimple,
     private KryptonRibbonNotificationBarData _notificationBarData;
 
     private Timer? _autoDismissTimer;
+    private Timer? _compactAnimationTimer;
+    private int _compactAnimationStartHeight;
+    private int _compactAnimationEndHeight;
+    private int _compactAnimationStarted;
 
     // Detachable ribbon support
     private VisualRibbonFloatingWindow? _floatingWindow;
@@ -220,6 +344,13 @@ public partial class KryptonRibbon : VisualSimple,
     public event EventHandler? MinimizedModeChanged;
 
     /// <summary>
+    /// Occurs when the <see cref="CompactMode"/> property has changed value.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the CompactMode property has changed value.")]
+    public event EventHandler? CompactModeChanged;
+
+    /// <summary>
     /// Occurs when the ribbon is detached into a floating window.
     /// </summary>
     [Category(@"Action")]
@@ -309,6 +440,14 @@ public partial class KryptonRibbon : VisualSimple,
                 _autoDismissTimer.Stop();
                 _autoDismissTimer.Dispose();
                 _autoDismissTimer = null;
+            }
+
+            if (_compactAnimationTimer != null)
+            {
+                _compactAnimationTimer.Stop();
+                _compactAnimationTimer.Tick -= OnCompactAnimationTick;
+                _compactAnimationTimer.Dispose();
+                _compactAnimationTimer = null;
             }
 
             // Unhook from notification bar data
@@ -1134,6 +1273,92 @@ public partial class KryptonRibbon : VisualSimple,
     public void ResetMinimizedMode() => MinimizedMode = false;
 
     /// <summary>
+    /// Gets and sets a value indicating if groups draw as a single command row.
+    /// </summary>
+    /// <remarks>
+    /// Compact mode keeps the same tabs and groups and lays items out in one line.
+    /// Large items use the icon-and-text presentation. <see cref="MinimizedMode"/> still hides the groups band until a tab is selected.
+    /// <see cref="ShowCompactButton"/> can add an arrow that switches this property. <see cref="CompactButtonLocation"/> chooses where that arrow sits.
+    /// <see cref="AnimateCompactMode"/> eases the groups area between the two heights.
+    /// </remarks>
+    [Localizable(true)]
+    [Category(@"Values")]
+    [Description(@"Lay groups out as a single row of commands.")]
+    [DefaultValue(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool CompactMode
+    {
+        get => _compactMode;
+
+        set
+        {
+            if (_compactMode != value)
+            {
+                bool animate = _animateCompactMode && !InDesignMode && IsHandleCreated && !RealMinimizedMode;
+                int startHeight = 0;
+                if (animate)
+                {
+                    CalculatedValues.Recalculate();
+                    startHeight = CalculatedValues.GroupsHeight;
+                    CalculatedValues.AnimatedGroupsHeight = null;
+                }
+
+                _compactMode = value;
+                GroupsArea?.RecreateButtons();
+                TabsArea?.RecreateButtons();
+
+                if (animate)
+                {
+                    CalculatedValues.Recalculate();
+                    StartCompactHeightAnimation(startHeight, CalculatedValues.GroupsHeight);
+                }
+
+                PerformNeedPaint(true);
+                OnCompactModeChanged(EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets a value indicating if changing <see cref="CompactMode"/> eases the groups area height.
+    /// </summary>
+    /// <remarks>
+    /// The commands use the target layout immediately. The groups band eases between the classic and compact heights.
+    /// Animation is skipped in the designer, before the handle exists, and while <see cref="MinimizedMode"/> hides the groups.
+    /// </remarks>
+    [Category(@"Values")]
+    [Description(@"Ease the groups area height when CompactMode changes.")]
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool AnimateCompactMode
+    {
+        get => _animateCompactMode;
+
+        set
+        {
+            if (_animateCompactMode != value)
+            {
+                _animateCompactMode = value;
+                if (!value)
+                {
+                    StopCompactHeightAnimation();
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the <see cref="AnimateCompactMode"/> property to its default value.
+    /// </summary>
+    public void ResetAnimateCompactMode() => AnimateCompactMode = true;
+
+    /// <summary>
+    /// Resets the <see cref="CompactMode"/> property to its default value.
+    /// </summary>
+    public void ResetCompactMode() => CompactMode = false;
+
+    /// <summary>
     /// Gets the notification bar data for customization.
     /// </summary>
     [Category(@"Appearance")]
@@ -1143,6 +1368,13 @@ public partial class KryptonRibbon : VisualSimple,
     {
         get => _notificationBarData;
     }
+
+    private bool ShouldSerializeNotificationBar() => !NotificationBar.IsDefault;
+
+    /// <summary>
+    /// Resets the <see cref="NotificationBar"/> property to its default value.
+    /// </summary>
+    public void ResetNotificationBar() => NotificationBar.Reset();
 
     /// <summary>
     /// Gets and sets the display method for the quick access toolbar.
@@ -1274,6 +1506,74 @@ public partial class KryptonRibbon : VisualSimple,
     /// Resets the ShowMinimizeButton property to its default value.
     /// </summary>
     public void ResetShowMinimizeButton() => ShowMinimizeButton = true;
+
+    /// <summary>
+    /// Gets and sets a value indicating if an arrow switches between classic and compact ribbons.
+    /// </summary>
+    /// <remarks>
+    /// The arrow is hidden unless this is set. <see cref="CompactButtonLocation"/> chooses under the groups, at the end of the groups, or on the tab row.
+    /// The up arrow turns <see cref="CompactMode"/> on. The down arrow restores the classic ribbon.
+    /// </remarks>
+    [Category(@"Values")]
+    [Description(@"Does an arrow switch between classic and compact ribbons.")]
+    [DefaultValue(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool ShowCompactButton
+    {
+        get => _showCompactButton;
+
+        set
+        {
+            if (_showCompactButton != value)
+            {
+                _showCompactButton = value;
+                RefreshCompactButton();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the <see cref="ShowCompactButton"/> property to its default value.
+    /// </summary>
+    public void ResetShowCompactButton() => ShowCompactButton = false;
+
+    /// <summary>
+    /// Gets and sets where the compact-mode arrow is drawn when <see cref="ShowCompactButton"/> is set.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="CompactButtonLocation.BelowGroups"/> places the arrow at the right of the groups card.
+    /// <see cref="CompactButtonLocation.GroupsTrailing"/> places it at the trailing edge of the groups area.
+    /// <see cref="CompactButtonLocation.Tabs"/> places it on the tab row, beside the window buttons.
+    /// </remarks>
+    [Category(@"Values")]
+    [Description(@"Where the compact-mode arrow is drawn.")]
+    [DefaultValue(typeof(CompactButtonLocation), nameof(CompactButtonLocation.BelowGroups))]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public CompactButtonLocation CompactButtonLocation
+    {
+        get => _compactButtonLocation;
+
+        set
+        {
+            if (_compactButtonLocation != value)
+            {
+                _compactButtonLocation = value;
+                RefreshCompactButton();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the <see cref="CompactButtonLocation"/> property to its default value.
+    /// </summary>
+    public void ResetCompactButtonLocation() => CompactButtonLocation = CompactButtonLocation.BelowGroups;
+
+    private void RefreshCompactButton()
+    {
+        GroupsArea?.RecreateButtons();
+        TabsArea?.RecreateButtons();
+        PerformNeedPaint(true);
+    }
 
     /// <summary>
     /// Resets the ShowTabHeaders property to its default value.
@@ -1801,6 +2101,14 @@ public partial class KryptonRibbon : VisualSimple,
                 case PI.WM_.NCRBUTTONDOWN:
                     // Pressing the mouse in keyboard mode always kills keyboard mode
                     KillKeyboardMode();
+                    break;
+                case PI.WM_.LBUTTONUP:
+                case PI.WM_.NCLBUTTONUP:
+                    // FullClient backstage covers the File button, so the second release never reaches it.
+                    if (NoteBackstageAppButtonMouseUp())
+                    {
+                        return true;
+                    }
                     break;
                 case PI.WM_.SYSKEYUP:
                     CheckForAltUp();
@@ -2482,6 +2790,21 @@ public partial class KryptonRibbon : VisualSimple,
 
         // Let base class perform usual painting
         base.OnNeedPaint(sender, e);
+
+        // Layout-only invalidation leaves the groups child control stale until the next
+        // mouse move. Paint the ribbon and its children before the caller returns.
+        if (e.NeedLayout && IsHandleCreated && !IsDisposed && !_forcingRefresh)
+        {
+            _forcingRefresh = true;
+            try
+            {
+                Refresh();
+            }
+            finally
+            {
+                _forcingRefresh = false;
+            }
+        }
     }
 
     /// <summary>
@@ -2595,6 +2918,12 @@ public partial class KryptonRibbon : VisualSimple,
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
     protected virtual void OnMinimizedModeChanged(EventArgs e) => MinimizedModeChanged?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the <see cref="CompactModeChanged"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> containing event data.</param>
+    protected virtual void OnCompactModeChanged(EventArgs e) => CompactModeChanged?.Invoke(this, e);
 
     #endregion
 
@@ -2887,7 +3216,67 @@ public partial class KryptonRibbon : VisualSimple,
         }
     }
 
-    internal void TestForAppButtonDoubleClick() => TabsArea?.TestForAppButtonDoubleClick();
+    internal bool TestForAppButtonDoubleClick() => TabsArea?.TestForAppButtonDoubleClick() ?? false;
+
+    /// <summary>
+    /// Screen rectangle of the File / application button, or empty when that button is hidden.
+    /// </summary>
+    private Rectangle AppButtonScreenRectangle()
+    {
+        if (TabsArea == null)
+        {
+            return Rectangle.Empty;
+        }
+
+        // Office 2007 uses the orb. Later shapes use the File tab.
+        if (RibbonShape == PaletteRibbonShape.Office2007)
+        {
+            return TabsArea.LayoutAppButton.Visible
+                ? RectangleToScreen(TabsArea.LayoutAppButton.AppButton.ClientRectangle)
+                : Rectangle.Empty;
+        }
+
+        return TabsArea.LayoutAppTab.Visible
+            ? RectangleToScreen(TabsArea.LayoutAppTab.AppTab.ClientRectangle)
+            : Rectangle.Empty;
+    }
+
+    /// <summary>
+    /// Counts a left release on the File button while the backstage overlay is covering it.
+    /// </summary>
+    /// <returns>True when that release closes the owner form.</returns>
+    private bool NoteBackstageAppButtonMouseUp()
+    {
+        if (_backstageOverlay == null)
+        {
+            return false;
+        }
+
+        Rectangle appRect = AppButtonScreenRectangle();
+        if (appRect.IsEmpty || !appRect.Contains(Cursor.Position))
+        {
+            return false;
+        }
+
+        Control? under = MouseControlFinder.ControlUnderMouse(Cursor.Position);
+        if (under == null)
+        {
+            return false;
+        }
+
+        // BelowRibbon leaves the File button uncovered. OnAppButtonReleased already counts that release.
+        if (ReferenceEquals(under, this) || Contains(under))
+        {
+            return false;
+        }
+
+        if (!ReferenceEquals(under, _backstageOverlay) && !_backstageOverlay.Contains(under))
+        {
+            return false;
+        }
+
+        return TestForAppButtonDoubleClick();
+    }
 
     internal void HideFocus(Control? c)
     {
@@ -3587,6 +3976,9 @@ public partial class KryptonRibbon : VisualSimple,
         MinimizedMode = false;
         ScrollerStyle = ButtonStyle.Standalone;
         ShowMinimizeButton = true;
+        ShowCompactButton = false;
+        CompactButtonLocation = CompactButtonLocation.BelowGroups;
+        AnimateCompactMode = true;
         ShowTabHeaders = true;
         ScrollTabGroupArea = true;
         QATLocation = QATLocation.Above;
@@ -3819,6 +4211,73 @@ public partial class KryptonRibbon : VisualSimple,
             };
             _autoDismissTimer.Tick += OnAutoDismissTimerTick;
             _autoDismissTimer.Start();
+        }
+    }
+
+    private const int COMPACT_ANIMATION_DURATION_MS = 180;
+    private const int COMPACT_ANIMATION_INTERVAL_MS = 15;
+
+    /// <summary>
+    /// Ease <see cref="CalculatedValues.GroupsHeight"/> from the height before the mode change to the height after it.
+    /// </summary>
+    private void StartCompactHeightAnimation(int startHeight, int endHeight)
+    {
+        if (startHeight == endHeight)
+        {
+            StopCompactHeightAnimation();
+            return;
+        }
+
+        _compactAnimationStartHeight = startHeight;
+        _compactAnimationEndHeight = endHeight;
+        _compactAnimationStarted = Environment.TickCount;
+        CalculatedValues.AnimatedGroupsHeight = startHeight;
+
+        if (_compactAnimationTimer == null)
+        {
+            _compactAnimationTimer = new System.Windows.Forms.Timer
+            {
+                Interval = COMPACT_ANIMATION_INTERVAL_MS
+            };
+            _compactAnimationTimer.Tick += OnCompactAnimationTick;
+        }
+
+        _compactAnimationTimer.Start();
+    }
+
+    private void OnCompactAnimationTick(object? sender, EventArgs e)
+    {
+        if (IsDisposed)
+        {
+            StopCompactHeightAnimation();
+            return;
+        }
+
+        int elapsed = unchecked(Environment.TickCount - _compactAnimationStarted);
+        if (elapsed >= COMPACT_ANIMATION_DURATION_MS)
+        {
+            StopCompactHeightAnimation();
+            PerformNeedPaint(true);
+            return;
+        }
+
+        float t = elapsed / (float)COMPACT_ANIMATION_DURATION_MS;
+        float eased = 1f - ((1f - t) * (1f - t) * (1f - t));
+        int height = _compactAnimationStartHeight + (int)Math.Round((_compactAnimationEndHeight - _compactAnimationStartHeight) * eased);
+        CalculatedValues.AnimatedGroupsHeight = height;
+        PerformNeedPaint(true);
+    }
+
+    private void StopCompactHeightAnimation()
+    {
+        if (_compactAnimationTimer != null)
+        {
+            _compactAnimationTimer.Stop();
+        }
+
+        if (CalculatedValues != null)
+        {
+            CalculatedValues.AnimatedGroupsHeight = null;
         }
     }
 

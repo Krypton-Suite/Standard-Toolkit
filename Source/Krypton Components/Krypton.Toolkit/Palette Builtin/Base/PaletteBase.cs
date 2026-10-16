@@ -2300,7 +2300,7 @@ public abstract class PaletteBase : Component
             }
 
             var tableField = type.GetField("_table", declared) ?? type.GetField("Table", declared);
-            if (tableField != null && !tableField.IsInitOnly && !tableField.IsLiteral)
+            if (tableField != null && tableField is { IsInitOnly: false, IsLiteral: false })
             {
                 tableField.SetValue(this, null);
                 return;

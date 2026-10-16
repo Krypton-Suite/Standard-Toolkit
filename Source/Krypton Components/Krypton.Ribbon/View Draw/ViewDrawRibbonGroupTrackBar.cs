@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupTrackBar : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the text box definition
-        GroupTrackBar.TrackBarView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupTrackBar.TrackBarView = this;
 
         // Give paint delegate to textbox so its palette changes are redrawn
-        GroupTrackBar.ViewPaintDelegate = needPaint;
+            GroupTrackBar.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupTrackBar.TrackBar);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupTrackBar : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupTrackBar.MouseEnterControl -= OnMouseEnterControl;
                 GroupTrackBar.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupTrackBar.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupTrackBar.TrackBarView, this))
+                {
+                    GroupTrackBar.ViewPaintDelegate = null;
+                }
                 GroupTrackBar.PropertyChanged -= OnTrackBarPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupTrackBar.TrackBarView = null; 
+                if (ReferenceEquals(GroupTrackBar.TrackBarView, this))
+                {
+                    GroupTrackBar.TrackBarView = null;
+                } 
                 GroupTrackBar = null;
             }
         }

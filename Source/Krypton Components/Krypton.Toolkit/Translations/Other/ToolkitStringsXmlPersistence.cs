@@ -66,7 +66,7 @@ internal static class ToolkitStringsXmlPersistence
         return doc;
     }
 
-    public static void Import(Object toolkitStrings, XmlDocument doc, bool resetFirst, bool refreshOpenForms, bool warnOnCultureMismatch = true)
+    public static void Import(Object toolkitStrings, XmlDocument doc, bool resetFirst, bool refreshOpenForms, bool warnOnCultureMismatch = true, bool strictCatalog = false)
     {
         if (toolkitStrings == null)
         {
@@ -76,6 +76,11 @@ internal static class ToolkitStringsXmlPersistence
         if (doc == null)
         {
             ThrowHelper.ThrowArgumentNullException(nameof(doc));
+        }
+
+        if (strictCatalog)
+        {
+            EnsureCatalogIsComplete(toolkitStrings, doc);
         }
 
         if (resetFirst && toolkitStrings is KryptonGlobalToolkitStrings strings)
@@ -246,7 +251,9 @@ internal static class ToolkitStringsXmlPersistence
         var doc = new XmlDocument();
         doc.Load(filename);
 
+        var before = Analyze(toolkitStrings, doc, filename);
         Import(toolkitStrings, doc, resetFirst: true, refreshOpenForms: false, warnOnCultureMismatch: true);
+        ApplyAutoTranslation(toolkitStrings, before.MissingInFile, before.Culture);
 
         var merged = Export(toolkitStrings, includeDefaults);
         merged.Save(filename);
@@ -269,7 +276,7 @@ internal static class ToolkitStringsXmlPersistence
         doc.Save(stream);
     }
 
-    public static void ImportFromStream(Object toolkitStrings, Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true)
+    public static void ImportFromStream(Object toolkitStrings, Stream stream, bool resetFirst = true, bool refreshOpenForms = true, bool warnOnCultureMismatch = true, bool strictCatalog = false)
     {
         if (stream == null)
         {
@@ -278,7 +285,17 @@ internal static class ToolkitStringsXmlPersistence
 
         var doc = new XmlDocument();
         doc.Load(stream);
-        Import(toolkitStrings, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch);
+        Import(toolkitStrings, doc, resetFirst, refreshOpenForms, warnOnCultureMismatch, strictCatalog);
+    }
+
+    private static void EnsureCatalogIsComplete(Object toolkitStrings, XmlDocument doc)
+    {
+        var preview = Analyze(toolkitStrings, doc);
+        if (preview.HasMissing || preview.HasExtra)
+        {
+            ThrowHelper.ThrowArgumentException(
+                $@"Translations catalog drift (missing {preview.MissingInFile.Count}, extra {preview.ExtraInFile.Count}). Strict import was not applied.");
+        }
     }
 
     internal static void RefreshOpenFormsBestEffort()
@@ -535,6 +552,102 @@ internal static class ToolkitStringsXmlPersistence
                 ImportGlobalIdFromElement(container, nested);
             }
         }
+    }
+
+    internal static void ApplyAutoTranslation(Object toolkitStrings, IList<string> missingPaths, string? targetCulture)
+    {
+        if (!KryptonStringTranslation.AutoTranslateMissingStrings || missingPaths == null || missingPaths.Count == 0)
+        {
+            return;
+        }
+
+        if (KryptonStringTranslation.Translator == null)
+        {
+            Debug.WriteLine(@"[Krypton] AutoTranslateMissingStrings is set but Translator is null. New keys were left as English placeholders.");
+            return;
+        }
+
+        foreach (var path in missingPaths)
+        {
+            if (!TryGetLocalizableString(toolkitStrings, path, out var current))
+            {
+                continue;
+            }
+
+            var translated = KryptonStringTranslation.TranslatePlaceholder(current, targetCulture, path);
+            if (translated != null)
+            {
+                TrySetLocalizableString(toolkitStrings, path, translated);
+            }
+        }
+    }
+
+    private static bool TryGetLocalizableString(Object obj, string path, out string current)
+    {
+        current = string.Empty;
+        if (!TryResolveStringProperty(obj, path, out var owner, out var prop) || !prop.CanRead)
+        {
+            return false;
+        }
+
+        current = prop.GetValue(owner, null) as string ?? string.Empty;
+        return true;
+    }
+
+    private static bool TrySetLocalizableString(Object obj, string path, string value)
+    {
+        if (!TryResolveStringProperty(obj, path, out var owner, out var prop) || !prop.CanWrite)
+        {
+            return false;
+        }
+
+        prop.SetValue(owner, value, null);
+        return true;
+    }
+
+    private static bool TryResolveStringProperty(Object obj, string path, out Object owner, out PropertyInfo prop)
+    {
+        owner = obj;
+        prop = null!;
+        var remaining = path;
+        while (!string.IsNullOrEmpty(remaining))
+        {
+            var dot = remaining.IndexOf('.');
+            var name = dot < 0 ? remaining : remaining.Substring(0, dot);
+            remaining = dot < 0 ? string.Empty : remaining.Substring(dot + 1);
+
+            var next = owner.GetType().GetProperty(name, BindingFlags.Instance | BindingFlags.Public);
+            if (next == null || next.GetIndexParameters().Length != 0)
+            {
+                return false;
+            }
+
+            if (remaining.Length == 0)
+            {
+                if (next.PropertyType != typeof(string))
+                {
+                    return false;
+                }
+
+                prop = next;
+                return true;
+            }
+
+            if (!typeof(GlobalId).IsAssignableFrom(next.PropertyType) || !next.CanRead)
+            {
+                return false;
+            }
+
+            var nested = next.GetValue(owner, null);
+            if (nested == null)
+            {
+                return false;
+            }
+
+            owner = nested;
+        }
+
+        return false;
     }
 
     private static void CollectToolkitKeys(Object obj, string prefix, ISet<string> keys, bool skipAliases)

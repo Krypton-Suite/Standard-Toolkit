@@ -2861,6 +2861,14 @@ public class KryptonWorkspace : VisualContainerControl,
         {
             return false;
         }
+
+        // A layout can compact away the sequence that owned the separator while the view
+        // manager still refers to the separator as its active view (#4485)
+        if (separator.WorkspaceItem.WorkspaceParent is null)
+        {
+            return false;
+        }
+
         SeparatorToItems(separator, out IWorkspaceItem after, out IWorkspaceItem? before);
 
         // Are both items allowed to be resized by the user?
@@ -3801,7 +3809,7 @@ public class KryptonWorkspace : VisualContainerControl,
     private void CompactAtLeastOneVisibleCell()
     {
         // If there are no visible cells found in entire hierarchy
-        if (Root.Children != null && !Root.Children.ContainsVisibleCell)
+        if (Root.Children is { ContainsVisibleCell: false })
         {
             Root.Children.Add(new KryptonWorkspaceCell());
         }

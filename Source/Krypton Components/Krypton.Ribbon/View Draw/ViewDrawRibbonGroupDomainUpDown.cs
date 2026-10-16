@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupDomainUpDown : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the domain up-down definition
-        GroupDomainUpDown.DomainUpDownView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupDomainUpDown.DomainUpDownView = this;
 
         // Give paint delegate to domain up-down so its palette changes are redrawn
-        GroupDomainUpDown.ViewPaintDelegate = needPaint;
+            GroupDomainUpDown.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupDomainUpDown.DomainUpDown);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupDomainUpDown : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupDomainUpDown.MouseEnterControl -= OnMouseEnterControl;
                 GroupDomainUpDown.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupDomainUpDown.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupDomainUpDown.DomainUpDownView, this))
+                {
+                    GroupDomainUpDown.ViewPaintDelegate = null;
+                }
                 GroupDomainUpDown.PropertyChanged -= OnDomainUpDownPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupDomainUpDown.DomainUpDownView = null; 
+                if (ReferenceEquals(GroupDomainUpDown.DomainUpDownView, this))
+                {
+                    GroupDomainUpDown.DomainUpDownView = null;
+                } 
                 GroupDomainUpDown = null;
             }
         }
