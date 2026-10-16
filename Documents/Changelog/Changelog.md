@@ -45,6 +45,10 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Implemented [#4560](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4560), Add a further ribbon group item that allows a bigger number of buttons
+   - `KryptonRibbonGroupStack` holds any number of ribbon group items inside the three-line group height. `StackLayout.Columns` fills columns of three. 
+   - `StackLayout.Adaptive` shows large items in one row and wraps medium and small items into columns of three. 
+   - `KryptonRibbonGroupTriple` stays limited to three items.
 - Implemented [#4533](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4533), Compact ribbon mode lays the existing groups out as a single command row. Set `KryptonRibbon.CompactMode`. Large items use an icon and text. The row shrinks to icons when the ribbon is narrow.    
    - When the commands still do not fit, a trailing ellipsis hides the rest and opens them in a popup, still grouped on one row. Group captions are hidden, and a dialog launcher stays at the end of its group. `MinimizedMode` still hides the groups until a tab is selected. 
    - An optional arrow under the groups area switches between classic and compact. Set `ShowCompactButton` to show it. 

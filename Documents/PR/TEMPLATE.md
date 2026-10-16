@@ -50,7 +50,7 @@ Delete any section that does not apply.
 - Entry added to `Documents/Changelog/Changelog.md`:
 
 ```markdown
-* Resolved [#<issue>](https://github.com/Krypton-Suite/Standard-Toolkit/issues/<issue>), <short user-facing summary>.
+- Resolved [#<issue>](https://github.com/Krypton-Suite/Standard-Toolkit/issues/<issue>), <short user-facing summary>.
 ```
 
 ## Breaking changes & migration
