@@ -45,6 +45,13 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Implemented [#4533](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4533), Compact ribbon mode lays the existing groups out as a single command row. Set `KryptonRibbon.CompactMode`. Large items use an icon and text. The row shrinks to icons when the ribbon is narrow.    
+   - When the commands still do not fit, a trailing ellipsis hides the rest and opens them in a popup, still grouped on one row. Group captions are hidden, and a dialog launcher stays at the end of its group. `MinimizedMode` still hides the groups until a tab is selected. 
+   - An optional arrow under the groups area switches between classic and compact. Set `ShowCompactButton` to show it. 
+   - `CompactButtonLocation` places that arrow at the right of the groups card, at the end of the groups row, or on the tab row. Switching eases the groups area between the two heights. Set `AnimateCompactMode` to turn that off. 
+   - The arrow and the ellipsis use the ribbon group text colour. Opening and closing the overflow popup eases its height. 
+   - `AnimateCompactMode` turns off the groups-band ease and that popup ease. 
+   - Compact mode applies to every ribbon shape: group boxes hide and a short rule separates groups, while each shape keeps its own tabs.
 - Resolved [#4564](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4564), WFO 2xxx/3xxx issues (.NET 11 RC2)
    - Designer editor forms build cleanly on .NET 11 (WinForms WFO3004/WFO3010/WFO3005 and related WFO2000 diagnostics).
 - Resolved [#4547](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4547), Krypton collection editor dialogs no longer appear on the taskbar.
