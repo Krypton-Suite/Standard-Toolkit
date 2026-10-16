@@ -37,6 +37,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     private readonly KryptonRibbonGroupLines _ribbonLines;
+    private readonly bool _showOnlyOverflow;
     private ViewDrawRibbonDesignGroupLines _viewAddItem;
     private readonly NeedPaintHandler? _needPaint;
     private GroupItemSize _currentSize;
@@ -79,6 +80,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _ribbonLines = ribbonLines ?? ThrowHelper.ThrowArgumentNullException(ribbonLines);
         _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyOverflow = _ribbon.CompactOverflowCapture;
 
         // Associate the component with this view element for design time selection
         Component = _ribbonLines;
@@ -101,7 +103,11 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
         // Hook into changes in the ribbon triple definition
         _ribbonLines.PropertyChanged += OnLinesPropertyChanged;
-        _ribbonLines.LinesView = this;
+        // Only the on-ribbon view owns the design-time back reference.
+        if (!_showOnlyOverflow)
+        {
+            _ribbonLines.LinesView = this;
+        }
 
         // At design time we want to track the mouse and show feedback
         if (_ribbon.InDesignMode)
@@ -352,7 +358,9 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
     public void GetGroupKeyTips(KeyTipInfoList keyTipList)
     {
         var visibleIndex = 0;
-        var lineHint = _currentSize == GroupItemSize.Small ? 1 : 4;
+        var lineHint = _ribbon.CompactMode
+            ? 2
+            : (_currentSize == GroupItemSize.Small ? 1 : 4);
 
         // Scan all the children, which must be containers or items
         foreach (ViewBase child in this)
@@ -369,31 +377,35 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                     case IRibbonViewGroupItemView item:
                         item.GetGroupKeyTips(keyTipList, lineHint);
 
-                        // Depending on size we check to adjust the lint hint
-                        switch (_currentSize)
+                        // Depending on size we check to adjust the lint hint.
+                        // Compact mode keeps every item on the single row.
+                        if (!_ribbon.CompactMode)
                         {
-                            case GroupItemSize.Large:
-                                if (visibleIndex == _split1Large)
-                                {
-                                    lineHint = 5;
-                                }
-                                break;
-                            case GroupItemSize.Medium:
-                                if (visibleIndex == _split1Medium)
-                                {
-                                    lineHint = 5;
-                                }
-                                break;
-                            case GroupItemSize.Small:
-                                if (visibleIndex == _split1Small)
-                                {
-                                    lineHint = 2;
-                                }
-                                else if (visibleIndex == _split2Small)
-                                {
-                                    lineHint = 3;
-                                }
-                                break;
+                            switch (_currentSize)
+                            {
+                                case GroupItemSize.Large:
+                                    if (visibleIndex == _split1Large)
+                                    {
+                                        lineHint = 5;
+                                    }
+                                    break;
+                                case GroupItemSize.Medium:
+                                    if (visibleIndex == _split1Medium)
+                                    {
+                                        lineHint = 5;
+                                    }
+                                    break;
+                                case GroupItemSize.Small:
+                                    if (visibleIndex == _split1Small)
+                                    {
+                                        lineHint = 2;
+                                    }
+                                    else if (visibleIndex == _split2Small)
+                                    {
+                                        lineHint = 3;
+                                    }
+                                    break;
+                            }
                         }
 
                         break;
@@ -525,6 +537,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
         var totalWidth = 0;
         ViewBase? previousChild = null;
+        Rectangle area = context.DisplayRectangle;
 
         // Find the size of each individual visible child item
         for (var i = 0; i < Count; i++)
@@ -562,6 +575,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 }
 
                 // Get requested size of the child
+                context.DisplayRectangle = area;
                 Size childSize = child.GetPreferredSize(context);
 
                 // Add to list of visible child sizes
@@ -741,6 +755,12 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
         // Add a view element for each group item
         foreach (IRibbonGroupItem item in _ribbonLines.Items!)
         {
+            // The popup builds views only for commands that did not fit.
+            if (_showOnlyOverflow && _ribbon.CompactOverflowHides(item, true))
+            {
+                continue;
+            }
+
             ViewBase? itemView;
 
             // Do we already have a view for this item definition
@@ -754,11 +774,13 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
             else
             {
                 // Ask the item definition to return an appropriate view
-                itemView = item.CreateView(_ribbon, _needPaint!);
+                itemView = _ribbon.CreateCompactOverflowView(_showOnlyOverflow, () => item.CreateView(_ribbon, _needPaint!));
             }
 
-            // Update the visible state of the item
-            itemView.Visible = _ribbon.InDesignHelperMode || item.Visible;
+            // Update the visible state of the item.
+            // Overflow hiding is layout-only and does not change the item Visible property.
+            itemView.Visible = (_ribbon.InDesignHelperMode || item.Visible) &&
+                               !_ribbon.CompactOverflowHides(item, _showOnlyOverflow);
 
             // We need to keep this association
             regenItemToView.Add(item, itemView);
@@ -793,6 +815,12 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
     private Size LargeMediumPreferredSize(int totalWidth, ref int split1)
     {
+        if (_ribbon.CompactMode)
+        {
+            split1 = int.MaxValue;
+            return CompactRowSize(totalWidth);
+        }
+
         var preferredSize = Size.Empty;
 
         // Default to not splitting anywhere
@@ -861,6 +889,13 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
 
     private Size SmallPreferredSize(int totalWidth)
     {
+        if (_ribbon.CompactMode)
+        {
+            _split1Small = int.MaxValue;
+            _split2Small = int.MaxValue;
+            return CompactRowSize(totalWidth);
+        }
+
         var preferredSize = Size.Empty;
 
         // Default to not splitting anywhere
@@ -973,7 +1008,9 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
     {
         var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
         var x = LineStartX(isRtl);
-        var y = ClientLocation.Y + _ribbon.CalculatedValues.GroupLineGapHeight;
+        var y = _ribbon.CompactMode
+            ? ClientLocation.Y
+            : ClientLocation.Y + _ribbon.CalculatedValues.GroupLineGapHeight;
 
         ViewBase? previousChild = null;
 
@@ -1019,7 +1056,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 this[i]?.Layout(context);
 
                 // Do we need to split after this item
-                if (split1 == visibleIndex)
+                if (!_ribbon.CompactMode && (split1 == visibleIndex))
                 {
                     // Move back to start of line and downwards to next line
                     x = LineStartX(isRtl);
@@ -1092,7 +1129,8 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 this[i]?.Layout(context);
 
                 // Do we need to split after this item
-                if ((_split1Small == visibleIndex) || (_split2Small == visibleIndex))
+                if (!_ribbon.CompactMode &&
+                    ((_split1Small == visibleIndex) || (_split2Small == visibleIndex)))
                 {
                     // Move back to start of line and downwards to next line
                     x = LineStartX(isRtl);
@@ -1136,6 +1174,28 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
         }
 
         return gapTotal;
+    }
+
+    /// <summary>
+    /// Preferred size of every visible child on one row.
+    /// </summary>
+    /// <param name="totalWidth">Sum of child widths, without inter-item gaps.</param>
+    /// <returns>Single-row size.</returns>
+    private Size CompactRowSize(int totalWidth)
+    {
+        var preferredSize = new Size(totalWidth, _ribbon.CalculatedValues.GroupTripleHeight);
+
+        if (_sizeList.Count > 1)
+        {
+            preferredSize.Width += GetItemSpacingGap(0, _sizeList.Count - 1);
+        }
+
+        if (_ribbon.InDesignHelperMode)
+        {
+            preferredSize.Width += DesignTimeDraw.FlapWidth + DesignTimeDraw.SepWidth;
+        }
+
+        return preferredSize;
     }
 
     private void OnLinesPropertyChanged(object? sender, PropertyChangedEventArgs e)

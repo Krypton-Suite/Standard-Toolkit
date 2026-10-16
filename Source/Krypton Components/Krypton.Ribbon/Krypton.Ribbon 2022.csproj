@@ -79,6 +79,7 @@
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupLabel.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupClusterButton.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupLines.bmp" />
+    <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupStack.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupCluster.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupTriple.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupButton.bmp" />

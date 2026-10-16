@@ -176,6 +176,12 @@
     <Compile Update="KryptonRibbon\Feature\Office2024RibbonDemo.Designer.cs">
       <DependentUpon>Office2024RibbonDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonRibbon\Feature\RibbonGroupStackDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonRibbon\Feature\RibbonGroupStackDemo.Designer.cs">
+      <DependentUpon>RibbonGroupStackDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.Designer.cs">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
     </Compile>

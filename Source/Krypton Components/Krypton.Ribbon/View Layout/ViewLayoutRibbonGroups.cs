@@ -38,6 +38,7 @@ internal class ViewLayoutRibbonGroups : ViewComposite
     private ViewDrawRibbonDesignGroup _viewAddGroup;
     private GroupToView _groupToView;
     private readonly ViewDrawRibbonGroupSepList _groupSepCache;
+    private readonly ViewDrawRibbonCompactOverflow _overflowButton;
     private int[] _groupWidths;
     #endregion
 
@@ -66,6 +67,9 @@ internal class ViewLayoutRibbonGroups : ViewComposite
 
         // Create cache of group separator elements
         _groupSepCache = [];
+
+        // Trailing ellipsis for commands that do not fit the compact row.
+        _overflowButton = new ViewDrawRibbonCompactOverflow(_ribbon, _ribbonTab, _needPaint);
     }
 
     /// <summary>
@@ -98,6 +102,7 @@ internal class ViewLayoutRibbonGroups : ViewComposite
 
             _groupToView.Clear();
             _groupSepCache.Clear();
+            _overflowButton.Dispose();
         }
 
         base.Dispose(disposing);
@@ -314,6 +319,15 @@ internal class ViewLayoutRibbonGroups : ViewComposite
 
         var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
         var origin = ClientRectangle;
+
+        // Preferred-size can be asked with a wider proposal than this rectangle.
+        // Solve again for the width the row is drawn in, then overflow whatever is still left over.
+        if ((_ribbon != null) && _ribbon.CompactMode && !_ribbon.InDesignHelperMode)
+        {
+            context.DisplayRectangle = origin;
+            AdjustGroupStateToMatchSpace(context);
+            context.DisplayRectangle = origin;
+        }
         var x = RibbonRtlLayout.StartX(origin, isRtl);
 
         // Are there any children to layout?
@@ -330,6 +344,11 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                 // We only position visible items
                 if (child!.Visible)
                 {
+                    if (ReferenceEquals(child, _overflowButton))
+                    {
+                        continue;
+                    }
+
                     // Cache preferred size of the child
 
                     // If a group then pull in the cached value
@@ -350,11 +369,62 @@ internal class ViewLayoutRibbonGroups : ViewComposite
             }
         }
 
-        // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = RibbonRtlLayout.PackedBounds(origin, x, isRtl);
+        // The ellipsis sits at the trailing edge of the command row, inside the card.
+        if (_overflowButton.Visible)
+        {
+            Size buttonSize = _overflowButton.GetPreferredSize(context);
+            int buttonWidth = Math.Min(Math.Max(buttonSize.Width, 1), origin.Width);
+            int buttonHeight = Math.Min(Math.Max(buttonSize.Height, 1), origin.Height);
+            int buttonX = isRtl ? origin.X : origin.Right - buttonWidth;
+            int buttonY = origin.Y + Math.Max(0, (origin.Height - buttonHeight) / 2);
+            context.DisplayRectangle = new Rectangle(buttonX, buttonY, buttonWidth, buttonHeight);
+            _overflowButton.Layout(context);
+            ClientRectangle = origin;
+        }
+        else
+        {
+            // Update our own size to reflect how wide we actually need to be for all the children
+            ClientRectangle = RibbonRtlLayout.PackedBounds(origin, x, isRtl);
+        }
 
         // Update the display rectangle we allocated for use by parent
         context.DisplayRectangle = ClientRectangle;
+    }
+    #endregion
+
+    #region Paint
+    /// <summary>
+    /// Draws the short rule between compact groups. The separator view itself only reserves space.
+    /// </summary>
+    /// <param name="context">Rendering context.</param>
+    public override void RenderBefore(RenderContext context)
+    {
+        base.RenderBefore(context);
+
+        if ((_ribbon == null) || !_ribbon.CompactMode)
+        {
+            return;
+        }
+
+        Color color = _ribbon.StateCommon.RibbonGeneral.GetRibbonGroupSeparatorDark(PaletteState.Normal);
+        if (color.IsEmpty || (color.A == 0))
+        {
+            color = Color.FromArgb(160, 128, 128, 128);
+        }
+
+        using var pen = new Pen(color);
+        foreach (ViewLayoutRibbonSeparator sep in _groupSepCache)
+        {
+            if (!sep.Visible || (sep.ClientWidth <= 0) || (sep.ClientHeight <= 4))
+            {
+                continue;
+            }
+
+            Rectangle bounds = sep.ClientRectangle;
+            int x = bounds.X + (bounds.Width / 2);
+            int inset = Math.Max(2, bounds.Height / 5);
+            context.Graphics.DrawLine(pen, x, bounds.Top + inset, x, bounds.Bottom - inset);
+        }
     }
     #endregion
 
@@ -367,12 +437,14 @@ internal class ViewLayoutRibbonGroups : ViewComposite
 
             if (_ribbon != null)
             {
-                retSize = _ribbon.RibbonShape switch
-                {
-                    PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
-                    PaletteRibbonShape.Office2024 => Office2024SeparatorSize(),
-                    _ => new Size(SEP_LENGTH_2007, SEP_LENGTH_2007)
-                };
+                retSize = _ribbon.CompactMode
+                    ? CompactSeparatorSize()
+                    : _ribbon.RibbonShape switch
+                    {
+                        PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
+                        PaletteRibbonShape.Office2024 => Office2024SeparatorSize(),
+                        _ => new Size(SEP_LENGTH_2007, SEP_LENGTH_2007)
+                    };
             }
 
             return retSize;
@@ -389,6 +461,13 @@ internal class ViewLayoutRibbonGroups : ViewComposite
 
         float dpi = _ribbon.DeviceDpi / 96f;
         int pixels = Math.Max(1, (int)(gap * dpi));
+        return new Size(pixels, pixels);
+    }
+
+    private Size CompactSeparatorSize()
+    {
+        float dpi = _ribbon!.DeviceDpi / 96f;
+        int pixels = Math.Max(1, (int)(9 * dpi));
         return new Size(pixels, pixels);
     }
 
@@ -472,6 +551,10 @@ internal class ViewLayoutRibbonGroups : ViewComposite
             Add(_viewAddGroup);
         }
 
+        // The ellipsis is positioned on its own, after the groups.
+        Add(_overflowButton);
+        _overflowButton.Visible = false;
+
         // Dispose of views no longer required
         foreach (ViewDrawRibbonGroup ribGroup in _groupToView.Values)
         {
@@ -484,6 +567,12 @@ internal class ViewLayoutRibbonGroups : ViewComposite
 
     private int AdjustGroupStateToMatchSpace(ViewLayoutContext context)
     {
+        // Measure every command. A previous overflow set would hide items and report a false fit.
+        _ribbon?.ClearCompactOverflow();
+        _overflowButton.Visible = false;
+
+        // Size queries replace DisplayRectangle. Remember the width we are fitting into.
+        Rectangle area = context.DisplayRectangle;
         var listWidths = new List<GroupSizeWidth[]>();
         var listGroups = new List<IRibbonViewGroupSize>();
 
@@ -500,13 +589,16 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                 {
 
                     // Find list of possible sizes for this group
+                    context.DisplayRectangle = area;
                     var widths = childSize.GetPossibleSizes(context);
 
                     // Track how many extra pixels are needed for inter group gaps.
                     // A configured Office 2024 gap replaces the small default so groups can shrink to fit.
+                    // Compact mode uses the drawn rule width so the solver reserves that space.
                     int sep = SEP_LENGTH_2007;
-                    if (_ribbon?.RibbonShape == PaletteRibbonShape.Office2024 &&
-                        _ribbon.StateCommon.RibbonGeneral.GroupAreaGap > 0)
+                    if (_ribbon?.CompactMode == true ||
+                        (_ribbon?.RibbonShape == PaletteRibbonShape.Office2024 &&
+                         _ribbon.StateCommon.RibbonGeneral.GroupAreaGap > 0))
                     {
                         sep = SeparatorSize.Width;
                     }
@@ -524,7 +616,8 @@ internal class ViewLayoutRibbonGroups : ViewComposite
         }
 
         var bestWidth = 0;
-        var availableWidth = context.DisplayRectangle.Width;
+        var availableWidth = Math.Max(0, area.Width);
+        context.DisplayRectangle = area;
         int[]? bestIndexes = null;
         var permIndexes = new List<int>();
 
@@ -589,9 +682,157 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                 _groupWidths[i] = listWidths[i][listWidths[i].Length - 1].Width;
                 listGroups[i].SetSolutionSize(listWidths[i][listWidths[i].Length - 1].Sizing);
             }
+
+            // Compact mode keeps the smallest size, then moves trailing commands into the ellipsis.
+            if (_ribbon!.CompactMode && !_ribbon.InDesignHelperMode)
+            {
+                context.DisplayRectangle = area;
+                return ApplyCompactOverflow(context);
+            }
         }
 
+        _overflowButton.Visible = false;
+        context.DisplayRectangle = area;
         return bestWidth;
+    }
+
+    private int ApplyCompactOverflow(ViewLayoutContext context)
+    {
+        Rectangle area = context.DisplayRectangle;
+        var leaves = CompactRibbonOverflow.CollectLeaves(_ribbonTab);
+        int available = Math.Max(0, area.Width);
+        context.DisplayRectangle = area;
+        int full = MeasureCompactRow(context);
+        if ((leaves.Count == 0) || (full <= available))
+        {
+            _overflowButton.Visible = false;
+            context.DisplayRectangle = area;
+            return RebuildCompactWidths(context);
+        }
+
+        context.DisplayRectangle = area;
+        int buttonWidth = _overflowButton.GetPreferredSize(context).Width;
+        int budget = Math.Max(0, available - buttonWidth);
+        var keep = 0;
+        for (int keepCount = leaves.Count - 1; keepCount >= 0; keepCount--)
+        {
+            ApplyHiddenLeaves(leaves, keepCount);
+            context.DisplayRectangle = area;
+            if (MeasureCompactRow(context) <= budget)
+            {
+                keep = keepCount;
+                break;
+            }
+        }
+
+        // Hide from the right. A command that still fits stays on the row.
+        ApplyHiddenLeaves(leaves, keep);
+        _overflowButton.Visible = keep < leaves.Count;
+        context.DisplayRectangle = area;
+        return RebuildCompactWidths(context);
+    }
+
+    private void ApplyHiddenLeaves(List<IRibbonGroupItem> leaves, int keep)
+    {
+        var hidden = new List<IRibbonGroupItem>();
+        for (int i = keep; i < leaves.Count; i++)
+        {
+            hidden.Add(leaves[i]);
+        }
+
+        _ribbon!.SetCompactOverflow(hidden);
+        CompactRibbonOverflow.AddOrphanSeparators(_ribbonTab, _ribbon);
+    }
+
+    private int MeasureCompactRow(ViewLayoutContext context)
+    {
+        Rectangle area = context.DisplayRectangle;
+        var total = 0;
+        var any = false;
+        foreach (ViewBase child in this)
+        {
+            if (child is ViewDrawRibbonGroup group)
+            {
+                var definition = group.Component as KryptonRibbonGroup;
+                if ((definition == null) || !CompactRibbonOverflow.HasRemaining(definition, _ribbon!))
+                {
+                    continue;
+                }
+
+                if (any)
+                {
+                    total += SeparatorSize.Width;
+                }
+
+                context.DisplayRectangle = area;
+                total += group.GetPreferredSize(context).Width;
+                any = true;
+            }
+        }
+
+        context.DisplayRectangle = area;
+        return total;
+    }
+
+    private int RebuildCompactWidths(ViewLayoutContext context)
+    {
+        Rectangle area = context.DisplayRectangle;
+        var widths = new List<int>();
+        ViewLayoutRibbonSeparator? separator = null;
+        var any = false;
+        var total = 0;
+        foreach (ViewBase child in this)
+        {
+            if (child is ViewLayoutRibbonSeparator groupSeparator)
+            {
+                separator = groupSeparator;
+                continue;
+            }
+
+            if (!(child is ViewDrawRibbonGroup group))
+            {
+                continue;
+            }
+
+            var definition = group.Component as KryptonRibbonGroup;
+            bool remains = (definition != null) && CompactRibbonOverflow.HasRemaining(definition, _ribbon!);
+            if (!remains)
+            {
+                group.Visible = false;
+                if (separator != null)
+                {
+                    separator.Visible = false;
+                }
+            }
+            else
+            {
+                if (!any && (separator != null))
+                {
+                    separator.Visible = false;
+                }
+                else if (any && (separator != null))
+                {
+                    separator.Visible = true;
+                }
+
+                context.DisplayRectangle = area;
+                int width = group.GetPreferredSize(context).Width;
+                context.DisplayRectangle = area;
+                widths.Add(width);
+                if (any)
+                {
+                    total += SeparatorSize.Width;
+                }
+
+                total += width;
+                any = true;
+            }
+
+            separator = null;
+        }
+
+        _groupWidths = widths.ToArray();
+        return total;
     }
     #endregion
 }

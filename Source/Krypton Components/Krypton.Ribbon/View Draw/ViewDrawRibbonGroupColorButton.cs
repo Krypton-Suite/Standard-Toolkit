@@ -24,6 +24,7 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
     private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
     private readonly Padding _smallImagePadding; // = new(3);
     private readonly KryptonRibbon _ribbon;
+    private bool? _overflowCopy;
     private readonly NeedPaintHandler _needPaint;
     private ViewDrawRibbonGroupButtonBackBorder _viewLarge;
     private ViewLayoutRibbonRowCenter _viewLargeCenter;
@@ -106,7 +107,10 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
                 GroupColorButton.PropertyChanged -= OnButtonPropertyChanged;
 
                 // Remove association with definition
-                GroupColorButton.ColorButtonView = null;
+                if (_overflowCopy == false)
+                {
+                    GroupColorButton.ColorButtonView = null;
+                }
                 GroupColorButton = null;
             }
         }
@@ -212,12 +216,19 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
             switch (_currentSize)
             {
                 case GroupItemSize.Large:
+                    if (_ribbon.CompactMode)
+                    {
+                        screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, 2);
+                        controller = _viewMediumSmall.Controller;
+                        break;
+                    }
+
                     screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
                     controller = _viewLarge.Controller;
                     break;
                 case GroupItemSize.Medium:
                 case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
+                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, _ribbon.CompactMode ? 2 : lineHint);
                     controller = _viewMediumSmall.Controller;
                     break;
             }
@@ -257,7 +268,7 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
         // Get the preferred size of button view
         Size preferredSize = base.GetPreferredSize(context);
 
-        preferredSize.Height = _currentSize == GroupItemSize.Large
+        preferredSize.Height = _currentSize == GroupItemSize.Large && !_ribbon.CompactMode
             ? _ribbon.CalculatedValues.GroupTripleHeight
             : _ribbon.CalculatedValues.GroupLineHeight;
 
@@ -449,7 +460,10 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
         Add(view);
 
         // Provide back reference to the button definition
-        GroupColorButton!.ColorButtonView = view;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupColorButton!.ColorButtonView = view;
+        }
     }
 
     private void UpdateEnabledState()
@@ -528,6 +542,15 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
                 DefineRootView(_viewMediumSmall);
                 break;
             case GroupItemSize.Large:
+                if (_ribbon.CompactMode)
+                {
+                    _viewMediumSmallCenter.CurrentSize = GroupItemSize.Medium;
+                    _viewMediumSmallText1.Visible = true;
+                    _viewMediumSmallText2.Visible = true;
+                    DefineRootView(_viewMediumSmall);
+                    break;
+                }
+
                 _viewLargeCenter.CurrentSize = size;
                 DefineRootView(_viewLarge);
                 break;
