@@ -50,13 +50,18 @@
 				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
-		<!-- Otherwise, build for .NET Framework 4.8+ and .NET 8+ (default) -->
+		<!--
+			Release, and any restore where Configuration is still empty.
+			Directory.Build.props is imported before MSBuild defaults Configuration to Debug,
+			so plain `dotnet restore` and DocFX (restore with no properties, then a Release build)
+			land here. That path sets TFMs=lite, and Extended Toolkit still targets net472.
+		-->
 		<Otherwise>
 			<PropertyGroup>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">net48;net481</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
 				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
 				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
 				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
