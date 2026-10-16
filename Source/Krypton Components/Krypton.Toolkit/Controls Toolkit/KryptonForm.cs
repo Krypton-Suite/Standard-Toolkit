@@ -23,7 +23,7 @@ namespace Krypton.Toolkit;
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonForm), "ToolboxBitmaps.KryptonForm.bmp")]
 [Description(@"Draws the window chrome using a Krypton palette.")]
-public class KryptonForm : VisualForm,
+public partial class KryptonForm : VisualForm,
 	IContentValues
 {
 	#region Type Definitions
@@ -633,6 +633,8 @@ public class KryptonForm : VisualForm,
 	{
 		if (disposing)
 		{
+			DisposeCaptionTextBoxHost();
+
 			// Remove ant showing tooltip
 			OnCancelToolTip(this, EventArgs.Empty);
 
@@ -1992,6 +1994,7 @@ public class KryptonForm : VisualForm,
 	protected override void OnShown(EventArgs e)
 	{
 		base.OnShown(e);
+		SyncCaptionTextBoxHost();
 
 		// Host code may set palette/RTL after OnLoad; re-sync and recreate so views match collection order.
 		SyncFormFixedButtonSpecOrder();
@@ -2436,6 +2439,7 @@ public class KryptonForm : VisualForm,
 	{
 		base.OnMdiChildActivate(e);
 		SyncMdiClientEdgeForBorderlessFillChildren();
+		SyncCaptionTextBoxHost();
 	}
 
 	#endregion
@@ -2477,6 +2481,7 @@ public class KryptonForm : VisualForm,
 
 		// Need to perform a layout
 		PerformNeedPaint(true);
+		SyncCaptionTextBoxHost();
 
 		// Make sure non-client is invalidated so the grip is drawn on start
 		InvalidateNonClient();
@@ -2637,6 +2642,13 @@ public class KryptonForm : VisualForm,
 			return new IntPtr(PI.HT.BORDER);
 		}
 
+		// Caption editor slot: HTBORDER so a gap around the owned text box cannot start a drag.
+		// The top resize band is left to the border checks below.
+		if (HitTestCaptionTextBox(pt))
+		{
+			return new IntPtr(PI.HT.BORDER);
+		}
+
 		Padding borders = RealWindowBorders;
 
 		// Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
@@ -2792,6 +2804,7 @@ public class KryptonForm : VisualForm,
 	protected override void WindowChromePaint(Graphics g, Rectangle bounds)
 	{
 		CheckViewLayout();
+		SyncCaptionTextBoxHost();
 		PerformViewPaint(g, bounds);
 	}
 
@@ -2925,6 +2938,7 @@ public class KryptonForm : VisualForm,
 	protected override void OnMove(EventArgs e)
 	{
 		base.OnMove(e);
+		SyncCaptionTextBoxHost();
 	}
 
 	#endregion
@@ -2967,6 +2981,8 @@ public class KryptonForm : VisualForm,
 				CloseBox = true;
 				break;
 		}
+
+		SyncCaptionTextBoxHost();
 	}
 
 	private Icon? GetDefinedIcon()
@@ -3190,6 +3206,11 @@ public class KryptonForm : VisualForm,
 					}
 				}
 
+				if (PrepareCaptionTextBoxSlot())
+				{
+					NeedLayout = true;
+				}
+
 				// Is a layout required?
 				if (NeedLayout
 					|| (GetDefinedIcon() != _cacheIcon)
@@ -3211,6 +3232,7 @@ public class KryptonForm : VisualForm,
 					using (var context = new ViewLayoutContext(ViewManager, this, realWindowRectangle, Renderer))
 					{
 						ViewManager.Layout(context);
+						PlaceCaptionTextBoxCenter(context);
 					}
 
 					// Layout not needed until next indicated

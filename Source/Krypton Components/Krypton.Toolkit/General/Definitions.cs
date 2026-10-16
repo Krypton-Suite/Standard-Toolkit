@@ -5111,3 +5111,28 @@ internal enum InternalLoadingCircleStylePresets
 }
 
 #endregion
+
+#region Enum FormCaptionTextBoxEdge
+
+/// <summary>
+/// Edge of the <see cref="KryptonForm"/> caption where <see cref="KryptonForm.CaptionTextBox"/> is placed.
+/// </summary>
+public enum FormCaptionTextBoxEdge
+{
+    /// <summary>
+    /// At the left of the caption, after left-docked title-bar button specs and before the icon and title.
+    /// </summary>
+    Left = 0,
+
+    /// <summary>
+    /// Before the minimize, maximize, and close buttons.
+    /// </summary>
+    Right = 1,
+
+    /// <summary>
+    /// In the centre of the caption, between the side chrome. The title keeps the near side of the slot.
+    /// </summary>
+    Center = 2
+}
+
+#endregion
