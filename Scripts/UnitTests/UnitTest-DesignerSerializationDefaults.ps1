@@ -253,6 +253,32 @@ else {
     $button = $toolkitAsm.CreateInstance('Krypton.Toolkit.KryptonButton')
     try {
         Add-SerializeFailure 'KryptonButton.Values.DropDownArrowColor' ([DesignerDefaultAudit]::ShouldSerialize($button.Values, 'DropDownArrowColor'))
+
+        $progressBar = $toolkitAsm.CreateInstance('Krypton.Toolkit.KryptonProgressBar')
+        try {
+            Add-SerializeFailure 'KryptonProgressBar.StateCommon.Back.Color1' ([DesignerDefaultAudit]::ShouldSerialize($progressBar.StateCommon.Back, 'Color1'))
+        }
+        finally {
+            $progressBar.Dispose()
+        }
+
+        $scroll = $toolkitAsm.CreateInstance('Krypton.Toolkit.KryptonHScrollBar')
+        try {
+            Add-SerializeFailure 'KryptonHScrollBar.StateNormal.Border.Color1' ([DesignerDefaultAudit]::ShouldSerialize($scroll.StateNormal.Border, 'Color1'))
+        }
+        finally {
+            $scroll.Dispose()
+        }
+
+        $menuBar = $toolkitAsm.CreateInstance('Krypton.Toolkit.KryptonMenuBar')
+        try {
+            if (-not $menuBar.StateBarBackground.IsDefault -or $menuBar.StateBarBackground.ToString() -ne '') {
+                $serializationFailures.Add("MenuBar.StateBarBackground display='$($menuBar.StateBarBackground.ToString())' IsDefault=$($menuBar.StateBarBackground.IsDefault)")
+            }
+        }
+        finally {
+            $menuBar.Dispose()
+        }
     }
     finally {
         $button.Dispose()
@@ -279,6 +305,7 @@ else {
         Add-SerializeFailure 'NotificationBar.ActionButtonCommands' ([DesignerDefaultAudit]::ShouldSerialize($bar, 'ActionButtonCommands'))
         Add-SerializeFailure 'NotificationBar.CustomBackColor' ([DesignerDefaultAudit]::ShouldSerialize($bar, 'CustomBackColor'))
         Add-SerializeFailure 'NotificationBar.Padding' ([DesignerDefaultAudit]::ShouldSerialize($bar, 'Padding'))
+        Add-SerializeFailure 'RibbonAppButton.BackColor1' ([DesignerDefaultAudit]::ShouldSerialize($ribbon.StateCommon.RibbonAppButton, 'BackColor1'))
 
         $bar.Title = 'UPDATES AVAILABLE'
         if ($bar.IsDefault -or $bar.ToString() -ne 'Modified') {
@@ -375,58 +402,6 @@ $unique | ForEach-Object { Write-Host "  $_" }
 $modified = @($unique | Where-Object { $_ -match ' => Modified$' -or $_ -match ' => IsDefault=false$' })
 Write-Host "Modified storage paths: $($modified.Count)"
 
-# Core toolbox controls that must not show Modified after a fresh drop.
-$corePrefixes = @(
-    'KryptonButton.',
-    'KryptonDropButton.',
-    'KryptonSplitButton.',
-    'KryptonCheckButton.',
-    'KryptonColorButton.',
-    'KryptonCheckBox.',
-    'KryptonRadioButton.',
-    'KryptonLabel.',
-    'KryptonLinkLabel.',
-    'KryptonWrapLabel.',
-    'KryptonTextBox.',
-    'KryptonRichTextBox.',
-    'KryptonMaskedTextBox.',
-    'KryptonComboBox.',
-    'KryptonNumericUpDown.',
-    'KryptonDomainUpDown.',
-    'KryptonListBox.',
-    'KryptonCheckedListBox.',
-    'KryptonTreeView.',
-    'KryptonListView.',
-    'KryptonPanel.',
-    'KryptonGroup.',
-    'KryptonGroupBox.',
-    'KryptonHeaderGroup.',
-    'KryptonSplitContainer.',
-    'KryptonTrackBar.',
-    'KryptonRating.',
-    'KryptonMonthCalendar.',
-    'KryptonDateTimePicker.',
-    'KryptonForm.',
-    'KryptonBorderEdge.',
-    'KryptonSeparator.',
-    'KryptonProgressBar.',
-    'KryptonDataGridView.',
-    'KryptonHeader.',
-    'KryptonBreadCrumb.',
-    'KryptonHScrollBar.',
-    'KryptonVScrollBar.',
-    'KryptonThemeComboBox.',
-    'KryptonLinkWrapLabel.',
-    'KryptonTagInput.',
-    'KryptonTagInputControl.',
-    'KryptonLoadingCircle.'
-)
-
-$coreModified = @($modified | Where-Object {
-        $line = $_
-        $corePrefixes | Where-Object { $line.StartsWith($_) }
-    })
-
 if ($ReportOnly) {
     Write-Host "ReportOnly: not asserting."
     exit 0
@@ -438,9 +413,9 @@ if ($errors.Count -gt 0) {
     $failed = $true
 }
 
-if ($coreModified.Count -gt 0) {
-    Write-Host "FAIL: core toolbox controls have designer Modified storage (#4325):" -ForegroundColor Red
-    $coreModified | ForEach-Object { Write-Host "  $_" }
+if ($modified.Count -gt 0) {
+    Write-Host "FAIL: toolbox controls have designer Modified storage (#4325, #4559):" -ForegroundColor Red
+    $modified | ForEach-Object { Write-Host "  $_" }
     $failed = $true
 }
 
@@ -454,5 +429,5 @@ if ($failed) {
     exit 1
 }
 
-Write-Host "PASS: core toolbox controls have no designer Modified storage." -ForegroundColor Green
+Write-Host "PASS: toolbox controls have no designer Modified storage." -ForegroundColor Green
 exit 0

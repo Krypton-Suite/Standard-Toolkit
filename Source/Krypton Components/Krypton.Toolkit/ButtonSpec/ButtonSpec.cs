@@ -731,8 +731,28 @@ public abstract class ButtonSpec : Component,
     [Category(@"Behavior")]
     [Description(@"KryptonContextMenu to show when the button is pressed.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(null)]
-    public KryptonContextMenu? KryptonContextMenu { get; set; }
+    public KryptonContextMenu? KryptonContextMenu
+    {
+        get => _kryptonContextMenu;
+        set => _kryptonContextMenu = value;
+    }
+
+    private KryptonContextMenu? _kryptonContextMenu;
+    private KryptonContextMenu? _factoryKryptonContextMenu;
+
+    /// <summary>
+    /// Records <paramref name="menu"/> as the designer factory context menu.
+    /// </summary>
+    /// <param name="menu">Menu created by the constructor, or null.</param>
+    protected void SetFactoryKryptonContextMenu(KryptonContextMenu? menu)
+    {
+        _factoryKryptonContextMenu = menu;
+        _kryptonContextMenu = menu;
+    }
+
+    private bool ShouldSerializeKryptonContextMenu() => !ReferenceEquals(_kryptonContextMenu, _factoryKryptonContextMenu);
+
+    private void ResetKryptonContextMenu() => _kryptonContextMenu = _factoryKryptonContextMenu;
     #endregion
 
     #region KryptonCommand

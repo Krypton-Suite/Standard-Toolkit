@@ -160,7 +160,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Action to take when the previous button is clicked.")]
-    //[DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
+    [DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
     public DirectionButtonAction PreviousButtonAction
     {
         get => _actionPrevious;
@@ -182,7 +182,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Logic used to decide if previous button is Displayed.")]
-    //[DefaultValue(typeof(ButtonDisplay), "Logic")]
+    [DefaultValue(typeof(ButtonDisplay), "Logic")]
     public ButtonDisplay PreviousButtonDisplay
     {
         get => _displayPrevious;
@@ -205,7 +205,7 @@ public class NavigatorButton : Storage
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Shortcut for invoking the previous action.")]
-    //[DefaultValue(typeof(Keys), "F6, Shift, Control")]
+    [DefaultValue(typeof(Keys), "F6, Shift, Control")]
     public Keys PreviousButtonShortcut { get; set; }
 
     private bool ShouldSerializePreviousButtonShortcut() => (PreviousButtonShortcut != DEFAULT_SHORTCUT_PREVIOUS);
@@ -235,7 +235,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Action to take when the next button is clicked.")]
-    //[DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
+    [DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
     public DirectionButtonAction NextButtonAction
     {
         get => _actionNext;
@@ -257,7 +257,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Logic used to decide if next button is Displayed.")]
-    //[DefaultValue(typeof(ButtonDisplay), "Logic")]
+    [DefaultValue(typeof(ButtonDisplay), "Logic")]
     public ButtonDisplay NextButtonDisplay
     {
         get => _displayNext;
@@ -280,7 +280,7 @@ public class NavigatorButton : Storage
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Shortcut for invoking the next action.")]
-    //[DefaultValue(typeof(Keys), "F6, Control")]
+    [DefaultValue(typeof(Keys), "F6, Control")]
     public Keys NextButtonShortcut { get; set; }
 
     private bool ShouldSerializeNextButtonShortcut() => (NextButtonShortcut != DEFAULT_SHORTCUT_NEXT);
@@ -310,7 +310,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Action to take when the context button is clicked.")]
-    //[DefaultValue(typeof(ContextButtonAction), "Select Page")]
+    [DefaultValue(typeof(ContextButtonAction), "Select Page")]
     public ContextButtonAction ContextButtonAction
     {
         get => _actionContext;
@@ -332,7 +332,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Logic used to decide if context button is Displayed.")]
-    //[DefaultValue(typeof(ButtonDisplay), "Logic")]
+    [DefaultValue(typeof(ButtonDisplay), "Logic")]
     public ButtonDisplay ContextButtonDisplay
     {
         get => _displayContext;
@@ -355,7 +355,7 @@ public class NavigatorButton : Storage
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Shortcut for invoking the context action.")]
-    //[DefaultValue(typeof(Keys), "Down, Alt, Control")]
+    [DefaultValue(typeof(Keys), "Down, Alt, Control")]
     public Keys ContextButtonShortcut { get; set; }
 
     private bool ShouldSerializeContextButtonShortcut() => (ContextButtonShortcut != DEFAULT_SHORTCUT_CONTEXT);
@@ -372,7 +372,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Mapping used to generate context menu item image.")]
-    //[DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
+    [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
     public MapKryptonPageText ContextMenuMapText { get; set; }
 
     #endregion
@@ -383,7 +383,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Mapping used to generate context menu item text.")]
-    //[DefaultValue(typeof(MapKryptonPageImage), "Small")]
+    [DefaultValue(typeof(MapKryptonPageImage), "Small")]
     public MapKryptonPageImage ContextMenuMapImage { get; set; }
 
     #endregion
@@ -407,7 +407,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Action to take when the close button is clicked.")]
-    //[DefaultValue(typeof(CloseButtonAction), "RemovePage & Dispose")]
+    [DefaultValue(CloseButtonAction.RemovePageAndDispose)]
     public CloseButtonAction CloseButtonAction
     {
         get => _actionClosed;
@@ -429,7 +429,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Logic used to decide if close button is Displayed.")]
-    //[DefaultValue(typeof(ButtonDisplay), "Logic")]
+    [DefaultValue(typeof(ButtonDisplay), "Logic")]
     public ButtonDisplay CloseButtonDisplay
     {
         get => _displayClosed;
@@ -452,7 +452,7 @@ public class NavigatorButton : Storage
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Shortcut for invoking the close action.")]
-    //[DefaultValue(typeof(Keys), "F4, Control")]
+    [DefaultValue(typeof(Keys), "F4, Control")]
     public Keys CloseButtonShortcut { get; set; }
 
     private bool ShouldSerializeCloseButtonShortcut() => (CloseButtonShortcut != DEFAULT_SHORTCUT_CLOSE);
@@ -511,7 +511,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Define the logic used to control button display.")]
-    //[DefaultValue(typeof(ButtonDisplayLogic), "Context")]
+    [DefaultValue(typeof(ButtonDisplayLogic), "Context")]
     public ButtonDisplayLogic ButtonDisplayLogic
     {
         get => _displayLogic;
