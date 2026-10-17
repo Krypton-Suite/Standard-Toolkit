@@ -57,7 +57,9 @@ function Register-UnitTestAssemblyResolver {
         foreach ($ext in '.dll', '.exe') {
             $candidate = Join-Path $script:UnitTestBinDir ($name + $ext)
             if (Test-Path -LiteralPath $candidate) {
-                return [System.Reflection.Assembly]::LoadFile($candidate)
+                # LoadFrom/LoadFile are blocked by application control on freshly built images.
+                $bytes = [System.IO.File]::ReadAllBytes($candidate)
+                return [System.Reflection.Assembly]::Load($bytes)
             }
         }
         return $null

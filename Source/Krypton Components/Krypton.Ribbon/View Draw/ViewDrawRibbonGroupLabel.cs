@@ -24,6 +24,7 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
     private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
     private readonly Padding _smallImagePadding; // = new(3);
     private readonly KryptonRibbon _ribbon;
+    private bool? _overflowCopy;
     private readonly NeedPaintHandler _needPaint;
     private ViewLayoutDocker _viewLarge;
     private ViewLayoutRibbonCenterPadding _viewLargeImage;
@@ -105,7 +106,10 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
                 GroupLabel.PropertyChanged -= OnLabelPropertyChanged;
 
                 // Remove association with definition
-                GroupLabel.LabelView = null;
+                if (_overflowCopy == false)
+                {
+                    GroupLabel.LabelView = null;
+                }
                 GroupLabel = null;
             }
         }
@@ -203,7 +207,7 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
         // Get the preferred size of button view
         Size preferredSize = base.GetPreferredSize(context);
 
-        preferredSize.Height = _currentSize == GroupItemSize.Large
+        preferredSize.Height = _currentSize == GroupItemSize.Large && !_ribbon.CompactMode
             ? _ribbon.CalculatedValues.GroupTripleHeight
             : _ribbon.CalculatedValues.GroupLineHeight;
 
@@ -341,7 +345,10 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
         Add(view);
 
         // Provide back reference to the button definition
-        GroupLabel!.LabelView = view;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupLabel!.LabelView = view;
+        }
     }
 
     private void UpdateEnabledState()
@@ -390,6 +397,14 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
                 DefineRootView(_viewMediumSmall);
                 break;
             case GroupItemSize.Large:
+                if (_ribbon.CompactMode)
+                {
+                    _viewMediumSmallCenter.CurrentSize = GroupItemSize.Medium;
+                    _viewMediumSmallText2.Visible = true;
+                    DefineRootView(_viewMediumSmall);
+                    break;
+                }
+
                 DefineRootView(_viewLarge);
                 break;
         }

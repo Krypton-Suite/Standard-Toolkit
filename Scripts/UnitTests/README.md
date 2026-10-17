@@ -116,7 +116,8 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonTranslationsScreenshot.ps1` | Hosts `RibbonTranslationsDemo` (#4369) and writes default/German PNGs under `Documents/PR/` | `exclude` |
-| `Invoke-Office2024RibbonScreenshot.ps1` | Hosts `Office2024RibbonDemo` (#4496) and writes the Office 2024 themes, Microsoft 365 Blue, a hovered tab, pill lines, a static glowing line and a glowing pill, a Blue Dark bevel, a wider bevel, a selected context tab, a Blue Dark group gap, and the Office 2024 File backstage under `Documents/PR/` | `exclude` |
+| `Invoke-Office2024RibbonScreenshot.ps1` | Hosts `Office2024RibbonDemo` (#4496, #4533) and writes the Office 2024 themes, Microsoft 365 Blue, a hovered tab, pill lines, a static glowing line and a glowing pill, a Blue Dark bevel, a wider bevel, a selected context tab, a Blue Dark group gap, the Office 2024 File backstage, and compact ribbon classic, single-row, arrow placement, narrow, ellipsis, overflow popup, and Microsoft 365 states, plus GIFs of the height animation and the overflow popup opening and closing, under `Documents/PR/` | `exclude` |
+| `Invoke-RibbonGroupStackScreenshot.ps1` | Hosts `RibbonGroupStackDemo` (#4560) and writes wide and narrow PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-BackstageFileDoubleClick.ps1` | Hosts `Office2024RibbonDemo` (#4552), writes the File backstage PNG, and checks that a File double-click closes the form for Office 2024 and Office 2010 without showing the backstage | `exclude` |
 | `Invoke-ToolkitRtlScreenshot.ps1` | Hosts `RTLControlsTest` (#2379) and writes LTR/RTL PNGs under `Documents/PR/`. Also: `-Demo ToolkitRtlGalleryDemo -WindowTitle 'Toolkit RTL Gallery (#2379)' -OutputStem 2379-toolkit-rtl-gallery -SingleCapture` | `exclude` |
 | `Invoke-PropertyGridRtlScreenshot.ps1` | Hosts `ToolkitRtlGalleryDemo` on the PropertyGrid tab (#2379) and writes `Documents/PR/2379-toolkit-rtl-propertygrid.png` | `exclude` |
@@ -191,6 +192,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonTranslations.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonTranslationsScreenshot.ps1
+```
+
+## Typical usage (#4560 ribbon group stack)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonGroupStackScreenshot.ps1
 ```
 
 ## Typical usage (#4496 Office 2024 ribbon)

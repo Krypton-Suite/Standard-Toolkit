@@ -23,6 +23,7 @@ internal class ViewDrawRibbonGroupClusterButton : ViewComposite,
     #region Instance Fields
     private readonly Padding _smallImagePadding; // = new(3);
     private readonly KryptonRibbon _ribbon;
+    private bool? _overflowCopy;
     private readonly NeedPaintHandler _needPaint;
     private PaletteBackInheritForced _backForced;
     private PaletteBorderInheritForced _borderForced;
@@ -96,7 +97,10 @@ internal class ViewDrawRibbonGroupClusterButton : ViewComposite,
                 GroupClusterButton.PropertyChanged -= OnButtonPropertyChanged;
 
                 // Remove association with definition
-                GroupClusterButton.ClusterButtonView = null;
+                if (_overflowCopy == false)
+                {
+                    GroupClusterButton.ClusterButtonView = null;
+                }
                 GroupClusterButton = null;
             }
         }
@@ -397,7 +401,10 @@ internal class ViewDrawRibbonGroupClusterButton : ViewComposite,
             _viewMediumSmall, _viewMediumSmall.MouseController);
 
         // Provide back reference to the button definition
-        GroupClusterButton!.ClusterButtonView = _viewMediumSmall;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupClusterButton!.ClusterButtonView = _viewMediumSmall;
+        }
 
         // Define the actual view
         Add(_viewMediumSmall);
