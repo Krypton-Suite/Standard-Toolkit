@@ -30,16 +30,16 @@ public class KryptonDesignerActionItem : DesignerActionMethodItem
     /// <param name="category">Name of the category the action belongs to.</param>
     public KryptonDesignerActionItem([DisallowNull] DesignerVerb verb, [DisallowNull] string category)
 #if KRYPTON_WINFORMS_DESIGNER_SDK
-        : base(null!, null!, null!)
+        // OOP designer requires a non-null displayName; DisplayName override still tracks verb.Text.
+        : base(null!, null!, (verb ?? throw new ArgumentNullException(nameof(verb))).Text)
 #else
-        : base(null, null, null)
+        : base(null, null, (verb ?? throw new ArgumentNullException(nameof(verb))).Text)
 #endif
     {
-        Debug.Assert(verb != null);
         Debug.Assert(category != null);
 
-        // Remember details
-        _verb = verb ?? ThrowHelper.ThrowArgumentNullException(verb);
+        // Remember details (verb already validated in the base initializer)
+        _verb = verb;
         Category = category ?? ThrowHelper.ThrowArgumentNullException<string>(category);
     }
     #endregion
