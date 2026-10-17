@@ -174,7 +174,10 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     #region Colors
 
     private static readonly Color _gridTextColor = Color.Black;
-    private static readonly Color _disabledText3 = Color.GhostWhite; // For Black themes
+    /// <summary>
+    /// Disabled caption glyph on Microsoft 365 Black. Light themes use <see cref="FormButtonDisabledText"/>.
+    /// </summary>
+    protected static readonly Color _disabledText3 = Color.GhostWhite;
     private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
     private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
     private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
@@ -2097,6 +2100,16 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     }
 
     /// <summary>
+    /// Gets the disabled glyph colour for caption buttons
+    /// (<see cref="PaletteContentStyle.ButtonForm"/> and <see cref="PaletteContentStyle.ButtonFormClose"/>).
+    /// </summary>
+    /// <remarks>
+    /// The button fill stays empty so the caption shows through.
+    /// <see cref="PaletteMicrosoft365Black"/> overrides this with <see cref="_disabledText3"/>.
+    /// </remarks>
+    protected virtual Color FormButtonDisabledText => Color.FromArgb(205, 205, 205);
+
+    /// <summary>
     /// Gets the first back color for the short text.
     /// </summary>
     /// <param name="style">Content style.</param>
@@ -2151,7 +2164,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
             (style != PaletteContentStyle.ButtonInputControl) &&
-            (style != PaletteContentStyle.ButtonCalendarDay))
+            (style != PaletteContentStyle.ButtonCalendarDay) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2183,6 +2198,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -2229,7 +2245,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
             (style != PaletteContentStyle.ButtonInputControl) &&
-            (style != PaletteContentStyle.ButtonCalendarDay))
+            (style != PaletteContentStyle.ButtonCalendarDay) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2261,6 +2279,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -2629,7 +2648,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom1) &&
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
-            (style != PaletteContentStyle.ButtonInputControl))
+            (style != PaletteContentStyle.ButtonInputControl) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2660,6 +2681,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -2705,7 +2727,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom1) &&
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
-            (style != PaletteContentStyle.ButtonInputControl))
+            (style != PaletteContentStyle.ButtonInputControl) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2736,6 +2760,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
