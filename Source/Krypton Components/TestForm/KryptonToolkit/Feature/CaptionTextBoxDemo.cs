@@ -23,6 +23,7 @@ public partial class CaptionTextBoxDemo : KryptonForm
     private readonly KryptonComboBox _captionCombo;
     private readonly KryptonComboBox _comboEdge;
     private readonly KryptonLabel _comboEdgeLabel;
+    private readonly KryptonFormCaptionItems _captionItems;
     private bool _syncing;
 
     public CaptionTextBoxDemo()
@@ -109,11 +110,18 @@ public partial class CaptionTextBoxDemo : KryptonForm
 
         CreateRibbon();
         ApplyTheme(PaletteMode.Office2024Blue);
-        AddCaptionControl(_captionSearch, FormCaptionTextBoxEdge.Right);
-        AddCaptionControl(_captionButton, FormCaptionTextBoxEdge.Left);
-        AddCaptionControl(_captionCombo, FormCaptionTextBoxEdge.Center);
-        AddCaptionControl(_captionText, FormCaptionTextBoxEdge.Right);
-        Log("Ready. Search and text box are on the right, the button is on the left, and the combo is in the centre. Each keeps its own edge.");
+
+        // Designer path: a component owns the list; each item keeps its own edge.
+        _captionItems = new KryptonFormCaptionItems
+        {
+            OwnerForm = this
+        };
+        _captionItems.Items.Add(new KryptonFormCaptionItem(_captionButton, FormCaptionTextBoxEdge.Left));
+        _captionItems.Items.Add(new KryptonFormCaptionItem(_captionCombo, FormCaptionTextBoxEdge.Center));
+        _captionItems.Items.Add(new KryptonFormCaptionItem(_captionSearch, FormCaptionTextBoxEdge.Right));
+        _captionItems.Items.Add(new KryptonFormCaptionItem(_captionText, FormCaptionTextBoxEdge.Right));
+        _captionItems.Apply();
+        Log("Ready. KryptonFormCaptionItems hosts the button on the left, the combo in the centre, and the search and text boxes on the right.");
     }
 
     private void CreateRibbon()
@@ -144,7 +152,7 @@ public partial class CaptionTextBoxDemo : KryptonForm
     {
         if (!_syncing)
         {
-            SetCaptionControlEdge(_captionButton, EdgeFromIndex(_edgeChoice.SelectedIndex));
+            SetItemEdge(_captionButton, EdgeFromIndex(_edgeChoice.SelectedIndex));
             Log($"Button edge is {EdgeFromIndex(_edgeChoice.SelectedIndex)}.");
         }
     }
@@ -153,7 +161,7 @@ public partial class CaptionTextBoxDemo : KryptonForm
     {
         if (!_syncing)
         {
-            SetCaptionControlEdge(_captionCombo, EdgeFromIndex(_comboEdge.SelectedIndex));
+            SetItemEdge(_captionCombo, EdgeFromIndex(_comboEdge.SelectedIndex));
             Log($"Combo edge is {EdgeFromIndex(_comboEdge.SelectedIndex)}.");
         }
     }
@@ -169,9 +177,21 @@ public partial class CaptionTextBoxDemo : KryptonForm
     private void ApplyEditor()
     {
         var edge = EdgeFromIndex(_editorChoice.SelectedIndex);
-        SetCaptionControlEdge(_captionSearch, edge);
-        SetCaptionControlEdge(_captionText, edge);
+        SetItemEdge(_captionSearch, edge);
+        SetItemEdge(_captionText, edge);
         Log($"Search and text box edge is {edge}.");
+    }
+
+    private void SetItemEdge(Control control, FormCaptionTextBoxEdge edge)
+    {
+        foreach (KryptonFormCaptionItem item in _captionItems.Items)
+        {
+            if (ReferenceEquals(item.Control, control))
+            {
+                item.Edge = edge;
+                return;
+            }
+        }
     }
 
     private static FormCaptionTextBoxEdge EdgeFromIndex(int index) =>

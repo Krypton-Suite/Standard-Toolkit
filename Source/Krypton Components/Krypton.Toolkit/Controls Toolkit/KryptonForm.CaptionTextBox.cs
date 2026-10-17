@@ -43,8 +43,11 @@ public partial class KryptonForm
     /// A <see cref="Form"/> cannot be hosted.
     /// </para>
     /// </remarks>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [Category(@"Visuals")]
-    [Description(@"Control assigned to the caption. Other caption controls are unchanged.")]
+    [Description(@"Control assigned to the caption. Prefer KryptonFormCaptionItems for several controls.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
     public Control? CaptionControl
@@ -186,6 +189,10 @@ public partial class KryptonForm
     /// </summary>
     /// <param name="control">Control to host. A form is ignored.</param>
     /// <param name="edge">Edge reserved for this control. Other caption controls are not moved.</param>
+    /// <remarks>
+    /// Prefer <see cref="KryptonFormCaptionItems"/> when several caption controls are configured in the designer.
+    /// </remarks>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public void AddCaptionControl(Control control, FormCaptionTextBoxEdge edge)
     {
         if (!IsCaptionControlAllowed(control))
@@ -216,6 +223,7 @@ public partial class KryptonForm
     /// Removes <paramref name="control"/> from the caption and restores its previous parent.
     /// </summary>
     /// <param name="control">Control previously added to the caption.</param>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public void RemoveCaptionControl(Control? control)
     {
         CaptionEntry? entry = FindCaptionEntry(control);
@@ -241,6 +249,7 @@ public partial class KryptonForm
     /// </summary>
     /// <param name="control">Control already in the caption, or a control to add.</param>
     /// <param name="edge">Edge reserved for this control.</param>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public void SetCaptionControlEdge(Control control, FormCaptionTextBoxEdge edge)
     {
         if (FindCaptionEntry(control) == null)
@@ -272,6 +281,7 @@ public partial class KryptonForm
     /// <param name="control">Control to look up.</param>
     /// <param name="edge">Receives the control's edge when this method returns <see langword="true"/>.</param>
     /// <returns><see langword="true"/> when <paramref name="control"/> is in the caption.</returns>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public bool TryGetCaptionControlEdge(Control? control, out FormCaptionTextBoxEdge edge)
     {
         CaptionEntry? entry = FindCaptionEntry(control);
