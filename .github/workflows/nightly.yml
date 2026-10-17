@@ -16,7 +16,8 @@
 #   NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED=true
 #   NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED=true
 #
-# NUGET: Trusted publishing via NuGet/login. Secret NUGET_USER is the nuget.org profile name.
+# NUGET: Trusted publishing via NuGet/login (up to 3 attempts). Secret NUGET_USER is the nuget.org profile name.
+# A transient OIDC failure skips the NuGet push instead of failing the nightly. Package pushes retry with backoff.
 # nuget.org needs a policy for this workflow file, Krypton-Suite/Standard-Toolkit, environment production.
 
 name: Nightly Release
@@ -386,17 +387,78 @@ jobs:
           . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1')
           Test-KryptonDesignerSdkInPackages -Configuration Nightly -MinimumMajorVersion 110 -SkipIfDesignerSdkProjectMissing
 
-      - name: NuGet login (OIDC)
+      - name: NuGet login (OIDC) attempt 1
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit'
-        id: nuget_login
+        id: nuget_login_1
         uses: NuGet/login@v1
+        continue-on-error: true
         with:
           user: ${{ secrets.NUGET_USER }}
+
+      - name: Wait before NuGet login attempt 2
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit' && steps.nuget_login_1.outcome != 'success'
+        shell: pwsh
+        run: Start-Sleep -Seconds 20
+
+      - name: NuGet login (OIDC) attempt 2
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit' && steps.nuget_login_1.outcome != 'success'
+        id: nuget_login_2
+        uses: NuGet/login@v1
+        continue-on-error: true
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Wait before NuGet login attempt 3
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit' && steps.nuget_login_1.outcome != 'success' && steps.nuget_login_2.outcome != 'success'
+        shell: pwsh
+        run: Start-Sleep -Seconds 40
+
+      - name: NuGet login (OIDC) attempt 3
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit' && steps.nuget_login_1.outcome != 'success' && steps.nuget_login_2.outcome != 'success'
+        id: nuget_login_3
+        uses: NuGet/login@v1
+        continue-on-error: true
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Consolidate NuGet login output
+        id: nuget_login_consolidate
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit'
+        shell: pwsh
+        env:
+          NUGET_API_KEY_1: ${{ steps.nuget_login_1.outputs.NUGET_API_KEY }}
+          NUGET_API_KEY_2: ${{ steps.nuget_login_2.outputs.NUGET_API_KEY }}
+          NUGET_API_KEY_3: ${{ steps.nuget_login_3.outputs.NUGET_API_KEY }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+
+          $keys = @(
+            @{ Attempt = 1; Value = $env:NUGET_API_KEY_1 },
+            @{ Attempt = 2; Value = $env:NUGET_API_KEY_2 },
+            @{ Attempt = 3; Value = $env:NUGET_API_KEY_3 }
+          )
+
+          foreach ($entry in $keys) {
+            $key = $entry.Value
+            if ($key -and $key.Trim() -ne '') {
+              $key = $key.Trim()
+              Write-Output "::add-mask::$key"
+              [System.IO.File]::AppendAllText($env:GITHUB_OUTPUT, "NUGET_API_KEY=$key`n")
+              Write-Host "Using NUGET API key from attempt $($entry.Attempt)"
+              exit 0
+            }
+          }
+
+          [System.IO.File]::AppendAllText($env:GITHUB_OUTPUT, "NUGET_API_KEY=`n")
+          Write-Warning "NuGet OIDC login did not produce an API key after retries; publishing will be skipped."
 
       - name: Push NuGet Packages to nuget.org
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
         id: push_nuget
         shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ steps.nuget_login_consolidate.outputs.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
         run: |
           $ErrorActionPreference = 'Stop'
           if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
@@ -405,9 +467,10 @@ jobs:
             exit 0
           }
 
-          if (-not $env:NUGET_API_KEY) {
-            Write-Error "NuGet trusted publishing did not provide an API key. Set the NUGET_USER secret to the nuget.org profile name."
-            exit 1
+          if (-not $env:NUGET_API_KEY -or $env:NUGET_API_KEY.Trim() -eq '') {
+            Write-Warning "NuGet OIDC login did not return an API key; skipping package push."
+            echo "packages_published=false" >> $env:GITHUB_OUTPUT
+            exit 0
           }
 
           $packageCandidates = @(
@@ -427,18 +490,36 @@ jobs:
                 continue
               }
               Write-Output "Pushing package: $($package.Name)"
-              try {
-                $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
-                Write-Output $output
-                # Check if package was actually pushed (not skipped)
-                if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
-                  $publishedAny = $true
-                  Write-Host "Package $($package.Name) was published"
-                } else {
-                  Write-Host "Package $($package.Name) already exists - skipped"
+
+              $attempt = 0
+              $maxAttempts = 3
+              $pushed = $false
+              while ($attempt -lt $maxAttempts -and -not $pushed) {
+                $attempt++
+                try {
+                  $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
+                  $exitCode = $LASTEXITCODE
+                  Write-Output $output
+                  if ($exitCode -ne 0) {
+                    throw "dotnet nuget push exited with code $exitCode"
+                  }
+                  if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
+                    $publishedAny = $true
+                    Write-Host "Package $($package.Name) was published"
+                  } else {
+                    Write-Host "Package $($package.Name) already exists - skipped"
+                  }
+                  $pushed = $true
+                } catch {
+                  Write-Warning "Attempt ${attempt}: Failed to push $($package.Name): $_"
+                  if ($attempt -lt $maxAttempts) {
+                    $sleep = [math]::Pow(2, $attempt)
+                    Write-Host "Retrying in $sleep seconds..."
+                    Start-Sleep -Seconds $sleep
+                  } else {
+                    Write-Warning "All attempts to push $($package.Name) failed; continuing with next package."
+                  }
                 }
-              } catch {
-                Write-Warning "Failed to push $($package.Name): $_"
               }
             }
           } else {
@@ -450,9 +531,6 @@ jobs:
           }
 
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
-        env:
-          NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
-          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true'
@@ -563,6 +641,7 @@ jobs:
         with:
           channel: alpha
           source-branch: alpha
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
 
       - name: Announce Nightly Release on Discord
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'

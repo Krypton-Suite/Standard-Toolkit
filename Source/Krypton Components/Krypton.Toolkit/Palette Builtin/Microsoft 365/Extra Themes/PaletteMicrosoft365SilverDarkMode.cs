@@ -140,7 +140,7 @@ public class PaletteMicrosoft365SilverDarkMode : PaletteMicrosoft365SilverDarkMo
             ImageSize = new Size(13, 13),
             ColorDepth = ColorDepth.Depth24Bit
         };
-        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2010Silver);
+        _checkBoxList.Images.AddStrip(DarkSelectionGlyph.Recolor(CheckBoxStripResources.CheckBoxStrip2010Silver));
 
         _galleryButtonList = new ImageList
         {
@@ -152,14 +152,14 @@ public class PaletteMicrosoft365SilverDarkMode : PaletteMicrosoft365SilverDarkMo
 
         _radioButtonArray =
         [
-            Office2010RadioButtonImageResources.RadioButton2010BlueD,
-            Office2010RadioButtonImageResources.RadioButton2010SilverN,
-            Office2010RadioButtonImageResources.RadioButton2010BlueT,
-            Office2010RadioButtonImageResources.RadioButton2010BlueP,
-            Office2010RadioButtonImageResources.RadioButton2010BlueDC,
-            Office2010RadioButtonImageResources.RadioButton2010SilverNC,
-            Office2010RadioButtonImageResources.RadioButton2010SilverTC,
-            Office2010RadioButtonImageResources.RadioButton2010SilverPC
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueD),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010SilverN),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueT),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueP),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010BlueDC),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010SilverNC),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010SilverTC),
+            DarkSelectionGlyph.Recolor(Office2010RadioButtonImageResources.RadioButton2010SilverPC)
         ];
     }
 
