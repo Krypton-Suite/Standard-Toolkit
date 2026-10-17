@@ -10,32 +10,32 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Designer-friendly list of caption controls for a <see cref="KryptonForm"/>.
+/// Designer-friendly list of caption controls for a <see cref="KryptonCaptionForm"/>.
 /// </summary>
 /// <remarks>
 /// <para>
-/// Drop this component on a form, set <see cref="OwnerForm"/>, and add
+/// Drop this component on a <see cref="KryptonCaptionForm"/>, set <see cref="OwnerForm"/>, and add
 /// <see cref="KryptonFormCaptionItem"/> entries to <see cref="Items"/>. Each item keeps its own
 /// <see cref="FormCaptionTextBoxEdge"/>. At runtime the component calls
-/// <see cref="KryptonForm.AddCaptionControl"/>.
+/// <see cref="KryptonCaptionForm.AddCaptionControl"/>.
 /// </para>
 /// <para>
 /// Use this when several caption controls are needed. For a single text box,
-/// <see cref="KryptonForm.CaptionTextBox"/> is enough and does not require this component.
+/// <see cref="KryptonCaptionForm.CaptionTextBox"/> is enough and does not require this component.
 /// </para>
 /// </remarks>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonForm))]
 [DefaultProperty(nameof(Items))]
 [DesignerCategory(@"code")]
-[Description(@"Hosts a list of caption controls on a KryptonForm, each with its own edge.")]
+[Description(@"Hosts a list of caption controls on a KryptonCaptionForm, each with its own edge.")]
 public class KryptonFormCaptionItems : Component, ISupportInitialize
 {
     #region Instance Fields
 
     private readonly KryptonFormCaptionItemCollection _items;
     private readonly List<Control> _applied = new List<Control>();
-    private KryptonForm? _ownerForm;
+    private KryptonCaptionForm? _ownerForm;
     private bool _initializing;
     private bool _applyPending;
     private bool _applying;
@@ -64,16 +64,16 @@ public class KryptonFormCaptionItems : Component, ISupportInitialize
     #region Public
 
     /// <summary>
-    /// Gets or sets the form that receives the caption controls.
+    /// Gets or sets the caption form that receives the caption controls.
     /// </summary>
     /// <remarks>
-    /// When null, the component tries the designer root component or a <see cref="KryptonForm"/>
+    /// When null, the component tries the designer root component or a <see cref="KryptonCaptionForm"/>
     /// in the same container.
     /// </remarks>
     [Category(@"Behavior")]
-    [Description(@"KryptonForm that hosts the caption controls.")]
+    [Description(@"KryptonCaptionForm that hosts the caption controls.")]
     [DefaultValue(null)]
-    public KryptonForm? OwnerForm
+    public KryptonCaptionForm? OwnerForm
     {
         get => _ownerForm;
 
@@ -111,7 +111,7 @@ public class KryptonFormCaptionItems : Component, ISupportInitialize
             return;
         }
 
-        KryptonForm? form = ResolveOwnerForm();
+        KryptonCaptionForm? form = ResolveOwnerForm();
         if (form == null || form.IsDisposed)
         {
             return;
@@ -199,7 +199,7 @@ public class KryptonFormCaptionItems : Component, ISupportInitialize
             return;
         }
 
-        KryptonForm? form = ResolveOwnerForm();
+        KryptonCaptionForm? form = ResolveOwnerForm();
         if (form == null || item.Control == null || item.Control.IsDisposed || item.Control is Form)
         {
             RequestApply();
@@ -247,7 +247,7 @@ public class KryptonFormCaptionItems : Component, ISupportInitialize
         Apply();
     }
 
-    private KryptonForm? ResolveOwnerForm()
+    private KryptonCaptionForm? ResolveOwnerForm()
     {
         if (_ownerForm is { IsDisposed: false })
         {
@@ -258,7 +258,7 @@ public class KryptonFormCaptionItems : Component, ISupportInitialize
         {
             foreach (IComponent component in Site.Container.Components)
             {
-                if (component is KryptonForm form && !form.IsDisposed)
+                if (component is KryptonCaptionForm form && !form.IsDisposed)
                 {
                     return form;
                 }
@@ -301,7 +301,7 @@ public class KryptonFormCaptionItems : Component, ISupportInitialize
 
     private void ClearApplied()
     {
-        KryptonForm? form = ResolveOwnerForm();
+        KryptonCaptionForm? form = ResolveOwnerForm();
         if (form != null && !form.IsDisposed)
         {
             foreach (Control control in _applied)

@@ -15,7 +15,7 @@ namespace TestForm;
 /// <summary>
 /// Issue #4550: <see cref="KryptonTextBox"/> and <see cref="KryptonSearchBox"/> in the form caption.
 /// </summary>
-public partial class CaptionTextBoxDemo : KryptonForm
+public partial class CaptionTextBoxDemo : KryptonCaptionForm
 {
     private readonly KryptonTextBox _captionText;
     private readonly KryptonSearchBox _captionSearch;

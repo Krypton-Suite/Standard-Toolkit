@@ -5115,7 +5115,7 @@ internal enum InternalLoadingCircleStylePresets
 #region Enum FormCaptionTextBoxEdge
 
 /// <summary>
-/// Edge of the <see cref="KryptonForm"/> caption where <see cref="KryptonForm.CaptionTextBox"/> is placed.
+/// Edge of the <see cref="KryptonCaptionForm"/> caption where a caption control is placed.
 /// </summary>
 public enum FormCaptionTextBoxEdge
 {

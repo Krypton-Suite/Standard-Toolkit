@@ -10,11 +10,11 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// One control hosted in the <see cref="KryptonForm"/> caption, with its own edge.
+/// One control hosted in the <see cref="KryptonCaptionForm"/> caption, with its own edge.
 /// </summary>
 /// <remarks>
 /// Stored on <see cref="KryptonFormCaptionItems"/>. Applied at runtime through
-/// <see cref="KryptonForm.AddCaptionControl"/>.
+/// <see cref="KryptonCaptionForm.AddCaptionControl"/>.
 /// </remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class KryptonFormCaptionItem

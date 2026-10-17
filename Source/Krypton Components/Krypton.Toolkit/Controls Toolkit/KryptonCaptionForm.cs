@@ -9,7 +9,18 @@
 
 namespace Krypton.Toolkit;
 
-public partial class KryptonForm
+/// <summary>
+/// A <see cref="KryptonForm"/> that can host controls in the caption.
+/// </summary>
+/// <remarks>
+/// Prefer this type when caption editors are required. Ordinary <see cref="KryptonForm"/>
+/// instances keep the previous designer surface. Use <see cref="KryptonFormCaptionItems"/>
+/// for several caption controls, or <see cref="CaptionTextBox"/> for a single text box.
+/// </remarks>
+[ToolboxItem(true)]
+[ToolboxBitmap(typeof(KryptonForm))]
+[Description(@"Krypton form that can host controls in the title bar.")]
+public class KryptonCaptionForm : KryptonForm
 {
     #region Instance Fields
 
@@ -303,6 +314,9 @@ public partial class KryptonForm
     /// Reserves caption space for each hosted control before the heading is laid out.
     /// </summary>
     /// <returns><see langword="true"/> when a slot size or edge changed and a layout is required.</returns>
+    /// <inheritdoc />
+    protected override bool PrepareCaptionChromeSlots() => PrepareCaptionTextBoxSlot();
+
     private bool PrepareCaptionTextBoxSlot()
     {
         if (!CanHostCaptionChrome())
@@ -345,6 +359,9 @@ public partial class KryptonForm
     /// Centres every centre-aligned caption control and keeps the title on the near side of that group.
     /// </summary>
     /// <param name="context">Context from the heading layout that just completed.</param>
+    /// <inheritdoc />
+    protected override void PlaceCaptionChromeCenter(ViewLayoutContext context) => PlaceCaptionTextBoxCenter(context);
+
     private void PlaceCaptionTextBoxCenter(ViewLayoutContext context)
     {
         foreach (CaptionEntry entry in _captionEntries)
@@ -378,7 +395,7 @@ public partial class KryptonForm
             return;
         }
 
-        var fill = _drawHeading.FillRectangle;
+        var fill = DrawHeading.FillRectangle;
         if (fill.Width < 16 || fill.Height < 8)
         {
             foreach (CaptionEntry entry in centers)
@@ -406,9 +423,9 @@ public partial class KryptonForm
             ? new Rectangle(groupLeft + groupWidth, fill.Y, Math.Max(0, fill.Right - (groupLeft + groupWidth)), fill.Height)
             : new Rectangle(fill.X, fill.Y, Math.Max(0, groupLeft - fill.X), fill.Height);
         var previous = context.DisplayRectangle;
-        foreach (ViewBase child in _drawHeading)
+        foreach (ViewBase child in DrawHeading)
         {
-            if (child.Visible && _drawHeading.GetDock(child) == ViewDockStyle.Fill)
+            if (child.Visible && DrawHeading.GetDock(child) == ViewDockStyle.Fill)
             {
                 context.DisplayRectangle = titleRect;
                 child.Layout(context);
@@ -421,6 +438,9 @@ public partial class KryptonForm
     /// <summary>
     /// Moves each owned window onto its laid-out caption slot.
     /// </summary>
+    /// <inheritdoc />
+    protected override void SyncCaptionChromeHosts() => SyncCaptionTextBoxHost();
+
     private void SyncCaptionTextBoxHost()
     {
         if (_captionTextBoxSyncing || IsDisposed || Disposing)
@@ -469,6 +489,9 @@ public partial class KryptonForm
     /// and not on the top resize band.
     /// </summary>
     /// <param name="windowPoint">Point in window coordinates.</param>
+    /// <inheritdoc />
+    protected override bool HitTestCaptionChrome(Point windowPoint) => HitTestCaptionTextBox(windowPoint);
+
     private bool HitTestCaptionTextBox(Point windowPoint)
     {
         var hit = false;
@@ -502,6 +525,9 @@ public partial class KryptonForm
         }
     }
 
+    /// <inheritdoc />
+    protected override void DisposeCaptionChromeHosts() => DisposeCaptionTextBoxHost();
+
     private void DisposeCaptionTextBoxHost()
     {
         UnhookCaptionTextBoxMdi();
@@ -520,7 +546,7 @@ public partial class KryptonForm
         && !IsDisposed
         && !Disposing
         && FormBorderStyle != FormBorderStyle.None
-        && !ShouldHideCaption()
+        && !IsCaptionHidden
         && base.UseThemeFormChromeBorderWidth
         && UseThemeFormChromeBorderWidth;
 
@@ -597,7 +623,7 @@ public partial class KryptonForm
             return entry.CenterRect;
         }
 
-        return entry.Slot.Parent == _drawHeading && entry.Slot.Visible
+        return entry.Slot.Parent == DrawHeading && entry.Slot.Visible
             ? entry.Slot.ClientRectangle
             : Rectangle.Empty;
     }
@@ -615,8 +641,8 @@ public partial class KryptonForm
             // Inserting at 0 in add order puts the earlier control nearer the window edge.
             entry.Slot.Visible = true;
             entry.Slot.SeparatorSize = new Size(CaptionSlotWidth(entry), 1);
-            _drawHeading.Insert(0, entry.Slot);
-            _drawHeading.SetDock(entry.Slot, entry.Edge == FormCaptionTextBoxEdge.Left
+            DrawHeading.Insert(0, entry.Slot);
+            DrawHeading.SetDock(entry.Slot, entry.Edge == FormCaptionTextBoxEdge.Left
                 ? ViewDockStyle.Left
                 : ViewDockStyle.Right);
             changed = true;
