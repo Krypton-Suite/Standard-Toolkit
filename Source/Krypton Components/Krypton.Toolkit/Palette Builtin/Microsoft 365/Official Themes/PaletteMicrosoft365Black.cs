@@ -147,6 +147,9 @@ public class PaletteMicrosoft365Black : PaletteMicrosoft365Base
         ];
     }
 
+    /// <inheritdoc />
+    protected override Color FormButtonDisabledText => _disabledText3;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PaletteMicrosoft365Black"/> class.
     /// </summary>

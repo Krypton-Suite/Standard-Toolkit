@@ -26,7 +26,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 
 ## Designer serialization defaults (`UnitTest-DesignerSerializationDefaults.ps1`)
 
-Fresh Toolbox controls must not show nested `Storage` objects as **Modified** (issue #4325).
+Fresh Toolbox controls must not show nested `Storage` objects as **Modified** (issue #4325). Factory message-box and splash-screen strings must not serialize (issue #4466).
 
 Requires Debug `net472` output (`Bin\Debug\net472\Krypton.Toolkit.dll`).
 
@@ -60,4 +60,14 @@ Issue #4417: opens `TextBoxInputModeDemo` and writes `Documents/PR/4417-textbox-
 
 ```cmd
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-TextBoxInputModeScreenshot.ps1
+```
+
+## Disabled caption glyph (`UnitTest-DisabledCaptionGlyph.ps1`)
+
+Issue #4413: disabled Office 2010 / 2013 / Microsoft 365 caption glyphs, with an empty close fill.
+
+```cmd
+dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-DisabledCaptionGlyph.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-4413DisabledCaptionScreenshot.ps1
 ```
