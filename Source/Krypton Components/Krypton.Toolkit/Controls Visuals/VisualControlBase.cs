@@ -38,6 +38,7 @@ public abstract class VisualControlBase : Control,
     private readonly SimpleCall _refreshCall;
     private readonly SimpleCall _layoutCall;
     private KryptonContextMenu? _kryptonContextMenu;
+    private KryptonContextMenu? _factoryKryptonContextMenu;
     protected VisualPopupToolTip? _visualBasePopupToolTip;
     private readonly ToolTipManager _toolTipManager;
 
@@ -212,7 +213,6 @@ public abstract class VisualControlBase : Control,
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"The KryptonContextMenu to show when the user right-clicks the Control.")]
-    [DefaultValue(null)]
     public virtual KryptonContextMenu? KryptonContextMenu
     {
         get => _kryptonContextMenu;
@@ -237,6 +237,20 @@ public abstract class VisualControlBase : Control,
             }
         }
     }
+
+    /// <summary>
+    /// Records <paramref name="menu"/> as the designer factory context menu.
+    /// </summary>
+    /// <param name="menu">Menu created by the constructor, or null.</param>
+    protected void SetFactoryKryptonContextMenu(KryptonContextMenu? menu)
+    {
+        _factoryKryptonContextMenu = menu;
+        KryptonContextMenu = menu;
+    }
+
+    protected bool ShouldSerializeKryptonContextMenu() => !ReferenceEquals(_kryptonContextMenu, _factoryKryptonContextMenu);
+
+    protected void ResetKryptonContextMenu() => KryptonContextMenu = _factoryKryptonContextMenu;
 
     /// <summary>
     /// Fires the NeedPaint event.

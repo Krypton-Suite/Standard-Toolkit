@@ -51,8 +51,16 @@ public class KryptonRibbonGroupThemeComboBox : KryptonRibbonGroupComboBox, IKryp
         Items.Clear();
         Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
 
-        // Sets the intial palette from either global or DefaultPalette property
-        SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
+        // Show the current global theme without recording it as a local DefaultPalette.
+        _isExternalUpdate = true;
+        try
+        {
+            SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
+        }
+        finally
+        {
+            _isExternalUpdate = false;
+        }
 
         // React to theme changes from outside this control.
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;

@@ -65,15 +65,25 @@ public class ToolTipValues : HeaderValues
 
     #region EnableToolTips
     /// <summary>
-    /// Make sure default values are         
     /// Gets and sets the EnableToolTips
     /// </summary>
-    [DefaultValue(false)]
     public bool EnableToolTips { get; set; }
 
-    private bool ShouldSerializeEnableToolTips() => EnableToolTips;
+    private bool _defaultEnableToolTips;
 
-    private void ResetEnableToolTips() => EnableToolTips = false;
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="EnableToolTips"/>.
+    /// </summary>
+    /// <param name="value">Constructor value.</param>
+    internal void SetDefaultEnableToolTips(bool value)
+    {
+        _defaultEnableToolTips = value;
+        EnableToolTips = value;
+    }
+
+    private bool ShouldSerializeEnableToolTips() => EnableToolTips != _defaultEnableToolTips;
+
+    private void ResetEnableToolTips() => EnableToolTips = _defaultEnableToolTips;
     #endregion
 
     #region ToolTipShadow

@@ -141,7 +141,7 @@ public class PaletteNavContent : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Should content be drawn.")]
-    //[DefaultValue(typeof(InheritBool), "Inherit")]
+    [DefaultValue(typeof(InheritBool), "Inherit")]
     [RefreshProperties(RefreshProperties.All)]
     public InheritBool Draw
     {
@@ -187,7 +187,7 @@ public class PaletteNavContent : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Should content be drawn with focus indication..")]
-    //[DefaultValue(typeof(InheritBool), "Inherit")]
+    [DefaultValue(typeof(InheritBool), "Inherit")]
     [RefreshProperties(RefreshProperties.All)]
     public InheritBool DrawFocus
     {
@@ -628,7 +628,7 @@ public class PaletteNavContent : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Padding between the border and content drawing.")]
-    //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+    [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
     [RefreshProperties(RefreshProperties.All)]
     public Padding Padding
     {

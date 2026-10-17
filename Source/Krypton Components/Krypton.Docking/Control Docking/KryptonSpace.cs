@@ -154,6 +154,7 @@ public abstract class KryptonSpace : KryptonWorkspace
         _dropDownTooltip = "Window Position";
         _allowPageToolTips = true;
         _storeName = storeName;
+        CaptureWorkspaceFactoryDefaults();
     }
 
     /// <summary>
