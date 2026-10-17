@@ -91,6 +91,12 @@
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.Designer.cs">
       <DependentUpon>KryptonTagInputControlDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonUtilities\Feature\KryptonSearchBoxPerformanceDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\KryptonSearchBoxPerformanceDemo.Designer.cs">
+      <DependentUpon>KryptonSearchBoxPerformanceDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.cs">
       <SubType>Form</SubType>
     </Compile>
