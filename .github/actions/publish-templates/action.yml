@@ -3,6 +3,8 @@
 # publish, and from templates-release.yml for the V110 current channel.
 #
 # KILL-SWITCH: repository variable TEMPLATES_RELEASE_DISABLED=true skips publishing.
+# Composite actions cannot read the vars context, so callers pass that variable
+# as the release-disabled input.
 
 name: Publish Visual Studio templates
 description: Build channel Visual Studio templates and publish them as their own GitHub release.
@@ -13,6 +15,10 @@ inputs:
     required: true
   source-branch:
     description: Branch name written into the release notes. Defaults to github.ref_name.
+    required: false
+    default: ""
+  release-disabled:
+    description: Pass vars.TEMPLATES_RELEASE_DISABLED. true skips publishing.
     required: false
     default: ""
 
@@ -32,7 +38,7 @@ runs:
       shell: pwsh
       run: |
         $ErrorActionPreference = 'Stop'
-        $disabled = '${{ vars.TEMPLATES_RELEASE_DISABLED }}'
+        $disabled = '${{ inputs.release-disabled }}'
 
         if ($disabled -eq 'true') {
           Write-Host "::warning:: Visual Studio Templates release is currently DISABLED via kill switch (TEMPLATES_RELEASE_DISABLED=true)"

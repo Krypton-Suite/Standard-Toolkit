@@ -77,12 +77,16 @@ public class MessageBoxStrings : GlobalId
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"More details string used in expandable footers.")]
+    [DefaultValue(DEFAULT_MORE_DETAILS)]
+    [RefreshProperties(RefreshProperties.All)]
     public string MoreDetails { get; set; }
 
     /// <summary>Gets or sets the less details string used in expandable footers.</summary>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Less details string used in expandable footers.")]
+    [DefaultValue(DEFAULT_LESS_DETAILS)]
+    [RefreshProperties(RefreshProperties.All)]
     public string LessDetails { get; set; }
 
     #endregion

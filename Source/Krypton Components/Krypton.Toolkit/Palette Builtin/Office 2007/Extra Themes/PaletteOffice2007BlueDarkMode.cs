@@ -62,7 +62,7 @@ public class PaletteOffice2007BlueDarkMode : PaletteOffice2007BlueDarkModeBase
             ImageSize = new Size(13, 13),
             ColorDepth = ColorDepth.Depth24Bit
         };
-        _checkBoxList.Images.AddStrip(CheckBoxStripResources.CheckBoxStrip2007Blue);
+        _checkBoxList.Images.AddStrip(DarkSelectionGlyph.Recolor(CheckBoxStripResources.CheckBoxStrip2007Blue));
         _galleryButtonList = new ImageList
         {
             ImageSize = new Size(13, 7),
@@ -72,14 +72,14 @@ public class PaletteOffice2007BlueDarkMode : PaletteOffice2007BlueDarkModeBase
         _galleryButtonList.Images.AddStrip(GalleryImageResources.GalleryBlue);
         _radioButtonArray =
         [
-            Office2007RadioButtonImageResources.RadioButton2007BlueD,
-            Office2007RadioButtonImageResources.RadioButton2007BlueN,
-            Office2007RadioButtonImageResources.RadioButton2007BlueT,
-            Office2007RadioButtonImageResources.RadioButton2007BlueP,
-            Office2007RadioButtonImageResources.RadioButton2007BlueDC,
-            Office2007RadioButtonImageResources.RadioButton2007BlueNC,
-            Office2007RadioButtonImageResources.RadioButton2007BlueTC,
-            Office2007RadioButtonImageResources.RadioButton2007BluePC
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlueD),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlueN),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlueT),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlueP),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlueDC),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlueNC),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BlueTC),
+            DarkSelectionGlyph.Recolor(Office2007RadioButtonImageResources.RadioButton2007BluePC)
         ];
     }
 
@@ -272,8 +272,8 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
         RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color4, Color.FromArgb(110, 150, 240));
         RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color5, Color.FromArgb(115, 155, 245));
 
-        RegisterColor<ButtonBackColor>(ButtonBackColor.Color1, Color.FromArgb(221, 221, 221));
-        RegisterColor<ButtonBackColor>(ButtonBackColor.Color2, Color.FromArgb(236, 236, 236));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color1, Color.FromArgb(70, 110, 168));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color2, Color.FromArgb(90, 130, 186));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color3, Color.FromArgb(141, 168, 203));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color4, Color.FromArgb(95, 127, 169));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color5, Color.FromArgb(96, 150, 220));
@@ -414,19 +414,19 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
 
     private static readonly Color _gridTextColor = Color.Black;
     private static readonly Color _colorWhite192 = Color.FromArgb(192, 192, 192);
-    private static readonly Color _lightGray = Color.FromArgb(242, 242, 242);
+    private static readonly Color _lightGray = Color.FromArgb(78, 118, 176);
     private static readonly Color _disabledText2 = Color.FromArgb(51, 51, 51);
-    private static readonly Color _disabledText = Color.FromArgb(150, 143, 134);
-    private static readonly Color _disabledBack = Color.FromArgb(240, 240, 240);
+    private static readonly Color _disabledText = Color.FromArgb(220, 232, 248);
+    private static readonly Color _disabledBack = Color.FromArgb(70, 104, 156);
     private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
-    private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
+    private static readonly Color _disabledBorder = Color.FromArgb(40, 72, 120);
     private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
     private static readonly Color _disabledGlyphLight = Color.FromArgb(237, 237, 237);
     private static readonly Color _contextCheckedTabBorder = Color.FromArgb(194, 194, 194);
     private static readonly Color _contextCheckedTabFill = Color.FromArgb(238, 181, 30);
     private static readonly Color _contextGroupAreaBorder = Color.FromArgb(194, 194, 194);
-    private static readonly Color _contextGroupAreaInside = Color.FromArgb(254, 254, 254);
-    private static readonly Color _contextGroupFrameTop = Color.FromArgb(200, 249, 249, 249);
+    private static readonly Color _contextGroupAreaInside = Color.FromArgb(46, 78, 130);
+    private static readonly Color _contextGroupFrameTop = Color.FromArgb(200, 46, 78, 130);
     private static readonly Color _contextGroupFrameBottom = Color.FromArgb(249, 249, 249);
     private static readonly Color _contextTabSeparator = Color.FromArgb(32, Color.Black);
     private static readonly Color _todayBorder = Color.FromArgb(187, 85, 3);
@@ -736,7 +736,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                         return style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _disabledBack;
 
                     case PaletteState.Normal:
-                        return style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : SystemColors.Window;
+                        return style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : Color.FromArgb(168, 196, 230);
 
                     case PaletteState.Pressed:
                     case PaletteState.Tracking:
@@ -746,7 +746,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                             PaletteBackStyle.TabHighProfile => state == PaletteState.Tracking
                                 ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3)
                                 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
-                            _ => SystemColors.Window
+                            _ => Color.FromArgb(168, 196, 230)
                         };
 
                     case PaletteState.CheckedNormal:
@@ -763,7 +763,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                         }
                         else
                         {
-                            return SystemColors.Window;
+                            return Color.FromArgb(168, 196, 230);
                         }
 
                     default:
@@ -774,7 +774,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 return state switch
                 {
                     PaletteState.Disabled => _disabledBack,
-                    PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.Tracking => SystemColors.Window,
+                    PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.Tracking => Color.FromArgb(168, 196, 230),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.HeaderForm:
@@ -1041,8 +1041,8 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : _disabledBack,
                     PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : BaseColors!.ButtonNormalBack2,
-                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : SystemColors.Window,
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
+                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? GlobalStaticValues.EMPTY_COLOR : Color.FromArgb(168, 196, 230),
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => Color.FromArgb(168, 196, 230),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDock:
@@ -1051,7 +1051,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal => BaseColors!.ButtonNormalBack2,
                     PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => Color.FromArgb(168, 196, 230),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDockAutoHidden:

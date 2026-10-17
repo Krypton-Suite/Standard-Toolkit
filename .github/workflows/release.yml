@@ -389,6 +389,7 @@ jobs:
         with:
           channel: stable
           source-branch: master
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
 
       - name: Announce Release on Discord
         # Kill switch check
@@ -1231,6 +1232,7 @@ jobs:
         with:
           channel: canary
           source-branch: canary
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
 
       - name: Announce Canary Release on Discord
         # Kill switch check

@@ -84,3 +84,4 @@ jobs:
         with:
           channel: ${{ steps.channel.outputs.channel }}
           source-branch: ${{ steps.channel.outputs.branch }}
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
