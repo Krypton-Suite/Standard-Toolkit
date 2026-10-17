@@ -269,8 +269,67 @@ public static class DesignerDefaultAuditor
             return 1;
         }
 
+        int stringsCode = CheckIssue4466(toolkit);
+        if (stringsCode != 0)
+        {
+            return stringsCode;
+        }
+
         Console.WriteLine("PASS: core Toolbox drops have no unexpected Modified/ShouldSerialize hits.");
         return 0;
+    }
+
+    static int CheckIssue4466(Assembly toolkit)
+    {
+        Type stringsType = toolkit.GetType("Krypton.Toolkit.KryptonGlobalToolkitStrings");
+        if (stringsType == null)
+        {
+            Console.WriteLine("FAIL: KryptonGlobalToolkitStrings was not found (#4466).");
+            return 1;
+        }
+
+        object strings = Activator.CreateInstance(stringsType);
+        object messageBox = stringsType.GetProperty("MessageBoxStrings").GetValue(strings, null);
+        ArrayList failures = new ArrayList();
+        if (ShouldSerialize(strings, "MessageBoxStrings"))
+        {
+            failures.Add("ToolkitStrings.MessageBoxStrings ShouldSerialize=true");
+        }
+        if (ShouldSerialize(messageBox, "MoreDetails"))
+        {
+            failures.Add("MessageBoxStrings.MoreDetails ShouldSerialize=true");
+        }
+        if (ShouldSerialize(messageBox, "LessDetails"))
+        {
+            failures.Add("MessageBoxStrings.LessDetails ShouldSerialize=true");
+        }
+        if (ShouldSerialize(strings, "SplashScreenStrings"))
+        {
+            failures.Add("ToolkitStrings.SplashScreenStrings ShouldSerialize=true");
+        }
+
+        if (failures.Count > 0)
+        {
+            Console.WriteLine("FAIL: factory strings are still treated as designer-modified (#4466)");
+            for (int i = 0; i < failures.Count; i++)
+            {
+                Console.WriteLine("  " + failures[i]);
+            }
+            return 1;
+        }
+
+        return 0;
+    }
+
+    static bool ShouldSerialize(object instance, string propertyName)
+    {
+        PropertyDescriptor descriptor = TypeDescriptor.GetProperties(instance)[propertyName];
+        if (descriptor == null)
+        {
+            throw new InvalidOperationException("Missing property " + propertyName + " on " + instance.GetType().FullName);
+        }
+
+        return descriptor.ShouldSerializeValue(instance);
     }
 
     static bool IsCore(string path)

@@ -26,7 +26,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 
 ## Designer serialization defaults (`UnitTest-DesignerSerializationDefaults.ps1`)
 
-Fresh Toolbox controls must not show nested `Storage` objects as **Modified** (issue #4325).
+Fresh Toolbox controls must not show nested `Storage` objects as **Modified** (issue #4325). Factory message-box and splash-screen strings must not serialize (issue #4466).
 
 Requires Debug `net472` output (`Bin\Debug\net472\Krypton.Toolkit.dll`).
 
