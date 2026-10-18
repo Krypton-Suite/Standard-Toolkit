@@ -14,8 +14,8 @@ namespace Krypton.Toolkit;
 /// </summary>
 /// <remarks>
 /// Prefer this type when caption editors are required. Ordinary <see cref="KryptonForm"/>
-/// instances keep the previous designer surface. Use <see cref="KryptonFormCaptionItems"/>
-/// for several caption controls, or <see cref="CaptionTextBox"/> for a single text box.
+/// instances keep the previous designer surface. Configure <see cref="CaptionItems"/> for one or
+/// more caption controls, each with its own edge.
 /// </remarks>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonForm))]
@@ -28,172 +28,43 @@ public class KryptonCaptionForm : KryptonForm
     private const int CaptionTextBoxVerticalGap = 2;
 
     private readonly List<CaptionEntry> _captionEntries = new List<CaptionEntry>();
-    private Control? _captionShortcut;
-    private FormCaptionTextBoxEdge _captionTextBoxEdge = FormCaptionTextBoxEdge.Right;
+    private readonly List<Control> _captionItemsApplied = new List<Control>();
+    private readonly KryptonFormCaptionItemCollection _captionItems;
     private bool _captionTextBoxApplyingBounds;
     private bool _captionTextBoxSyncing;
     private bool _captionOrderDirty;
+    private bool _captionItemsApplying;
+    private bool _captionItemsApplyPending;
     private Form? _captionTextBoxMdiHook;
+
+    #endregion
+
+    #region Identity
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KryptonCaptionForm"/> class.
+    /// </summary>
+    public KryptonCaptionForm() => _captionItems = new KryptonFormCaptionItemCollection(this);
 
     #endregion
 
     #region Public
 
     /// <summary>
-    /// Gets or sets the control assigned through this property.
+    /// Gets the caption controls hosted in the title bar.
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// The caption is non-client chrome, so each control is parented to its own borderless owned window
-    /// over a reserved slot. Assign <c>null</c> to remove only this control. Other caption controls stay.
-    /// Each control keeps the edge given to <see cref="AddCaptionControl"/> or <see cref="SetCaptionControlEdge"/>.
-    /// </para>
-    /// <para>
+    /// Each item keeps its own <see cref="FormCaptionTextBoxEdge"/>. The caption is non-client chrome,
+    /// so each control is parented to its own borderless owned window over a reserved slot.
     /// Width stays on the control. The height is clamped to the caption.
     /// <see cref="FormBorderStyle.None"/> and a hidden caption leave every control as a normal child.
     /// A <see cref="Form"/> cannot be hosted.
-    /// </para>
-    /// </remarks>
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    [Category(@"Visuals")]
-    [Description(@"Control assigned to the caption. Prefer KryptonFormCaptionItems for several controls.")]
-    [DefaultValue(null)]
-    [RefreshProperties(RefreshProperties.All)]
-    public Control? CaptionControl
-    {
-        get => FindCaptionEntry(_captionShortcut) == null ? null : _captionShortcut;
-
-        set
-        {
-            if (ReferenceEquals(CaptionControl, value) || !IsCaptionControlAllowed(value))
-            {
-                return;
-            }
-
-            if (_captionShortcut != null && !ReferenceEquals(_captionShortcut, value))
-            {
-                RemoveCaptionControl(_captionShortcut);
-            }
-
-            _captionShortcut = value;
-            if (value != null)
-            {
-                AddCaptionControl(value, _captionTextBoxEdge);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the <see cref="KryptonTextBox"/> assigned through <see cref="CaptionControl"/>.
-    /// </summary>
-    /// <remarks>
-    /// Returns the shortcut when it is a <see cref="KryptonTextBox"/>, otherwise the first hosted text box.
-    /// Assigning a text box adds it on <see cref="CaptionTextBoxEdge"/> and does not move the other caption controls.
-    /// Assigning <c>null</c> removes that text box only. <c>KryptonSearchBox</c> can be assigned because it derives from
-    /// <see cref="KryptonTextBox"/>.
     /// </remarks>
     [Category(@"Visuals")]
-    [Description(@"Text box in the caption. KryptonSearchBox can be assigned. Other caption controls stay.")]
-    [DefaultValue(null)]
-    [RefreshProperties(RefreshProperties.All)]
-    public KryptonTextBox? CaptionTextBox
-    {
-        get
-        {
-            if (_captionShortcut is KryptonTextBox shortcut && FindCaptionEntry(shortcut) != null)
-            {
-                return shortcut;
-            }
-
-            foreach (CaptionEntry entry in _captionEntries)
-            {
-                if (entry.Control is KryptonTextBox textBox)
-                {
-                    return textBox;
-                }
-            }
-
-            return null;
-        }
-
-        set
-        {
-            if (value == null)
-            {
-                KryptonTextBox? current = CaptionTextBox;
-                if (current != null)
-                {
-                    RemoveCaptionControl(current);
-                }
-
-                return;
-            }
-
-            _captionShortcut = value;
-            AddCaptionControl(value, _captionTextBoxEdge);
-        }
-    }
-
-    /// <summary>
-    /// <see langword="true"/> when the designer should write <see cref="CaptionTextBox"/>.
-    /// </summary>
-    /// <returns><see langword="true"/> when the shortcut control is a <see cref="KryptonTextBox"/>.</returns>
-    public bool ShouldSerializeCaptionTextBox() => _captionShortcut is KryptonTextBox && FindCaptionEntry(_captionShortcut) != null;
-
-    /// <summary>
-    /// Clears <see cref="CaptionTextBox"/>.
-    /// </summary>
-    public void ResetCaptionTextBox() => CaptionTextBox = null;
-
-    /// <summary>
-    /// <see langword="true"/> when the designer should write <see cref="CaptionControl"/>.
-    /// </summary>
-    /// <returns><see langword="true"/> when the shortcut control is not a <see cref="KryptonTextBox"/>.</returns>
-    public bool ShouldSerializeCaptionControl() =>
-        _captionShortcut != null && !(_captionShortcut is KryptonTextBox) && FindCaptionEntry(_captionShortcut) != null;
-
-    /// <summary>
-    /// Clears <see cref="CaptionControl"/>.
-    /// </summary>
-    public void ResetCaptionControl() => CaptionControl = null;
-
-    /// <summary>
-    /// Gets or sets the edge of the control assigned through <see cref="CaptionControl"/> or <see cref="CaptionTextBox"/>.
-    /// </summary>
-    /// <remarks>
-    /// This edge belongs to that one control. Controls added with <see cref="AddCaptionControl"/> keep their own edges.
-    /// <see cref="FormCaptionTextBoxEdge.Right"/> places it before the window buttons.
-    /// <see cref="FormCaptionTextBoxEdge.Left"/> places it after left-docked title-bar button specs and before the icon and title.
-    /// <see cref="FormCaptionTextBoxEdge.Center"/> places it in the centre of the remaining caption, and the title keeps the near side.
-    /// Several controls on one edge stack, with the earlier control nearer the window edge.
-    /// </remarks>
-    [Category(@"Visuals")]
-    [Description(@"Edge of the shortcut caption control. Each caption control has its own edge.")]
-    [DefaultValue(FormCaptionTextBoxEdge.Right)]
-    public FormCaptionTextBoxEdge CaptionTextBoxEdge
-    {
-        get
-        {
-            CaptionEntry? entry = FindCaptionEntry(_captionShortcut);
-            return entry == null ? _captionTextBoxEdge : entry.Edge;
-        }
-
-        set
-        {
-            if (_captionTextBoxEdge == value && (FindCaptionEntry(_captionShortcut) == null || FindCaptionEntry(_captionShortcut)!.Edge == value))
-            {
-                return;
-            }
-
-            _captionTextBoxEdge = value;
-            if (_captionShortcut != null && FindCaptionEntry(_captionShortcut) != null)
-            {
-                SetCaptionControlEdge(_captionShortcut, value);
-            }
-        }
-    }
+    [Description(@"Controls hosted in the caption. Each item has its own edge.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Editor(typeof(KryptonFormCaptionItemCollectionEditor), typeof(UITypeEditor))]
+    public KryptonFormCaptionItemCollection CaptionItems => _captionItems;
 
     /// <summary>
     /// Adds <paramref name="control"/> to the caption on <paramref name="edge"/>.
@@ -201,7 +72,7 @@ public class KryptonCaptionForm : KryptonForm
     /// <param name="control">Control to host. A form is ignored.</param>
     /// <param name="edge">Edge reserved for this control. Other caption controls are not moved.</param>
     /// <remarks>
-    /// Prefer <see cref="KryptonFormCaptionItems"/> when several caption controls are configured in the designer.
+    /// Prefer <see cref="CaptionItems"/> when caption controls are configured in the designer.
     /// </remarks>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public void AddCaptionControl(Control control, FormCaptionTextBoxEdge edge)
@@ -221,11 +92,6 @@ public class KryptonCaptionForm : KryptonForm
 
         entry.Edge = edge;
         _captionOrderDirty = true;
-        if (ReferenceEquals(_captionShortcut, control))
-        {
-            _captionTextBoxEdge = edge;
-        }
-
         PerformNeedPaint(true);
         SyncCaptionTextBoxHost();
     }
@@ -245,11 +111,6 @@ public class KryptonCaptionForm : KryptonForm
 
         DetachCaptionEntry(entry);
         _captionEntries.Remove(entry);
-        if (ReferenceEquals(_captionShortcut, control))
-        {
-            _captionShortcut = null;
-        }
-
         _captionOrderDirty = true;
         PerformNeedPaint(true);
         SyncCaptionTextBoxHost();
@@ -277,11 +138,6 @@ public class KryptonCaptionForm : KryptonForm
 
         entry.Edge = edge;
         _captionOrderDirty = true;
-        if (ReferenceEquals(_captionShortcut, control))
-        {
-            _captionTextBoxEdge = edge;
-        }
-
         PerformNeedPaint(true);
         SyncCaptionTextBoxHost();
     }
@@ -537,7 +393,130 @@ public class KryptonCaptionForm : KryptonForm
         }
 
         _captionEntries.Clear();
-        _captionShortcut = null;
+        _captionItemsApplied.Clear();
+    }
+
+    /// <summary>
+    /// Called when <see cref="CaptionItems"/> gains or loses an entry.
+    /// </summary>
+    internal void NotifyCaptionItemsChanged() => RequestApplyCaptionItems();
+
+    /// <summary>
+    /// Called when one <see cref="CaptionItems"/> entry changes.
+    /// </summary>
+    /// <param name="item">Changed item.</param>
+    internal void NotifyCaptionItemChanged(KryptonFormCaptionItem item)
+    {
+        if (_captionItemsApplying || DesignMode || CommonHelper.DesignMode())
+        {
+            RequestApplyCaptionItems();
+            return;
+        }
+
+        if (item.Control == null || item.Control.IsDisposed || item.Control is Form)
+        {
+            RequestApplyCaptionItems();
+            return;
+        }
+
+        AddCaptionControl(item.Control, item.Edge);
+        if (!ContainsCaptionItemsApplied(item.Control))
+        {
+            _captionItemsApplied.Add(item.Control);
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        ApplyCaptionItems();
+    }
+
+    private void RequestApplyCaptionItems()
+    {
+        if (DesignMode || CommonHelper.DesignMode())
+        {
+            _captionItemsApplyPending = true;
+            return;
+        }
+
+        ApplyCaptionItems();
+    }
+
+    private void ApplyCaptionItems()
+    {
+        if (_captionItemsApplying || DesignMode || CommonHelper.DesignMode())
+        {
+            _captionItemsApplyPending = true;
+            return;
+        }
+
+        if (IsDisposed || Disposing)
+        {
+            return;
+        }
+
+        _captionItemsApplying = true;
+        try
+        {
+            var wanted = new List<Control>();
+            foreach (KryptonFormCaptionItem item in _captionItems)
+            {
+                if (item.Control is { IsDisposed: false } control && !(control is Form))
+                {
+                    wanted.Add(control);
+                }
+            }
+
+            for (var i = _captionItemsApplied.Count - 1; i >= 0; i--)
+            {
+                Control previous = _captionItemsApplied[i];
+                if (!ContainsControl(wanted, previous))
+                {
+                    RemoveCaptionControl(previous);
+                    _captionItemsApplied.RemoveAt(i);
+                }
+            }
+
+            foreach (KryptonFormCaptionItem item in _captionItems)
+            {
+                if (item.Control is not { IsDisposed: false } control || control is Form)
+                {
+                    continue;
+                }
+
+                AddCaptionControl(control, item.Edge);
+                if (!ContainsCaptionItemsApplied(control))
+                {
+                    _captionItemsApplied.Add(control);
+                }
+            }
+        }
+        finally
+        {
+            _captionItemsApplying = false;
+            if (_captionItemsApplyPending)
+            {
+                _captionItemsApplyPending = false;
+                ApplyCaptionItems();
+            }
+        }
+    }
+
+    private bool ContainsCaptionItemsApplied(Control control) => ContainsControl(_captionItemsApplied, control);
+
+    private static bool ContainsControl(List<Control> list, Control control)
+    {
+        foreach (Control item in list)
+        {
+            if (ReferenceEquals(item, control))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private bool CanHostCaptionChrome() =>
