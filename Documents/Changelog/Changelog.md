@@ -48,6 +48,9 @@
 - Resolved [#4580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4580), Improve `KryptonSearchBox` suggestion performance for typing, dropdown updates, and item selection.
    - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
    - Suggestion filtering is debounced via `SearchBoxValues.SuggestionUpdateDelay` (default 75 ms; set to `0` for immediate updates).
+- Implemented [#4550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4550), `KryptonTextBox` & `KryptonSearchBox` in form titlebar
+   - Use `KryptonCaptionForm` when the caption hosts controls. Ordinary `KryptonForm` keeps the previous designer surface.
+   - Each control has its own left, centre, or right edge. Drop a `KryptonFormCaptionItems` component for several items, or assign `CaptionTextBox` for a single text box (including a `KryptonSearchBox`).
 - Implemented [#4559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4559), Use different designer 'Modified' types
    - Fresh toolbox controls stay blank in the property grid until a value changes.
    - Expandable palette and navigator values no longer show Modified on a new drop. Empty colours, factory text, and stock colours such as the progress-bar green are not written into the designer file until you change them.
