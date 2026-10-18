@@ -1074,12 +1074,27 @@ public class KryptonTextBox : VisualControlBase,
     [Category(@"Behavior")]
     [Description(@"Controls whether the text in the edit control can be changed or not.")]
     [RefreshProperties(RefreshProperties.Repaint)]
-    [DefaultValue(false)]
     public bool ReadOnly
     {
         get => _textBox.ReadOnly;
         set => _textBox.ReadOnly = value;
     }
+
+    private bool _factoryReadOnly;
+
+    /// <summary>
+    /// Records <paramref name="value"/> as the designer factory for <see cref="ReadOnly"/>.
+    /// </summary>
+    /// <param name="value">Constructor value.</param>
+    protected void SetFactoryReadOnly(bool value)
+    {
+        _factoryReadOnly = value;
+        ReadOnly = value;
+    }
+
+    private bool ShouldSerializeReadOnly() => ReadOnly != _factoryReadOnly;
+
+    private void ResetReadOnly() => ReadOnly = _factoryReadOnly;
 
     /// <summary>
     /// Gets or sets a value indicating whether shortcuts defined for the control are enabled.
@@ -1190,8 +1205,28 @@ public class KryptonTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Should tooltips be Displayed for button specs.")]
-    [DefaultValue(false)]
-    public bool AllowButtonSpecToolTips { get; set; }
+    public bool AllowButtonSpecToolTips
+    {
+        get => _allowButtonSpecToolTips;
+        set => _allowButtonSpecToolTips = value;
+    }
+
+    private bool _allowButtonSpecToolTips;
+    private bool _factoryAllowButtonSpecToolTips;
+
+    /// <summary>
+    /// Records <paramref name="value"/> as the designer factory for <see cref="AllowButtonSpecToolTips"/>.
+    /// </summary>
+    /// <param name="value">Constructor value.</param>
+    protected void SetFactoryAllowButtonSpecToolTips(bool value)
+    {
+        _factoryAllowButtonSpecToolTips = value;
+        _allowButtonSpecToolTips = value;
+    }
+
+    private bool ShouldSerializeAllowButtonSpecToolTips() => _allowButtonSpecToolTips != _factoryAllowButtonSpecToolTips;
+
+    private void ResetAllowButtonSpecToolTips() => _allowButtonSpecToolTips = _factoryAllowButtonSpecToolTips;
 
     /// <summary>
     /// Gets and sets a value indicating if button spec tooltips should remove the parent tooltip.

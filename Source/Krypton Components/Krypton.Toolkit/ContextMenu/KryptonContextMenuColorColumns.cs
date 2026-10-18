@@ -240,7 +240,8 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Color that has been selected by the user.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public Color SelectedColor
     {
         get => _selectedColor;

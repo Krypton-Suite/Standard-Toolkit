@@ -143,7 +143,7 @@ public class PaletteDragDrop : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background color for a solid drag drop area.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color SolidBack
     {
@@ -181,7 +181,7 @@ public class PaletteDragDrop : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Border color for a solid drag drop area.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color SolidBorder
     {
@@ -257,7 +257,7 @@ public class PaletteDragDrop : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background color for the docking indicators area.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropDockBack
     {
@@ -296,7 +296,7 @@ public class PaletteDragDrop : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Border color for the docking indicators area.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropDockBorder
     {
@@ -334,7 +334,7 @@ public class PaletteDragDrop : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Sctive color for docking indicators..")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropDockActive
     {
@@ -372,7 +372,7 @@ public class PaletteDragDrop : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Inactive color for docking indicators.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropDockInactive
     {

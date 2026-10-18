@@ -193,9 +193,16 @@ Extra assemblies can advertise `[assembly: KryptonThemeProvider(typeof(…))]`. 
 
 ### Designer Serialization Defaults
 
-Nested Krypton objects that inherit `Storage` show **"Modified"** in the Visual Studio property grid when `IsDefault` is false (`Storage.ToString()`). A freshly constructed Toolbox control must not look edited. This is issue [#4325](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4325).
+A freshly constructed Toolbox control must look untouched in the Visual Studio property grid. This covers every public parameterless Toolbox component in Toolkit, Ribbon, Navigator, Workspace, Docking, and Utilities (issues [#4325](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4325) and [#4559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4559)).
 
-When a constructor (or a helper it calls) writes a real value that is that type’s factory default — combo `TextH = Near`, progress-bar green `Color1`, scrollbar border colours, stock images, `EnableToolTips = true` on `KryptonToolTip`, and similar — record it as the designer default. Do **not** assign inherit/empty/`DefaultValue` sentinels and then overwrite them in the constructor without updating `IsDefault` / `ShouldSerialize` / `Reset`.
+The grid has two signals:
+
+- Nested objects that inherit `Storage` show **Modified** when `IsDefault` is false (`Storage.ToString()` is empty when `IsDefault` is true).
+- A leaf property is bold when `ShouldSerialize*` returns true, or when the live value differs from a `[DefaultValue]` whose `Value` is non-null.
+
+When a constructor (or a helper it calls) writes a real value that is that type’s factory default — combo `TextH = Near`, progress-bar green `Color1`, scrollbar border colours, stock images, `EnableToolTips = true` on `KryptonToolTip`, a navigator bar default, a dockable workspace compact-flag mask, and similar — record it as the designer default. Assigning inherit/empty/`DefaultValue` sentinels and then overwriting them in the constructor leaves the row bold unless `IsDefault` / `ShouldSerialize` / `Reset` use that factory value.
+
+The designer prefers `[DefaultValue]` over `ShouldSerialize*` when the attribute’s `Value` is non-null. A `ShouldSerialize*` method on the same property is then ignored. `[DefaultValue(null)]` does not count as a match for a non-null value, so a menu or image created in the constructor still serializes until the attribute is removed and `ShouldSerialize*` compares against that factory instance.
 
 #### How
 
@@ -203,13 +210,19 @@ Prefer the existing factory helpers on the shared palette/values types rather th
 
 | Situation | Pattern (already on the type) |
 |-----------|-------------------------------|
-| Palette back/border colour or style stamped in a ctor | `PaletteBack.SetFactoryColor1` / `SetFactoryColor2` / `SetFactoryColorStyle`; `PaletteBorder.SetFactoryColor1` / `SetFactoryDraw` / `SetFactoryDrawBorders` / `SetFactoryGraphicsHint` |
+| Palette back/border colour or style stamped in a ctor | `PaletteBack.SetFactoryColor1` / `SetFactoryColor2` / `SetFactoryColorStyle` / `SetFactoryColorAlign` / `SetFactoryColorAngle` / `SetFactoryImageAlign`; `PaletteBorder.SetFactoryColor1` / `SetFactoryDraw` / `SetFactoryDrawBorders` / `SetFactoryGraphicsHint` |
 | Content text alignment, font, trim, multiline, adjacent gap | `PaletteContentText.SetDefaultTextH` / `SetDefaultTextV` / `SetDefaultFont` / `SetDefaultTrim` / `SetDefaultMultiLine` / `SetDefaultMultiLineH`; `PaletteContent.SetDefaultAdjacentGap`; `PaletteInputControlContentStates.SetDefaultTextH` |
 | Label/button text or image that is not `"Label"` / `null` | `LabelValues` ctor default-text argument or `SetFactoryText`; `ButtonValues.SetFactoryText` / `SetFactoryImage`; color-button stock image: `ResetImage()` (resource getters return a new `Bitmap` each time — do not compare a captured static instance) |
 | Theme colours copied into element storage at construct time | `PaletteElementColor.CaptureFactoryDefaults()` after `PopulateFromBase`, or skip `PopulateFromBase` in the constructor and inherit |
+| Empty colour whose factory really is `Color.Empty` | `[KryptonDefaultColor]` (stores a real empty colour). `[DefaultValue(typeof(Color), "Empty")]` stores null and the designer then serializes every empty colour |
+| Non-empty factory colour (`Green`, scrollbar blue, `WhiteSmoke`, a transparent ribbon gradient) | Remove `[KryptonDefaultColor]` / `[DefaultValue]` from that property and `ShouldSerialize*` against the factory field. Those attributes force a comparison with `Color.Empty` |
+| Optional image, font, or command whose factory really is null | `ShouldSerializeX() => _x != null` and `ResetX()` assigns null (notification-bar images and commands) |
+| Constructor builds a non-null factory (context menu, `"Root"`, `"Update now"`, drop-down width) | Remember that instance or value and `ShouldSerialize*` only when the property differs from it. A derived constructor that stamps a different width, flag, or `true` must update the same factory (`SetFactory…` / `Capture…`), because a base `[DefaultValue]` keeps winning |
 | Inherited pulsing-border getters vs `[DefaultValue]` | Public `ShouldSerialize*` that tests a local override only (`InputPulsingBorderValues`) |
+| `decimal` property | `[DefaultValue(typeof(decimal), "1")]`. `[DefaultValue(1.0d)]` stores a `double`, so `1m` always serializes |
+| Initial theme list follows the global palette | Keep `DefaultPalette` at `Global`. Selecting the current global theme in the constructor must not store that mode as a local default |
 
-`ShouldSerializeXxx` / `ResetXxx` must use the **property name** (`MaximumBadgeValue`, not `MaxBadgeValue`). `[DefaultValue]` must match the runtime type (`Color?` needs `[DefaultValue(null)]` and a public `ShouldSerialize`; `[DefaultValue(typeof(Color), "Empty")]` does not match `Color?`). `IsDefault` on `Storage` subclasses must be a real getter (`=> …`); `public override bool IsDefault { get; }` defaults to **false** and always shows **Modified**.
+`ShouldSerializeXxx` / `ResetXxx` must use the **property name** (`MaximumBadgeValue`, not `MaxBadgeValue`). `[DefaultValue]` must match the runtime type (`Color?` needs `[DefaultValue(null)]` and a public `ShouldSerialize`; `[DefaultValue(typeof(Color), "Empty")]` does not match `Color?`). A leaf with neither a parsing `[DefaultValue]` nor `ShouldSerialize*` is bold on a fresh drop. `IsDefault` on `Storage` subclasses must be a real getter (`=> …`); `public override bool IsDefault { get; }` defaults to **false** and always shows **Modified**. Parent `IsDefault` is true only when every child `ShouldSerialize*` is false and every child `IsDefault` is true.
 
 #### Validate
 
@@ -219,11 +232,17 @@ After adding or changing a Toolbox `Component`, a `Storage` subclass, or constru
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-DesignerSerializationDefaults.ps1
 ```
 
-If the new type is a core drop target, add its `TypeName.` prefix to `$corePrefixes` in that script. The assert is **no Content node with `IsDefault == false`** on a parameterless construct. Leaf `ShouldSerialize` noise (`DataBindings`, `Owner`, `Capacity`) is skipped; do not “fix” those by hiding real properties.
+The script fails when **any** instantiated toolbox component has a Content node with `IsDefault == false`. There is no core-control whitelist. Focused checks also cover easy factory mistakes: ribbon empty back colours, progress-bar green, scrollbar border colour, menu-bar background, and a fresh notification bar that becomes **Modified** only after an edit. Leaf noise (`DataBindings`, `Owner`, `Capacity`, and the rest of `SkipLeaf`) is skipped. Do not add `Font`, `Orientation`, or `RowMargin` to that list to hide a real Krypton property.
+
+GitHub Actions runs that script on pull requests and pushes that touch toolbox source: `.github/workflows/designer-serialization-defaults.yml`. The Unit Tests workflow runs it as well, because the script is marked `UnitTest-CI: include`.
+
+WinForms base properties whose `[DefaultValue]` lives on `System.Windows.Forms` (tool-strip font, panel orientation, image lists, dialog icons) can stay bold when a Krypton constructor sets a different value. Do not shadow the public property to silence them. Fix Krypton-owned properties with the factory helpers above.
 
 #### Do not
 
 - Assign constructor factory values (`Color1 = Color.Green`, `TextH = Near`, `PopulateFromBase` in a ctor) and leave `IsDefault` comparing to Inherit/Empty/`"Label"`.
+- Leave `[DefaultValue]` or `[KryptonDefaultColor]` on a property whose constructor factory is a different non-empty value and expect `ShouldSerialize*` to win.
+- Comment out `[DefaultValue]` on a leaf that has no `ShouldSerialize*`.
 - Poke private palette fields to bypass `ShouldSerialize` (for example `_shortTextH = Near` on combo content).
 - Change `Color?` to `Color` (or other public signatures) to make `[DefaultValue]` line up.
 - Implement `Storage.IsDefault` as an auto-property.
@@ -277,7 +296,7 @@ If the new type is a core drop target, add its `TypeName.` prefix to `$corePrefi
 - Do not place designer-generated initialization code in the main source file. Keep UI initialization in `InitializeComponent()` within the corresponding `.Designer.cs` file.
 - WinForms designer: keep object declarations at file bottom; initialize in `*.Designer.cs` `InitializeComponent()`
 - Do not manually edit generated `*.Designer.cs` files unless the task specifically requires it.
-- Toolbox controls and `Storage` nested objects: constructor factory values must not show as **Modified** in the property grid (see **Designer Serialization Defaults**).
+- Toolbox controls and `Storage` nested objects: a parameterless construct must not show **Modified** storage or bold Krypton-owned properties in the property grid (see **Designer Serialization Defaults**).
 - Constraint: do not use `yield return` inside `catch` blocks
 
 ## Code Documentation Guidelines
@@ -766,7 +785,7 @@ Commit, push, or open a Demos pull request only when the user explicitly asks. W
 - When completing a bug fix or feature, update `Documents/Changelog/Changelog.md` per **Changelog** in this file; if the change is breaking, also update `README.md` per **Breaking Changes (README)**
 - For UI-visible changes, capture screenshots per **UI Screenshots / GIFs** into the local `Documents/PR/` description; do not leave the template placeholder, and do not upload the images or GIFs to GitHub
 - For completed bug fixes and features, capture a build-log screenshot per **Build Log Screenshot** into the local `Documents/PR/` description; do not leave the template placeholder, and do not upload the image to GitHub
-- When adding or changing a Toolbox control, `Storage` subclass, or constructor palette/values stamping, run `Scripts/UnitTests/UnitTest-DesignerSerializationDefaults.ps1` and keep core prefixes in that script in sync (see **Designer Serialization Defaults**)
+- When adding or changing a Toolbox control, `Storage` subclass, or constructor palette/values stamping, run `Scripts/UnitTests/UnitTest-DesignerSerializationDefaults.ps1`. Every toolbox component must stay free of designer **Modified** storage (see **Designer Serialization Defaults**)
 
 ## Unit Test Scripts
 
@@ -786,7 +805,7 @@ Use `Scripts/UnitTests/` for PowerShell scripts that drive or inspect a Debug `T
 - Keep scripts focused on one scenario (host, drag, remerge, probe, …).
 - PR / demo window captures: call `Save-UnitTestWindowPng` from `UnitTestCommon.ps1` (PrintWindow of the HWND). Do not bare `CopyFromScreen` after only `Activate` — Cursor/IDE occlusion captures the wrong window (see **UI Screenshots / GIFs**).
 - Existing #925 helpers: `Start-NavigatorFormIntegrationHost.ps1`, `Invoke-CaptionTabDrag.ps1`, `UnitTest-NavigatorCaptionTabRemerge.ps1`, `Get-NavigatorCaptionTabProbe.ps1`.
-- Existing #4325 helper: `UnitTest-DesignerSerializationDefaults.ps1` (`include`) — parameterless Toolbox construct must not report nested `Modified` storage (see **Designer Serialization Defaults**).
+- Existing #4325 / #4559 helper: `UnitTest-DesignerSerializationDefaults.ps1` (`include`) — every parameterless Toolbox construct must not report nested `Modified` storage. Focused checks cover factory colours, strings, and a fresh ribbon notification bar (see **Designer Serialization Defaults**).
 - Existing #593 pack helper: `Scripts/CI/Test-KryptonDesignerSdkInPackages.ps1` — after Pack, modern lib folders must contain `Design/WinForms` assemblies and must not leak `Microsoft.WinForms.Designer.SDK.dll` (see **WinForms Designer Extensibility SDK**).
 
 ## UI Screenshots / GIFs

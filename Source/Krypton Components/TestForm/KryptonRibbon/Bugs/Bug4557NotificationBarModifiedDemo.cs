@@ -7,17 +7,19 @@
  */
 #endregion
 
+using Krypton.Navigator;
 using Krypton.Ribbon;
 
 namespace TestForm;
 
 /// <summary>
-/// Reproduces issue #4557: a fresh ribbon notification bar must be blank in the property grid,
-/// and show Modified only after a value changes.
+/// Reproduces issue #4557 and checks #4559: a fresh ribbon notification bar, and the navigator bar,
+/// stay blank in the property grid until a value changes.
 /// </summary>
 public sealed class Bug4557NotificationBarModifiedDemo : KryptonForm
 {
     private readonly KryptonRibbon _ribbon;
+    private readonly KryptonNavigator _navigator;
     private readonly KryptonPropertyGrid _propertyGrid;
     private readonly KryptonWrapLabel _lblStatus;
 
@@ -34,8 +36,8 @@ public sealed class Bug4557NotificationBarModifiedDemo : KryptonForm
             AutoSize = false,
             Height = 72,
             Text =
-                @"Issue #4557: drop a ribbon and open NotificationBar in the property grid." + Environment.NewLine +
-                @"A fresh bar is blank. Set Title (or use Change title) and the row shows Modified. Reset clears it."
+                @"Issue #4557 / #4559: a fresh ribbon NotificationBar is blank. Ribbon state colours stay blank too." + Environment.NewLine +
+                @"The navigator Bar row below is blank until you change it. Change title makes NotificationBar show Modified."
         };
 
         _lblStatus = new KryptonWrapLabel
@@ -50,11 +52,15 @@ public sealed class Bug4557NotificationBarModifiedDemo : KryptonForm
         {
             Dock = DockStyle.Top
         };
+        _navigator = new KryptonNavigator
+        {
+            Dock = DockStyle.Top
+        };
 
         var buttons = new FlowLayoutPanel
         {
             Dock = DockStyle.Top,
-            Height = 40,
+            Height = 44,
             Padding = new Padding(8, 6, 8, 0),
             WrapContents = false
         };
@@ -84,24 +90,42 @@ public sealed class Bug4557NotificationBarModifiedDemo : KryptonForm
         };
         _propertyGrid.PropertyValueChanged += (_, _) => RefreshView();
 
+        var showNavigator = new KryptonButton { Text = @"Navigator", AutoSize = false, Size = new Size(130, 28) };
+        showNavigator.Click += (_, _) =>
+        {
+            _propertyGrid.SelectedObject = _navigator;
+            RefreshView();
+        };
+        var showRibbon = new KryptonButton { Text = @"Ribbon", AutoSize = true };
+        showRibbon.Click += (_, _) =>
+        {
+            _propertyGrid.SelectedObject = _ribbon;
+            RefreshView();
+        };
+        buttons.Controls.Add(showNavigator);
+        buttons.Controls.Add(showRibbon);
+
         var layout = new TableLayoutPanel
         {
             Dock = DockStyle.Fill,
             ColumnCount = 1,
-            RowCount = 4
+            RowCount = 5
         };
-        layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 40));
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 44));
         layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 116));
-        layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 32));
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 72));
+        layout.RowStyles.Add(new RowStyle(SizeType.Absolute, 48));
         layout.RowStyles.Add(new RowStyle(SizeType.Percent, 100));
         layout.Controls.Add(buttons, 0, 0);
         layout.Controls.Add(_ribbon, 0, 1);
-        layout.Controls.Add(_lblStatus, 0, 2);
-        layout.Controls.Add(_propertyGrid, 0, 3);
+        layout.Controls.Add(_navigator, 0, 2);
+        layout.Controls.Add(_lblStatus, 0, 3);
+        layout.Controls.Add(_propertyGrid, 0, 4);
         buttons.Dock = DockStyle.Fill;
         _ribbon.Dock = DockStyle.Fill;
+        _navigator.Dock = DockStyle.Fill;
         _lblStatus.Dock = DockStyle.Fill;
-        _lblStatus.Height = 32;
+        _lblStatus.Height = 48;
 
         Controls.Add(layout);
         Controls.Add(info);
@@ -113,9 +137,15 @@ public sealed class Bug4557NotificationBarModifiedDemo : KryptonForm
     {
         string shown = _ribbon.NotificationBar.ToString();
         string quoted = shown.Length == 0 ? @"""""" : @"""" + shown + @"""";
-        _lblStatus.Text = @"NotificationBar shows " + quoted + @". IsDefault = " + _ribbon.NotificationBar.IsDefault + @".";
+        string barShown = _navigator.Bar.ToString();
+        string barQuoted = barShown.Length == 0 ? @"""""" : @"""" + barShown + @"""";
+        _lblStatus.Text = @"NotificationBar shows " + quoted + @". IsDefault = " + _ribbon.NotificationBar.IsDefault
+                          + @". Navigator Bar shows " + barQuoted + @".";
         _propertyGrid.PropertyGrid.Refresh();
-        SelectNotificationBar();
+        if (ReferenceEquals(_propertyGrid.SelectedObject, _ribbon))
+        {
+            SelectNotificationBar();
+        }
     }
 
     private void SelectNotificationBar()
