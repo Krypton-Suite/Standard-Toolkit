@@ -151,6 +151,9 @@ internal sealed class VisualCaptionItemCollectionForm : VisualStandardCollection
                 AttachPropertyGridDesignerSite(EditorPropertyGrid, item.Control);
                 EditorPropertyGrid.SelectedObject = item.Control;
                 EditorPropertyGrid.RefreshTabs(PropertyTabScope.Component);
+                // PropertyGrid only shows the lightning bolt when the object is a sited IComponent
+                // and the Events tab exists; force the button visible for designer-sited controls.
+                EditorPropertyGrid.SetEventsButtonVisible(item.Control.Site != null);
                 _edgePanel.Enabled = true;
                 return;
             }
@@ -159,6 +162,7 @@ internal sealed class VisualCaptionItemCollectionForm : VisualStandardCollection
             AttachPropertyGridDesignerSite(EditorPropertyGrid);
             EditorPropertyGrid.SelectedObject = item;
             EditorPropertyGrid.RefreshTabs(PropertyTabScope.Component);
+            EditorPropertyGrid.SetEventsButtonVisible(false);
             _edgePanel.Enabled = true;
             return;
         }
@@ -167,6 +171,7 @@ internal sealed class VisualCaptionItemCollectionForm : VisualStandardCollection
         AttachPropertyGridDesignerSite(EditorPropertyGrid);
         EditorPropertyGrid.SelectedObject = null;
         EditorPropertyGrid.RefreshTabs(PropertyTabScope.Component);
+        EditorPropertyGrid.SetEventsButtonVisible(false);
         _edgePanel.Enabled = false;
     }
 

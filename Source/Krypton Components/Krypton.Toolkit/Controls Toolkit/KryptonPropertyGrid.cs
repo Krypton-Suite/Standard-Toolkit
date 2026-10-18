@@ -80,6 +80,12 @@ public class KryptonPropertyGrid : VisualControlBase,
         /// </summary>
         public ViewDrawPanel ViewDrawPanel { get; }
 
+        /// <summary>
+        /// Shows or hides the Events toolbar button (lightning bolt).
+        /// </summary>
+        /// <param name="visible"><see langword="true"/> to show the Events tab button.</param>
+        public void SetEventsButtonVisible(bool visible) => ShowEventsButton(visible);
+
         #endregion
 
         #region Protected
@@ -605,6 +611,20 @@ public class KryptonPropertyGrid : VisualControlBase,
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public PropertyTab SelectedTab => _propertyGrid.SelectedTab;
+
+    /// <summary>
+    /// Gets the tabs shown on the property grid toolbar.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public PropertyGrid.PropertyTabCollection PropertyTabs => _propertyGrid.PropertyTabs;
+
+    /// <summary>
+    /// Shows or hides the Events toolbar button on the inner property grid.
+    /// </summary>
+    /// <param name="visible"><see langword="true"/> to show the Events tab button.</param>
+    public void SetEventsButtonVisible(bool visible) => _propertyGrid.SetEventsButtonVisible(visible);
 
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]

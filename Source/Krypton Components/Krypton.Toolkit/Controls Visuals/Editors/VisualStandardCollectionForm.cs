@@ -111,11 +111,31 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         var site = new KryptonDesignerPropertyGridSite(Context, siteComponent);
         propertyGrid.Site = site;
 
-        // Events tab queries services on the inner PropertyGrid Site, not the Krypton wrapper.
+        // Events tab / ActiveDesigner are wired from PropertyGrid.Site, which is the inner grid.
         if (propertyGrid.ContainedControl is Control innerGrid)
         {
             innerGrid.Site = site;
         }
+
+        EnsureEventsTab(propertyGrid);
+    }
+
+    /// <summary>
+    /// Ensures the Events tab type is registered so the lightning-bolt toolbar button can appear.
+    /// </summary>
+    /// <param name="propertyGrid">Property grid to configure.</param>
+    protected static void EnsureEventsTab(KryptonPropertyGrid propertyGrid)
+    {
+        PropertyGrid.PropertyTabCollection tabs = propertyGrid.PropertyTabs;
+        for (var i = 0; i < tabs.Count; i++)
+        {
+            if (tabs[i] is EventsTab)
+            {
+                return;
+            }
+        }
+
+        tabs.AddTabType(typeof(EventsTab));
     }
 
     private void RefreshList()
