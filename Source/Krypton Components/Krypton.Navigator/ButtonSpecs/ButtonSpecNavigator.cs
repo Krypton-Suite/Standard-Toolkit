@@ -47,7 +47,7 @@ public class ButtonSpecNavigator : ButtonSpecHeaderGroup
     [Category(@"Behavior")]
     [Description(@"Defines a restricted type for a navigator button spec.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(PaletteNavButtonSpecStyle), "Generic")]
+    [DefaultValue(typeof(PaletteNavButtonSpecStyle), "Generic")]
     [DesignerSerializationVisibility( DesignerSerializationVisibility.Content)]
     public PaletteNavButtonSpecStyle TypeRestricted
     {

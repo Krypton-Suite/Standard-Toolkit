@@ -68,7 +68,6 @@ public class ToolTipValues : HeaderValues
     /// <summary>
     /// Gets and sets the EnableToolTips
     /// </summary>
-    [DefaultValue(false)]
     public bool EnableToolTips { get; set; }
 
     private bool _defaultEnableToolTips;

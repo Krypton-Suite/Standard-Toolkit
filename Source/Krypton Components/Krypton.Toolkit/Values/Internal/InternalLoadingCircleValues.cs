@@ -70,7 +70,7 @@ internal class InternalLoadingCircleValues : Storage
     /// <summary>
     /// Gets or sets the spoke colour. <see cref="Color.Empty"/> uses the active palette.
     /// </summary>
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     public Color Color
     {
         get => _color;
