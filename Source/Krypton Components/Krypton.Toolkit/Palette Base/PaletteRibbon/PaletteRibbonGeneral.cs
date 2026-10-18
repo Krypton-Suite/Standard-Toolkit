@@ -773,7 +773,6 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient first color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundGradientFirstColor
     {

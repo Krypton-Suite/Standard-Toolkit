@@ -47,6 +47,9 @@
 
 - Resolved [#4584](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4584), Flickering when displaying a `KryptonForm` in Windows Forms
    - Bordered `KryptonForm` dialogs no longer flash the Windows 11 system title bar when opened with `ShowDialog`.
+- Implemented [#4559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4559), Use different designer 'Modified' types
+   - Fresh toolbox controls stay blank in the property grid until a value changes.
+   - Expandable palette and navigator values no longer show Modified on a new drop. Empty colours, factory text, and stock colours such as the progress-bar green are not written into the designer file until you change them.
 - Implemented [#4560](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4560), Add a further ribbon group item that allows a bigger number of buttons
    - `KryptonRibbonGroupStack` holds any number of ribbon group items inside the three-line group height. `StackLayout.Columns` fills columns of three. 
    - `StackLayout.Adaptive` shows large items in one row and wraps medium and small items into columns of three. 
