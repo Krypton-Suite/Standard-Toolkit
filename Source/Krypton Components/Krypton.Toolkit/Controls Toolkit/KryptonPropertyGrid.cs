@@ -318,7 +318,6 @@ public class KryptonPropertyGrid : VisualControlBase,
 
         // Create a new KryptonContextMenu
         _resetContextMenu = new KryptonContextMenu();
-        KryptonContextMenu = _resetContextMenu;
 
         KryptonContextMenuItems menuItems = new KryptonContextMenuItems();
 
@@ -327,6 +326,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         menuItems.Items.Add(_resetMenuItem);
 
         _resetContextMenu.Items.Add(menuItems);
+        SetFactoryKryptonContextMenu(_resetContextMenu);
     }
 
     /// <summary>
