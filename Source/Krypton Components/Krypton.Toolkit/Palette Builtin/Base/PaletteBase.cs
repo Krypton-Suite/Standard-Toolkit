@@ -793,6 +793,13 @@ public abstract class PaletteBase : Component
     public abstract Image? GetTreeViewImage(bool expanded);
 
     /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    public abstract Image? GetPropertyGridImage(PropertyGridToolImage image);
+
+    /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.
     /// </summary>
     /// <param name="isRtl">If Yes, request an RTL-oriented image; otherwise LTR.</param>

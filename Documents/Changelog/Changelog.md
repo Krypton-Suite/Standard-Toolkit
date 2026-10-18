@@ -45,6 +45,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Implemented, Themeable `KryptonPropertyGrid` toolbar icons (alphabetical, categorized, property pages, and events) via palette `Images.PropertyGrid` / `GetPropertyGridImage`, and app-wide via `KryptonManager.Images.PropertyGridImages`. Resolve order is control palette, then manager images, then stock WinForms.
+- Resolved, `KryptonPropertyGrid` no longer asserts in `PaletteRedirectGrids` when a custom palette is applied (grid styles were queried with `FocusOverride`).
 - Implemented [#4550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4550), `KryptonTextBox` & `KryptonSearchBox` in form titlebar
    - Use `KryptonCaptionForm` when the caption hosts controls. Ordinary `KryptonForm` keeps the previous designer surface.
    - Each control has its own left, centre, or right edge. Configure `KryptonCaptionForm.CaptionItems` (including a `KryptonSearchBox`, which derives from `KryptonTextBox`).

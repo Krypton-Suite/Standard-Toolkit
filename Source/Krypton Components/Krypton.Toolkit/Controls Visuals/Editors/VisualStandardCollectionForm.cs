@@ -135,7 +135,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
             }
         }
 
-        tabs.AddTabType(typeof(EventsTab));
+        tabs.AddTabType(typeof(KryptonPropertyGrid.KryptonPropertyGridEventsTab));
     }
 
     private void RefreshList()
