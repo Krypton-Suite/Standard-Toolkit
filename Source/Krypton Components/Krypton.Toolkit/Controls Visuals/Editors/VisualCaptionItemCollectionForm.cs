@@ -259,6 +259,12 @@ internal sealed class VisualCaptionItemCollectionForm : VisualStandardCollection
     {
         _addMenuItems.Items.Clear();
 
+        var existingHeading = new KryptonContextMenuHeading
+        {
+            Text = @"Existing controls"
+        };
+        _addMenuItems.Items.Add(existingHeading);
+
         var available = GetAvailableControls();
         if (available.Count > 0)
         {
