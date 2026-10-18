@@ -46,6 +46,9 @@
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
 - Resolved [#4582](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4582), Cannot add `KryptonHeader` or `KryptonHeaderGroup` in the .NET 10 WinForms designer (`displayName` cannot be null).
+- Implemented [#4550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4550), `KryptonTextBox` & `KryptonSearchBox` in form titlebar
+   - Use `KryptonCaptionForm` when the caption hosts controls. Ordinary `KryptonForm` keeps the previous designer surface.
+   - Each control has its own left, centre, or right edge. Drop a `KryptonFormCaptionItems` component for several items, or assign `CaptionTextBox` for a single text box (including a `KryptonSearchBox`).
 - Implemented [#4559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4559), Use different designer 'Modified' types
    - Fresh toolbox controls stay blank in the property grid until a value changes.
    - Expandable palette and navigator values no longer show Modified on a new drop. Empty colours, factory text, and stock colours such as the progress-bar green are not written into the designer file until you change them.
