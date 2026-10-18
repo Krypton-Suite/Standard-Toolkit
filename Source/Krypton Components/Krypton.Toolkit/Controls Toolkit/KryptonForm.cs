@@ -633,6 +633,8 @@ public class KryptonForm : VisualForm,
 	{
 		if (disposing)
 		{
+			DisposeCaptionChromeHosts();
+
 			// Remove ant showing tooltip
 			OnCancelToolTip(this, EventArgs.Empty);
 
@@ -1995,6 +1997,7 @@ public class KryptonForm : VisualForm,
 	protected override void OnShown(EventArgs e)
 	{
 		base.OnShown(e);
+		SyncCaptionChromeHosts();
 
 		// Host code may set palette/RTL after OnLoad; re-sync and recreate so views match collection order.
 		SyncFormFixedButtonSpecOrder();
@@ -2440,6 +2443,7 @@ public class KryptonForm : VisualForm,
 	{
 		base.OnMdiChildActivate(e);
 		SyncMdiClientEdgeForBorderlessFillChildren();
+		SyncCaptionChromeHosts();
 	}
 
 	#endregion
@@ -2481,6 +2485,7 @@ public class KryptonForm : VisualForm,
 
 		// Need to perform a layout
 		PerformNeedPaint(true);
+		SyncCaptionChromeHosts();
 
 		// Make sure non-client is invalidated so the grip is drawn on start
 		InvalidateNonClient();
@@ -2641,6 +2646,13 @@ public class KryptonForm : VisualForm,
 			return new IntPtr(PI.HT.BORDER);
 		}
 
+		// Caption editor slot: HTBORDER so a gap around the owned text box cannot start a drag.
+		// The top resize band is left to the border checks below.
+		if (HitTestCaptionChrome(pt))
+		{
+			return new IntPtr(PI.HT.BORDER);
+		}
+
 		Padding borders = RealWindowBorders;
 
 		// Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
@@ -2796,6 +2808,7 @@ public class KryptonForm : VisualForm,
 	protected override void WindowChromePaint(Graphics g, Rectangle bounds)
 	{
 		CheckViewLayout();
+		SyncCaptionChromeHosts();
 		PerformViewPaint(g, bounds);
 	}
 
@@ -2929,6 +2942,7 @@ public class KryptonForm : VisualForm,
 	protected override void OnMove(EventArgs e)
 	{
 		base.OnMove(e);
+		SyncCaptionChromeHosts();
 	}
 
 	#endregion
@@ -2971,6 +2985,8 @@ public class KryptonForm : VisualForm,
 				CloseBox = true;
 				break;
 		}
+
+		SyncCaptionChromeHosts();
 	}
 
 	private Icon? GetDefinedIcon()
@@ -2994,6 +3010,56 @@ public class KryptonForm : VisualForm,
 		}
 
 		return null;
+	}
+
+	/// <summary>
+	/// Gets the heading docker used for caption layout.
+	/// </summary>
+	protected ViewDrawDocker DrawHeading => _drawHeading;
+
+	/// <summary>
+	/// Gets a value indicating whether the caption area is currently hidden.
+	/// </summary>
+	protected bool IsCaptionHidden => ShouldHideCaption();
+
+	/// <summary>
+	/// Releases owned windows that host caption controls.
+	/// </summary>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual void DisposeCaptionChromeHosts()
+	{
+	}
+
+	/// <summary>
+	/// Moves owned caption hosts onto their laid-out slots.
+	/// </summary>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual void SyncCaptionChromeHosts()
+	{
+	}
+
+	/// <summary>
+	/// <see langword="true"/> when <paramref name="windowPoint"/> is over a caption control slot.
+	/// </summary>
+	/// <param name="windowPoint">Point in window coordinates.</param>
+	/// <returns><see langword="true"/> when the point is over caption chrome hosting.</returns>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual bool HitTestCaptionChrome(Point windowPoint) => false;
+
+	/// <summary>
+	/// Reserves caption space for hosted caption controls before the heading is laid out.
+	/// </summary>
+	/// <returns><see langword="true"/> when a layout is required.</returns>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual bool PrepareCaptionChromeSlots() => false;
+
+	/// <summary>
+	/// Places centre-aligned caption controls after the heading layout.
+	/// </summary>
+	/// <param name="context">Context from the heading layout that just completed.</param>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual void PlaceCaptionChromeCenter(ViewLayoutContext context)
+	{
 	}
 
 	/// <summary>
@@ -3194,6 +3260,11 @@ public class KryptonForm : VisualForm,
 					}
 				}
 
+				if (PrepareCaptionChromeSlots())
+				{
+					NeedLayout = true;
+				}
+
 				// Is a layout required?
 				if (NeedLayout
 					|| (GetDefinedIcon() != _cacheIcon)
@@ -3215,6 +3286,7 @@ public class KryptonForm : VisualForm,
 					using (var context = new ViewLayoutContext(ViewManager, this, realWindowRectangle, Renderer))
 					{
 						ViewManager.Layout(context);
+						PlaceCaptionChromeCenter(context);
 					}
 
 					// Layout not needed until next indicated

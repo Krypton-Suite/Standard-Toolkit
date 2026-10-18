@@ -194,6 +194,12 @@
     <Compile Update="KryptonToolkit\Feature\KryptonSplitButtonDemo.Designer.cs">
       <DependentUpon>KryptonSplitButtonDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\CaptionTextBoxDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\CaptionTextBoxDemo.Designer.cs">
+      <DependentUpon>CaptionTextBoxDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\TextBoxInputModeDemo.cs">
       <SubType>Form</SubType>
     </Compile>
