@@ -51,7 +51,7 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
-| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false). #4466 factory message-box strings, print-preview string defaults, and empty progress-bar / drop-down colours must not `ShouldSerialize`. #4557 a fresh ribbon `NotificationBar` is blank, then `Modified` after an edit | `include` |
+| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 / #4559 toolbox drop: every toolbox control must not report designer `Modified` storage (`IsDefault` false). #4466 factory strings and empty colours must not `ShouldSerialize`. #4557 a fresh ribbon `NotificationBar` is blank, then `Modified` after an edit. Focused checks: ribbon back colours, progress-bar green, scrollbar border, menu-bar background. Also run alone by `.github/workflows/designer-serialization-defaults.yml` | `include` |
 | `Invoke-NotificationBarModifiedScreenshot.ps1` | #4557 hosts `Bug4557NotificationBarModifiedDemo` and captures the fresh (blank) and edited (`Modified`) property-grid states | `exclude` |
 | `UnitTest-ButtonSpecCollectionEditorDisplayText.ps1` | #4536 ButtonSpec collection editor lists the designer component name (`buttonSpecAny1`); `Name` edits that name; `UniqueName` stays the persistence key | `include` |
 | `UnitTest-CollectionEditorTaskbar.ps1` | #4547 collection editor dialogs set `ShowInTaskbar` false so the window omits `WS_EX_APPWINDOW` | `include` |

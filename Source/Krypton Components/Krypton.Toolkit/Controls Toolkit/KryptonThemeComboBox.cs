@@ -42,9 +42,16 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
         Items.Clear();
         Items.AddRange(CommonHelperThemeSelectors.GetThemesArray(_showExtraThemes));
 
-        // Sets the intial palette from either global or DefaultPalette property
-        SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
-
+        // Show the current global theme without recording it as a local DefaultPalette.
+        _isExternalUpdate = true;
+        try
+        {
+            SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
+        }
+        finally
+        {
+            _isExternalUpdate = false;
+        }
     }
     #endregion
 

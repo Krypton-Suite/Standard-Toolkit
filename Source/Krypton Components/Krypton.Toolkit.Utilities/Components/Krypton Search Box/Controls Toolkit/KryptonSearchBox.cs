@@ -122,7 +122,7 @@ public partial class KryptonSearchBox : KryptonTextBox
         base.AutoCompleteSource = AutoCompleteSource.None;
 
         // Enable button spec tooltips
-        AllowButtonSpecToolTips = true;
+        SetFactoryAllowButtonSpecToolTips(true);
 
         // Hook into text box events
         TextChanged += OnTextChangedInternal;

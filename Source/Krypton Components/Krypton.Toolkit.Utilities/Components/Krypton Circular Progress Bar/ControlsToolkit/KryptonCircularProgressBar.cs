@@ -54,6 +54,7 @@ public class KryptonCircularProgressBar : KryptonProgressBar
     private int _outerWidth = 26;
     private int _progressWidth = 25;
     private Font _secondaryFont;
+    private Font? _factoryFont;
     private Padding _subscriptMargin;
     private string _subscriptText = string.Empty;
     private Padding _superscriptMargin;
@@ -551,7 +552,7 @@ public class KryptonCircularProgressBar : KryptonProgressBar
 
         AnimationSpeed = 500;
 
-        MarqueeAnimationSpeed = 2000;
+        SetFactoryMarqueeAnimationSpeed(2000);
 
         StartAngle = 270;
 
@@ -609,11 +610,21 @@ public class KryptonCircularProgressBar : KryptonProgressBar
 
         Text = @"0";
         Values.SetFactoryText(@"0");
+        _factoryFont = Font;
 
         AutoSize = true;
         AutoSizeMode = AutoSizeMode.GrowAndShrink;
         Size = GetPreferredSize(Size.Empty);
     }
+
+    private bool ShouldSerializeFont() => _factoryFont == null || !Font.Equals(_factoryFont);
+
+    private bool ShouldSerializeText() => Text != @"0";
+
+    /// <summary>
+    /// Resets <see cref="Control.Text"/> to the factory value <c>0</c>.
+    /// </summary>
+    public new void ResetText() => Text = @"0";
 
     #endregion
 

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -79,10 +79,7 @@ public class KryptonCheckedListComboBox : KryptonComboBoxUserControl
     /// </summary>
     public KryptonCheckedListComboBox()
     {
-        ReadOnlyEditor = true;
-        DropDownResizable = true;
-        DropDownWidth = DefaultDropDownWidth;
-        DropDownHeight = DefaultDropDownHeight;
+        SetFactoryDropDown(DefaultDropDownWidth, DefaultDropDownHeight, true, true);
 
         _dropDown = new KryptonCheckedListComboBoxDropDown(this);
         _dropDown.ItemCheck += OnInnerListItemCheck;

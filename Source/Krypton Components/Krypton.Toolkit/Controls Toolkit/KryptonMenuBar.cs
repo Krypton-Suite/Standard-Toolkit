@@ -76,13 +76,11 @@ public class KryptonMenuBar : VisualSimpleBase
         StatePressed = new PaletteTriple(StateCommon, NeedPaintDelegate);
 
         _barBackInherit = new PaletteBackInheritMenuStrip(Redirector.Target);
-        _barBack = new PaletteBack(_barBackInherit, NeedPaintDelegate)
-        {
-            ColorStyle = PaletteColorStyle.Linear,
-            ColorAngle = 90f,
-            ColorAlign = PaletteRectangleAlign.Local,
-            ImageAlign = PaletteRectangleAlign.Local
-        };
+        _barBack = new PaletteBack(_barBackInherit, NeedPaintDelegate);
+        _barBack.SetFactoryColorStyle(PaletteColorStyle.Linear);
+        _barBack.SetFactoryColorAngle(90f);
+        _barBack.SetFactoryColorAlign(PaletteRectangleAlign.Local);
+        _barBack.SetFactoryImageAlign(PaletteRectangleAlign.Local);
         _barBorderInherit = new PaletteBorderInheritRedirect(Redirector, PaletteBorderStyle.ControlClient)
         {
             OverrideBorderToFalse = true
