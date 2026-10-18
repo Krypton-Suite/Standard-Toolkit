@@ -1,4 +1,4 @@
-# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
+﻿# ![Krypton logo](https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Krypton.png?raw=true) Standard Toolkit - ChangeLog
 
 =======
 
@@ -45,6 +45,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Resolved [#4584](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4584), Flickering when displaying a `KryptonForm` in Windows Forms
+   - Bordered `KryptonForm` dialogs no longer flash the Windows 11 system title bar when opened with `ShowDialog`.
 - Implemented [#4560](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4560), Add a further ribbon group item that allows a bigger number of buttons
    - `KryptonRibbonGroupStack` holds any number of ribbon group items inside the three-line group height. `StackLayout.Columns` fills columns of three. 
    - `StackLayout.Adaptive` shows large items in one row and wraps medium and small items into columns of three. 

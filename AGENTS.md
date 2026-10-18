@@ -24,7 +24,7 @@ Before considering a task complete:
 - Fix any compiler or analyzer warnings introduced by the change; treat new warnings as part of the build (do not leave them for later). Prefer fixing pre-existing warnings in files you already touch when the fix is small and local; do not expand into a repo-wide warning cleanup unless asked.
 - Check files you create or edit for UTF-8 BOM encoding issues and fix them (see **Coding Style & Naming Conventions**). Do not leave UTF-8-without-BOM or wrong-encoding files when the repo expects UTF-8 with BOM; do not expand into a repo-wide encoding cleanup unless asked.
 - Update TestForm when adding a feature.
-- When adding a feature, also add or append a comprehensive consumer demo in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (see **Standard-Toolkit-Demos**). Reuse `..\Standard-Toolkit-Demos` if it already exists (do **not** clone again); clone into the parent only if that folder is missing. Then switch to `alpha` (if not already on it) and create a new `alpha-…` branch from `alpha`. It is not part of this repository. If an example already exists, do not overwrite it; append.
+- When adding a feature, also add or append a comprehensive consumer demo in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (see **Standard-Toolkit-Demos**). Reuse `..\Standard-Toolkit-Demos` if it already exists (do **not** clone again); clone into the parent only if that folder is missing. Then switch to `alpha` (if not already on it) and create a new `alpha-…` branch from `alpha`. It is not part of this repository. If an example already exists, do not overwrite it; append. For a **new** example project, also add a screenshot or GIF under that example folder and register it in the category `README.md` (see **Standard-Toolkit-Demos** → **Category README entry and screenshot / GIF**).
 - Update Changelog.md for completed features and bug fixes.
 - When a change is **breaking** for consumers, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**). The entry must follow the existing pattern in that section.
 - Add developer documentation for substantial new features (see **Feature Developer Documentation**). Keep `Documents/Development/` files **out of pull requests**.
@@ -735,13 +735,61 @@ Copy a neighbouring example in the same `Source\… Examples` folder **only when
 - Dual references: copy the neighbour’s `Choose` / `When` block that tests whether `$(SolutionName)` ends with `Nuget`. Dev arms `ProjectReference` this repo (`Krypton.Toolkit 2022.csproj` plus Navigator/Ribbon/Workspace/Docking/Utilities projects as needed). Nuget arms use the matching Canary packages (`Krypton.Toolkit.Canary`, `Krypton.Navigator.Canary`, `Krypton.Standard.Toolkit.Canary`, …).
 - TFMs come from Demos `Directory.Build.props`; do not duplicate a `<TargetFrameworks>` list on the example unless a neighbour does.
 - Comprehensive for consumers: main API paths, properties, events, theme/palette switches, short on-form instructions. Use a Krypton vs WinForms side-by-side when the feature is a replacement or wrapper for a built-in control (same rule as **TestForm Demos**). This is not a bug-repro form.
+- After the example runs, capture a gallery PNG or GIF into that example folder and register it in the category `README.md` (required for new projects; see **Category README entry and screenshot / GIF**).
 
 ### Registration
 
 - Add the project to **every** `.sln` and `.slnx` in that category folder that already lists neighbouring examples. Do not invent missing Debug/Release/Nuget solutions; Utilities categories currently have only a Debug Dev `.slnx`.
 - If neighbouring examples in that category already appear in Krypton Explorer, add a `KryptonLinkLabel` on the same page in `$demosRoot\Source\Krypton Explorer\Main.Designer.cs` and wire `LinkClicked` in `Main.cs` to `LaunchApplication(@"<AssemblyName>")`. Explorer pages today cover Toolkit, Docking, Workspace, Navigator, and Ribbon. Do **not** add a new Explorer tab for Utilities unless the user asks; those examples currently have no Explorer links.
-- Add an entry (and screenshot/GIF when you have one) to that category’s `README.md` when the file exists (`Krypton Navigator Utilities Examples` currently has none).
+- Add a category `README.md` entry **and** a screenshot or GIF for every **new** example project (required; see **Category README entry and screenshot / GIF** below). When appending UI-visible capability to an existing example, refresh that example’s gallery image when the current shot would be misleading.
 - Do not change `WixInstaller` for a feature demo.
+
+### Category README entry and screenshot / GIF
+
+When adding a **new** example project in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos), capture a gallery still or short GIF and wire it into that category’s `README.md`. Do **not** leave a heading with only prose and no image when neighbouring entries show media (gaps such as text-only `KryptonRating` / `KryptonTagInput` sections are the anti-pattern to avoid). These assets **are** committed in the Demos repo (unlike Toolkit `Documents/PR/` shots).
+
+#### What to capture
+
+- **PNG** for a static default look of the example (typical theme is enough; do not shoot every theme).
+- **GIF** when motion is the point (toggle, toast, menu open, fade, scrollbar interaction), matching neighbours such as `KryptonToggleSwitchExample.gif` or `ToastNotificationExample.gif`.
+- Prefer PrintWindow / HWND capture of the example form (same idea as Toolkit **UI Screenshots / GIFs**); verify the image shows the demo, not the IDE.
+
+#### Where to save the file
+
+- Place the image **inside the example project folder** (sibling to `Form1`), not under Toolkit `Documents/PR/` and not only under `Binaries\`.
+- Prefer the neighbour convention: `example.png` / `example.gif`, or `Example.png` / a descriptive name already used beside that example (`KryptonErrorProviderExample.gif`, `IntegratedToolbarExample.gif`). Match casing and naming style of nearby examples in the same category.
+
+#### How to update the category `README.md`
+
+Update `$demosRoot\Source\<Category>\README.md` (for example `Krypton Toolkit Examples\README.md`, `Krypton Utilities Examples\README.md`, `Krypton Ribbon Examples\README.md`). Match that file’s existing pattern:
+
+| Category README style | Pattern to copy |
+|-----------------------|-----------------|
+| Toolkit / Utilities (`##` + image) | Add a TOC bullet under the document outline, then a `## Heading` section and an image line: `![Heading](Folder%20Name/example.png)` (spaces in paths as `%20`) |
+| Ribbon / Navigator / Workspace / Docking (heading-as-link) | Add `## [Heading](Folder%20Name/example.png)` (or `.gif`) in the same order/style as neighbours |
+
+Examples from Toolkit:
+
+```markdown
+## KryptonToggleSwitch
+![KryptonToggleSwitch Examples](KryptonToggleSwitch%20Examples/KryptonToggleSwitchExample.gif)
+```
+
+```markdown
+## KryptonButton Examples
+![KryptonButton Examples](KryptonButton%20Examples/example.png)
+![KryptonSplitButton](KryptonButton%20Examples/KryptonSplitButtonDemo.gif)
+```
+
+- Insert the new section next to alphabetically or thematically neighbouring examples; keep the outline TOC and body in sync.
+- When **appending** a major visible scenario to an existing example, replace or add a second image beside the existing one when needed (see the Button / SplitButton pair above); do not wipe unrelated README entries.
+- If that category has **no** `README.md` yet, say so in the Toolkit PR validation notes and skip the README wire-up (do not invent a full gallery for an empty category unless asked). Still keep the capture under the example folder when practical so a README can pick it up later.
+
+#### Do not
+
+- Ship a new Demos example project without a gallery PNG/GIF and README entry when the category README already lists peers with images.
+- Put Demos gallery images only under Toolkit `Documents/PR/` or leave them unlinked in the category README.
+- Overwrite another example’s image path or README section.
 
 ### Git boundary
 
@@ -829,7 +877,7 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 ```
 
 - Do **not** upload, attach, or host these files on the GitHub pull request (no `user-attachments` URLs, no drag-and-drop onto the PR, no `gh` image attach). GitHub will not display local relative paths; that is intended.
-- Demos category README: add a screenshot/GIF when you have one (see **Standard-Toolkit-Demos**). Those live in the Demos repo, not on the Toolkit GitHub PR.
+- Demos category README: for a **new** Standard-Toolkit-Demos example, a screenshot or GIF in the example folder **and** a category `README.md` entry are required (see **Standard-Toolkit-Demos** → **Category README entry and screenshot / GIF**). Those live in the Demos repo and are committed there, not on the Toolkit GitHub PR.
 
 ### Do not
 
