@@ -123,7 +123,8 @@ public class KryptonPropertyGrid : VisualControlBase,
                 return new KryptonPropertyGridEventsTab(_kryptonPropertyGrid.Site ?? Site, _kryptonPropertyGrid);
             }
 
-            return base.CreatePropertyTab(tabType);
+            // WinForms annotates CreatePropertyTab as PropertyTab? on modern TFMs; stock tabs are never null.
+            return base.CreatePropertyTab(tabType)!;
         }
 
         /// <summary>Raises the <see cref="E:System.Windows.Forms.Control.SystemColorsChanged" /> event.</summary>
@@ -299,7 +300,8 @@ public class KryptonPropertyGrid : VisualControlBase,
             get
             {
                 Bitmap? themed = _owner?.ResolvePropertyGridToolBitmap(PropertyGridToolImage.Events);
-                return themed ?? base.Bitmap;
+                // EventsTab.Bitmap is annotated as Bitmap? on modern TFMs; the stock lightning icon is never null.
+                return themed ?? base.Bitmap!;
             }
         }
 
