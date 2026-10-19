@@ -24,7 +24,8 @@ $packageId = switch ($Channel.ToLowerInvariant()) {
 
 $templateCsprojs = @(
     (Join-Path $RepoRoot 'Templates\ProjectTemplates\KryptonWinFormsApp\KryptonWinFormsApp.csproj'),
-    (Join-Path $RepoRoot 'Templates\ProjectTemplates\KryptonRibbonWinFormsApp\KryptonRibbonWinFormsApp.csproj')
+    (Join-Path $RepoRoot 'Templates\ProjectTemplates\KryptonRibbonWinFormsApp\KryptonRibbonWinFormsApp.csproj'),
+    (Join-Path $RepoRoot 'Templates\ProjectTemplates\KryptonCaptionWinFormsApp\KryptonCaptionWinFormsApp.csproj')
 )
 
 $utf8NoBom = New-Object System.Text.UTF8Encoding $false

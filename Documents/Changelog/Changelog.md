@@ -45,6 +45,9 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Resolved [#4591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4591), Events button is missing in `KryptonPropertyGrid`
+- Implemented, Themeable `KryptonPropertyGrid` toolbar icons (alphabetical, categorized, property pages, and events) via palette `Images.PropertyGrid` / `GetPropertyGridImage`, and app-wide via `KryptonManager.Images.PropertyGridImages`. Builtin themes read `PropertyGridImageResources` (currently null) through `GetBuiltinPropertyGridImage`. Resolve order is control palette, then manager images, then stock WinForms.
+- Resolved, `KryptonPropertyGrid` no longer asserts in `PaletteRedirectGrids` when a custom palette is applied (grid styles were queried with `FocusOverride`).
 - Resolved [#4584](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4584), Flickering when displaying a `KryptonForm` in Windows Forms
    - Bordered `KryptonForm` dialogs no longer flash the Windows 11 system title bar when opened with `ShowDialog`.
 - Resolved [#4582](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4582), Cannot add `KryptonHeader` or `KryptonHeaderGroup` in the .NET 10 WinForms designer (`displayName` cannot be null).
@@ -53,7 +56,8 @@
    - Suggestion filtering is debounced via `SearchBoxValues.SuggestionUpdateDelay` (default 75 ms; set to `0` for immediate updates).
 - Implemented [#4550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4550), `KryptonTextBox` & `KryptonSearchBox` in form titlebar
    - Use `KryptonCaptionForm` when the caption hosts controls. Ordinary `KryptonForm` keeps the previous designer surface.
-   - Each control has its own left, centre, or right edge. Drop a `KryptonFormCaptionItems` component for several items, or assign `CaptionTextBox` for a single text box (including a `KryptonSearchBox`).
+   - Each control has its own left, centre, or right edge. Configure `KryptonCaptionForm.CaptionItems` (including a `KryptonSearchBox`, which derives from `KryptonTextBox`).
+   - Visual Studio item template **Krypton Caption Form** and project template **Krypton Caption WinForms App** are included in the Krypton Templates VSIX.
 - Implemented [#4559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4559), Use different designer 'Modified' types
    - Fresh toolbox controls stay blank in the property grid until a value changes.
    - Expandable palette and navigator values no longer show Modified on a new drop. Empty colours, factory text, and stock colours such as the progress-bar green are not written into the designer file until you change them.

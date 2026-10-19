@@ -60,7 +60,7 @@ partial class CaptionTextBoxDemo
         this._instructions.ReadOnly = true;
         this._instructions.Size = new System.Drawing.Size(960, 88);
         this._instructions.TabIndex = 1;
-        this._instructions.Text = "A KryptonFormCaptionItems component hosts the search box, text box, button, and combo. Each item has its own edge. Search moves the text box with it. Drag the caption outside the controls, resize, and maximize.";
+        this._instructions.Text = "CaptionItems hosts the search box, text box, button, and combo. Each item has its own edge. Search moves the text box with it. Drag the caption outside the controls, resize, and maximize.";
         //
         // _options
         //

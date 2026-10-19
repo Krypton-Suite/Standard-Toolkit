@@ -80,9 +80,53 @@ public class KryptonPropertyGrid : VisualControlBase,
         /// </summary>
         public ViewDrawPanel ViewDrawPanel { get; }
 
+        /// <summary>
+        /// Shows or hides the Events toolbar button (lightning bolt).
+        /// </summary>
+        /// <param name="visible"><see langword="true"/> to show the Events tab button.</param>
+        public void SetEventsButtonVisible(bool visible) => ShowEventsButton(visible);
+
         #endregion
 
         #region Protected
+        /// <summary>
+        /// Gets the image that appears on the alphabetical (A-Z) toolbar button.
+        /// </summary>
+        protected override Bitmap SortByPropertyImage =>
+            _kryptonPropertyGrid.ResolvePropertyGridToolBitmap(PropertyGridToolImage.Alphabetical)
+            ?? base.SortByPropertyImage;
+
+        /// <summary>
+        /// Gets the image that appears on the categorized toolbar button.
+        /// </summary>
+        protected override Bitmap SortByCategoryImage =>
+            _kryptonPropertyGrid.ResolvePropertyGridToolBitmap(PropertyGridToolImage.Categorized)
+            ?? base.SortByCategoryImage;
+
+        /// <summary>
+        /// Gets the image that appears on the property pages toolbar button.
+        /// </summary>
+        protected override Bitmap ShowPropertyPageImage =>
+            _kryptonPropertyGrid.ResolvePropertyGridToolBitmap(PropertyGridToolImage.PropertyPages)
+            ?? base.ShowPropertyPageImage;
+
+        /// <summary>
+        /// Creates a <see cref="PropertyTab"/> for the given type, using a themed Events tab when requested.
+        /// </summary>
+        /// <param name="tabType">Type of property tab to create.</param>
+        /// <returns>A new property tab instance.</returns>
+        protected override PropertyTab CreatePropertyTab(Type tabType)
+        {
+            if (tabType == typeof(KryptonPropertyGridEventsTab)
+                || tabType == typeof(EventsTab))
+            {
+                return new KryptonPropertyGridEventsTab(_kryptonPropertyGrid.Site ?? Site, _kryptonPropertyGrid);
+            }
+
+            // WinForms annotates CreatePropertyTab as PropertyTab? on modern TFMs; stock tabs are never null.
+            return base.CreatePropertyTab(tabType)!;
+        }
+
         /// <summary>Raises the <see cref="E:System.Windows.Forms.Control.SystemColorsChanged" /> event.</summary>
         /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnSystemColorsChanged(EventArgs e)
@@ -221,6 +265,51 @@ public class KryptonPropertyGrid : VisualControlBase,
             }
         }
         #endregion
+    }
+
+    /// <summary>
+    /// Events property tab that can use a themed lightning-bolt toolbar image.
+    /// </summary>
+    internal sealed class KryptonPropertyGridEventsTab : EventsTab
+    {
+        private readonly KryptonPropertyGrid? _owner;
+
+        /// <summary>
+        /// Initialize a new instance of the <see cref="KryptonPropertyGridEventsTab"/> class.
+        /// </summary>
+        /// <param name="sp">Service provider used by the base events tab.</param>
+        public KryptonPropertyGridEventsTab(IServiceProvider sp)
+            : base(sp ?? EmptyServiceProvider.Instance)
+        {
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the <see cref="KryptonPropertyGridEventsTab"/> class.
+        /// </summary>
+        /// <param name="sp">Service provider used by the base events tab; may be null.</param>
+        /// <param name="owner">Owning <see cref="KryptonPropertyGrid"/> used to resolve themed images.</param>
+        public KryptonPropertyGridEventsTab(IServiceProvider? sp, KryptonPropertyGrid owner)
+            : base(sp ?? EmptyServiceProvider.Instance) =>
+            _owner = owner;
+
+        /// <summary>
+        /// Gets the bitmap to display on the events toolbar button.
+        /// </summary>
+        public override Bitmap Bitmap
+        {
+            get
+            {
+                Bitmap? themed = _owner?.ResolvePropertyGridToolBitmap(PropertyGridToolImage.Events);
+                // EventsTab.Bitmap is annotated as Bitmap? on modern TFMs; the stock lightning icon is never null.
+                return themed ?? base.Bitmap!;
+            }
+        }
+
+        private sealed class EmptyServiceProvider : IServiceProvider
+        {
+            public static readonly EmptyServiceProvider Instance = new EmptyServiceProvider();
+            public object? GetService(Type serviceType) => null;
+        }
     }
 
     #endregion
@@ -606,6 +695,20 @@ public class KryptonPropertyGrid : VisualControlBase,
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public PropertyTab SelectedTab => _propertyGrid.SelectedTab;
 
+    /// <summary>
+    /// Gets the tabs shown on the property grid toolbar.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public PropertyGrid.PropertyTabCollection PropertyTabs => _propertyGrid.PropertyTabs;
+
+    /// <summary>
+    /// Shows or hides the Events toolbar button on the inner property grid.
+    /// </summary>
+    /// <param name="visible"><see langword="true"/> to show the Events tab button.</param>
+    public void SetEventsButtonVisible(bool visible) => _propertyGrid.SetEventsButtonVisible(visible);
+
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -659,6 +762,32 @@ public class KryptonPropertyGrid : VisualControlBase,
 
     #region Krypton
 
+    /// <summary>
+    /// Resolves a property grid toolbar image as a <see cref="Bitmap"/>, or null for the stock WinForms image.
+    /// </summary>
+    /// <param name="toolImage">Which toolbar image is required.</param>
+    /// <returns>
+    /// A bitmap clone when the control palette or <see cref="KryptonManager.Images"/> supplies an image;
+    /// otherwise null so the stock WinForms toolbar image is used.
+    /// </returns>
+    /// <remarks>
+    /// Resolve order: control palette <c>GetPropertyGridImage</c>, then
+    /// <see cref="KryptonManager.Images"/>.PropertyGridImages, then stock WinForms.
+    /// </remarks>
+    internal Bitmap? ResolvePropertyGridToolBitmap(PropertyGridToolImage toolImage)
+    {
+        Image? image = GetResolvedPalette()?.GetPropertyGridImage(toolImage)
+                       ?? KryptonManager.Images.PropertyGridImages.GetImage(toolImage);
+        if (image == null)
+        {
+            return null;
+        }
+
+        return image is Bitmap bitmap
+            ? (Bitmap)bitmap.Clone()
+            : new Bitmap(image);
+    }
+
     /// <summary>Initialises the colours.</summary>
     private void UpdateStateAndPalettes()
     {
@@ -695,11 +824,14 @@ public class KryptonPropertyGrid : VisualControlBase,
             var controlsCollection = _propertyGrid.Controls;
             foreach (Control control in controlsCollection)
             {
+                // StateCommon uses Grid* palette styles. Do not pass FocusOverride here:
+                // custom palettes resolve grid styles through PaletteRedirectGrids, which has
+                // no FocusOverride branch and asserts. Use Normal with StateActive instead.
                 PaletteState state;
                 IPaletteTriple triple;
                 if (control.Focused)
                 {
-                    state = PaletteState.FocusOverride;
+                    state = PaletteState.Normal;
                     triple = StateActive;
                 }
                 else if (control.Enabled)

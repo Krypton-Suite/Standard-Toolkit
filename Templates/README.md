@@ -10,8 +10,10 @@ For maintainer-focused implementation and release details, see:
 
 - `ItemTemplates/KryptonForm`: Adds a `KryptonForm` item template for `Add > New Item`.
 - `ItemTemplates/KryptonRibbonForm`: Adds a `KryptonRibbonForm` item template for `Add > New Item`.
+- `ItemTemplates/KryptonCaptionForm`: Adds a `KryptonCaptionForm` item template for `Add > New Item` (title-bar hosted controls via `CaptionItems`).
 - `ProjectTemplates/KryptonWinFormsApp`: Adds a WinForms project template that starts with a `KryptonForm`.
 - `ProjectTemplates/KryptonRibbonWinFormsApp`: Adds a WinForms project template with a `KryptonRibbon` on the main form.
+- `ProjectTemplates/KryptonCaptionWinFormsApp`: Adds a WinForms project template that starts with a `KryptonCaptionForm`.
 
 ## Install (recommended — Marketplace)
 

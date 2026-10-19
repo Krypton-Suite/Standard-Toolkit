@@ -1292,6 +1292,33 @@ public class KryptonCustomPaletteBase : PaletteBase
         (expanded ? Images.TreeView.Minus : Images.TreeView.Plus) ?? _redirector.GetTreeViewImage(expanded);
 
     /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image)
+    {
+        Image? local = null;
+        switch (image)
+        {
+            case PropertyGridToolImage.Alphabetical:
+                local = Images.PropertyGrid.Alphabetical;
+                break;
+            case PropertyGridToolImage.Categorized:
+                local = Images.PropertyGrid.Categorized;
+                break;
+            case PropertyGridToolImage.PropertyPages:
+                local = Images.PropertyGrid.PropertyPages;
+                break;
+            case PropertyGridToolImage.Events:
+                local = Images.PropertyGrid.Events;
+                break;
+        }
+
+        return local ?? _redirector.GetPropertyGridImage(image);
+    }
+
+    /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.
     /// </summary>
     /// <param name="isRtl">If Yes, request an RTL-oriented image; otherwise LTR.</param>

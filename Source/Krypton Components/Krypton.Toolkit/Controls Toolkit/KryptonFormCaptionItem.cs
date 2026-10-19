@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// One control hosted in the <see cref="KryptonCaptionForm"/> caption, with its own edge.
 /// </summary>
 /// <remarks>
-/// Stored on <see cref="KryptonFormCaptionItems"/>. Applied at runtime through
+/// Stored on <see cref="KryptonCaptionForm.CaptionItems"/>. Applied at runtime through
 /// <see cref="KryptonCaptionForm.AddCaptionControl"/>.
 /// </remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
@@ -65,10 +65,14 @@ public class KryptonFormCaptionItem
     /// <summary>
     /// Gets or sets the control shown in the caption.
     /// </summary>
+    /// <remarks>
+    /// Drop the control on the form first, then pick it here. Forms cannot be hosted.
+    /// </remarks>
     [Category(@"Behavior")]
-    [Description(@"Control placed in the form caption.")]
+    [Description(@"Control placed in the form caption. Drop the control on the form first, then select it here.")]
     [DefaultValue(null)]
     [NotifyParentProperty(true)]
+    [TypeConverter(typeof(KryptonFormCaptionControlConverter))]
     public Control? Control
     {
         get => _control;
@@ -81,7 +85,7 @@ public class KryptonFormCaptionItem
             }
 
             _control = value;
-            Owner?.NotifyItemChanged(this);
+            Owner?.NotifyCaptionItemChanged(this);
         }
     }
 
@@ -104,7 +108,7 @@ public class KryptonFormCaptionItem
             }
 
             _edge = value;
-            Owner?.NotifyItemChanged(this);
+            Owner?.NotifyCaptionItemChanged(this);
         }
     }
 
@@ -113,11 +117,11 @@ public class KryptonFormCaptionItem
     #region Internal
 
     /// <summary>
-    /// Owning component that applies this item to the form.
+    /// Owning form that applies this item to the caption.
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    internal KryptonFormCaptionItems? Owner { get; set; }
+    internal KryptonCaptionForm? Owner { get; set; }
 
     #endregion
 }

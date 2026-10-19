@@ -3588,6 +3588,34 @@ public interface IFocusLostMenuItem
 }
 #endregion
 
+
+#region Enum PropertyGridToolImage
+/// <summary>
+/// Specifies which KryptonPropertyGrid toolbar image a palette should provide.
+/// </summary>
+public enum PropertyGridToolImage
+{
+    /// <summary>
+    /// Alphabetical (A-Z) sort toolbar image.
+    /// </summary>
+    Alphabetical,
+
+    /// <summary>
+    /// Categorized sort toolbar image.
+    /// </summary>
+    Categorized,
+
+    /// <summary>
+    /// Property pages toolbar image.
+    /// </summary>
+    PropertyPages,
+
+    /// <summary>
+    /// Events (lightning bolt) toolbar image.
+    /// </summary>
+    Events
+}
+#endregion
 #region Enum OverlayImagePosition
 /// <summary>
 /// Specifies the position of an overlay image relative to the main image.
