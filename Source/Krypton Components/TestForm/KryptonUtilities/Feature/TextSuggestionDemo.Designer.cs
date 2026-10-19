@@ -1,4 +1,4 @@
-﻿using Krypton.Utilities;
+﻿using Krypton.Toolkit.Utilities;
 
 namespace TestForm
 {
@@ -139,7 +139,6 @@ namespace TestForm
                 _labelCountries, _textBoxCountries,
                 _labelCustom, _textBoxCustom
             });
-
             // Settings group box
             _groupBoxSettings = new KryptonGroupBox
             {
