@@ -88,6 +88,32 @@ public class KryptonPropertyGrid : VisualControlBase,
         #endregion
 
         #region Protected
+        /// <summary>
+        /// Creates a <see cref="PropertyTab"/> for the given type.
+        /// </summary>
+        /// <param name="tabType">Type of property tab to create.</param>
+        /// <returns>A new property tab instance, or <see langword="null"/> for the default factory path.</returns>
+        protected override PropertyTab CreatePropertyTab(Type tabType)
+        {
+            // EventsTab only has an IServiceProvider constructor. With no Site, WinForms'
+            // CreateTab falls back to Activator.CreateInstance and fails, so AddTabType is a no-op
+            // and ShowEventsButton never finds a tab at EventsTabIndex.
+            if (tabType == typeof(KryptonPropertyGridEventsTab)
+                || tabType == typeof(EventsTab))
+            {
+                IServiceProvider? sp = _kryptonPropertyGrid.Site;
+                if (sp == null)
+                {
+                    sp = Site;
+                }
+
+                return new KryptonPropertyGridEventsTab(sp ?? RuntimePropertyGridServices.Instance);
+            }
+
+            // WinForms annotates CreatePropertyTab as PropertyTab? on modern TFMs; stock tabs are never null here.
+            return base.CreatePropertyTab(tabType)!;
+        }
+
         /// <summary>Raises the <see cref="E:System.Windows.Forms.Control.SystemColorsChanged" /> event.</summary>
         /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
         protected override void OnSystemColorsChanged(EventArgs e)
@@ -228,38 +254,6 @@ public class KryptonPropertyGrid : VisualControlBase,
         #endregion
     }
 
-    /// <summary>
-    /// Events property tab that can use a themed lightning-bolt toolbar image.
-    /// </summary>
-    internal sealed class KryptonPropertyGridEventsTab : EventsTab
-    {
-        private readonly KryptonPropertyGrid? _owner;
-
-        /// <summary>
-        /// Initialize a new instance of the <see cref="KryptonPropertyGridEventsTab"/> class.
-        /// </summary>
-        /// <param name="sp">Service provider used by the base events tab.</param>
-        public KryptonPropertyGridEventsTab(IServiceProvider sp)
-            : base(sp ?? EmptyServiceProvider.Instance)
-        {
-        }
-
-        /// <summary>
-        /// Initialize a new instance of the <see cref="KryptonPropertyGridEventsTab"/> class.
-        /// </summary>
-        /// <param name="sp">Service provider used by the base events tab; may be null.</param>
-        /// <param name="owner">Owning <see cref="KryptonPropertyGrid"/> used to resolve themed images.</param>
-        public KryptonPropertyGridEventsTab(IServiceProvider? sp, KryptonPropertyGrid owner)
-            : base(sp ?? EmptyServiceProvider.Instance) =>
-            _owner = owner;
-
-        private sealed class EmptyServiceProvider : IServiceProvider
-        {
-            public static readonly EmptyServiceProvider Instance = new EmptyServiceProvider();
-            public object? GetService(Type serviceType) => null;
-        }
-    }
-
     #endregion
 
     #region Instance Fields
@@ -276,6 +270,7 @@ public class KryptonPropertyGrid : VisualControlBase,
     private Font? _normalFont;
     private Font? _disabledFont;
     private Font? _activeFont;
+    private readonly List<IComponent> _runtimeSitedComponents = new List<IComponent>();
 
     /// <summary>Occurs before a key is pressed while the control has focus.</summary>
     [Description(@"Occurs before a key is pressed while the control has focus.")]
@@ -325,6 +320,7 @@ public class KryptonPropertyGrid : VisualControlBase,
         _propertyGrid.PropertyTabChanged += OnPropertyTabChanged;
         //_propertyGrid.PropertyChanging += OnPropertyChanging;
         _propertyGrid.PropertyValueChanged += OnPropertyValueChanged;
+        _propertyGrid.SelectedObjectsChanged += OnSelectedObjectsChanged;
 
         _layoutFill = new ViewLayoutFill(_propertyGrid)
         {
@@ -363,6 +359,8 @@ public class KryptonPropertyGrid : VisualControlBase,
 
         _resetContextMenu.Items.Add(menuItems);
         SetFactoryKryptonContextMenu(_resetContextMenu);
+
+        SyncEventsButtonWithSelection();
     }
 
     /// <summary>
@@ -373,6 +371,7 @@ public class KryptonPropertyGrid : VisualControlBase,
     {
         if (disposing)
         {
+            ClearRuntimeComponentSites();
             _resetContextMenu.Close();
             _resetContextMenu.Dispose();
         }
@@ -618,6 +617,10 @@ public class KryptonPropertyGrid : VisualControlBase,
     /// Shows or hides the Events toolbar button on the inner property grid.
     /// </summary>
     /// <param name="visible"><see langword="true"/> to show the Events tab button.</param>
+    /// <remarks>
+    /// Selection changes also sync this button automatically. Call this after a selection
+    /// change when a host needs an explicit override.
+    /// </remarks>
     public void SetEventsButtonVisible(bool visible) => _propertyGrid.SetEventsButtonVisible(visible);
 
     [Browsable(false)]
@@ -1019,6 +1022,271 @@ public class KryptonPropertyGrid : VisualControlBase,
     private void OnPropertyTabChanged(object? sender, PropertyTabChangedEventArgs e) => PropertyTabChanged?.Invoke(sender, e);
 
     private void OnPropertyValueChanged(object? sender, PropertyValueChangedEventArgs e) => PropertyValueChanged?.Invoke(sender, e);
+
+    private void OnSelectedObjectsChanged(object? sender, EventArgs e) => SyncEventsButtonWithSelection();
+
+    /// <summary>
+    /// Registers the Events tab when needed and shows the lightning-bolt toolbar button
+    /// when the grid has a selection.
+    /// </summary>
+    private void SyncEventsButtonWithSelection()
+    {
+        EnsureRuntimeEventServices();
+        EnsureEventsTab();
+        object[] selected = _propertyGrid.SelectedObjects;
+        SetEventsButtonVisible(selected != null && selected.Length > 0);
+
+        // Reselecting Events after siting components needs a refresh so GetProperties runs again.
+        if (selected != null && selected.Length > 0 && _propertyGrid.SelectedTab is EventsTab)
+        {
+            _propertyGrid.Refresh();
+        }
+    }
+
+    /// <summary>
+    /// Sites the inner property grid and unsited selected components with a runtime
+    /// <see cref="IEventBindingService"/>. <see cref="EventsTab"/> resolves that service from
+    /// the selected component's <see cref="IComponent.Site"/> (not the tab constructor).
+    /// </summary>
+    private void EnsureRuntimeEventServices()
+    {
+        if (_propertyGrid.Site == null)
+        {
+            _propertyGrid.Site = new RuntimePropertyGridSite(_propertyGrid, RuntimeEventBindingService.Instance);
+        }
+
+        ClearRuntimeComponentSites();
+
+        object[] selected = _propertyGrid.SelectedObjects;
+        if (selected == null)
+        {
+            return;
+        }
+
+        for (var i = 0; i < selected.Length; i++)
+        {
+            if (selected[i] is IComponent component && component.Site == null)
+            {
+                component.Site = new RuntimePropertyGridSite(component, RuntimeEventBindingService.Instance);
+                _runtimeSitedComponents.Add(component);
+            }
+        }
+    }
+
+    private void ClearRuntimeComponentSites()
+    {
+        for (var i = 0; i < _runtimeSitedComponents.Count; i++)
+        {
+            IComponent component = _runtimeSitedComponents[i];
+            if (component.Site is RuntimePropertyGridSite)
+            {
+                component.Site = null;
+            }
+        }
+
+        _runtimeSitedComponents.Clear();
+    }
+
+    /// <summary>
+    /// Ensures the Events tab type is registered so the lightning-bolt toolbar button can appear.
+    /// </summary>
+    private void EnsureEventsTab()
+    {
+        PropertyGrid.PropertyTabCollection tabs = _propertyGrid.PropertyTabs;
+        for (var i = 0; i < tabs.Count; i++)
+        {
+            if (tabs[i] is EventsTab)
+            {
+                return;
+            }
+        }
+
+        tabs.AddTabType(typeof(KryptonPropertyGridEventsTab));
+    }
+
+    /// <summary>
+    /// Events tab that avoids the stock <see cref="EventsTab"/> Content-property walk (null
+    /// converters on some Krypton types throw) and supplies a toolbar bitmap for subclasses.
+    /// </summary>
+    internal sealed class KryptonPropertyGridEventsTab : EventsTab
+    {
+        private static Bitmap? _bitmap;
+
+        /// <summary>
+        /// Initialize a new instance of the <see cref="KryptonPropertyGridEventsTab"/> class.
+        /// </summary>
+        /// <param name="sp">Service provider used by the base events tab.</param>
+        public KryptonPropertyGridEventsTab(IServiceProvider sp)
+            : base(sp)
+        {
+        }
+
+        /// <inheritdoc />
+        public override Bitmap Bitmap
+        {
+            get
+            {
+                // PropertyTab loads toolbar images by runtime type name; this subclass has none.
+                if (_bitmap == null)
+                {
+                    var stock = new EventsTab(RuntimePropertyGridServices.Instance);
+                    // Stock EventsTab always supplies the lightning-bolt image.
+                    _bitmap = (Bitmap)stock.Bitmap!.Clone();
+                }
+
+                return _bitmap;
+            }
+        }
+
+        /// <inheritdoc />
+        public override PropertyDescriptorCollection GetProperties(object component, Attribute[]? attributes) =>
+            GetProperties(null, component, attributes);
+
+        /// <inheritdoc />
+        public override PropertyDescriptorCollection GetProperties(
+            ITypeDescriptorContext? context,
+            object component,
+            Attribute[]? attributes)
+        {
+            IEventBindingService? eventBinding = null;
+            if (component is IComponent componentWithSite && componentWithSite.Site != null)
+            {
+                eventBinding = componentWithSite.Site.GetService(typeof(IEventBindingService)) as IEventBindingService;
+            }
+
+            if (eventBinding == null && context != null)
+            {
+                eventBinding = context.GetService(typeof(IEventBindingService)) as IEventBindingService;
+            }
+
+            if (eventBinding == null)
+            {
+                eventBinding = RuntimeEventBindingService.Instance;
+            }
+
+            EventDescriptorCollection events = attributes != null
+                ? TypeDescriptor.GetEvents(component, attributes)
+                : TypeDescriptor.GetEvents(component);
+
+            return eventBinding.GetEventProperties(events);
+        }
+    }
+
+    /// <summary>
+    /// Service provider used when constructing <see cref="EventsTab"/> without a designer site.
+    /// </summary>
+    private sealed class RuntimePropertyGridServices : IServiceProvider
+    {
+        public static readonly RuntimePropertyGridServices Instance = new RuntimePropertyGridServices();
+
+        public object? GetService(Type serviceType) =>
+            serviceType == typeof(IEventBindingService)
+                ? RuntimeEventBindingService.Instance
+                : null;
+    }
+
+    /// <summary>
+    /// Sites the inner <see cref="PropertyGrid"/> so <see cref="EventsTab"/> can resolve
+    /// <see cref="IEventBindingService"/> via the type-descriptor context.
+    /// </summary>
+    private sealed class RuntimePropertyGridSite : ISite
+    {
+        private readonly IComponent _component;
+        private readonly IEventBindingService _eventBindingService;
+
+        public RuntimePropertyGridSite(IComponent component, IEventBindingService eventBindingService)
+        {
+            _component = component;
+            _eventBindingService = eventBindingService;
+        }
+
+        public IComponent Component => _component;
+
+        public IContainer? Container => null;
+
+        public bool DesignMode => false;
+
+        public string? Name { get; set; }
+
+        public object? GetService(Type serviceType) =>
+            serviceType == typeof(IEventBindingService)
+                ? _eventBindingService
+                : null;
+    }
+
+    /// <summary>
+    /// Minimal <see cref="IEventBindingService"/> that surfaces events as browse-only string
+    /// properties so the Events tab is not empty outside Visual Studio.
+    /// </summary>
+    private sealed class RuntimeEventBindingService : IEventBindingService
+    {
+        public static readonly RuntimeEventBindingService Instance = new RuntimeEventBindingService();
+
+        public string CreateUniqueMethodName(IComponent component, EventDescriptor e) =>
+            (component.Site?.Name ?? component.GetType().Name) + "_" + e.Name;
+
+        public ICollection GetCompatibleMethods(EventDescriptor e) => Array.Empty<string>();
+
+        public EventDescriptor? GetEvent(PropertyDescriptor property) =>
+            (property as RuntimeEventPropertyDescriptor)?.Event;
+
+        public PropertyDescriptorCollection GetEventProperties(EventDescriptorCollection events)
+        {
+            if (events == null || events.Count == 0)
+            {
+                return PropertyDescriptorCollection.Empty;
+            }
+
+            var props = new PropertyDescriptor[events.Count];
+            for (var i = 0; i < events.Count; i++)
+            {
+                props[i] = new RuntimeEventPropertyDescriptor(events[i]!);
+            }
+
+            return new PropertyDescriptorCollection(props);
+        }
+
+        public PropertyDescriptor GetEventProperty(EventDescriptor e) =>
+            new RuntimeEventPropertyDescriptor(e);
+
+        public bool ShowCode() => false;
+
+        public bool ShowCode(int lineNumber) => false;
+
+        public bool ShowCode(IComponent component, EventDescriptor e) => false;
+    }
+
+    /// <summary>
+    /// Read-only string property that represents an event in the Events tab.
+    /// </summary>
+    private sealed class RuntimeEventPropertyDescriptor : PropertyDescriptor
+    {
+        public RuntimeEventPropertyDescriptor(EventDescriptor eventDescriptor)
+            : base(eventDescriptor) =>
+            Event = eventDescriptor;
+
+        public EventDescriptor Event { get; }
+
+        public override Type ComponentType => Event.ComponentType;
+
+        public override bool IsReadOnly => true;
+
+        public override Type PropertyType => typeof(string);
+
+        public override bool CanResetValue(object component) => false;
+
+        public override object? GetValue(object? component) => string.Empty;
+
+        public override void ResetValue(object component)
+        {
+        }
+
+        public override void SetValue(object? component, object? value)
+        {
+        }
+
+        public override bool ShouldSerializeValue(object component) => false;
+    }
 
     /// <inheritdoc />
     protected override void OnEnabledChanged(EventArgs e)
