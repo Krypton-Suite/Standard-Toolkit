@@ -48,6 +48,12 @@
 - Resolved [#4591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4591), Events button is missing in `KryptonPropertyGrid`
 - Implemented, Themeable `KryptonPropertyGrid` toolbar icons (alphabetical, categorized, property pages, and events) via palette `Images.PropertyGrid` / `GetPropertyGridImage`, and app-wide via `KryptonManager.Images.PropertyGridImages`. Builtin themes read `PropertyGridImageResources` (currently null) through `GetBuiltinPropertyGridImage`. Resolve order is control palette, then manager images, then stock WinForms.
 - Resolved, `KryptonPropertyGrid` no longer asserts in `PaletteRedirectGrids` when a custom palette is applied (grid styles were queried with `FocusOverride`).
+- Resolved [#4584](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4584), Flickering when displaying a `KryptonForm` in Windows Forms
+   - Bordered `KryptonForm` dialogs no longer flash the Windows 11 system title bar when opened with `ShowDialog`.
+- Resolved [#4582](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4582), Cannot add `KryptonHeader` or `KryptonHeaderGroup` in the .NET 10 WinForms designer (`displayName` cannot be null).
+- Resolved [#4580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4580), Improve `KryptonSearchBox` suggestion performance for typing, dropdown updates, and item selection.
+   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+   - Suggestion filtering is debounced via `SearchBoxValues.SuggestionUpdateDelay` (default 75 ms; set to `0` for immediate updates).
 - Implemented [#4550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4550), `KryptonTextBox` & `KryptonSearchBox` in form titlebar
    - Use `KryptonCaptionForm` when the caption hosts controls. Ordinary `KryptonForm` keeps the previous designer surface.
    - Each control has its own left, centre, or right edge. Configure `KryptonCaptionForm.CaptionItems` (including a `KryptonSearchBox`, which derives from `KryptonTextBox`).
