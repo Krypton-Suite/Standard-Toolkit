@@ -43,7 +43,9 @@ public partial class KryptonSearchBox : KryptonTextBox
     private int _selectedSuggestionIndex;
     private bool _isNavigatingSuggestions;
     internal readonly List<string> _searchHistory;
-    private Func<string, IEnumerable<object>, IEnumerable<object>>? _customFilter;
+    private System.Windows.Forms.Timer? _suggestionUpdateTimer;
+    private SearchSuggestionDisplayType _popupDisplayType;
+    private readonly List<object> _lastShownSuggestions;
 
     #endregion
 
@@ -102,6 +104,7 @@ public partial class KryptonSearchBox : KryptonTextBox
         _richSuggestions = new List<object>();
         _selectedSuggestionIndex = -1;
         _searchHistory = new List<string>();
+        _lastShownSuggestions = new List<object>();
 
         _dataGridViewColumns = new List<SearchSuggestionColumnDefinition>();
 
@@ -112,6 +115,7 @@ public partial class KryptonSearchBox : KryptonTextBox
         _selectedSuggestionIndex = -1;
 
         _searchBoxValues = new KryptonSearchBoxValues(this);
+        _popupDisplayType = _searchBoxValues.SuggestionDisplayType;
 
         // Disable standard auto-complete
         base.AutoCompleteMode = AutoCompleteMode.None;
@@ -185,7 +189,22 @@ public partial class KryptonSearchBox : KryptonTextBox
                 _clearButton.Click -= OnClearButtonClick;
             }
 
+            StopSuggestionUpdateTimer();
+            if (_suggestionUpdateTimer != null)
+            {
+                _suggestionUpdateTimer.Tick -= OnSuggestionUpdateTimerTick;
+                _suggestionUpdateTimer.Dispose();
+                _suggestionUpdateTimer = null;
+            }
+
             HideSuggestions();
+
+            if (_suggestionPopup != null)
+            {
+                _suggestionPopup.SuggestionSelected -= OnSuggestionPopupSelected;
+                _suggestionPopup.Dispose();
+                _suggestionPopup = null;
+            }
         }
 
         base.Dispose(disposing);
@@ -230,8 +249,8 @@ public partial class KryptonSearchBox : KryptonTextBox
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Func<string, IEnumerable<object>, IEnumerable<object>>? CustomFilter
     {
-        get => _customFilter;
-        set => _customFilter = value;
+        get => _searchBoxValues.CustomFilter;
+        set => _searchBoxValues.CustomFilter = value;
     }
 
     /// <summary>
@@ -283,6 +302,7 @@ public partial class KryptonSearchBox : KryptonTextBox
     /// </summary>
     public new void Clear()
     {
+        StopSuggestionUpdateTimer();
         base.Clear();
         Focus();
         UpdateClearButtonVisibility();
@@ -397,17 +417,27 @@ public partial class KryptonSearchBox : KryptonTextBox
     {
         UpdateClearButtonVisibility();
 
-        if (_searchBoxValues.EnableSuggestions && !_isNavigatingSuggestions)
+        if (!_searchBoxValues.EnableSuggestions || _isNavigatingSuggestions)
         {
-            UpdateSuggestions();
+            return;
         }
+
+        // Empty / below minimum length: hide immediately (do not wait for debounce).
+        if (string.IsNullOrEmpty(Text) || Text.Length < _searchBoxValues.MinimumSearchLength)
+        {
+            StopSuggestionUpdateTimer();
+            HideSuggestions();
+            return;
+        }
+
+        ScheduleSuggestionUpdate();
     }
 
     private void OnKeyDownInternal(object? sender, KeyEventArgs e)
     {
         if (e.KeyCode == Keys.Enter)
         {
-            if (_suggestionPopup is { Visible: true } && _selectedSuggestionIndex >= 0)
+            if (IsSuggestionPopupShowing() && _selectedSuggestionIndex >= 0)
             {
                 // Select the highlighted suggestion
                 SelectSuggestion(_selectedSuggestionIndex);
@@ -424,7 +454,7 @@ public partial class KryptonSearchBox : KryptonTextBox
         }
         else if (e.KeyCode == Keys.Escape)
         {
-            if (_suggestionPopup is { Visible: true })
+            if (IsSuggestionPopupShowing())
             {
                 // Hide suggestions
                 HideSuggestions();
@@ -441,7 +471,7 @@ public partial class KryptonSearchBox : KryptonTextBox
         }
         else if (e.KeyCode == Keys.Down)
         {
-            if (_suggestionPopup is { Visible: true })
+            if (IsSuggestionPopupShowing())
             {
                 NavigateSuggestions(1);
                 e.Handled = true;
@@ -450,7 +480,7 @@ public partial class KryptonSearchBox : KryptonTextBox
         }
         else if (e.KeyCode == Keys.Up)
         {
-            if (_suggestionPopup is { Visible: true })
+            if (IsSuggestionPopupShowing())
             {
                 NavigateSuggestions(-1);
                 e.Handled = true;
@@ -467,30 +497,32 @@ public partial class KryptonSearchBox : KryptonTextBox
     private void OnLostFocusInternal(object? sender, EventArgs e)
     {
         // Hide suggestions when focus is lost (with a small delay to allow clicking on suggestions)
-        if (_suggestionPopup is { Visible: true })
+        if (!IsSuggestionPopupShowing())
         {
-            // Check if focus is going to the popup or its child controls
-            if (_suggestionPopup.HasFocus())
-            {
-                // Focus is going to the popup, don't hide
-                return;
-            }
-
-            // Use a timer to delay hiding, allowing click events to process
-            var timer = new System.Windows.Forms.Timer { Interval = 200 };
-            timer.Tick += (s, args) =>
-            {
-                timer.Stop();
-                timer.Dispose();
-
-                // Double-check that focus hasn't moved to the popup
-                if (_suggestionPopup != null && !_suggestionPopup.HasFocus())
-                {
-                    HideSuggestions();
-                }
-            };
-            timer.Start();
+            return;
         }
+
+        // Check if focus is going to the popup or its child controls
+        if (_suggestionPopup!.HasFocus())
+        {
+            // Focus is going to the popup, don't hide
+            return;
+        }
+
+        // Use a timer to delay hiding, allowing click events to process
+        var timer = new System.Windows.Forms.Timer { Interval = 200 };
+        timer.Tick += (s, args) =>
+        {
+            timer.Stop();
+            timer.Dispose();
+
+            // Double-check that focus hasn't moved to the popup
+            if (_suggestionPopup != null && !_suggestionPopup.HasFocus())
+            {
+                HideSuggestions();
+            }
+        };
+        timer.Start();
     }
 
     private void OnSearchButtonClick(object? sender, EventArgs e)
@@ -523,15 +555,20 @@ public partial class KryptonSearchBox : KryptonTextBox
         // Handle suggestion changes
         if (!_searchBoxValues.EnableSuggestions)
         {
+            StopSuggestionUpdateTimer();
             HideSuggestions();
         }
 
-        // Dispose existing popup if display type changed
-        if (_suggestionPopup != null)
+        // Dispose existing popup only when display type changes
+        if (_suggestionPopup != null && _popupDisplayType != _searchBoxValues.SuggestionDisplayType)
         {
+            _suggestionPopup.SuggestionSelected -= OnSuggestionPopupSelected;
             _suggestionPopup.Dispose();
             _suggestionPopup = null;
+            _lastShownSuggestions.Clear();
         }
+
+        _popupDisplayType = _searchBoxValues.SuggestionDisplayType;
 
         // Trim history if max count changed
         while (_searchHistory.Count > _searchBoxValues.SearchHistoryMaxCount)
@@ -540,10 +577,62 @@ public partial class KryptonSearchBox : KryptonTextBox
         }
     }
 
+    internal void OnSuggestionUpdateDelayChanged()
+    {
+        if (_suggestionUpdateTimer != null)
+        {
+            _suggestionUpdateTimer.Interval = Math.Max(1, _searchBoxValues.SuggestionUpdateDelay);
+        }
+    }
+
     internal void OnPlaceholderTextChanged()
     {
         CueHint.CueHintText = _searchBoxValues.PlaceholderText;
     }
+
+    private void ScheduleSuggestionUpdate()
+    {
+        var delay = _searchBoxValues.SuggestionUpdateDelay;
+        if (delay <= 0)
+        {
+            StopSuggestionUpdateTimer();
+            UpdateSuggestions();
+            return;
+        }
+
+        EnsureSuggestionUpdateTimer();
+        _suggestionUpdateTimer!.Stop();
+        _suggestionUpdateTimer.Interval = delay;
+        _suggestionUpdateTimer.Start();
+    }
+
+    private void EnsureSuggestionUpdateTimer()
+    {
+        if (_suggestionUpdateTimer != null)
+        {
+            return;
+        }
+
+        _suggestionUpdateTimer = new System.Windows.Forms.Timer();
+        _suggestionUpdateTimer.Tick += OnSuggestionUpdateTimerTick;
+    }
+
+    private void OnSuggestionUpdateTimerTick(object? sender, EventArgs e)
+    {
+        StopSuggestionUpdateTimer();
+        UpdateSuggestions();
+    }
+
+    private void StopSuggestionUpdateTimer()
+    {
+        if (_suggestionUpdateTimer != null)
+        {
+            _suggestionUpdateTimer.Stop();
+        }
+    }
+
+    private bool IsSuggestionPopupShowing() =>
+        _suggestionPopup != null && _suggestionPopup.IsShowing;
 
     private void UpdateSuggestions()
     {
@@ -560,59 +649,59 @@ public partial class KryptonSearchBox : KryptonTextBox
             return;
         }
 
-        var searchText = Text.ToLower();
-        List<object> filtered;
+        var searchText = Text;
+        var maxCount = _searchBoxValues.SuggestionMaxCount;
+        var filtered = new List<object>(Math.Min(maxCount, 16));
 
-        // Use custom filter if provided
-        if (_searchBoxValues.CustomFilter != null)
+        // Prefer Values.CustomFilter (also set via the control CustomFilter property).
+        var customFilter = _searchBoxValues.CustomFilter;
+        if (customFilter != null)
         {
-            // Combine string suggestions and rich suggestions
-            var allSuggestions = new List<object>();
-            allSuggestions.AddRange(_suggestions);
-            allSuggestions.AddRange(_richSuggestions);
-
-            filtered = _searchBoxValues.CustomFilter(searchText, allSuggestions)
-                .Take(_searchBoxValues.SuggestionMaxCount)
-                .ToList();
+            foreach (var item in customFilter(searchText, EnumerateAllSuggestions()))
+            {
+                filtered.Add(item);
+                if (filtered.Count >= maxCount)
+                {
+                    break;
+                }
+            }
         }
         else
         {
-            // Default filtering logic
-            var stringFiltered = _suggestions
-                .Where(s => !string.IsNullOrEmpty(s) && s.ToLower().IndexOf(searchText) >= 0)
-                .Take(_searchBoxValues.SuggestionMaxCount)
-                .Cast<object>()
-                .ToList();
-
-            // Also filter rich suggestions (IContentValues)
-            var richFiltered = _richSuggestions
-                .Where(item =>
+            // Single-pass string suggestions
+            for (var i = 0; i < _suggestions.Count && filtered.Count < maxCount; i++)
+            {
+                var suggestion = _suggestions[i];
+                if (!string.IsNullOrEmpty(suggestion) &&
+                    suggestion.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
-                    if (item is IContentValues contentValues)
-                    {
-                        var shortText = contentValues.GetShortText() ?? string.Empty;
-                        var longText = contentValues.GetLongText() ?? string.Empty;
-                        return shortText.ToLower().IndexOf(searchText) >= 0 ||
-                               longText.ToLower().IndexOf(searchText) >= 0;
-                    }
-                    return item.ToString()?.ToLower().IndexOf(searchText) >= 0;
-                })
-                .Take(_searchBoxValues.SuggestionMaxCount - stringFiltered.Count)
-                .ToList();
+                    filtered.Add(suggestion);
+                }
+            }
 
-            filtered = new List<object>();
-            filtered.AddRange(stringFiltered);
-            filtered.AddRange(richFiltered);
+            // Then rich suggestions until the cap
+            for (var i = 0; i < _richSuggestions.Count && filtered.Count < maxCount; i++)
+            {
+                var item = _richSuggestions[i];
+                if (MatchesSuggestion(item, searchText))
+                {
+                    filtered.Add(item);
+                }
+            }
         }
 
         // Add search history if enabled and no other suggestions
         if (filtered.Count == 0 && _searchBoxValues.EnableSearchHistory && _searchHistory.Count > 0)
         {
-            filtered = _searchHistory
-                .Where(h => !string.IsNullOrEmpty(h) && h.ToLower().IndexOf(searchText) >= 0)
-                .Take(_searchBoxValues.SuggestionMaxCount)
-                .Cast<object>()
-                .ToList();
+            for (var i = 0; i < _searchHistory.Count && filtered.Count < maxCount; i++)
+            {
+                var historyItem = _searchHistory[i];
+                if (!string.IsNullOrEmpty(historyItem) &&
+                    historyItem.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    filtered.Add(historyItem);
+                }
+            }
         }
 
         if (filtered.Count == 0)
@@ -621,7 +710,65 @@ public partial class KryptonSearchBox : KryptonTextBox
             return;
         }
 
+        // Skip rebuild/show when the filtered set is unchanged
+        if (AreSuggestionSequencesEqual(_lastShownSuggestions, filtered) && IsSuggestionPopupShowing())
+        {
+            return;
+        }
+
         ShowSuggestions(filtered);
+    }
+
+    private IEnumerable<object> EnumerateAllSuggestions()
+    {
+        for (var i = 0; i < _suggestions.Count; i++)
+        {
+            yield return _suggestions[i];
+        }
+
+        for (var i = 0; i < _richSuggestions.Count; i++)
+        {
+            yield return _richSuggestions[i];
+        }
+    }
+
+    private static bool MatchesSuggestion(object item, string searchText)
+    {
+        if (item is IContentValues contentValues)
+        {
+            var shortText = contentValues.GetShortText() ?? string.Empty;
+            if (shortText.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return true;
+            }
+
+            var longText = contentValues.GetLongText() ?? string.Empty;
+            return longText.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        var text = item.ToString();
+        return !string.IsNullOrEmpty(text) &&
+               text!.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+    }
+
+    private static bool AreSuggestionSequencesEqual(List<object> left, List<object> right)
+    {
+        if (left.Count != right.Count)
+        {
+            return false;
+        }
+
+        for (var i = 0; i < left.Count; i++)
+        {
+            if (!ReferenceEquals(left[i], right[i]) &&
+                !(left[i] is string leftString && right[i] is string rightString &&
+                  string.Equals(leftString, rightString, StringComparison.Ordinal)))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void ShowSuggestions(List<object> suggestions)
@@ -630,43 +777,56 @@ public partial class KryptonSearchBox : KryptonTextBox
         {
             _suggestionPopup = new SuggestionPopup(this);
             _suggestionPopup.SuggestionSelected += OnSuggestionPopupSelected;
+            _popupDisplayType = _searchBoxValues.SuggestionDisplayType;
         }
 
+        var wasShowing = _suggestionPopup.IsShowing;
         _suggestionPopup.SetSearchSuggestions(suggestions);
         _selectedSuggestionIndex = -1;
+
+        _lastShownSuggestions.Clear();
+        _lastShownSuggestions.AddRange(suggestions);
 
         // Position the popup below the search box
         var screenPoint = PointToScreen(new Point(0, Height));
         _suggestionPopup.Show(screenPoint, Width);
 
-        // Explicitly maintain focus on the search box
-        BeginInvoke(new Action(() =>
+        // Restore focus only when the popup was just shown (not every keystroke)
+        if (!wasShowing)
         {
-            if (!Focused && CanFocus)
+            BeginInvoke(new Action(() =>
             {
-                Focus();
-            }
-        }));
+                if (!Focused && CanFocus)
+                {
+                    Focus();
+                }
+            }));
+        }
     }
 
     private void HideSuggestions()
     {
+        StopSuggestionUpdateTimer();
+
         if (_suggestionPopup != null)
         {
             _suggestionPopup.Hide();
             _selectedSuggestionIndex = -1;
         }
+
+        _lastShownSuggestions.Clear();
     }
 
     private void NavigateSuggestions(int direction)
     {
-        if (_suggestionPopup == null || !_suggestionPopup.Visible)
+        if (!IsSuggestionPopupShowing())
         {
             return;
         }
 
         _isNavigatingSuggestions = true;
-        var count = _suggestionPopup.SuggestionCount;
+        var popup = _suggestionPopup!;
+        var count = popup.SuggestionCount;
 
         if (count == 0)
         {
@@ -684,7 +844,7 @@ public partial class KryptonSearchBox : KryptonTextBox
             _selectedSuggestionIndex = 0;
         }
 
-        _suggestionPopup.HighlightIndex(_selectedSuggestionIndex);
+        popup.HighlightIndex(_selectedSuggestionIndex);
     }
 
     private void SelectSuggestion(int index)
