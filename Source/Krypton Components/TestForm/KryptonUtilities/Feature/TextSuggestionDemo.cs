@@ -7,7 +7,7 @@
  */
 #endregion
 
-using Krypton.Utilities;
+using Krypton.Toolkit.Utilities;
 
 namespace TestForm;
 
@@ -81,7 +81,7 @@ public partial class TextSuggestionDemo : KryptonForm
             _suggestionProvider2.Suggestions.Add(new KryptonAutoTextSuggestItem(country));
         }
 
-        KryptonAutoTextSuggestItem[] languages =
+        var languages = new[]
         {
             new KryptonAutoTextSuggestItem("C#", "C# (.NET)", "Microsoft's object-oriented programming language"),
             new KryptonAutoTextSuggestItem("JavaScript", "JavaScript (JS)", "Dynamic scripting language for web"),
@@ -100,7 +100,7 @@ public partial class TextSuggestionDemo : KryptonForm
             new KryptonAutoTextSuggestItem("Dart", "Dart", "Google's programming language")
         };
 
-        foreach (KryptonAutoTextSuggestItem lang in languages)
+        foreach (var lang in languages)
         {
             _suggestionProvider3.Suggestions.Add(lang);
         }
