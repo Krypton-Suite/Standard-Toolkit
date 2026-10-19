@@ -3,22 +3,6 @@
     partial class RibbonMergerDemo
     {
         private System.ComponentModel.IContainer components = null;
-        private Krypton.Ribbon.KryptonRibbon mainRibbon;
-        private Krypton.Toolkit.KryptonPanel contentPanel;
-        private Krypton.Toolkit.KryptonPanel controlPanel;
-        private Krypton.Toolkit.KryptonLabel lblStatus;
-        private Krypton.Toolkit.KryptonLabel lblPlugins;
-        private Krypton.Toolkit.KryptonButton btnLoadImageEditor;
-        private Krypton.Toolkit.KryptonButton btnUnloadImageEditor;
-        private Krypton.Toolkit.KryptonButton btnLoadTextTools;
-        private Krypton.Toolkit.KryptonButton btnUnloadTextTools;
-        private Krypton.Toolkit.KryptonButton btnLoadDataManager;
-        private Krypton.Toolkit.KryptonButton btnUnloadDataManager;
-        private Krypton.Toolkit.KryptonButton btnUnloadAll;
-        private Krypton.Toolkit.KryptonLabel lblLog;
-        private Krypton.Toolkit.KryptonRichTextBox logTextBox;
-        private Krypton.Toolkit.KryptonButton btnClearLog;
-        private Krypton.Toolkit.KryptonSplitContainer splitContainer;
 
         protected override void Dispose(bool disposing)
         {
@@ -250,5 +234,22 @@
             this.ResumeLayout(false);
             this.PerformLayout();
         }
+
+        private Krypton.Ribbon.KryptonRibbon mainRibbon;
+        private Krypton.Toolkit.KryptonPanel contentPanel;
+        private Krypton.Toolkit.KryptonPanel controlPanel;
+        private Krypton.Toolkit.KryptonLabel lblStatus;
+        private Krypton.Toolkit.KryptonLabel lblPlugins;
+        private Krypton.Toolkit.KryptonButton btnLoadImageEditor;
+        private Krypton.Toolkit.KryptonButton btnUnloadImageEditor;
+        private Krypton.Toolkit.KryptonButton btnLoadTextTools;
+        private Krypton.Toolkit.KryptonButton btnUnloadTextTools;
+        private Krypton.Toolkit.KryptonButton btnLoadDataManager;
+        private Krypton.Toolkit.KryptonButton btnUnloadDataManager;
+        private Krypton.Toolkit.KryptonButton btnUnloadAll;
+        private Krypton.Toolkit.KryptonLabel lblLog;
+        private Krypton.Toolkit.KryptonRichTextBox logTextBox;
+        private Krypton.Toolkit.KryptonButton btnClearLog;
+        private Krypton.Toolkit.KryptonSplitContainer splitContainer;
     }
 }

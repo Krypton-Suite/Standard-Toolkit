@@ -139,7 +139,6 @@ namespace TestForm
                 _labelCountries, _textBoxCountries,
                 _labelCustom, _textBoxCustom
             });
-
             // Settings group box
             _groupBoxSettings = new KryptonGroupBox
             {

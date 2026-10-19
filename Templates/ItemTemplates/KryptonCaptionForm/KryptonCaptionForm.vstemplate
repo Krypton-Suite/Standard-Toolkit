@@ -1,0 +1,13 @@
+<VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005">
+  <TemplateData>
+    <Name>Krypton Caption Form</Name>
+    <Description>Creates a Windows Form that inherits from KryptonCaptionForm for hosting controls in the title bar.</Description>
+    <ProjectType>CSharp</ProjectType>
+    <DefaultName>KryptonCaptionForm1.cs</DefaultName>
+    <SortOrder>1202</SortOrder>
+  </TemplateData>
+  <TemplateContent>
+    <ProjectItem ReplaceParameters="true" TargetFileName="$safeitemrootname$.cs">KryptonCaptionForm.cs</ProjectItem>
+    <ProjectItem ReplaceParameters="true" TargetFileName="$safeitemrootname$.Designer.cs">KryptonCaptionForm.Designer.cs</ProjectItem>
+  </TemplateContent>
+</VSTemplate>

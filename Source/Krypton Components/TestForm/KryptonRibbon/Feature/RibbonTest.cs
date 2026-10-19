@@ -45,7 +45,7 @@ public partial class RibbonTest : KryptonForm
         // Add content to Info page
         var infoLabel = new KryptonLabel
         {
-            Text = "Backstage demo page (Info).\n\nThis demonstrates:\n- Pages with Large/Small item sizes\n- Command items\n- Images in navigation\n- Overlay modes",
+            Text = "Backstage demo page (Info).\n\nThis demonstrates:\n- Pages with Large/Small item sizes\n- Command items\n- Images in navigation\n- Overlay modes\n\nIssue #4552: double-click File closes the form. A single click only opens the backstage.",
             Dock = DockStyle.Top,
             Padding = new Padding(20)
         };
@@ -107,6 +107,7 @@ public partial class RibbonTest : KryptonForm
 
         kryptonRibbon.RibbonFileAppTab.UseBackstageView = true;
         kryptonRibbon.RibbonFileAppTab.BackstageView = backstage;
+        Text = @"Ribbon — double-click File closes the form. A single click only opens the backstage.";
     }
 
     private void krgbtnTest1715_Click(object sender, EventArgs e)
