@@ -79,6 +79,12 @@ public class KryptonPropertyGrid : VisualControlBase,
         /// </summary>
         public ViewDrawPanel ViewDrawPanel { get; }
 
+        /// <summary>
+        /// Shows or hides the Events toolbar button (lightning bolt).
+        /// </summary>
+        /// <param name="visible"><see langword="true"/> to show the Events tab button.</param>
+        public void SetEventsButtonVisible(bool visible) => ShowEventsButton(visible);
+
         #endregion
 
         #region Protected
@@ -220,6 +226,38 @@ public class KryptonPropertyGrid : VisualControlBase,
             }
         }
         #endregion
+    }
+
+    /// <summary>
+    /// Events property tab that can use a themed lightning-bolt toolbar image.
+    /// </summary>
+    internal sealed class KryptonPropertyGridEventsTab : EventsTab
+    {
+        private readonly KryptonPropertyGrid? _owner;
+
+        /// <summary>
+        /// Initialize a new instance of the <see cref="KryptonPropertyGridEventsTab"/> class.
+        /// </summary>
+        /// <param name="sp">Service provider used by the base events tab.</param>
+        public KryptonPropertyGridEventsTab(IServiceProvider sp)
+            : base(sp ?? EmptyServiceProvider.Instance)
+        {
+        }
+
+        /// <summary>
+        /// Initialize a new instance of the <see cref="KryptonPropertyGridEventsTab"/> class.
+        /// </summary>
+        /// <param name="sp">Service provider used by the base events tab; may be null.</param>
+        /// <param name="owner">Owning <see cref="KryptonPropertyGrid"/> used to resolve themed images.</param>
+        public KryptonPropertyGridEventsTab(IServiceProvider? sp, KryptonPropertyGrid owner)
+            : base(sp ?? EmptyServiceProvider.Instance) =>
+            _owner = owner;
+
+        private sealed class EmptyServiceProvider : IServiceProvider
+        {
+            public static readonly EmptyServiceProvider Instance = new EmptyServiceProvider();
+            public object? GetService(Type serviceType) => null;
+        }
     }
 
     #endregion
@@ -567,6 +605,20 @@ public class KryptonPropertyGrid : VisualControlBase,
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public PropertyTab SelectedTab => _propertyGrid.SelectedTab;
+
+    /// <summary>
+    /// Gets the tabs shown on the property grid toolbar.
+    /// </summary>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public PropertyGrid.PropertyTabCollection PropertyTabs => _propertyGrid.PropertyTabs;
+
+    /// <summary>
+    /// Shows or hides the Events toolbar button on the inner property grid.
+    /// </summary>
+    /// <param name="visible"><see langword="true"/> to show the Events tab button.</param>
+    public void SetEventsButtonVisible(bool visible) => _propertyGrid.SetEventsButtonVisible(visible);
 
     [Browsable(false)]
     [EditorBrowsable(EditorBrowsableState.Advanced)]

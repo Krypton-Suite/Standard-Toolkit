@@ -48,6 +48,7 @@
 
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
+- Resolved [#4591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4591), Events button is missing in `KryptonPropertyGrid`
 - Implemented [#4559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4559), Use different designer 'Modified' types
   - Fresh navigator, workspace, and docking values stay blank in the property grid until they change. A dockable workspace records its compact flags and hidden maximize button as the factory value.
   - Empty ribbon and drag-drop colours, constructor context menus, list-item text, theme selectors, and the tooltip component are not written into the designer file until you change them.
