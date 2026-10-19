@@ -36,9 +36,9 @@
 		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
 			<PropertyGroup>
 				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
 		<!-- When SkipNetFramework is true, only build for .NET 8+ (used for testing/CI scenarios) -->
@@ -54,14 +54,14 @@
 		<Otherwise>
 			<PropertyGroup>
 				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">net48;net481</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net48;net481;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net48;net481;net10.0-windows;net11.0-windows</TargetFrameworks>
 				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
 				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
@@ -77,7 +77,7 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp), Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege</Authors>
-		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2025. All rights reserved.</Copyright>
+		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2027. All rights reserved.</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup>
