@@ -238,7 +238,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Should border be drawn.")]
-    [DefaultValue(InheritBool.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual InheritBool Draw
     {
@@ -288,7 +287,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Specify which borders should be drawn.")]
-    [DefaultValue(PaletteDrawBorders.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     [Editor(typeof(PaletteDrawBordersEditor), typeof(UITypeEditor))]
     public PaletteDrawBorders DrawBorders
@@ -347,7 +345,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Hint for drawing graphics.")]
-    [DefaultValue(PaletteGraphicsHint.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteGraphicsHint GraphicsHint
     {
@@ -398,7 +395,6 @@ public class PaletteBorder : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Main border color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color Color1
     {

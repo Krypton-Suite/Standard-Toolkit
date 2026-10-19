@@ -39,6 +39,7 @@ public class KryptonProgressBar : Control, IContentValues
     private IDisposable? _mementoBackProgressValue;
     private bool _useValueAsText;
     private int _marqueeSpeed;
+    private int _factoryMarqueeSpeed = 100;
     private int _maximum;
     private int _minimum;
     private int _step;
@@ -432,7 +433,6 @@ public class KryptonProgressBar : Control, IContentValues
     [Category("Behavior")]
     [Description(
         "Gets or sets the time period, in milliseconds, that it takes the progress block to scroll across the progress bar.")]
-    [DefaultValue(100)]
     public int MarqueeAnimationSpeed
     {
         get => _marqueeSpeed;
@@ -449,6 +449,20 @@ public class KryptonProgressBar : Control, IContentValues
             StartMarquee();
         }
     }
+
+    /// <summary>
+    /// Records <paramref name="value"/> as the designer factory marquee speed.
+    /// </summary>
+    /// <param name="value">Constructor speed in milliseconds.</param>
+    protected void SetFactoryMarqueeAnimationSpeed(int value)
+    {
+        _factoryMarqueeSpeed = value;
+        MarqueeAnimationSpeed = value;
+    }
+
+    private bool ShouldSerializeMarqueeAnimationSpeed() => _marqueeSpeed != _factoryMarqueeSpeed;
+
+    private void ResetMarqueeAnimationSpeed() => MarqueeAnimationSpeed = _factoryMarqueeSpeed;
 
     /// <summary>Gets or sets the maximum value of the range of the control.</summary>
     /// <returns>The maximum value of the range. The default is 100.</returns>

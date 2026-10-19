@@ -51,7 +51,7 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
-| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false). #4466 factory message-box strings, print-preview string defaults, and empty progress-bar / drop-down colours must not `ShouldSerialize`. #4557 a fresh ribbon `NotificationBar` is blank, then `Modified` after an edit | `include` |
+| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 / #4559 toolbox drop: every toolbox control must not report designer `Modified` storage (`IsDefault` false). #4466 factory strings and empty colours must not `ShouldSerialize`. #4557 a fresh ribbon `NotificationBar` is blank, then `Modified` after an edit. Focused checks: ribbon back colours, progress-bar green, scrollbar border, menu-bar background. Also run alone by `.github/workflows/designer-serialization-defaults.yml` | `include` |
 | `Invoke-NotificationBarModifiedScreenshot.ps1` | #4557 hosts `Bug4557NotificationBarModifiedDemo` and captures the fresh (blank) and edited (`Modified`) property-grid states | `exclude` |
 | `UnitTest-ButtonSpecCollectionEditorDisplayText.ps1` | #4536 ButtonSpec collection editor lists the designer component name (`buttonSpecAny1`); `Name` edits that name; `UniqueName` stays the persistence key | `include` |
 | `UnitTest-CollectionEditorTaskbar.ps1` | #4547 collection editor dialogs set `ShowInTaskbar` false so the window omits `WS_EX_APPWINDOW` | `include` |
@@ -98,6 +98,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-DisabledCaptionGlyph.ps1` | #4413 disabled caption glyph colours and empty close fill for Office 2010 / 2013 / Microsoft 365 | `include` |
 | `Invoke-4413DisabledCaptionScreenshot.ps1` | Hosts `Bug4413DisabledCaptionGlyphDemo` (#4413) and writes `Documents/PR/4413-disabled-caption-glyph-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-CaptionTextBoxScreenshot.ps1` | Hosts CaptionTextBoxDemo and writes the caption search and text-box PNGs | `exclude` |
 | `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
 | `Invoke-TextBoxInputModeScreenshot.ps1` | Opens `TextBoxInputModeDemo` (#4417) and writes `Documents/PR/4417-textbox-input-mode-demo.png` | `exclude` |
 | `Invoke-ToastDpiScreenshot.ps1` | Shows basic toasts with/without close box and writes `Documents/PR/4419-toast-dpi-*.png` (#4419) | `exclude` |

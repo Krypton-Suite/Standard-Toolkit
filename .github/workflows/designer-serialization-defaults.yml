@@ -1,0 +1,127 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Fails when a freshly constructed toolbox control shows Modified in the property grid.
+# Builds TestForm for net472, then runs Scripts/UnitTests/UnitTest-DesignerSerializationDefaults.ps1.
+# The same script is also UnitTest-CI: include, so the Unit Tests workflow runs it with the rest of the suite.
+# See AGENTS.md, Designer Serialization Defaults.
+
+name: Designer serialization defaults
+
+permissions:
+  contents: read
+
+concurrency:
+  group: designer-defaults-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ['**']
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'Source/Krypton Components/**'
+      - 'Scripts/UnitTests/UnitTest-DesignerSerializationDefaults.ps1'
+      - 'Scripts/UnitTests/UnitTestCommon.ps1'
+      - '.github/workflows/designer-serialization-defaults.yml'
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - gold
+      - V115
+    paths:
+      - 'Source/Krypton Components/**'
+      - 'Scripts/UnitTests/UnitTest-DesignerSerializationDefaults.ps1'
+      - 'Scripts/UnitTests/UnitTestCommon.ps1'
+      - '.github/workflows/designer-serialization-defaults.yml'
+
+jobs:
+  designer-defaults:
+    name: Fresh toolbox controls
+    runs-on: windows-2025-vs2026
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      # TestForm / toolkit graphs include net11.0-windows; restore needs an 11.x SDK (NETSDK1045 otherwise).
+      - name: Setup .NET 11
+        id: setup_dotnet11
+        continue-on-error: true
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+
+      - name: Setup .NET 11 (preview fallback)
+        if: steps.setup_dotnet11.outcome == 'failure'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-quality: preview
+
+      - name: Restore TestForm
+        run: >
+          dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj"
+          -p:Configuration=Debug
+
+      - name: Build TestForm
+        run: >
+          dotnet build "Source/Krypton Components/TestForm/TestForm.csproj"
+          -c Debug
+          -f net472
+          --no-restore
+          -m:1
+          -p:BuildInParallel=false
+
+      - name: Verify toolbox binaries
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $bin = Join-Path $env:GITHUB_WORKSPACE 'Bin\Debug\net472'
+          foreach ($name in @(
+              'Krypton.Toolkit.dll',
+              'Krypton.Ribbon.dll',
+              'Krypton.Navigator.dll',
+              'Krypton.Workspace.dll',
+              'Krypton.Docking.dll',
+              'Krypton.Toolkit.Utilities.dll'
+            )) {
+            $path = Join-Path $bin $name
+            if (-not (Test-Path -LiteralPath $path)) {
+              throw "Expected $name under $bin after the TestForm build."
+            }
+          }
+          Write-Host "[PASS] Toolbox binaries found under $bin"
+
+      - name: Assert fresh controls are not Modified
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $script = Join-Path $env:GITHUB_WORKSPACE 'Scripts\UnitTests\UnitTest-DesignerSerializationDefaults.ps1'
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -STA -File $script -Configuration Debug -TargetFramework net472
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "[FAIL] A fresh toolbox control shows designer Modified storage."
+            if ($env:GITHUB_STEP_SUMMARY) {
+              Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Designer serialization defaults`n`n**FAIL** - a parameterless toolbox control reported Modified storage.`n"
+            }
+            exit $LASTEXITCODE
+          }
+          Write-Host "[PASS] Fresh toolbox controls have no designer Modified storage."
+          if ($env:GITHUB_STEP_SUMMARY) {
+            Add-Content -LiteralPath $env:GITHUB_STEP_SUMMARY -Value "`n### Designer serialization defaults`n`n**PASS** - fresh toolbox controls have no Modified storage.`n"
+          }

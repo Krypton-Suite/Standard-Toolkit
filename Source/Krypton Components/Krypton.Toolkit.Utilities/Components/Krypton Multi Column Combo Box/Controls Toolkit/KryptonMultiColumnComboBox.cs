@@ -75,10 +75,7 @@ public class KryptonMultiColumnComboBox : KryptonComboBoxUserControl
     /// </summary>
     public KryptonMultiColumnComboBox()
     {
-        ReadOnlyEditor = true;
-        DropDownResizable = true;
-        DropDownWidth = DefaultDropDownWidth;
-        DropDownHeight = DefaultDropDownHeight;
+        SetFactoryDropDown(DefaultDropDownWidth, DefaultDropDownHeight, true, true);
 
         _columns = new KryptonMultiColumnComboBoxColumnCollection(this);
         _dropDown = new KryptonMultiColumnComboBoxDropDown(this);

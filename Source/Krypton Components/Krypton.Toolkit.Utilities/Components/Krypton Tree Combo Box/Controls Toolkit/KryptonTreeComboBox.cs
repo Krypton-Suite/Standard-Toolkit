@@ -75,10 +75,7 @@ public class KryptonTreeComboBox : KryptonComboBoxUserControl
     /// </summary>
     public KryptonTreeComboBox()
     {
-        ReadOnlyEditor = true;
-        DropDownResizable = true;
-        DropDownWidth = DefaultDropDownWidth;
-        DropDownHeight = DefaultDropDownHeight;
+        SetFactoryDropDown(DefaultDropDownWidth, DefaultDropDownHeight, true, true);
 
         _dropDown = new KryptonTreeComboBoxDropDown(this);
         _dropDown.TreeView.AfterSelect += OnInnerTreeAfterSelect;

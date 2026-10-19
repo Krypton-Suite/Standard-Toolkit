@@ -196,6 +196,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<TouchscreenHighDpiDemo>("Touchscreen + High DPI Demo", "Comprehensive demonstration of touchscreen support with per-monitor high DPI scaling (Issue #2844).");
         CreateButton<ToggleSwitchTest>("Toggle Switch (#3890)", "Issue #3890: KryptonToggleSwitch knob styles. Compare classic, flat, radial, ring, bevel, and rounded-square thumbs; toggle each sample and edit ToggleSwitchValues in the property grid.");
         CreateButton<KryptonFormTitleBarDemo>("Title Bar Menu", "Caption ButtonSpecs, Insert Standard Items, and optional KryptonMenuStrip bind (File/Edit in the title bar).");
+        CreateButton<CaptionTextBoxDemo>("Caption Text Box (#4550)", "Issue #4550: KryptonCaptionForm hosts several caption controls via KryptonFormCaptionItems, each with its own left, centre, or right edge. Includes a search box, text box, button, and combo box with an Office 2024 ribbon.");
         CreateButton<RichTextBoxFormattingTest>("RichTextBox Formatting Test", "Tests fix for RichTextBox formatting preservation when palette changes (Issue #2832)");
         CreateButton<Feature4008RichTextBoxJustifyDemo>("Feature 4008 RichTextBox Justify", "Issue #4008: KryptonRichTextBox.SelectionParagraphAlignment with Left/Center/Right/Justify. Compare with native RichTextBox SelectionAlignment (no Justify). Resize the form to see justified word spacing.");
         CreateButton<Bug3343RichTextBoxEditLossDemo>("Bug 3343 RichTextBox mouse leave", "Issue #3343: type in KryptonRichTextBox, move the mouse out without changing focus; text and TextLength must not reset. Includes KryptonTextBox for comparison.");
@@ -251,7 +252,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<RibbonRtlDemo>("Ribbon RTL (#2382)", "Issue #2382: Office-style logical RTL for KryptonRibbon. Toggle RightToLeft + RightToLeftLayout; tabs, groups, QAT, clusters, File button, and key tips pack from the start edge.");
         CreateButton<RibbonShowTabHeadersDemo>("Ribbon ShowTabHeaders / Toolbar (#331)", "Issue #331: ShowTabHeaders property and KryptonRibbonToolbar. Compare a normal ribbon (toggle headers) with the toolbar subclass; groups stay visible when the tab strip is hidden.");
         CreateButton<RibbonNotificationBarDemo>("Ribbon Notification Bar", "Comprehensive demonstration of the Krypton Ribbon Notification Bar feature with all customization options.");
-        CreateButton<Bug4557NotificationBarModifiedDemo>("4557 Notification Bar Modified", "Issue #4557: a fresh ribbon NotificationBar is blank in the property grid. Change Title, and the row shows Modified. Reset clears it.");
+        CreateButton<Bug4557NotificationBarModifiedDemo>("4557 Notification Bar Modified", "Issue #4557 / #4559: a fresh ribbon NotificationBar and navigator Bar stay blank in the property grid. Change Title, and NotificationBar shows Modified. Reset clears it.");
         CreateButton<RibbonMergerDemo>("Ribbon Merger Demo", "Demonstrates UserControl hosting and ribbon merging for plugin architectures");
         CreateButton<RibbonDetachableTest>("Detachable Ribbons", "Demonstrates detachable ribbons feature - allows ribbon to be moved to a floating window (Issue #595)");
         CreateButton<TextBoxEventTest>("TextBox", string.Empty);
