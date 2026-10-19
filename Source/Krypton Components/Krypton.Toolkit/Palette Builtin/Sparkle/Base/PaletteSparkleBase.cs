@@ -3104,7 +3104,8 @@ public class PaletteSparkleBase : PaletteBase
     /// </summary>
     /// <param name="image">Which toolbar image is required.</param>
     /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
-    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => null;
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
 
     /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.

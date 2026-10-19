@@ -797,7 +797,36 @@ public abstract class PaletteBase : Component
     /// </summary>
     /// <param name="image">Which toolbar image is required.</param>
     /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — builtin implementations should return theme 16×16 images when available.
     public abstract Image? GetPropertyGridImage(PropertyGridToolImage image);
+
+    /// <summary>
+    /// Resolves the shared builtin property grid toolbar image from
+    /// <see cref="ResourceFiles.PropertyGrid.PropertyGridImageResources"/>.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>
+    /// The theme resource image when present; otherwise <see langword="null"/> so the control
+    /// can fall back to <see cref="KryptonManager.Images"/> then stock WinForms.
+    /// </returns>
+    // TODO: PropertyGrid toolbar artwork — once PropertyGridImageResources has images, dark/light
+    // family bases may still override GetPropertyGridImage with family-specific art.
+    protected static Image? GetBuiltinPropertyGridImage(PropertyGridToolImage image)
+    {
+        switch (image)
+        {
+            case PropertyGridToolImage.Alphabetical:
+                return PropertyGridImageResources.Alphabetical;
+            case PropertyGridToolImage.Categorized:
+                return PropertyGridImageResources.Categorized;
+            case PropertyGridToolImage.PropertyPages:
+                return PropertyGridImageResources.PropertyPages;
+            case PropertyGridToolImage.Events:
+                return PropertyGridImageResources.Events;
+            default:
+                return null;
+        }
+    }
 
     /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.
