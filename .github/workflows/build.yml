@@ -37,15 +37,18 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: Setup .NET 11 (stable)
-        id: setup_dotnet11_stable
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable
         continue-on-error: true
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
+        if: && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
-      - name: Setup .NET 11 (preview fallback)
-        if: steps.setup_dotnet11_stable.outcome == 'failure'
+      - name: Setup .NET Preview (preview fallback)
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
@@ -168,15 +171,18 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: Setup .NET 11 (stable)
-        id: setup_dotnet11_stable_release
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable_release
         continue-on-error: true
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
+        if: vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
-      - name: Setup .NET 11 (preview fallback)
-        if: steps.setup_dotnet11_stable_release.outcome == 'failure'
+      - name: Setup .NET Preview (preview fallback)
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_release.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
@@ -384,7 +390,7 @@ jobs:
           }
 
           if (-not $version) {
-            $version = "100.25.1.1"  # Fallback version
+            $version = "105.25.1.1"  # Fallback version
           }
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
