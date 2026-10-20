@@ -24,6 +24,17 @@ dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f ne
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BorderlessFormCaption.ps1
 ```
 
+## ShowDialog form chrome (`UnitTest-ShowDialogFormChrome.ps1`)
+
+Issue #4584: bordered `KryptonForm` (`Sizable` / `FixedDialog`) must enable VisualForm custom chrome on handle create, before `ShowDialog`, so Windows 11 does not flash the system title bar. `Invoke-ShowDialogFormChromeScreenshot.ps1` (`exclude`) writes host/dialog PNGs and an open GIF under `Documents/PR/`.
+
+Requires Debug `net472` TestForm output.
+
+```cmd
+dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-ShowDialogFormChrome.ps1
+```
+
 ## Designer serialization defaults (`UnitTest-DesignerSerializationDefaults.ps1`)
 
 Fresh Toolbox controls must not show nested `Storage` objects as **Modified** (issue #4325). Factory message-box and splash-screen strings must not serialize (issue #4466).

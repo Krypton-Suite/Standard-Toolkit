@@ -965,6 +965,9 @@ public class KryptonForm : VisualForm,
 		}
 	}
 
+	/// <inheritdoc />
+	protected override bool AllowCustomChromeForInstance => UseThemeFormChromeBorderWidth;
+
 	/// <summary>
 	/// Gets or sets a value indicating if the form status strip be considered for merging into chrome.
 	/// </summary>
@@ -2028,9 +2031,10 @@ public class KryptonForm : VisualForm,
 		// Ensure Material defaults are applied as early as possible for new forms
 		ApplyMaterialFormChromeDefaultsIfNeeded();
 
-		// Issue #2922: apply custom chrome before first paint. OnLoad is too late for
-		// MDI children — the system caption/border is already on screen by then.
-		if (!DesignMode && (FormBorderStyle == FormBorderStyle.None || MdiParent != null))
+		// Issues #2922 / #4584: apply custom chrome before first paint. OnLoad is too late —
+		// the system caption/border is already on screen by then (borderless, MDI, and
+		// normal bordered ShowDialog forms on Windows 11).
+		if (ShouldPrepareCustomChromeBeforeFirstPaint)
 		{
 			UpdateUseThemeFormChromeBorderWidthDecision();
 			if (MdiParent is KryptonForm host)
