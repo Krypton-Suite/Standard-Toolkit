@@ -1,8 +1,8 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -200,8 +200,7 @@ public partial class CustomMessageBoxTest : KryptonForm
             _kmbIcon, KryptonMessageBoxDefaultButton.Button1,
             options: _options, kchkShowCtrlCopyText.Checked);
 
-        // Show result in form title so message body is preserved (fixes issue #2893).
-        Text = $@"CustomMessageBoxTest - Result: {res}";
+        krtbMessageBody.Text = $@"Krypton DialogResult = {res}";
     }
 
     private void kbtnTestText_Click(object sender, EventArgs e)
