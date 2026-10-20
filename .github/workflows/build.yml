@@ -276,7 +276,7 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
 
       # Fail early if Restore did not write assets under artifacts/obj (would surface later as NETSDK1005 in Pack).
-      - name: Debug: list artifacts/obj
+      - name: "Debug: list artifacts/obj"
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
