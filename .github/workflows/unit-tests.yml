@@ -43,8 +43,8 @@ on:
           - net472
           - net48
           - net481
-          - net8.0-windows
-          - net9.0-windows
+          - net10.0-windows
+          - net11.0-windows
       timeout_seconds:
         description: Per-script timeout in seconds (0 = none)
         required: true
@@ -137,23 +137,25 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            8.0.x
-            9.0.x
             10.0.x
+            11.0.x
 
-      # TestForm / toolkit graphs include net11.0-windows; restore needs an 11.x SDK (NETSDK1045 otherwise).
-      - name: Setup .NET 11
-        id: setup_dotnet11
+      # TestForm / toolkit graphs include net12.0-windows when USE_DOTNET_PREVIEW != false; restore needs a 12.x SDK (NETSDK1045 otherwise).
+      - name: Setup .NET 12
+        id: setup_dotnet12
         continue-on-error: true
+        # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 11 (preview fallback)
-        if: steps.setup_dotnet11.outcome == 'failure'
+      - name: Setup .NET 12 (preview fallback)
+        # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnet12.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
       - name: Restore TestForm
