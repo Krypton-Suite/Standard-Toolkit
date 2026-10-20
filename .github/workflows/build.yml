@@ -41,7 +41,7 @@ jobs:
         id: setup_dotnetpreview_stable
         continue-on-error: true
         # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
-        if: && vars.USE_DOTNET_PREVIEW != 'false'
+        if: vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
