@@ -23,7 +23,6 @@ public partial class CaptionTextBoxDemo : KryptonCaptionForm
     private readonly KryptonComboBox _captionCombo;
     private readonly KryptonComboBox _comboEdge;
     private readonly KryptonLabel _comboEdgeLabel;
-    private readonly KryptonFormCaptionItems _captionItems;
     private bool _syncing;
 
     public CaptionTextBoxDemo()
@@ -111,17 +110,11 @@ public partial class CaptionTextBoxDemo : KryptonCaptionForm
         CreateRibbon();
         ApplyTheme(PaletteMode.Office2024Blue);
 
-        // Designer path: a component owns the list; each item keeps its own edge.
-        _captionItems = new KryptonFormCaptionItems
-        {
-            OwnerForm = this
-        };
-        _captionItems.Items.Add(new KryptonFormCaptionItem(_captionButton, FormCaptionTextBoxEdge.Left));
-        _captionItems.Items.Add(new KryptonFormCaptionItem(_captionCombo, FormCaptionTextBoxEdge.Center));
-        _captionItems.Items.Add(new KryptonFormCaptionItem(_captionSearch, FormCaptionTextBoxEdge.Right));
-        _captionItems.Items.Add(new KryptonFormCaptionItem(_captionText, FormCaptionTextBoxEdge.Right));
-        _captionItems.Apply();
-        Log("Ready. KryptonFormCaptionItems hosts the button on the left, the combo in the centre, and the search and text boxes on the right.");
+        CaptionItems.Add(new KryptonFormCaptionItem(_captionButton, FormCaptionTextBoxEdge.Left));
+        CaptionItems.Add(new KryptonFormCaptionItem(_captionCombo, FormCaptionTextBoxEdge.Center));
+        CaptionItems.Add(new KryptonFormCaptionItem(_captionSearch, FormCaptionTextBoxEdge.Right));
+        CaptionItems.Add(new KryptonFormCaptionItem(_captionText, FormCaptionTextBoxEdge.Right));
+        Log("Ready. CaptionItems hosts the button on the left, the combo in the centre, and the search and text boxes on the right.");
     }
 
     private void CreateRibbon()
@@ -184,7 +177,7 @@ public partial class CaptionTextBoxDemo : KryptonCaptionForm
 
     private void SetItemEdge(Control control, FormCaptionTextBoxEdge edge)
     {
-        foreach (KryptonFormCaptionItem item in _captionItems.Items)
+        foreach (KryptonFormCaptionItem item in CaptionItems)
         {
             if (ReferenceEquals(item.Control, control))
             {

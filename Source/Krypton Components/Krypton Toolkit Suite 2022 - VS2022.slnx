@@ -177,6 +177,14 @@
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
   </Folder>
+  <Folder Name="/Source/Templates/">
+    <Project Path="../../Templates/Vsix/Krypton.Templates.Vsix/Krypton.Templates.Vsix.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+  </Folder>
   <Folder Name="/Source/Utility Libraries/">
     <Project Path="Krypton.Navigator.Utilities/Krypton.Navigator.Utilities.csproj" Id="20869492-f8bf-4fc1-9714-44012de15756">
       <BuildType Solution="Canary|*" Project="Release" />

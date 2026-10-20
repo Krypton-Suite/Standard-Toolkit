@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// Collection of <see cref="KryptonFormCaptionItem"/> entries for <see cref="KryptonFormCaptionItems"/>.
+/// Collection of <see cref="KryptonFormCaptionItem"/> entries for <see cref="KryptonCaptionForm.CaptionItems"/>.
 /// </summary>
 public class KryptonFormCaptionItemCollection : TypedCollection<KryptonFormCaptionItem>
 {
@@ -19,17 +19,17 @@ public class KryptonFormCaptionItemCollection : TypedCollection<KryptonFormCapti
     /// <summary>
     /// Initializes a new instance of the <see cref="KryptonFormCaptionItemCollection"/> class.
     /// </summary>
-    /// <param name="owner">Component that owns this collection.</param>
-    public KryptonFormCaptionItemCollection(KryptonFormCaptionItems owner) => Owner = owner;
+    /// <param name="owner">Form that owns this collection.</param>
+    public KryptonFormCaptionItemCollection(KryptonCaptionForm owner) => Owner = owner;
 
     #endregion
 
     #region Public
 
     /// <summary>
-    /// Gets the owning caption items component.
+    /// Gets the owning caption form.
     /// </summary>
-    public KryptonFormCaptionItems Owner { get; }
+    public KryptonCaptionForm Owner { get; }
 
     /// <summary>
     /// Obtains the String representation of this instance.
@@ -62,7 +62,7 @@ public class KryptonFormCaptionItemCollection : TypedCollection<KryptonFormCapti
     protected override void OnInserted(TypedCollectionEventArgs<KryptonFormCaptionItem> e)
     {
         base.OnInserted(e);
-        Owner.NotifyCollectionChanged();
+        Owner.NotifyCaptionItemsChanged();
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ public class KryptonFormCaptionItemCollection : TypedCollection<KryptonFormCapti
     protected override void OnRemoved(TypedCollectionEventArgs<KryptonFormCaptionItem> e)
     {
         base.OnRemoved(e);
-        Owner.NotifyCollectionChanged();
+        Owner.NotifyCaptionItemsChanged();
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public class KryptonFormCaptionItemCollection : TypedCollection<KryptonFormCapti
     protected override void OnCleared(EventArgs e)
     {
         base.OnCleared(e);
-        Owner.NotifyCollectionChanged();
+        Owner.NotifyCaptionItemsChanged();
     }
 
     #endregion

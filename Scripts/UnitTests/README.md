@@ -83,6 +83,8 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-KryptonFormRtl.ps1` | #2103 `KryptonForm` RTL: `ScreenToWindow` stays physical; Close hit-tests on the right in LTR and the left with `RightToLeftLayout`; window region includes both physical left and right chrome | `include` |
 | `UnitTest-WorkspaceRtlLayout.ps1` | #2383 `KryptonWorkspace` logical RTL: horizontal cells pack from the right when both flags are set; nested vertical order is unchanged; XML Children order is stable | `include` |
 | `UnitTest-BorderlessFormCaption.ps1` | #2922 borderless `KryptonForm`: top-level and MDI `Dock.Fill` child have no `WS_CAPTION` after `Show`; `MdiChildActivate` still fires | `include` |
+| `UnitTest-ShowDialogFormChrome.ps1` | #4584 bordered `KryptonForm` applies VisualForm custom chrome on handle create (before `ShowDialog`); Sizable and FixedDialog | `include` |
+| `Invoke-ShowDialogFormChromeScreenshot.ps1` | #4584 hosts `Bug4584KryptonFormShowDialogFlickerDemo` and writes host/dialog PNGs plus an open GIF under `Documents/PR/` | `exclude` |
 | `UnitTest-ContextMenuSubMenuImage.ps1` | #4252 Light Gray Office 2007/2010/Microsoft 365 `GetContextMenuSubMenuImage` returns an image; all catalog palettes must not throw | `include` |
 | `UnitTest-TagInput.ps1` | `KryptonTagInput` and `KryptonTagInputControl` API: defaults, add/remove, duplicates, max tags, events, category colours | `include` |
 | `UnitTest-TagInput.ps1` | `KryptonTagInputControl` API: defaults, add/remove, duplicates, max tags, events, category colours | `include` |
@@ -98,6 +100,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-DisabledCaptionGlyph.ps1` | #4413 disabled caption glyph colours and empty close fill for Office 2010 / 2013 / Microsoft 365 | `include` |
 | `Invoke-4413DisabledCaptionScreenshot.ps1` | Hosts `Bug4413DisabledCaptionGlyphDemo` (#4413) and writes `Documents/PR/4413-disabled-caption-glyph-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-SearchBoxPerformanceScreenshot.ps1` | Hosts `KryptonSearchBoxPerformanceDemo` (#4580) and writes `Documents/PR/4580-searchbox-performance-demo.png` | `exclude` || `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
 | `Invoke-CaptionTextBoxScreenshot.ps1` | Hosts CaptionTextBoxDemo and writes the caption search and text-box PNGs | `exclude` |
 | `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
 | `Invoke-TextBoxInputModeScreenshot.ps1` | Opens `TextBoxInputModeDemo` (#4417) and writes `Documents/PR/4417-textbox-input-mode-demo.png` | `exclude` |

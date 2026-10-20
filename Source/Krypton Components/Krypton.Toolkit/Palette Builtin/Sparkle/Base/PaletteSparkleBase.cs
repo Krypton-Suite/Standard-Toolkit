@@ -3100,6 +3100,14 @@ public class PaletteSparkleBase : PaletteBase
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
     /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
+
+    /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.
     /// </summary>
     /// <param name="isRtl">If true, request an RTL-oriented image; otherwise LTR.</param>

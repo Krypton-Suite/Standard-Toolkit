@@ -896,6 +896,7 @@ public class PaletteRedirectGrids : PaletteRedirect
                 break;
 
             case PaletteState.BoldedOverride:
+            case PaletteState.FocusOverride:
             case PaletteState.Normal:
             case PaletteState.ContextNormal:    // From the TreeGrid
                 switch (style)
@@ -954,6 +955,12 @@ public class PaletteRedirectGrids : PaletteRedirect
                     case PaletteBackStyle.GridBackgroundCustom2:
                     case PaletteBackStyle.GridBackgroundCustom3:
                         return _grid.StateNormal.Background;
+                    case PaletteBackStyle.GridDataCellList:
+                    case PaletteBackStyle.GridDataCellSheet:
+                    case PaletteBackStyle.GridDataCellCustom1:
+                    case PaletteBackStyle.GridDataCellCustom2:
+                    case PaletteBackStyle.GridDataCellCustom3:
+                        return _grid.StateNormal.DataCell.Back;
                     case PaletteBackStyle.GridHeaderColumnList:
                     case PaletteBackStyle.GridHeaderColumnSheet:
                     case PaletteBackStyle.GridHeaderColumnCustom1:
@@ -1028,6 +1035,7 @@ public class PaletteRedirectGrids : PaletteRedirect
                 break;
 
             case PaletteState.BoldedOverride:
+            case PaletteState.FocusOverride:
             case PaletteState.Normal:
             case PaletteState.ContextNormal:    // From the TreeGrid
                 switch (style)
@@ -1074,6 +1082,12 @@ public class PaletteRedirectGrids : PaletteRedirect
             case PaletteState.Tracking:
                 switch (style)
                 {
+                    case PaletteBorderStyle.GridDataCellList:
+                    case PaletteBorderStyle.GridDataCellSheet:
+                    case PaletteBorderStyle.GridDataCellCustom1:
+                    case PaletteBorderStyle.GridDataCellCustom2:
+                    case PaletteBorderStyle.GridDataCellCustom3:
+                        return _grid.StateNormal.DataCell.Border;
                     case PaletteBorderStyle.GridHeaderColumnList:
                     case PaletteBorderStyle.GridHeaderColumnSheet:
                     case PaletteBorderStyle.GridHeaderColumnCustom1:
@@ -1147,6 +1161,7 @@ public class PaletteRedirectGrids : PaletteRedirect
                 }
                 break;
 
+            case PaletteState.FocusOverride:
             case PaletteState.Normal:
             case PaletteState.ContextNormal:    // From the TreeGrid
                 switch (style)
@@ -1193,6 +1208,12 @@ public class PaletteRedirectGrids : PaletteRedirect
             case PaletteState.Tracking:
                 switch (style)
                 {
+                    case PaletteContentStyle.GridDataCellList:
+                    case PaletteContentStyle.GridDataCellSheet:
+                    case PaletteContentStyle.GridDataCellCustom1:
+                    case PaletteContentStyle.GridDataCellCustom2:
+                    case PaletteContentStyle.GridDataCellCustom3:
+                        return _grid.StateNormal.DataCell.Content;
                     case PaletteContentStyle.GridHeaderColumnList:
                     case PaletteContentStyle.GridHeaderColumnSheet:
                     case PaletteContentStyle.GridHeaderColumnCustom1:
