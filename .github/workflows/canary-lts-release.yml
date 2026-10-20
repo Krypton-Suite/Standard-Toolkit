@@ -394,7 +394,7 @@ jobs:
 
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
-            $version = "100.25.1.1"
+            $version = "105.26.1.1"
           }
 
           Write-Host "Final determined version: $version"

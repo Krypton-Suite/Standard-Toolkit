@@ -65,8 +65,8 @@ jobs:
             10.0.x
             11.0.x
 
-      - name: Setup .NET 12 (stable)
-        id: setup_dotnet12_stable_master
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable_master
         continue-on-error: true
         # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
@@ -74,9 +74,9 @@ jobs:
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 12 (preview fallback)
+      - name: Setup .NET Preview (preview fallback)
         # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
-        if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnet12_stable_master.outcome == 'failure'
+        if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_master.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
@@ -379,7 +379,7 @@ jobs:
 
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
-            $version = "100.25.1.1"
+            $version = "120.27.1.1"
           }
 
           Write-Host "Final determined version: $version"
@@ -815,7 +815,7 @@ jobs:
 
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
-            $version = "100.25.1.1"
+            $version = "105.27.1.1"
           }
 
           Write-Host "Final determined version: $version"
@@ -920,8 +920,8 @@ jobs:
             10.0.x
             11.0.x
 
-      - name: Setup .NET 12 (stable)
-        id: setup_dotnet12_stable_canary
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable_canary
         continue-on-error: true
         # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
@@ -929,9 +929,9 @@ jobs:
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 12 (preview fallback)
+      - name: Setup .NET Preview (preview fallback)
         # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnet12_stable_canary.outcome == 'failure'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_canary.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
@@ -1222,7 +1222,7 @@ jobs:
 
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
-            $version = "100.25.1.1"
+            $version = "120.27.1.1"
           }
 
           Write-Host "Final determined version: $version"
@@ -1344,8 +1344,8 @@ jobs:
             10.0.x
             11.0.x
 
-      - name: Setup .NET 12 (stable)
-        id: setup_dotnet12_stable_alpha
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable_alpha
         continue-on-error: true
         # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
@@ -1353,9 +1353,9 @@ jobs:
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 12 (preview fallback)
+      - name: Setup .NET Preview (preview fallback)
         # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnet12_stable_alpha.outcome == 'failure'
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_alpha.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}

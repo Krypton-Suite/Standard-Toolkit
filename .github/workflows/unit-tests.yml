@@ -141,8 +141,8 @@ jobs:
             11.0.x
 
       # TestForm / toolkit graphs include net12.0-windows when USE_DOTNET_PREVIEW != false; restore needs a 12.x SDK (NETSDK1045 otherwise).
-      - name: Setup .NET 12
-        id: setup_dotnet12
+      - name: Setup .NET Preview
+        id: setup_dotnetpreview
         continue-on-error: true
         # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: vars.USE_DOTNET_PREVIEW != 'false'
@@ -150,9 +150,9 @@ jobs:
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 12 (preview fallback)
+      - name: Setup .NET Preview (preview fallback)
         # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
-        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnet12.outcome == 'failure'
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}

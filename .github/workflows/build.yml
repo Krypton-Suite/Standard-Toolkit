@@ -38,8 +38,8 @@ jobs:
             10.0.x
             11.0.x
 
-      - name: Setup .NET 12 (stable)
-        id: setup_dotnet12_stable
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable
         continue-on-error: true
         # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: vars.USE_DOTNET_PREVIEW != 'false'
@@ -47,9 +47,9 @@ jobs:
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 12 (preview fallback)
+      - name: Setup .NET Preview (preview fallback)
         # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
-        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnet12_stable.outcome == 'failure'
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
@@ -172,8 +172,8 @@ jobs:
             10.0.x
             11.0.x
 
-      - name: Setup .NET 12 (stable)
-        id: setup_dotnet12_stable_release
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable_release
         continue-on-error: true
         # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: vars.USE_DOTNET_PREVIEW != 'false'
@@ -181,9 +181,9 @@ jobs:
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 12 (preview fallback)
+      - name: Setup .NET Preview (preview fallback)
         # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
-        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnet12_stable_release.outcome == 'failure'
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_release.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
@@ -277,7 +277,7 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
 
       # Fail early if Restore did not write assets under artifacts/obj (would surface later as NETSDK1005 in Pack).
-      - name: Debug: list artifacts/obj
+      - name: "Debug: list artifacts/obj"
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
