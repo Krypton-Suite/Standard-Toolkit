@@ -129,6 +129,7 @@ jobs:
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_canary_yml
         continue-on-error: true
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:

@@ -40,16 +40,15 @@ jobs:
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable
         continue-on-error: true
-        # Skip if USE_DOTNET_PREVIEW flag is false
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
         if: vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET Preview (preview fallback)
-        # Skip if USE_DOTNET_PREVIEW flag is false
-        if: vars.USE_DOTNET_PREVIEW != 'false'
-        if: steps.setup_dotnetpreview_stable.outcome == 'failure'
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
@@ -175,16 +174,15 @@ jobs:
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_release
         continue-on-error: true
-        # Skip if USE_DOTNET_PREVIEW flag is false
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
         if: vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
 
       - name: Setup .NET Preview (preview fallback)
-        # Skip if USE_DOTNET_PREVIEW flag is false
-        if: vars.USE_DOTNET_PREVIEW != 'false'
-        if: steps.setup_dotnetpreview_stable_release.outcome == 'failure'
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_release.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
@@ -278,7 +276,7 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
 
       # Fail early if Restore did not write assets under artifacts/obj (would surface later as NETSDK1005 in Pack).
-      - name: Debug: list artifacts/obj
+      - name: "Debug: list artifacts/obj"
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -392,7 +390,7 @@ jobs:
           }
 
           if (-not $version) {
-            $version = "105.25.1.1"  # Fallback version
+            $version = vars.FALLBACK_LTS_VERSION  # Fallback version
           }
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
