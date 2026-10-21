@@ -203,15 +203,29 @@ jobs:
         run: |
           Write-Host "::notice::No commits (other than .github-only changes) in the last 24 hours and not a scheduled publish day. Skipping nightly build and publish."
 
-      # .NET 10 and 11; .NET 12 for net12.0-windows when USE_DOTNET_PREVIEW != false (DOTNET_PREVIEW_SETUP_VERSION when set, else 12.0.x).
-      - name: Setup .NET (10 and 11)
+      # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             10.0.x
-            11.0.x
+
+      - name: Setup .NET (11)
+        id: setup_dotnet11_nightly
+        continue-on-error: true
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+
+      - name: Setup .NET (11 preview fallback)
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_nightly.outcome == 'failure'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_nightly
@@ -259,13 +273,16 @@ jobs:
           $sdkVersion = $null
           if (-not $usePreview) {
             $sdkVersion = Get-ListedSdkVersion '12.0'
-            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
               Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '12.0'
+            }
             if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '11.0'
             }
@@ -275,6 +292,9 @@ jobs:
           }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"

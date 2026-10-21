@@ -30,13 +30,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # .NET 10 and 11 always; .NET 12 when USE_DOTNET_PREVIEW != false — DOTNET_PREVIEW_SETUP_VERSION when set, else 12.0.x (stable attempt, then preview).
-      - name: Setup .NET (10 and 11)
+      # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10)
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             10.0.x
-            11.0.x
+
+      - name: Setup .NET (11)
+        id: setup_dotnet11_build
+        continue-on-error: true
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+
+      - name: Setup .NET (11 preview fallback)
+        if: steps.setup_dotnet11_build.outcome == 'failure'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable
@@ -75,10 +88,13 @@ jobs:
             return (($line -split '\s+', 2)[0])
           }
           $sdkVersion = Get-ListedSdkVersion '12.0'
-          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
           if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"
@@ -173,13 +189,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # .NET 10 and 11 always; .NET 12 when USE_DOTNET_PREVIEW != false — DOTNET_PREVIEW_SETUP_VERSION when set, else 12.0.x (same resolution as build job).
-      - name: Setup .NET (10 and 11)
+      # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false (same as build job).
+      - name: Setup .NET (10)
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             10.0.x
-            11.0.x
+
+      - name: Setup .NET (11)
+        id: setup_dotnet11_release
+        continue-on-error: true
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+
+      - name: Setup .NET (11 preview fallback)
+        if: steps.setup_dotnet11_release.outcome == 'failure'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_release
@@ -210,10 +239,13 @@ jobs:
             return (($line -split '\s+', 2)[0])
           }
           $sdkVersion = Get-ListedSdkVersion '12.0'
-          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
           if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"
