@@ -399,7 +399,7 @@ jobs:
           }
 
           if (-not $version) {
-            $version = "120.27.1.1"  # Fallback version
+            $version = vars.FALLBACK_LTS_VERSION  # Fallback version
           }
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT
