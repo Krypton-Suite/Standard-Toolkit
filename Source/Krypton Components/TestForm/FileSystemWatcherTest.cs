@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2026 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -264,7 +264,7 @@ public partial class FileSystemWatcherTest : KryptonForm
 
     private void ktxtFilter_TextChanged(object sender, EventArgs e)
     {
-        if (_watcher is { EnableRaisingEvents: false })
+        if (_watcher != null && !_watcher.EnableRaisingEvents)
         {
             _watcher.Filter = ktxtFilter.Text;
             UpdateUIState();
@@ -273,7 +273,7 @@ public partial class FileSystemWatcherTest : KryptonForm
 
     private void kchkIncludeSubdirs_CheckedChanged(object sender, EventArgs e)
     {
-        if (_watcher is { EnableRaisingEvents: false })
+        if (_watcher != null && !_watcher.EnableRaisingEvents)
         {
             _watcher.IncludeSubdirectories = kchkIncludeSubdirs.Checked;
             UpdateUIState();
@@ -313,7 +313,7 @@ public partial class FileSystemWatcherTest : KryptonForm
 
     private void knudBufferSize_ValueChanged(object sender, EventArgs e)
     {
-        if (_watcher is { EnableRaisingEvents: false })
+        if (_watcher != null && !_watcher.EnableRaisingEvents)
         {
             var bufferSize = (int)knudBufferSize.Value;
             // Round to nearest multiple of 4096

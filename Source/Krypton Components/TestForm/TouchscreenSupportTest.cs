@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -169,8 +169,8 @@ public partial class TouchscreenSupportTest : KryptonForm
         cell2.Pages.Add(page2);
         cell2.SelectedPage = page2;
 
-        workspace.Root.Children?.Add(cell1);
-        workspace.Root.Children?.Add(cell2);
+        workspace.Root.Children.Add(cell1);
+        workspace.Root.Children.Add(cell2);
     }
 
     private void ChkEnableTouchscreen_CheckedChanged(object? sender, EventArgs e)

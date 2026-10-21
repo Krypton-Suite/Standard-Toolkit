@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -40,7 +40,6 @@ namespace TestForm
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnCustomMessageBox = new Krypton.Toolkit.KryptonButton();
             this.kryptonCheckBox1 = new Krypton.Toolkit.KryptonCheckBox();
-            this.kchkShowCopyButton = new Krypton.Toolkit.KryptonCheckBox();
             this.kryptonButton11 = new Krypton.Toolkit.KryptonButton();
             this.kbtnTestMessagebox = new Krypton.Toolkit.KryptonButton();
             this.kcmdMessageboxTest = new Krypton.Toolkit.KryptonCommand();
@@ -52,7 +51,6 @@ namespace TestForm
             // 
             this.kryptonPanel1.Controls.Add(this.kbtnCustomMessageBox);
             this.kryptonPanel1.Controls.Add(this.kryptonCheckBox1);
-            this.kryptonPanel1.Controls.Add(this.kchkShowCopyButton);
             this.kryptonPanel1.Controls.Add(this.kryptonButton11);
             this.kryptonPanel1.Controls.Add(this.kbtnTestMessagebox);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -80,14 +78,6 @@ namespace TestForm
             this.kryptonCheckBox1.Size = new System.Drawing.Size(126, 20);
             this.kryptonCheckBox1.TabIndex = 41;
             this.kryptonCheckBox1.Values.Text = "Show Close Button";
-            // 
-            // kchkShowCopyButton
-            // 
-            this.kchkShowCopyButton.Location = new System.Drawing.Point(144, 105);
-            this.kchkShowCopyButton.Name = "kchkShowCopyButton";
-            this.kchkShowCopyButton.Size = new System.Drawing.Size(122, 20);
-            this.kchkShowCopyButton.TabIndex = 43;
-            this.kchkShowCopyButton.Values.Text = "Show Copy Button";
             // 
             // kryptonButton11
             // 
@@ -139,7 +129,6 @@ namespace TestForm
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private Krypton.Toolkit.KryptonCheckBox kryptonCheckBox1;
-        private Krypton.Toolkit.KryptonCheckBox kchkShowCopyButton;
         private Krypton.Toolkit.KryptonButton kryptonButton11;
         private Krypton.Toolkit.KryptonButton kbtnTestMessagebox;
         private Krypton.Toolkit.KryptonCommand kcmdMessageboxTest;

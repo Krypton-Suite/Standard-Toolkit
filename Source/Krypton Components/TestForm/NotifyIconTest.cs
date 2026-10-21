@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2026 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -356,10 +356,6 @@ public partial class NotifyIconTest : KryptonForm
 
         // Show the balloon tip
         _notifyIcon.ShowBalloonTip(timeout, title, text, icon);
-
-        var popupLink = new KryptonLinkLabel { AutoSize = true };
-        popupLink.Values.Text = "Themed Krypton popup tip";
-        _notifyIcon.ShowPopupTip(popupLink, title);
 
         AddEventToList($"[{DateTime.Now:HH:mm:ss.fff}] Balloon tip shown: Title=\"{title}\", Text=\"{text}\", Timeout={timeout}ms, Icon={icon}");
     }

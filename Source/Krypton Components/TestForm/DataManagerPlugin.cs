@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -68,8 +68,8 @@ public partial class DataManagerPlugin : UserControl
         reportButton.Click += (s, e) => lblPluginStatus.Text = "Report generated";
 
         var triple2 = new KryptonRibbonGroupTriple();
-        triple2.Items?.Add(analyzeButton);
-        triple2.Items?.Add(reportButton);
+        triple2.Items.Add(analyzeButton);
+        triple2.Items.Add(reportButton);
         analysisGroup.Items.Add(triple2);
 
         dataTab.Groups.Add(importGroup);

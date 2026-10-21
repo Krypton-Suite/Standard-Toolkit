@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -10,7 +10,7 @@
 using System.Reflection;
 using System.Threading;
 
-using Krypton.Toolkit.Utilities;
+using Krypton.Utilities;
 
 namespace TestForm;
 
@@ -97,21 +97,13 @@ public partial class VisualControlsTest : KryptonForm
 
     private void kbtnVisualThemeBrowser_Click(object sender, EventArgs e)
     {
-        var data = new KryptonThemeBrowserData
-        {
-            WindowTitle = "Theme Browser",
-            DefaultPalette = PaletteMode.Office2010Blue
-        };
+        var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser", StartIndex = 1 };
         KryptonThemeBrowser.Show(data);
     }
 
     private void kbtnVisualThemeBrowserRtlAware_Click(object sender, EventArgs e)
     {
-        var data = new KryptonThemeBrowserData
-        {
-            WindowTitle = "Theme Browser RTL",
-            DefaultPalette = PaletteMode.Office2010Blue
-        };
+        var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser RTL", StartIndex = 1 };
         ShowFormByName("VisualThemeBrowserFormRtlAware", data);
     }
 

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -91,31 +91,5 @@ public partial class KryptonDialogExamples: KryptonForm
         };
 
         kppd.ShowDialog();
-    }
-
-    private void kbtnLongInput_Click(object sender, EventArgs e)
-    {
-        var data = new KryptonInputBoxData
-        {
-            Owner = this,
-            Caption = "DPI-aware input",
-            Prompt = "This prompt is long enough to wrap. The dialog should grow with the text, stay inside the working area, and keep the response box and buttons visible. " +
-                      "Resize the display scale and open this again: the window follows the monitor instead of staying at the 96 DPI designer size.",
-            CueText = "Type a response"
-        };
-
-        KryptonInputBox.Show(data);
-    }
-
-    private void kbtnExceptionDialog_Click(object sender, EventArgs e)
-    {
-        try
-        {
-            throw new InvalidOperationException("Sample exception used to show the resizable, DPI-clamped exception dialog.");
-        }
-        catch (InvalidOperationException exception)
-        {
-            Krypton.Toolkit.Utilities.KryptonExceptionDialog.Show(exception, showCopyButton: true, showSearchBox: true);
-        }
     }
 }

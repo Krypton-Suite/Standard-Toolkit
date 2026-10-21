@@ -226,7 +226,7 @@
             // 
             // lblStatus
             // 
-            this.lblStatus.Location = new System.Drawing.Point(12, 940);
+            this.lblStatus.Location = new System.Drawing.Point(12, 625);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(1078, 20);
             this.lblStatus.TabIndex = 4;
@@ -236,19 +236,18 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(1102, 980);
+            this.ClientSize = new System.Drawing.Size(1102, 655);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.lblPropertyGrid);
             this.Controls.Add(this.propertyGrid);
             this.Controls.Add(this.grpCalendars);
             this.Controls.Add(this.grpRtlToggle);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = System.Drawing.SystemIcons.Application;
-            this.MaximizeBox = true;
+            this.MaximizeBox = false;
             this.Name = "MonthCalendarRtlTest";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Toolkit RTL Test (#2379)";
+            this.Text = "Month Calendar RTL Test";
             ((System.ComponentModel.ISupportInitialize)(this.grpRtlToggle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grpRtlToggle.Panel)).EndInit();
             this.grpRtlToggle.Panel.ResumeLayout(false);

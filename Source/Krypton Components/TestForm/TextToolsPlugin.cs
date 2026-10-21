@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -55,9 +55,9 @@ public partial class TextToolsPlugin : UserControl
         underlineButton.Click += (s, e) => lblPluginStatus.Text = "Underline formatting applied";
 
         var triple1 = new KryptonRibbonGroupTriple();
-        triple1.Items?.Add(boldButton);
-        triple1.Items?.Add(italicButton);
-        triple1.Items?.Add(underlineButton);
+        triple1.Items.Add(boldButton);
+        triple1.Items.Add(italicButton);
+        triple1.Items.Add(underlineButton);
         formatGroup.Items.Add(triple1);
 
         // Alignment group
@@ -81,9 +81,9 @@ public partial class TextToolsPlugin : UserControl
         rightAlignButton.Click += (s, e) => lblPluginStatus.Text = "Right alignment applied";
 
         var triple2 = new KryptonRibbonGroupTriple();
-        triple2.Items?.Add(leftAlignButton);
-        triple2.Items?.Add(centerAlignButton);
-        triple2.Items?.Add(rightAlignButton);
+        triple2.Items.Add(leftAlignButton);
+        triple2.Items.Add(centerAlignButton);
+        triple2.Items.Add(rightAlignButton);
         alignGroup.Items.Add(triple2);
 
         textTab.Groups.Add(formatGroup);

@@ -35,8 +35,6 @@
             this.kryptonThemeComboBox1 = new Krypton.Toolkit.KryptonThemeComboBox();
             this.kbtnStressTest = new Krypton.Toolkit.KryptonButton();
             this.kbtnStressTestBeforeFix = new Krypton.Toolkit.KryptonButton();
-            this.kbtnApplyThemedToolbarIcons = new Krypton.Toolkit.KryptonButton();
-            this.kbtnClearThemedToolbarIcons = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonGroupBox1)).BeginInit();
@@ -76,21 +74,17 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.kpgExample, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.kryptonThemeComboBox1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.kbtnApplyThemedToolbarIcons, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.kbtnClearThemedToolbarIcons, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.kbtnStressTest, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.kbtnStressTestBeforeFix, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.kbtnStressTest, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.kbtnStressTestBeforeFix, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(413, 654);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(413, 594);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // kpgExample
@@ -100,7 +94,7 @@
             this.kpgExample.Name = "kpgExample";
             this.kpgExample.Padding = new System.Windows.Forms.Padding(1);
             this.kpgExample.SelectedObject = this;
-            this.kpgExample.Size = new System.Drawing.Size(407, 468);
+            this.kpgExample.Size = new System.Drawing.Size(407, 498);
             this.kpgExample.TabIndex = 0;
             // 
             // kryptonThemeComboBox1
@@ -110,42 +104,20 @@
             this.kryptonThemeComboBox1.DefaultPalette = Krypton.Toolkit.PaletteMode.Microsoft365Blue;
             this.kryptonThemeComboBox1.DropDownWidth = 276;
             this.kryptonThemeComboBox1.IntegralHeight = false;
-            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(3, 477);
+            this.kryptonThemeComboBox1.Location = new System.Drawing.Point(3, 507);
             this.kryptonThemeComboBox1.Name = "kryptonThemeComboBox1";
             this.kryptonThemeComboBox1.Size = new System.Drawing.Size(407, 22);
             this.kryptonThemeComboBox1.StateCommon.ComboBox.Content.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.kryptonThemeComboBox1.TabIndex = 1;
             // 
-            // kbtnApplyThemedToolbarIcons
-            // 
-            this.kbtnApplyThemedToolbarIcons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnApplyThemedToolbarIcons.Location = new System.Drawing.Point(3, 505);
-            this.kbtnApplyThemedToolbarIcons.Name = "kbtnApplyThemedToolbarIcons";
-            this.kbtnApplyThemedToolbarIcons.Size = new System.Drawing.Size(407, 25);
-            this.kbtnApplyThemedToolbarIcons.TabIndex = 2;
-            this.kbtnApplyThemedToolbarIcons.Values.Text = "Apply Manager Toolbar Icons";
-            this.kbtnApplyThemedToolbarIcons.Click += new System.EventHandler(this.kbtnApplyThemedToolbarIcons_Click);
-            // 
-            // kbtnClearThemedToolbarIcons
-            // 
-            this.kbtnClearThemedToolbarIcons.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnClearThemedToolbarIcons.Location = new System.Drawing.Point(3, 536);
-            this.kbtnClearThemedToolbarIcons.Name = "kbtnClearThemedToolbarIcons";
-            this.kbtnClearThemedToolbarIcons.Size = new System.Drawing.Size(407, 25);
-            this.kbtnClearThemedToolbarIcons.TabIndex = 3;
-            this.kbtnClearThemedToolbarIcons.Values.Text = "Clear Manager Toolbar Icons (Stock)";
-            this.kbtnClearThemedToolbarIcons.Click += new System.EventHandler(this.kbtnClearThemedToolbarIcons_Click);
-            // 
             // kbtnStressTest
             // 
             this.kbtnStressTest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnStressTest.Location = new System.Drawing.Point(3, 567);
+            this.kbtnStressTest.Location = new System.Drawing.Point(3, 535);
             this.kbtnStressTest.Name = "kbtnStressTest";
             this.kbtnStressTest.Size = new System.Drawing.Size(407, 25);
-            this.kbtnStressTest.TabIndex = 4;
+            this.kbtnStressTest.TabIndex = 2;
             this.kbtnStressTest.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnStressTest.Values.Text = "Run Drawing Stress Test (After Fix)";
             this.kbtnStressTest.Click += new System.EventHandler(this.kbtnStressTest_Click);
@@ -154,10 +126,10 @@
             // 
             this.kbtnStressTestBeforeFix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnStressTestBeforeFix.Location = new System.Drawing.Point(3, 598);
+            this.kbtnStressTestBeforeFix.Location = new System.Drawing.Point(3, 566);
             this.kbtnStressTestBeforeFix.Name = "kbtnStressTestBeforeFix";
             this.kbtnStressTestBeforeFix.Size = new System.Drawing.Size(407, 25);
-            this.kbtnStressTestBeforeFix.TabIndex = 5;
+            this.kbtnStressTestBeforeFix.TabIndex = 3;
             this.kbtnStressTestBeforeFix.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnStressTestBeforeFix.Values.Text = "Run Drawing Stress Test (Before Fix)";
             this.kbtnStressTestBeforeFix.Click += new System.EventHandler(this.kbtnStressTestBeforeFix_Click);
@@ -166,7 +138,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(427, 688);
+            this.ClientSize = new System.Drawing.Size(427, 628);
             this.Controls.Add(this.kryptonPanel1);
             this.Location = new System.Drawing.Point(0, 0);
             this.MinimumSize = new System.Drawing.Size(310, 350);
@@ -193,8 +165,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Krypton.Toolkit.KryptonPropertyGrid kpgExample;
         private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox1;
-        private Krypton.Toolkit.KryptonButton kbtnApplyThemedToolbarIcons;
-        private Krypton.Toolkit.KryptonButton kbtnClearThemedToolbarIcons;
         private Krypton.Toolkit.KryptonButton kbtnStressTest;
         private Krypton.Toolkit.KryptonButton kbtnStressTestBeforeFix;
     }

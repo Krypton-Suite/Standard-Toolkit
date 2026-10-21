@@ -29,49 +29,25 @@
         private void InitializeComponent()
         {
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kbtnColorDialog = new Krypton.Toolkit.KryptonButton();
-            this.kbtnPrintDialog = new Krypton.Toolkit.KryptonButton();
             this.kbtnFontDialog = new Krypton.Toolkit.KryptonButton();
-            this.kbtnLongInput = new Krypton.Toolkit.KryptonButton();
-            this.kbtnExceptionDialog = new Krypton.Toolkit.KryptonButton();
-            this.klblHint = new Krypton.Toolkit.KryptonWrapLabel();
+            this.kbtnPrintDialog = new Krypton.Toolkit.KryptonButton();
+            this.kbtnColorDialog = new Krypton.Toolkit.KryptonButton();
+            this.kbtnPrintPreviewDialog = new Krypton.Toolkit.KryptonButton();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.klblHint);
-            this.kryptonPanel1.Controls.Add(this.kbtnExceptionDialog);
-            this.kryptonPanel1.Controls.Add(this.kbtnLongInput);
+            this.kryptonPanel1.Controls.Add(this.kbtnPrintPreviewDialog);
             this.kryptonPanel1.Controls.Add(this.kbtnFontDialog);
             this.kryptonPanel1.Controls.Add(this.kbtnPrintDialog);
             this.kryptonPanel1.Controls.Add(this.kbtnColorDialog);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(360, 230);
+            this.kryptonPanel1.Size = new System.Drawing.Size(230, 150);
             this.kryptonPanel1.TabIndex = 0;
-            // 
-            // kbtnColorDialog
-            // 
-            this.kbtnColorDialog.Location = new System.Drawing.Point(13, 13);
-            this.kbtnColorDialog.Name = "kbtnColorDialog";
-            this.kbtnColorDialog.Size = new System.Drawing.Size(201, 25);
-            this.kbtnColorDialog.TabIndex = 0;
-            this.kbtnColorDialog.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnColorDialog.Values.Text = "Color Dialog";
-            this.kbtnColorDialog.Click += new System.EventHandler(this.kbtnColorDialog_Click);
-            // 
-            // kbtnPrintDialog
-            // 
-            this.kbtnPrintDialog.Location = new System.Drawing.Point(13, 75);
-            this.kbtnPrintDialog.Name = "kbtnPrintDialog";
-            this.kbtnPrintDialog.Size = new System.Drawing.Size(201, 25);
-            this.kbtnPrintDialog.TabIndex = 1;
-            this.kbtnPrintDialog.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnPrintDialog.Values.Text = "Print Dialog";
-            this.kbtnPrintDialog.Click += new System.EventHandler(this.kbtnPrintDialog_Click);
             // 
             // kbtnFontDialog
             // 
@@ -83,38 +59,41 @@
             this.kbtnFontDialog.Values.Text = "Font Dialog";
             this.kbtnFontDialog.Click += new System.EventHandler(this.kbtnFontDialog_Click);
             // 
-            // kbtnLongInput
+            // kbtnPrintDialog
             // 
-            this.kbtnLongInput.Location = new System.Drawing.Point(13, 106);
-            this.kbtnLongInput.Name = "kbtnLongInput";
-            this.kbtnLongInput.Size = new System.Drawing.Size(330, 25);
-            this.kbtnLongInput.TabIndex = 3;
-            this.kbtnLongInput.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnLongInput.Values.Text = "Long input prompt";
-            this.kbtnLongInput.Click += new System.EventHandler(this.kbtnLongInput_Click);
+            this.kbtnPrintDialog.Location = new System.Drawing.Point(13, 75);
+            this.kbtnPrintDialog.Name = "kbtnPrintDialog";
+            this.kbtnPrintDialog.Size = new System.Drawing.Size(201, 25);
+            this.kbtnPrintDialog.TabIndex = 1;
+            this.kbtnPrintDialog.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPrintDialog.Values.Text = "Print Dialog";
+            this.kbtnPrintDialog.Click += new System.EventHandler(this.kbtnPrintDialog_Click);
             // 
-            // kbtnExceptionDialog
+            // kbtnColorDialog
             // 
-            this.kbtnExceptionDialog.Location = new System.Drawing.Point(13, 137);
-            this.kbtnExceptionDialog.Name = "kbtnExceptionDialog";
-            this.kbtnExceptionDialog.Size = new System.Drawing.Size(330, 25);
-            this.kbtnExceptionDialog.TabIndex = 4;
-            this.kbtnExceptionDialog.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnExceptionDialog.Values.Text = "Exception dialog";
-            this.kbtnExceptionDialog.Click += new System.EventHandler(this.kbtnExceptionDialog_Click);
+            this.kbtnColorDialog.Location = new System.Drawing.Point(13, 13);
+            this.kbtnColorDialog.Name = "kbtnColorDialog";
+            this.kbtnColorDialog.Size = new System.Drawing.Size(201, 25);
+            this.kbtnColorDialog.TabIndex = 0;
+            this.kbtnColorDialog.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnColorDialog.Values.Text = "Color Dialog";
+            this.kbtnColorDialog.Click += new System.EventHandler(this.kbtnColorDialog_Click);
             // 
-            // klblHint
+            // kbtnPrintPreviewDialog
             // 
-            this.klblHint.Location = new System.Drawing.Point(13, 168);
-            this.klblHint.Name = "klblHint";
-            this.klblHint.Size = new System.Drawing.Size(330, 48);
-            this.klblHint.Text = "Long prompts grow the input box. The exception dialog is resizable and stays on the monitor.";
+            this.kbtnPrintPreviewDialog.Location = new System.Drawing.Point(13, 106);
+            this.kbtnPrintPreviewDialog.Name = "kbtnPrintPreviewDialog";
+            this.kbtnPrintPreviewDialog.Size = new System.Drawing.Size(201, 25);
+            this.kbtnPrintPreviewDialog.TabIndex = 3;
+            this.kbtnPrintPreviewDialog.Values.DropDownArrowColor = System.Drawing.Color.Empty;
+            this.kbtnPrintPreviewDialog.Values.Text = "Print Preview Dialog";
+            this.kbtnPrintPreviewDialog.Click += new System.EventHandler(this.kbtnPrintPreviewDialog_Click);
             // 
             // KryptonDialogExamples
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(360, 230);
+            this.ClientSize = new System.Drawing.Size(230, 150);
             this.Controls.Add(this.kryptonPanel1);
             this.Name = "KryptonDialogExamples";
             this.Text = "KryptonDialogExamples";
@@ -130,8 +109,6 @@
         private KryptonButton kbtnColorDialog;
         private KryptonButton kbtnFontDialog;
         private KryptonButton kbtnPrintDialog;
-        private KryptonButton kbtnLongInput;
-        private KryptonButton kbtnExceptionDialog;
-        private KryptonWrapLabel klblHint;
+        private KryptonButton kbtnPrintPreviewDialog;
     }
 }

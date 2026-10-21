@@ -21,12 +21,14 @@ public class ColorInverting
     /// <param name="green">Green channel.</param>
     /// <param name="blue">Blue channel.</param>
     /// <returns>Resultant color.</returns>
-    public static Color InvertRGBFromInt(byte red, byte green, byte blue) =>
-        Color.FromArgb(
+    public static Color InvertRGBFromInt(byte red, byte green, byte blue)
+    {
+        return Color.FromArgb(
             ChannelMaxValue,
             ChannelMaxValue - red,
             ChannelMaxValue - green,
             ChannelMaxValue - blue);
+    }
 
     /// <summary>
     /// Inverts the given input integers to a color.<br/>
@@ -38,12 +40,14 @@ public class ColorInverting
     /// <param name="blue">Blue channel.</param>
     /// <returns>Resultant color.</returns>
     /// 
-    public static Color InvertARGBFromInt(byte alpha, byte red, byte green, byte blue) =>
-        Color.FromArgb(
+    public static Color InvertARGBFromInt(byte alpha, byte red, byte green, byte blue)
+    {
+        return Color.FromArgb(
             ChannelMaxValue - alpha,
             ChannelMaxValue - red,
             ChannelMaxValue - green,
             ChannelMaxValue - blue);
+    }
 
     /// <summary>
     /// Inverts all four channels (ARGB).<br/>
@@ -51,49 +55,60 @@ public class ColorInverting
     /// </summary>
     /// <param name="color">Input color object.</param>
     /// <returns>Resultant color.</returns>
-    public static Color InvertARGB(Color color) =>
-        Color.FromArgb(
+    public static Color InvertARGB(Color color)
+    {
+        return Color.FromArgb(
             ChannelMaxValue - color.A,
             ChannelMaxValue - color.R,
             ChannelMaxValue - color.G,
             ChannelMaxValue - color.B);
+
+    }
 
     /// <summary>
     /// Inverts the RGB channels and leaves the Alpha channel untouched.
     /// </summary>
     /// <param name="color">Input color object</param>
     /// <returns>Resultant color.</returns>
-    public static Color InvertRGB(Color color) =>
-        Color.FromArgb(
+    public static Color InvertRGB(Color color)
+    {
+        return Color.FromArgb(
             color.A,
             ChannelMaxValue - color.R,
             ChannelMaxValue - color.G,
             ChannelMaxValue - color.B);
+    }
 
     /// <summary>
     /// Inverts a single color channel value.
     /// </summary>
     /// <param name="i">Channel value.</param>
     /// <returns>Inverted value.</returns>
-    public static int Invert(byte i) => ChannelMaxValue - i;
+    public static int Invert(byte i)
+    {
+        return ChannelMaxValue - i;
+    }
 
     /// <summary>
     /// Checks if the input string is in the format "#FFFFFF"
     /// </summary>
     /// <param name="hexColor">String to check.</param>
     /// <returns>True if the string is in the correct format, otherwise false.</returns>
-    public static bool IsHexColor(string? hexColor)
+    public static bool IsHexColor(string hexColor)
     {
-        if (hexColor is not { Length: 7 } || hexColor[0] != '#')
+        if (hexColor.Length == 7 && hexColor[0] == '#')
         {
-            return false;
+            try
+            {
+                Convert.ToInt32(hexColor.Substring(1), 16);
+                return true;
+            }
+            catch
+            {
+            }
         }
 
-        return int.TryParse(
-            hexColor.Substring(1),
-            NumberStyles.HexNumber,
-            CultureInfo.InvariantCulture,
-            out _);
+        return false;
     }
 
 

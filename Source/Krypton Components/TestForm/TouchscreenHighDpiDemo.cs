@@ -1,8 +1,8 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -25,7 +25,6 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
 {
     private Timer _dpiMonitorTimer;
     private bool _updatingFromEvent;
-    private readonly Dictionary<Control, Rectangle> _baselineBounds = new();
 
     public TouchscreenHighDpiDemo()
     {
@@ -49,8 +48,6 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         // Setup demo controls
         SetupDemoControls();
 
-        grpSettings.Panel.AutoScroll = true;
-
         // Setup event handlers
         chkEnableTouchscreen.CheckedChanged += ChkEnableTouchscreen_CheckedChanged;
         trackScaleFactor.ValueChanged += TrackScaleFactor_ValueChanged;
@@ -66,6 +63,7 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         // Handle form move/resize to detect monitor changes
         this.Move += (s, e) => UpdateDpiInfo();
         this.Resize += (s, e) => UpdateDpiInfo();
+        this.DpiChanged += (s, e) => OnDpiChanged(e);
 
         // Update status
         UpdateStatus();
@@ -168,12 +166,8 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         cell2.Pages.Add(workspacePage2);
         cell2.SelectedPage = workspacePage2;
 
-        var root = workspace.Root;
-        if (root != null)
-        {
-            root.Children?.Add(cell1);
-            root.Children?.Add(cell2);
-        }
+        workspace.Root.Children.Add(cell1);
+        workspace.Root.Children.Add(cell2);
     }
 
     private void ChkEnableTouchscreen_CheckedChanged(object? sender, EventArgs e)
@@ -314,9 +308,8 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
         UpdateDpiInfo();
     }
 
-    protected override void OnDpiChanged(DpiChangedEventArgs e)
+    private void OnDpiChanged(DpiChangedEventArgs e)
     {
-        base.OnDpiChanged(e);
         // DPI changed - invalidate cache and update info
         KryptonManager.InvalidateDpiCache();
         UpdateDpiInfo();
@@ -379,78 +372,12 @@ public partial class TouchscreenHighDpiDemo : KryptonForm
             trackFontScaleFactor.Enabled = fontScalingEnabled;
             lblFontScaleFactor.Enabled = touchscreenEnabled;
             lblFontScaleValue.Enabled = touchscreenEnabled;
-
-            ApplyScaledDemoLayout(settings);
         }
         finally
         {
             _updatingFromEvent = false;
         }
     }
-
-    private void ApplyScaledDemoLayout(TouchscreenSettingValues settings)
-    {
-        CaptureBaselineBounds(grpControls.Panel);
-        CaptureBaselineBounds(grpSettings.Panel);
-
-        float scaleFactor = 1f;
-        if (settings.TouchscreenModeEnabled)
-        {
-            scaleFactor = settings.ControlScaleFactor;
-            if (settings.FontScalingEnabled)
-            {
-                scaleFactor = Math.Max(scaleFactor, settings.FontScaleFactor);
-            }
-        }
-
-        scaleFactor = Math.Max(1f, scaleFactor);
-
-        grpControls.Panel.SuspendLayout();
-        grpSettings.Panel.SuspendLayout();
-
-        try
-        {
-            foreach (KeyValuePair<Control, Rectangle> entry in _baselineBounds)
-            {
-                Control control = entry.Key;
-                if (control.IsDisposed || control.Dock == DockStyle.Fill)
-                {
-                    continue;
-                }
-
-                Rectangle bounds = entry.Value;
-                control.Bounds = new Rectangle(
-                    ScaleLayoutValue(bounds.X, scaleFactor),
-                    ScaleLayoutValue(bounds.Y, scaleFactor),
-                    ScaleLayoutSize(bounds.Width, scaleFactor),
-                    ScaleLayoutSize(bounds.Height, scaleFactor));
-            }
-        }
-        finally
-        {
-            grpSettings.Panel.ResumeLayout(true);
-            grpControls.Panel.ResumeLayout(true);
-        }
-    }
-
-    private void CaptureBaselineBounds(Control parent)
-    {
-        foreach (Control child in parent.Controls)
-        {
-            if (child.Dock != DockStyle.Fill && !_baselineBounds.ContainsKey(child))
-            {
-                _baselineBounds.Add(child, child.Bounds);
-            }
-
-            CaptureBaselineBounds(child);
-        }
-    }
-
-    private static int ScaleLayoutValue(int value, float scaleFactor) =>
-        Math.Max(0, (int)Math.Round(value * scaleFactor));
-
-    private static int ScaleLayoutSize(int value, float scaleFactor) =>
-        Math.Max(1, (int)Math.Round(value * scaleFactor));
 
     private void UpdateStatus()
     {

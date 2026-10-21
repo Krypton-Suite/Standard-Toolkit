@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -14,7 +14,7 @@ using System.Windows.Forms;
 using Krypton.Navigator;
 using Krypton.Ribbon;
 using Krypton.Toolkit;
-using Krypton.Toolkit.Utilities;
+using Krypton.Utilities;
 
 namespace TestForm;
 
@@ -346,7 +346,7 @@ public partial class FontAwesomeTest : KryptonForm
     private void BtnIconPicker_Click(object? sender, EventArgs e)
     {
         // Demonstrate the icon picker dialog
-        using var dialog = new Krypton.Toolkit.Utilities.FontAwesomeIconPickerDialog();
+        using var dialog = new Krypton.Utilities.FontAwesomeIconPickerDialog();
 
         if (dialog.ShowDialog() == DialogResult.OK)
         {

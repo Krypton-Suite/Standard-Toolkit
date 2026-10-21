@@ -7,7 +7,9 @@
  */
 #endregion
 
-using Krypton.Toolkit.Utilities;
+using Krypton.Utilities;
+
+using GlobalStaticValues = Krypton.Toolkit.GlobalStaticValues;
 
 namespace TestForm;
 
@@ -141,8 +143,7 @@ public partial class UserInputToastNotificationTest : KryptonForm
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
                 default:
-                    ThrowHelper.ThrowArgumentOutOfRangeException();
-                    return;
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }
@@ -182,7 +183,7 @@ public partial class UserInputToastNotificationTest : KryptonForm
 
     private void kbtnSampleText_Click(object sender, EventArgs e)
     {
-        ktxtToastContent.Text = SharedStaticVariables.DEFAULT_LONG_SEED_TEXT;
+        ktxtToastContent.Text = GlobalStaticValues.DEFAULT_LONG_SEED_TEXT;
     }
 
     private void kbtnContentFont_Click(object sender, EventArgs e)

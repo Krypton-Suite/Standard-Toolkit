@@ -1,9 +1,29 @@
-﻿using System.Windows.Forms;
+using System.Windows.Forms;
 
 namespace TestForm
 {
     partial class PaletteViewerForm
     {
+        private System.Windows.Forms.DataGridView dataGridViewPalette;
+        private Krypton.Toolkit.KryptonButton buttonAddPalette;
+        private Krypton.Toolkit.KryptonButton buttonRemovePalette;
+        private Krypton.Toolkit.KryptonComboBox comboTheme;
+        private Krypton.Toolkit.KryptonPanel panelTop;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+        private Krypton.Toolkit.KryptonButton buttonAddAll;
+        private Krypton.Toolkit.KryptonButton buttonCancel;
+        private Krypton.Toolkit.KryptonButton buttonClear;
+        private Krypton.Toolkit.KryptonComboBox comboSaveFormat;
+        private Krypton.Toolkit.KryptonButton buttonSave;
+        private Krypton.Toolkit.KryptonButton buttonHelp;
+        private Krypton.Toolkit.KryptonLabel labelSourceTitle;
+        private Krypton.Toolkit.KryptonTextBox textSourcePath;
+        private Krypton.Toolkit.KryptonButton buttonBrowseSource;
+        private Krypton.Toolkit.KryptonButton buttonClearSource;
+        private Krypton.Toolkit.KryptonLabel labelSourceRequired;
+        private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox;
+
         private void InitializeComponent()
         {
             this.dataGridViewPalette = new System.Windows.Forms.DataGridView();
@@ -288,25 +308,5 @@ namespace TestForm
             this.PerformLayout();
 
         }
-
-        private System.Windows.Forms.DataGridView dataGridViewPalette;
-        private Krypton.Toolkit.KryptonButton buttonAddPalette;
-        private Krypton.Toolkit.KryptonButton buttonRemovePalette;
-        private Krypton.Toolkit.KryptonComboBox comboTheme;
-        private Krypton.Toolkit.KryptonPanel panelTop;
-        private System.Windows.Forms.StatusStrip statusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
-        private Krypton.Toolkit.KryptonButton buttonAddAll;
-        private Krypton.Toolkit.KryptonButton buttonCancel;
-        private Krypton.Toolkit.KryptonButton buttonClear;
-        private Krypton.Toolkit.KryptonComboBox comboSaveFormat;
-        private Krypton.Toolkit.KryptonButton buttonSave;
-        private Krypton.Toolkit.KryptonButton buttonHelp;
-        private Krypton.Toolkit.KryptonLabel labelSourceTitle;
-        private Krypton.Toolkit.KryptonTextBox textSourcePath;
-        private Krypton.Toolkit.KryptonButton buttonBrowseSource;
-        private Krypton.Toolkit.KryptonButton buttonClearSource;
-        private Krypton.Toolkit.KryptonLabel labelSourceRequired;
-        private Krypton.Toolkit.KryptonThemeComboBox kryptonThemeComboBox;
     }
 }

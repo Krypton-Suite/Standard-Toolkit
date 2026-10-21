@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -49,8 +49,8 @@ public partial class ImageEditorPlugin : UserControl
         rotateButton.Click += (s, e) => lblPluginStatus.Text = "Rotate tool activated";
 
         var triple1 = new KryptonRibbonGroupTriple();
-        triple1.Items?.Add(cropButton);
-        triple1.Items?.Add(rotateButton);
+        triple1.Items.Add(cropButton);
+        triple1.Items.Add(rotateButton);
         editGroup.Items.Add(triple1);
 
         // Effects group
@@ -68,8 +68,8 @@ public partial class ImageEditorPlugin : UserControl
         sharpenButton.Click += (s, e) => lblPluginStatus.Text = "Sharpen effect applied";
 
         var triple2 = new KryptonRibbonGroupTriple();
-        triple2.Items?.Add(blurButton);
-        triple2.Items?.Add(sharpenButton);
+        triple2.Items.Add(blurButton);
+        triple2.Items.Add(sharpenButton);
         effectsGroup.Items.Add(triple2);
 
         imageTab.Groups.Add(editGroup);
