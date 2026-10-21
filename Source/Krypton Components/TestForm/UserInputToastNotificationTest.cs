@@ -2,14 +2,10 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2024 - 2025. All rights reserved.
  *
  */
 #endregion
-
-using Krypton.Utilities;
-
-using GlobalStaticValues = Krypton.Toolkit.GlobalStaticValues;
 
 namespace TestForm;
 
@@ -25,9 +21,9 @@ public partial class UserInputToastNotificationTest : KryptonForm
 
     private int _integerResult;
 
-    private KryptonToastInputAreaType _toastNotificationInputAreaType;
+    private KryptonToastNotificationInputAreaType _toastNotificationInputAreaType;
 
-    private KryptonToastIcon _toastNotificationIcon;
+    private KryptonToastNotificationIcon _toastNotificationIcon;
 
     #endregion
 
@@ -35,14 +31,14 @@ public partial class UserInputToastNotificationTest : KryptonForm
     {
         InitializeComponent();
 
-        foreach (var value in Enum.GetValues(typeof(KryptonToastInputAreaType)))
+        foreach (var value in Enum.GetValues(typeof(KryptonToastNotificationInputAreaType)))
         {
             kcmbUserInputType.Items.Add(value!.ToString()!);
         }
 
         kcmbUserInputType.SelectedIndex = 0;
 
-        foreach (var value in Enum.GetValues(typeof(KryptonToastIcon)))
+        foreach (var value in Enum.GetValues(typeof(KryptonToastNotificationIcon)))
         {
             kcmbToastIcon.Items.Add(value!.ToString()!);
         }
@@ -52,7 +48,7 @@ public partial class UserInputToastNotificationTest : KryptonForm
 
     private void kbtnShow_Click(object sender, EventArgs e)
     {
-        var data = new KryptonUserInputToastData()
+        var data = new KryptonUserInputToastNotificationData()
         {
             BorderColor1 = kcbtnBorderColor1.SelectedColor,
             BorderColor2 = kcbtnBorderColor2.SelectedColor,
@@ -75,32 +71,32 @@ public partial class UserInputToastNotificationTest : KryptonForm
         {
             switch (GetInputAreaType())
             {
-                case KryptonToastInputAreaType.ComboBox:
-                    _stringResult = (string)KryptonToast.ShowNotification(data);
+                case KryptonToastNotificationInputAreaType.ComboBox:
+                    _stringResult = (string)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
-                case KryptonToastInputAreaType.DomainUpDown:
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
                     _stringResult =
-                        (string)KryptonToast.ShowNotification(data);
+                        (string)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
-                case KryptonToastInputAreaType.NumericUpDown:
+                case KryptonToastNotificationInputAreaType.NumericUpDown:
                     _integerResult =
-                        (int)KryptonToast.ShowNotification(data);
+                        (int)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_integerResult}");
                     break;
-                case KryptonToastInputAreaType.MaskedTextBox:
+                case KryptonToastNotificationInputAreaType.MaskedTextBox:
                     _stringResult =
-                        (string)KryptonToast.ShowNotification(data);
+                        (string)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
-                case KryptonToastInputAreaType.TextBox:
+                case KryptonToastNotificationInputAreaType.TextBox:
                     _stringResult =
-                        (string)KryptonToast.ShowNotification(data);
+                        (string)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
@@ -112,33 +108,33 @@ public partial class UserInputToastNotificationTest : KryptonForm
         {
             switch (GetInputAreaType())
             {
-                case KryptonToastInputAreaType.ComboBox:
+                case KryptonToastNotificationInputAreaType.ComboBox:
                     _stringResult =
-                        (string)KryptonToast.ShowNotification(data);
+                        (string)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
-                case KryptonToastInputAreaType.DomainUpDown:
+                case KryptonToastNotificationInputAreaType.DomainUpDown:
                     _stringResult =
-                        (string)KryptonToast.ShowNotification(data);
+                        (string)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
-                case KryptonToastInputAreaType.NumericUpDown:
+                case KryptonToastNotificationInputAreaType.NumericUpDown:
                     _integerResult =
-                        (int)KryptonToast.ShowNotification(data);
+                        (int)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_integerResult}");
                     break;
-                case KryptonToastInputAreaType.MaskedTextBox:
+                case KryptonToastNotificationInputAreaType.MaskedTextBox:
                     _stringResult =
-                        (string)KryptonToast.ShowNotification(data);
+                        (string)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
-                case KryptonToastInputAreaType.TextBox:
+                case KryptonToastNotificationInputAreaType.TextBox:
                     _stringResult =
-                        (string)KryptonToast.ShowNotification(data);
+                        (string)KryptonToastNotification.ShowNotification(data);
 
                     KryptonMessageBox.Show($"Result = {_stringResult}");
                     break;
@@ -148,9 +144,9 @@ public partial class UserInputToastNotificationTest : KryptonForm
         }
     }
 
-    private void SetNotificationIcon(KryptonToastIcon icon) => _toastNotificationIcon = icon;
+    private void SetNotificationIcon(KryptonToastNotificationIcon icon) => _toastNotificationIcon = icon;
 
-    private KryptonToastIcon? GetNotificationIcon() => _toastNotificationIcon;
+    private KryptonToastNotificationIcon? GetNotificationIcon() => _toastNotificationIcon;
 
     private CheckState GetDoNotShowAgainOptionCheckState() => kchkShowDoNotShowAgain.CheckState;
 
@@ -158,14 +154,14 @@ public partial class UserInputToastNotificationTest : KryptonForm
 
     private void kchkUseRTL_CheckedChanged(object sender, EventArgs e) => _useRTLReading = kchkUseRTL.Checked;
 
-    private void SetInputType(KryptonToastInputAreaType inputAreaType) =>
+    private void SetInputType(KryptonToastNotificationInputAreaType inputAreaType) =>
         _toastNotificationInputAreaType = inputAreaType;
 
-    private KryptonToastInputAreaType GetInputAreaType() => _toastNotificationInputAreaType;
+    private KryptonToastNotificationInputAreaType GetInputAreaType() => _toastNotificationInputAreaType;
 
-    private void kcmbToastIcon_SelectedIndexChanged(object sender, EventArgs e) => SetNotificationIcon((KryptonToastIcon)Enum.Parse(typeof(KryptonToastIcon), kcmbToastIcon.Text));
+    private void kcmbToastIcon_SelectedIndexChanged(object sender, EventArgs e) => SetNotificationIcon((KryptonToastNotificationIcon)Enum.Parse(typeof(KryptonToastNotificationIcon), kcmbToastIcon.Text));
 
-    private void kcmbUserInputType_SelectedIndexChanged(object sender, EventArgs e) => SetInputType((KryptonToastInputAreaType)Enum.Parse(typeof(KryptonToastInputAreaType), kcmbUserInputType.Text));
+    private void kcmbUserInputType_SelectedIndexChanged(object sender, EventArgs e) => SetInputType((KryptonToastNotificationInputAreaType)Enum.Parse(typeof(KryptonToastNotificationInputAreaType), kcmbUserInputType.Text));
 
     private ArrayList TemporaryArrayList()
     {
