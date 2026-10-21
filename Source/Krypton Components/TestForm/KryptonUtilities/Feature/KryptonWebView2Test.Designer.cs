@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -12,9 +12,9 @@
 
 namespace TestForm
 {
+#if WEBVIEW2_AVAILABLE
     partial class KryptonWebView2Test
     {
-#if WEBVIEW2_AVAILABLE
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -43,7 +43,7 @@ namespace TestForm
         {
             this.components = new System.ComponentModel.Container();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kryptonWebView21 = new Krypton.Toolkit.Utilities.KryptonWebView2();
+            this.kryptonWebView21 = new Krypton.Utilities.KryptonWebView2();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
             this.kbtnRefresh = new Krypton.Toolkit.KryptonButton();
@@ -74,6 +74,7 @@ namespace TestForm
             // 
             this.kryptonWebView21.AllowExternalDrop = true;
             this.kryptonWebView21.CreationProperties = null;
+            this.kryptonWebView21.DefaultBackgroundColor = System.Drawing.Color.White;
             this.kryptonWebView21.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonWebView21.Location = new System.Drawing.Point(0, 60);
             this.kryptonWebView21.Name = "kryptonWebView21";
@@ -183,7 +184,7 @@ namespace TestForm
         #endregion
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
-        private Krypton.Toolkit.Utilities.KryptonWebView2 kryptonWebView21;
+        private Krypton.Utilities.KryptonWebView2 kryptonWebView21;
         private Krypton.Toolkit.KryptonLabel kryptonLabel1;
         private Krypton.Toolkit.KryptonPanel kryptonPanel2;
         private Krypton.Toolkit.KryptonButton kbtnRefresh;
@@ -192,17 +193,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton kbtnNavigate;
         private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
-#else
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "KryptonWebView2Test";
-            this.Text = "KryptonWebView2 Test (WebView2 not available)";
-            this.ResumeLayout(false);
-        }
-#endif
     }
+#endif
 }
