@@ -7,8 +7,9 @@
  */
 #endregion
 
-using Krypton.Toolkit.Utilities;
+using Krypton.Utilities;
 
+using GlobalStaticValues = Krypton.Toolkit.GlobalStaticValues;
 using GraphicsExtensions = Krypton.Toolkit.GraphicsExtensions;
 
 namespace TestForm;
@@ -106,9 +107,6 @@ public partial class BasicToastNotificationTest : KryptonForm
         _borderColor1 = Color.Empty;
         _borderColor2 = Color.Empty;
         _useRtlReading = false;
-
-        // #4419: Without a close box the toast is borderless; edge inset and height pad scale with DPI.
-        Text = "Basic Toast Notification — try Show Close Box on/off at 100% and high DPI";
 
         kcbtnBorderColor1.SelectedColor = Color.Empty;
         kcbtnBorderColor2.SelectedColor = Color.Empty;
@@ -227,7 +225,7 @@ public partial class BasicToastNotificationTest : KryptonForm
 
     private void kbtnSampleText_Click(object sender, EventArgs e)
     {
-        ktxtToastContent.Text = SharedStaticVariables.DEFAULT_LONG_SEED_TEXT;
+        ktxtToastContent.Text = GlobalStaticValues.DEFAULT_LONG_SEED_TEXT;
     }
 
     private void kcmbToastTitleAlignmentV_SelectedIndexChanged(object sender, EventArgs e)
