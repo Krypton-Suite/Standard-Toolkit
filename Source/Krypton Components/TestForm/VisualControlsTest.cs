@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -9,8 +9,6 @@
 
 using System.Reflection;
 using System.Threading;
-
-using Krypton.Toolkit.Utilities;
 
 namespace TestForm;
 
@@ -97,31 +95,23 @@ public partial class VisualControlsTest : KryptonForm
 
     private void kbtnVisualThemeBrowser_Click(object sender, EventArgs e)
     {
-        var data = new KryptonThemeBrowserData
-        {
-            WindowTitle = "Theme Browser",
-            DefaultPalette = PaletteMode.Office2010Blue
-        };
+        var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser", StartIndex = 1 };
         KryptonThemeBrowser.Show(data);
     }
 
     private void kbtnVisualThemeBrowserRtlAware_Click(object sender, EventArgs e)
     {
-        var data = new KryptonThemeBrowserData
-        {
-            WindowTitle = "Theme Browser RTL",
-            DefaultPalette = PaletteMode.Office2010Blue
-        };
+        var data = new KryptonThemeBrowserData { WindowTitle = "Theme Browser RTL", StartIndex = 1 };
         ShowFormByName("VisualThemeBrowserFormRtlAware", data);
     }
 
     private void kbtnVisualToastNotification_Click(object sender, EventArgs e)
     {
-        var data = new KryptonBasicToastData
+        var data = new KryptonBasicToastNotificationData
         {
             NotificationTitle = "Demo Toast",
             NotificationContent = "This is a basic toast notification.",
-            NotificationIcon = KryptonToastIcon.Information,
+            NotificationIcon = KryptonToastNotificationIcon.Information,
             ShowCloseBox = true,
             CountDownSeconds = 0
         };

@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -40,8 +40,7 @@ internal static class ThemeArrayInspector
         "MenuMarginGradientMiddle",
         "MenuMarginGradientEnd",
         "DisabledMenuItemText",
-        "MenuStripText",
-        "ToolStripText"
+        "MenuStripText"
     }, StringComparer.Ordinal);
 
     /// <summary>
@@ -96,7 +95,7 @@ internal static class ThemeArrayInspector
                 return null; // I/O error while reading – abort
             }
 
-            if (arrayNames is { Count: > 0 })
+            if (arrayNames != null && arrayNames.Count > 0)
             {
                 break; // success
             }
