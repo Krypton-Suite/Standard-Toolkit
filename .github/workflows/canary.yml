@@ -220,9 +220,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      # Prerelease WebView2 required for net11.0-windows; stable packages do not support .NET 11 yet.
-      - name: Resolve WebView2 version
+      - name: Resolve Krypton toolkit major version
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Canary
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      # WebView2 when toolkit major >= WEBVIEW2_MINIMUM_SUPPORTED_VERSION (default 110).
+      - name: Resolve WebView2 version
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         id: webview2_version
         shell: pwsh
         run: |
@@ -231,7 +242,7 @@ jobs:
           & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
 
       - name: Restore WebView2 cache
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         id: webview2_cache_restore
         uses: actions/cache/restore@v6
         continue-on-error: true
@@ -242,7 +253,7 @@ jobs:
             webview2-${{ runner.os }}-
 
       - name: Populate WebView2 (Preview)
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         shell: pwsh
         env:
           WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
@@ -252,7 +263,7 @@ jobs:
           & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
 
       - name: Save WebView2 cache
-        if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
+        if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         uses: actions/cache/save@v6
         continue-on-error: true
         with:
@@ -272,18 +283,7 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
-      # Verify Krypton.Interop is present in the NuGet packages (V110+ only)
-      - name: Resolve Krypton toolkit major version
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        id: krypton_major_version
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
-          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
-          $major = Get-KryptonToolkitMajorVersion -Configuration Canary
-          echo "major=$major" >> $env:GITHUB_OUTPUT
-
+      # Verify Krypton.Interop is present in the NuGet packages (V110+ only; major resolved earlier for WebView2 gate)
       - name: Verify Krypton.Interop in NuGet packages
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
         shell: pwsh
