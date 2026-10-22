@@ -10,8 +10,6 @@
 using System.Diagnostics;
 using System.Reflection;
 
-using Krypton.Utilities;
-
 namespace TestForm;
 
 public partial class Main : KryptonForm
@@ -400,15 +398,5 @@ public partial class Main : KryptonForm
     private void kryptonButton17_Click(object sender, EventArgs e)
     {
         new CheckedListBoxDemo().ShowDialog();
-    }
-
-    private void kbtnErrorProviderTest_Click(object sender, EventArgs e)
-    {
-        new ErrorProviderTest().ShowDialog();
-    }
-
-    private void kbtnBugReportingDialogTest_Click(object sender, EventArgs e)
-    {
-        new BugReportingDialogTest().ShowDialog();
     }
 }
