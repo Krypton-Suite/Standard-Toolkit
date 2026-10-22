@@ -1,4 +1,4 @@
-﻿using Krypton.Toolkit.Utilities;
+﻿using Krypton.Utilities;
 
 namespace TestForm
 {

@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -39,7 +39,6 @@ namespace TestForm
         {
             this.components = new System.ComponentModel.Container();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
-            this.kbtnShowDefaults = new Krypton.Toolkit.KryptonButton();
             this.kbtnShow = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
@@ -67,7 +66,6 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
-            this.kryptonPanel1.Controls.Add(this.kbtnShowDefaults);
             this.kryptonPanel1.Controls.Add(this.kbtnShow);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -77,17 +75,6 @@ namespace TestForm
             this.kryptonPanel1.Size = new System.Drawing.Size(806, 50);
             this.kryptonPanel1.TabIndex = 0;
             // 
-            // kbtnShowDefaults
-            // 
-            this.kbtnShowDefaults.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.kbtnShowDefaults.Location = new System.Drawing.Point(486, 13);
-            this.kbtnShowDefaults.Name = "kbtnShowDefaults";
-            this.kbtnShowDefaults.Size = new System.Drawing.Size(116, 25);
-            this.kbtnShowDefaults.TabIndex = 2;
-            this.kbtnShowDefaults.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnShowDefaults.Values.Text = "Show (this app)";
-            this.kbtnShowDefaults.Click += new System.EventHandler(this.kbtnShowDefaults_Click);
-            // 
             // kbtnShow
             // 
             this.kbtnShow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -96,7 +83,7 @@ namespace TestForm
             this.kbtnShow.Size = new System.Drawing.Size(90, 25);
             this.kbtnShow.TabIndex = 1;
             this.kbtnShow.Values.DropDownArrowColor = System.Drawing.Color.Empty;
-            this.kbtnShow.Values.Text = "Show custom";
+            this.kbtnShow.Values.Text = "Show";
             this.kbtnShow.Click += new System.EventHandler(this.kbtnShow_Click);
             // 
             // kryptonButton1
@@ -147,6 +134,7 @@ namespace TestForm
             this.kryptonTextBox4.Name = "kryptonTextBox4";
             this.kryptonTextBox4.Size = new System.Drawing.Size(649, 26);
             this.kryptonTextBox4.TabIndex = 10;
+            this.kryptonTextBox4.Text = "kryptonTextBox4";
             // 
             // bsaBrowseMainImage
             // 
@@ -161,6 +149,7 @@ namespace TestForm
             this.kryptonTextBox3.Name = "kryptonTextBox3";
             this.kryptonTextBox3.Size = new System.Drawing.Size(649, 26);
             this.kryptonTextBox3.TabIndex = 9;
+            this.kryptonTextBox3.Text = "kryptonTextBox3";
             // 
             // bsaBrowseHeaderImage
             // 
@@ -174,6 +163,7 @@ namespace TestForm
             this.kryptonTextBox2.Name = "kryptonTextBox2";
             this.kryptonTextBox2.Size = new System.Drawing.Size(649, 23);
             this.kryptonTextBox2.TabIndex = 8;
+            this.kryptonTextBox2.Text = "kryptonTextBox2";
             // 
             // kryptonTextBox1
             // 
@@ -182,6 +172,7 @@ namespace TestForm
             this.kryptonTextBox1.Name = "kryptonTextBox1";
             this.kryptonTextBox1.Size = new System.Drawing.Size(649, 26);
             this.kryptonTextBox1.TabIndex = 7;
+            this.kryptonTextBox1.Text = "kryptonTextBox1";
             // 
             // bsaAssemblyBrowse
             // 
@@ -266,7 +257,7 @@ namespace TestForm
             this.Controls.Add(this.kryptonPanel1);
             this.Location = new System.Drawing.Point(0, 0);
             this.Name = "AboutBoxTest";
-            this.Text = "About Box (#2222)";
+            this.Text = "AboutBoxTest";
             this.Controls.SetChildIndex(this.kryptonPanel1, 0);
             this.Controls.SetChildIndex(this.kryptonBorderEdge1, 0);
             this.Controls.SetChildIndex(this.kryptonPanel2, 0);
@@ -285,7 +276,6 @@ namespace TestForm
         private KryptonPanel kryptonPanel1;
         private KryptonBorderEdge kryptonBorderEdge1;
         private KryptonButton kryptonButton1;
-        private KryptonButton kbtnShowDefaults;
         private KryptonButton kbtnShow;
         private KryptonPanel kryptonPanel2;
         private KryptonManager kryptonManager1;
