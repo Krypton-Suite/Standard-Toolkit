@@ -64,7 +64,9 @@ namespace TestForm
             this.kryptonButton2 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
+            this.kryptonSplitButton1 = new Krypton.Toolkit.KryptonSplitButton();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
+            this.kryptonContextMenuComboBox1 = new Krypton.Toolkit.KryptonContextMenuComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kcbColorScheme)).BeginInit();
@@ -91,6 +93,7 @@ namespace TestForm
             this.kryptonPanel1.Controls.Add(this.kryptonButton2);
             this.kryptonPanel1.Controls.Add(this.kryptonButton3);
             this.kryptonPanel1.Controls.Add(this.kryptonButton1);
+            this.kryptonPanel1.Controls.Add(this.kryptonSplitButton1);
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
@@ -102,7 +105,6 @@ namespace TestForm
             this.KryptonCalcInput1.AllowDecimals = true;
             this.KryptonCalcInput1.ButtonSpecs.Add(this.buttonSpecAny2);
             this.KryptonCalcInput1.DecimalPlaces = 2;
-            this.KryptonCalcInput1.DropDownWidth = 0;
             this.KryptonCalcInput1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.KryptonCalcInput1.Location = new System.Drawing.Point(120, 270);
             this.KryptonCalcInput1.Name = "KryptonCalcInput1";
@@ -235,7 +237,8 @@ namespace TestForm
             // kryptonContextMenu1
             // 
             this.kryptonContextMenu1.Items.AddRange(new Krypton.Toolkit.KryptonContextMenuItemBase[] {
-            this.kryptonContextMenuItems1});
+            this.kryptonContextMenuItems1,
+            this.kryptonContextMenuComboBox1});
             // 
             // kryptonContextMenuItems1
             // 
@@ -349,10 +352,23 @@ namespace TestForm
             this.kryptonButton1.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kryptonButton1.Values.Text = "Normal Button";
             // 
+            // kryptonSplitButton1
+            // 
+            this.kryptonSplitButton1.KryptonContextMenu = this.kryptonContextMenu1;
+            this.kryptonSplitButton1.Location = new System.Drawing.Point(278, 171);
+            this.kryptonSplitButton1.Name = "kryptonSplitButton1";
+            this.kryptonSplitButton1.Size = new System.Drawing.Size(243, 25);
+            this.kryptonSplitButton1.TabIndex = 17;
+            this.kryptonSplitButton1.Values.Text = "KryptonSplitButton";
+            // 
             // buttonSpecAny1
             // 
             this.buttonSpecAny1.Text = "Test Text";
             this.buttonSpecAny1.UniqueName = "bad5983b9e7f4d82b15e55a1a19807bb";
+            // 
+            // kryptonContextMenuComboBox1
+            // 
+            this.kryptonContextMenuComboBox1.Text = "kryptonContextMenuComboBox1";
             // 
             // ButtonsTest
             // 
@@ -383,6 +399,7 @@ namespace TestForm
 
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private Krypton.Toolkit.KryptonButton kryptonButton1;
+        private Krypton.Toolkit.KryptonSplitButton kryptonSplitButton1;
         private Krypton.Toolkit.KryptonColorButton kcbtnDropDown;
         private Krypton.Toolkit.KryptonButton kryptonButton5;
         private Krypton.Toolkit.KryptonButton kryptonButton6;
@@ -408,5 +425,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
         private KryptonCalcInput KryptonCalcInput1;
         private ButtonSpecAny buttonSpecAny2;
+        private KryptonContextMenuComboBox kryptonContextMenuComboBox1;
     }
 }
