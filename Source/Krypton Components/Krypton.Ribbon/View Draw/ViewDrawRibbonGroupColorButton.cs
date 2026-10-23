@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -60,9 +60,9 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
         Debug.Assert(needPaint != null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon ));
-        GroupColorButton = ribbonColorButton ?? throw new ArgumentNullException(nameof(ribbonColorButton));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupColorButton = ribbonColorButton ?? ThrowHelper.ThrowArgumentNullException(ribbonColorButton);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupColorButton.ItemSizeCurrent;
 
         // Associate this view with the source component (required for design time selection)
@@ -246,7 +246,7 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
     /// <param name="context">Layout context.</param>
     public override Size GetPreferredSize(ViewLayoutContext context)
     {
-        var drawNonTrackingAreas = _ribbon.RibbonShape is not PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio;
+        var drawNonTrackingAreas = _ribbon.RibbonShape is not (PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio);
 
         // Update the views with the type of button being used
         _viewLarge.ButtonType = GroupColorButton!.ButtonType;

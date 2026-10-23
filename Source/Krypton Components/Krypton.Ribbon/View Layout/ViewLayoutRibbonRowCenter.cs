@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -154,30 +154,28 @@ internal class ViewLayoutRibbonRowCenter : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
         ClientRectangle = context.DisplayRectangle;
 
-        var preferredSize = Size.Empty;
-
         // Cache the size for the current item
-        switch (CurrentSize)
+        var preferredSize = CurrentSize switch
         {
-            case GroupItemSize.Small:
-                preferredSize = _preferredSizeSmall;
-                break;
-            case GroupItemSize.Medium:
-                preferredSize = _preferredSizeMedium;
-                break;
-            case GroupItemSize.Large:
-                preferredSize = _preferredSizeLarge;
-                break;
-        }
+            GroupItemSize.Small => _preferredSizeSmall,
+            GroupItemSize.Medium => _preferredSizeMedium,
+            GroupItemSize.Large => _preferredSizeLarge,
+            _ => Size.Empty
+        };
 
-        // Starting left offset is half the difference between the client width and the total child widths
+        // Starting offset is half the difference between the client width and the total child widths
+        var isRtl = RibbonRtlLayout.IsRtl(context);
         var xOffset = (ClientWidth - preferredSize.Width) / 2;
+        if (isRtl)
+        {
+            xOffset = ClientWidth - xOffset;
+        }
 
         // Layout each child centered within this space
         foreach (ViewBase child in this)
@@ -186,41 +184,47 @@ internal class ViewLayoutRibbonRowCenter : ViewComposite
             if (child.Visible)
             {
                 // Get the cached size of the child
-                var childPreferred = Size.Empty;
-                    
-                switch (CurrentSize)
+
+                var childPreferred = CurrentSize switch
                 {
-                    case GroupItemSize.Small:
-                        childPreferred = _viewToSmall.TryGetValue(child, out Size value)
-                            ? value
-                            : child.GetPreferredSize(context);
-                        break;
-                    case GroupItemSize.Medium:
-                        childPreferred = _viewToMedium.TryGetValue(child, out Size value1)
-                            ? value1
-                            : child.GetPreferredSize(context);
-                        break;
-                    case GroupItemSize.Large:
-                        childPreferred = _viewToLarge.TryGetValue(child, out Size value2)
-                            ? value2
-                            : child.GetPreferredSize(context);
-                        break;
-                }
+                    GroupItemSize.Small => _viewToSmall.TryGetValue(child, out Size value)
+                        ? value
+                        : child.GetPreferredSize(context),
+                    GroupItemSize.Medium => _viewToMedium.TryGetValue(child, out Size value1)
+                        ? value1
+                        : child.GetPreferredSize(context),
+                    GroupItemSize.Large => _viewToLarge.TryGetValue(child, out Size value2)
+                        ? value2
+                        : child.GetPreferredSize(context),
+                    _ => Size.Empty
+                };
 
                 // Find vertical offset for centering
                 var yOffset = (ClientHeight - childPreferred.Height) / 2;
 
+                Rectangle childRect;
+                if (isRtl)
+                {
+                    xOffset -= childPreferred.Width;
+                    childRect = new Rectangle(ClientRectangle.X + xOffset,
+                        ClientRectangle.Y + yOffset,
+                        childPreferred.Width,
+                        childPreferred.Height);
+                }
+                else
+                {
+                    childRect = new Rectangle(ClientRectangle.X + xOffset,
+                        ClientRectangle.Y + yOffset,
+                        childPreferred.Width,
+                        childPreferred.Height);
+                    xOffset += childPreferred.Width;
+                }
+
                 // Create the rectangle that centers the child in our space
-                context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,
-                    ClientRectangle.Y + yOffset,
-                    childPreferred.Width,
-                    childPreferred.Height);
+                context.DisplayRectangle = childRect;
 
                 // Finally ask the child to layout
                 child.Layout(context);
-
-                // Move across to next horizontal position
-                xOffset += childPreferred.Width;
             }
         }
 

@@ -1,0 +1,30 @@
+﻿# Pull Request Descriptions
+
+This folder holds a **PR description** for every completed bug fix or feature, written as a Markdown file **before the pull request is opened**.
+
+The goal is a durable, reviewable record of *what changed and why* that can be pasted directly into the GitHub PR body.
+
+## When to add a file
+
+Add a new Markdown file here when:
+
+- A **bug** has been fixed (`Resolved`), or
+- A **feature** / enhancement has been completed (`Implemented`).
+
+Skip for comment-only work and internal refactors with no user-visible effect (mirrors the changelog policy in [`AGENTS.md`](../../AGENTS.md)).
+
+## How to use
+
+1. Copy [`TEMPLATE.md`](TEMPLATE.md) to a new file in this folder.
+2. Name it `<issue-or-branch>-<short-title>.md`, e.g. `3720-foldable-dialog.md` or `2444-agents-md.md`. Use the issue number when one exists.
+3. Fill in every applicable section; delete sections that do not apply.
+4. Capture a **build log** screenshot next to this file (`<issue>-<short-title>-build.png`) and embed it under **Validation**. Do not leave that image as a placeholder. See **Build Log Screenshot** in [`AGENTS.md`](../../AGENTS.md).
+5. For UI-visible changes, capture screenshots or a short GIF next to this file (`<issue>-<short-title>-<state>.png` / `.gif`) and embed them in **Screenshots / GIFs**. Do not leave that section as a placeholder. See **UI Screenshots / GIFs** in [`AGENTS.md`](../../AGENTS.md). These files (including the build-log PNG) are local drafts: do not commit them, and do **not** upload or attach them to the GitHub pull request.
+6. When the PR is opened, paste the file contents into the GitHub PR description. Compare the pull request with `alpha`, not `master`, `gold`, or `canary` (for `gh pr create`, use `--base alpha`). Local relative image links will not render on GitHub; that is intended — do not upload replacements.
+
+## Conventions
+
+- One file per bug fix or feature (or cohesive set of changes going into a single PR).
+- CRLF, UTF-8; match the tone and structure of existing repo docs.
+- Keep summaries **consumer-facing** (what changed, why it matters); implementation detail belongs in code comments or `Documents/Development/`.
+- These files are **drafts/records for reviewers**; do **not** add changelog entries here (those live in [`Documents/Changelog/Changelog.md`](../Changelog/Changelog.md)).

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -20,14 +20,18 @@ public class LabelValues : Storage,
 {
     #region Static Fields
     private const string DEFAULT_TEXT = nameof(Label);
-    private static readonly string _defaultExtraText = GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    private static readonly string _defaultExtraText = SharedStaticVariables.DEFAULT_EMPTY_STRING;
     #endregion
 
     #region Instance Fields
+
     private Image? _image;
     private Color _transparent;
     private string? _text;
+    private string _defaultText;
     private string _extraText;
+    private readonly OverlayImageValues _overlayImage;
+
     #endregion
 
     #region Events
@@ -43,15 +47,27 @@ public class LabelValues : Storage,
     /// </summary>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     public LabelValues(NeedPaintHandler needPaint)
+        : this(needPaint, DEFAULT_TEXT)
+    {
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the LabelValues class.
+    /// </summary>
+    /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <param name="defaultText">Designer-default text treated as unset.</param>
+    public LabelValues(NeedPaintHandler needPaint, string defaultText)
     {
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
 
         // Set initial values
         _image = null;
-        _transparent = GlobalStaticValues.EMPTY_COLOR;
-        _text = DEFAULT_TEXT;
+        _transparent = SharedStaticVariables.EMPTY_COLOR;
+        _defaultText = defaultText ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
+        _text = _defaultText;
         _extraText = _defaultExtraText;
+        _overlayImage = new OverlayImageValues(needPaint);
     }
     #endregion
 
@@ -62,9 +78,19 @@ public class LabelValues : Storage,
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (Image == null) &&
-                                      (ImageTransparentColor == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (Text == DEFAULT_TEXT) &&
-                                      (ExtraText == _defaultExtraText);
+                                      (ImageTransparentColor == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (Text == _defaultText) &&
+                                      (ExtraText == _defaultExtraText) &&
+                                      _overlayImage.IsDefault;
+
+    /// <summary>
+    /// Treats <paramref name="text"/> as the unset designer default for <see cref="Text"/>.
+    /// </summary>
+    internal void SetFactoryText(string text)
+    {
+        _defaultText = text ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
+        _text = _defaultText;
+    }
 
     #endregion
 
@@ -76,6 +102,7 @@ public class LabelValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Label image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -129,12 +156,12 @@ public class LabelValues : Storage,
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Resets the ImageTransparentColor property to its default value.
     /// </summary>
-    public void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content image transparent color.
@@ -153,11 +180,12 @@ public class LabelValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Label text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public string Text
     {
-        get => _text ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        get => _text ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
         set
         {
@@ -170,12 +198,12 @@ public class LabelValues : Storage,
         }
     }
 
-    private bool ShouldSerializeText() => Text != DEFAULT_TEXT;
+    private bool ShouldSerializeText() => Text != _defaultText;
 
     /// <summary>
     /// Resets the Text property to its default value.
     /// </summary>
-    public void ResetText() => Text = DEFAULT_TEXT;
+    public void ResetText() => Text = _defaultText;
 
     /// <summary>
     /// Gets the content short text.
@@ -192,6 +220,7 @@ public class LabelValues : Storage,
     [Category(@"Visuals")]
     [Description(@"Label extra text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     public string ExtraText
@@ -219,6 +248,62 @@ public class LabelValues : Storage,
     /// Gets the content long text.
     /// </summary>
     public string GetLongText() => ExtraText;
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state) => _overlayImage.GetImage(state);
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => _overlayImage.ImageTransparentColor;
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => _overlayImage.Position;
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => _overlayImage.ScaleMode;
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor.</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => _overlayImage.ScaleFactor;
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => _overlayImage.FixedSize;
+
+    #endregion
+
+    #region OverlayImage
+
+    /// <summary>
+    /// Gets access to the overlay image values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overlay image values.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public OverlayImageValues OverlayImage => _overlayImage;
+
+    private bool ShouldSerializeOverlayImage() => !_overlayImage.IsDefault;
 
     #endregion
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -51,9 +51,9 @@ internal class ViewDrawRibbonGroupImage : ViewLeaf
         Debug.Assert(ribbonGroup != null);
         Debug.Assert(viewGroup != null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonGroup = ribbonGroup ?? throw new ArgumentNullException(nameof(ribbonGroup));
-        _viewGroup = viewGroup ?? throw new ArgumentNullException(nameof(viewGroup));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException(ribbonGroup);
+        _viewGroup = viewGroup ?? ThrowHelper.ThrowArgumentNullException(viewGroup);
         _viewSize2007 = new Size((int)(30 * FactorDpiX), (int)(31 * FactorDpiY));
         _viewSize2010 = new Size((int)(31 * FactorDpiX), (int)(31 * FactorDpiY));
         _imageSize = new Size((int)(16 * FactorDpiX), (int)(16 * FactorDpiY));
@@ -110,6 +110,8 @@ internal class ViewDrawRibbonGroupImage : ViewLeaf
                 _offsetY = _imageOffsetY2007;
                 break;
             case PaletteRibbonShape.Office2010:
+            case PaletteRibbonShape.OSXAqua:
+            case PaletteRibbonShape.MacOS:
                 _viewSize = _viewSize2010;
                 _offsetY = _imageOffsetY2010;
                 break;
@@ -136,12 +138,12 @@ internal class ViewDrawRibbonGroupImage : ViewLeaf
     {
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         IPaletteRibbonBack paletteBorder;

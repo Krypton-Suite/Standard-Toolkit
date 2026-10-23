@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -29,14 +29,18 @@ public class KryptonDesignerActionItem : DesignerActionMethodItem
     /// <param name="verb">Verb instance to wrap.</param>
     /// <param name="category">Name of the category the action belongs to.</param>
     public KryptonDesignerActionItem([DisallowNull] DesignerVerb verb, [DisallowNull] string category)
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+        : base(null!, null!, null!)
+#else
         : base(null, null, null)
+#endif
     {
         Debug.Assert(verb != null);
         Debug.Assert(category != null);
 
         // Remember details
-        _verb = verb ?? throw new ArgumentNullException(nameof(verb));
-        Category = category ?? throw new ArgumentNullException(nameof(category));
+        _verb = verb ?? ThrowHelper.ThrowArgumentNullException(verb);
+        Category = category ?? ThrowHelper.ThrowArgumentNullException<string>(category);
     }
     #endregion
 

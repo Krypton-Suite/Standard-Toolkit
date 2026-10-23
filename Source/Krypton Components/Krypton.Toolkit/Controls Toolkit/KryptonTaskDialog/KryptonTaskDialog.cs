@@ -1,8 +1,8 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -220,6 +220,7 @@ public class KryptonTaskDialog : IDisposable
     {
         if (!Dialog.Visible)
         {
+            ApplyRtlFromOwner(owner);
             UpdateFormSizing();
             UpdateFormPosition(owner);
             ResetFormDialogResult();
@@ -256,6 +257,7 @@ public class KryptonTaskDialog : IDisposable
     /// <returns>The DialogResult</returns>
     public DialogResult ShowDialog(IWin32Window? owner = null)
     {
+        ApplyRtlFromOwner(owner);
         UpdateFormSizing();
         UpdateFormPosition(owner);
         ResetFormDialogResult();
@@ -270,6 +272,59 @@ public class KryptonTaskDialog : IDisposable
         {
             _form.ShowDialog();
         }
+
+        return Dialog.DialogResult;
+    }
+
+    /// <summary>
+    /// Shows the dialog modeless asynchronously.<br/>
+    /// The returned task completes when the form is closed or disposed.
+    /// </summary>
+    /// <param name="owner">The parent window that launched this dialog.</param>
+    /// <returns>A task that completes when the form is closed or disposed.</returns>
+    public Task ShowAsync(IWin32Window? owner = null)
+    {
+        if (!Dialog.Visible)
+        {
+            ApplyRtlFromOwner(owner);
+            UpdateFormSizing();
+            UpdateFormPosition(owner);
+            ResetFormDialogResult();
+
+            return KryptonFormAsync.ShowAsync(_form, owner);
+        }
+
+        KryptonMessageBox.Show(
+            "The form is already visible and ShowAsync() cannot be called again.",
+            "KryptonTaskDialog",
+            KryptonMessageBoxButtons.OK,
+            KryptonMessageBoxIcon.Exclamation);
+
+        if (!_form.TopMost)
+        {
+            _form.BringToFront();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Shows as a modal dialog asynchronously.<br/>
+    /// The returned task completes when the dialog has been dismissed.
+    /// </summary>
+    /// <param name="owner">The parent window that launched this dialog.</param>
+    /// <returns>A task that produces the dialog result when the form is closed or disposed.</returns>
+    public async Task<DialogResult> ShowDialogAsync(IWin32Window? owner = null)
+    {
+        ApplyRtlFromOwner(owner);
+        UpdateFormSizing();
+        UpdateFormPosition(owner);
+        ResetFormDialogResult();
+
+        // The standard form's DialogResult property always returns Cancel when e.Cancel is set to true.<br/>
+        // Before that happens the DialogResult is stored in DialogResultInternal.
+        // Await required: Dialog.DialogResult is read after the dialog closes.
+        await KryptonFormAsync.ShowDialogAsync(_form, owner).ConfigureAwait(false);
 
         return Dialog.DialogResult;
     }
@@ -413,6 +468,37 @@ public class KryptonTaskDialog : IDisposable
     }
 
     /// <summary>
+    /// Copies the owner's two-flag RTL contract onto the dialog and element table layouts.
+    /// </summary>
+    private void ApplyRtlFromOwner(IWin32Window? owner)
+    {
+        if (owner is Control source)
+        {
+            ToolkitRtlLayout.ApplyTo(source, _form);
+        }
+
+        bool rtl = ToolkitRtlLayout.IsRtl(_form);
+        var tlpRtl = rtl ? RightToLeft.Yes : RightToLeft.No;
+        ApplyRtlTree(_form, _form, tlpRtl);
+        Heading.ApplyRtlChrome();
+        FooterBar.ApplyRtlChrome();
+    }
+
+    private static void ApplyRtlTree(Control source, Control parent, RightToLeft tlpRtl)
+    {
+        foreach (Control child in parent.Controls)
+        {
+            ToolkitRtlLayout.ApplyTo(source, child);
+            if (child is TableLayoutPanel tlp)
+            {
+                tlp.RightToLeft = tlpRtl;
+            }
+
+            ApplyRtlTree(source, child, tlpRtl);
+        }
+    }
+
+    /// <summary>
     /// Processes the elements list.
     /// </summary>
     private void SetupElements()
@@ -455,7 +541,7 @@ public class KryptonTaskDialog : IDisposable
         _form.Padding = _taskDialogDefaults.NullPadding;
         _form.MaximizeBox = false;
         _form.ControlBox = true;
-        _form.SystemMenuValues.Enabled = false;
+        _form.SystemMenuValues.Enabled = true;
 
         SetupTableLayoutPanel();
 

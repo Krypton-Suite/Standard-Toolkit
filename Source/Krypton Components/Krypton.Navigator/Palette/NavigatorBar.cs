@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -60,7 +60,7 @@ public class NavigatorBar : Storage
 
         if (navigator is null)
         {
-            throw new ArgumentNullException(nameof(navigator));
+            ThrowHelper.ThrowArgumentNullException(nameof(navigator));
         }
 
         // Remember back reference
@@ -397,21 +397,21 @@ public class NavigatorBar : Storage
                 // None of the minimum values can be less than 1
                 if (value.Width < 1)
                 {
-                    throw new ArgumentException(@"Width cannot be less than 1", nameof(ItemMinimumSize));
+                    ThrowHelper.ThrowArgumentException(@"Width cannot be less than 1", nameof(ItemMinimumSize));
                 }
                 if (value.Height < 1)
                 {
-                    throw new ArgumentException(@"Height cannot be less than 1", nameof(ItemMinimumSize));
+                    ThrowHelper.ThrowArgumentException(@"Height cannot be less than 1", nameof(ItemMinimumSize));
                 }
 
                 // Minimum value must be less than or equal to the maximum
                 if (value.Width > ItemMaximumSize.Width)
                 {
-                    throw new ArgumentException(@"Width cannot be greater than the ItemMaximumSize.Width", nameof(ItemMinimumSize));
+                    ThrowHelper.ThrowArgumentException(@"Width cannot be greater than the ItemMaximumSize.Width", nameof(ItemMinimumSize));
                 }
                 if (value.Height > ItemMaximumSize.Height)
                 {
-                    throw new ArgumentException(@"Height cannot be greater than the ItemMaximumSize.Height", nameof(ItemMinimumSize));
+                    ThrowHelper.ThrowArgumentException(@"Height cannot be greater than the ItemMaximumSize.Height", nameof(ItemMinimumSize));
                 }
 
                 _itemMinimumSize = value;
@@ -445,21 +445,21 @@ public class NavigatorBar : Storage
                 // None of the maximum values can be less than 1
                 if (value.Width < 1)
                 {
-                    throw new ArgumentException(@"Width cannot be less than 1", nameof(ItemMaximumSize));
+                    ThrowHelper.ThrowArgumentException(@"Width cannot be less than 1", nameof(ItemMaximumSize));
                 }
                 if (value.Height < 1)
                 {
-                    throw new ArgumentException(@"Height cannot be less than 1", nameof(ItemMaximumSize));
+                    ThrowHelper.ThrowArgumentException(@"Height cannot be less than 1", nameof(ItemMaximumSize));
                 }
 
                 // Maximum value must be greater than or equal to the minimum
                 if (value.Width < ItemMinimumSize.Width)
                 {
-                    throw new ArgumentException(@"Width cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
+                    ThrowHelper.ThrowArgumentException(@"Width cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
                 }
                 if (value.Height < ItemMinimumSize.Height)
                 {
-                    throw new ArgumentException(@"Height cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
+                    ThrowHelper.ThrowArgumentException(@"Height cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
                 }
 
                 _itemMaximumSize = value;

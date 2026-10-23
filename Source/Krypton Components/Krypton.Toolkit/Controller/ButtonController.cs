@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -520,12 +520,12 @@ public class ButtonController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         if (e.KeyCode == Keys.Space)
@@ -572,12 +572,12 @@ public class ButtonController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If the user pressed the escape key
@@ -639,7 +639,7 @@ public class ButtonController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         // If we are capturing mouse input
@@ -928,7 +928,7 @@ public class ButtonController : GlobalId,
     private void OnRepeatTimer(object? sender, EventArgs e)
     {
         // Modify subsequent repeat timing
-        _t = sender as System.Windows.Forms.Timer ?? throw new ArgumentNullException(nameof(sender));
+        _t =sender as System.Windows.Forms.Timer ?? ThrowHelper.ThrowArgumentNullException(sender as System.Windows.Forms.Timer, nameof(sender));
         _t.Interval = Math.Max(SystemInformation.DoubleClickTime / 4, 100);
         OnClick(new MouseEventArgs(MouseButtons.Left, 1, 0, 0, 0));
     }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -32,7 +32,7 @@ public class PaletteRedirectGrids : PaletteRedirect
     {
         Debug.Assert(grid is not null);
 
-        _grid = grid ?? throw new ArgumentNullException(nameof(grid));
+        _grid = grid ?? ThrowHelper.ThrowArgumentNullException(grid);
     }
     #endregion
 
@@ -297,6 +297,14 @@ public class PaletteRedirectGrids : PaletteRedirect
         IPaletteBorder inherit = GetInheritBorder(style, state);
 
         return inherit?.GetBorderRounding(state) ?? Target!.GetBorderRounding(style, state);
+    }
+
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state)
+    {
+        IPaletteBorder inherit = GetInheritBorder(style, state);
+
+        return inherit?.GetBorderCornerRounding(state) ?? Target!.GetBorderCornerRounding(style, state);
     }
 
     /// <summary>
@@ -889,6 +897,7 @@ public class PaletteRedirectGrids : PaletteRedirect
 
             case PaletteState.BoldedOverride:
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:    // From the TreeGrid
                 switch (style)
                 {
                     case PaletteBackStyle.GridBackgroundList:
@@ -939,6 +948,12 @@ public class PaletteRedirectGrids : PaletteRedirect
             case PaletteState.Tracking:
                 switch (style)
                 {
+                    case PaletteBackStyle.GridBackgroundList:
+                    case PaletteBackStyle.GridBackgroundSheet:
+                    case PaletteBackStyle.GridBackgroundCustom1:
+                    case PaletteBackStyle.GridBackgroundCustom2:
+                    case PaletteBackStyle.GridBackgroundCustom3:
+                        return _grid.StateNormal.Background;
                     case PaletteBackStyle.GridHeaderColumnList:
                     case PaletteBackStyle.GridHeaderColumnSheet:
                     case PaletteBackStyle.GridHeaderColumnCustom1:
@@ -1014,6 +1029,7 @@ public class PaletteRedirectGrids : PaletteRedirect
 
             case PaletteState.BoldedOverride:
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:    // From the TreeGrid
                 switch (style)
                 {
                     case PaletteBorderStyle.GridDataCellList:
@@ -1132,6 +1148,7 @@ public class PaletteRedirectGrids : PaletteRedirect
                 break;
 
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:    // From the TreeGrid
                 switch (style)
                 {
                     case PaletteContentStyle.GridDataCellList:

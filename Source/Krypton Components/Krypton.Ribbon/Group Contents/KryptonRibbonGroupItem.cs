@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -22,10 +22,12 @@ namespace Krypton.Ribbon;
 [DesignTimeVisible(false)]
 public abstract class KryptonRibbonGroupItem : Component,
     IRibbonGroupItem,
-    IBindableComponent
+    IBindableComponent,
+    IRibbonTranslationIdentity
 {
     #region Instance Fields
     private object? _tag;
+    private string _translationId = string.Empty;
 
 #pragma warning disable CS1591
 #pragma warning disable CS3008 // Identifier is not CLS-compliant
@@ -125,6 +127,23 @@ public abstract class KryptonRibbonGroupItem : Component,
     /// <returns>ViewBase derived instance.</returns>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public abstract ViewBase CreateView(KryptonRibbon ribbon, NeedPaintHandler needPaint);
+
+    /// <summary>
+    /// Gets or sets a stable, non-localized identity used when saving or loading ribbon translations.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Stable identity for RibbonTranslations.xml. Prefer this over collection index when items can be reordered.")]
+    [DefaultValue("")]
+    [Localizable(false)]
+    public string TranslationId
+    {
+        get => _translationId ?? string.Empty;
+        set => _translationId = value ?? string.Empty;
+    }
+
+    private bool ShouldSerializeTranslationId() => !string.IsNullOrEmpty(TranslationId);
+
+    private void ResetTranslationId() => TranslationId = string.Empty;
 
     /// <summary>
     /// Gets and sets user-defined data associated with the object.

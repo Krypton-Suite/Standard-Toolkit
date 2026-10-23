@@ -2,7 +2,7 @@
 /*
  *  
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -85,7 +85,7 @@ public class IntegratedToolBarValues : GlobalId
     {
         return base.ToString() is string s
             ? s
-            : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+            : SharedStaticVariables.DEFAULT_EMPTY_STRING;
     }
 
     #endregion
@@ -190,6 +190,8 @@ public class IntegratedToolBarValues : GlobalId
 
         buttons[13] = quickPrintToolbarButton;
 
+        KryptonIntegratedToolBarManager.IntegratedToolBarCommandValues.ApplyTo(buttons);
+
         return buttons;
     }
 
@@ -203,7 +205,7 @@ public class IntegratedToolBarValues : GlobalId
 
     //private void SetupIntegratedToolBar(bool value, KryptonForm? owner)
     //{
-    //    throw new NotImplementedException();
+    //    ThrowHelper.ThrowNotImplementedException();
     //}
 
     #endregion

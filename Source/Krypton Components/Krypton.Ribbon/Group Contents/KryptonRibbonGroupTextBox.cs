@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -17,7 +17,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupTextBox), "ToolboxBitmaps.KryptonRibbonGroupTextBox.bmp")]
-[Designer(typeof(KryptonRibbonGroupTextBoxDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupTextBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultEvent(nameof(TextChanged))]
@@ -357,6 +357,7 @@ public class KryptonRibbonGroupTextBox : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"Text associated with the control.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public string Text
@@ -370,6 +371,7 @@ public class KryptonRibbonGroupTextBox : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The lines of text in a multiline edit, as an array of String values.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerStringArrayEditor (replaces System.Windows.Forms.Design.StringArrayEditor).
     [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [MergableProperty(false)]
@@ -574,7 +576,7 @@ public class KryptonRibbonGroupTextBox : KryptonRibbonGroupItem
     /// Gets or sets the StringCollection to use when the AutoCompleteSource property is set to CustomSource.
     /// </summary>
     [Description(@"The StringCollection to use when the AutoCompleteSource property is set to CustomSource.")]
-    [Editor(@"System.Windows.Forms.Design.ListControlStringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Localizable(true)]
@@ -645,6 +647,7 @@ public class KryptonRibbonGroupTextBox : KryptonRibbonGroupItem
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonTextBox.TextBoxButtonSpecCollection ButtonSpecs => TextBox!.ButtonSpecs;
 

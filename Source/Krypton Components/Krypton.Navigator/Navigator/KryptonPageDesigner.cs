@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -50,8 +50,8 @@ internal class KryptonPageDesigner : ScrollableControlDesigner,
         }
 
         // Acquire service interfaces
-        _selectionService = (ISelectionService?)GetService(typeof(ISelectionService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_selectionService)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _selectionService =(ISelectionService?)GetService(typeof(ISelectionService)) ?? ThrowHelper.ThrowNullReferenceException<ISelectionService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_selectionService)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -76,7 +76,12 @@ internal class KryptonPageDesigner : ScrollableControlDesigner,
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents =>
+        KryptonDesignerSdkCompat.Associated(_page?.ButtonSpecs, base.AssociatedComponents);
+#else
     public override ICollection AssociatedComponents => _page?.ButtonSpecs ?? base.AssociatedComponents;
+#endif
 
     /// <summary>
     ///  Gets the design-time action lists supported by the component associated with the designer.

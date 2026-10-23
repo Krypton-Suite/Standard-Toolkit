@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -31,6 +31,8 @@ public class KryptonAboutBoxStrings : GlobalId
     private const string DEFAULT_VERSION = @"Version";
 
     private const string DEFAULT_BUILD_DATE = @"Build Date";
+
+    private const string DEFAULT_BINARY_BUILD_DATE = @"Binary";
 
     private const string DEFAULT_IMAGE_RUNTIME_VERSION = @"Image Runtime Version";
 
@@ -123,6 +125,13 @@ public class KryptonAboutBoxStrings : GlobalId
     [DefaultValue(DEFAULT_BUILD_DATE)]
     public string BuildDate { get; set; }
 
+    /// <summary>Gets or sets the 'binary' build date/time label string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The about box 'Binary' build date and time label string.")]
+    [DefaultValue(DEFAULT_BINARY_BUILD_DATE)]
+    public string BinaryBuildDate { get; set; }
+
     /// <summary>Gets or sets the image runtime version string.</summary>
     /// <value>The image runtime version string.</value>
     [Localizable(true)]
@@ -155,6 +164,7 @@ public class KryptonAboutBoxStrings : GlobalId
                              Trademark.Equals(DEFAULT_TRADE_MARK) &&
                              Version.Equals(DEFAULT_VERSION) &&
                              BuildDate.Equals(DEFAULT_BUILD_DATE) &&
+                             BinaryBuildDate.Equals(DEFAULT_BINARY_BUILD_DATE) &&
                              ImageRuntimeVersion.Equals(DEFAULT_IMAGE_RUNTIME_VERSION) &&
                              LoadedFromGlobalAssemblyCache.Equals(DEFAULT_LOADED_FROM_GLOBAL_ASSEMBLY_CACHE);
 
@@ -178,6 +188,8 @@ public class KryptonAboutBoxStrings : GlobalId
         Version = DEFAULT_VERSION;
 
         BuildDate = DEFAULT_BUILD_DATE;
+
+        BinaryBuildDate = DEFAULT_BINARY_BUILD_DATE;
 
         ImageRuntimeVersion = DEFAULT_IMAGE_RUNTIME_VERSION;
 

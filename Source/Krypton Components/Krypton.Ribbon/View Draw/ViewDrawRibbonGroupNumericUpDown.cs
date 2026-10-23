@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupNumericUpDown : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupNumericUpDown = ribbonNumericUpDown ?? throw new (nameof(ribbonNumericUpDown));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupNumericUpDown = ribbonNumericUpDown ?? ThrowHelper.ThrowArgumentNullException(ribbonNumericUpDown);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupNumericUpDown.ItemSizeCurrent;
 
         // Hook into the numeric up-down events
@@ -227,19 +227,15 @@ internal class ViewDrawRibbonGroupNumericUpDown : ViewComposite,
             Rectangle viewRect = _ribbon.KeyTipToScreen(this);
 
             // Determine the screen position of the key tip
-            var screenPt = Point.Empty;
 
             // Determine the screen position of the key tip dependent on item location/size
-            switch (_currentSize)
+            var screenPt = _currentSize switch
             {
-                case GroupItemSize.Large:
-                    screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
-                    break;
-                case GroupItemSize.Medium:
-                case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
-                    break;
-            }
+                GroupItemSize.Large => new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom),
+                GroupItemSize.Medium or GroupItemSize.Small => _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect,
+                    lineHint),
+                _ => Point.Empty
+            };
 
             keyTipList.Add(new KeyTipInfo(GroupNumericUpDown!.Enabled, 
                 GroupNumericUpDown.KeyTip,

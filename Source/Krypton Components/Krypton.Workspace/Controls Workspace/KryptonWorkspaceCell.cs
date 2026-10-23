@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Workspace;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonWorkspaceCell), "ToolboxBitmaps.KryptonWorkspaceCell.bmp")]
-[Designer(typeof(KryptonWorkspaceCellDesigner))]
+[Designer("Krypton.Workspace.KryptonWorkspaceCellDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Pages))]
@@ -461,7 +461,7 @@ public class KryptonWorkspaceCell : KryptonNavigator,
                 // Read the next Element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.");
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                 }
 
                 // Is this the end of the cell
@@ -478,7 +478,7 @@ public class KryptonWorkspaceCell : KryptonNavigator,
 
                     if (xmlReader.Name != @"CPD")
                     {
-                        throw new ArgumentException(@"Expected 'CPD' element was not found");
+                        ThrowHelper.ThrowArgumentException(@"Expected 'CPD' element was not found");
                     }
 
                     var finished = xmlReader.IsEmptyElement;
@@ -501,7 +501,7 @@ public class KryptonWorkspaceCell : KryptonNavigator,
                         {
                             if (!xmlReader.Read())
                             {
-                                throw new ArgumentException(@"An element was expected but could not be read in.");
+                                ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                             }
                         }
                     }
@@ -509,13 +509,13 @@ public class KryptonWorkspaceCell : KryptonNavigator,
                     // Read past the end of page element                    
                     if (!xmlReader.Read())
                     {
-                        throw new ArgumentException(@"An element was expected but could not be read in.");
+                        ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                     }
 
                     // Check it has the expected name
                     if (xmlReader.NodeType != XmlNodeType.EndElement)
                     {
-                        throw new ArgumentException(@"End of 'KP' element expected but missing.");
+                        ThrowHelper.ThrowArgumentException(@"End of 'KP' element expected but missing.");
                     }
 
                     // PageLoading event might have nulled the page value to prevent it being added
@@ -536,7 +536,7 @@ public class KryptonWorkspaceCell : KryptonNavigator,
                 }
                 else
                 {
-                    throw new ArgumentException(@"Unknown element was encountered.");
+                    ThrowHelper.ThrowArgumentException(@"Unknown element was encountered.");
                 }
             }
             while (true);

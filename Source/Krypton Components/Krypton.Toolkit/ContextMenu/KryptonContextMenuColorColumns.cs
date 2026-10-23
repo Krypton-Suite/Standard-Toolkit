@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -137,7 +137,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
     {
         // Default fields
         _autoClose = true;
-        _selectedColor = GlobalStaticValues.EMPTY_COLOR;
+        _selectedColor = SharedStaticVariables.EMPTY_COLOR;
         _groupNonFirstRows = true;
         _blockSize = new Size(13, 13);
         SetColorScheme(scheme);
@@ -317,7 +317,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
             // Each element must contain a valid reference
             if (colors[i] == null)
             {
-                throw new ArgumentOutOfRangeException(nameof(colors), @"Child array cannot be null.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(colors), @"Child array cannot be null.");
             }
             else
             {
@@ -331,7 +331,7 @@ public class KryptonContextMenuColorColumns : KryptonContextMenuItemBase
                     // All other child arrays must be the same length
                     if (colors[i]!.Length != rows)
                     {
-                        throw new ArgumentOutOfRangeException(nameof(colors), @"Each child color array must be the same length.");
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(colors), @"Each child color array must be the same length.");
                     }
                 }
             }

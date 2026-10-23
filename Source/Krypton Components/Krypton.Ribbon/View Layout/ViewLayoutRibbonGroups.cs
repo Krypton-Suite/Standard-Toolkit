@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -57,9 +57,9 @@ internal class ViewLayoutRibbonGroups : ViewComposite
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonTab = ribbonTab ?? throw new ArgumentNullException(nameof(ribbonTab));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonTab = ribbonTab ?? ThrowHelper.ThrowArgumentNullException(ribbonTab);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Create initial lookup table
         _groupToView = new GroupToView();
@@ -312,7 +312,9 @@ internal class ViewLayoutRibbonGroups : ViewComposite
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
-        var x = ClientLocation.X;
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var origin = ClientRectangle;
+        var x = RibbonRtlLayout.StartX(origin, isRtl);
 
         // Are there any children to layout?
         if (Count > 0)
@@ -320,7 +322,7 @@ internal class ViewLayoutRibbonGroups : ViewComposite
             var y = ClientLocation.Y;
             var height = ClientHeight;
 
-            // Position each item from left to right taking up entire height
+            // Position each item along the reading direction taking up entire height
             for (int i = 0, j = 0; i < Count; i++)
             {
                 ViewBase? child = this[i];
@@ -339,23 +341,20 @@ internal class ViewLayoutRibbonGroups : ViewComposite
                     if (childSize.Width > 0)
                     {
                         // Define display rectangle for the group
-                        context.DisplayRectangle = new Rectangle(x, y, childSize.Width, height);
+                        context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, height, isRtl);
 
                         // Position the element
                         this[i]?.Layout(context);
-
-                        // Move across to next position
-                        x += childSize.Width;
                     }
                 }
             }
         }
 
         // Update our own size to reflect how wide we actually need to be for all the children
-        ClientRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        ClientRectangle = RibbonRtlLayout.PackedBounds(origin, x, isRtl);
 
         // Update the display rectangle we allocated for use by parent
-        context.DisplayRectangle = new Rectangle(ClientLocation, new Size(x - ClientLocation.X, ClientHeight));
+        context.DisplayRectangle = ClientRectangle;
     }
     #endregion
 
@@ -370,7 +369,7 @@ internal class ViewLayoutRibbonGroups : ViewComposite
             {
                 retSize = _ribbon.RibbonShape switch
                 {
-                    PaletteRibbonShape.Office2010 => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
+                    PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => new Size(SEP_LENGTH_2010, SEP_LENGTH_2010),
                     _ => new Size(SEP_LENGTH_2007, SEP_LENGTH_2007)
                 };
             }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -43,7 +43,7 @@ public class KryptonPaletteFont : Storage
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (CommonLongTextFont == new Font("Segoe UI", 9f)) && (CommonShortTextFont == new Font("Segoe UI", 9f));
+    public override bool IsDefault =>  FontsAreDefault(CommonLongTextFont) && FontsAreDefault(CommonShortTextFont);
 
     #endregion
 
@@ -87,6 +87,20 @@ public class KryptonPaletteFont : Storage
     /// Resets the CommonShortTextFont property to its default value.
     /// </summary>
     public void ResetCommonShortTextFont() => CommonShortTextFont = new Font("Segoe UI", 9f);
+
+    #endregion
+
+    #region Implementation
+
+    private bool FontsAreDefault(Font? font)
+    {
+        if (font is null)
+        {
+            return true;
+        }
+
+        return font.Name == @"Segoe UI" && Math.Abs(font.Size - 9f) < 0.001f && font is { Style: FontStyle.Regular, Unit: GraphicsUnit.Point };
+    }
 
     #endregion
 }

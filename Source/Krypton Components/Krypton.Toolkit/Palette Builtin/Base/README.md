@@ -24,7 +24,7 @@ For the main, initial migration those 2 arrays were chosen to be converted and r
 | `SchemeBaseColorsExtensions` | Converts a `KryptonColorSchemeBase` into the legacy `Color[]` layouts via `ToArray()` and `ToTrackBarArray()` (6 entries). |
 
 Nothing in the low-level rendering pipeline had to change – all internal code still
-works with simple arrays – but **every public API writen or reviewed becomes
+works with simple arrays – but **every public API written or reviewed becomes
 readable and type-safe**.
 
 ## Current migration workflow (SchemeGenerator v2)
@@ -274,6 +274,9 @@ as those were fully preserved.
 * `GetSchemeColor(SchemeBaseColors index)`
 * `UpdateSchemeColors(Dictionary<SchemeBaseColors, Color> changes)`
 * `ApplyScheme(KryptonColorSchemeBase newScheme)`
+* `SetSchemeExtraColor(SchemeExtraColors index, Color value)` – extended colors (e.g. `ButtonTextTracking`, `DisabledBack`, `ToolTipText`, Form close colors)
+* `GetSchemeExtraColor(SchemeExtraColors index)`
+* `UpdateSchemeExtraColors(Dictionary<SchemeExtraColors, Color> changes)`
 
 Once ALL palette families have been fully migrated, these methods shall then
 be refactored out of any base class into the `PaletteBase` class!

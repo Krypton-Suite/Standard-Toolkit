@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -69,6 +69,22 @@ public partial class VisualInputBoxForm : KryptonForm
             : string.Empty;
     }
 
+    internal static async Task<string> InternalShowAsync(KryptonInputBoxData inputBoxData)
+    {
+        // If do not have an owner passed in then get the active window and use that instead
+        IWin32Window? showOwner = inputBoxData.Owner ?? FromHandle(PI.GetActiveWindow());
+
+        using var ib = new VisualInputBoxForm(inputBoxData);
+        ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        // Await required so using does not dispose the form before the dialog completes.
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(ib, showOwner).ConfigureAwait(false);
+
+        return result == DialogResult.OK
+            ? ib.InputResponse
+            : string.Empty;
+    }
+
     internal string InputResponse => _textBoxResponse.Text;
 
     private void UpdateText()
@@ -83,7 +99,7 @@ public partial class VisualInputBoxForm : KryptonForm
     {
         _textBoxResponse.CueHint.CueHintText = _inputBoxData.CueText;
 
-        if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != GlobalStaticValues.EMPTY_COLOR)
+        if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != SharedStaticVariables.EMPTY_COLOR)
         {
             _textBoxResponse.CueHint.Color1 = _inputBoxData.CueColor ?? Color.Gray;
         }

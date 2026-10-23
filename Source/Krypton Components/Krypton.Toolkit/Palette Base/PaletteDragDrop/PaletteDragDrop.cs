@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -47,13 +47,13 @@ public class PaletteDragDrop : Storage,
 
         // Set default values
         _feedback = PaletteDragFeedback.Inherit;
-        _solidBack = GlobalStaticValues.EMPTY_COLOR;
-        _solidBorder = GlobalStaticValues.EMPTY_COLOR;
+        _solidBack = SharedStaticVariables.EMPTY_COLOR;
+        _solidBorder = SharedStaticVariables.EMPTY_COLOR;
         _solidOpacity = -1.0f;
-        _dropDockBack = GlobalStaticValues.EMPTY_COLOR;
-        _dropDockBorder = GlobalStaticValues.EMPTY_COLOR;
-        _dropDockActive = GlobalStaticValues.EMPTY_COLOR;
-        _dropDockInactive = GlobalStaticValues.EMPTY_COLOR;
+        _dropDockBack = SharedStaticVariables.EMPTY_COLOR;
+        _dropDockBorder = SharedStaticVariables.EMPTY_COLOR;
+        _dropDockActive = SharedStaticVariables.EMPTY_COLOR;
+        _dropDockInactive = SharedStaticVariables.EMPTY_COLOR;
     }
     #endregion
 
@@ -64,13 +64,13 @@ public class PaletteDragDrop : Storage,
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => (Feedback == PaletteDragFeedback.Inherit) &&
-                                      (SolidBack == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (SolidBorder == GlobalStaticValues.EMPTY_COLOR) &&
+                                      (SolidBack == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (SolidBorder == SharedStaticVariables.EMPTY_COLOR) &&
                                       (SolidOpacity == -1.0f) &&
-                                      (DropDockBack == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (DropDockBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (DropDockActive == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (DropDockInactive == GlobalStaticValues.EMPTY_COLOR);
+                                      (DropDockBack == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (DropDockBorder == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (DropDockActive == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (DropDockInactive == SharedStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -162,13 +162,13 @@ public class PaletteDragDrop : Storage,
     /// <summary>
     /// Resets the SolidBack property to its default value.
     /// </summary>
-    public void ResetSolidBack() => SolidBack = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetSolidBack() => SolidBack = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the background color for a solid drag drop area.
     /// </summary>
     /// <returns>Color value.</returns>
-    public Color GetDragDropSolidBack() => SolidBack != GlobalStaticValues.EMPTY_COLOR
+    public Color GetDragDropSolidBack() => SolidBack != SharedStaticVariables.EMPTY_COLOR
         ? SolidBack
         : _inherit?.GetDragDropSolidBack() ?? SystemColors.ActiveCaption;
 
@@ -200,13 +200,13 @@ public class PaletteDragDrop : Storage,
     /// <summary>
     /// Resets the SolidBorder property to its default value.
     /// </summary>
-    public void ResetSolidBorder() => SolidBorder = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetSolidBorder() => SolidBorder = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the border color for a solid drag drop area.
     /// </summary>
     /// <returns>Color value.</returns>
-    public Color GetDragDropSolidBorder() => SolidBorder != GlobalStaticValues.EMPTY_COLOR
+    public Color GetDragDropSolidBorder() => SolidBorder != SharedStaticVariables.EMPTY_COLOR
         ? SolidBorder
         : _inherit?.GetDragDropSolidBorder() ?? SystemColors.Control;
 
@@ -276,14 +276,14 @@ public class PaletteDragDrop : Storage,
     /// <summary>
     /// Resets the DropDockBack property to its default value.
     /// </summary>
-    public void ResetDropDockBack() => DropDockBack = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetDropDockBack() => DropDockBack = SharedStaticVariables.EMPTY_COLOR;
 
 
     /// <summary>
     /// Gets the background color for the docking indicators area.
     /// </summary>
     /// <returns>Color value.</returns>
-    public Color GetDragDropDockBack() => DropDockBack != GlobalStaticValues.EMPTY_COLOR
+    public Color GetDragDropDockBack() => DropDockBack != SharedStaticVariables.EMPTY_COLOR
         ? DropDockBack
         : _inherit?.GetDragDropDockBack() ?? Color.FromArgb(228, 228, 228);
 
@@ -315,13 +315,13 @@ public class PaletteDragDrop : Storage,
     /// <summary>
     /// Resets the DropDockBorder property to its default value.
     /// </summary>
-    public void ResetDropDockBorder() => DropDockBorder = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetDropDockBorder() => DropDockBorder = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the border color for the docking indicators area.
     /// </summary>
     /// <returns>Color value.</returns>
-    public Color GetDragDropDockBorder() => DropDockBorder != GlobalStaticValues.EMPTY_COLOR
+    public Color GetDragDropDockBorder() => DropDockBorder != SharedStaticVariables.EMPTY_COLOR
         ? DropDockBorder
         : _inherit?.GetDragDropDockBorder() ?? Color.FromArgb(181, 181, 181);
 
@@ -353,13 +353,13 @@ public class PaletteDragDrop : Storage,
     /// <summary>
     /// Resets the DropDockActive property to its default value.
     /// </summary>
-    public void ResetDropDockActive() => DropDockActive = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetDropDockActive() => DropDockActive = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the active color for docking indicators.
     /// </summary>
     /// <returns>Color value.</returns>
-    public Color GetDragDropDockActive() => DropDockActive != GlobalStaticValues.EMPTY_COLOR
+    public Color GetDragDropDockActive() => DropDockActive != SharedStaticVariables.EMPTY_COLOR
         ? DropDockActive
         : _inherit?.GetDragDropDockActive() ?? SystemColors.ActiveCaption;
 
@@ -391,13 +391,13 @@ public class PaletteDragDrop : Storage,
     /// <summary>
     /// Resets the DropDockInactive property to its default value.
     /// </summary>
-    public void ResetDropDockInactive() => DropDockInactive = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetDropDockInactive() => DropDockInactive = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the inactive color for docking indicators.
     /// </summary>
     /// <returns>Color value.</returns>
-    public Color GetDragDropDockInactive() => DropDockInactive != GlobalStaticValues.EMPTY_COLOR
+    public Color GetDragDropDockInactive() => DropDockInactive != SharedStaticVariables.EMPTY_COLOR
         ? DropDockInactive
         : _inherit?.GetDragDropDockInactive() ?? SystemColors.InactiveCaption;
 

@@ -1,11 +1,11 @@
 ﻿#region BSD License
 /*
- * 
+ *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
- * 
+ *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -18,7 +18,7 @@ namespace Krypton.Ribbon;
 [ToolboxBitmap(typeof(KryptonGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
 [DefaultEvent(nameof(SelectedIndexChanged))]
 [DefaultProperty(nameof(SelectedIndex))]
-[Designer(typeof(KryptonGalleryDesigner))]
+[Designer("Krypton.Ribbon.KryptonGalleryDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Select from a group of possible images.")]
 public class KryptonGallery : VisualSimpleBase
@@ -47,6 +47,7 @@ public class KryptonGallery : VisualSimpleBase
     private readonly Timer _trackingEventTimer;
     private KryptonContextMenu? _dropMenu;
     private EventHandler? _finishDelegate;
+    private KryptonRibbon? _ribbonOwner;
     #endregion
 
     #region Events
@@ -94,6 +95,7 @@ public class KryptonGallery : VisualSimpleBase
         _preferredItemSize = new Size(5, 1);
         _dropMaxItemWidth = 128;
         _dropMinItemWidth = 3;
+        _ribbonOwner = null;
 
         // Timer used to generate tracking change event
         _trackingEventTimer = new Timer
@@ -151,6 +153,9 @@ public class KryptonGallery : VisualSimpleBase
     {
         if (disposing)
         {
+            _dropMenu?.Close();
+            _dropMenu?.Dispose();
+            _dropMenu = null;
         }
 
         base.Dispose(disposing);
@@ -749,7 +754,15 @@ public class KryptonGallery : VisualSimpleBase
     }
 
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    internal KryptonRibbon? Ribbon { get; set; }
+    internal KryptonRibbon? Ribbon
+    {
+        get => _ribbonOwner;
+        set
+        {
+            _ribbonOwner = value;
+            RibbonRtlLayout.ApplyTo(this, value);
+        }
+    }
 
     internal void OnDropButton() => ShownGalleryDropDown(RectangleToScreen(ClientRectangle),
         KryptonContextMenuPositionH.Left,

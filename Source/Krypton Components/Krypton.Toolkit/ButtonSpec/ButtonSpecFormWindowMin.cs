@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -55,6 +55,27 @@ public class ButtonSpecFormWindowMin : ButtonSpecFormFixed
     public override ButtonCheckState GetChecked(PaletteBase? palette) =>
         // Close button is never shown as checked
         ButtonCheckState.NotCheckButton;
+
+    /// <summary>
+    /// Gets the button tooltip title.
+    /// When the minimize button is acting as Restore (form is minimized), use Restore Up.
+    /// </summary>
+    /// <param name="palette">Palette to use for inheriting values.</param>
+    /// <returns>Tooltip title string.</returns>
+    public override string GetToolTipTitle(PaletteBase palette)
+    {
+        if (!string.IsNullOrEmpty(ToolTipTitle) || !AllowInheritToolTipTitle)
+        {
+            return ToolTipTitle;
+        }
+
+        if (ProtectedType == PaletteButtonSpecStyle.FormRestore)
+        {
+            return KryptonManager.Strings.ControlBoxButtonStrings.RestoreUp;
+        }
+
+        return base.GetToolTipTitle(palette);
+    }
 
     #endregion    
 

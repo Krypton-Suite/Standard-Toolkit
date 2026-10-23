@@ -1,39 +1,17 @@
 @echo off
+REM Long-term stable build using the Scripts/Current/ toolset (Visual Studio major 18+, profile "current").
+REM MSBuild discovery: Scripts\Common\find-msbuild.cmd. Failure text comes from the helper; this script only pauses.
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"
 
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\Insiders\MSBuild\Current\Bin" goto vscurrentinsiders
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin" goto vscurrentent
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin" goto vscurrentpro
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin" goto vscurrentcom
-if exist "%ProgramFiles%\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin" goto vscurrentbuild
-
-echo "Unable to detect suitable environment. Check if VS 2026 is installed."
+call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" current
+if errorlevel 1 (
 echo.
 pause
 goto exitbatch
-
-:vscurrentinsiders
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Insiders\MSBuild\Current\Bin"
+)
 goto build
-
-:vscurrentent
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Enterprise\MSBuild\Current\Bin"
-goto build
-
-:vscurrentpro
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Professional\MSBuild\Current\Bin"
-goto build
-
-:vscurrentcom
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin"
-goto build
-
-:vscurrentbuild
-set "msbuildpath=%ProgramFiles%\Microsoft Visual Studio\18\BuildTools\MSBuild\Current\Bin"
-goto build
-
 :build
 for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
@@ -46,7 +24,10 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
 REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets).
+setlocal
+call "%~dp0setup-dotnet11-sdk.cmd" || (endlocal & goto exitbatch)
 "%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%longtermstable.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
+endlocal
 @echo:
 @echo Stable release build completed: %date% %time% %zone%
 @echo:

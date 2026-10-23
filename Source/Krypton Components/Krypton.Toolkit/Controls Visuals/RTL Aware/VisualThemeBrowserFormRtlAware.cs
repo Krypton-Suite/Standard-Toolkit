@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -44,11 +44,6 @@ internal partial class VisualThemeBrowserFormRtlAware : KryptonForm
 
         StartPosition = _themeBrowserData.StartPosition ?? FormStartPosition.CenterScreen;
 
-        if (klbThemeList.Items.Count > 0)
-        {
-            klbThemeList.SelectedIndex = _themeBrowserData.StartIndex ?? GlobalStaticValues.GLOBAL_DEFAULT_THEME_INDEX;
-        }
-
         klblHeader.Text = KryptonManager.Strings.MiscellaneousThemeStrings.ThemeBrowserDescription;
 
         kbtnImport.Text = KryptonManager.Strings.MiscellaneousThemeStrings.Import;
@@ -64,15 +59,17 @@ internal partial class VisualThemeBrowserFormRtlAware : KryptonForm
 
     private void VisualThemeBrowserFormRtlAware_Load(object sender, EventArgs e)
     {
-        foreach (var themeName in ThemeManager.SupportedInternalThemeNames)
-        {
-            if (themeName != null)
-            {
-                klbThemeList.Items.Add(themeName);
-            }
-        }
+        CommonHelperThemeSelectors.FillThemeBrowserItems(klbThemeList.Items, _themeBrowserData);
 
-        klbThemeList.SelectedItem = _themeBrowserData.StartIndex;
+        int startIndex = CommonHelperThemeSelectors.GetThemeBrowserStartIndex(
+            _themeBrowserData,
+            klbThemeList.Items,
+            new KryptonManager());
+
+        if (startIndex >= 0)
+        {
+            klbThemeList.SelectedIndex = startIndex;
+        }
     }
 
     private void klbThemeList_SelectedIndexChanged(object sender, EventArgs e)

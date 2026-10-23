@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -15,12 +15,18 @@ namespace Krypton.Toolkit;
 ///  Displays a dialog window from which the user can select a file.
 /// </summary>
 [DesignerCategory(@"code")]
+[Designer("Krypton.Toolkit.KryptonSaveFileDialogDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description("Displays a Kryptonised version of the standard 'SaveFile dialog window' from which the user can select a file.")]
 [ToolboxBitmap(typeof(SaveFileDialog), @"ToolboxBitmaps.KryptonSaveFileDialog.bmp")]
 [ToolboxItem(true)]
 public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
 {
-    private readonly SaveFileDialog _internalSaveFileDialog = new SaveFileDialog();// { AutoUpgradeEnabled = true };
+    private readonly SaveFileDialog _internalSaveFileDialog = new SaveFileDialog();
+
+    public KryptonSaveFileDialog()
+    {
+        _internalSaveFileDialog.FileOk += OnInternalFileOk;
+    }
 
     /// <inheritdoc />
     protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalSaveFileDialog.ShowDialog(owner);
@@ -193,12 +199,6 @@ public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
     }
 
     /// <inheritdoc />
-    public override event CancelEventHandler? FileOk
-    {
-        add => _internalSaveFileDialog.FileOk += value;
-        remove => _internalSaveFileDialog.FileOk -= value;
-    }
-
     /// <summary>Resets all properties to their default values.</summary>
     public override void Reset() => _internalSaveFileDialog.Reset();
 
@@ -210,5 +210,20 @@ public class KryptonSaveFileDialog : FileSaveDialogWrapper, IDisposable
 
     /// <inheritdoc />
     public void Dispose() => _internalSaveFileDialog.Dispose();
+
+    internal override void PopulateDialogOptions(KryptonDialogOptions options)
+    {
+        options.Kind = KryptonDialogKind.SaveFile;
+        options.CreatePrompt = CreatePrompt;
+        options.OverwritePrompt = OverwritePrompt;
+    }
+
+    private void OnInternalFileOk(object? sender, CancelEventArgs e)
+    {
+        if (!RaiseFileOk())
+        {
+            e.Cancel = true;
+        }
+    }
 
 }

@@ -1,4 +1,4 @@
-﻿:: Last updated: Saturday 16th August, 2025 @ 19:00
+﻿:: Last updated: Monday 14th September, 2026 @ 11:00
 
 @echo off
 
@@ -6,6 +6,7 @@ setlocal EnableExtensions
 
 title Krypton Toolkit Build System
 
+set "REPO_ROOT=%~dp0"
 set "VS_VERSION="
 set "VS_SCRIPTS_DIR="
 
@@ -16,7 +17,7 @@ goto selectvsversion
 :selectvsversion
 cls
 
-@echo Welcome to the Krypton Toolkit Build system, version: 3.0.
+@echo Welcome to the Krypton Toolkit Build system, version: 4.0.
 @echo Please select the Visual Studio toolset to target.
 echo:
 @echo ==============================================================================================
@@ -48,7 +49,7 @@ goto mainmenu
 
 :configurevsversion
 set "VS_VERSION=%~1"
-set "VS_SCRIPTS_DIR=Scripts\%~1"
+set "VS_SCRIPTS_DIR=%REPO_ROOT%Scripts\%~1"
 if not exist "%VS_SCRIPTS_DIR%" (
     echo.
     echo ERROR: Could not find "%VS_SCRIPTS_DIR%".
@@ -62,6 +63,42 @@ if not exist "%VS_SCRIPTS_DIR%" (
 echo.
 echo Using %VS_VERSION% scripts located at "%VS_SCRIPTS_DIR%".
 echo.
+exit /b 0
+
+:: ===================================================================================================
+:: Workspace clean helpers (use "call :label"; returns via exit /b)
+
+:cleanbinandobj
+echo Deleting the 'Bin' folder
+if exist "%REPO_ROOT%Bin\" rd /s /q "%REPO_ROOT%Bin"
+echo Deleted the 'Bin' folder
+echo Deleting the 'Krypton.Docking\obj' folder
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Docking\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Docking\obj"
+echo Deleted the 'Krypton.Docking\obj' folder
+echo Deleting the 'Krypton.Navigator\obj' folder
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Navigator\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Navigator\obj"
+echo Deleted the 'Krypton.Navigator\obj' folder
+echo Deleting the 'Krypton.Ribbon\obj' folder
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Ribbon\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Ribbon\obj"
+echo Deleted the 'Krypton.Ribbon\obj' folder
+echo Deleting the 'Krypton.Toolkit\obj' folder
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Toolkit\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Toolkit\obj"
+echo Deleted the 'Krypton.Toolkit\obj' folder
+echo Deleting the 'Krypton.Workspace\obj' folder
+if exist "%REPO_ROOT%Source\Krypton Components\Krypton.Workspace\obj\" rd /s /q "%REPO_ROOT%Source\Krypton Components\Krypton.Workspace\obj"
+echo Deleted the 'Krypton.Workspace\obj' folder
+exit /b 0
+
+:cleanlogs
+echo Deleting the 'Logs' folder
+if exist "%REPO_ROOT%Logs\" rd /s /q "%REPO_ROOT%Logs"
+echo Deleted the 'Logs' folder
+exit /b 0
+
+:cleanrootbuildlog
+echo Deleting the 'build.log' file
+del /f "%REPO_ROOT%build.log"
+echo Deleted the 'build.log' file
 exit /b 0
 
 :: ===================================================================================================
@@ -82,10 +119,11 @@ echo 4. Build and Pack Toolkit
 echo 5. Debug project
 echo 6. NuGet Tools
 echo 7. Create Archives (ZIP/TAR)
-echo 8. Change Visual Studio target
-echo 9. End
+echo 8. WebView2 SDK Tools
+echo 9. Change Visual Studio target
+echo 10. End
 echo:
-set /p answer="Enter number (1 - 9): "
+set /p answer="Enter number (1 - 10): "
 if "%answer%"=="1" (goto cleanproject)
 if "%answer%"=="2" (goto buildproject)
 if "%answer%"=="3" (goto createnugetpackages)
@@ -93,8 +131,9 @@ if "%answer%"=="4" (goto buildandpacktoolkit)
 if "%answer%"=="5" (goto debugproject)
 if "%answer%"=="6" (goto nugettools)
 if "%answer%"=="7" (goto createarchives)
-if "%answer%"=="8" (goto selectvsversion)
-if "%answer%"=="9" (goto exitbuildsystem)
+if "%answer%"=="8" (goto webview2tools)
+if "%answer%"=="9" (goto selectvsversion)
+if "%answer%"=="10" (goto exitbuildsystem)
 
 @echo Invalid input, please try again.
 
@@ -108,17 +147,19 @@ cls
 echo 1. Build nightly version
 echo    a. Rebuild project
 echo 2. Build canary version
-echo 3. Build stable version
-echo 4. Build long term stable version (LTS)
-echo 5. Go back to main menu
+echo 3. Build RC version (gold)
+echo 4. Build stable version
+echo 5. Build long term stable version (LTS)
+echo 6. Go back to main menu
 echo:
-set /p answer="Enter number or letter (1 - 5, a - *): "
-if %answer%==1 (goto buildnightly)
-if %answer%==a (goto rebuildproject)
-if %answer%==2 (goto buildcanary)
-if %answer%==3 (goto buildstable)
-if %answer%==4 (goto buildlts)
-if %answer%==5 (goto mainmenu)
+set /p answer="Enter number or letter (1 - 6, a - *): "
+if "%answer%"=="1" (goto buildnightly)
+if /i "%answer%"=="a" (goto rebuildproject)
+if "%answer%"=="2" (goto buildcanary)
+if "%answer%"=="3" (goto buildrc)
+if "%answer%"=="4" (goto buildstable)
+if "%answer%"=="5" (goto buildlts)
+if "%answer%"=="6" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -131,16 +172,18 @@ cls
 
 echo 1. Pack nightly version
 echo 2. Pack canary version
-echo 3. Pack stable version
-echo 4. Pack long term stable version (LTS)
-echo 5. Go back to main menu
+echo 3. Pack RC version (gold)
+echo 4. Pack stable version
+echo 5. Pack long term stable version (LTS)
+echo 6. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 5): "
-if %answer%==1 (goto packnightly)
-if %answer%==2 (goto packcanary)
-if %answer%==3 (goto packstable)
-if %answer%==4 (goto packlts)
-if %answer%==5 (goto mainmenu)
+set /p answer="Enter number (1 - 6): "
+if "%answer%"=="1" (goto packnightly)
+if "%answer%"=="2" (goto packcanary)
+if "%answer%"=="3" (goto packrc)
+if "%answer%"=="4" (goto packstable)
+if "%answer%"=="5" (goto packltsmenu)
+if "%answer%"=="6" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -152,11 +195,15 @@ goto packmenu
 cls
 
 echo 1. Debug
-echo 2. Go back to main mainmenu
+echo 2. Run TestForm project
+echo 3. Debug solution
+echo 4. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 2): "
-if %answer%==1 (goto debug)
-if %answer%==2 (goto mainmenu)
+set /p answer="Enter number (1 - 4): "
+if "%answer%"=="1" (goto debug)
+if "%answer%"=="2" (goto runtestform)
+if "%answer%"=="3" (goto debugsolution)
+if "%answer%"=="4" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -170,16 +217,18 @@ cls
 
 echo 1. Build and pack nightly
 echo 2. Build and pack canary
-echo 3. Build and pack stable
-echo 4. Build and pack long term stable (LTS)
-echo 5. Go to main mainmenu
+echo 3. Build and pack RC (gold)
+echo 4. Build and pack stable
+echo 5. Build and pack long term stable (LTS)
+echo 6. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 5): "
-if %answer%==1 (goto buildandpacknightly)
-if %answer%==2 (goto buildandpackcanary)
-if %answer%==3 (goto buildandpackstable)
-if %answer%==4 (goto buildandpacklts)
-if %answer%==5 (goto mainmenu)
+set /p answer="Enter number (1 - 6): "
+if "%answer%"=="1" (goto buildandpacknightly)
+if "%answer%"=="2" (goto buildandpackcanary)
+if "%answer%"=="3" (goto buildandpackrc)
+if "%answer%"=="4" (goto buildandpackstable)
+if "%answer%"=="5" (goto buildandpacklts)
+if "%answer%"=="6" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -196,11 +245,31 @@ echo 2. Update prerequisites
 echo 3. Go to main menu
 echo:
 set /p answer="Enter number (1 - 3): "
-if %answer%==1 (goto installprerequisites)
-if %answer%==2 (goto updateprerequisites)
-if %answer%==3 (goto mainmenu)
+if "%answer%"=="1" (goto installprerequisites)
+if "%answer%"=="2" (goto updateprerequisites)
+if "%answer%"=="3" (goto mainmenu)
 
 @echo Invalid input, please try again.
+
+pause
+
+goto miscellaneoustasksmenu
+
+:installprerequisites
+cls
+
+echo Install prerequisites is not available from this menu yet.
+echo.
+
+pause
+
+goto miscellaneoustasksmenu
+
+:updateprerequisites
+cls
+
+echo Update prerequisites is not available from this menu yet.
+echo.
 
 pause
 
@@ -210,33 +279,17 @@ goto miscellaneoustasksmenu
 
 :clearscreen
 cls
+goto hold
 
 :hold
 pause
+goto mainmenu
 
 :cleanproject
 cls
 
-echo Deleting the 'Bin' folder
-rd /s /q "Bin"
-echo Deleted the 'Bin' folder
-echo Deleting the 'Krypton.Docking\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
-echo Deleted the 'Krypton.Docking\obj' folder
-echo Deleting the 'Krypton.Navigator\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
-echo Deleted the 'Krypton.Navigator\obj' folder
-echo Deleting the 'Krypton.Ribbon\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
-echo Deleted the 'Krypton.Ribbon\obj' folder
-echo Deleting the 'Krypton.Toolkit\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
-echo Deleted the 'Krypton.Toolkit\obj' folder
-echo Deleting the 'Krypton.Workspace\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
-echo Deleted the 'Krypton.Workspace\obj' folder
-echo Deleting the 'Logs' folder
-del /f "Logs"
+call :cleanbinandobj
+call :cleanlogs
 
 pause
 
@@ -244,31 +297,11 @@ goto mainmenu
 
 :clearproject
 
-echo Deleting the 'Bin' folder
-rd /s /q "Bin"
-echo Deleted the 'Bin' folder
-echo Deleting the 'Krypton.Docking\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
-echo Deleted the 'Krypton.Docking\obj' folder
-echo Deleting the 'Krypton.Navigator\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
-echo Deleted the 'Krypton.Navigator\obj' folder
-echo Deleting the 'Krypton.Ribbon\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
-echo Deleted the 'Krypton.Ribbon\obj' folder
-echo Deleting the 'Krypton.Toolkit\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
-echo Deleted the 'Krypton.Toolkit\obj' folder
-echo Deleting the 'Krypton.Workspace\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
-echo Deleted the 'Krypton.Workspace\obj' folder
-echo Deleting the 'Logs' folder
-del /f "Logs"
+call :cleanbinandobj
+call :cleanlogs
+exit /b 0
 
 :: ===================================================================================================
-
-:cleanproject
-goto cleanproject
 
 :buildproject
 goto buildmenu
@@ -279,9 +312,6 @@ goto packmenu
 :debugproject
 goto debugmenu
 
-:nugettools
-goto createarchives
-
 :createarchives
 cls
 
@@ -291,24 +321,30 @@ echo 3. Create both ZIP and TAR archives (Nightly)
 echo 4. Create ZIP archive (Canary)
 echo 5. Create TAR archive (Canary)
 echo 6. Create both ZIP and TAR archives (Canary)
-echo 7. Create ZIP archive (Stable)
-echo 8. Create TAR archive (Stable)
-echo 9. Create both ZIP and TAR archives (Stable)
-echo 10. Update NuGet tools
-echo 11. Go back to main menu
+echo 7. Create ZIP archive (RC)
+echo 8. Create TAR archive (RC)
+echo 9. Create both ZIP and TAR archives (RC)
+echo 10. Create ZIP archive (Stable)
+echo 11. Create TAR archive (Stable)
+echo 12. Create both ZIP and TAR archives (Stable)
+echo 13. Update NuGet tools
+echo 14. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 11): "
-if %answer%==1 (goto createzipnightly)
-if %answer%==2 (goto createtarnightly)
-if %answer%==3 (goto createallarchivesnightly)
-if %answer%==4 (goto createzipcanary)
-if %answer%==5 (goto createtarcanary)
-if %answer%==6 (goto createallarchivescanary)
-if %answer%==7 (goto createzipstable)
-if %answer%==8 (goto createtarstable)
-if %answer%==9 (goto createallarchivesstable)
-if %answer%==10 (goto updatenuget)
-if %answer%==11 (goto mainmenu)
+set /p answer="Enter number (1 - 14): "
+if "%answer%"=="1" (goto createzipnightly)
+if "%answer%"=="2" (goto createtarnightly)
+if "%answer%"=="3" (goto createallarchivesnightly)
+if "%answer%"=="4" (goto createzipcanary)
+if "%answer%"=="5" (goto createtarcanary)
+if "%answer%"=="6" (goto createallarchivescanary)
+if "%answer%"=="7" (goto createziprc)
+if "%answer%"=="8" (goto createtarrc)
+if "%answer%"=="9" (goto createallarchivesrc)
+if "%answer%"=="10" (goto createzipstable)
+if "%answer%"=="11" (goto createtarstable)
+if "%answer%"=="12" (goto createallarchivesstable)
+if "%answer%"=="13" (goto updatenuget)
+if "%answer%"=="14" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -323,6 +359,8 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
+set "UPDATE_NUGET_EC=%errorlevel%"
+if "%UPDATE_NUGET_EC%"=="2" goto mainmenu
 
 
 pause
@@ -401,6 +439,41 @@ goto mainmenu
 
 :: ===================================================================================================
 
+:createziprc
+cls
+
+
+call "%VS_SCRIPTS_DIR%\build-rc.cmd" CreateRCZip
+
+
+pause
+
+goto mainmenu
+
+:createtarrc
+cls
+
+
+call "%VS_SCRIPTS_DIR%\build-rc.cmd" CreateRCTar
+
+
+pause
+
+goto mainmenu
+
+:createallarchivesrc
+cls
+
+
+call "%VS_SCRIPTS_DIR%\build-rc.cmd" CreateAllRCArchives
+
+
+pause
+
+goto mainmenu
+
+:: ===================================================================================================
+
 :createzipstable
 cls
 
@@ -467,6 +540,14 @@ call "%VS_SCRIPTS_DIR%\build-canary.cmd"
 goto buildmenu
 
 
+:buildrc
+cls
+
+
+call "%VS_SCRIPTS_DIR%\build-rc.cmd"
+goto buildmenu
+
+
 :buildinstaller
 cls
 
@@ -506,6 +587,13 @@ cls
 call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
 goto packmenu
 
+:packrc
+cls
+
+
+call "%VS_SCRIPTS_DIR%\build-rc.cmd" Pack
+goto packmenu
+
 :packinstaller
 cls
 
@@ -522,10 +610,10 @@ echo 3. Produce 'full/lite' stable packages
 echo 4. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packstablelite)
-if %answer%==2 (goto packstablefull)
-if %answer%==3 (goto packstableboth)
-if %answer%==4 (goto mainmenu)
+if "%answer%"=="1" (goto packstablelite)
+if "%answer%"=="2" (goto packstablefull)
+if "%answer%"=="3" (goto packstableboth)
+if "%answer%"=="4" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -545,10 +633,10 @@ echo 4. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 4): "
 
-if %answer%==1 (goto packltslite)
-if %answer%==2 (goto packltsfull)
-if %answer%==3 (goto packltsboth)
-if %answer%==4 (goto mainmenu)
+if "%answer%"=="1" (goto packltslite)
+if "%answer%"=="2" (goto packltsfull)
+if "%answer%"=="3" (goto packltsboth)
+if "%answer%"=="4" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -602,63 +690,74 @@ goto packltsmenu
 :debug
 cls
 
-echo Deleting the 'Bin' folder
-rd /s /q "Bin"
-echo Deleted the 'Bin' folder
-echo Deleting the 'Krypton.Docking\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
-echo Deleted the 'Krypton.Docking\obj' folder
-echo Deleting the 'Krypton.Navigator\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
-echo Deleted the 'Krypton.Navigator\obj' folder
-echo Deleting the 'Krypton.Ribbon\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
-echo Deleted the 'Krypton.Ribbon\obj' folder
-echo Deleting the 'Krypton.Toolkit\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
-echo Deleted the 'Krypton.Toolkit\obj' folder
-echo Deleting the 'Krypton.Workspace\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
-echo Deleted the 'Krypton.Workspace\obj' folder
-echo Deleting the 'build.log' file
-del /f build.log
-echo Deleted the 'build.log' file
+call :cleanbinandobj
+call :cleanrootbuildlog
 
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-nightly.cmd"
 
+goto debugmenu
+
+:: ===================================================================================================
+
+:debugsolution
+
+cls
+
+dotnet build "%REPO_ROOT%Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug
+
+pause
+
+goto debugmenu
+
 :: ===================================================================================================
 
 :nugettools
 cls
 
+echo 1. Update NuGet tools
+echo 2. Build and create packages
+echo 3. Go back to main menu
+echo:
+set /p answer="Enter number (1 - 3): "
+if "%answer%"=="1" (goto updatenuget)
+if "%answer%"=="2" (goto buildandcreatenugetpackages)
+if "%answer%"=="3" (goto mainmenu)
 
-call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
+@echo Invalid input, please try again.
+
+pause
+
+goto nugettools
 
 :buildandcreatenugetpackages
 cls
 
 echo 1. Build nightly packages
 echo 2. Build canary packages
-echo 3. Build stable packages
-echo 4. Build stable (lite) packages
-echo 5. Build LTS packages
-echo 6. Go back to main menu
+echo 3. Build RC packages (gold)
+echo 4. Build stable packages
+echo 5. Build stable (lite) packages
+echo 6. Build LTS packages
+echo 7. Go back to main menu
 echo:
-set /p answer="Enter number (1 - 6): "
+set /p answer="Enter number (1 - 7): "
 
-if %answer%==1 (goto buildnightlypackages)
-if %answer%==2 (goto buildcanarypackages)
-if %answer%==3 (goto buildstablepackages)
-if %answer%==4 (goto buildstablelitepackages)
-if %answer%==5 (goto buildltspackages)
-if %answer%==6 (goto mainmenu)
+if "%answer%"=="1" (goto buildnightlypackages)
+if "%answer%"=="2" (goto buildcanarypackages)
+if "%answer%"=="3" (goto buildrcpackages)
+if "%answer%"=="4" (goto buildstablepackages)
+if "%answer%"=="5" (goto buildstablelitepackages)
+if "%answer%"=="6" (goto buildltspackages)
+if "%answer%"=="7" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
 pause
+
+goto buildandcreatenugetpackages
 
 :: ===================================================================================================
 
@@ -667,27 +766,8 @@ cls
 
 echo Step 1: Clean
 
-echo Deleting the 'Bin' folder
-rd /s /q "Bin"
-echo Deleted the 'Bin' folder
-echo Deleting the 'Krypton.Docking\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Docking\obj"
-echo Deleted the 'Krypton.Docking\obj' folder
-echo Deleting the 'Krypton.Navigator\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Navigator\obj"
-echo Deleted the 'Krypton.Navigator\obj' folder
-echo Deleting the 'Krypton.Ribbon\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Ribbon\obj"
-echo Deleted the 'Krypton.Ribbon\obj' folder
-echo Deleting the 'Krypton.Toolkit\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Toolkit\obj"
-echo Deleted the 'Krypton.Toolkit\obj' folder
-echo Deleting the 'Krypton.Workspace\obj' folder
-rd /s /q "Source\Krypton Components\Krypton.Workspace\obj"
-echo Deleted the 'Krypton.Workspace\obj' folder
-echo Deleting the 'build.log' file
-del /f build.log
-echo Deleted the 'build.log' file
+call :cleanbinandobj
+call :cleanrootbuildlog
 
 cls
 
@@ -706,6 +786,108 @@ call "%VS_SCRIPTS_DIR%\build-nightly-custom.cmd" Pack
 
 pause
 
+goto buildandcreatenugetpackages
+
+:: ===================================================================================================
+
+:buildcanarypackages
+cls
+
+echo Step 1: Clean
+
+call :cleanbinandobj
+call :cleanrootbuildlog
+
+cls
+
+echo Step 2: Build and pack
+
+call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
+
+pause
+
+goto buildandcreatenugetpackages
+
+:: ===================================================================================================
+
+:buildrcpackages
+cls
+
+echo Step 1: Clean
+
+call :cleanbinandobj
+call :cleanrootbuildlog
+
+cls
+
+echo Step 2: Build and pack
+
+call "%VS_SCRIPTS_DIR%\build-rc.cmd" Pack
+
+pause
+
+goto buildandcreatenugetpackages
+
+:: ===================================================================================================
+
+:buildstablepackages
+cls
+
+echo Step 1: Clean
+
+call :cleanbinandobj
+call :cleanrootbuildlog
+
+cls
+
+echo Step 2: Build and pack
+
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
+
+pause
+
+goto buildandcreatenugetpackages
+
+:: ===================================================================================================
+
+:buildstablelitepackages
+cls
+
+echo Step 1: Clean
+
+call :cleanbinandobj
+call :cleanrootbuildlog
+
+cls
+
+echo Step 2: Build and pack ^(lite^)
+
+call "%VS_SCRIPTS_DIR%\build-stable.cmd" PackLite
+
+pause
+
+goto buildandcreatenugetpackages
+
+:: ===================================================================================================
+
+:buildltspackages
+cls
+
+echo Step 1: Clean
+
+call :cleanbinandobj
+call :cleanrootbuildlog
+
+cls
+
+echo Step 2: Build and pack
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" Pack
+
+pause
+
+goto buildandcreatenugetpackages
+
 :: ===================================================================================================
 
 :rebuildproject
@@ -713,6 +895,8 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\rebuild-build-nightly.cmd"
+
+goto buildmenu
 
 :: ===================================================================================================
 
@@ -726,11 +910,29 @@ cls
 
 call "%VS_SCRIPTS_DIR%\build-nightly.cmd" Pack
 
+pause
+
+goto mainmenu
+
 :buildandpackcanary
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
+
+pause
+
+goto mainmenu
+
+:buildandpackrc
+cls
+
+
+call "%VS_SCRIPTS_DIR%\build-rc.cmd" Pack
+
+pause
+
+goto mainmenu
 
 :buildandpackstable
 cls
@@ -738,8 +940,115 @@ cls
 
 call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
 
+pause
+
+goto mainmenu
+
+:buildandpacklts
+cls
+
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" Pack
+
+pause
+
+goto mainmenu
+
 :: ===================================================================================================
+
+:webview2tools
+cls
+
+echo WebView2 SDK Tools
+echo.
+echo 1. Setup WebView2 SDK
+echo 2. Update WebView2 SDK
+echo 3. Check WebView2 Version
+echo 4. Go back to main menu
+echo:
+set /p answer="Enter number (1 - 4): "
+if "%answer%"=="1" (goto setupwebview2sdk)
+if "%answer%"=="2" (goto updatewebview2sdk)
+if "%answer%"=="3" (goto checkwebview2version)
+if "%answer%"=="4" (goto mainmenu)
+
+@echo Invalid input, please try again.
+
+pause
+
+goto webview2tools
+
+:: ===================================================================================================
+
+:setupwebview2sdk
+cls
+
+echo Setting up WebView2 SDK for KryptonWebView2 control...
+echo This will install the latest stable WebView2 SDK version.
+echo.
+
+pushd "%~dp0Scripts\WebVew2"
+
+call Setup-WebView2SDK.cmd
+
+popd
+
+pause
+
+goto webview2tools
+
+:: ===================================================================================================
+
+:updatewebview2sdk
+cls
+
+echo Updating WebView2 SDK to latest version...
+echo This will check for updates and install the newest stable version.
+echo.
+
+pushd "%~dp0Scripts\WebVew2"
+
+call Update-WebView2SDK.cmd
+
+popd
+
+pause
+
+goto webview2tools
+
+:: ===================================================================================================
+
+:checkwebview2version
+cls
+
+echo Checking WebView2 SDK version...
+echo.
+
+pushd "%~dp0Scripts\WebVew2"
+
+call Check-WebView2Version.cmd
+
+popd
+
+pause
+
+goto webview2tools
 
 :clearlogfiles
 
 :clearbinaries
+
+:: ===================================================================================================
+
+:runtestform
+
+cls
+
+echo Running TestForm project...
+
+:: Allows running the TestForm project without needing to open the solution in Visual Studio.
+dotnet run --project "%REPO_ROOT%Source\Krypton Components\TestForm\TestForm.csproj" -c Debug
+
+pause
+
+goto debugmenu

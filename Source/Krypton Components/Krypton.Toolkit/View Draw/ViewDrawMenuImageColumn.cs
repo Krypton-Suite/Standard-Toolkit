@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -92,43 +92,15 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
     {
         base.RenderBefore(context);
 
-        // Fill the image column using palette back colors first (to honor control overrides),
-        // and fall back to the ColorTable values when palette is empty.
+        // Same ColorTable ImageMargin Begin/Middle/End as ToolStripDropDownMenu so TMS
+        // overrides paint here too. Palette ContextMenuItemImageColumn is a solid theme
+        // colour and would hide those gradients if painted first.
         var rect = ClientRectangle;
         if (rect.Width > 0 && rect.Height > 0)
         {
-            Color p1 = PaletteBack!.GetBackColor1(State);
-            Color p2 = PaletteBack!.GetBackColor2(State);
-
-            if (p1 != GlobalStaticValues.EMPTY_COLOR || p2 != GlobalStaticValues.EMPTY_COLOR)
-            {
-                if (p1 == p2)
-                {
-                    using var solid = new SolidBrush(p1);
-                    context.Graphics.FillRectangle(solid, rect);
-                }
-                else
-                {
-                    using var brush = new LinearGradientBrush(rect, p1, p2, 0f);
-                    context.Graphics.FillRectangle(brush, rect);
-                }
-            }
-            else
-            {
-                var ct = _provider.ProviderRedirector.ColorTable;
-                Color c1 = ct.ImageMarginGradientBegin;
-                Color c2 = ct.ImageMarginGradientEnd;
-                if (c1 == c2)
-                {
-                    using var solid = new SolidBrush(c1);
-                    context.Graphics.FillRectangle(solid, rect);
-                }
-                else
-                {
-                    using var brush = new LinearGradientBrush(rect, c1, c2, 0f);
-                    context.Graphics.FillRectangle(brush, rect);
-                }
-            }
+            var ct = _provider.ProviderRedirector.ColorTable;
+            KryptonProfessionalRenderer.FillImageMargin(context.Graphics, rect,
+                ct.ImageMarginGradientBegin, ct.ImageMarginGradientMiddle, ct.ImageMarginGradientEnd);
         }
     }
 
@@ -150,7 +122,7 @@ internal class ViewDrawMenuImageColumn : ViewDrawDocker
         // Prefer palette border colors so control overrides work; fallback to ColorTable
         Color lineLight = PaletteBorder!.GetBorderColor1(State);
         Color lineDark = PaletteBorder!.GetBorderColor2(State);
-        if (lineLight == GlobalStaticValues.EMPTY_COLOR && lineDark == GlobalStaticValues.EMPTY_COLOR)
+        if (lineLight == SharedStaticVariables.EMPTY_COLOR && lineDark == SharedStaticVariables.EMPTY_COLOR)
         {
             var colorTable = _provider.ProviderRedirector.ColorTable;
             lineLight = colorTable.ImageMarginGradientEnd;

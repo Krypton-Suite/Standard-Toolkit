@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// Hosts a collection of KryptonDataGridViewDomainUpDownCell cells.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDataGridViewDomainUpDownColumn), "ToolboxBitmaps.KryptonDomainUpDown.bmp")]
-[Designer(typeof(KryptonDomainUpDownColumnDesigner))]
+[Designer("Krypton.Toolkit.KryptonDomainUpDownColumnDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColumn
 {
     #region Fields
@@ -59,7 +59,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     /// <returns></returns>
     public override object Clone()
     {
-        var cloned = base.Clone() as KryptonDataGridViewDomainUpDownColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("cloned"));
+        var cloned =base.Clone() as KryptonDataGridViewDomainUpDownColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDomainUpDownColumn>(SharedStaticFunctions.VariableCannotBeNull("cloned"));
 
         // Convert collection of strings to an array
         var strings = new string[Items.Count];
@@ -89,7 +89,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
         {
             if ((value != null) && (value is not KryptonDataGridViewDomainUpDownCell cell))
             {
-                throw new InvalidCastException(@"Value provided for CellTemplate must be of type KryptonDataGridViewDomainUpDownCell or derive from it.");
+                ThrowHelper.ThrowInvalidCastException(@"Value provided for CellTemplate must be of type KryptonDataGridViewDomainUpDownCell or derive from it.");
             }
 
             base.CellTemplate = value;
@@ -102,7 +102,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     [Category(@"Data")]
     [Description(@"The allowable items of the domain up down.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(@"System.Windows.Forms.Design.StringCollectionEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringCollectionEditor), typeof(UITypeEditor))]
     public StringCollection Items { get; }
 
     [Category(@"Behavior")]
@@ -151,7 +151,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     /// <summary>
     /// Small utility function that returns the template cell as a KryptonDataGridViewDomainUpDownCell
     /// </summary>
-    private KryptonDataGridViewDomainUpDownCell DomainUpDownCellTemplate => CellTemplate as KryptonDataGridViewDomainUpDownCell ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(CellTemplate)));
+private KryptonDataGridViewDomainUpDownCell DomainUpDownCellTemplate => CellTemplate as KryptonDataGridViewDomainUpDownCell ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDomainUpDownCell>(SharedStaticFunctions.VariableCannotBeNull(nameof(CellTemplate)));
     #endregion
 
     #region Internal
@@ -160,7 +160,7 @@ public class KryptonDataGridViewDomainUpDownColumn : KryptonDataGridViewIconColu
     /// For internal use only.
     /// </summary>
     internal Image? CellIndicatorImage => _kryptonDataGridViewCellIndicatorImage.Image;
-    internal Image? GetIndicatorImageForSize(int size) => _kryptonDataGridViewCellIndicatorImage.GetOrCreate(size);
+    internal Image? GetIndicatorImageForSize(int size) => _kryptonDataGridViewCellIndicatorImage.GetOrCreate(size, CellTemplate);
     #endregion Internal
 
     #region Protected

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -28,7 +28,7 @@ public class KryptonAutoHiddenProxyPage : KryptonPage
     {
 
         // We are a proxy for this cached page reference
-        Page = page ?? throw new ArgumentNullException(nameof(page));
+        Page = page ?? ThrowHelper.ThrowArgumentNullException(page);
 
         // Text property was updated by the base class constructor, so now we update the actual referenced class
         Page.Text = Text;

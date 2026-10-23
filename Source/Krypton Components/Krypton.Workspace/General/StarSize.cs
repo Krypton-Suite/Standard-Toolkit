@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -58,7 +58,7 @@ public class StarSize
             // Validate the incoming value
             if (value == null)
             {
-                throw new ArgumentNullException(nameof(Value), @"Cannot be assigned a null value.");
+                ThrowHelper.ThrowArgumentNullException(nameof(Value), @"Cannot be assigned a null value.");
             }
 
             // Split the string into comma separated parts
@@ -67,7 +67,7 @@ public class StarSize
             // Must consist of two values
             if (parts.Length != 2)
             {
-                throw new ArgumentNullException(nameof(Value), @"Value must have two values separated by a comma.");
+                ThrowHelper.ThrowArgumentNullException(nameof(Value), @"Value must have two values separated by a comma.");
             }
 
             // Parse both halfs, exceptions are thrown if a problem occurs

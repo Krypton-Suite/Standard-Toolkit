@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -50,7 +50,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         : base(name)
     {
         _storeName = storeName;
-        DockableNavigatorControl = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        DockableNavigatorControl = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
 
         DockableNavigatorControl.Disposed += OnDockableNavigatorDisposed;
         DockableNavigatorControl.CellPageInserting += OnDockableNavigatorPageInserting;
@@ -75,6 +75,8 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         {
             // Let base class perform standard processing
             base.Parent = value;
+
+            UpdatePageToolTips();
 
             // Generate event so that any dockable navigator customization can be performed.
             KryptonDockingManager? dockingManager = DockingManager;
@@ -144,7 +146,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot show a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         ShowPages(new[] { page.UniqueName });
@@ -159,7 +161,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot show a null reference
         if (string.IsNullOrWhiteSpace(uniqueName))
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
         }
 
         ShowPages(new[] { uniqueName });
@@ -174,7 +176,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot show a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
         }
 
         if (pages.Length > 0)
@@ -185,7 +187,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -204,7 +206,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot show a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
         }
 
         if (uniqueNames.Length > 0)
@@ -214,12 +216,12 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
                 }
             }
 
@@ -246,7 +248,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot hide a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         HidePages(new[] { page.UniqueName });
@@ -261,7 +263,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot hide a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
         }
 
         if (uniqueName.Length > 0)
@@ -279,7 +281,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot hide a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
         }
 
         if (pages.Length > 0)
@@ -291,7 +293,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -310,7 +312,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot hide a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
         }
 
         if (uniqueNames.Length > 0)
@@ -320,12 +322,12 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
                 }
             }
 
@@ -353,13 +355,13 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot remove a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
         }
 
         RemovePages(new[] { uniqueName }, disposePage);
@@ -375,7 +377,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot remove a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
         }
 
         if (pages.Length > 0)
@@ -387,7 +389,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -407,7 +409,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Cannot remove a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
         }
 
         if (uniqueNames.Length > 0)
@@ -417,12 +419,12 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
                 }
             }
 
@@ -466,7 +468,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
             case DockingPropogateAction.StorePages:
                 if (uniqueNames == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
                 }
                 foreach (var uniqueName in uniqueNames)
                 {
@@ -501,7 +503,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
             case DockingPropogateAction.ClearStoredPages:
                 if (uniqueNames == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
                 }
                 foreach (KryptonStorePage removePage in uniqueNames.Select(uniqueName => pageCollection[uniqueName]).OfType<KryptonStorePage>())
                 {
@@ -525,6 +527,9 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
             case DockingPropogateAction.DebugOutput:
                 Console.WriteLine(GetType().ToString());
                 DockableNavigatorControl.DebugOutput();
+                break;
+            case DockingPropogateAction.StringChanged:
+                UpdatePageToolTips();
                 break;
         }
 
@@ -784,7 +789,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Is it the expected xml element name?
         if (xmlReader.Name != XmlElementName)
         {
-            throw new ArgumentException($@"Element name '{XmlElementName}' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException($@"Element name '{XmlElementName}' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
         }
 
         // Grab the element attributes
@@ -794,7 +799,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Check the name matches up
         if (elementName != Name)
         {
-            throw new ArgumentException($@"Attribute 'N' value '{Name}' was expected but found '{elementName}' instead.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException($@"Attribute 'N' value '{Name}' was expected but found '{elementName}' instead.", nameof(xmlReader));
         }
 
         // Remove any existing pages in the navigator
@@ -810,13 +815,13 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
                 // Read past this element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                 }
 
                 // Is it the expected xml element name?
                 if (xmlReader.Name != @"KP")
                 {
-                    throw new ArgumentException($@"Element name 'KP' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
+                    ThrowHelper.ThrowArgumentException($@"Element name 'KP' was expected but found '{xmlReader.Name}' instead.", nameof(xmlReader));
                 }
 
                 // Get the unique name of the page
@@ -864,12 +869,12 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
 
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                 }
 
                 if (xmlReader.Name != @"CPD")
                 {
-                    throw new ArgumentException(@"Expected 'CPD' element was not found", nameof(xmlReader));
+                    ThrowHelper.ThrowArgumentException(@"Expected 'CPD' element was not found", nameof(xmlReader));
                 }
 
                 var finished = xmlReader.IsEmptyElement;
@@ -891,14 +896,14 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
                     {
                         if (!xmlReader.Read())
                         {
-                            throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                         }
                     }
                 }
 
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
                 }
             }
         }
@@ -906,7 +911,7 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
         // Read past this element to the end element
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
         }
     }
     #endregion
@@ -920,6 +925,15 @@ public class KryptonDockingNavigator : DockingElementClosedCollection
     #endregion
 
     #region Implementation
+    private void UpdatePageToolTips()
+    {
+        KryptonDockingManager? dockingManager = DockingManager;
+        if (dockingManager != null)
+        {
+            DockableNavigatorControl.ToolTips.AllowPageToolTips = dockingManager.AllowPageToolTips;
+        }
+    }
+
     private void OnDockableNavigatorDisposed(object? sender, EventArgs e)
     {
         // Unhook from events to prevent memory leaking

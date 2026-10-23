@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -34,8 +34,8 @@ internal class ViewLayoutPopupPage : ViewLayoutNull
         Debug.Assert(navigator is not null);
         Debug.Assert(page is not null);
 
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
-        _page = page ?? throw new ArgumentNullException(nameof(page));
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
+        _page = page ?? ThrowHelper.ThrowArgumentNullException(page);
     }
 
     /// <summary>
@@ -59,7 +59,7 @@ internal class ViewLayoutPopupPage : ViewLayoutNull
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         return _page.GetPreferredSize(context.DisplayRectangle.Size);
@@ -75,7 +75,7 @@ internal class ViewLayoutPopupPage : ViewLayoutNull
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
             
         // We take on all the available display area

@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -55,6 +55,7 @@ internal class VisualPopupAppMenu : VisualPopup
         _ribbon = ribbon;
         _rectAppButtonTopHalf = rectAppButtonTopHalf;
         _rectAppButtonBottomHalf = rectAppButtonBottomHalf;
+        RibbonRtlLayout.ApplyTo(this, _ribbon);
 
         // Create the view manager instance with root element
         ViewManager = new ViewContextMenuManager(this, new ViewLayoutNull());
@@ -147,7 +148,7 @@ internal class VisualPopupAppMenu : VisualPopup
             var index = 1;
             foreach (KryptonRibbonRecentDoc recentDoc in _ribbon.RibbonFileAppButton.AppButtonRecentDocs)
             {
-                documentStack.Add(new ViewDrawRibbonAppMenuRecentDec(_ribbon, _provider, recentDoc, _ribbon.RibbonFileAppButton.AppButtonMaxRecentSize.Width, NeedPaintDelegate, index++));
+                documentStack.Add(new ViewDrawRibbonAppMenuRecentDoc(_ribbon, _provider, recentDoc, _ribbon.RibbonFileAppButton.AppButtonMaxRecentSize.Width, NeedPaintDelegate, index++));
             }
 
             // Add separator entry which is then used to fill remained space
@@ -192,7 +193,7 @@ internal class VisualPopupAppMenu : VisualPopup
     private void CreateAppButtonBottom() => _appButtonBottom = new ViewDrawRibbonAppButton(_ribbon, true)
     {
         ElementState = PaletteState.Pressed,
-        Visible = _ribbon.RibbonShape != PaletteRibbonShape.Office2010
+        Visible = _ribbon.RibbonShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
     };
 
     private void CreateOutsideDocker()
@@ -262,21 +263,19 @@ internal class VisualPopupAppMenu : VisualPopup
     public override void Show(Rectangle screenRect)
     {
         // Find the preferred size of the context menu if it could be any size it likes
-        Size preferredSize = CalculatePreferredSize();
-        var preferredRect = new Rectangle(screenRect.Location, preferredSize);
+        var preferredSize = CalculatePreferredSize();
 
-        // Get the working area of the monitor that most of the screen rectangle is inside
-        Rectangle workingArea = Screen.GetWorkingArea(preferredRect);
+        // Use the orb/tab rect so monitor choice is not skewed by assuming LTR left origin.
+        var workingArea = Screen.GetWorkingArea(screenRect);
 
-        // Limit size of context menu to the working area
         preferredSize.Width = Math.Min(workingArea.Width, preferredSize.Width);
         preferredSize.Height = Math.Min(workingArea.Height, preferredSize.Height);
 
-        var screenPt = Point.Empty;
-
-        // Find the horizontal position relative to screen rectangle
-        screenPt.X = screenRect.Left;
-        screenPt.Y = screenRect.Bottom;
+        // LTR: menu grows right from the File/orb left. RTL: grow left from the start (right) edge.
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var screenPt = new Point(
+            isRtl ? screenRect.Right - preferredSize.Width : screenRect.Left,
+            screenRect.Bottom);
 
         // Limit location of context menu to the working area
         screenPt.X = Math.Max(screenPt.X, workingArea.X);

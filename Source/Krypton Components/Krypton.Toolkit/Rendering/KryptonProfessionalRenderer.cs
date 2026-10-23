@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -26,7 +26,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         : base(kct)
     {
         Debug.Assert(kct is not null);
-        KCT = kct ?? throw new ArgumentNullException(nameof(kct));
+        KCT = kct ?? ThrowHelper.ThrowArgumentNullException(kct);
     }
     #endregion
 
@@ -36,6 +36,184 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// </summary>
     public KryptonColorTable KCT { get; }
 
+    #endregion
+
+    #region Protected
+    /// <summary>
+    /// Ensures the ToolStrip uses the current palette strip font.
+    /// </summary>
+    /// <param name="toolStrip">The ToolStrip being rendered.</param>
+    protected void SyncToolStripFont(ToolStrip toolStrip) => ToolStripFontSync.ApplyFromColorTable(toolStrip, KCT);
+
+    /// <summary>
+    /// Paints a drop-down image margin using the color-table
+    /// <see cref="ProfessionalColorTable.ImageMarginGradientBegin"/> /
+    /// Middle / End values so custom palette TMS overrides apply on every theme.
+    /// Non-menu strips fall through to <see cref="ToolStripProfessionalRenderer"/>.
+    /// </summary>
+    /// <param name="e">Render event data.</param>
+    /// <param name="marginInset">Inset applied so the fill sits inside the menu border.</param>
+    protected void RenderImageMarginFromColorTable(ToolStripRenderEventArgs e, int marginInset)
+    {
+        if (e == null)
+        {
+            return;
+        }
+
+        if (e.ToolStrip is not (ContextMenuStrip or ToolStripDropDownMenu))
+        {
+            base.OnRenderImageMargin(e);
+            return;
+        }
+
+        Rectangle marginRect = e.AffectedBounds;
+        var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
+
+        marginRect.Y += marginInset;
+        marginRect.Height -= marginInset * 2;
+
+        if (!rtl)
+        {
+            marginRect.X += marginInset;
+        }
+        else
+        {
+            marginRect.X += marginInset / 2;
+        }
+
+        if (marginRect.Width <= 0 || marginRect.Height <= 0)
+        {
+            return;
+        }
+
+        Color begin = rtl ? KCT.ImageMarginGradientEnd : KCT.ImageMarginGradientBegin;
+        Color middle = KCT.ImageMarginGradientMiddle;
+        Color end = rtl ? KCT.ImageMarginGradientBegin : KCT.ImageMarginGradientEnd;
+        FillImageMargin(e.Graphics, marginRect, begin, middle, end);
+
+        using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
+               darkPen = new Pen(KCT.ContextMenuImageColumnBorder))
+        {
+            if (!rtl)
+            {
+                e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
+                e.Graphics.DrawLine(darkPen, marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
+            }
+            else
+            {
+                e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
+                e.Graphics.DrawLine(darkPen, marginRect.Left, marginRect.Top, marginRect.Left, marginRect.Bottom);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Fills a menu image-margin rectangle with a three-stop horizontal gradient.
+    /// </summary>
+    internal static void FillImageMargin(Graphics graphics, Rectangle rect, Color begin, Color middle, Color end)
+    {
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return;
+        }
+
+        if (begin == middle && middle == end)
+        {
+            using var brush = new SolidBrush(begin);
+            graphics.FillRectangle(brush, rect);
+            return;
+        }
+
+        using var gradient = new LinearGradientBrush(rect, begin, end, LinearGradientMode.Horizontal);
+        // TileFlipX is required for InterpolationColors to honour the middle stop.
+        gradient.WrapMode = WrapMode.TileFlipX;
+        gradient.InterpolationColors = new ColorBlend
+        {
+            Colors = new[] { begin, middle, end },
+            Positions = new[] { 0f, 0.5f, 1f }
+        };
+        graphics.FillRectangle(gradient, rect);
+    }
+
+    #endregion
+
+    #region OnRenderItemText
+    /// <summary>
+    /// Raises the RenderItemText event.
+    /// </summary>
+    /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
+    protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
+    {
+        if (e == null)
+        {
+            return;
+        }
+
+        if (IsContextMenuToolStrip(e.ToolStrip))
+        {
+            e.TextColor = e.Item.Enabled ? KCT.ContextMenuItemText : KCT.ContextMenuItemDisabledText;
+        }
+
+        base.OnRenderItemText(e);
+    }
+    #endregion
+
+    #region OnRenderToolStripBackground
+    /// <summary>
+    /// Raises the RenderToolStripBackground event.
+    /// </summary>
+    /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
+    protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
+    {
+        if (e == null)
+        {
+            return;
+        }
+
+        SyncToolStripFont(e.ToolStrip);
+
+        if (IsContextMenuToolStrip(e.ToolStrip))
+        {
+            using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
+            {
+                e.Graphics.FillRectangle(backBrush, e.AffectedBounds);
+            }
+
+            return;
+        }
+
+        base.OnRenderToolStripBackground(e);
+    }
+    #endregion
+
+    #region OnRenderImageMargin
+    /// <summary>
+    /// Raises the RenderImageMargin event.
+    /// </summary>
+    /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, 2);
+    #endregion
+
+    #region OnRenderMenuItemBackground
+    /// <summary>
+    /// Raises the RenderMenuItemBackground event.
+    /// </summary>
+    /// <param name="e">An ToolStripItemRenderEventArgs containing the event data.</param>
+    protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+    {
+        if (e == null)
+        {
+            return;
+        }
+
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
+        base.OnRenderMenuItemBackground(e);
+    }
     #endregion
 
     #region OnRenderItemImage
@@ -182,7 +360,7 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         // Default style when the user provides one color only: Solid
         if (effectiveStyle == PaletteColorStyle.Inherit)
         {
-            effectiveStyle = (color2 == GlobalStaticValues.EMPTY_COLOR || color2.IsEmpty)
+            effectiveStyle = (color2 == SharedStaticVariables.EMPTY_COLOR || color2.IsEmpty)
                 ? PaletteColorStyle.Solid
                 : PaletteColorStyle.Linear;
         }
@@ -199,15 +377,15 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         {
             case PaletteColorStyle.Solid:
             {
-                using var brush = new SolidBrush((color1 == GlobalStaticValues.EMPTY_COLOR || color1.IsEmpty)
+                using var brush = new SolidBrush((color1 == SharedStaticVariables.EMPTY_COLOR || color1.IsEmpty)
                     ? KCT.StatusStripGradientEnd : color1);
                 graphics.FillRectangle(brush, rect);
                 break;
             }
             default:
             {
-                Color a = (color1 == GlobalStaticValues.EMPTY_COLOR || color1.IsEmpty) ? KCT.StatusStripGradientBegin : color1;
-                Color b = (color2 == GlobalStaticValues.EMPTY_COLOR || color2.IsEmpty) ? KCT.StatusStripGradientEnd : color2;
+                Color a = (color1 == SharedStaticVariables.EMPTY_COLOR || color1.IsEmpty) ? KCT.StatusStripGradientBegin : color1;
+                Color b = (color2 == SharedStaticVariables.EMPTY_COLOR || color2.IsEmpty) ? KCT.StatusStripGradientEnd : color2;
                 using var brush = new LinearGradientBrush(rect, a, b, angle);
                 graphics.FillRectangle(brush, rect);
                 break;
@@ -220,16 +398,27 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
     #region MenuItem Per-Item Override Helper
     /// <summary>
-    /// If the item is a KryptonToolStripMenuItem and it has any per-item palette overrides,
+    /// If the menu item has any per-item or color table overrides,
     /// draw its background/border here and return true to signal the caller to skip default painting.
     /// </summary>
     /// <param name="e">Item render event args.</param>
-    /// <returns>True if the item was painted using per-item overrides; otherwise false.</returns>
+    /// <returns>True if the item was painted using overrides; otherwise false.</returns>
     protected bool TryRenderMenuItemOverride(ToolStripItemRenderEventArgs e)
     {
-        if (e.Item is not KryptonToolStripMenuItem ktmi)
+        if (TryRenderMenuItemPaletteOverride(e))
         {
-            return false;
+            return true;
+        }
+
+        return TryRenderMenuItemColorTableOverride(e);
+    }
+
+    private bool TryRenderMenuItemPaletteOverride(ToolStripItemRenderEventArgs e)
+    {
+        var ktmi = e.Item as KryptonToolStripMenuItem;
+        if (ktmi == null)
+        {
+            return TryRenderContextMenuItemBackground(e);
         }
 
         // Resolve which highlight palette to use based on state
@@ -252,13 +441,13 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
         bool hasBorder = !highlight.IsDefault && !highlight.Border.IsDefault;
         if (!hasBack && !hasBorder)
         {
-            return false;
+            return TryRenderContextMenuItemBackground(e);
         }
 
         Rectangle rect = e.Item.ContentRectangle;
-        if (hasBack)
+        if (hasBack || hasBorder)
         {
-            // Use a simple fill based on Color1; this is sufficient for per-item testing without full renderer path
+            // Use Color1 so border-only overrides still preserve a complete item background.
             var state = !ktmi.Enabled ? PaletteState.Disabled : (ktmi.Pressed || ktmi.Selected ? PaletteState.Tracking : PaletteState.Normal);
             Color c1 = highlight.Back.GetBackColor1(state);
             using var brush = new SolidBrush(c1);
@@ -275,6 +464,188 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
 
         return true;
     }
+
+    private bool TryRenderMenuItemColorTableOverride(ToolStripItemRenderEventArgs e)
+    {
+        var internalKCT = KCT as KryptonInternalKCT;
+        if (internalKCT == null || e.ToolStrip == null)
+        {
+            return false;
+        }
+
+        if (!(e.ToolStrip is MenuStrip || e.ToolStrip is ContextMenuStrip || e.ToolStrip is ToolStripDropDownMenu))
+        {
+            return false;
+        }
+
+        if (!e.Item.Enabled)
+        {
+            return false;
+        }
+
+        bool pressedMenuItem = e.Item.Pressed && e.ToolStrip is MenuStrip;
+        bool selectedMenuItem = e.Item.Selected;
+        if (!pressedMenuItem && !selectedMenuItem)
+        {
+            return false;
+        }
+
+        bool hasBorder = HasMenuItemOverrideColor(internalKCT.InternalMenuItemBorder);
+        bool hasBack;
+        Color color1;
+        Color color2;
+        Color colorMiddle;
+        bool useMiddle;
+
+        if (pressedMenuItem)
+        {
+            hasBack = HasMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientBegin) ||
+                      HasMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientMiddle) ||
+                      HasMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientEnd);
+            color1 = ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientBegin, KCT.MenuItemPressedGradientBegin);
+            color2 = ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientEnd, KCT.MenuItemPressedGradientEnd);
+            colorMiddle = ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientMiddle, KCT.MenuItemPressedGradientMiddle);
+            useMiddle = HasMenuItemOverrideColor(internalKCT.InternalMenuItemPressedGradientMiddle);
+        }
+        else
+        {
+            bool isDropDownMenuItem = !(e.ToolStrip is MenuStrip);
+            bool hasSelected = isDropDownMenuItem && HasMenuItemOverrideColor(internalKCT.InternalMenuItemSelected);
+            bool hasSelectedGradient = HasMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientBegin) ||
+                                       HasMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientEnd);
+            bool useSelectedSolid = hasSelected || (isDropDownMenuItem && !hasSelectedGradient);
+            hasBack = hasSelected || hasSelectedGradient;
+            color1 = useSelectedSolid
+                ? ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemSelected, KCT.MenuItemSelected)
+                : ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientBegin, KCT.MenuItemSelectedGradientBegin);
+            color2 = useSelectedSolid
+                ? color1
+                : ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemSelectedGradientEnd, KCT.MenuItemSelectedGradientEnd);
+            colorMiddle = SharedStaticVariables.EMPTY_COLOR;
+            useMiddle = false;
+        }
+
+        if (!hasBack && !hasBorder)
+        {
+            return false;
+        }
+
+        Rectangle rect = new Rectangle(Point.Empty, e.Item.Bounds.Size);
+        if (e.ToolStrip is ContextMenuStrip || e.ToolStrip is ToolStripDropDownMenu)
+        {
+            rect.X = 2;
+            rect.Width -= 3;
+        }
+
+        if (rect.Width <= 0 || rect.Height <= 0)
+        {
+            return false;
+        }
+
+        DrawMenuItemOverrideBackground(e.Graphics, rect, color1, color2, colorMiddle, useMiddle);
+
+        Color border = ResolveMenuItemOverrideColor(internalKCT.InternalMenuItemBorder, KCT.MenuItemBorder);
+        DrawMenuItemOverrideBorder(e.Graphics, rect, border);
+
+        return true;
+    }
+
+    private static bool HasMenuItemOverrideColor(Color color) => color != SharedStaticVariables.EMPTY_COLOR && !color.IsEmpty;
+
+    private static Color ResolveMenuItemOverrideColor(Color color, Color fallback) => HasMenuItemOverrideColor(color) ? color : fallback;
+
+    private static void DrawMenuItemOverrideBackground(Graphics graphics,
+        Rectangle rect,
+        Color color1,
+        Color color2,
+        Color colorMiddle,
+        bool useMiddle)
+    {
+        if (color1 == color2 && !useMiddle)
+        {
+            using (var brush = new SolidBrush(color1))
+            {
+                graphics.FillRectangle(brush, rect);
+            }
+        }
+        else
+        {
+            using (var brush = new LinearGradientBrush(rect, color1, color2, 90f))
+            {
+                if (useMiddle)
+                {
+                    brush.InterpolationColors = new ColorBlend
+                    {
+                        Colors = new[] { color1, colorMiddle, color2 },
+                        Positions = new[] { 0f, 0.5f, 1f }
+                    };
+                }
+
+                graphics.FillRectangle(brush, rect);
+            }
+        }
+    }
+
+    private static void DrawMenuItemOverrideBorder(Graphics graphics, Rectangle rect, Color border)
+    {
+        rect.Width -= 1;
+        rect.Height -= 1;
+
+        using (var pen = new Pen(border))
+        {
+            graphics.DrawRectangle(pen, rect);
+        }
+    }
+    #endregion
+
+    #region ContextMenu Helper
+    /// <summary>
+    /// Determines if the tool strip is being used as a context menu.
+    /// </summary>
+    /// <param name="toolStrip">Tool strip to test.</param>
+    /// <returns>True if the tool strip is a context menu; otherwise false.</returns>
+    protected static bool IsContextMenuToolStrip(ToolStrip? toolStrip) =>
+        (toolStrip is ContextMenuStrip) || (toolStrip is ToolStripDropDownMenu);
+
+    private bool TryRenderContextMenuItemBackground(ToolStripItemRenderEventArgs e)
+    {
+        if (!IsContextMenuToolStrip(e.ToolStrip) || !e.Item.Enabled || !e.Item.Selected)
+        {
+            return false;
+        }
+
+        Rectangle backRect = new Rectangle(2, 0, e.Item.Bounds.Width - 3, e.Item.Bounds.Height);
+        if ((backRect.Width <= 0) || (backRect.Height <= 0))
+        {
+            return false;
+        }
+
+        Color back1 = KCT.ContextMenuItemHighlightBack1;
+        Color back2 = KCT.ContextMenuItemHighlightBack2;
+        if (back1 == back2)
+        {
+            using (var backBrush = new SolidBrush(back1))
+            {
+                e.Graphics.FillRectangle(backBrush, backRect);
+            }
+        }
+        else
+        {
+            using (var backBrush = new LinearGradientBrush(backRect, back1, back2, 90f))
+            {
+                e.Graphics.FillRectangle(backBrush, backRect);
+            }
+        }
+
+        using (var borderPen = new Pen(KCT.ContextMenuItemHighlightBorder))
+        {
+            backRect.Width--;
+            backRect.Height--;
+            e.Graphics.DrawRectangle(borderPen, backRect);
+        }
+
+        return true;
+    }
     #endregion
 
     #region OnRenderToolStripBorder
@@ -284,6 +655,24 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBorder(ToolStripRenderEventArgs e)
     {
+        if (e == null)
+        {
+            return;
+        }
+
+        if (IsContextMenuToolStrip(e.ToolStrip))
+        {
+            using (var borderPen = new Pen(KCT.ContextMenuBorder))
+            {
+                Rectangle borderRect = e.AffectedBounds;
+                borderRect.Width--;
+                borderRect.Height--;
+                e.Graphics.DrawRectangle(borderPen, borderRect);
+            }
+
+            return;
+        }
+
         // D0 not draw the annoying status strip single line that is not needed
         if (e.ToolStrip is not StatusStrip)
         {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -250,15 +250,15 @@ internal class AppTabController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(ribbon)))
         {
             case Keys.Tab:
             case Keys.Right:
@@ -376,12 +376,12 @@ internal class AppTabController : GlobalId,
     {
         if (ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.ParameterCannotBeNull("ribbon"));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.ParameterCannotBeNull("ribbon"));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull("ribbon.TabsArea"));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull("ribbon.TabsArea"));
         }
 
         // We leave key tips usage whenever we use the application button

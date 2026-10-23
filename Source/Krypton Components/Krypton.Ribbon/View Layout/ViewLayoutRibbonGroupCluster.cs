@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -61,9 +61,9 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonCluster = ribbonCluster ?? throw new ArgumentNullException(nameof(ribbonCluster));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonCluster = ribbonCluster ?? ThrowHelper.ThrowArgumentNullException(ribbonCluster);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupItemSize.Medium;
 
         // Associate the component with this view element for design time selection
@@ -400,8 +400,8 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         ClientRectangle = context!.DisplayRectangle;
 
         // Define visible state of the separators
-        _startSep.Visible = _startSepVisible && (_lastShape == PaletteRibbonShape.Office2010);
-        _endSep.Visible = _endSepVisible && (_lastShape == PaletteRibbonShape.Office2010);
+        _startSep.Visible = _startSepVisible && (_lastShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        _endSep.Visible = _endSepVisible && (_lastShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
 
         // Are there any children to layout?
         if (Count > 0)
@@ -410,16 +410,17 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
 
             viewToSize = _currentSize == GroupItemSize.Small ? _viewToSizeSmall : _viewToSizeMedium;
 
-            var x = ClientLocation.X;
+            var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+            var x = RibbonRtlLayout.StartX(ClientRectangle, isRtl);
             var y = ClientLocation.Y;
 
             // At design time we reserve space at the left side for the selection flap
             if (_ribbon.InDesignHelperMode)
             {
-                x += DesignTimeDraw.FlapWidth;
+                x = isRtl ? x : x + DesignTimeDraw.FlapWidth;
             }
 
-            // Position each item from left/top to right/bottom 
+            // Position each item along the reading direction
             for (var i = 0; i < Count; i++)
             {
                 ViewBase? child = this[i];
@@ -431,13 +432,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
                     Size childSize = viewToSize[child];
 
                     // Define display rectangle for the group
-                    context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
+                    context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, ClientHeight, isRtl);
 
                     // Position the element
                     this[i]?.Layout(context);
-
-                    // Move across to next position
-                    x += childSize.Width;
                 }
             }
         }
@@ -490,10 +488,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         // Grab the shape of the ribbon
         _lastShape = _ribbon.RibbonShape;
 
-        var itemEdgeVisible = _lastShape != PaletteRibbonShape.Office2010;
-        var itemEdgeIgnoreNormal = _lastShape == PaletteRibbonShape.Office2010;
-        var itemConstantBorder = _lastShape != PaletteRibbonShape.Office2010;
-        var itemDrawNonTrackingAreas = _lastShape != PaletteRibbonShape.Office2010;
+        var itemEdgeVisible = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        var itemEdgeIgnoreNormal = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        var itemConstantBorder = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        var itemDrawNonTrackingAreas = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
 
         // Remove all child elements
         Clear();
@@ -586,6 +584,8 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
                             }
                             break;
                         case PaletteRibbonShape.Office2010:
+                        case PaletteRibbonShape.OSXAqua:
+                        case PaletteRibbonShape.MacOS:
                             maxBorders = PaletteDrawBorders.All;
                             break;
                     }
@@ -630,8 +630,8 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         Add(_endSep);
 
         // Define visible state of the separators
-        _startSep.Visible = _lastShape == PaletteRibbonShape.Office2010;
-        _endSep.Visible = _lastShape == PaletteRibbonShape.Office2010;
+        _startSep.Visible = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        _endSep.Visible = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
 
         // When in design time help mode
         if (_ribbon.InDesignHelperMode)
@@ -652,14 +652,11 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
 
     private void OnClusterPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        var updateLayout = false;
-
-        switch (e.PropertyName)
+        var updateLayout = e.PropertyName switch
         {
-            case nameof(Visible):
-                updateLayout = true;
-                break;
-        }
+            nameof(Visible) => true,
+            _ => false
+        };
 
         if (updateLayout)
         {

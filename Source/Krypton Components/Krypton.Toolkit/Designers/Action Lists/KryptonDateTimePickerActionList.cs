@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -66,6 +66,23 @@ internal class KryptonDateTimePickerActionList : DesignerActionList
             {
                 _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.Format, value);
                 _dateTimePicker.Format = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the calendar view used to choose a date.
+    /// </summary>
+    public MonthCalendarView CalendarView
+    {
+        get => _dateTimePicker.CalendarView;
+
+        set
+        {
+            if (_dateTimePicker.CalendarView != value)
+            {
+                _service?.OnComponentChanged(_dateTimePicker, null, _dateTimePicker.CalendarView, value);
+                _dateTimePicker.CalendarView = value;
             }
         }
     }
@@ -172,6 +189,7 @@ internal class KryptonDateTimePickerActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
             actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
             actions.Add(new DesignerActionPropertyItem(nameof(Format), nameof(Format), nameof(Appearance), @"Decide what to display in the edit portion of the control"));
+            actions.Add(new DesignerActionPropertyItem(nameof(CalendarView), nameof(CalendarView), nameof(Appearance), @"Show days, months, or years in the drop-down calendar"));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowUpDown), nameof(ShowUpDown), nameof(Appearance), @"Display up and down buttons for modifying dates and times"));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowCheckBox), nameof(ShowCheckBox), nameof(Appearance), @"Display a check box allowing the user to set the value is null"));
             actions.Add(new DesignerActionPropertyItem(nameof(Checked), nameof(Checked), nameof(Appearance), @"Is the current value null"));

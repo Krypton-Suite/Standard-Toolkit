@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -276,7 +276,7 @@ public class ViewDrawTrackBar : ViewDrawPanel
             {
                 if ((value < Minimum) || (value > Maximum))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value),
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value),
                         @"Provided value is out of the Minimum to Maximum range of values.");
                 }
 
@@ -297,7 +297,7 @@ public class ViewDrawTrackBar : ViewDrawPanel
             {
                 if ((value < Minimum) || (value > Maximum))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(Value), @"Provided value is out of the Minimum to Maximum range of values.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Value), @"Provided value is out of the Minimum to Maximum range of values.");
                 }
 
                 _value = value;
@@ -318,7 +318,7 @@ public class ViewDrawTrackBar : ViewDrawPanel
         {
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(SmallChange), @"SmallChange cannot be less than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SmallChange), @"SmallChange cannot be less than zero.");
             }
 
             _smallChange = value;
@@ -336,7 +336,7 @@ public class ViewDrawTrackBar : ViewDrawPanel
         {
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(LargeChange), @"LargeChange cannot be less than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(LargeChange), @"LargeChange cannot be less than zero.");
             }
 
             _largeChange = value;

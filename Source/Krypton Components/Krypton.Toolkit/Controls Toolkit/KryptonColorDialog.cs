@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2021 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// Represents a common dialog box that displays colours
 /// that are currently installed on the system.
 /// </summary>
-[ToolboxBitmap(typeof(ColorDialog), "ToolboxBitmaps.KryptonColorDialog.png"),
+[ToolboxBitmap(typeof(ColorDialog), "ToolboxBitmaps.KryptonColorDialog.bmp"),
  Description("Displays a Kryptonised version of the standard Colour dialog, which displays colours that are currently installed on the system.")]
 public class KryptonColorDialog : ColorDialog
 {
@@ -324,4 +324,26 @@ public class KryptonColorDialog : ColorDialog
         return handled ? retValue : base.HookProc(hWnd, msg, wparam, lparam);
     }
 
+
+    /// <summary>
+    /// Displays the dialog asynchronously.
+    /// </summary>
+    /// <remarks>
+    /// Awaitable convenience over synchronous <see cref="CommonDialog.ShowDialog()"/>.
+    /// Native ComDlg32 dialogs remain nested-modal; the UI thread stays blocked until the dialog closes.
+    /// </remarks>
+    /// <returns>A task that completes with the dialog result.</returns>
+    public Task<DialogResult> ShowDialogAsync() => ShowDialogAsync(owner: null);
+
+    /// <summary>
+    /// Displays the dialog asynchronously with the specified owner.
+    /// </summary>
+    /// <param name="owner">Owner window, or <c>null</c> for no owner.</param>
+    /// <remarks>
+    /// Awaitable convenience over synchronous <see cref="CommonDialog.ShowDialog(IWin32Window)"/>.
+    /// Native ComDlg32 dialogs remain nested-modal; the UI thread stays blocked until the dialog closes.
+    /// </remarks>
+    /// <returns>A task that completes with the dialog result.</returns>
+    public Task<DialogResult> ShowDialogAsync(IWin32Window? owner) =>
+        Task.FromResult(owner is null ? ShowDialog() : ShowDialog(owner));
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -75,10 +75,12 @@ public class ButtonSpecView : GlobalId,
         }
 
         // Use a view center to place button in centre of given space
-        ViewCenter = new ViewLayoutCenter(paletteMetric, metricPadding, VisualOrientation.Top)
+        var viewCenter = new ViewLayoutCenter(paletteMetric, metricPadding, VisualOrientation.Top)
         {
             ViewButton
         };
+        viewCenter.FillHeight = ButtonSpec.FillHeight;
+        ViewCenter = viewCenter;
 
         // Create a controller for managing button behavior
         ButtonSpecViewControllers controllers = CreateController(ViewButton, needPaint, OnClick);
@@ -343,8 +345,16 @@ public class ButtonSpecView : GlobalId,
             return CommonHelper.ScaleImageForSizedDisplay(baseImage, targetW, targetH, true);
         }
 
-        return CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * dpiFactor,
-            baseImage.Height * dpiFactor, true);
+        // Automatically scale all button images when touchscreen support is enabled
+        // This provides better touchscreen usability by making buttons larger and easier to tap
+        float imageScaleFactor = dpiFactor;
+        if (KryptonManager.UseTouchscreenSupport)
+        {
+            imageScaleFactor *= KryptonManager.TouchscreenScaleFactor;
+        }
+
+        return CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * imageScaleFactor,
+            baseImage.Height * imageScaleFactor, true);
     }
 
     /// <summary>
@@ -371,6 +381,78 @@ public class ButtonSpecView : GlobalId,
     public string GetLongText() =>
         // Get value from button spec passing inheritance redirector
         ButtonSpec.GetLongText(_redirector);
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state)
+    {
+        Image? baseImage = ButtonSpec.GetOverlayImage(state);
+
+        if (baseImage == null)
+        {
+            return null;
+        }
+
+        // Match main-image DPI / touchscreen scaling so the overlay tracks the glyph size.
+        float dpiFactor = _controller?.Target.FactorDpiX ?? 1f;
+
+        if (ButtonSpec.GetStyle(_redirector) == ButtonStyle.InputControl)
+        {
+            float target = 16f * dpiFactor;
+            float scale = Math.Min(target / baseImage.Width, target / baseImage.Height);
+            float targetW = Math.Max(1f, baseImage.Width * scale);
+            float targetH = Math.Max(1f, baseImage.Height * scale);
+
+            return CommonHelper.ScaleImageForSizedDisplay(baseImage, targetW, targetH, true);
+        }
+
+        float imageScaleFactor = dpiFactor;
+        if (KryptonManager.UseTouchscreenSupport)
+        {
+            imageScaleFactor *= KryptonManager.TouchscreenScaleFactor;
+        }
+
+        return CommonHelper.ScaleImageForSizedDisplay(baseImage, baseImage.Width * imageScaleFactor,
+            baseImage.Height * imageScaleFactor, true);
+    }
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => ButtonSpec.GetOverlayImageTransparentColor();
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => ButtonSpec.GetOverlayImagePosition();
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => ButtonSpec.GetOverlayImageScaleMode();
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor (0.0 to 2.0).</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => ButtonSpec.GetOverlayImageScaleFactor();
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => ButtonSpec.GetOverlayImageFixedSize();
 
     #endregion
 
@@ -442,7 +524,7 @@ public class ButtonSpecView : GlobalId,
     private void OnKryptonContextMenuClosed(object? sender, ToolStripDropDownClosedEventArgs e)
     {
         // Unhook from context menu event, so that it can garbage collected in the future
-        var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
 
         // Remove the fixed button appearance
@@ -479,6 +561,10 @@ public class ButtonSpecView : GlobalId,
                 break;
             case @"ShowDrop":
                 UpdateShowDrop();
+                PerformNeedPaint(true);
+                break;
+            case nameof(ButtonSpec.FillHeight):
+                ViewCenter.FillHeight = ButtonSpec.FillHeight;
                 PerformNeedPaint(true);
                 break;
         }

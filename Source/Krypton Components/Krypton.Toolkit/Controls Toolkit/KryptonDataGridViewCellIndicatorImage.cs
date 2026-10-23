@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -27,8 +27,6 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
     // type and state of the image
     private PaletteRibbonGalleryButton _paletteRibbonGalleryButton = PaletteRibbonGalleryButton.Down;
     private PaletteState _paletteState = PaletteState.Normal;
-    // Cache of pre-rendered dropdown glyphs by size (square)
-    private readonly Dictionary<int, Image> _sizeToImageCache = new Dictionary<int, Image>();
     #endregion Fields
 
     #region Identity
@@ -68,7 +66,6 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
                 if (_dataGridView is not null)
                 {
                     _dataGridView.PaletteChanged += OnDataGridViewPaletteChanged;
-                    _sizeToImageCache.Clear();
                     UpdateCellIndicatorImage(false);
                 }
             }
@@ -153,7 +150,6 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
             }
         }
         ResizeCellIndicatorImage();
-        _sizeToImageCache.Clear();
     }
 
     /// <summary>
@@ -168,44 +164,70 @@ internal class KryptonDataGridViewCellIndicatorImage : IDisposable
     }
 
     /// <summary>
-    /// Returns a cached dropdown glyph bitmap for the requested square size. Renders once per size/palette.
+    /// Returns a cached crisp dropdown glyph for the requested square size.
     /// For use by non-selected, non-highlighted, non-editing cells.
     /// </summary>
     /// <param name="size">Desired square size in pixels.</param>
+    /// <param name="cellType">Desired cell type.</param>
     /// <returns>Bitmap image; null if renderer/palette not available.</returns>
-    internal Image? GetOrCreate(int size)
+    internal Image? GetOrCreate(int size, DataGridViewCell? cellType = null)
     {
         if (size <= 0)
         {
             return null;
         }
 
-        if (_sizeToImageCache.TryGetValue(size, out var cached))
-        {
-            return cached;
-        }
-
         if (_dataGridView is null || _dataGridView.Renderer is null)
         {
-            return _image; // fallback to palette-provided image
+            return _image;
         }
 
-        // Create transparent bitmap and ask renderer to draw vector glyph
-        var bmp = new Bitmap(size, size, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-        using (var g = Graphics.FromImage(bmp))
+        PaletteBase palette = _dataGridView.GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+        _paletteState = _dataGridView.Enabled ? PaletteState.Normal : PaletteState.Disabled;
+        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(palette, _paletteState);
+
+        int maxSize = Math.Max(size, 1);
+        float dpiY = 96f;
+        if (_dataGridView?.IsHandleCreated == true)
         {
-            var rc = new RenderContext(_dataGridView, g, new Rectangle(0, 0, size, size), _dataGridView.Renderer);
-            // Match the editing control by using an input-control button palette content
-            var triple = new PaletteTripleToPalette(_dataGridView.Redirector,
-                PaletteBackStyle.ButtonStandalone,
-                PaletteBorderStyle.ButtonStandalone,
-                PaletteContentStyle.ButtonStandalone);
-            triple.SetStyles(ButtonStyle.InputControl);
-            _dataGridView.Renderer.RenderGlyph.DrawInputControlDropDownGlyph(rc, new Rectangle(0, 0, size, size), triple.PaletteContent!, PaletteState.Normal);
+            using var g = _dataGridView.CreateGraphics();
+            dpiY = g.DpiY;
         }
 
-        _sizeToImageCache[size] = bmp;
-        return bmp;
+        int glyphSize = DropDownArrowGlyphMetrics.ResolvePixelSize(
+            dpiY,
+            new Rectangle(0, 0, maxSize, maxSize),
+            _dataGridView,
+            _paletteState);
+
+        if (glyphSize <= 0)
+        {
+            return _image;
+        }
+
+        switch (cellType)
+        {
+            case KryptonDataGridViewDomainUpDownCell:
+            case KryptonDataGridViewNumericUpDownCell:
+                glyphSize = Math.Max(glyphSize, size);
+                int half = glyphSize / 2;
+                int offsetX = ((glyphSize - half) / 2 ) + 2;
+
+                var imageUpDown = new Bitmap(glyphSize, glyphSize, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                Image up = DropDownArrowGlyphCache.GetOrCreate(half, outline, fill, DropDownArrowGlyphDirection.Up);
+                Image down = DropDownArrowGlyphCache.GetOrCreate(half, outline, fill, DropDownArrowGlyphDirection.Down);
+
+                using (var g = Graphics.FromImage(imageUpDown))
+                {
+                    g.Clear(Color.Transparent);
+                    g.DrawImage(up, offsetX, 0, half, half);
+                    g.DrawImage(down, offsetX, half, half, half);
+                }
+                return imageUpDown;
+
+            default:
+                return DropDownArrowGlyphCache.GetOrCreate(glyphSize, outline, fill, DropDownArrowGlyphDirection.Down);
+        }
     }
     #endregion Private
 }

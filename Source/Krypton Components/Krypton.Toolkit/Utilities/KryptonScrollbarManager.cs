@@ -1,0 +1,2033 @@
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+using Timer = System.Windows.Forms.Timer;
+
+namespace Krypton.Toolkit;
+
+/// <summary>
+/// Manages Krypton-themed scrollbars for scrollable controls.
+/// Provides a unified solution for replacing native Windows scrollbars with Krypton scrollbars.
+/// </summary>
+/// <remarks>
+/// This manager supports multiple integration modes:
+/// - Container: For controls like Panel, GroupBox that use AutoScroll
+/// - NativeWrapper: For controls like TextBox, RichTextBox with native scrollbars
+/// - Custom: For controls with custom scrolling logic
+/// </remarks>
+[TypeConverter(typeof(ExpandableObjectConverter))]
+public class KryptonScrollbarManager : IDisposable
+{
+    #region Instance Fields
+
+    private Control? _targetControl;
+    private KryptonHScrollBar? _horizontalScrollBar;
+    private KryptonVScrollBar? _verticalScrollBar;
+    private KryptonScrollBarCorner? _scrollBarCorner;
+    private readonly PaletteBackScrollBarCornerInherit _cornerInherit;
+    private readonly PaletteBack _cornerStateCommon;
+    private readonly PaletteBack _cornerStateNormal;
+    private readonly PaletteBack _cornerStateDisabled;
+    private ScrollbarCornerStyle? _cornerStyle;
+    private ScrollbarManagerMode _mode = ScrollbarManagerMode.Container;
+    private bool _enabled = true;
+    private bool _isUpdating;
+    private bool _isDisposed;
+    private Control? _contentContainer;
+    private int _horizontalScrollValue;
+    private int _verticalScrollValue;
+    private bool _suppressScrollEvents;
+    private readonly Timer _syncTimer;
+    private RichTextBoxScrollBars? _originalRichTextBoxScrollBars;
+    private ScrollBars? _originalTextBoxScrollBars;
+    private bool _nativeThumbTracking;
+    private IntPtr _hiddenNativeScrollbarsHandle;
+    private Control? _scrollbarHostControl;
+    private int _lastListBoxItemCount = -1;
+    private int _lastListBoxVisibleItems = -1;
+    private int _lastListBoxMaximumTopIndex = -1;
+    private int _lastListBoxHorizontalContentWidth = -1;
+    private int _lastListBoxHorizontalPageWidth = -1;
+    private int _lastListBoxMaximumLeftOffset = -1;
+    private int _trackedListBoxItemCount = -1;
+    private int _trackedListBoxVisibleItems = -1;
+    private int _trackedListBoxMaximumTopIndex = -1;
+    private int _trackedListBoxHorizontalContentWidth = -1;
+    private int _trackedListBoxHorizontalPageWidth = -1;
+    private int _trackedListBoxMaximumLeftOffset = -1;
+    private int _listBoxMouseWheelDelta;
+
+    #endregion
+
+    #region Events
+
+    /// <summary>
+    /// Occurs when scrollbars are created, removed, or visibility changes.
+    /// </summary>
+    public event EventHandler? ScrollbarsChanged;
+
+    #endregion
+
+    #region Identity
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KryptonScrollbarManager"/> class.
+    /// </summary>
+    public KryptonScrollbarManager()
+    {
+        _syncTimer = new Timer { Interval = 50 }; // Update every 50ms for native wrapper mode
+        _syncTimer.Tick += SyncTimer_Tick;
+
+        // The corner state storage lives on the manager (not on the corner control,
+        // which is recreated on detach/reattach) so user customization is preserved.
+        _cornerInherit = new PaletteBackScrollBarCornerInherit();
+        _cornerStateCommon = new PaletteBack(_cornerInherit, OnCornerNeedPaint);
+        _cornerStateNormal = new PaletteBack(_cornerStateCommon, OnCornerNeedPaint);
+        _cornerStateDisabled = new PaletteBack(_cornerStateCommon, OnCornerNeedPaint);
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KryptonScrollbarManager"/> class with a target control.
+    /// </summary>
+    /// <param name="targetControl">The control to attach scrollbars to.</param>
+    /// <param name="mode">The integration mode to use.</param>
+    public KryptonScrollbarManager(Control targetControl, ScrollbarManagerMode mode = ScrollbarManagerMode.Container)
+        : this()
+    {
+        Attach(targetControl, mode);
+    }
+
+    /// <summary>
+    /// Releases all resources used by the <see cref="KryptonScrollbarManager"/>.
+    /// </summary>
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Releases the unmanaged resources used by the <see cref="KryptonScrollbarManager"/> and optionally releases the managed resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_isDisposed)
+        {
+            if (disposing)
+            {
+                _syncTimer?.Stop();
+                _syncTimer?.Dispose();
+                Detach();
+            }
+
+            _isDisposed = true;
+        }
+    }
+
+    #endregion
+
+    #region Public Properties
+
+    /// <summary>
+    /// Gets or sets whether the scrollbar manager is enabled.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether the scrollbar manager is enabled.")]
+    [DefaultValue(true)]
+    public bool Enabled
+    {
+        get => _enabled;
+        set
+        {
+            if (_enabled != value)
+            {
+                _enabled = value;
+                UpdateScrollbars();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the horizontal scrollbar, if created.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonHScrollBar? HorizontalScrollBar => _horizontalScrollBar;
+
+    /// <summary>
+    /// Gets the vertical scrollbar, if created.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonVScrollBar? VerticalScrollBar => _verticalScrollBar;
+
+    /// <summary>
+    /// Gets or sets the integration mode.
+    /// </summary>
+    /// <remarks>
+    /// Hidden from the designer: the owning Krypton control selects the correct mode
+    /// when it attaches the manager.
+    /// </remarks>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(ScrollbarManagerMode.Container)]
+    public ScrollbarManagerMode Mode
+    {
+        get => _mode;
+        set
+        {
+            if (_mode != value)
+            {
+                _mode = value;
+                if (_targetControl != null)
+                {
+                    Detach();
+                    Attach(_targetControl, _mode);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets how the bottom-right corner is filled when both scrollbars are visible.
+    /// If not explicitly set, uses the global value from <see cref="KryptonManager.ScrollbarCornerStyle"/>.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets how the bottom-right corner is filled when both scrollbars are visible. If not explicitly set, uses the global value from KryptonManager.ScrollbarCornerStyle.")]
+    public ScrollbarCornerStyle CornerStyle
+    {
+        get => _cornerStyle ?? KryptonManager.ScrollbarCornerStyle;
+        set
+        {
+            ScrollbarCornerStyle currentValue = _cornerStyle ?? KryptonManager.ScrollbarCornerStyle;
+            _cornerStyle = value;
+            if (currentValue != value)
+            {
+                PositionScrollbars();
+            }
+        }
+    }
+
+    private bool ShouldSerializeCornerStyle() => _cornerStyle.HasValue;
+
+    private void ResetCornerStyle()
+    {
+        if (_cornerStyle.HasValue)
+        {
+            _cornerStyle = null;
+            PositionScrollbars();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the palette back style the scrollbar corner inherits its appearance from.
+    /// Null (the default) keeps the flat scrollbar background fill; set a style such as
+    /// <see cref="PaletteBackStyle.PanelClient"/> to blend the corner with panel surfaces instead.
+    /// Values set through <see cref="CornerStateCommon"/> and the other corner states override this.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Gets or sets the palette back style the scrollbar corner inherits from. Null keeps the flat scrollbar background fill.")]
+    [DefaultValue(null)]
+    public PaletteBackStyle? CornerPanelStyle
+    {
+        get => _cornerInherit.Style;
+        set
+        {
+            if (_cornerInherit.Style != value)
+            {
+                _cornerInherit.Style = value;
+                _scrollBarCorner?.Invalidate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets access to the common scrollbar corner appearance that other corner states can override.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining the common scrollbar corner appearance that other corner states can override.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack CornerStateCommon => _cornerStateCommon;
+
+    private bool ShouldSerializeCornerStateCommon() => !_cornerStateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to the scrollbar corner appearance when it is in the normal state.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining the scrollbar corner appearance when it is in the normal state.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack CornerStateNormal => _cornerStateNormal;
+
+    private bool ShouldSerializeCornerStateNormal() => !_cornerStateNormal.IsDefault;
+
+    /// <summary>
+    /// Gets access to the scrollbar corner appearance when it is in the disabled state.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining the scrollbar corner appearance when it is in the disabled state.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public PaletteBack CornerStateDisabled => _cornerStateDisabled;
+
+    private bool ShouldSerializeCornerStateDisabled() => !_cornerStateDisabled.IsDefault;
+
+    /// <summary>
+    /// Gets the target control this manager is attached to.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Control? TargetControl => _targetControl;
+
+    /// <summary>
+    /// Keeps the expandable property grid row clean when the manager is surfaced on a control.
+    /// </summary>
+    public override string ToString() => string.Empty;
+
+    #endregion
+
+    #region Public Methods
+
+    /// <summary>
+    /// Synchronizes a ListBox after mouse wheel input when native scrollbars are hidden.
+    /// </summary>
+    /// <param name="delta">The mouse wheel delta.</param>
+    /// <param name="oldTopIndex">The TopIndex before native mouse wheel handling.</param>
+    /// <param name="newTopIndex">The TopIndex after native mouse wheel handling.</param>
+    internal void SyncListBoxMouseWheel(int delta, int oldTopIndex, int newTopIndex)
+    {
+        if (_mode != ScrollbarManagerMode.NativeWrapper ||
+            !_enabled ||
+            _targetControl is not ListBox listBox ||
+            !listBox.IsHandleCreated)
+        {
+            return;
+        }
+
+        if (oldTopIndex == newTopIndex)
+        {
+            ScrollListBoxByMouseWheel(listBox, delta);
+        }
+        else
+        {
+            _listBoxMouseWheelDelta = 0;
+        }
+
+        EnsureNativeScrollbarsHidden();
+        SyncListBoxVerticalScrollbarValue(listBox);
+    }
+
+    /// <summary>
+    /// Synchronizes a ListView after mouse wheel input when native scrollbars are hidden.
+    /// </summary>
+    /// <param name="delta">The mouse wheel delta.</param>
+    /// <param name="oldTopIndex">The top item index before native mouse wheel handling.</param>
+    /// <param name="newTopIndex">The top item index after native mouse wheel handling.</param>
+    internal void SyncListViewMouseWheel(int delta, int oldTopIndex, int newTopIndex)
+    {
+        if (_mode != ScrollbarManagerMode.NativeWrapper ||
+            !_enabled ||
+            _targetControl is not ListView listView ||
+            !listView.IsHandleCreated)
+        {
+            return;
+        }
+
+        if (oldTopIndex == newTopIndex)
+        {
+            ScrollListViewByMouseWheel(listView, delta);
+        }
+
+        EnsureNativeScrollbarsHidden();
+        UpdateNativeWrapperScrollbars();
+    }
+
+    /// <summary>
+    /// Attaches the manager to a control.
+    /// </summary>
+    /// <param name="targetControl">The control to attach to.</param>
+    /// <param name="mode">The integration mode to use.</param>
+    public void Attach(Control targetControl, ScrollbarManagerMode mode = ScrollbarManagerMode.Container)
+    {
+        if (targetControl == null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(targetControl));
+        }
+
+        if (_targetControl != null)
+        {
+            Detach();
+        }
+
+        _targetControl = targetControl;
+        _mode = mode;
+
+        // Hook into control events
+        _targetControl.HandleCreated += OnTargetControlHandleCreated;
+        _targetControl.HandleDestroyed += OnTargetControlHandleDestroyed;
+        _targetControl.Resize += OnTargetControlResize;
+        _targetControl.Layout += OnTargetControlLayout;
+        _targetControl.ParentChanged += OnTargetControlParentChanged;
+        UpdateScrollbarHostHook();
+
+        // Initialize based on mode
+        switch (_mode)
+        {
+            case ScrollbarManagerMode.Container:
+                InitializeContainerMode();
+                break;
+            case ScrollbarManagerMode.NativeWrapper:
+                InitializeNativeWrapperMode();
+                _syncTimer.Start(); // Start periodic sync for native wrapper mode
+                break;
+            case ScrollbarManagerMode.Custom:
+                // Custom mode - control manages its own scrolling
+                break;
+        }
+
+        // Create scrollbars if handle is created
+        if (_targetControl.IsHandleCreated)
+        {
+            UpdateScrollbars();
+        }
+    }
+
+    /// <summary>
+    /// Detaches the manager from the current control.
+    /// </summary>
+    public void Detach()
+    {
+        if (_targetControl != null)
+        {
+            // Unhook events
+            _targetControl.HandleCreated -= OnTargetControlHandleCreated;
+            _targetControl.HandleDestroyed -= OnTargetControlHandleDestroyed;
+            _targetControl.Resize -= OnTargetControlResize;
+            _targetControl.Layout -= OnTargetControlLayout;
+            _targetControl.ParentChanged -= OnTargetControlParentChanged;
+            UnhookScrollbarHostControl();
+
+            // Restore original ScrollBars values for RichTextBox/TextBox
+            if (_targetControl is RichTextBox richTextBox && _originalRichTextBoxScrollBars.HasValue)
+            {
+                richTextBox.ScrollBars = _originalRichTextBoxScrollBars.Value;
+                _originalRichTextBoxScrollBars = null;
+            }
+            else if (_targetControl is TextBox textBox && _originalTextBoxScrollBars.HasValue)
+            {
+                textBox.ScrollBars = _originalTextBoxScrollBars.Value;
+                _originalTextBoxScrollBars = null;
+            }
+
+            // Restore AutoScroll if it was disabled
+            if (_mode == ScrollbarManagerMode.Container && _targetControl is Panel panel)
+            {
+                // AutoScroll will be restored when scrollbars are removed
+            }
+
+            _targetControl = null;
+        }
+
+        // Stop sync timer
+        _syncTimer.Stop();
+
+        // Remove and dispose scrollbars
+        RemoveScrollbars();
+        _contentContainer = null;
+        InvalidateNativeScrollbarState();
+    }
+
+    /// <summary>
+    /// Updates the scrollbars based on current content and visibility requirements.
+    /// </summary>
+    public void UpdateScrollbars()
+    {
+        if (_targetControl == null || !_enabled || _isUpdating || (_mode == ScrollbarManagerMode.NativeWrapper && _nativeThumbTracking))
+        {
+            return;
+        }
+
+        if (!_targetControl.IsHandleCreated)
+        {
+            return;
+        }
+
+        _isUpdating = true;
+
+        try
+        {
+            switch (_mode)
+            {
+                case ScrollbarManagerMode.Container:
+                    UpdateContainerScrollbars();
+                    break;
+                case ScrollbarManagerMode.NativeWrapper:
+                    UpdateNativeWrapperScrollbars();
+                    break;
+                case ScrollbarManagerMode.Custom:
+                    // Custom mode - control manages its own scrolling
+                    break;
+            }
+        }
+        finally
+        {
+            _isUpdating = false;
+        }
+    }
+
+    #endregion
+
+    #region Implementation - Container Mode
+
+    private void InitializeContainerMode()
+    {
+        if (_targetControl is Panel panel)
+        {
+            // Store original AutoScroll setting
+            // We'll manage scrolling manually with Krypton scrollbars
+            panel.AutoScroll = false;
+            _contentContainer = panel;
+        }
+        else if (_targetControl is ContainerControl container)
+        {
+            _contentContainer = container;
+        }
+        else
+        {
+            _contentContainer = _targetControl;
+        }
+
+        // Store original locations of child controls
+        if (_contentContainer != null)
+        {
+            foreach (Control child in _contentContainer.Controls)
+            {
+                if (child.Tag is not Point)
+                {
+                    child.Tag = child.Location;
+                }
+            }
+        }
+    }
+
+    private void UpdateContainerScrollbars()
+    {
+        if (_contentContainer == null)
+        {
+            return;
+        }
+
+        // Calculate if scrollbars are needed
+        bool needsHorizontal = false;
+        bool needsVertical = false;
+        int maxWidth = 0;
+        int maxHeight = 0;
+
+        // Find the maximum extent of child controls
+        foreach (Control child in _contentContainer.Controls)
+        {
+            if (child.Visible)
+            {
+                int right = child.Right;
+                int bottom = child.Bottom;
+
+                if (right > maxWidth)
+                {
+                    maxWidth = right;
+                }
+
+                if (bottom > maxHeight)
+                {
+                    maxHeight = bottom;
+                }
+            }
+        }
+
+        // Check if scrollbars are needed
+        int clientWidth = _contentContainer.ClientSize.Width;
+        int clientHeight = _contentContainer.ClientSize.Height;
+        int scrollbarWidth = ManagedScrollBarWidth;
+        int scrollbarHeight = ManagedScrollBarHeight;
+
+        needsHorizontal = maxWidth > clientWidth;
+        needsVertical = maxHeight > clientHeight;
+
+        // If vertical scrollbar is needed, horizontal might need adjustment
+        if (needsVertical && needsHorizontal)
+        {
+            needsHorizontal = maxWidth > (clientWidth - scrollbarWidth);
+        }
+
+        // Create or update horizontal scrollbar
+        if (needsHorizontal)
+        {
+            if (_horizontalScrollBar == null)
+            {
+                CreateHorizontalScrollbar();
+            }
+
+            if (_horizontalScrollBar != null)
+            {
+                _horizontalScrollBar.Visible = true;
+                _horizontalScrollBar.Minimum = 0;
+                _horizontalScrollBar.Maximum = Math.Max(0, maxWidth - clientWidth + (needsVertical ? scrollbarWidth : 0));
+                _horizontalScrollBar.LargeChange = clientWidth - (needsVertical ? scrollbarWidth : 0);
+                _horizontalScrollBar.SmallChange = 10;
+                _horizontalScrollBar.Value = Math.Min(_horizontalScrollBar.Value, _horizontalScrollBar.Maximum);
+            }
+        }
+        else
+        {
+            if (_horizontalScrollBar != null)
+            {
+                _horizontalScrollBar.Visible = false;
+            }
+        }
+
+        // Create or update vertical scrollbar
+        if (needsVertical)
+        {
+            if (_verticalScrollBar == null)
+            {
+                CreateVerticalScrollbar();
+            }
+
+            if (_verticalScrollBar != null)
+            {
+                _verticalScrollBar.Visible = true;
+                _verticalScrollBar.Minimum = 0;
+                _verticalScrollBar.Maximum = Math.Max(0, maxHeight - clientHeight + (needsHorizontal ? scrollbarHeight : 0));
+                _verticalScrollBar.LargeChange = clientHeight - (needsHorizontal ? scrollbarHeight : 0);
+                _verticalScrollBar.SmallChange = 10;
+                _verticalScrollBar.Value = Math.Min(_verticalScrollBar.Value, _verticalScrollBar.Maximum);
+            }
+        }
+        else
+        {
+            if (_verticalScrollBar != null)
+            {
+                _verticalScrollBar.Visible = false;
+            }
+        }
+
+        // Position scrollbars
+        PositionScrollbars();
+
+        // Update content position based on scroll values
+        UpdateContentPosition();
+
+        OnScrollbarsChanged();
+    }
+
+    private void UpdateContentPosition()
+    {
+        if (_contentContainer == null)
+        {
+            return;
+        }
+
+        int offsetX = _horizontalScrollBar?.Value ?? 0;
+        int offsetY = _verticalScrollBar?.Value ?? 0;
+
+        // For Panel controls, we can use a combination of approaches
+        if (_contentContainer is Panel panel)
+        {
+            // Method 1: Use AutoScrollPosition (requires AutoScroll to be true, but we disabled it)
+            // Method 2: Manually adjust child positions
+            // We'll use method 2 for better control
+
+            foreach (Control child in panel.Controls)
+            {
+                if (child != _horizontalScrollBar && child != _verticalScrollBar &&
+                    child != _scrollBarCorner &&
+                    child is not KryptonHScrollBar and not KryptonVScrollBar)
+                {
+                    // Store original location on first access
+                    Point originalLocation;
+                    if (child.Tag is Point storedLocation)
+                    {
+                        originalLocation = storedLocation;
+                    }
+                    else
+                    {
+                        originalLocation = child.Location;
+                        child.Tag = originalLocation;
+                    }
+
+                    // Apply scroll offset
+                    child.Location = new Point(originalLocation.X - offsetX, originalLocation.Y - offsetY);
+                }
+            }
+        }
+        else
+        {
+            // For other container controls, manually adjust child positions
+            foreach (Control child in _contentContainer.Controls)
+            {
+                if (child != _horizontalScrollBar && child != _verticalScrollBar &&
+                    child != _scrollBarCorner &&
+                    child is not KryptonHScrollBar and not KryptonVScrollBar)
+                {
+                    // Store original location on first access
+                    Point originalLocation;
+                    if (child.Tag is Point storedLocation)
+                    {
+                        originalLocation = storedLocation;
+                    }
+                    else
+                    {
+                        originalLocation = child.Location;
+                        child.Tag = originalLocation;
+                    }
+
+                    // Apply scroll offset
+                    child.Location = new Point(originalLocation.X - offsetX, originalLocation.Y - offsetY);
+                }
+            }
+        }
+    }
+
+    #endregion
+
+    #region Implementation - Native Wrapper Mode
+
+    private void InitializeNativeWrapperMode()
+    {
+        if (_targetControl == null)
+        {
+            return;
+        }
+
+        // Wait for handle to be created before initializing
+        if (_targetControl.IsHandleCreated)
+        {
+            HideNativeScrollbars();
+        }
+    }
+
+    private void UpdateNativeWrapperScrollbars()
+    {
+        if (_targetControl == null || !_targetControl.IsHandleCreated)
+        {
+            return;
+        }
+
+        UpdateScrollbarHostHook();
+        if (NativeScrollbarsAppearVisible())
+        {
+            InvalidateNativeScrollbarHiddenState();
+        }
+
+        EnsureNativeScrollbarsHidden();
+
+        // Get scroll information from native control
+        var hScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.ALL
+        };
+
+        var vScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.ALL
+        };
+
+        bool hasHScroll = PI.GetScrollInfo(_targetControl.Handle, PI.SB_.HORZ, ref hScrollInfo);
+        bool hasVScroll = PI.GetScrollInfo(_targetControl.Handle, PI.SB_.VERT, ref vScrollInfo);
+        int hScrollableMaximum = GetNativeScrollableMaximum(hScrollInfo);
+        int vScrollableMaximum = GetNativeScrollableMaximum(vScrollInfo);
+
+        if (_targetControl is ListBox listBox)
+        {
+            UpdateListBoxHorizontalScrollbar(listBox, hScrollInfo, hasHScroll);
+        }
+        else if (hasHScroll && hScrollableMaximum > hScrollInfo.nMin)
+        {
+            if (_horizontalScrollBar == null)
+            {
+                CreateHorizontalScrollbar();
+            }
+
+            if (_horizontalScrollBar != null)
+            {
+                _suppressScrollEvents = true;
+                try
+                {
+                    _horizontalScrollBar.Visible = true;
+                    _horizontalScrollBar.Minimum = hScrollInfo.nMin;
+                    _horizontalScrollBar.Maximum = hScrollInfo.nMax;
+                    _horizontalScrollBar.LargeChange = Math.Max(1, hScrollInfo.nPage);
+                    _horizontalScrollBar.SmallChange = 1;
+                    _horizontalScrollBar.Value = Math.Min(hScrollInfo.nPos, hScrollableMaximum);
+                }
+                finally
+                {
+                    _suppressScrollEvents = false;
+                }
+            }
+        }
+        else
+        {
+            if (_horizontalScrollBar != null)
+            {
+                _horizontalScrollBar.Visible = false;
+            }
+        }
+
+        if (_targetControl is ListBox listBoxForVertical)
+        {
+            UpdateListBoxVerticalScrollbar(listBoxForVertical);
+        }
+        else if (hasVScroll && vScrollableMaximum > vScrollInfo.nMin)
+        {
+            if (_verticalScrollBar == null)
+            {
+                CreateVerticalScrollbar();
+            }
+
+            if (_verticalScrollBar != null)
+            {
+                _suppressScrollEvents = true;
+                try
+                {
+                    _verticalScrollBar.Visible = true;
+                    _verticalScrollBar.Minimum = vScrollInfo.nMin;
+                    _verticalScrollBar.Maximum = vScrollInfo.nMax;
+                    _verticalScrollBar.LargeChange = Math.Max(1, vScrollInfo.nPage);
+                    _verticalScrollBar.SmallChange = 1;
+                    _verticalScrollBar.Value = Math.Min(vScrollInfo.nPos, vScrollableMaximum);
+                }
+                finally
+                {
+                    _suppressScrollEvents = false;
+                }
+            }
+        }
+        else
+        {
+            if (_verticalScrollBar != null)
+            {
+                _verticalScrollBar.Visible = false;
+            }
+        }
+
+        // Position scrollbars
+        PositionScrollbars();
+
+        OnScrollbarsChanged();
+    }
+
+    private void UpdateListBoxHorizontalScrollbar(ListBox listBox, WIN32ScrollBars.ScrollInfo hScrollInfo, bool hasHScroll)
+    {
+        int contentWidth = GetListBoxHorizontalContentWidth(listBox, hScrollInfo, hasHScroll);
+        int pageWidth = GetListBoxHorizontalPageWidth(listBox);
+        int maximumLeftOffset = Math.Max(0, contentWidth - pageWidth);
+
+        if (contentWidth != _lastListBoxHorizontalContentWidth ||
+            pageWidth != _lastListBoxHorizontalPageWidth ||
+            maximumLeftOffset != _lastListBoxMaximumLeftOffset)
+        {
+            _lastListBoxHorizontalContentWidth = contentWidth;
+            _lastListBoxHorizontalPageWidth = pageWidth;
+            _lastListBoxMaximumLeftOffset = maximumLeftOffset;
+            InvalidateNativeScrollbarHiddenState();
+            EnsureNativeScrollbarsHidden();
+        }
+
+        if (maximumLeftOffset > 0)
+        {
+            if (_horizontalScrollBar == null)
+            {
+                CreateHorizontalScrollbar();
+            }
+
+            if (_horizontalScrollBar != null)
+            {
+                _suppressScrollEvents = true;
+                try
+                {
+                    _horizontalScrollBar.Visible = true;
+                    _horizontalScrollBar.Minimum = 0;
+                    _horizontalScrollBar.Maximum = Math.Max(0, contentWidth - 1);
+                    _horizontalScrollBar.LargeChange = pageWidth;
+                    _horizontalScrollBar.SmallChange = Math.Max(1, Math.Min(16, pageWidth / 10));
+                    _horizontalScrollBar.Value = Math.Min(Math.Max(0, hScrollInfo.nPos), maximumLeftOffset);
+                }
+                finally
+                {
+                    _suppressScrollEvents = false;
+                }
+            }
+        }
+        else if (_horizontalScrollBar != null)
+        {
+            _horizontalScrollBar.Visible = false;
+        }
+    }
+
+    private void UpdateListBoxVerticalScrollbar(ListBox listBox)
+    {
+        int visibleItems = GetListBoxVisibleItemCount(listBox);
+        int itemCount = listBox.Items.Count;
+        int maximumTopIndex = Math.Max(0, itemCount - visibleItems);
+        if (itemCount != _lastListBoxItemCount ||
+            visibleItems != _lastListBoxVisibleItems ||
+            maximumTopIndex != _lastListBoxMaximumTopIndex)
+        {
+            _lastListBoxItemCount = itemCount;
+            _lastListBoxVisibleItems = visibleItems;
+            _lastListBoxMaximumTopIndex = maximumTopIndex;
+            InvalidateNativeScrollbarHiddenState();
+            EnsureNativeScrollbarsHidden();
+        }
+
+        if (itemCount > visibleItems)
+        {
+            if (_verticalScrollBar == null)
+            {
+                CreateVerticalScrollbar();
+            }
+
+            if (_verticalScrollBar != null)
+            {
+                _suppressScrollEvents = true;
+                try
+                {
+                    _verticalScrollBar.Visible = true;
+                    _verticalScrollBar.Minimum = 0;
+                    _verticalScrollBar.Maximum = Math.Max(0, itemCount - 1);
+                    _verticalScrollBar.LargeChange = visibleItems;
+                    _verticalScrollBar.SmallChange = 1;
+                    _verticalScrollBar.Value = Math.Min(listBox.TopIndex, maximumTopIndex);
+                }
+                finally
+                {
+                    _suppressScrollEvents = false;
+                }
+            }
+        }
+        else if (_verticalScrollBar != null)
+        {
+            _verticalScrollBar.Visible = false;
+        }
+    }
+
+    private static int GetListBoxVisibleItemCount(ListBox listBox)
+    {
+        if (listBox.Items.Count == 0)
+        {
+            return 1;
+        }
+
+        try
+        {
+            int visibleItems = 0;
+            int topIndex = Math.Max(0, Math.Min(listBox.TopIndex, listBox.Items.Count - 1));
+            int clientBottom = listBox.ClientSize.Height;
+
+            for (int i = topIndex; i < listBox.Items.Count; i++)
+            {
+                Rectangle itemRect = listBox.GetItemRectangle(i);
+                if (itemRect.Top >= clientBottom)
+                {
+                    break;
+                }
+
+                if (itemRect.Height <= 0 || itemRect.Bottom > clientBottom)
+                {
+                    break;
+                }
+
+                visibleItems++;
+            }
+
+            if (visibleItems > 0)
+            {
+                return visibleItems;
+            }
+        }
+        catch
+        {
+            // Fall back to ItemHeight when item rectangles are unavailable.
+        }
+
+        int itemHeight = Math.Max(1, listBox.ItemHeight);
+        try
+        {
+            itemHeight = Math.Max(itemHeight, listBox.GetItemRectangle(0).Height);
+        }
+        catch
+        {
+            // Use ItemHeight when the native item rectangle is not available.
+        }
+
+        return Math.Max(1, listBox.ClientSize.Height / itemHeight);
+    }
+
+    private static int GetListBoxHorizontalPageWidth(ListBox listBox) => Math.Max(1, listBox.ClientSize.Width);
+
+    private static int GetListBoxHorizontalContentWidth(ListBox listBox, WIN32ScrollBars.ScrollInfo hScrollInfo, bool hasHScroll)
+    {
+        int contentWidth = Math.Max(0, listBox.HorizontalExtent);
+        if (hasHScroll && hScrollInfo.nMax > hScrollInfo.nMin)
+        {
+            contentWidth = Math.Max(contentWidth, hScrollInfo.nMax - hScrollInfo.nMin + 1);
+        }
+
+        return contentWidth;
+    }
+
+    private static int GetNativeScrollableMaximum(WIN32ScrollBars.ScrollInfo scrollInfo)
+    {
+        int page = Math.Max(1, scrollInfo.nPage);
+        long scrollableMaximum = (long)scrollInfo.nMax - page + 1;
+
+        if (scrollableMaximum < scrollInfo.nMin)
+        {
+            return scrollInfo.nMin;
+        }
+
+        return scrollableMaximum > int.MaxValue ? int.MaxValue : (int)scrollableMaximum;
+    }
+
+    private void EnsureNativeScrollbarsHidden()
+    {
+        if (_targetControl == null || !_targetControl.IsHandleCreated || _hiddenNativeScrollbarsHandle == _targetControl.Handle)
+        {
+            return;
+        }
+
+        HideNativeScrollbars();
+        _hiddenNativeScrollbarsHandle = _targetControl.Handle;
+    }
+
+    private void InvalidateNativeScrollbarState()
+    {
+        _hiddenNativeScrollbarsHandle = IntPtr.Zero;
+        _lastListBoxItemCount = -1;
+        _lastListBoxVisibleItems = -1;
+        _lastListBoxMaximumTopIndex = -1;
+        _lastListBoxHorizontalContentWidth = -1;
+        _lastListBoxHorizontalPageWidth = -1;
+        _lastListBoxMaximumLeftOffset = -1;
+        ClearTrackedListBoxMetrics();
+    }
+
+    private void InvalidateNativeScrollbarHiddenState()
+    {
+        _hiddenNativeScrollbarsHandle = IntPtr.Zero;
+    }
+
+    private bool NativeScrollbarsAppearVisible()
+    {
+        if (_targetControl is not ListBox && _targetControl is not ListView)
+        {
+            return false;
+        }
+
+        int widthDifference = _targetControl.Width - _targetControl.ClientSize.Width;
+        int heightDifference = _targetControl.Height - _targetControl.ClientSize.Height;
+
+        return widthDifference >= SystemInformation.VerticalScrollBarWidth / 2 ||
+               heightDifference >= SystemInformation.HorizontalScrollBarHeight / 2;
+    }
+
+    private void BeginNativeThumbTracking()
+    {
+        if (_nativeThumbTracking)
+        {
+            return;
+        }
+
+        _nativeThumbTracking = true;
+
+        if (_targetControl is ListBox listBox)
+        {
+            int itemCount = listBox.Items.Count;
+            int visibleItems = _lastListBoxVisibleItems > 0
+                ? _lastListBoxVisibleItems
+                : GetListBoxVisibleItemCount(listBox);
+
+            _trackedListBoxItemCount = itemCount;
+            _trackedListBoxVisibleItems = visibleItems;
+            _trackedListBoxMaximumTopIndex = Math.Max(0, itemCount - visibleItems);
+            _trackedListBoxHorizontalContentWidth = _lastListBoxHorizontalContentWidth;
+            _trackedListBoxHorizontalPageWidth = _lastListBoxHorizontalPageWidth;
+            _trackedListBoxMaximumLeftOffset = _lastListBoxMaximumLeftOffset;
+        }
+    }
+
+    private void EndNativeThumbTracking()
+    {
+        _nativeThumbTracking = false;
+        ClearTrackedListBoxMetrics();
+    }
+
+    private void ClearTrackedListBoxMetrics()
+    {
+        _trackedListBoxItemCount = -1;
+        _trackedListBoxVisibleItems = -1;
+        _trackedListBoxMaximumTopIndex = -1;
+        _trackedListBoxHorizontalContentWidth = -1;
+        _trackedListBoxHorizontalPageWidth = -1;
+        _trackedListBoxMaximumLeftOffset = -1;
+        _listBoxMouseWheelDelta = 0;
+    }
+
+    private void ScrollListBoxByMouseWheel(ListBox listBox, int delta)
+    {
+        if (listBox.Items.Count == 0 || delta == 0)
+        {
+            return;
+        }
+
+        int scrollLines = SystemInformation.MouseWheelScrollLines;
+        if (scrollLines == 0)
+        {
+            _listBoxMouseWheelDelta = 0;
+            return;
+        }
+
+        _listBoxMouseWheelDelta += delta;
+        int wheelClicks = _listBoxMouseWheelDelta / SystemInformation.MouseWheelScrollDelta;
+        if (wheelClicks == 0)
+        {
+            return;
+        }
+
+        _listBoxMouseWheelDelta %= SystemInformation.MouseWheelScrollDelta;
+
+        int visibleItems = GetListBoxVisibleItemCount(listBox);
+        int maximumTopIndex = Math.Max(0, listBox.Items.Count - visibleItems);
+        int linesPerWheel = scrollLines < 0 ? visibleItems : scrollLines;
+        int scrollItems = linesPerWheel * Math.Abs(wheelClicks);
+        int requestedTopIndex = wheelClicks > 0
+            ? listBox.TopIndex - scrollItems
+            : listBox.TopIndex + scrollItems;
+
+        requestedTopIndex = Math.Max(0, Math.Min(requestedTopIndex, maximumTopIndex));
+        if (listBox.TopIndex != requestedTopIndex)
+        {
+            listBox.TopIndex = requestedTopIndex;
+            listBox.Invalidate();
+        }
+    }
+
+    private int GetListBoxVisibleItemsForSync(ListBox listBox)
+    {
+        if (_nativeThumbTracking &&
+            _trackedListBoxItemCount == listBox.Items.Count &&
+            _trackedListBoxVisibleItems > 0)
+        {
+            return _trackedListBoxVisibleItems;
+        }
+
+        return GetListBoxVisibleItemCount(listBox);
+    }
+
+    private int GetListBoxMaximumTopIndexForSync(ListBox listBox, int visibleItems)
+    {
+        if (_nativeThumbTracking &&
+            _trackedListBoxItemCount == listBox.Items.Count &&
+            _trackedListBoxVisibleItems == visibleItems &&
+            _trackedListBoxMaximumTopIndex >= 0)
+        {
+            return _trackedListBoxMaximumTopIndex;
+        }
+
+        return Math.Max(0, listBox.Items.Count - visibleItems);
+    }
+
+    private int GetListBoxHorizontalPageWidthForSync(ListBox listBox)
+    {
+        if (_nativeThumbTracking &&
+            _trackedListBoxHorizontalPageWidth > 0)
+        {
+            return _trackedListBoxHorizontalPageWidth;
+        }
+
+        return GetListBoxHorizontalPageWidth(listBox);
+    }
+
+    private int GetListBoxMaximumLeftOffsetForSync(ListBox listBox, int pageWidth)
+    {
+        if (_nativeThumbTracking &&
+            _trackedListBoxHorizontalPageWidth == pageWidth &&
+            _trackedListBoxMaximumLeftOffset >= 0)
+        {
+            return _trackedListBoxMaximumLeftOffset;
+        }
+
+        var hScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.ALL
+        };
+        bool hasHScroll = PI.GetScrollInfo(listBox.Handle, PI.SB_.HORZ, ref hScrollInfo);
+        int contentWidth = GetListBoxHorizontalContentWidth(listBox, hScrollInfo, hasHScroll);
+
+        return Math.Max(0, contentWidth - pageWidth);
+    }
+
+    private void HideNativeScrollbars()
+    {
+        if (_targetControl == null || !_targetControl.IsHandleCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            // RichTextBox uses RichTextBoxScrollBars property
+            if (_targetControl is RichTextBox richTextBox)
+            {
+                // Store original value if not already stored
+                if (_originalRichTextBoxScrollBars == null)
+                {
+                    _originalRichTextBoxScrollBars = richTextBox.ScrollBars;
+                }
+                richTextBox.ScrollBars = RichTextBoxScrollBars.None;
+                return;
+            }
+
+            // TextBox uses ScrollBars property
+            if (_targetControl is TextBox textBox)
+            {
+                // Store original value if not already stored
+                if (_originalTextBoxScrollBars == null)
+                {
+                    _originalTextBoxScrollBars = textBox.ScrollBars;
+                }
+                textBox.ScrollBars = ScrollBars.None;
+                return;
+            }
+
+            if (_targetControl is ListBox || _targetControl is ListView)
+            {
+                // Keep WS_VSCROLL/WS_HSCROLL so the control can still scroll. Visibility is
+                // ShowScrollBar plus, for ListView, WM_NCCALCSIZE so the native bar is not given layout space.
+                _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
+                _targetControl.Invalidate();
+                return;
+            }
+
+            // For other controls (TreeView, PropertyGrid, etc.) the scrollbar window
+            // styles are removed so they stay hidden. Skip the work when they are already clear:
+            // the frame change below raises a layout for the target control, which asks for
+            // another hide, so repeating it unconditionally repaints the control indefinitely.
+            uint style = PI.GetWindowLong(_targetControl.Handle, PI.GWL_.STYLE);
+            uint hiddenStyle = style & ~((uint)PI.WS_.HSCROLL | (uint)PI.WS_.VSCROLL);
+            if (hiddenStyle == style)
+            {
+                return;
+            }
+
+            _ = PI.ShowScrollBar(_targetControl.Handle, (int)PI.SB_.BOTH, false);
+
+            // A frame change is required for style changes to take effect
+            // (see SetWindowLong / SetWindowPos docs).
+            PI.SetWindowLong(_targetControl.Handle, PI.GWL_.STYLE, hiddenStyle);
+            PI.SetWindowPos(_targetControl.Handle, IntPtr.Zero, 0, 0, 0, 0,
+                PI.SWP_.NOMOVE | PI.SWP_.NOSIZE | PI.SWP_.NOZORDER | PI.SWP_.FRAMECHANGED);
+
+            _targetControl.Invalidate();
+        }
+        catch
+        {
+            // If we can't hide scrollbars, continue anyway
+            // The Krypton scrollbars will still work
+        }
+    }
+
+    private void SyncNativeScrollPosition(bool horizontal, ScrollEventArgs e)
+    {
+        if (_targetControl == null || !_targetControl.IsHandleCreated || _suppressScrollEvents)
+        {
+            return;
+        }
+
+        try
+        {
+            if (horizontal && _targetControl is ListBox horizontalListBox)
+            {
+                int pageWidth = GetListBoxHorizontalPageWidthForSync(horizontalListBox);
+                int maximumLeftOffset = GetListBoxMaximumLeftOffsetForSync(horizontalListBox, pageWidth);
+                int requestedLeftOffset = Math.Max(0, Math.Min(e.NewValue, maximumLeftOffset));
+                PI.SetScrollPos(horizontalListBox.Handle, PI.SB_.HORZ, requestedLeftOffset, true);
+
+                int horizontalScrollRequest = e.Type == ScrollEventType.ThumbTrack
+                    ? (int)PI.SB_.THUMBTRACK
+                    : (int)PI.SB_.THUMBPOSITION;
+
+                PI.SendMessage(horizontalListBox.Handle, PI.WM_.HSCROLL,
+                    (IntPtr)(horizontalScrollRequest | (requestedLeftOffset << 16)), IntPtr.Zero);
+
+                EnsureNativeScrollbarsHidden();
+                horizontalListBox.Invalidate();
+                SyncListBoxHorizontalScrollbarValue(horizontalListBox, requestedLeftOffset);
+                return;
+            }
+
+            if (!horizontal && _targetControl is ListBox listBox)
+            {
+                if (listBox.Items.Count == 0)
+                {
+                    return;
+                }
+
+                int visibleItems = GetListBoxVisibleItemsForSync(listBox);
+                int maximumTopIndex = GetListBoxMaximumTopIndexForSync(listBox, visibleItems);
+                int requestedTopIndex = Math.Max(0, Math.Min(e.NewValue, maximumTopIndex));
+
+                if (listBox.TopIndex != requestedTopIndex)
+                {
+                    listBox.TopIndex = requestedTopIndex;
+                }
+
+                EnsureNativeScrollbarsHidden();
+                listBox.Invalidate();
+                SyncListBoxVerticalScrollbarValue(listBox);
+                return;
+            }
+
+            if (_targetControl is ListView listView)
+            {
+                SyncListViewScrollPosition(listView, horizontal, e);
+                return;
+            }
+
+            PI.SB_ scrollBar = horizontal ? PI.SB_.HORZ : PI.SB_.VERT;
+            int value = e.NewValue;
+            PI.SetScrollPos(_targetControl.Handle, scrollBar, value, true);
+            int scrollRequest = e.Type == ScrollEventType.ThumbTrack
+                ? (int)PI.SB_.THUMBTRACK
+                : (int)PI.SB_.THUMBPOSITION;
+
+            // Send scroll message to update the control
+            PI.SendMessage(_targetControl.Handle, horizontal ? PI.WM_.HSCROLL : PI.WM_.VSCROLL,
+                (IntPtr)(scrollRequest | (value << 16)), IntPtr.Zero);
+        }
+        catch
+        {
+            // Ignore errors
+        }
+    }
+
+    private void SyncListBoxHorizontalScrollbarValue(ListBox listBox, int requestedLeftOffset)
+    {
+        if (_horizontalScrollBar == null)
+        {
+            return;
+        }
+
+        int pageWidth = GetListBoxHorizontalPageWidthForSync(listBox);
+        int maximumLeftOffset = GetListBoxMaximumLeftOffsetForSync(listBox, pageWidth);
+        int value = Math.Min(requestedLeftOffset, maximumLeftOffset);
+
+        var hScrollInfo = new WIN32ScrollBars.ScrollInfo
+        {
+            cbSize = Marshal.SizeOf(typeof(WIN32ScrollBars.ScrollInfo)),
+            fMask = (int)PI.SIF_.POS
+        };
+        if (PI.GetScrollInfo(listBox.Handle, PI.SB_.HORZ, ref hScrollInfo))
+        {
+            value = Math.Min(Math.Max(0, hScrollInfo.nPos), maximumLeftOffset);
+        }
+
+        _suppressScrollEvents = true;
+        try
+        {
+            _horizontalScrollBar.Value = value;
+        }
+        finally
+        {
+            _suppressScrollEvents = false;
+        }
+    }
+
+    private void SyncListBoxVerticalScrollbarValue(ListBox listBox)
+    {
+        if (_verticalScrollBar == null)
+        {
+            return;
+        }
+
+        int visibleItems = GetListBoxVisibleItemsForSync(listBox);
+        int maximumTopIndex = GetListBoxMaximumTopIndexForSync(listBox, visibleItems);
+        int value = Math.Min(listBox.TopIndex, maximumTopIndex);
+
+        _suppressScrollEvents = true;
+        try
+        {
+            _verticalScrollBar.Value = value;
+        }
+        finally
+        {
+            _suppressScrollEvents = false;
+        }
+    }
+
+    private void SyncListViewScrollPosition(ListView listView, bool horizontal, ScrollEventArgs e)
+    {
+        if (!listView.IsHandleCreated)
+        {
+            return;
+        }
+
+        if (horizontal)
+        {
+            int current = PI.GetScrollPos(listView.Handle, PI.SB_.HORZ);
+            int dx = e.NewValue - current;
+            if (dx != 0)
+            {
+                PI.SendMessage(listView.Handle, PI.LVM_SCROLL, (IntPtr)dx, IntPtr.Zero);
+            }
+        }
+        else
+        {
+            ScrollListViewToIndex(listView, e.NewValue);
+        }
+
+        EnsureNativeScrollbarsHidden();
+        listView.Invalidate();
+    }
+
+    private static int GetListViewItemCount(ListView listView) =>
+        listView.VirtualMode ? listView.VirtualListSize : listView.Items.Count;
+
+    private static int GetListViewTopIndex(ListView listView)
+    {
+        try
+        {
+            return listView.TopItem?.Index ?? 0;
+        }
+        catch (InvalidOperationException)
+        {
+            return PI.GetScrollPos(listView.Handle, PI.SB_.VERT);
+        }
+    }
+
+    private static int GetListViewItemHeight(ListView listView)
+    {
+        int count = GetListViewItemCount(listView);
+        if (count <= 0)
+        {
+            return Math.Max(1, SystemInformation.MenuHeight);
+        }
+
+        try
+        {
+            int index = Math.Min(GetListViewTopIndex(listView), count - 1);
+            Rectangle itemRect = listView.GetItemRect(index);
+            if (itemRect.Height > 0)
+            {
+                return itemRect.Height;
+            }
+        }
+        catch (ArgumentException)
+        {
+            // Item rectangle is not available until the handle has items.
+        }
+
+        return Math.Max(1, SystemInformation.MenuHeight);
+    }
+
+    private static void ScrollListViewToIndex(ListView listView, int requestedIndex)
+    {
+        int count = GetListViewItemCount(listView);
+        if (count <= 0)
+        {
+            return;
+        }
+
+        int currentTop = GetListViewTopIndex(listView);
+        int target = Math.Max(0, Math.Min(requestedIndex, count - 1));
+        int dy = (target - currentTop) * GetListViewItemHeight(listView);
+        if (dy != 0)
+        {
+            PI.SendMessage(listView.Handle, PI.LVM_SCROLL, IntPtr.Zero, (IntPtr)dy);
+        }
+    }
+
+    private void ScrollListViewByMouseWheel(ListView listView, int delta)
+    {
+        int count = GetListViewItemCount(listView);
+        if (count <= 0 || delta == 0)
+        {
+            return;
+        }
+
+        int scrollLines = SystemInformation.MouseWheelScrollLines;
+        if (scrollLines == 0)
+        {
+            return;
+        }
+
+        int itemHeight = GetListViewItemHeight(listView);
+        int linesPerWheel = scrollLines < 0 ? Math.Max(1, listView.ClientSize.Height / itemHeight) : scrollLines;
+        int wheelClicks = delta / Math.Max(1, SystemInformation.MouseWheelScrollDelta);
+        if (wheelClicks == 0)
+        {
+            wheelClicks = delta > 0 ? 1 : -1;
+        }
+
+        int currentTop = GetListViewTopIndex(listView);
+        int requestedTop = currentTop - (linesPerWheel * wheelClicks);
+        ScrollListViewToIndex(listView, requestedTop);
+    }
+
+    private Control? GetScrollbarHostControl()
+    {
+        if (_targetControl == null)
+        {
+            return null;
+        }
+
+        // Native wrapper controls inset the inner native control with border content
+        // padding. Host scrollbars on the outer Krypton wrapper so they align with
+        // the visible control edge instead of leaving a white gutter.
+        if (_mode == ScrollbarManagerMode.NativeWrapper &&
+            _targetControl.Parent != null)
+        {
+            return _targetControl.Parent;
+        }
+
+        return _targetControl;
+    }
+
+    private void UpdateScrollbarHostHook()
+    {
+        Control? host = GetScrollbarHostControl();
+        if (_scrollbarHostControl == host)
+        {
+            MoveExistingScrollbarsToHost(host);
+            return;
+        }
+
+        UnhookScrollbarHostControl();
+
+        _scrollbarHostControl = host;
+        if (_scrollbarHostControl != null && _scrollbarHostControl != _targetControl)
+        {
+            _scrollbarHostControl.Resize += OnScrollbarHostResize;
+            _scrollbarHostControl.Layout += OnScrollbarHostLayout;
+        }
+
+        MoveExistingScrollbarsToHost(host);
+    }
+
+    private void UnhookScrollbarHostControl()
+    {
+        if (_scrollbarHostControl != null && _scrollbarHostControl != _targetControl)
+        {
+            _scrollbarHostControl.Resize -= OnScrollbarHostResize;
+            _scrollbarHostControl.Layout -= OnScrollbarHostLayout;
+        }
+
+        _scrollbarHostControl = null;
+    }
+
+    private NativeWrapperScrollbarLayout? GetNativeWrapperScrollbarLayout()
+    {
+        Control? host = GetScrollbarHostControl();
+        if (host is IKryptonNativeWrapperScrollbarBounds boundsProvider)
+        {
+            return boundsProvider.GetNativeWrapperScrollbarLayout();
+        }
+
+        return null;
+    }
+
+    private Rectangle GetTargetClientRectangleInHost()
+    {
+        if (_targetControl == null)
+        {
+            return Rectangle.Empty;
+        }
+
+        NativeWrapperScrollbarLayout? layout = GetNativeWrapperScrollbarLayout();
+        if (layout.HasValue)
+        {
+            return layout.Value.LaneRect;
+        }
+
+        Control? host = GetScrollbarHostControl();
+        if (host == null)
+        {
+            return Rectangle.Empty;
+        }
+
+        if (host == _targetControl)
+        {
+            return _targetControl.ClientRectangle;
+        }
+
+        return host.ClientRectangle;
+    }
+
+    private void MoveExistingScrollbarsToHost(Control? host)
+    {
+        MoveScrollbarToHost(_horizontalScrollBar, host);
+        MoveScrollbarToHost(_verticalScrollBar, host);
+        MoveScrollbarToHost(_scrollBarCorner, host);
+    }
+
+    private static void MoveScrollbarToHost(Control? scrollbar, Control? host)
+    {
+        if (scrollbar == null || scrollbar.Parent == host)
+        {
+            return;
+        }
+
+        if (scrollbar.Parent != null)
+        {
+            RemoveScrollbarFromHost(scrollbar);
+        }
+
+        if (host != null && host.IsHandleCreated)
+        {
+            AddScrollbarToHost(host, scrollbar);
+            scrollbar.BringToFront();
+        }
+    }
+
+    private static void AddScrollbarToHost(Control host, Control scrollbar)
+    {
+        if (host.Controls is KryptonControlCollection kryptonControls)
+        {
+            kryptonControls.AddInternal(scrollbar);
+        }
+        else
+        {
+            host.Controls.Add(scrollbar);
+        }
+    }
+
+    private static void RemoveScrollbarFromHost(Control scrollbar)
+    {
+        Control? parent = scrollbar.Parent;
+        if (parent == null)
+        {
+            return;
+        }
+
+        if (parent.Controls is KryptonControlCollection kryptonControls)
+        {
+            kryptonControls.RemoveInternal(scrollbar);
+        }
+        else
+        {
+            parent.Controls.Remove(scrollbar);
+        }
+    }
+
+    #endregion
+
+    #region Implementation - Scrollbar Creation
+
+    private void CreateHorizontalScrollbar()
+    {
+        if (_targetControl == null || _horizontalScrollBar != null)
+        {
+            return;
+        }
+
+        _horizontalScrollBar = new KryptonHScrollBar
+        {
+            Visible = false,
+            TabStop = false
+        };
+
+        // Only use anchors for container mode; native wrapper mode uses manual positioning
+        if (_mode == ScrollbarManagerMode.Container)
+        {
+            _horizontalScrollBar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+        }
+
+        _horizontalScrollBar.Scroll += OnHorizontalScroll;
+
+        Control? host = GetScrollbarHostControl();
+        if (host != null && host.IsHandleCreated)
+        {
+            AddScrollbarToHost(host, _horizontalScrollBar);
+            _horizontalScrollBar.BringToFront();
+        }
+    }
+
+    private void CreateVerticalScrollbar()
+    {
+        if (_targetControl == null || _verticalScrollBar != null)
+        {
+            return;
+        }
+
+        _verticalScrollBar = new KryptonVScrollBar
+        {
+            Visible = false,
+            TabStop = false
+        };
+
+        // Only use anchors for container mode; native wrapper mode uses manual positioning
+        if (_mode == ScrollbarManagerMode.Container)
+        {
+            _verticalScrollBar.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+        }
+
+        _verticalScrollBar.Scroll += OnVerticalScroll;
+
+        Control? host = GetScrollbarHostControl();
+        if (host != null && host.IsHandleCreated)
+        {
+            AddScrollbarToHost(host, _verticalScrollBar);
+            _verticalScrollBar.BringToFront();
+        }
+    }
+
+    private void RemoveScrollbars()
+    {
+        if (_horizontalScrollBar != null)
+        {
+            _horizontalScrollBar.Scroll -= OnHorizontalScroll;
+            if (_horizontalScrollBar.Parent != null)
+            {
+                RemoveScrollbarFromHost(_horizontalScrollBar);
+            }
+
+            _horizontalScrollBar.Dispose();
+            _horizontalScrollBar = null;
+        }
+
+        if (_verticalScrollBar != null)
+        {
+            _verticalScrollBar.Scroll -= OnVerticalScroll;
+            if (_verticalScrollBar.Parent != null)
+            {
+                RemoveScrollbarFromHost(_verticalScrollBar);
+            }
+
+            _verticalScrollBar.Dispose();
+            _verticalScrollBar = null;
+        }
+
+        if (_scrollBarCorner != null)
+        {
+            if (_scrollBarCorner.Parent != null)
+            {
+                RemoveScrollbarFromHost(_scrollBarCorner);
+            }
+
+            _scrollBarCorner.Dispose();
+            _scrollBarCorner = null;
+        }
+
+        OnScrollbarsChanged();
+    }
+
+    private void PositionScrollbars()
+    {
+        if (_targetControl == null)
+        {
+            return;
+        }
+
+        NativeWrapperScrollbarLayout? wrapperLayout = GetNativeWrapperScrollbarLayout();
+        // Prefer the layout fill lane (already inside the themed border). Fall back to the
+        // host client area when the wrapper does not expose layout bounds.
+        Rectangle laneRect = wrapperLayout?.LaneRect ?? GetTargetClientRectangleInHost();
+
+        int scrollbarWidth = ManagedScrollBarWidth;
+        int scrollbarHeight = ManagedScrollBarHeight;
+
+        bool showVertical = _verticalScrollBar?.Visible == true;
+        bool showHorizontal = _horizontalScrollBar?.Visible == true;
+
+        int vScrollX = laneRect.Right - scrollbarWidth;
+        int vScrollY = laneRect.Top;
+        int hScrollX = laneRect.Left;
+        int hScrollY = laneRect.Bottom - scrollbarHeight;
+        int vScrollHeight = showHorizontal ? Math.Max(0, hScrollY - vScrollY) : laneRect.Height;
+
+        // Details headers sit in the ListView client. Span the overlay with the control
+        // bounds (not DisplayRectangle) so the bar meets the header row.
+        if (_mode == ScrollbarManagerMode.NativeWrapper &&
+            _targetControl is ListView overlayListView)
+        {
+            Control? host = GetScrollbarHostControl();
+            if (host != null && overlayListView.Parent == host)
+            {
+                Rectangle listBounds = overlayListView.Bounds;
+                vScrollY = listBounds.Top;
+                int vBottom = showHorizontal ? hScrollY : listBounds.Bottom;
+                vScrollHeight = Math.Max(0, vBottom - vScrollY);
+            }
+        }
+
+        bool showCorner = false;
+
+        if (showHorizontal && showVertical && _horizontalScrollBar != null && _verticalScrollBar != null)
+        {
+            if (CornerStyle == ScrollbarCornerStyle.ThemedCorner)
+            {
+                // Both bars are shortened and a themed filler covers the intersection.
+                _horizontalScrollBar.SetBounds(hScrollX, hScrollY, Math.Max(0, vScrollX - hScrollX), scrollbarHeight);
+                _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, vScrollHeight);
+
+                EnsureScrollBarCornerCreated();
+                _scrollBarCorner!.SetBounds(vScrollX, hScrollY, scrollbarWidth, scrollbarHeight);
+                showCorner = true;
+            }
+            else
+            {
+                // ExtendHorizontal: the horizontal bar spans the full lane width so it fills
+                // the bottom-right corner, and the vertical bar stops above it. This keeps
+                // the vertical bar's bottom arrow clear of the corner.
+                _horizontalScrollBar.SetBounds(hScrollX, hScrollY, laneRect.Width, scrollbarHeight);
+                _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, vScrollHeight);
+            }
+        }
+        else if (showHorizontal && _horizontalScrollBar != null)
+        {
+            _horizontalScrollBar.SetBounds(hScrollX, hScrollY, laneRect.Width, scrollbarHeight);
+        }
+        else if (showVertical && _verticalScrollBar != null)
+        {
+            _verticalScrollBar.SetBounds(vScrollX, vScrollY, scrollbarWidth, vScrollHeight);
+        }
+
+        if (_scrollBarCorner != null)
+        {
+            _scrollBarCorner.Visible = showCorner;
+        }
+
+        BringScrollbarsToFront();
+    }
+
+    private void EnsureScrollBarCornerCreated()
+    {
+        if (_scrollBarCorner != null)
+        {
+            return;
+        }
+
+        _scrollBarCorner = new KryptonScrollBarCorner(_cornerStateNormal, _cornerStateDisabled)
+        {
+            Visible = false
+        };
+
+        Control? host = GetScrollbarHostControl();
+        if (host != null && host.IsHandleCreated)
+        {
+            AddScrollbarToHost(host, _scrollBarCorner);
+        }
+    }
+
+    // The KryptonScrollBar draws its arrows and thumb with fixed 15px content plus a
+    // 2px inset on each side, so it needs a 19px lane at 96 DPI. The system metric is
+    // 17px, which clips the buttons and thumb; widen the lane by 2px to compensate.
+    private const int ScrollBarLanePadding = 2;
+
+    private static int ManagedScrollBarWidth => SystemInformation.VerticalScrollBarWidth + ScrollBarLanePadding;
+
+    private static int ManagedScrollBarHeight => SystemInformation.HorizontalScrollBarHeight + ScrollBarLanePadding;
+
+    /// <summary>
+    /// Returns native-child bounds clipped so overlay themed scrollbars do not cover content.
+    /// </summary>
+    /// <param name="fillRect">The full fill rectangle for the native child.</param>
+    /// <param name="laneRect">
+    /// Outer lane inside the themed border (where overlay scrollbars are positioned).
+    /// </param>
+    /// <returns>
+    /// <paramref name="fillRect"/> with its right/bottom edges clipped to the scrollbar
+    /// edges when visible. Bars stay flush to the themed border; content ends where the bar starts.
+    /// </returns>
+    public Rectangle GetInsetContentBounds(Rectangle fillRect, Rectangle laneRect)
+    {
+        if (_mode != ScrollbarManagerMode.NativeWrapper || !_enabled)
+        {
+            return fillRect;
+        }
+
+        if (laneRect.IsEmpty)
+        {
+            laneRect = fillRect;
+        }
+
+        int right = fillRect.Right;
+        int bottom = fillRect.Bottom;
+
+        // Clip to the overlay bar edge rather than subtracting bar width from FillRect.
+        // FillRect is already inset by DisplayPadding from the lane; subtracting again
+        // left a visible gutter between wrapped text and the scrollbar.
+        if (_verticalScrollBar?.Visible == true)
+        {
+            int scrollbarLeft = laneRect.Right - ManagedScrollBarWidth;
+            right = Math.Min(right, scrollbarLeft);
+        }
+
+        if (_horizontalScrollBar?.Visible == true)
+        {
+            int scrollbarTop = laneRect.Bottom - ManagedScrollBarHeight;
+            bottom = Math.Min(bottom, scrollbarTop);
+        }
+
+        int width = Math.Max(0, right - fillRect.Left);
+        int height = Math.Max(0, bottom - fillRect.Top);
+        return new Rectangle(fillRect.X, fillRect.Y, width, height);
+    }
+
+    private void OnCornerNeedPaint(object? sender, NeedLayoutEventArgs e) => _scrollBarCorner?.Invalidate();
+
+    private void BringScrollbarsToFront()
+    {
+        if (_scrollBarCorner != null && _scrollBarCorner.Visible)
+        {
+            _scrollBarCorner.BringToFront();
+        }
+
+        if (_horizontalScrollBar != null && _horizontalScrollBar.Visible)
+        {
+            _horizontalScrollBar.BringToFront();
+        }
+
+        if (_verticalScrollBar != null && _verticalScrollBar.Visible)
+        {
+            _verticalScrollBar.BringToFront();
+        }
+    }
+
+    #endregion
+
+    #region Event Handlers
+
+    private void OnTargetControlHandleCreated(object? sender, EventArgs e)
+    {
+        InvalidateNativeScrollbarState();
+        UpdateScrollbarHostHook();
+        UpdateScrollbars();
+    }
+
+    private void OnTargetControlHandleDestroyed(object? sender, EventArgs e)
+    {
+        // Scrollbars will be cleaned up in Detach
+        _nativeThumbTracking = false;
+        InvalidateNativeScrollbarState();
+    }
+
+    private void OnTargetControlResize(object? sender, EventArgs e)
+    {
+        InvalidateNativeScrollbarHiddenState();
+        UpdateScrollbars();
+    }
+
+    private void OnTargetControlLayout(object? sender, LayoutEventArgs e)
+    {
+        if (!_isUpdating)
+        {
+            InvalidateNativeScrollbarHiddenState();
+            UpdateScrollbars();
+        }
+    }
+
+    private void OnTargetControlParentChanged(object? sender, EventArgs e)
+    {
+        UpdateScrollbarHostHook();
+        InvalidateNativeScrollbarHiddenState();
+        UpdateScrollbars();
+    }
+
+    private void OnScrollbarHostResize(object? sender, EventArgs e)
+    {
+        InvalidateNativeScrollbarHiddenState();
+        UpdateScrollbars();
+    }
+
+    private void OnScrollbarHostLayout(object? sender, LayoutEventArgs e)
+    {
+        if (!_isUpdating)
+        {
+            InvalidateNativeScrollbarHiddenState();
+            UpdateScrollbars();
+        }
+    }
+
+    private void OnHorizontalScroll(object? sender, ScrollEventArgs e)
+    {
+        if (_suppressScrollEvents)
+        {
+            return;
+        }
+
+        _horizontalScrollValue = e.NewValue;
+
+        if (_mode == ScrollbarManagerMode.Container)
+        {
+            UpdateContentPosition();
+        }
+        else if (_mode == ScrollbarManagerMode.NativeWrapper)
+        {
+            if (e.Type == ScrollEventType.ThumbTrack)
+            {
+                BeginNativeThumbTracking();
+            }
+
+            SyncNativeScrollPosition(true, e);
+            if (e.Type == ScrollEventType.EndScroll)
+            {
+                EndNativeThumbTracking();
+                UpdateScrollbars();
+            }
+        }
+    }
+
+    private void OnVerticalScroll(object? sender, ScrollEventArgs e)
+    {
+        if (_suppressScrollEvents)
+        {
+            return;
+        }
+
+        _verticalScrollValue = e.NewValue;
+
+        if (_mode == ScrollbarManagerMode.Container)
+        {
+            UpdateContentPosition();
+        }
+        else if (_mode == ScrollbarManagerMode.NativeWrapper)
+        {
+            if (e.Type == ScrollEventType.ThumbTrack)
+            {
+                BeginNativeThumbTracking();
+            }
+
+            SyncNativeScrollPosition(false, e);
+            if (e.Type == ScrollEventType.EndScroll)
+            {
+                EndNativeThumbTracking();
+                UpdateScrollbars();
+            }
+        }
+    }
+
+    private void OnScrollbarsChanged()
+    {
+        ScrollbarsChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void SyncTimer_Tick(object? sender, EventArgs e)
+    {
+        if (_mode == ScrollbarManagerMode.NativeWrapper && _enabled && !_isUpdating && !_nativeThumbTracking)
+        {
+            UpdateNativeWrapperScrollbars();
+        }
+    }
+
+    #endregion
+}

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -20,12 +20,14 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(Opening))]
 [DefaultProperty(nameof(PaletteMode))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonContextMenuDesigner))]
+[Designer("Krypton.Toolkit.KryptonContextMenuDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"Displays a shortcut menu in popup window.")]
-public class KryptonContextMenu : Component
+public class KryptonContextMenu : Component,
+    IFocusLostMenuItem
 {
     #region Instance Fields
-
+    private bool _disposed;
+    private bool? _overflowScrollUseArrows;
     private readonly PaletteRedirectContextMenu _redirectorImages;
     private readonly PaletteRedirect _redirector;
 
@@ -61,6 +63,21 @@ public class KryptonContextMenu : Component
     public event ToolStripDropDownClosedEventHandler? Closed;
     #endregion
 
+    #region Static
+
+    /// <summary>
+    /// Optional alternate show handler. When set and it returns <c>true</c>, the linear context menu is not shown.
+    /// </summary>
+    /// <remarks>
+    /// Used by <c>Krypton.Toolkit.Utilities.KryptonRadialMenuPresenter</c> when PreferRadialContextMenus is enabled.
+    /// Returning <c>true</c> means the alternate presenter handled display.
+    /// </remarks>
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public static Func<KryptonContextMenu, object?, Rectangle, KryptonContextMenuPositionH, KryptonContextMenuPositionV, bool, bool, bool>? AlternativeShow { get; set; }
+
+    #endregion
+
     #region Identity
     /// <summary>
     ///  Initialize a new instance of the KryptonContextMenu class.
@@ -71,9 +88,12 @@ public class KryptonContextMenu : Component
         NeedPaintHandler needPaintDelegate = OnNeedPaint;
 
         // Set default settings
+        _disposed = false;
         LocalCustomPalette = null;
         PaletteMode = PaletteMode.Global;
         Images = new ContextMenuImages(needPaintDelegate);
+        // Note: The PaletteRedirect used here will automatically scale context menu item padding
+        // when touchscreen support is enabled (see PaletteRedirect.GetMetricPadding for details)
         _redirector = new PaletteRedirect(null);
         _redirectorImages = new PaletteRedirectContextMenu(_redirector, Images);
         Enabled = true;
@@ -87,6 +107,9 @@ public class KryptonContextMenu : Component
 
         // Create the top level collection for menu items
         Items = [];
+
+        // Register with the FocusLostMenuHelper
+        Register(this);
     }
 
     /// <summary> 
@@ -95,9 +118,14 @@ public class KryptonContextMenu : Component
     /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
     protected override void Dispose(bool disposing)
     {
-        if (disposing)
+        if (!_disposed && disposing)
         {
+            // Deregister from the FocusLostMenuHelper
+            Deregister(this);
+
             Close();
+
+            _disposed = true;
         }
 
         base.Dispose(disposing);
@@ -197,6 +225,31 @@ public class KryptonContextMenu : Component
     [DefaultValue(true)]
     [Bindable(true)]
     public bool Enabled { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether overflow scroll rows use arrow glyphs instead of Scroll Up/Scroll Down text.
+    /// When null, <see cref="KryptonContextMenuStrings.OverflowScrollUseArrows"/> is used.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"When set, overflow scroll rows show arrow glyphs instead of text labels. When null, uses global KryptonContextMenuStrings.OverflowScrollUseArrows.")]
+    [DefaultValue(null)]
+    [Bindable(true)]
+    public bool? OverflowScrollUseArrows
+    {
+        get => _overflowScrollUseArrows;
+        set => _overflowScrollUseArrows = value;
+    }
+
+    private bool ShouldSerializeOverflowScrollUseArrows() => _overflowScrollUseArrows.HasValue;
+
+    /// <summary>Resets <see cref="OverflowScrollUseArrows"/> to the global default.</summary>
+    public void ResetOverflowScrollUseArrows() => _overflowScrollUseArrows = null;
+
+    /// <summary>
+    /// Gets the effective overflow scroll arrow setting for this menu.
+    /// </summary>
+    internal bool GetEffectiveOverflowScrollUseArrows() =>
+        _overflowScrollUseArrows ?? KryptonManager.Strings.ContextMenuStrings.OverflowScrollUseArrows;
 
     /// <summary>
     /// Gets or sets the palette to be applied.
@@ -327,50 +380,8 @@ public class KryptonContextMenu : Component
         KryptonContextMenuPositionH horz,
         KryptonContextMenuPositionV vert,
         bool keyboardActivated,
-        bool constrain)
-    {
-        var displayed = false;
-
-        // Only need to show if not already displaying it
-        if (VisualContextMenu == null)
-        {
-            // Remember the caller for us in events
-            Caller = caller;
-
-            // Give event handler a change to cancel the open request
-            var cea = new CancelEventArgs();
-            OnOpening(cea);
-
-            if (!cea.Cancel)
-            {
-                // Set a default reason for the menu being dismissed
-                CloseReason = ToolStripDropDownCloseReason.AppFocusChange;
-
-                // Create the actual control used to show the context menu
-                VisualContextMenu = CreateContextMenu(this, LocalCustomPalette, PaletteMode,
-                    _redirector, _redirectorImages,
-                    Items, Enabled, keyboardActivated);
-
-                // Need to know when the visual control is removed
-                VisualContextMenu.Disposed += OnContextMenuDisposed;
-
-                // Request the menu be shown immediately
-                VisualContextMenu.Show(screenRect, horz, vert, false, constrain);
-
-                // Override the horz, vert setting so that sub menus appear right and below
-                VisualContextMenu.ShowHorz = KryptonContextMenuPositionH.After;
-                VisualContextMenu.ShowVert = KryptonContextMenuPositionV.Top;
-
-                // Indicate the context menu is fully constructed and Displayed
-                OnOpened(EventArgs.Empty);
-
-                // The menu has actually become Displayed
-                displayed = true;
-            }
-        }
-
-        return displayed;
-    }
+        bool constrain) =>
+        ShowCore(caller, screenRect, horz, vert, keyboardActivated, constrain, Items, true);
 
     /// <summary>
     /// Close any showing context menu.
@@ -455,12 +466,119 @@ public class KryptonContextMenu : Component
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal ToolStripDropDownCloseReason CloseReason { get; set; }
 
-    [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
-    internal VisualContextMenu? VisualContextMenu { get; private set; }
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    protected internal VisualContextMenu? VisualContextMenu { get; private set; }
+
+    /// <summary>
+    /// Gets the palette redirector used by <see cref="StateCommon"/> and related states.
+    /// </summary>
+    internal PaletteRedirect Redirector => _redirector;
+
+    /// <summary>
+    /// Gets the image redirector used when generating context menu views.
+    /// </summary>
+    internal PaletteRedirectContextMenu RedirectorImages => _redirectorImages;
+
+    /// <summary>
+    /// Show the context menu using an existing item collection by reference.
+    /// </summary>
+    /// <remarks>
+    /// Used by <see cref="KryptonMenuBar"/> so designer-owned <see cref="KryptonContextMenuItem.Items"/>
+    /// nodes are displayed without being moved onto this instance.
+    /// </remarks>
+    /// <param name="caller">Reference to object causing the context menu to be shown.</param>
+    /// <param name="screenRect">Screen rectangle to position relative to.</param>
+    /// <param name="horz">Horizontal location relative to screen rectangle.</param>
+    /// <param name="vert">Vertical location relative to screen rectangle.</param>
+    /// <param name="keyboardActivated">Was context menu initiated via a keyboard action.</param>
+    /// <param name="constrain">Should size and position of menu be constrained by display size.</param>
+    /// <param name="items">Collection to display; ownership is not transferred.</param>
+    /// <returns>Has the context menu become Displayed.</returns>
+    internal bool ShowCollection(object caller,
+        Rectangle screenRect,
+        KryptonContextMenuPositionH horz,
+        KryptonContextMenuPositionV vert,
+        bool keyboardActivated,
+        bool constrain,
+        KryptonContextMenuCollection items) =>
+        items.Count == 0
+            ? false
+            : ShowCore(caller, screenRect, horz, vert, keyboardActivated, constrain, items, false);
 
     #endregion
 
     #region Implementation
+    private bool ShowCore(object caller,
+        Rectangle screenRect,
+        KryptonContextMenuPositionH horz,
+        KryptonContextMenuPositionV vert,
+        bool keyboardActivated,
+        bool constrain,
+        KryptonContextMenuCollection items,
+        bool allowAlternativeShow)
+    {
+        var displayed = false;
+
+        // Only need to show if not already displaying it
+        if (VisualContextMenu == null)
+        {
+            // Remember the caller for us in events
+            Caller = caller;
+
+            // Give event handler a change to cancel the open request
+            var cea = new CancelEventArgs();
+            OnOpening(cea);
+
+            if (!cea.Cancel)
+            {
+                // Optional alternate presenter (e.g. radial menu). When it returns true, skip the linear popup.
+                if (allowAlternativeShow)
+                {
+                    var alternativeShow = AlternativeShow;
+                    if (alternativeShow != null
+                        && alternativeShow(this, caller, screenRect, horz, vert, keyboardActivated, constrain))
+                    {
+                        OnOpened(EventArgs.Empty);
+                        return true;
+                    }
+                }
+
+                // Set a default reason for the menu being dismissed
+                CloseReason = ToolStripDropDownCloseReason.AppFocusChange;
+
+                // Create the actual control used to show the context menu
+                VisualContextMenu = CreateContextMenu(this, LocalCustomPalette, PaletteMode,
+                    _redirector, _redirectorImages,
+                    items, Enabled, keyboardActivated);
+
+                if (caller is Control callerControl)
+                {
+                    ToolkitRtlLayout.ApplyTo(callerControl, VisualContextMenu);
+                }
+
+                // Need to know when the visual control is removed
+                VisualContextMenu.Disposed += OnContextMenuDisposed;
+
+                // Request the menu be shown immediately
+                VisualContextMenu.Show(screenRect, horz, vert, false, constrain);
+
+                // Sub menus open toward the start edge when both RTL flags are set.
+                VisualContextMenu.ShowHorz = ToolkitRtlLayout.IsRtl(VisualContextMenu)
+                    ? KryptonContextMenuPositionH.Before
+                    : KryptonContextMenuPositionH.After;
+                VisualContextMenu.ShowVert = KryptonContextMenuPositionV.Top;
+
+                // Indicate the context menu is fully constructed and Displayed
+                OnOpened(EventArgs.Empty);
+
+                // The menu has actually become Displayed
+                displayed = true;
+            }
+        }
+
+        return displayed;
+    }
+
     private void PerformNeedPaint(bool needLayout) => OnNeedPaint(this, new NeedLayoutEventArgs(needLayout));
 
     private void OnNeedPaint(object? sender, [DisallowNull] NeedLayoutEventArgs e)
@@ -470,7 +588,7 @@ public class KryptonContextMenu : Component
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Pass request onto the displaying control if we have one
@@ -497,6 +615,29 @@ public class KryptonContextMenu : Component
             // Notify event handlers the context menu has been closed and why it closed
             OnClosed(new ToolStripDropDownClosedEventArgs(CloseReason));
         }
+    }
+    #endregion
+
+    #region IFocusLostMenuItem
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void ProcessItem()
+    {
+        this.Close(ToolStripDropDownCloseReason.AppFocusChange);
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void Register(IFocusLostMenuItem item)
+    {
+        FocusLostMenuHelper.Register(item);
+    }
+
+    /// <inheritdoc/>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public void Deregister(IFocusLostMenuItem item)
+    {
+        FocusLostMenuHelper.Deregister(item);
     }
     #endregion
 }

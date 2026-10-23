@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -42,7 +42,7 @@ internal class ViewLayoutRibbonAppButton : ViewLayoutDocker
         bool bottomHalf)
     {
         Debug.Assert(ribbon is not null);
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
 
         AppButton = new ViewDrawRibbonAppButton(ribbon, bottomHalf);
         _separator = new ViewLayoutRibbonSeparator(APPBUTTON_GAP, true);
@@ -130,7 +130,9 @@ internal class ViewLayoutRibbonAppButton : ViewLayoutDocker
     #region Implementation
     private void UpdateSeparatorSize()
     {
-        var separatorSize = new Size(APPBUTTON_GAP, APPBUTTON_GAP);
+        // APPBUTTON_GAP is logical (96 DPI); form borders are already in physical pixels.
+        var scaledGap = Math.Max(0, (int)Math.Round(APPBUTTON_GAP * FactorDpiX, MidpointRounding.AwayFromZero));
+        var separatorSize = new Size(scaledGap, scaledGap);
 
         // Do we need to add on extra sizing to the separator?
         if (OwnerForm != null)
@@ -138,8 +140,8 @@ internal class ViewLayoutRibbonAppButton : ViewLayoutDocker
             // Get the actual owning window border settings
             Padding borders = OwnerForm.RealWindowBorders;
 
-            // Add the left border side to the sizing
-            separatorSize.Width += borders.Left;
+            // Add the start-side border to the sizing so the app button clears the window edge
+            separatorSize.Width += RibbonRtlLayout.StartBorderWidth(borders, RibbonRtlLayout.IsRtl(_ribbon));
         }
 
         _separator.SeparatorSize = separatorSize;
