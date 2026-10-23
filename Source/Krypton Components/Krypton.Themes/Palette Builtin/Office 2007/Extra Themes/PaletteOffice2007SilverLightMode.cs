@@ -436,7 +436,7 @@ public abstract class PaletteOffice2007SilverLightModeBase : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTable2007SilverLightMode? _table;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -445,10 +445,8 @@ public abstract class PaletteOffice2007SilverLightModeBase : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteOffice2007SilverLightModeBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -463,10 +461,9 @@ public abstract class PaletteOffice2007SilverLightModeBase : PaletteBase
         // Remember incoming sets of values
         ThemeName = nameof(PaletteOffice2007SilverLightModeBase);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -484,7 +481,6 @@ public abstract class PaletteOffice2007SilverLightModeBase : PaletteBase
         }
 
         DefineFonts();
-        BaseColors = scheme;
     }
 
     #endregion
@@ -3987,6 +3983,14 @@ public abstract class PaletteOffice2007SilverLightModeBase : PaletteBase
     /// <param name="expanded">Is the node expanded</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeMinus : _treePlus;
+
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
 
     /// <inheritdoc />
     public override Image? GetSizeGripImage(RightToLeft isRtl) => null;

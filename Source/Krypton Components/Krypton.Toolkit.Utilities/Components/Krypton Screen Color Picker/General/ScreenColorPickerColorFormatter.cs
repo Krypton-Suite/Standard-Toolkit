@@ -219,7 +219,7 @@ internal static class ScreenColorPickerColorFormatter
         foreach (KnownColor known in values)
         {
             Color candidate = Color.FromKnownColor(known);
-            if (!candidate.IsSystemColor && candidate.A == 255)
+            if (candidate is { IsSystemColor: false, A: 255 })
             {
                 colors.Add(candidate);
             }

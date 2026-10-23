@@ -39,6 +39,7 @@ internal partial class VisualGitHubIssueReportForm : KryptonForm
         _config = config;
 
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
         ApplyStrings();
 
         if (!string.IsNullOrEmpty(initialDescription))

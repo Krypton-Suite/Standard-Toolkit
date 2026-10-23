@@ -75,21 +75,45 @@ public class KryptonDialogButtonColorOptions
         HelpBackColor.HasValue || HelpBorderColor.HasValue || HelpTextColor.HasValue ||
         NeutralBackColor.HasValue || NeutralBorderColor.HasValue || NeutralTextColor.HasValue;
 
-    /// <summary>Gets a preset options instance for <see cref="KryptonDialogButtonColorScheme.Standard"/>.</summary>
-    public static KryptonDialogButtonColorOptions Standard =>
+    /// <summary>Creates a preset options instance for <see cref="KryptonDialogButtonColorScheme.Standard"/>.</summary>
+    /// <returns>A new options instance with <see cref="Scheme"/> set to Standard.</returns>
+    public static KryptonDialogButtonColorOptions CreateStandard() =>
         new KryptonDialogButtonColorOptions { Scheme = KryptonDialogButtonColorScheme.Standard };
 
-    /// <summary>Gets a preset options instance for <see cref="KryptonDialogButtonColorScheme.Deuteranopia"/>.</summary>
-    public static KryptonDialogButtonColorOptions Deuteranopia =>
+    /// <summary>Gets a preset options instance for <see cref="KryptonDialogButtonColorScheme.Standard"/>.</summary>
+    /// <remarks>Returns a new instance each call so callers can mutate overrides safely.</remarks>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Intentional factory-style preset; mutable options must not share identity.")]
+    public static KryptonDialogButtonColorOptions Standard => CreateStandard();
+
+    /// <summary>Creates a preset options instance for <see cref="KryptonDialogButtonColorScheme.Deuteranopia"/>.</summary>
+    /// <returns>A new options instance with <see cref="Scheme"/> set to Deuteranopia.</returns>
+    public static KryptonDialogButtonColorOptions CreateDeuteranopia() =>
         new KryptonDialogButtonColorOptions { Scheme = KryptonDialogButtonColorScheme.Deuteranopia };
 
-    /// <summary>Gets a preset options instance for <see cref="KryptonDialogButtonColorScheme.Protanopia"/>.</summary>
-    public static KryptonDialogButtonColorOptions Protanopia =>
+    /// <summary>Gets a preset options instance for <see cref="KryptonDialogButtonColorScheme.Deuteranopia"/>.</summary>
+    /// <remarks>Returns a new instance each call so callers can mutate overrides safely.</remarks>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Intentional factory-style preset; mutable options must not share identity.")]
+    public static KryptonDialogButtonColorOptions Deuteranopia => CreateDeuteranopia();
+
+    /// <summary>Creates a preset options instance for <see cref="KryptonDialogButtonColorScheme.Protanopia"/>.</summary>
+    /// <returns>A new options instance with <see cref="Scheme"/> set to Protanopia.</returns>
+    public static KryptonDialogButtonColorOptions CreateProtanopia() =>
         new KryptonDialogButtonColorOptions { Scheme = KryptonDialogButtonColorScheme.Protanopia };
 
-    /// <summary>Gets a preset options instance for <see cref="KryptonDialogButtonColorScheme.HighContrast"/>.</summary>
-    public static KryptonDialogButtonColorOptions HighContrast =>
+    /// <summary>Gets a preset options instance for <see cref="KryptonDialogButtonColorScheme.Protanopia"/>.</summary>
+    /// <remarks>Returns a new instance each call so callers can mutate overrides safely.</remarks>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Intentional factory-style preset; mutable options must not share identity.")]
+    public static KryptonDialogButtonColorOptions Protanopia => CreateProtanopia();
+
+    /// <summary>Creates a preset options instance for <see cref="KryptonDialogButtonColorScheme.HighContrast"/>.</summary>
+    /// <returns>A new options instance with <see cref="Scheme"/> set to HighContrast.</returns>
+    public static KryptonDialogButtonColorOptions CreateHighContrast() =>
         new KryptonDialogButtonColorOptions { Scheme = KryptonDialogButtonColorScheme.HighContrast };
+
+    /// <summary>Gets a preset options instance for <see cref="KryptonDialogButtonColorScheme.HighContrast"/>.</summary>
+    /// <remarks>Returns a new instance each call so callers can mutate overrides safely.</remarks>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Intentional factory-style preset; mutable options must not share identity.")]
+    public static KryptonDialogButtonColorOptions HighContrast => CreateHighContrast();
 
     /// <summary>
     /// Creates a <see cref="KryptonDialogButtonColorScheme.Custom"/> options instance that relies on overrides.

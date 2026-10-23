@@ -138,6 +138,7 @@ internal class KryptonManagerActionList : DesignerActionList
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Export Translations to Json file...", OnExportTranslationsJson), @"Translations"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template (XML)...", OnGenerateTemplateXml), @"Translations"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Generate Translation Template (JSON)...", OnGenerateTemplateJson), @"Translations"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Analyze Translations...", OnAnalyzeTranslations), @"Translations"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Merge Missing Translations...", OnMergeMissingTranslations), @"Translations"));
             actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Switch Translations Culture...", OnSwitchTranslationsCulture), @"Translations"));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
@@ -167,6 +168,9 @@ internal class KryptonManagerActionList : DesignerActionList
 
     private void OnGenerateTemplateJson(object? sender, EventArgs e) =>
         KryptonManagerDesignerActions.GenerateTemplateJson(_manager);
+
+    private void OnAnalyzeTranslations(object? sender, EventArgs e) =>
+        KryptonManagerDesignerActions.AnalyzeTranslations(_manager);
 
     private void OnMergeMissingTranslations(object? sender, EventArgs e) =>
         KryptonManagerDesignerActions.MergeMissingTranslations(_manager, _service);

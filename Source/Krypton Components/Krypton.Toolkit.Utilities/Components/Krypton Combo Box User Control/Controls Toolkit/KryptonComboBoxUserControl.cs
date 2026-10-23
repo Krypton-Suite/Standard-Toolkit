@@ -49,11 +49,15 @@ public class KryptonComboBoxUserControl : KryptonTextBox
     private object? _selectedValue;
     private LeftRightAlignment _dropDownAlign = LeftRightAlignment.Left;
     private int _dropDownWidth = DefaultDropDownWidth;
+    private int _factoryDropDownWidth = DefaultDropDownWidth;
     private int _dropDownHeight = DefaultDropDownHeight;
+    private int _factoryDropDownHeight = DefaultDropDownHeight;
     private Size _minDropDownSize;
     private Size _maxDropDownSize;
     private bool _dropDownResizable;
+    private bool _factoryDropDownResizable;
     private bool _readOnlyEditor;
+    private bool _factoryReadOnlyEditor;
     private bool _autoOpenOnType;
     private int _minFilterLength = 1;
     private bool _suspendAutoOpen;
@@ -103,7 +107,7 @@ public class KryptonComboBoxUserControl : KryptonTextBox
         base.AutoCompleteMode = AutoCompleteMode.None;
         base.AutoCompleteSource = AutoCompleteSource.None;
 
-        AllowButtonSpecToolTips = true;
+        SetFactoryAllowButtonSpecToolTips(true);
 
         _dropButton = new ButtonSpecAny
         {
@@ -205,12 +209,15 @@ public class KryptonComboBoxUserControl : KryptonTextBox
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Desired width of the drop-down popup.")]
-    [DefaultValue(DefaultDropDownWidth)]
     public int DropDownWidth
     {
         get => _dropDownWidth;
         set => _dropDownWidth = Math.Max(1, value);
     }
+
+    private bool ShouldSerializeDropDownWidth() => _dropDownWidth != _factoryDropDownWidth;
+
+    private void ResetDropDownWidth() => DropDownWidth = _factoryDropDownWidth;
 
     /// <summary>
     /// Gets or sets the desired height of the drop-down popup. Ignored when the
@@ -219,12 +226,15 @@ public class KryptonComboBoxUserControl : KryptonTextBox
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Desired height of the drop-down popup.")]
-    [DefaultValue(DefaultDropDownHeight)]
     public int DropDownHeight
     {
         get => _dropDownHeight;
         set => _dropDownHeight = Math.Max(1, value);
     }
+
+    private bool ShouldSerializeDropDownHeight() => _dropDownHeight != _factoryDropDownHeight;
+
+    private void ResetDropDownHeight() => DropDownHeight = _factoryDropDownHeight;
 
     /// <summary>
     /// Gets or sets the minimum size of the drop-down popup.
@@ -259,12 +269,15 @@ public class KryptonComboBoxUserControl : KryptonTextBox
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"Whether the user can resize the drop-down popup at runtime.")]
-    [DefaultValue(false)]
     public bool DropDownResizable
     {
         get => _dropDownResizable;
         set => _dropDownResizable = value;
     }
+
+    private bool ShouldSerializeDropDownResizable() => _dropDownResizable != _factoryDropDownResizable;
+
+    private void ResetDropDownResizable() => DropDownResizable = _factoryDropDownResizable;
 
     /// <summary>
     /// Gets or sets a value indicating whether the editor is read-only (mimicking
@@ -272,7 +285,6 @@ public class KryptonComboBoxUserControl : KryptonTextBox
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"When true the editor cannot be typed into; selection happens through the drop-down only.")]
-    [DefaultValue(false)]
     public bool ReadOnlyEditor
     {
         get => _readOnlyEditor;
@@ -281,6 +293,30 @@ public class KryptonComboBoxUserControl : KryptonTextBox
             _readOnlyEditor = value;
             ReadOnly = value;
         }
+    }
+
+    private bool ShouldSerializeReadOnlyEditor() => _readOnlyEditor != _factoryReadOnlyEditor;
+
+    private void ResetReadOnlyEditor() => ReadOnlyEditor = _factoryReadOnlyEditor;
+
+    /// <summary>
+    /// Records drop-down size and read-only editor state as the designer factory values.
+    /// </summary>
+    /// <param name="width">Popup width.</param>
+    /// <param name="height">Popup height.</param>
+    /// <param name="resizable">Whether the popup can be resized.</param>
+    /// <param name="readOnlyEditor">Whether the editor rejects typing.</param>
+    protected void SetFactoryDropDown(int width, int height, bool resizable, bool readOnlyEditor)
+    {
+        _factoryDropDownWidth = Math.Max(1, width);
+        _dropDownWidth = _factoryDropDownWidth;
+        _factoryDropDownHeight = Math.Max(1, height);
+        _dropDownHeight = _factoryDropDownHeight;
+        _factoryDropDownResizable = resizable;
+        _dropDownResizable = resizable;
+        _factoryReadOnlyEditor = readOnlyEditor;
+        _readOnlyEditor = readOnlyEditor;
+        SetFactoryReadOnly(readOnlyEditor);
     }
 
     /// <summary>
@@ -481,7 +517,7 @@ public class KryptonComboBoxUserControl : KryptonTextBox
     private void OnEditorKeyDown(object? sender, KeyEventArgs e)
     {
         // F4 toggles, Alt+Down opens, Alt+Up closes - matches WinForms ComboBox conventions
-        if (e.KeyCode == Keys.F4 && !e.Alt && !e.Control && !e.Shift)
+        if (e is { KeyCode: Keys.F4, Alt: false, Control: false, Shift: false })
         {
             if (IsDroppedDown)
             {
@@ -496,7 +532,7 @@ public class KryptonComboBoxUserControl : KryptonTextBox
             return;
         }
 
-        if (e.Alt && e.KeyCode == Keys.Down)
+        if (e is { Alt: true, KeyCode: Keys.Down })
         {
             if (!IsDroppedDown)
             {
@@ -507,7 +543,7 @@ public class KryptonComboBoxUserControl : KryptonTextBox
             return;
         }
 
-        if (e.Alt && e.KeyCode == Keys.Up)
+        if (e is { Alt: true, KeyCode: Keys.Up })
         {
             if (IsDroppedDown)
             {

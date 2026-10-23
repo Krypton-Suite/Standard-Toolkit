@@ -116,6 +116,7 @@ public sealed class KryptonManager : Component
     private static RenderOffice2010? _renderOffice2010;
     private static RenderOffice2013? _renderOffice2013;
     private static RenderMicrosoft365? _renderMicrosoft365;
+    private static RenderOffice2024? _renderOffice2024;
     private static RenderMaterial? _renderMaterial;
     private static RenderRetro? _renderRetro;
     private static RenderMacOSXAqua? _renderMacOSXAqua;
@@ -640,8 +641,8 @@ public sealed class KryptonManager : Component
     /// </summary>
     /// <param name="path">Path to the translations file to load.</param>
     /// <param name="refreshOpenForms">When <c>true</c>, invalidates and refreshes all open forms after import.</param>
-    /// <exception cref="System.IO.FileNotFoundException">Thrown when the specified file does not exist.</exception>
-    public static void LoadTranslationsFromFile(string path, bool refreshOpenForms = false)
+    /// <param name="strictCatalog">When <c>true</c>, throws before applying the document if any catalog keys are missing or unknown.</param>
+    public static void LoadTranslationsFromFile(string path, bool refreshOpenForms = false, bool strictCatalog = false)
     {
         if (string.IsNullOrWhiteSpace(path))
         {
@@ -650,11 +651,11 @@ public sealed class KryptonManager : Component
 
         if (System.IO.Path.GetExtension(path).Equals(@".json", System.StringComparison.OrdinalIgnoreCase))
         {
-            Strings.ImportFromJsonFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+            Strings.ImportFromJsonFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms, strictCatalog: strictCatalog);
         }
         else
         {
-            Strings.ImportFromXmlFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms);
+            Strings.ImportFromXmlFile(path, resetFirst: true, refreshOpenForms: refreshOpenForms, strictCatalog: strictCatalog);
         }
 
         OnTranslationsImported();
@@ -890,7 +891,7 @@ public sealed class KryptonManager : Component
         if (!string.IsNullOrEmpty(cultureName))
         {
             // Prefer Parent when available (en-GB → en); fall back to a two-letter prefix.
-            if (culture != null && culture.Parent != null && !string.IsNullOrEmpty(culture.Parent.Name))
+            if (culture is { Parent: not null } && !string.IsNullOrEmpty(culture.Parent.Name))
             {
                 neutralName = culture.Parent.Name;
             }
@@ -2381,6 +2382,8 @@ public sealed class KryptonManager : Component
                 return RenderOffice2013;
             case RendererMode.Microsoft365:
                 return RenderMicrosoft365;
+            case RendererMode.Office2024:
+                return RenderOffice2024;
             case RendererMode.Professional:
                 return RenderProfessional;
             case RendererMode.Standard:
@@ -2436,6 +2439,11 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the 365 2013 renderer.
     /// </summary>
     public static RenderMicrosoft365 RenderMicrosoft365 => _renderMicrosoft365 ??= new RenderMicrosoft365();
+
+    /// <summary>
+    /// Gets the single instance of the Office 2024 renderer.
+    /// </summary>
+    public static RenderOffice2024 RenderOffice2024 => _renderOffice2024 ??= new RenderOffice2024();
 
     /// <summary>
     /// Gets the single instance of the Material renderer.

@@ -684,7 +684,7 @@ public class KryptonTagInput : VisualPanel
 
     private void FocusInput()
     {
-        if (!_readOnly && _inputBox.Visible && _inputBox.CanFocus)
+        if (!_readOnly && _inputBox is { Visible: true, CanFocus: true })
         {
             _inputBox.Focus();
         }

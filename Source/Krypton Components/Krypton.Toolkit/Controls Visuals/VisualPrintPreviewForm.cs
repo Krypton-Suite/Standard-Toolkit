@@ -28,6 +28,7 @@ internal partial class VisualPrintPreviewForm : KryptonForm
     {
         InitializeComponent();
         SetupToolbar();
+        KryptonDialogLayout.EnableResizable(this);
     }
 
     #endregion

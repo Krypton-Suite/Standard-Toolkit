@@ -1307,7 +1307,7 @@ public class KryptonDataGridView : DataGridView
         _cellDown = new Point(e.ColumnIndex, e.RowIndex);
 
         // Auto-open edit when clicking inside the glyph area of supported drop-down/spin cells
-        if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+        if (e is { RowIndex: >= 0, ColumnIndex: >= 0 })
         {
             var cell = this.Rows[e.RowIndex].Cells[e.ColumnIndex];
             bool isDropGlyphCell = cell is KryptonDataGridViewComboBoxCell
@@ -1394,7 +1394,7 @@ public class KryptonDataGridView : DataGridView
                 {
                     try
                     {
-                        if (!kcb.IsDisposed && !kcb.DroppedDown)
+                        if (kcb is { IsDisposed: false, DroppedDown: false })
                         {
                             kcb.DroppedDown = true;
                         }
@@ -1447,7 +1447,7 @@ public class KryptonDataGridView : DataGridView
             {
                 using (var renderContext = new RenderContext(this, tempG, tempCellBounds, Renderer!))
                 {
-                    bool isHeaderCell = e.RowIndex == -1 && e.ColumnIndex >= 0;
+                    bool isHeaderCell = e is { RowIndex: -1, ColumnIndex: >= 0 };
 
                     Rectangle headerContentBounds = Rectangle.Empty;
 
@@ -2767,7 +2767,7 @@ public class KryptonDataGridView : DataGridView
     private void InvalidateDetachedScrollContent()
     {
         Rectangle contentBounds = GetCellBorderOuterBounds();
-        if (contentBounds.Width > 0 && contentBounds.Height > 0)
+        if (contentBounds is { Width: > 0, Height: > 0 })
         {
             Invalidate(contentBounds);
         }
@@ -3026,8 +3026,8 @@ public class KryptonDataGridView : DataGridView
 
         EnsureDetachedRoundingScrollbarsCreated();
 
-        bool showVertical = WantsDetachedVerticalScrollBar() && _roundingVScrollBar != null && _roundingVScrollBar.Visible;
-        bool showHorizontal = WantsDetachedHorizontalScrollBar() && _roundingHScrollBar != null && _roundingHScrollBar.Visible;
+        bool showVertical = WantsDetachedVerticalScrollBar() && _roundingVScrollBar is { Visible: true };
+        bool showHorizontal = WantsDetachedHorizontalScrollBar() && _roundingHScrollBar is { Visible: true };
 
         int dataRight = GetDetachedDataRight(showVertical);
         int dataBottom = GetDetachedDataBottom(showHorizontal);
@@ -3116,7 +3116,7 @@ public class KryptonDataGridView : DataGridView
     {
         if (_roundingHScrollBar == null || !WantsDetachedHorizontalScrollBar())
         {
-            if (_roundingHScrollBar != null && _roundingHScrollBar.Visible)
+            if (_roundingHScrollBar is { Visible: true })
             {
                 _roundingHScrollBar.Visible = false;
             }
@@ -3144,7 +3144,7 @@ public class KryptonDataGridView : DataGridView
     {
         if (_roundingVScrollBar == null || !WantsDetachedVerticalScrollBar())
         {
-            if (_roundingVScrollBar != null && _roundingVScrollBar.Visible)
+            if (_roundingVScrollBar is { Visible: true })
             {
                 _roundingVScrollBar.Visible = false;
             }

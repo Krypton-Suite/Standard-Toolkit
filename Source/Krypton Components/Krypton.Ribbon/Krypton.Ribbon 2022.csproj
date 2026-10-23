@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Krypton.Ribbon</RootNamespace>
     <AssemblyName>Krypton.Ribbon</AssemblyName>
-    <!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+    <!-- Disable CheckEolTargetFramework to suppress this warning. -->
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
@@ -79,6 +79,7 @@
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupLabel.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupClusterButton.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupLines.bmp" />
+    <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupStack.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupCluster.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupTriple.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupButton.bmp" />

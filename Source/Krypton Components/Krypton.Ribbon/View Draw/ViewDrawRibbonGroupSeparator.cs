@@ -61,7 +61,10 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
         }
 
         // Define back reference to view for the separator definition
-        _ribbonSeparator.SeparatorView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            _ribbonSeparator.SeparatorView = this;
+        }
 
         // Hook into changes in the ribbon separator definition
         _ribbonSeparator.PropertyChanged += OnSeparatorPropertyChanged;
@@ -94,7 +97,10 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
             _ribbonSeparator!.PropertyChanged -= OnSeparatorPropertyChanged;
 
             // Remove association with definition
-            _ribbonSeparator.SeparatorView = null;
+            if (ReferenceEquals(_ribbonSeparator.SeparatorView, this))
+            {
+                _ribbonSeparator.SeparatorView = null;
+            }
             _ribbonSeparator = null;
         }
 
@@ -184,6 +190,10 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
                     _lastShape = _ribbon.RibbonShape;
                     _preferredSize = _preferredSize2010;
                     break;
+                case PaletteRibbonShape.Office2024:
+                    _lastShape = PaletteRibbonShape.Office2024;
+                    _preferredSize = new Size((int)(8 * FactorDpiX), _preferredSize2010.Height);
+                    break;
             }
         }
 
@@ -235,6 +245,11 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
         if (context.Renderer is null)
         {
             ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
+        }
+
+        if (_ribbon.RibbonShape == PaletteRibbonShape.Office2024 && !_ribbon.CompactMode)
+        {
+            return;
         }
 
         context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape,

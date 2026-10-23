@@ -1153,7 +1153,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     private static bool IsDesignMode(Control? control)
     {
         Control? walker = control;
-        while (walker != null && !walker.IsDisposed)
+        while (walker is { IsDisposed: false })
         {
             if (walker.Site?.DesignMode == true)
             {
@@ -1170,7 +1170,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     {
         Control? dpiSource = _hoverControl ?? ContainerControl;
 
-        float dpiFactor = dpiSource is Control c && c.IsDisposed == false ? c.DeviceDpi / 96f : 96f / 96f;
+        float dpiFactor = dpiSource is Control { IsDisposed: false } c ? c.DeviceDpi / 96f : 96f / 96f;
 
         return dpiFactor;
     }
@@ -1218,8 +1218,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     private Rectangle GetFallbackPlacementRect(Control control)
     {
         if (_placementRectangles.TryGetValue(control, out PlacementRectangleAssociation association)
-            && !association.IsScreenCoordinates
-            && !association.Rectangle.IsEmpty)
+            && association is { IsScreenCoordinates: false, Rectangle.IsEmpty: false })
         {
             return association.Rectangle;
         }

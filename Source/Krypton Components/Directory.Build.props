@@ -77,7 +77,7 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp), Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege</Authors>
-		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2025. All rights reserved.</Copyright>
+		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2026. All rights reserved.</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -155,7 +155,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(Configuration)' == 'RC'">
+		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<ItemGroup>
 				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton RC.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>

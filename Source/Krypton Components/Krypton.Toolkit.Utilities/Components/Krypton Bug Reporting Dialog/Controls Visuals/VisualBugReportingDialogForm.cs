@@ -40,6 +40,10 @@ public partial class VisualBugReportingDialogForm : KryptonForm
     {
         InitializeComponent();
 
+        krtbBugDescription.ScrollBars = RichTextBoxScrollBars.Vertical;
+        krtbStepsToReproduce.ScrollBars = RichTextBoxScrollBars.Vertical;
+        KryptonDialogLayout.EnableResizable(this);
+
         SetInheritedControlOverride();
 
         _exception = exception;

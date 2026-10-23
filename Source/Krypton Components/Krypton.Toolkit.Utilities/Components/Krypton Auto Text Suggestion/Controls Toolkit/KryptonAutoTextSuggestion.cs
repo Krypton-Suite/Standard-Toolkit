@@ -363,7 +363,7 @@ public class KryptonAutoTextSuggestion : Component
     private void Control_LostFocus(object? sender, EventArgs e)
     {
         // Don't hide if focus moved to popup
-        if (_popup != null && _popup.ContainsFocus)
+        if (_popup is { ContainsFocus: true })
         {
             return;
         }

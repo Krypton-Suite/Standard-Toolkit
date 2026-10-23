@@ -1292,6 +1292,33 @@ public class KryptonCustomPaletteBase : PaletteBase
         (expanded ? Images.TreeView.Minus : Images.TreeView.Plus) ?? _redirector.GetTreeViewImage(expanded);
 
     /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image)
+    {
+        Image? local = null;
+        switch (image)
+        {
+            case PropertyGridToolImage.Alphabetical:
+                local = Images.PropertyGrid.Alphabetical;
+                break;
+            case PropertyGridToolImage.Categorized:
+                local = Images.PropertyGrid.Categorized;
+                break;
+            case PropertyGridToolImage.PropertyPages:
+                local = Images.PropertyGrid.PropertyPages;
+                break;
+            case PropertyGridToolImage.Events:
+                local = Images.PropertyGrid.Events;
+                break;
+        }
+
+        return local ?? _redirector.GetPropertyGridImage(image);
+    }
+
+    /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.
     /// </summary>
     /// <param name="isRtl">If Yes, request an RTL-oriented image; otherwise LTR.</param>
@@ -3629,7 +3656,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             case string path:
                 filename = path;
                 break;
-            case object[] args when args.Length > 0:
+            case object[] { Length: > 0 } args:
                 filename = args[0] as string;
                 if (args.Length > 1)
                 {
@@ -3870,6 +3897,8 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Remember the current culture setting
         var culture = Thread.CurrentThread.CurrentCulture;
 
+        // Let export failures propagate. Public Export uses silent to decide whether to show UI.
+        // Catching here used to show a modal exception dialog and return an empty document.
         try
         {
             // Use the invariant culture for persistence
@@ -3922,12 +3951,6 @@ public class KryptonCustomPaletteBase : PaletteBase
             ExportImagesToElement(doc, images, imageCache);
 
             return doc;
-        }
-        catch (Exception e)
-        {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
-
-            return new XmlDocument();
         }
         finally
         {
@@ -4494,6 +4517,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         [typeof(PaletteContentImage)] = nameof(PaletteContentImage),
         [typeof(PaletteDragFeedback)] = nameof(PaletteDragFeedback),
         [typeof(PaletteRibbonShape)] = nameof(PaletteRibbonShape),
+        [typeof(PaletteRibbonTabMarker)] = nameof(PaletteRibbonTabMarker),
         [typeof(PaletteCornerRounding)] = nameof(PaletteCornerRounding)
     };
     internal static string TypeToString(Type t)

@@ -42,9 +42,16 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
         Items.Clear();
         Items.AddRange(CommonHelperThemeSelectors.GetThemesArray(_showExtraThemes));
 
-        // Sets the intial palette from either global or DefaultPalette property
-        SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
-
+        // Show the current global theme without recording it as a local DefaultPalette.
+        _isExternalUpdate = true;
+        try
+        {
+            SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
+        }
+        finally
+        {
+            _isExternalUpdate = false;
+        }
     }
     #endregion
 
@@ -98,7 +105,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
     /// </summary>
     private string GetSelectedThemeName()
     {
-        if (SelectedIndex > -1 && SelectedItem is string s && s.Length > 0)
+        if (SelectedIndex > -1 && SelectedItem is string { Length: > 0 } s)
         {
             return s;
         }
@@ -115,6 +122,7 @@ public class KryptonThemeComboBox : KryptonComboBox, IKryptonThemeSelectorBase
         // React to theme changes from outside this control.
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
         ThemeManager.RegisteredThemesChanged += ThemeManagerRegisteredThemesChanged;
+        KryptonThemeCatalog.DiscoverThemes(Site);
         base.OnHandleCreated(e);
     }
 

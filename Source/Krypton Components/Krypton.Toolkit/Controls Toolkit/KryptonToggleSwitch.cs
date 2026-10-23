@@ -339,7 +339,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         UpdateLayoutMetrics();
 
-        if (_animationTimer != null && !_animationTimer.Enabled && !_isDragging)
+        if (_animationTimer is { Enabled: false } && !_isDragging)
         {
             UpdateAnimationStateFromChecked();
         }
@@ -366,7 +366,7 @@ public class KryptonToggleSwitch : Control, IContentValues
 
         UpdateLayoutMetrics();
 
-        if (_animationTimer != null && !_animationTimer.Enabled && !_isDragging)
+        if (_animationTimer is { Enabled: false } && !_isDragging)
         {
             UpdateAnimationStateFromChecked();
         }
@@ -872,8 +872,7 @@ public class KryptonToggleSwitch : Control, IContentValues
     }
 
     private bool ShouldRunPulseAnimation() =>
-        ToggleSwitchValues.Pulse.Enable &&
-        ToggleSwitchValues.Pulse.Intensity > float.Epsilon &&
+        ToggleSwitchValues.Pulse is { Enable: true, Intensity: > float.Epsilon } &&
         Enabled &&
         Visible;
 
@@ -1608,7 +1607,7 @@ public class KryptonToggleSwitch : Control, IContentValues
                     textY = (Height - textSize.Height) / 2f; // Center text vertically
                 }
 
-                if (ToggleSwitchValues.ShowText && !ToggleSwitchValues.ShowTrackIcons)
+                if (ToggleSwitchValues is { ShowText: true, ShowTrackIcons: false })
                 {
                     // Enable better text rendering for smooth appearance
                     // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls

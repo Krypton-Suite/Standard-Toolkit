@@ -20,10 +20,18 @@ internal class SuggestionPopup : KryptonForm
     private readonly KryptonSearchBox _owner;
 
     private readonly SearchSuggestionDisplayType? _suggestionDisplayType;
+    private bool _isShowing;
 
     public event EventHandler<SuggestionSelectedEventArgs>? SuggestionSelected;
 
     public int SuggestionCount => _suggestions.Count;
+
+    /// <summary>
+    /// Gets a value indicating whether the popup is currently shown via ShowWindow.
+    /// Prefer this over <see cref="Control.Visible"/> because visibility uses SW_SHOWNOACTIVATE.
+    /// </summary>
+    public bool IsShowing =>
+        _isShowing && IsHandleCreated && !IsDisposed && PI.IsWindowVisible(Handle);
 
     public SuggestionPopup(KryptonSearchBox owner)
     {
@@ -101,10 +109,8 @@ internal class SuggestionPopup : KryptonForm
             // We can use HideOuterBorders to hide cell borders if needed
             _dataGridView.HideOuterBorders = true;
 
-            // Handle mouse events
+            // CellMouseDown fires even when the row is already selected (CellMouseClick can miss).
             _dataGridView.CellMouseDown += OnDataGridViewCellMouseDown;
-            _dataGridView.CellMouseClick += OnDataGridViewCellMouseClick;
-            _dataGridView.CellDoubleClick += OnDataGridViewCellDoubleClick;
             _dataGridView.KeyDown += OnDataGridViewKeyDown;
 
             Controls.Add(_dataGridView);
@@ -118,9 +124,9 @@ internal class SuggestionPopup : KryptonForm
             };
             // Set border to not draw - use DrawBorders property instead
             _listBox.StateCommon.Border.DrawBorders = PaletteDrawBorders.None;
-            _listBox.MouseDown += OnSuggestionListBoxMouseDown;
-            _listBox.MouseClick += OnSuggestionListBoxMouseClick;
-            _listBox.DoubleClick += OnSuggestionListBoxDoubleClick;
+            // KryptonListBox forwards Click from the internal ListBox (MouseClick/MouseDown do not).
+            // Click also fires when the already-selected item is clicked again.
+            _listBox.Click += OnSuggestionListBoxClick;
 
             Controls.Add(_listBox);
         }
@@ -138,6 +144,12 @@ internal class SuggestionPopup : KryptonForm
 
     public void SetSearchSuggestions(List<object> suggestions)
     {
+        // Early-out when content is unchanged
+        if (AreSuggestionsEqual(_suggestions, suggestions))
+        {
+            return;
+        }
+
         _suggestions.Clear();
         _suggestions.AddRange(suggestions);
 
@@ -145,25 +157,33 @@ internal class SuggestionPopup : KryptonForm
         {
             if (_dataTable != null && _dataGridView != null)
             {
-                _dataTable.Rows.Clear();
-                foreach (var suggestion in suggestions)
+                _dataTable.BeginLoadData();
+                try
                 {
-                    // Create row with values for each column
-                    var rowValues = new object[_owner.DataGridViewColumns.Count];
-                    for (int i = 0; i < _owner.DataGridViewColumns.Count; i++)
+                    _dataTable.Rows.Clear();
+                    foreach (var suggestion in suggestions)
                     {
-                        var colDef = _owner.DataGridViewColumns[i];
-                        if (colDef.ValueExtractor != null)
+                        // Create row with values for each column
+                        var rowValues = new object[_owner.DataGridViewColumns.Count];
+                        for (int i = 0; i < _owner.DataGridViewColumns.Count; i++)
                         {
-                            rowValues[i] = colDef.ValueExtractor(suggestion) ?? string.Empty;
+                            var colDef = _owner.DataGridViewColumns[i];
+                            if (colDef.ValueExtractor != null)
+                            {
+                                rowValues[i] = colDef.ValueExtractor(suggestion) ?? string.Empty;
+                            }
+                            else
+                            {
+                                // Default: extract text
+                                rowValues[i] = GetSuggestionText(suggestion);
+                            }
                         }
-                        else
-                        {
-                            // Default: extract text
-                            rowValues[i] = GetSuggestionText(suggestion);
-                        }
+                        _dataTable.Rows.Add(rowValues);
                     }
-                    _dataTable.Rows.Add(rowValues);
+                }
+                finally
+                {
+                    _dataTable.EndLoadData();
                 }
             }
         }
@@ -172,15 +192,41 @@ internal class SuggestionPopup : KryptonForm
             if (_listBox != null)
             {
                 _listBox.BeginUpdate();
-                _listBox.Items.Clear();
-                // Add items - can be strings or IContentValues
-                foreach (var suggestion in suggestions)
+                try
                 {
-                    _listBox.Items.Add(suggestion);
+                    _listBox.Items.Clear();
+                    if (suggestions.Count > 0)
+                    {
+                        // AddRange avoids per-item change notifications inside BeginUpdate
+                        _listBox.Items.AddRange(suggestions.ToArray());
+                    }
                 }
-                _listBox.EndUpdate();
+                finally
+                {
+                    _listBox.EndUpdate();
+                }
             }
         }
+    }
+
+    private static bool AreSuggestionsEqual(List<object> current, List<object> incoming)
+    {
+        if (current.Count != incoming.Count)
+        {
+            return false;
+        }
+
+        for (var i = 0; i < current.Count; i++)
+        {
+            if (!ReferenceEquals(current[i], incoming[i]) &&
+                !(current[i] is string left && incoming[i] is string right &&
+                  string.Equals(left, right, StringComparison.Ordinal)))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public void HighlightIndex(int index)
@@ -191,10 +237,10 @@ internal class SuggestionPopup : KryptonForm
             {
                 _dataGridView.ClearSelection();
                 _dataGridView.Rows[index].Selected = true;
-                _dataGridView.CurrentCell = _dataGridView.Rows[index].Cells[0];
 
-                // Scroll to make the selected row visible
-                _dataGridView.FirstDisplayedScrollingRowIndex = Math.Max(0, Math.Min(index, _dataGridView.RowCount - 1));
+                // Scroll to make the selected row visible (avoid CurrentCell unless needed)
+                var maxFirst = Math.Max(0, _dataGridView.RowCount - 1);
+                _dataGridView.FirstDisplayedScrollingRowIndex = Math.Max(0, Math.Min(index, maxFirst));
             }
         }
         else
@@ -269,8 +315,24 @@ internal class SuggestionPopup : KryptonForm
             height = (itemCount * itemHeight) + 2;
         }
 
-        Size = new Size(width, height);
-        Location = location;
+        var newSize = new Size(width, height);
+        var alreadyShowing = IsShowing;
+
+        if (Size != newSize)
+        {
+            Size = newSize;
+        }
+
+        if (Location != location)
+        {
+            Location = location;
+        }
+
+        // Already visible with correct geometry — nothing further to do
+        if (alreadyShowing)
+        {
+            return;
+        }
 
         // Create handle if needed
         if (!IsHandleCreated)
@@ -280,36 +342,18 @@ internal class SuggestionPopup : KryptonForm
 
         // Show the form without activating it (doesn't steal focus)
         PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
+        _isShowing = true;
     }
 
-    private void OnSuggestionListBoxMouseDown(object? sender, MouseEventArgs e)
+    public new void Hide()
     {
-        if (_listBox != null && e.Button == MouseButtons.Left)
-        {
-            var index = _listBox.IndexFromPoint(e.Location);
-            if (index >= 0)
-            {
-                // Single click selects the suggestion immediately
-                OnSuggestionSelected(index);
-            }
-        }
+        _isShowing = false;
+        base.Hide();
     }
 
-    private void OnSuggestionListBoxMouseClick(object? sender, MouseEventArgs e)
+    private void OnSuggestionListBoxClick(object? sender, EventArgs e)
     {
-        if (_listBox != null && e.Button == MouseButtons.Left)
-        {
-            var index = _listBox.IndexFromPoint(e.Location);
-            if (index >= 0)
-            {
-                OnSuggestionSelected(index);
-            }
-        }
-    }
-
-    private void OnSuggestionListBoxDoubleClick(object? sender, EventArgs e)
-    {
-        if (_listBox != null && _listBox.SelectedIndex >= 0)
+        if (_listBox is { SelectedIndex: >= 0 })
         {
             OnSuggestionSelected(_listBox.SelectedIndex);
         }
@@ -337,19 +381,19 @@ internal class SuggestionPopup : KryptonForm
 
         // Check if any child control has focus
         return _suggestionDisplayType == SearchSuggestionDisplayType.DataGridView
-            ? _dataGridView != null && _dataGridView.Focused
-            : _listBox != null && _listBox.Focused;
+            ? _dataGridView is { Focused: true }
+            : _listBox is { Focused: true };
     }
 
     protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
+            _isShowing = false;
+
             if (_listBox != null)
             {
-                _listBox.MouseDown -= OnSuggestionListBoxMouseDown;
-                _listBox.MouseClick -= OnSuggestionListBoxMouseClick;
-                _listBox.DoubleClick -= OnSuggestionListBoxDoubleClick;
+                _listBox.Click -= OnSuggestionListBoxClick;
                 _listBox.Dispose();
                 _listBox = null;
             }
@@ -357,8 +401,6 @@ internal class SuggestionPopup : KryptonForm
             if (_dataGridView != null)
             {
                 _dataGridView.CellMouseDown -= OnDataGridViewCellMouseDown;
-                _dataGridView.CellMouseClick -= OnDataGridViewCellMouseClick;
-                _dataGridView.CellDoubleClick -= OnDataGridViewCellDoubleClick;
                 _dataGridView.KeyDown -= OnDataGridViewKeyDown;
                 _dataGridView.Dispose();
                 _dataGridView = null;
@@ -382,8 +424,14 @@ internal class SuggestionPopup : KryptonForm
             if (IsHandleCreated && Handle != IntPtr.Zero)
             {
                 PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
+                _isShowing = true;
             }
             return;
+        }
+
+        if (!value)
+        {
+            _isShowing = false;
         }
 
         base.SetVisibleCore(value);
@@ -403,26 +451,7 @@ internal class SuggestionPopup : KryptonForm
 
     private void OnDataGridViewCellMouseDown(object? sender, DataGridViewCellMouseEventArgs e)
     {
-        if (_dataGridView != null && e.Button == MouseButtons.Left && e.RowIndex >= 0)
-        {
-            // Single click selects the suggestion immediately
-            OnSuggestionSelected(e.RowIndex);
-        }
-    }
-
-    private void OnDataGridViewCellMouseClick(object? sender, DataGridViewCellMouseEventArgs e)
-    {
-        // Also handle MouseClick as a fallback
-        if (_dataGridView != null && e.Button == MouseButtons.Left && e.RowIndex >= 0)
-        {
-            OnSuggestionSelected(e.RowIndex);
-        }
-    }
-
-    private void OnDataGridViewCellDoubleClick(object? sender, DataGridViewCellEventArgs e)
-    {
-        // Also handle double click for consistency
-        if (_dataGridView != null && e.RowIndex >= 0)
+        if (_dataGridView != null && e is { Button: MouseButtons.Left, RowIndex: >= 0 })
         {
             OnSuggestionSelected(e.RowIndex);
         }
@@ -430,11 +459,24 @@ internal class SuggestionPopup : KryptonForm
 
     private void OnDataGridViewKeyDown(object? sender, KeyEventArgs e)
     {
-        // Handle Enter key to select the current row
-        if (e.KeyCode == Keys.Enter && _dataGridView != null && _dataGridView.CurrentRow != null)
+        // Handle Enter key to select the current selected row
+        if (e.KeyCode == Keys.Enter && _dataGridView != null)
         {
-            OnSuggestionSelected(_dataGridView.CurrentRow.Index);
-            e.Handled = true;
+            var selectedIndex = -1;
+            if (_dataGridView.SelectedRows.Count > 0)
+            {
+                selectedIndex = _dataGridView.SelectedRows[0].Index;
+            }
+            else if (_dataGridView.CurrentRow != null)
+            {
+                selectedIndex = _dataGridView.CurrentRow.Index;
+            }
+
+            if (selectedIndex >= 0)
+            {
+                OnSuggestionSelected(selectedIndex);
+                e.Handled = true;
+            }
         }
     }
 }

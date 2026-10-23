@@ -5,7 +5,7 @@
 		<RootNamespace>Krypton.Navigator.Utilities</RootNamespace>
 		<AssemblyName>Krypton.Navigator.Utilities</AssemblyName>
 		<IsPackable>false</IsPackable>
-		<!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+		<!-- Disable CheckEolTargetFramework to suppress this warning. -->
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
 		<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>

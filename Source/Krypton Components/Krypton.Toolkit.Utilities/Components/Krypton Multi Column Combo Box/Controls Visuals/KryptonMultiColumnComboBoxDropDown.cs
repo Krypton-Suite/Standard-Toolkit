@@ -239,7 +239,7 @@ internal sealed class KryptonMultiColumnComboBoxDropDown : KryptonDataGridView,
         try
         {
             DataGridViewRow? current = CurrentRow;
-            if (current != null && current.Index >= 0)
+            if (current is { Index: >= 0 })
             {
                 CurrentCell = null;
             }
@@ -269,7 +269,7 @@ internal sealed class KryptonMultiColumnComboBoxDropDown : KryptonDataGridView,
 
             if (anyVisible)
             {
-                DataGridViewRow? restore = current != null && current.Visible ? current : firstVisible;
+                DataGridViewRow? restore = current is { Visible: true } ? current : firstVisible;
                 SelectRow(restore);
             }
             else
@@ -296,7 +296,7 @@ internal sealed class KryptonMultiColumnComboBoxDropDown : KryptonDataGridView,
         var visible = new List<DataGridViewRow>();
         foreach (DataGridViewRow row in Rows)
         {
-            if (!row.IsNewRow && row.Visible)
+            if (row is { IsNewRow: false, Visible: true })
             {
                 visible.Add(row);
             }

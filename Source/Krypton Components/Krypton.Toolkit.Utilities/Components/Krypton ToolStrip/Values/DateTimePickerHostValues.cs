@@ -55,39 +55,15 @@ public class DateTimePickerHostValues : Storage
                 return true;
             }
 
-            return control.AlwaysActive
-                   && !control.AllowButtonSpecToolTips
-                   && !control.AllowButtonSpecToolTipPriority
-                   && !control.AutoShift
-                   && control.Checked
-                   && !control.ShowUpDown
-                   && !control.ShowCheckBox
-                   && control.UseMnemonic
-                   && control.CalendarShowTodayCircle
-                   && !control.CalendarShowWeekNumbers
-                   && !control.CalendarCloseOnTodayClick
-                   && control.CalendarShowToday
-                   && !control.RightToLeftLayout
-                   && control.CalendarAnnuallyBoldedDates is null
-                   && control.CalendarMonthlyBoldedDates is null
-                   && control.CalendarBoldedDates is null
+            return control is { AlwaysActive: true, AllowButtonSpecToolTips: false, AllowButtonSpecToolTipPriority: false, AutoShift: false, Checked: true, ShowUpDown: false, ShowCheckBox: false, UseMnemonic: true, CalendarShowTodayCircle: true, CalendarShowWeekNumbers: false, CalendarCloseOnTodayClick: false, CalendarShowToday: true, RightToLeftLayout: false, CalendarAnnuallyBoldedDates: null, CalendarMonthlyBoldedDates: null, CalendarBoldedDates: null }
                    && control.MaxDate == DateTime.MaxValue
                    && control.MinDate == DateTime.MinValue
-                   && control.Format == DateTimePickerFormat.Long
-                   && control.CalendarFirstDayOfWeek == Day.Default
-                   && control.DropDownAlign == LeftRightAlignment.Left
-                   && control.InputControlStyle == InputControlStyle.Standalone
-                   && control.ValueNullable is null
-                   && control.CalendarTodayText == @"Today:"
+                   && control is { Format: DateTimePickerFormat.Long, CalendarFirstDayOfWeek: Day.Default, DropDownAlign: LeftRightAlignment.Left } and { InputControlStyle: InputControlStyle.Standalone, ValueNullable: null, CalendarTodayText: @"Today:" }
                    && string.IsNullOrEmpty(control.CustomFormat)
                    && string.IsNullOrEmpty(control.CustomNullText)
                    && control.CalendarTodayFormat == @"d"
                    && string.IsNullOrEmpty(control.ActiveFragment)
-                   && control.CalendarHeaderStyle == HeaderStyle.Calendar
-                   && control.CalendarDayStyle == ButtonStyle.CalendarDay
-                   && control.CalendarDayOfWeekStyle == ButtonStyle.CalendarDay
-                   && control.UpDownButtonStyle == ButtonStyle.InputControl
-                   && control.DropButtonStyle == ButtonStyle.InputControl;
+                   && control is { CalendarHeaderStyle: HeaderStyle.Calendar, CalendarDayStyle: ButtonStyle.CalendarDay, CalendarDayOfWeekStyle: ButtonStyle.CalendarDay, UpDownButtonStyle: ButtonStyle.InputControl, DropButtonStyle: ButtonStyle.InputControl };
         }
     }
 

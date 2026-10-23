@@ -30,6 +30,9 @@ public class KryptonForm : VisualForm,
 
 	internal class FormPaletteRedirect : PaletteRedirect
 	{
+		// Same FormMain radius as Office 2007 and Office 2010.
+		private const float Office2024FormCornerRounding = 5f;
+
 		private readonly KryptonForm _kryptonForm;
 
 		public FormPaletteRedirect(PaletteBase palette, KryptonForm kryptonForm)
@@ -37,6 +40,38 @@ public class KryptonForm : VisualForm,
 		{
 			_kryptonForm = kryptonForm;
 		}
+
+		/// <summary>
+		/// Office 2024 window chrome uses the Office 2007/2010 corner radius.
+		/// Microsoft 365 stays square. A palette that already defines a radius is left alone.
+		/// </summary>
+		public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
+		{
+			float rounding = base.GetBorderRounding(style, state);
+			return rounding == 0f && IsOffice2024FormBorder(style)
+				? Office2024FormCornerRounding
+				: rounding;
+		}
+
+		/// <inheritdoc />
+		public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state)
+		{
+			PaletteCornerRounding corners = base.GetBorderCornerRounding(style, state);
+			return IsOffice2024FormBorder(style)
+				   && corners.TopLeft == 0f
+				   && corners.TopRight == 0f
+				   && corners.BottomRight == 0f
+				   && corners.BottomLeft == 0f
+				? PaletteCornerRounding.Uniform(Office2024FormCornerRounding)
+				: corners;
+		}
+
+		private bool IsOffice2024FormBorder(PaletteBorderStyle style) =>
+			style is PaletteBorderStyle.FormMain
+				or PaletteBorderStyle.FormCustom1
+				or PaletteBorderStyle.FormCustom2
+				or PaletteBorderStyle.FormCustom3
+			&& (Target?.GetRibbonShape() == PaletteRibbonShape.Office2024);
 
 		public override PaletteRelativeAlign GetContentShortTextH(PaletteContentStyle style, PaletteState state)
 		{
@@ -575,7 +610,7 @@ public class KryptonForm : VisualForm,
 
 		// Apply color-key transparency like legacy resources (top-left pixel)
 		Color key = Color.Magenta;
-		if (themedGrip is Bitmap b && b.Width > 0 && b.Height > 0)
+		if (themedGrip is Bitmap { Width: > 0, Height: > 0 } b)
 		{
 			key = b.GetPixel(0, 0);
 		}
@@ -598,6 +633,8 @@ public class KryptonForm : VisualForm,
 	{
 		if (disposing)
 		{
+			DisposeCaptionChromeHosts();
+
 			// Remove ant showing tooltip
 			OnCancelToolTip(this, EventArgs.Empty);
 
@@ -1026,6 +1063,9 @@ public class KryptonForm : VisualForm,
 			}
 		}
 	}
+
+	/// <inheritdoc />
+	protected override bool AllowCustomChromeForInstance => UseThemeFormChromeBorderWidth;
 
 	/// <summary>
 	/// Gets or sets a value indicating if the form status strip be considered for merging into chrome.
@@ -1957,6 +1997,7 @@ public class KryptonForm : VisualForm,
 	protected override void OnShown(EventArgs e)
 	{
 		base.OnShown(e);
+		SyncCaptionChromeHosts();
 
 		// Host code may set palette/RTL after OnLoad; re-sync and recreate so views match collection order.
 		SyncFormFixedButtonSpecOrder();
@@ -2368,9 +2409,10 @@ public class KryptonForm : VisualForm,
 		// Ensure Material defaults are applied as early as possible for new forms
 		ApplyMaterialFormChromeDefaultsIfNeeded();
 
-		// Issue #2922: apply custom chrome before first paint. OnLoad is too late for
-		// MDI children — the system caption/border is already on screen by then.
-		if (!DesignMode && (FormBorderStyle == FormBorderStyle.None || MdiParent != null))
+		// Issues #2922 / #4584: apply custom chrome before first paint. OnLoad is too late —
+		// the system caption/border is already on screen by then (borderless, MDI, and
+		// normal bordered ShowDialog forms on Windows 11).
+		if (ShouldPrepareCustomChromeBeforeFirstPaint)
 		{
 			UpdateUseThemeFormChromeBorderWidthDecision();
 			if (MdiParent is KryptonForm host)
@@ -2401,6 +2443,7 @@ public class KryptonForm : VisualForm,
 	{
 		base.OnMdiChildActivate(e);
 		SyncMdiClientEdgeForBorderlessFillChildren();
+		SyncCaptionChromeHosts();
 	}
 
 	#endregion
@@ -2442,6 +2485,7 @@ public class KryptonForm : VisualForm,
 
 		// Need to perform a layout
 		PerformNeedPaint(true);
+		SyncCaptionChromeHosts();
 
 		// Make sure non-client is invalidated so the grip is drawn on start
 		InvalidateNonClient();
@@ -2602,6 +2646,13 @@ public class KryptonForm : VisualForm,
 			return new IntPtr(PI.HT.BORDER);
 		}
 
+		// Caption editor slot: HTBORDER so a gap around the owned text box cannot start a drag.
+		// The top resize band is left to the border checks below.
+		if (HitTestCaptionChrome(pt))
+		{
+			return new IntPtr(PI.HT.BORDER);
+		}
+
 		Padding borders = RealWindowBorders;
 
 		// Issue #2921: CustomCaptionArea is in form client coordinates (set by ribbon);
@@ -2757,6 +2808,7 @@ public class KryptonForm : VisualForm,
 	protected override void WindowChromePaint(Graphics g, Rectangle bounds)
 	{
 		CheckViewLayout();
+		SyncCaptionChromeHosts();
 		PerformViewPaint(g, bounds);
 	}
 
@@ -2890,6 +2942,7 @@ public class KryptonForm : VisualForm,
 	protected override void OnMove(EventArgs e)
 	{
 		base.OnMove(e);
+		SyncCaptionChromeHosts();
 	}
 
 	#endregion
@@ -2932,6 +2985,8 @@ public class KryptonForm : VisualForm,
 				CloseBox = true;
 				break;
 		}
+
+		SyncCaptionChromeHosts();
 	}
 
 	private Icon? GetDefinedIcon()
@@ -2955,6 +3010,56 @@ public class KryptonForm : VisualForm,
 		}
 
 		return null;
+	}
+
+	/// <summary>
+	/// Gets the heading docker used for caption layout.
+	/// </summary>
+	protected ViewDrawDocker DrawHeading => _drawHeading;
+
+	/// <summary>
+	/// Gets a value indicating whether the caption area is currently hidden.
+	/// </summary>
+	protected bool IsCaptionHidden => ShouldHideCaption();
+
+	/// <summary>
+	/// Releases owned windows that host caption controls.
+	/// </summary>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual void DisposeCaptionChromeHosts()
+	{
+	}
+
+	/// <summary>
+	/// Moves owned caption hosts onto their laid-out slots.
+	/// </summary>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual void SyncCaptionChromeHosts()
+	{
+	}
+
+	/// <summary>
+	/// <see langword="true"/> when <paramref name="windowPoint"/> is over a caption control slot.
+	/// </summary>
+	/// <param name="windowPoint">Point in window coordinates.</param>
+	/// <returns><see langword="true"/> when the point is over caption chrome hosting.</returns>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual bool HitTestCaptionChrome(Point windowPoint) => false;
+
+	/// <summary>
+	/// Reserves caption space for hosted caption controls before the heading is laid out.
+	/// </summary>
+	/// <returns><see langword="true"/> when a layout is required.</returns>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual bool PrepareCaptionChromeSlots() => false;
+
+	/// <summary>
+	/// Places centre-aligned caption controls after the heading layout.
+	/// </summary>
+	/// <param name="context">Context from the heading layout that just completed.</param>
+	/// <remarks>Overridden by <see cref="KryptonCaptionForm"/>.</remarks>
+	protected virtual void PlaceCaptionChromeCenter(ViewLayoutContext context)
+	{
 	}
 
 	/// <summary>
@@ -3155,6 +3260,11 @@ public class KryptonForm : VisualForm,
 					}
 				}
 
+				if (PrepareCaptionChromeSlots())
+				{
+					NeedLayout = true;
+				}
+
 				// Is a layout required?
 				if (NeedLayout
 					|| (GetDefinedIcon() != _cacheIcon)
@@ -3176,6 +3286,7 @@ public class KryptonForm : VisualForm,
 					using (var context = new ViewLayoutContext(ViewManager, this, realWindowRectangle, Renderer))
 					{
 						ViewManager.Layout(context);
+						PlaceCaptionChromeCenter(context);
 					}
 
 					// Layout not needed until next indicated
@@ -3669,7 +3780,7 @@ public class KryptonForm : VisualForm,
 
 		ClearMacWindowEffects();
 
-		if (Renderer is RenderMaterial && Renderer is not RenderMacOS)
+		if (Renderer is RenderMaterial and not RenderMacOS)
 		{
 			if (FormTitleAlign is PaletteRelativeAlign.Near or PaletteRelativeAlign.Inherit)
 			{

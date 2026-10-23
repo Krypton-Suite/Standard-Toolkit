@@ -83,6 +83,7 @@ global using Krypton.Toolkit.ResourceFiles.SystemMenu;
 global using Krypton.Toolkit.ResourceFiles.TaskDialog;
 global using Krypton.Toolkit.ResourceFiles.Toolbars;
 global using Krypton.Toolkit.ResourceFiles.ToolkitLogos;
+global using Krypton.Toolkit.ResourceFiles.PropertyGrid;
 global using Krypton.Toolkit.ResourceFiles.TreeItems;
 global using Krypton.Toolkit.ResourceFiles.UAC;
 global using Krypton.Toolkit.ResourceFiles.VisualStudio;

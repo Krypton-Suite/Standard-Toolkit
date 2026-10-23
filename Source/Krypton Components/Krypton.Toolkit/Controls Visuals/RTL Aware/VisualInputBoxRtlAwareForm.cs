@@ -40,6 +40,20 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
         UpdateButtons();
     }
 
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        UpdatePromptLayout();
+    }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        UpdatePromptLayout();
+    }
+
     #endregion
 
     #region Implementation
@@ -103,6 +117,25 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
     {
         kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
         kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+    }
+
+    /// <summary>
+    /// Sizes the prompt to its wrapped text and the owner monitor.
+    /// </summary>
+    private void UpdatePromptLayout()
+    {
+        IWin32Window? owner = _inputBoxData.Owner;
+        var maxClient = KryptonDialogLayout.GetMaximumClientSize(this, owner, true);
+        if (ktxtUserResponse.MinimumSize.Width > maxClient.Width - 24)
+        {
+            ktxtUserResponse.MinimumSize = new Size(Math.Max(120, maxClient.Width - 24), ktxtUserResponse.MinimumSize.Height);
+        }
+
+        var buttonWidth = kbtnOk.GetPreferredSize(Size.Empty).Width
+                          + kbtnCancel.GetPreferredSize(Size.Empty).Width
+                          + 32;
+        var minimum = Math.Max(ktxtUserResponse.MinimumSize.Width, buttonWidth);
+        KryptonDialogLayout.FitWrappedPrompt(this, kwlblPrompt, tableLayoutPanel2, owner, minimum);
     }
 
     private void ktxtUserResponse_KeyDown(object sender, KeyEventArgs e)

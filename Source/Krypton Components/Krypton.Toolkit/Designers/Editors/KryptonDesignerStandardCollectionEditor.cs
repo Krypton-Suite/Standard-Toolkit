@@ -37,6 +37,20 @@ public abstract class KryptonDesignerStandardCollectionEditor : KryptonDesignerC
     internal virtual void OnDesignerItemRemoving(object? item)
     {
     }
+
+    /// <summary>
+    /// Called when the collection editor dialog is accepted.
+    /// </summary>
+    internal virtual void OnDesignerEditCommitted()
+    {
+    }
+
+    /// <summary>
+    /// Called when the collection editor dialog is cancelled.
+    /// </summary>
+    internal virtual void OnDesignerEditCancelled()
+    {
+    }
     #endregion
 }
 
@@ -79,6 +93,33 @@ internal sealed class KryptonDesignerPropertyGridSite : ISite, IServiceProvider
 
     #region IServiceProvider
     /// <inheritdoc />
-    public object? GetService(Type serviceType) => _context?.GetService(serviceType);
+    public object? GetService(Type serviceType)
+    {
+        // PropertyGrid.Site setter needs IDesignerHost; Events tab also needs
+        // IDesignerEventService / IEventBindingService from the designer host.
+        object? service = _context?.GetService(serviceType);
+        if (service != null)
+        {
+            return service;
+        }
+
+        if (_context?.GetService(typeof(IDesignerHost)) is IDesignerHost host)
+        {
+            service = host.GetService(serviceType);
+            if (service != null)
+            {
+                return service;
+            }
+        }
+
+        // Prefer the selected component's designer site when it is not this wrapper.
+        ISite? componentSite = _component.Site;
+        if (componentSite != null && !ReferenceEquals(componentSite, this))
+        {
+            return componentSite.GetService(serviceType);
+        }
+
+        return null;
+    }
     #endregion
 }

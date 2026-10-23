@@ -29,6 +29,8 @@ public abstract class VisualDesignerCollectionForm : KryptonForm
         SetInheritedControlOverride();
         ControlBox = false;
         StartPosition = FormStartPosition.CenterScreen;
+        // Match CollectionEditor.CollectionForm. Unowned designer dialogs otherwise get a taskbar button.
+        ShowInTaskbar = SharedStaticVariables.SHOW_COLLECTION_EDITORS_IN_TASKBAR;
     }
 
     /// <summary>
@@ -148,6 +150,7 @@ _editor ?? ThrowHelper.ThrowInvalidOperationException<KryptonDesignerCollectionE
     {
         ConfigureDesignerDpi();
         base.OnLoad(e);
+        KryptonDialogLayout.EnableResizable(this);
     }
 
     /// <inheritdoc />

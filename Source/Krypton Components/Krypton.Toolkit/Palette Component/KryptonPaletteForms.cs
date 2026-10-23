@@ -55,7 +55,9 @@ public class KryptonPaletteForms : Storage
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => FormCommon.IsDefault &&
                                       FormMain.IsDefault &&
-                                      FormCustom1.IsDefault;
+                                      FormCustom1.IsDefault &&
+                                      FormCustom2.IsDefault &&
+                                      FormCustom3.IsDefault;
 
     #endregion
 

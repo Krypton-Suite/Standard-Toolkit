@@ -42,8 +42,16 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
         Items.Clear();
         Items.AddRange(CommonHelperThemeSelectors.GetThemesArray(_showExtraThemes));
 
-        // Sets the intial palette from either global or DefaultPalette property
-        SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
+        // Show the current global theme without recording it as a local DefaultPalette.
+        _isExternalUpdate = true;
+        try
+        {
+            SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
+        }
+        finally
+        {
+            _isExternalUpdate = false;
+        }
     }
 
     #endregion
@@ -99,6 +107,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
         // React to theme changes from outside this control.
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
         ThemeManager.RegisteredThemesChanged += ThemeManagerRegisteredThemesChanged;
+        KryptonThemeCatalog.DiscoverThemes(Site);
         base.OnHandleCreated(e);
     }
 
@@ -122,7 +131,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
 
     private string GetSelectedThemeName()
     {
-        if (SelectedIndex > -1 && SelectedItem is string s && s.Length > 0)
+        if (SelectedIndex > -1 && SelectedItem is string { Length: > 0 } s)
         {
             return s;
         }
@@ -225,7 +234,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     protected override void OnSelectedIndexChanged(EventArgs e)
     {
         // The theme listbox needs a check first since SelectedItem is of type: object?
-        string themeName = SelectedIndex > -1 && SelectedItem is string str && str.Length > 0
+        string themeName = SelectedIndex > -1 && SelectedItem is string { Length: > 0 } str
             ? str
             : string.Empty;
 
