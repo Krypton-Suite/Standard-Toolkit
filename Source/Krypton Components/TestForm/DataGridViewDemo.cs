@@ -191,6 +191,34 @@ public partial class DataGridViewDemo : KryptonForm
         kdgvMain.HideOuterBorders = !kchkShowGridLines.Checked;
     }
 
+    private void kchkCornerRounding_CheckedChanged(object sender, EventArgs e) => ApplyCornerRoundingFromDemo();
+
+    private void knudCornerRoundingRadius_ValueChanged(object sender, EventArgs e) => ApplyCornerRoundingFromDemo();
+
+    private void ApplyCornerRoundingFromDemo()
+    {
+        knudCornerRoundingRadius.Enabled = kchkCornerRounding.Checked;
+
+        float rounding = kchkCornerRounding.Checked ? (float)knudCornerRoundingRadius.Value : -1f;
+        kdgvMain.StateNormal.Border.Rounding = rounding;
+        kdgvMain.StateDisabled.Border.Rounding = rounding;
+
+        if (kchkCornerRounding.Checked)
+        {
+            kdgvMain.StateNormal.Border.Draw = InheritBool.True;
+            kdgvMain.StateDisabled.Border.Draw = InheritBool.True;
+            kdgvMain.StateNormal.Border.DrawBorders = PaletteDrawBorders.All;
+            kdgvMain.StateDisabled.Border.DrawBorders = PaletteDrawBorders.All;
+        }
+        else
+        {
+            kdgvMain.StateNormal.Border.Draw = InheritBool.Inherit;
+            kdgvMain.StateDisabled.Border.Draw = InheritBool.Inherit;
+            kdgvMain.StateNormal.Border.DrawBorders = PaletteDrawBorders.Inherit;
+            kdgvMain.StateDisabled.Border.DrawBorders = PaletteDrawBorders.Inherit;
+        }
+    }
+
     private void kcmbAutoSizeColumnsMode_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (kcmbAutoSizeColumnsMode.SelectedItem is string name)

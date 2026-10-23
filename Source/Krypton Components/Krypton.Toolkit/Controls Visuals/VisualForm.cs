@@ -1,11 +1,11 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -27,18 +27,12 @@ public abstract class VisualForm : Form,
     #region Static Fields
     private static readonly bool _themedApp;
 
-    /// <summary>
-    /// Registered "TaskbarButtonCreated" message. Must handle this before using ITaskbarList3 (e.g. ThumbBarAddButtons).
-    /// </summary>
-    private static readonly uint s_taskbarButtonCreatedMsg = PI.RegisterWindowMessage("TaskbarButtonCreated");
-
     // To avoid lag when Acrylic is in use
     public const int WS_EX_NOREDIRECTIONBITMAP = 0x00200000;
 
     #endregion
 
     #region Instance Fields
-
     private bool _activated;
     private bool _windowActive;
     private bool _trackingMouse;
@@ -55,11 +49,6 @@ public abstract class VisualForm : Form,
     private BlurValues _blurValues;
     private BlurManager _blurManager;
     private readonly object lockObject = new();
-    readonly JumpListValues _jumpListValues;
-    private readonly WindowsShellValues _shellValues;
-    private bool _thumbButtonsAdded;
-    private bool _taskbarButtonCreated;
-
     #endregion
 
     #region Events
@@ -90,14 +79,6 @@ public abstract class VisualForm : Form,
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
     public event EventHandler? GlobalPaletteChanged;
-
-    /// <summary>
-    /// Occurs when a taskbar thumbnail toolbar button is clicked.
-    /// </summary>
-    [Category(@"Action")]
-    [Description(@"Occurs when the user clicks a button in the taskbar thumbnail preview.")]
-    public event EventHandler<ThumbnailButtonClickEventArgs>? ThumbnailButtonClick;
-
     #endregion
 
     #region Identity
@@ -110,7 +91,7 @@ public abstract class VisualForm : Form,
         }
         catch
         {
-            // Do nothing
+            //
         }
     }
 
@@ -147,15 +128,6 @@ public abstract class VisualForm : Form,
 
         ShadowValues = new ShadowValues();
         BlurValues = new BlurValues();
-
-        // Taskbar configuration
-        _shellValues = new WindowsShellValues(NeedPaintDelegate);
-        _shellValues.OverlayIconValues.OnTaskbarOverlayChanged += UpdateTaskbarOverlayIcon;
-        _shellValues.ThumbnailButtonValues.OnThumbnailButtonsChanged += UpdateTaskbarThumbnailButtons;
-
-        // Jump list
-        _jumpListValues = new JumpListValues(NeedPaintDelegate);
-        _jumpListValues.JumpListChanged += OnJumpListChanged;
 
 #if !NET462
         DpiChanged += OnDpiChanged;
@@ -424,44 +396,6 @@ public abstract class VisualForm : Form,
     /// Resets the <see cref="KryptonForm"/> blur values.
     /// </summary>
     public void ResetBlurValues() => _blurValues.Reset();
-
-    /// <summary>
-    /// Gets access to the shell values.
-    /// </summary>
-    [Category(@"Visuals")]
-    [Description(@"Windows shell related values.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public WindowsShellValues ShellValues => _shellValues;
-
-    /// <summary>
-    /// Resets the ShellValues property to its default value.
-    /// </summary>
-    public void ResetShellValues() => ShellValues.Reset();
-
-    /// <summary>
-    /// Indicates whether the ShellValues property should be serialized.
-    /// </summary>
-    /// <returns>true if the ShellValues property should be serialized; otherwise, false.</returns>
-    public bool ShouldSerializeShellValues() => !ShellValues.IsDefault;
-
-    /// <summary>
-    /// Gets access to the jump list values.
-    /// </summary>
-    [Category(@"Visuals")]
-    [Description(@"Jump list configuration for the taskbar button.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public JumpListValues JumpList => _jumpListValues;
-
-    /// <summary>
-    /// Resets the JumpList property to its default value.
-    /// </summary>
-    public void ResetJumpList() => JumpList.Reset();
-
-    /// <summary>
-    /// Indicates whether the JumpList property should be serialized.
-    /// </summary>
-    /// <returns>true if the JumpList property should be serialized; otherwise, false.</returns>
-    public bool ShouldSerializeJumpList() => !JumpList.IsDefault;
 
     /// <summary>
     /// Gets and sets the custom palette implementation.
@@ -843,7 +777,7 @@ public abstract class VisualForm : Form,
         }
         catch
         {
-            // Do nothing
+            //
         }
 
         //if (AcrylicValues.EnableAcrylic)
@@ -852,21 +786,6 @@ public abstract class VisualForm : Form,
         //}
 
         base.OnHandleCreated(e);
-
-        // Update taskbar overlay icon if set
-        UpdateTaskbarOverlayIcon();
-        UpdateTaskbarThumbnailButtons();
-    }
-
-    /// <summary>
-    /// Raises the HandleDestroyed event.
-    /// </summary>
-    /// <param name="e">An EventArgs containing the event data.</param>
-    protected override void OnHandleDestroyed(EventArgs e)
-    {
-        _thumbButtonsAdded = false;
-        _taskbarButtonCreated = false;
-        base.OnHandleDestroyed(e);
     }
 
     /// <summary>
@@ -1091,9 +1010,7 @@ public abstract class VisualForm : Form,
 
         // We do not process the message if on an MDI child, because doing so prevents the
         // LayoutMdi call on the parent from working and cascading/tiling the children
-        if (_themedApp
-            && !CommonHelper.IsFormMaximized(this)
-            && (MdiParent is null || UseThemeFormChromeBorderWidth))
+        if (_themedApp && MdiParent is null)
         {
             switch (m.Msg)
             {
@@ -1114,13 +1031,6 @@ public abstract class VisualForm : Form,
         // Do we need to override message processing?
         if (!IsDisposed && !Disposing)
         {
-            if (s_taskbarButtonCreatedMsg != 0 && m.Msg == (int)s_taskbarButtonCreatedMsg)
-            {
-                _taskbarButtonCreated = true;
-                UpdateTaskbarThumbnailButtons();
-                processed = true;
-            }
-
             switch (m.Msg)
             {
                 case PI.WM_.NCPAINT:
@@ -1171,7 +1081,6 @@ public abstract class VisualForm : Form,
                 case PI.WM_.NCLBUTTONDBLCLK:
                     processed = OnWM_NCLBUTTONDBLCLK(ref m);
                     break;
-
                 case PI.WM_.SYSCOMMAND:
                 {
                     var sc = (PI.SC_)m.WParam.ToInt64();
@@ -1209,17 +1118,6 @@ public abstract class VisualForm : Form,
                     // message used to indicate a window is shown and manually request layout
                     // and paint of the non-client area to get it shown.
                     PerformNeedPaint(true);
-                    break;
-                case PI.WM_.COMMAND:
-                {
-                    var wp = (uint)(m.WParam.ToInt64() & 0xFFFFFFFF);
-                    if (((wp >> 16) & 0xFFFF) == PI.THBN_CLICKED)
-                    {
-                        var buttonId = wp & 0xFFFF;
-                        ThumbnailButtonClick?.Invoke(this, new ThumbnailButtonClickEventArgs(buttonId));
-                        processed = true;
-                    }
-                }
                     break;
             }
         }
@@ -1827,194 +1725,10 @@ public abstract class VisualForm : Form,
 #if !NET462
     private void OnDpiChanged(object? sender, DpiChangedEventArgs e) => UpdateDpiFactors();
 #endif
-
-    #region Jump List
-
-    /// <summary>
-    /// Updates the jump list using the Windows ICustomDestinationList API.
-    /// </summary>
-    private void OnJumpListChanged()
-    {
-        // Only update at runtime, not in designer
-        if (CommonHelper.DesignMode() || !IsHandleCreated)
-        {
-            return;
-        }
-
-        try
-        {
-            // Check if Windows 7+ (ICustomDestinationList requires Windows 7+)
-            if (Environment.OSVersion.Version.Major < 6 ||
-                (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor < 1))
-            {
-                return; // Not supported on Windows Vista or earlier
-            }
-
-            // Check if AppId is set
-            if (string.IsNullOrEmpty(_jumpListValues.AppId))
-            {
-                return;
-            }
-
-            // Create CustomDestinationList COM object
-            var destinationList = (PI.ICustomDestinationList)new PI.CustomDestinationList();
-            destinationList.SetAppID(_jumpListValues.AppId);
-
-            // Begin jump list creation
-            Guid iidObjectArray = new Guid("92ca9dcd-5622-4bba-a805-5e9f541bd8c9");
-            destinationList.BeginList(out uint maxSlots, ref iidObjectArray, out IntPtr removedItems);
-
-            // Add known categories if requested
-            if (_jumpListValues.ShowFrequentCategory)
-            {
-                destinationList.AppendKnownCategory(PI.KNOWNDESTCATEGORY.KDC_FREQUENT);
-            }
-
-            if (_jumpListValues.ShowRecentCategory)
-            {
-                destinationList.AppendKnownCategory(PI.KNOWNDESTCATEGORY.KDC_RECENT);
-            }
-
-            // Add custom categories
-            foreach (var category in _jumpListValues.Categories)
-            {
-                if (category.Value.Count > 0)
-                {
-                    var categoryItems = CreateObjectArray(category.Value);
-                    if (categoryItems != null)
-                    {
-                        destinationList.AppendCategory(category.Key, categoryItems);
-                    }
-                }
-            }
-
-            // Add user tasks
-            if (_jumpListValues.UserTasks.Count > 0)
-            {
-                var taskItems = CreateObjectArray(_jumpListValues.UserTasks);
-                if (taskItems != null)
-                {
-                    destinationList.AddUserTasks(taskItems);
-                }
-            }
-
-            // Commit the jump list
-            destinationList.CommitList();
-        }
-        catch (Exception ex)
-        {
-            // Silently fail if jump list API is not available
-            // This can happen on older Windows versions or if COM registration fails
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-        }
-    }
-
-    /// <summary>
-    /// Creates an IObjectArray from a list of JumpListItem objects.
-    /// </summary>
-    private PI.IObjectArray? CreateObjectArray(List<JumpListItem> items)
-    {
-        if (items == null || items.Count == 0)
-        {
-            return null;
-        }
-
-        try
-        {
-            // Create ObjectCollection
-            var objectCollection = (PI.IObjectCollection)new PI.ObjectCollection();
-
-            // Create shell links for each item
-            foreach (var item in items)
-            {
-                if (string.IsNullOrEmpty(item.Path))
-                {
-                    continue;
-                }
-
-                var shellLink = (PI.IShellLinkW)new PI.ShellLink();
-                shellLink.SetPath(item.Path);
-
-                if (!string.IsNullOrEmpty(item.Arguments))
-                {
-                    shellLink.SetArguments(item.Arguments);
-                }
-
-                if (!string.IsNullOrEmpty(item.WorkingDirectory))
-                {
-                    shellLink.SetWorkingDirectory(item.WorkingDirectory);
-                }
-
-                if (!string.IsNullOrEmpty(item.Description))
-                {
-                    shellLink.SetDescription(item.Description);
-                }
-
-                if (!string.IsNullOrEmpty(item.IconPath))
-                {
-                    shellLink.SetIconLocation(item.IconPath, item.IconIndex);
-                }
-
-                // Add to collection
-                objectCollection.AddObject(shellLink);
-            }
-
-            // Return as IObjectArray
-            Guid iidObjectArray = new Guid("92ca9dcd-5622-4bba-a805-5e9f541bd8c9");
-            return (PI.IObjectArray)objectCollection;
-        }
-        catch (Exception ex)
-        {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-            return null;
-        }
-    }
-
-    #endregion
-
     #endregion
 
     private void UpdateDpiFactors()
     {
-        // Invalidate the global DPI cache to ensure fresh values are calculated
-        KryptonManager.InvalidateDpiCache();
-
-        // Use per-monitor DPI for proper high DPI and touchscreen scaling support
-        IntPtr hWnd = IsHandleCreated ? Handle : IntPtr.Zero;
-
-        if (hWnd != IntPtr.Zero)
-        {
-            try
-            {
-                // Try to use GetDpiForWindow for per-monitor DPI awareness (Windows 10 version 1607+)
-                uint dpi = PI.GetDpiForWindow(hWnd);
-                if (dpi > 0)
-                {
-                    FactorDpiX = dpi / 96f;
-                    FactorDpiY = dpi / 96f;
-                    return;
-                }
-            }
-            catch
-            {
-                // GetDpiForWindow may not be available on older Windows versions
-            }
-
-            // Fallback to window's Graphics DPI
-            try
-            {
-                using Graphics graphics = Graphics.FromHwnd(hWnd);
-                FactorDpiX = graphics.DpiX / 96f;
-                FactorDpiY = graphics.DpiY / 96f;
-                return;
-            }
-            catch
-            {
-                // Continue to primary monitor fallback
-            }
-        }
-
-        // Fallback
         // Do not use the control dpi, as these values are being used to target the screen
         IntPtr screenDc = PI.GetDC(IntPtr.Zero);
         if (screenDc != IntPtr.Zero)
@@ -2043,131 +1757,5 @@ public abstract class VisualForm : Form,
         ClientSize = new Size(284, 261);
         Name = "VisualForm";
         ResumeLayout(false);
-    }
-
-    /// <summary>
-    /// Updates the taskbar overlay icon using the Windows ITaskbarList3 API.
-    /// </summary>
-    private void UpdateTaskbarOverlayIcon()
-    {
-        // Only update at runtime, not in designer
-        if (CommonHelper.DesignMode() || !IsHandleCreated)
-        {
-            return;
-        }
-
-        try
-        {
-            // Check if Windows 7+ (ITaskbarList3 requires Windows 7+)
-            if (Environment.OSVersion.Version.Major < 6 ||
-                (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor < 1))
-            {
-                return; // Not supported on Windows Vista or earlier
-            }
-
-            // Create TaskbarList COM object
-            var taskbarList = (PI.ITaskbarList3)new PI.TaskbarList();
-            taskbarList.HrInit();
-
-            // Get icon handle
-            IntPtr hIcon = IntPtr.Zero;
-            if (_shellValues.OverlayIconValues.Icon != null)
-            {
-                hIcon = _shellValues.OverlayIconValues.Icon.Handle;
-            }
-
-            // Set overlay icon (passing null clears it)
-            string description = _shellValues.OverlayIconValues.Description ?? string.Empty;
-            taskbarList.SetOverlayIcon(Handle, hIcon, description);
-        }
-        catch (Exception ex)
-        {
-            // Silently fail if taskbar API is not available
-            // This can happen on older Windows versions or if COM registration fails
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-        }
-    }
-
-    /// <summary>
-    /// Updates the taskbar thumbnail toolbar buttons using the Windows ITaskbarList3 API.
-    /// </summary>
-    private void UpdateTaskbarThumbnailButtons()
-    {
-        if (CommonHelper.DesignMode() || !IsHandleCreated || !ShowInTaskbar || !_taskbarButtonCreated)
-        {
-            return;
-        }
-
-        try
-        {
-            if (Environment.OSVersion.Version.Major < 6 ||
-                (Environment.OSVersion.Version.Major == 6 && Environment.OSVersion.Version.Minor < 1))
-            {
-                return;
-            }
-
-            var buttons = _shellValues.ThumbnailButtonValues.Buttons;
-            if (buttons.Count == 0)
-            {
-                return;
-            }
-
-            var arr = new PI.THUMBBUTTON[buttons.Count];
-            const int maxTip = 259;
-            for (var i = 0; i < buttons.Count; i++)
-            {
-                var b = buttons[i];
-                var tip = (b.Tooltip ?? string.Empty);
-                if (tip.Length > maxTip)
-                {
-                    tip = tip.Substring(0, maxTip);
-                }
-
-                var flags = b.Hidden
-                    ? PI.THUMBBUTTONFLAGS.THBF_HIDDEN
-                    : (b.Enabled ? PI.THUMBBUTTONFLAGS.THBF_ENABLED : PI.THUMBBUTTONFLAGS.THBF_DISABLED);
-
-                arr[i] = new PI.THUMBBUTTON
-                {
-                    dwMask = PI.THUMBBUTTONMASK.THB_ICON | PI.THUMBBUTTONMASK.THB_TOOLTIP | PI.THUMBBUTTONMASK.THB_FLAGS,
-                    iId = b.Id,
-                    iBitmap = 0,
-                    hIcon = b.Icon?.Handle ?? IntPtr.Zero,
-                    szTip = tip,
-                    dwFlags = flags
-                };
-            }
-
-            var size = Marshal.SizeOf<PI.THUMBBUTTON>();
-            var buf = Marshal.AllocHGlobal(size * arr.Length);
-            try
-            {
-                for (var i = 0; i < arr.Length; i++)
-                {
-                    Marshal.StructureToPtr(arr[i], IntPtr.Add(buf, i * size), false);
-                }
-
-                var taskbarList = (PI.ITaskbarList3)new PI.TaskbarList();
-                taskbarList.HrInit();
-
-                if (!_thumbButtonsAdded)
-                {
-                    taskbarList.ThumbBarAddButtons(Handle, (uint)arr.Length, buf);
-                    _thumbButtonsAdded = true;
-                }
-                else
-                {
-                    taskbarList.ThumbBarUpdateButtons(Handle, (uint)arr.Length, buf);
-                }
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(buf);
-            }
-        }
-        catch (Exception ex)
-        {
-            KryptonExceptionHandler.CaptureException(ex, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-        }
     }
 }
