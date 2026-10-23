@@ -1,13 +1,19 @@
 ﻿<Project>
-	<!-- DesignToolsServer assemblies: modern Windows TFMs only. -->
+	<!-- DesignToolsServer assemblies: modern Windows TFMs only.
+	     Keep these in sync with modern TFMs on Krypton.Interop / runtime libraries (Directory.Build.props).
+	     Design ProjectReferences Interop with InternalsVisibleTo. If Design targets net8/net9 while Interop
+	     only builds net10+/net4x, NuGet falls back to net472 Interop (NU1702). That assembly's net4x
+	     System.Diagnostics.CodeAnalysis polyfills (DisallowNullAttribute, etc.) then collide with the BCL
+	     copies on modern TFMs → CS0433 across designer Initialize([DisallowNull] ...) methods. -->
 	<Import Project="$(MSBuildThisFileDirectory)Krypton.WinFormsDesignerSdk.props" />
 
 	<Choose>
 		<When Condition="'$(KryptonWinFormsDesignerSdkEnabled)' != 'true'">
 			<PropertyGroup>
-				<TargetFrameworks>net8.0-windows</TargetFrameworks>
+				<TargetFrameworks>net10.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
+		<!-- VS2022 Full MSBuild / SkipNetFramework graphs that still ship net8/net9 (Interop matches). -->
 		<When Condition="'$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">
 			<PropertyGroup>
 				<TargetFrameworks>net8.0-windows;net9.0-windows</TargetFrameworks>
@@ -15,12 +21,13 @@
 		</When>
 		<When Condition="'$(ExcludeNet11)' == 'true'">
 			<PropertyGroup>
-				<TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks>net10.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
 		<Otherwise>
+			<!-- Nightly / Canary / Debug / CI: modern runtime TFMs are net10 (+ net11), not net8/net9. -->
 			<PropertyGroup>
-				<TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks>net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
