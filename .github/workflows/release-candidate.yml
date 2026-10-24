@@ -1,9 +1,9 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac et al. 2026 - 2026. All rights reserved.
 #
-# KILL-SWITCH: To disable this workflow, set repository variable RC_DISABLED=true
+# KILL-SWITCH: To disable this workflow, set repository variable RELEASE_CANDIDATE_DISABLED=true
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
-# To re-enable: Set RC_DISABLED=false or delete the variable
+# To re-enable: Set RELEASE_CANDIDATE_DISABLED=false or delete the variable
 #
 # Publishes release-candidate NuGet packages (stable package IDs, -rc version suffix)
 # from the gold branch only. Gated by the production environment (approval) and a
@@ -40,11 +40,11 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $disabled = '${{ vars.RC_DISABLED }}'
+          $disabled = '${{ vars.RELEASE_CANDIDATE_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: Release Candidate Release workflow is currently DISABLED via kill switch (RC_DISABLED=true)"
-            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set RC_DISABLED to 'false'."
+            Write-Host "::warning:: Release Candidate Release workflow is currently DISABLED via kill switch (RELEASE_CANDIDATE_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set RELEASE_CANDIDATE_DISABLED to 'false'."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {
             Write-Host "Release Candidate Release kill switch check has passed, continuing..."
