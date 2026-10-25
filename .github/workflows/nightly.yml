@@ -194,7 +194,7 @@ jobs:
             }
             echo "has_changes=true" >> $env:GITHUB_OUTPUT
           } else {
-            Write-Host "No changes detected (or only .github-only changes) and not a scheduled publish day - skipping nightly build"
+            Write-Host "No changes detected (or only .github-only changes) and not a scheduled publish day - skipping nightly build. Going back to sleep until next scheduled run."
             echo "has_changes=false" >> $env:GITHUB_OUTPUT
           }
 
