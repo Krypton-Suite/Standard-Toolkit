@@ -1,11 +1,11 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -472,74 +472,6 @@ public enum RibbonItemAlignment
     /// </summary>
     Far
 }
-#endregion
-
-#region Enum BackstageItemSize
-
-/// <summary>
-/// Specifies the size of a navigation item in the Backstage View.
-/// </summary>
-public enum BackstageItemSize
-{
-    /// <summary>
-    /// Small item size (default, compact display).
-    /// </summary>
-    Small = 0,
-
-    /// <summary>
-    /// Large item size (Office-like, more prominent display with larger image area).
-    /// </summary>
-    Large = 1
-}
-
-#endregion
-
-#region Enum BackstageOverlayMode
-
-/// <summary>
-/// Specifies the overlay coverage mode for the Backstage View.
-/// </summary>
-public enum BackstageOverlayMode
-{
-    /// <summary>
-    /// Overlay covers the entire form client area (default).
-    /// </summary>
-    FullClient = 0,
-
-    /// <summary>
-    /// Overlay covers only the area below the ribbon.
-    /// </summary>
-    BelowRibbon = 1
-}
-
-#endregion
-
-#region Enum RibbonNotificationBarType
-
-/// <summary>
-/// Specifies the type of notification bar.
-/// </summary>
-public enum RibbonNotificationBarType
-{
-    /// <summary>Unknown notification type (not assigned).</summary>
-    Unknown = 0,
-
-    /// <summary>Information notification (blue).</summary>
-    Information = 1,
-
-    /// <summary>Warning notification (yellow/orange).</summary>
-    Warning = 2,
-
-    /// <summary>Error notification (red).</summary>
-    Error = 3,
-
-    /// <summary>Success notification (green).</summary>
-    Success = 4,
-
-    /// <summary>Custom notification (uses custom colors).</summary>
-    Custom = 5
-}
-
 #endregion
 
 #region Delegates

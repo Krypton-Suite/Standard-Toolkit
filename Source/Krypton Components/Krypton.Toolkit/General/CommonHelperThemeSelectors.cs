@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2026. All rights reserved. 
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved. 
  *  
  */
 #endregion
@@ -207,6 +207,11 @@ internal interface IKryptonThemeSelectorBase
     /// Gets or sets the default palette mode.
     /// </summary>
     PaletteMode DefaultPalette { get; set; }
+
+    /// <summary>
+    /// Gets or sets the user defined custom palette.
+    /// </summary>
+    KryptonCustomPaletteBase? KryptonCustomPalette { get; set; }
 }
 
 #endregion

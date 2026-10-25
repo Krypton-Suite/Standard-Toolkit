@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -506,48 +506,6 @@ public class KryptonDomainUpDown : VisualControlBase,
         /// </summary>
         /// <returns>String value.</returns>
         public virtual string GetLongText() => string.Empty;
-
-        /// <summary>
-        /// Gets the overlay image.
-        /// </summary>
-        /// <param name="state">The state for which the overlay image is needed.</param>
-        /// <returns>Overlay image value, or null if no overlay image is set.</returns>
-        public virtual Image? GetOverlayImage(PaletteState state) => null;
-
-        /// <summary>
-        /// Gets the overlay image color that should be transparent.
-        /// </summary>
-        /// <param name="state">The state for which the overlay image is needed.</param>
-        /// <returns>Color value.</returns>
-        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
-
-        /// <summary>
-        /// Gets the position of the overlay image relative to the main image.
-        /// </summary>
-        /// <param name="state">The state for which the overlay position is needed.</param>
-        /// <returns>Overlay image position.</returns>
-        public virtual OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
-
-        /// <summary>
-        /// Gets the scaling mode for the overlay image.
-        /// </summary>
-        /// <param name="state">The state for which the overlay scale mode is needed.</param>
-        /// <returns>Overlay image scale mode.</returns>
-        public virtual OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
-
-        /// <summary>
-        /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
-        /// </summary>
-        /// <param name="state">The state for which the overlay scale factor is needed.</param>
-        /// <returns>Scale factor (0.0 to 2.0).</returns>
-        public virtual float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
-
-        /// <summary>
-        /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
-        /// </summary>
-        /// <param name="state">The state for which the overlay fixed size is needed.</param>
-        /// <returns>Fixed size.</returns>
-        public virtual Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
 
         #endregion
 
@@ -1550,12 +1508,6 @@ public class KryptonDomainUpDown : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
-    /// Creates the accessibility object for the KryptonDomainUpDown control.
-    /// </summary>
-    /// <returns>A new KryptonDomainUpDownAccessibleObject instance for the control.</returns>
-    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonDomainUpDownAccessibleObject(this);
-
-    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -2044,11 +1996,9 @@ public class KryptonDomainUpDown : VisualControlBase,
 
     private void OnDomainUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
-    private void OnDomainUpDownValidated(object? sender, EventArgs e) => ForwardValidated(e);
+    private void OnDomainUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
 
-    // TODO: Workaround for issue where ContainerControl style causes duplicate validation events. See issue https://github.com/Krypton-Suite/Standard-Toolkit/issues/2801 for details.
-    private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
+    private void OnDomainUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
