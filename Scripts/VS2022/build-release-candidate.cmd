@@ -1,11 +1,11 @@
-﻿@echo off
-REM RC (gold) release candidate build using the Scripts/Current/ toolset (Visual Studio major 18+, profile "current").
+@echo off
+REM RC (gold) release candidate build using the Scripts/VS2022/ toolset (Visual Studio 2022, profile "2022").
 REM MSBuild discovery: Scripts\Common\find-msbuild.cmd. Failure text comes from the helper; this script only pauses.
 setlocal EnableExtensions
 set "SCRIPT_DIR=%~dp0"
 pushd "%SCRIPT_DIR%"
 
-call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" current
+call "%SCRIPT_DIR%..\Common\find-msbuild.cmd" 2022
 if errorlevel 1 (
 echo.
 pause
@@ -24,10 +24,8 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
 REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets).
-setlocal
-call "%~dp0setup-dotnet11-sdk.cmd" || (endlocal & goto exitbatch)
-"%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%rc.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\rc-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\rc-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
-endlocal
+"%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%releasecandidate.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\rc-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\rc-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
+if errorlevel 1 goto buildfailed
 @echo:
 @echo RC release build completed: %date% %time% %zone%
 @echo:
@@ -52,3 +50,9 @@ exit /b
 :exitbatch
 popd
 exit /b
+
+:buildfailed
+@echo RC release build failed. Review the build Logs in ..\..\Logs
+pause
+popd
+exit /b 1
