@@ -56,28 +56,14 @@ jobs:
         uses: actions/checkout@v7
 
       # .NET 10 required; .NET 11 with preview fallback (NETSDK1045 if only 10.x is selected). .NET 12 when USE_DOTNET_PREVIEW != false.
-      - name: Setup .NET (10)
+      - name: Setup .NET (10 and 11)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             10.0.x
-
-      - name: Setup .NET (11)
-        id: setup_dotnet11_master
-        continue-on-error: true
-        if: steps.release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-
-      - name: Setup .NET (11 preview fallback)
-        if: steps.release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_master.outcome == 'failure'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_master
@@ -549,23 +535,6 @@ jobs:
             9.0.x
             10.0.x
 
-      - name: Setup .NET Preview (stable)
-        id: setup_dotnetpreview_stable_v105
-        continue-on-error: true
-        # Kill switch check
-        if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
-
-      - name: Setup .NET Preview (preview fallback)
-        # Kill switch check
-        if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_v105.outcome == 'failure'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
-          dotnet-quality: preview
-
       - name: Setup .NET Preview
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
@@ -928,28 +897,14 @@ jobs:
         uses: actions/checkout@v7
 
       # .NET 10 required; .NET 11 with preview fallback (NETSDK1045 if only 10.x is selected). .NET 12 when USE_DOTNET_PREVIEW != false.
-      - name: Setup .NET (10)
+      - name: Setup .NET (10 and 11)
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             10.0.x
-
-      - name: Setup .NET (11)
-        id: setup_dotnet11_canary
-        continue-on-error: true
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-
-      - name: Setup .NET (11 preview fallback)
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_canary.outcome == 'failure'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_canary
@@ -1372,28 +1327,14 @@ jobs:
         uses: actions/checkout@v7
 
       # .NET 10 required; .NET 11 with preview fallback (NETSDK1045 if only 10.x is selected). .NET 12 when USE_DOTNET_PREVIEW != false.
-      - name: Setup .NET (10)
+      - name: Setup .NET (10 and 11)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             10.0.x
-
-      - name: Setup .NET (11)
-        id: setup_dotnet11_alpha
-        continue-on-error: true
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-
-      - name: Setup .NET (11 preview fallback)
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_alpha.outcome == 'failure'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_alpha
