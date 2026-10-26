@@ -579,8 +579,7 @@ public static class GraphicsExtensions
         Size fixedSize = overlay.FixedSize.IsEmpty
             ? KryptonOverlayImage.DefaultFixedSize
             : overlay.FixedSize;
-        OverlayImageScaleMode scaleMode = overlay.ScaleMode == OverlayImageScaleMode.None
-            && overlay.ScaleFactor <= 0f
+        OverlayImageScaleMode scaleMode = overlay is { ScaleMode: OverlayImageScaleMode.None, ScaleFactor: <= 0f }
             ? OverlayImageScaleMode.Percentage
             : overlay.ScaleMode;
 
@@ -603,7 +602,7 @@ public static class GraphicsExtensions
             {
                 float mainImageMinDim = Math.Min(mainSize.Width, mainSize.Height);
                 float targetSize = mainImageMinDim * scaleFactor;
-                if (targetSize > 0 && originalOverlaySize.Width > 0 && originalOverlaySize.Height > 0)
+                if (targetSize > 0 && originalOverlaySize is { Width: > 0, Height: > 0 })
                 {
                     float scale = Math.Min(
                         targetSize / originalOverlaySize.Width,
@@ -624,7 +623,7 @@ public static class GraphicsExtensions
             {
                 float propMainImageMinDim = Math.Min(mainSize.Width, mainSize.Height);
                 float propTargetSize = propMainImageMinDim * scaleFactor;
-                if (propTargetSize > 0 && originalOverlaySize.Width > 0 && originalOverlaySize.Height > 0)
+                if (propTargetSize > 0 && originalOverlaySize is { Width: > 0, Height: > 0 })
                 {
                     float propScale = Math.Min(
                         propTargetSize / originalOverlaySize.Width,

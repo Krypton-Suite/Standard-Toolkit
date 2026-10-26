@@ -210,7 +210,7 @@ internal sealed class MiniToolbarStrip : FlowLayoutPanel
             ApplyToolTip(check, item);
             check.Click += (_, _) =>
             {
-                if (item.CheckOnClick && item.KryptonCommand == null)
+                if (item is { CheckOnClick: true, KryptonCommand: null })
                 {
                     item.Checked = check.Checked;
                 }

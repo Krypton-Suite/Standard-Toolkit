@@ -71,7 +71,7 @@ public class KryptonDataGridViewCustomEditingControl : KryptonTextBox,
         // will be converted to String.Empty.
 
         get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
-        set => Text = value is string str && str is not null
+        set => Text = value is string str
             ? str
             : string.Empty;
     }

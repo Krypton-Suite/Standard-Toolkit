@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupNumericUpDown : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the numeric up-down definition
-        GroupNumericUpDown.NumericUpDownView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupNumericUpDown.NumericUpDownView = this;
 
         // Give paint delegate to numeric up-down so its palette changes are redrawn
-        GroupNumericUpDown.ViewPaintDelegate = needPaint;
+            GroupNumericUpDown.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupNumericUpDown.NumericUpDown);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupNumericUpDown : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupNumericUpDown.MouseEnterControl -= OnMouseEnterControl;
                 GroupNumericUpDown.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupNumericUpDown.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupNumericUpDown.NumericUpDownView, this))
+                {
+                    GroupNumericUpDown.ViewPaintDelegate = null;
+                }
                 GroupNumericUpDown.PropertyChanged -= OnNumericUpDownPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupNumericUpDown.NumericUpDownView = null; 
+                if (ReferenceEquals(GroupNumericUpDown.NumericUpDownView, this))
+                {
+                    GroupNumericUpDown.NumericUpDownView = null;
+                } 
                 GroupNumericUpDown = null;
             }
         }

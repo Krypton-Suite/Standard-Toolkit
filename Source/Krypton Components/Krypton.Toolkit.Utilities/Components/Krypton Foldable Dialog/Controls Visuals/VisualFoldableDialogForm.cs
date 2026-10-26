@@ -393,6 +393,19 @@ internal partial class VisualFoldableDialogForm : KryptonForm
 
         ApplyExpandState(_data.Expanded);
 
+        // Width follows the button strip; height already follows the header and details.
+        // The window stays resizable and is clamped to the owner monitor.
+        var preferredButtons = tlpButtons.GetPreferredSize(Size.Empty);
+        if (preferredButtons.Width > ClientSize.Width)
+        {
+            ClientSize = new Size(preferredButtons.Width, ClientSize.Height);
+        }
+
+        var chromeHeight = Math.Max(0, Height - ClientSize.Height);
+        var collapsedClient = tlpHeader.Height + kpnlButtons.Height;
+        MinimumSize = new Size(LogicalToDeviceUnits(320), Math.Max(1, collapsedClient + chromeHeight));
+        KryptonDialogLayout.EnableResizable(this, _data.Owner, true);
+
         ApplyStartPosition();
     }
 

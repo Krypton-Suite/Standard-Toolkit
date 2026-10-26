@@ -244,11 +244,11 @@ public abstract class ViewBase : GlobalId,
         Control? owningControl = OwningControl;
         IntPtr hWnd = IntPtr.Zero;
 
-        if (owningControl != null && owningControl.IsHandleCreated)
+        if (owningControl is { IsHandleCreated: true })
         {
             hWnd = owningControl.Handle;
         }
-        else if (Component is Control componentControl && componentControl.IsHandleCreated)
+        else if (Component is Control { IsHandleCreated: true } componentControl)
         {
             hWnd = componentControl.Handle;
         }

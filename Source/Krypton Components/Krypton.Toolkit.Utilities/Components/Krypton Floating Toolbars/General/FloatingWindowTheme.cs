@@ -73,11 +73,13 @@ public class FloatingWindowTheme
     /// <summary>
     /// Creates a default theme.
     /// </summary>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Factory-style preset; themes are mutable and must not share identity.")]
     public static FloatingWindowTheme Default => new();
 
     /// <summary>
     /// Creates a dark theme.
     /// </summary>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Factory-style preset; themes are mutable and must not share identity.")]
     public static FloatingWindowTheme Dark => new()
     {
         BackColor = Color.FromArgb(45, 45, 48),
@@ -90,6 +92,7 @@ public class FloatingWindowTheme
     /// <summary>
     /// Creates a light theme.
     /// </summary>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Factory-style preset; themes are mutable and must not share identity.")]
     public static FloatingWindowTheme Light => new()
     {
         BackColor = Color.White,
@@ -102,6 +105,7 @@ public class FloatingWindowTheme
     /// <summary>
     /// Creates a blue accent theme.
     /// </summary>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Factory-style preset; themes are mutable and must not share identity.")]
     public static FloatingWindowTheme BlueAccent => new()
     {
         BackColor = SystemColors.Control,

@@ -48,6 +48,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         Text = $"{CollectionItemTypeName} Collection Editor";
         ApplyButtonSizes();
         _listBox.SelectedIndexChanged += (_, _) => UpdatePropertyGrid();
+        _propertyGrid.PropertyValueChanged += OnPropertyValueChanged;
         ControlBox = false;
         ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(640, 420));
         MinimumSize = KryptonDesignerEditorDpi.Scale(this, new Size(520, 320));
@@ -91,11 +92,50 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         _sessionPropertySnapshots = KryptonDesignerEditorPropertySnapshot.Capture(_sessionStartOrder);
         _pendingDestroy.Clear();
         RefreshList();
-        _propertyGrid.Site = new KryptonDesignerPropertyGridSite(Context, _propertyGrid);
+        AttachPropertyGridDesignerSite(_propertyGrid);
         ApplyOwnerPaletteFromContext();
         UpdateButtons();
         UpdatePropertyGrid();
         _listBox.Focus();
+    }
+
+    /// <summary>
+    /// Sites the Krypton property grid and its inner WinForms grid so designer services
+    /// (including <see cref="IEventBindingService"/> for the Events tab) resolve.
+    /// </summary>
+    /// <param name="propertyGrid">Property grid to site.</param>
+    /// <param name="selectedComponent">Optional component being edited.</param>
+    protected void AttachPropertyGridDesignerSite(KryptonPropertyGrid propertyGrid, IComponent? selectedComponent = null)
+    {
+        IComponent siteComponent = selectedComponent ?? propertyGrid;
+        var site = new KryptonDesignerPropertyGridSite(Context, siteComponent);
+        propertyGrid.Site = site;
+
+        // Events tab / ActiveDesigner are wired from PropertyGrid.Site, which is the inner grid.
+        if (propertyGrid.ContainedControl is Control innerGrid)
+        {
+            innerGrid.Site = site;
+        }
+
+        EnsureEventsTab(propertyGrid);
+    }
+
+    /// <summary>
+    /// Ensures the Events tab type is registered so the lightning-bolt toolbar button can appear.
+    /// </summary>
+    /// <param name="propertyGrid">Property grid to configure.</param>
+    protected static void EnsureEventsTab(KryptonPropertyGrid propertyGrid)
+    {
+        PropertyGrid.PropertyTabCollection tabs = propertyGrid.PropertyTabs;
+        for (var i = 0; i < tabs.Count; i++)
+        {
+            if (tabs[i] is EventsTab)
+            {
+                return;
+            }
+        }
+
+        tabs.AddTabType(typeof(KryptonPropertyGrid.KryptonPropertyGridEventsTab));
     }
 
     private void RefreshList()
@@ -117,7 +157,39 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         }
     }
 
-    private void UpdatePropertyGrid()
+    /// <summary>
+    /// Rebuilds the members list text while keeping the current selection.
+    /// </summary>
+    protected void RefreshMembersListPreservingSelection()
+    {
+        var selected = SelectedCollectionItem;
+        var selectedIndex = _listBox.SelectedIndex;
+        RefreshList();
+        if (selected != null)
+        {
+            for (var i = 0; i < _listBox.Items.Count; i++)
+            {
+                if (_listBox.Items[i] is CollectionListItem entry && ReferenceEquals(entry.Item, selected))
+                {
+                    _listBox.SelectedIndex = i;
+                    UpdatePropertyGrid();
+                    return;
+                }
+            }
+        }
+
+        if (selectedIndex >= 0 && selectedIndex < _listBox.Items.Count)
+        {
+            _listBox.SelectedIndex = selectedIndex;
+        }
+
+        UpdatePropertyGrid();
+    }
+
+    /// <summary>
+    /// Updates the property grid for the selected member.
+    /// </summary>
+    protected virtual void UpdatePropertyGrid()
     {
         if (_listBox.SelectedItem is CollectionListItem entry)
         {
@@ -134,14 +206,77 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         }
     }
 
-    private void UpdateButtons()
+    /// <summary>
+    /// Gets the Add button so specialized editors can replace or restyle it.
+    /// </summary>
+    protected KryptonButton AddButton => _buttonAdd;
+
+    /// <summary>
+    /// Gets the button row that hosts Add and Remove.
+    /// </summary>
+    protected TableLayoutPanel ButtonPanel => _buttonPanel;
+
+    /// <summary>
+    /// Gets the properties panel so specialized editors can add caption chrome.
+    /// </summary>
+    protected KryptonPanel PropertiesPanel => _propertiesPanel;
+
+    /// <summary>
+    /// Gets the property grid shown for the selected member.
+    /// </summary>
+    protected KryptonPropertyGrid EditorPropertyGrid => _propertyGrid;
+
+    /// <summary>
+    /// Gets the properties heading label.
+    /// </summary>
+    protected KryptonLabel PropertiesLabel => _propertiesLabel;
+
+    /// <summary>
+    /// Gets the members list box.
+    /// </summary>
+    protected KryptonListBox MembersListBox => _listBox;
+
+    /// <summary>
+    /// Gets the items currently being edited in the dialog.
+    /// </summary>
+    protected object[]? WorkingItems => _workingItems;
+
+    /// <summary>
+    /// Gets the selected collection item, if any.
+    /// </summary>
+    protected object? SelectedCollectionItem =>
+        _listBox.SelectedItem is CollectionListItem entry ? entry.Item : null;
+
+    /// <summary>
+    /// Updates Add/Remove enabled state.
+    /// </summary>
+    protected virtual void UpdateButtons()
     {
         var hasSelection = _listBox.SelectedItem is not null;
         _buttonRemove.Enabled = hasSelection;
         _buttonAdd.Enabled = _standardEditor!.GetDesignerNewItemTypes().Length > 0;
     }
 
-    private void OnAddClick(object? sender, EventArgs e)
+    /// <summary>
+    /// Appends <paramref name="item"/> to the working list and selects it.
+    /// </summary>
+    /// <param name="item">New collection item.</param>
+    protected void AddWorkingItem(object item)
+    {
+        _workingItems = AppendItem(_workingItems, item);
+        Items = _workingItems;
+        RefreshList();
+        _listBox.SelectedIndex = _listBox.Items.Count - 1;
+        UpdateButtons();
+        UpdatePropertyGrid();
+    }
+
+    /// <summary>
+    /// Handles the Add button. Specialized editors can override this.
+    /// </summary>
+    /// <param name="sender">Event source.</param>
+    /// <param name="e">Event data.</param>
+    protected virtual void OnAddClick(object? sender, EventArgs e)
     {
         var itemTypes = _standardEditor!.GetDesignerNewItemTypes();
         if (itemTypes.Length == 0)
@@ -155,16 +290,15 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
             return;
         }
 
-        var item = CreateInstance(itemType);
-        _workingItems = AppendItem(_workingItems, item);
-        Items = _workingItems;
-        RefreshList();
-        _listBox.SelectedIndex = _listBox.Items.Count - 1;
-        UpdateButtons();
-        UpdatePropertyGrid();
+        AddWorkingItem(CreateInstance(itemType));
     }
 
-    private void OnRemoveClick(object? sender, EventArgs e)
+    /// <summary>
+    /// Handles Remove.
+    /// </summary>
+    /// <param name="sender">Event source.</param>
+    /// <param name="e">Event data.</param>
+    protected virtual void OnRemoveClick(object? sender, EventArgs e)
     {
         if (_listBox.SelectedItem is not CollectionListItem entry || _workingItems is null)
         {
@@ -180,7 +314,12 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         UpdatePropertyGrid();
     }
 
-    private void OnOkClick(object? sender, EventArgs e)
+    /// <summary>
+    /// Handles OK.
+    /// </summary>
+    /// <param name="sender">Event source.</param>
+    /// <param name="e">Event data.</param>
+    protected virtual void OnOkClick(object? sender, EventArgs e)
     {
         Items = _workingItems;
         CommitDesignerItems();
@@ -192,9 +331,34 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
 
         _pendingDestroy.Clear();
         Context?.OnComponentChanged();
+        _standardEditor?.OnDesignerEditCommitted();
     }
 
-    private void OnCancelClick(object? sender, EventArgs e) => RevertSessionChanges();
+    /// <summary>
+    /// Handles Cancel.
+    /// </summary>
+    /// <param name="sender">Event source.</param>
+    /// <param name="e">Event data.</param>
+    protected virtual void OnCancelClick(object? sender, EventArgs e)
+    {
+        RevertSessionChanges();
+        _standardEditor?.OnDesignerEditCancelled();
+    }
+
+    private void OnPropertyValueChanged(object? sender, PropertyValueChangedEventArgs e)
+    {
+        if (_listBox.SelectedItem is not CollectionListItem entry || _standardEditor is null)
+        {
+            return;
+        }
+
+        entry.Text = _standardEditor.GetDesignerDisplayText(entry.Item);
+        _propertiesLabel.Values.Text = string.Format(
+            CultureInfo.CurrentCulture,
+            @"{0} properties",
+            entry.Text);
+        _listBox.Refresh();
+    }
 
     private void RevertSessionChanges()
     {
@@ -261,7 +425,6 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
         using var form = new KryptonForm
         {
             ControlBox = false,
-            FormBorderStyle = FormBorderStyle.FixedDialog,
             MaximizeBox = false,
             MinimizeBox = false,
             ShowInTaskbar = false,
@@ -270,6 +433,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
             ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(520, 340)),
             MinimumSize = KryptonDesignerEditorDpi.Scale(this, new Size(500, 300))
         };
+        KryptonDialogLayout.EnableResizable(form);
         form.SetInheritedControlOverride();
         KryptonDesignerEditorTheme.ApplyFromContext(form, Context);
 
@@ -374,7 +538,7 @@ internal partial class VisualStandardCollectionForm : VisualDesignerCollectionFo
 
         public object Item { get; }
 
-        public string Text { get; }
+        public string Text { get; set; }
 
         public override string ToString() => Text;
     }

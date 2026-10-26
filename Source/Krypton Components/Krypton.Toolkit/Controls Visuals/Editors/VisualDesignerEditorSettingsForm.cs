@@ -85,7 +85,7 @@ internal sealed partial class VisualDesignerEditorSettingsForm : KryptonForm
         var clientSize = KryptonDesignerEditorDpi.Scale(this, new Size(584, 256));
         ClientSize = clientSize;
         MinimumSize = clientSize;
-        MaximumSize = new Size(clientSize.Width + 1, clientSize.Height + 1);
+        KryptonDialogLayout.EnableResizable(this);
 
         var padding = KryptonDesignerEditorDpi.Scale(this, 16);
         var rowGap = KryptonDesignerEditorDpi.Scale(this, 12);

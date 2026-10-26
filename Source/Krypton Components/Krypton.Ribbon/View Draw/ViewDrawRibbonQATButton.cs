@@ -187,8 +187,12 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
         IPaletteBack paletteBack = _ribbon.StateCommon.RibbonQATButton.PaletteBack;
         IPaletteBorder? paletteBorder = _ribbon.StateCommon.RibbonQATButton.PaletteBorder;
 
+        // Office 2024 quick-access buttons are flat on the caption until the pointer is over them.
+        var drawChrome = _ribbon.RibbonShape != PaletteRibbonShape.Office2024
+                         || State is PaletteState.Tracking or PaletteState.Pressed;
+
         // Do we need to draw the background?
-        if (paletteBack.GetBackDraw(State) == InheritBool.True)
+        if (drawChrome && paletteBack.GetBackDraw(State) == InheritBool.True)
         {
             // Get the border path which the background is clipped to drawing within
             using GraphicsPath borderPath = context.Renderer.RenderStandardBorder.GetBackPath(context, ClientRectangle, paletteBorder!, VisualOrientation.Top, State);
@@ -205,7 +209,7 @@ internal class ViewDrawRibbonQATButton : ViewComposite,
         }
 
         // Do we need to draw the border?
-        if (paletteBorder?.GetBorderDraw(State) == InheritBool.True)
+        if (drawChrome && paletteBorder?.GetBorderDraw(State) == InheritBool.True)
         {
             context.Renderer.RenderStandardBorder.DrawBorder(context, ClientRectangle, paletteBorder, 
                 VisualOrientation.Top, State);

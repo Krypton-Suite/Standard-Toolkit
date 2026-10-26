@@ -319,8 +319,7 @@ internal static class CommonHelperThemeSelectors
             }
         }
 
-        if (themeBrowserData.StartIndex.HasValue
-            && themeBrowserData.StartIndex.Value >= 0
+        if (themeBrowserData.StartIndex is >= 0
             && themeBrowserData.StartIndex.Value < items.Count)
         {
             return themeBrowserData.StartIndex.Value;

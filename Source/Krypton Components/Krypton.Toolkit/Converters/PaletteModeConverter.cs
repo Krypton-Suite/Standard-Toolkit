@@ -36,6 +36,10 @@ public class PaletteModeConverter : StringLookupConverter<PaletteMode>
     /// <inheritdoc />
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext? context)
     {
+        // The manager static constructor probes before the designer sites the component.
+        // Ask Visual Studio for Krypton.Themes when the PaletteMode drop-down opens.
+        KryptonThemeCatalog.DiscoverThemes(context);
+
         var values = new List<PaletteMode> { PaletteMode.Global };
         foreach (var pair in PaletteModeStrings.SupportedThemes.FirstToSecond)
         {

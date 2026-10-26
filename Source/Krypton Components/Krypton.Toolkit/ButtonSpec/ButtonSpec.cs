@@ -433,6 +433,35 @@ public abstract class ButtonSpec : Component,
     private void ResetToolTipShadow() => ToolTipShadow = true;
     #endregion
 
+    #region Name
+    /// <summary>
+    /// Gets or sets the designer name of the button specification.
+    /// </summary>
+    /// <remarks>
+    /// This is the component name shown in the collection editor (<c>buttonSpecAny1</c>). It is stored on <see cref="IComponent.Site"/> and is not serialized as a property. <see cref="UniqueName"/> remains the persistence key.
+    /// </remarks>
+    [Category(@"Design")]
+    [ParenthesizePropertyName(true)]
+    [Description(@"The designer name of the button specification.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public string Name
+    {
+        get => Site?.Name ?? string.Empty;
+
+        set
+        {
+            if (Site is null || value is null || Site.Name == value)
+            {
+                return;
+            }
+
+            Site.Name = value;
+        }
+    }
+
+    private bool ShouldSerializeName() => false;
+    #endregion
+
     #region UniqueName
     /// <summary>
     /// Gets and sets the unique name of the ButtonSpec.
@@ -702,8 +731,28 @@ public abstract class ButtonSpec : Component,
     [Category(@"Behavior")]
     [Description(@"KryptonContextMenu to show when the button is pressed.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(null)]
-    public KryptonContextMenu? KryptonContextMenu { get; set; }
+    public KryptonContextMenu? KryptonContextMenu
+    {
+        get => _kryptonContextMenu;
+        set => _kryptonContextMenu = value;
+    }
+
+    private KryptonContextMenu? _kryptonContextMenu;
+    private KryptonContextMenu? _factoryKryptonContextMenu;
+
+    /// <summary>
+    /// Records <paramref name="menu"/> as the designer factory context menu.
+    /// </summary>
+    /// <param name="menu">Menu created by the constructor, or null.</param>
+    protected void SetFactoryKryptonContextMenu(KryptonContextMenu? menu)
+    {
+        _factoryKryptonContextMenu = menu;
+        _kryptonContextMenu = menu;
+    }
+
+    private bool ShouldSerializeKryptonContextMenu() => !ReferenceEquals(_kryptonContextMenu, _factoryKryptonContextMenu);
+
+    private void ResetKryptonContextMenu() => _kryptonContextMenu = _factoryKryptonContextMenu;
     #endregion
 
     #region KryptonCommand

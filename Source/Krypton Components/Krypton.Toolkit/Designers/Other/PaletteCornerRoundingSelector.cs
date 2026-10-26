@@ -37,10 +37,7 @@ internal partial class PaletteCornerRoundingSelector : UserControl
                 GetCornerValue(checkBoxBottomRight, numericUpDownBottomRight),
                 GetCornerValue(checkBoxBottomLeft, numericUpDownBottomLeft));
 
-            if (rounding.TopLeft == PaletteCornerRounding.InheritValue
-                && rounding.TopRight == PaletteCornerRounding.InheritValue
-                && rounding.BottomRight == PaletteCornerRounding.InheritValue
-                && rounding.BottomLeft == PaletteCornerRounding.InheritValue)
+            if (rounding is { TopLeft: PaletteCornerRounding.InheritValue, TopRight: PaletteCornerRounding.InheritValue, BottomRight: PaletteCornerRounding.InheritValue, BottomLeft: PaletteCornerRounding.InheritValue })
             {
                 return PaletteCornerRounding.Inherit;
             }
@@ -53,10 +50,7 @@ internal partial class PaletteCornerRoundingSelector : UserControl
             _loadingValue = true;
             try
             {
-                if (value.TopLeft == PaletteCornerRounding.InheritValue
-                    && value.TopRight == PaletteCornerRounding.InheritValue
-                    && value.BottomRight == PaletteCornerRounding.InheritValue
-                    && value.BottomLeft == PaletteCornerRounding.InheritValue)
+                if (value is { TopLeft: PaletteCornerRounding.InheritValue, TopRight: PaletteCornerRounding.InheritValue, BottomRight: PaletteCornerRounding.InheritValue, BottomLeft: PaletteCornerRounding.InheritValue })
                 {
                     checkBoxInherit.Checked = true;
                     ResetCornerOverrides();
