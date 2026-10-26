@@ -23,7 +23,6 @@ on:
       - canary
       - gold
       - V105-LTS
-      - V115
     paths-ignore: ['.git*', '.vscode']
   workflow_dispatch:
 
@@ -42,8 +41,8 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
+            9.0.x
             10.0.x
-            11.0.x
 
       # Stable TFMs only; rollForward latestPatch (matches Stable job intent).
       - name: Pin SDK via global.json (stable)
@@ -62,7 +61,7 @@ jobs:
             if ($fallback -match '^(\d+\.\d+\.\d+)\s') { $sdkVersion = $Matches[1] }
           }
           if (-not $sdkVersion) {
-            Write-Error 'No 10.0.x or 11.0.x SDK found after setup-dotnet.'
+            Write-Error 'No 10.0.x or 9.0.x SDK found after setup-dotnet.'
           }
           Write-Host "Using SDK $sdkVersion"
           @"
@@ -173,8 +172,8 @@ jobs:
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
+            9.0.x
             10.0.x
-            11.0.x
 
       - name: Setup .NET Preview
         uses: actions/setup-dotnet@v6
