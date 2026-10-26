@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 REM RC (gold) release candidate build using the Scripts/Build/ toolset (Visual Studio 2019, profile "2019").
 REM MSBuild discovery: Scripts\Common\find-msbuild.cmd. Failure text comes from the helper; this script only pauses.
 setlocal EnableExtensions
@@ -24,7 +24,8 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
 set "targets=Build"
 if not "%~1" == "" set "targets=%~1"
 REM Phased Krypton.* build + /m (see Scripts\Build\Krypton.Orchestration.targets).
-"%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%rc.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\rc-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\rc-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
+"%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%releasecandidate.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\rc-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\rc-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
+if errorlevel 1 goto buildfailed
 @echo:
 @echo RC release build completed: %date% %time% %zone%
 @echo:
@@ -49,3 +50,9 @@ exit /b
 :exitbatch
 popd
 exit /b
+
+:buildfailed
+@echo RC release build failed. Review the build Logs in ..\..\Logs
+pause
+popd
+exit /b 1
