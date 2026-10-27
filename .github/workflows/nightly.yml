@@ -32,7 +32,9 @@ on:
     - cron: '42 23 * * *'
   workflow_dispatch:  # Allow manual triggering for testing
     inputs:
-      skip_change_check:
+    description: Manually trigger a nightly build and publish (if changes or scheduled day)
+    default: alpha
+    skip_change_check:
         description: Skip the 24-hour change check and force a build (even for .github-only changes)
         required: false
         default: false
