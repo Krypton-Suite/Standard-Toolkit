@@ -90,7 +90,7 @@ runs:
         # release. A fixed tag such as templates-stable piled every build onto one
         # release (#4502).
         $now = Get-Date
-        $vsixVersion = "110.$($now.Year - 2000).$($now.Month).$($now.DayOfYear)"
+        $vsixVersion = "120.$($now.Year - 2000).$($now.Month).$($now.DayOfYear)"
         $version = "$channel-$vsixVersion"
         $tag = "templates-$version"
         $title = "$title $vsixVersion"
