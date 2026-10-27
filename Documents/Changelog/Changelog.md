@@ -4,6 +4,7 @@
 
 ## Table of Contents
 
+- [2027-11-xx - Build 2711 (V120 Nightly) - November 2027](#2027-11-xx---build-2711-v120-nightly---november-2027)
 - [2026-11-30 - Build 2611 (V110 RTM) - November 2026](#2026-11-30---build-2611-v110-rtm---november-2026)
 - [2025-11-24 - Build 2511 (V100 RTM) - November 2025](#2025-11-24---build-2511-v100-rtm---november-2025)
 - [2025-06-23 - Build 2506 (Version 95 - Patch 7) - June 2025](#2025-06-23---build-2506-version-95---patch-7---june-2025)
@@ -40,6 +41,14 @@
 - [2020-03-01 - Build 2003 - March 2020](#2020-03-01---build-2003---march-2020)
 - [2020-02-07 - Build 2002.1 - February 2020 (Update 1)](#2020-02-07---build-20021---february-2020-update-1)
 - [2020-02-01 - Build 2002 - February 2020](#2020-02-01---build-2002---february-2020)
+
+=======
+
+## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
+
+- Added support for .NET 12
+- Removed support for .NET 8 and 9
+- Version bump `115.xx.xx.xxx` to `120.xx.xx.xxx`
 
 =======
 
