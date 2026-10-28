@@ -14,6 +14,8 @@ namespace Krypton.Toolkit;
 /// </summary>
 internal sealed class VisualSnapLayoutPopup : VisualPopup
 {
+    #region Static Fields
+
     private const int OuterPadding = 10;
     private const int CardGap = 8;
     private const int CardPadding = 5;
@@ -25,6 +27,10 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     private const int PreferredRowWidth = 440;
     private const int CustomCaptionHeight = 16;
 
+    #endregion
+
+    #region Instance Fields
+
     private readonly PaletteBase _palette;
     private readonly List<ZoneHit> _hits = new List<ZoneHit>();
     private readonly List<Rectangle> _customCaptions = new List<Rectangle>();
@@ -33,6 +39,10 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     private Rectangle _workArea;
     private SnapPreviewWindow? _preview;
     private int _hotIndex = -1;
+
+    #endregion
+
+    #region Identity
 
     /// <summary>
     /// Initializes a popup that paints with <paramref name="palette"/> and <paramref name="renderer"/>.
@@ -49,6 +59,8 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
         // Show lays the popup out. An unattached manager has no control and faults that layout.
         ViewManager?.Attach(this, new ViewLayoutNull());
     }
+
+    #endregion
 
     /// <summary>
     /// Occurs when the pointer leaves the popup.
@@ -236,7 +248,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
         const TextFormatFlags flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPadding;
         foreach (Rectangle caption in _customCaptions)
         {
-            TextRenderer.DrawText(g, @"Custom", font, caption, color, flags);
+            TextRenderer.DrawText(g, KryptonManager.Strings.MiscellaneousStrings.CustomText, font, caption, color, flags);
         }
     }
 
