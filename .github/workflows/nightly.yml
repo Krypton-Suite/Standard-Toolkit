@@ -11,10 +11,11 @@
 # last 24 hours.
 #
 # SCHEDULED PUBLISH DAYS: In addition to the daily 24-hour change check, the workflow can also publish
-# on 1 January and on UTC days of the year whose number ends in 0 (e.g. 10, 20, 30, 100, 300, 310),
+# on 1 January, 31 December and on UTC days of the year whose number ends in 0 (e.g. 10, 20, 30, 100, 300, 310),
 # even when there are no qualifying commits. Enable each rule via repository variables:
 #   NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED=true
 #   NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED=true
+#   NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED=true
 #
 # NUGET: Trusted publishing via NuGet/login (up to 3 attempts). Secret NUGET_USER is the nuget.org profile name.
 # A transient OIDC failure skips the NuGet push instead of failing the nightly. Package pushes retry with backoff.
@@ -32,9 +33,7 @@ on:
     - cron: '42 23 * * *'
   workflow_dispatch:  # Allow manual triggering for testing
     inputs:
-    description: Manually trigger a nightly build and publish (if changes or scheduled day)
-    default: alpha
-    skip_change_check:
+      skip_change_check:
         description: Skip the 24-hour change check and force a build (even for .github-only changes)
         required: false
         default: false
@@ -145,6 +144,7 @@ jobs:
           SKIP_CHANGE_CHECK_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_change_check == true && 'true' || 'false' }}
           SKIP_NIGHTLY_24_HOUR_CHECK: ${{ vars.SKIP_NIGHTLY_24_HOUR_CHECK }}
           NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED: ${{ vars.NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED }}
+          NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED: ${{ vars.NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED }}
           NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED: ${{ vars.NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED }}
         run: |
           $ErrorActionPreference = 'Stop'
@@ -168,6 +168,7 @@ jobs:
           $todayUtc = (Get-Date).ToUniversalTime()
           $dayOfYear = $todayUtc.DayOfYear
           $jan1PublishEnabled = $env:NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED -eq 'true'
+          $dec31PublishEnabled = $env:NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED -eq 'true'
           $dayEndsZeroPublishEnabled = $env:NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED -eq 'true'
           $forcedPublishDay = $false
           $forcedPublishReason = $null
@@ -175,6 +176,9 @@ jobs:
           if ($jan1PublishEnabled -and $todayUtc.Month -eq 1 -and $todayUtc.Day -eq 1) {
             $forcedPublishDay = $true
             $forcedPublishReason = 'scheduled publish day (1 January; NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED=true)'
+          } elseif ($dec31PublishEnabled -and $todayUtc.Month -eq 12 -and $todayUtc.Day -eq 31) {
+            $forcedPublishDay = $true
+            $forcedPublishReason = 'scheduled publish day (31 December; NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED=true)'
           } elseif ($dayEndsZeroPublishEnabled -and ($dayOfYear % 10 -eq 0)) {
             $forcedPublishDay = $true
             $forcedPublishReason = "scheduled publish day (day $dayOfYear of year ends in 0; NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED=true)"
@@ -184,6 +188,8 @@ jobs:
             Write-Host "Scheduled publish day matched: $forcedPublishReason"
           } elseif ($todayUtc.Month -eq 1 -and $todayUtc.Day -eq 1) {
             Write-Host '1 January matched, but NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED is not true - scheduled publish skipped'
+          } elseif ($dec31PublishEnabled -and $todayUtc.Month -eq 12 -and $todayUtc.Day -eq 31) {
+            Write-Host '31 December matched, but NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED is not true - scheduled publish skipped'
           } elseif ($dayOfYear % 10 -eq 0) {
             Write-Host "Day $dayOfYear of year ends in 0, but NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED is not true - scheduled publish skipped"
           }
