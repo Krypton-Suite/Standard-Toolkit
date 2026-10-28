@@ -30,6 +30,7 @@ public class VisualPopupShadow : Form
     private GraphicsPath? _path3;
     private readonly SolidBrush[] _brushes;
     private Color _baseColor;
+    private bool _opaqueColor;
     private int _padding;
     private int _offset = SHADOW_SIZE;
     #endregion
@@ -123,7 +124,18 @@ public class VisualPopupShadow : Form
     /// </summary>
     /// <param name="color">Base RGB colour for the three-layer shade ramp.</param>
     /// <param name="opacity">Form opacity in the range 0..1.</param>
-    public void ApplyAppearance(Color color, float opacity)
+    public void ApplyAppearance(Color color, float opacity) => ApplyAppearance(color, opacity, opaqueColor: false);
+
+    /// <summary>
+    /// Applies shadow colour and window opacity.
+    /// </summary>
+    /// <param name="color">Base RGB colour for the shade ramp.</param>
+    /// <param name="opacity">Form opacity in the range 0..1.</param>
+    /// <param name="opaqueColor">
+    /// <see langword="true"/> paints solid shades of <paramref name="color"/> and lets <paramref name="opacity"/> supply the strength.
+    /// Semi-transparent shades blend with the magenta colour key and tint the shadow.
+    /// </param>
+    public void ApplyAppearance(Color color, float opacity, bool opaqueColor)
     {
         if (opacity < 0f)
         {
@@ -140,9 +152,10 @@ public class VisualPopupShadow : Form
         }
 
         var baseColor = color.IsEmpty ? Color.Black : Color.FromArgb(255, color);
-        if (_baseColor != baseColor)
+        if (_baseColor != baseColor || _opaqueColor != opaqueColor)
         {
             _baseColor = baseColor;
+            _opaqueColor = opaqueColor;
             RebuildBrushes(baseColor);
         }
 
@@ -220,8 +233,11 @@ public class VisualPopupShadow : Form
         for (var i = 0; i < SHADOW_SIZE; i++)
         {
             // Preserve the historical shade ramp (0, 70, 140) as alpha over the base RGB.
+            // The zero shade stays clear so the innermost path does not fill.
             var shade = i * 70;
-            _brushes[i] = new SolidBrush(Color.FromArgb(shade, baseColor.R, baseColor.G, baseColor.B));
+            _brushes[i] = _opaqueColor
+                ? new SolidBrush(shade == 0 ? Color.FromArgb(0, baseColor) : Color.FromArgb(255, baseColor))
+                : new SolidBrush(Color.FromArgb(shade, baseColor.R, baseColor.G, baseColor.B));
         }
     }
 

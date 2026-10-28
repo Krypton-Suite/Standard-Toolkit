@@ -32,14 +32,6 @@ public sealed class KryptonManager : Component
     private static ScrollbarCornerStyle _globalScrollbarCornerStyle = ScrollbarCornerStyle.ThemedCorner;
     private static DropDownArrowRenderMode _globalDropDownArrowRenderMode = DropDownArrowRenderMode.Unicode;
     private static DropDownArrowGlyphStyle _globalDropDownArrowGlyphStyle = DropDownArrowGlyphStyle.Bevel;
-    private static KryptonSnapLayoutMode _globalSnapLayouts = KryptonSnapLayoutMode.System;
-    private static float _globalSnapLayoutCornerRounding = 8f;
-    private static Size _globalSnapLayoutCardSize = Size.Empty;
-    private static bool _globalSnapLayoutShowIcon = true;
-    private static bool _globalSnapLayoutShowPreview = true;
-    private static float _globalSnapLayoutPreviewOpacity = 0.45f;
-    private static bool _globalIncludeBuiltinSnapLayouts = true;
-    private static readonly KryptonSnapLayoutCardCollection _customSnapLayouts = new KryptonSnapLayoutCardCollection();
     private static bool _globalTouchscreenMode = false;
     private static float _globalTouchscreenScaleFactor = 1.25f;
     private static bool _globalTouchscreenFontScaling = true;
@@ -146,13 +138,6 @@ public sealed class KryptonManager : Component
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the GlobalPalette property is changed.")]
     public static event EventHandler? GlobalPaletteChanged;
-
-    /// <summary>
-    /// Occurs when <see cref="GlobalSnapLayouts"/> changes.
-    /// </summary>
-    [Category(@"Property Changed")]
-    [Description(@"Occurs when the value of the GlobalSnapLayouts property is changed.")]
-    public static event EventHandler? GlobalSnapLayoutsChanged;
 
     /// <summary>
     /// Occurs when the UseThemeFormChromeBorderWidth property changes.
@@ -283,14 +268,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeGlobalScrollbarCornerStyle() ||
                                ShouldSerializeGlobalDropDownArrowRenderMode() ||
                                ShouldSerializeGlobalDropDownArrowGlyphStyle() ||
-                               ShouldSerializeGlobalSnapLayouts() ||
-                               ShouldSerializeGlobalSnapLayoutCornerRounding() ||
-                               ShouldSerializeGlobalSnapLayoutCardSize() ||
-                               ShouldSerializeGlobalSnapLayoutShowIcon() ||
-                               ShouldSerializeGlobalSnapLayoutShowPreview() ||
-                               ShouldSerializeGlobalSnapLayoutPreviewOpacity() ||
-                               ShouldSerializeGlobalIncludeBuiltinSnapLayouts() ||
-                               ShouldSerializeGlobalCustomSnapLayouts() ||
+                               ShouldSerializeSnapLayout() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
                                ShouldSerializePaletteSpecificValues() ||
@@ -313,14 +291,7 @@ public sealed class KryptonManager : Component
         ResetGlobalScrollbarCornerStyle();
         ResetGlobalDropDownArrowRenderMode();
         ResetGlobalDropDownArrowGlyphStyle();
-        ResetGlobalSnapLayouts();
-        ResetGlobalSnapLayoutCornerRounding();
-        ResetGlobalSnapLayoutCardSize();
-        ResetGlobalSnapLayoutShowIcon();
-        ResetGlobalSnapLayoutShowPreview();
-        ResetGlobalSnapLayoutPreviewOpacity();
-        ResetGlobalIncludeBuiltinSnapLayouts();
-        ResetGlobalCustomSnapLayouts();
+        ResetSnapLayout();
         ResetBaseFont();
         ResetGlobalPaletteMode();
         ResetPaletteSpecificValues();
@@ -521,139 +492,21 @@ public sealed class KryptonManager : Component
     private void ResetGlobalDropDownArrowGlyphStyle() => GlobalDropDownArrowGlyphStyle = DropDownArrowGlyphStyle.Bevel;
 
     /// <summary>
-    /// Gets or sets which maximize-button layout menu a <see cref="KryptonForm"/> uses
-    /// while its own <see cref="KryptonForm.SnapLayouts"/> is <see cref="KryptonSnapLayoutMode.Inherit"/>.
+    /// Gets the toolkit snap-layout menu settings.
     /// </summary>
     /// <remarks>
-    /// <see cref="KryptonSnapLayoutMode.System"/> (the default) keeps the Windows 11 snap menu.
-    /// <see cref="KryptonSnapLayoutMode.Toolkit"/> draws the palette menu and snaps that form.
-    /// <see cref="KryptonSnapLayoutMode.None"/> is maximize and restore only.
-    /// <see cref="KryptonSnapLayoutMode.Inherit"/> is stored as <see cref="KryptonSnapLayoutMode.System"/>.
+    /// Expand this in the property grid to set the mode, card size, preview, shadow, and custom cards.
+    /// The same object as <see cref="SnapLayoutValues"/>.
     /// </remarks>
     [Category(@"Visuals")]
-    [Description(@"Maximize-button layout menu for forms that inherit: System (Windows 11), Toolkit (palette), or None.")]
-    [DefaultValue(KryptonSnapLayoutMode.System)]
-    public KryptonSnapLayoutMode GlobalSnapLayouts
-    {
-        get => SnapLayouts;
-        set => SnapLayouts = value;
-    }
-    private bool ShouldSerializeGlobalSnapLayouts() => GlobalSnapLayouts != KryptonSnapLayoutMode.System;
-    private void ResetGlobalSnapLayouts() => GlobalSnapLayouts = KryptonSnapLayoutMode.System;
-
-    /// <summary>
-    /// Gets or sets the corner radius, in pixels, of the toolkit snap-layout menu.
-    /// </summary>
-    /// <remarks>Zero draws square corners. The default is 8.</remarks>
-    [Category(@"Visuals")]
-    [Description(@"Corner radius, in pixels, of the toolkit snap-layout menu. Zero is square.")]
-    [DefaultValue(8f)]
-    public float GlobalSnapLayoutCornerRounding
-    {
-        get => SnapLayoutCornerRounding;
-        set => SnapLayoutCornerRounding = value;
-    }
-    private bool ShouldSerializeGlobalSnapLayoutCornerRounding() => Math.Abs(GlobalSnapLayoutCornerRounding - 8f) > 0.01f;
-    private void ResetGlobalSnapLayoutCornerRounding() => GlobalSnapLayoutCornerRounding = 8f;
-
-    /// <summary>
-    /// Gets or sets the preferred size of one toolkit snap-layout card.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="Size.Empty"/> sizes the cards to the work area and wraps extra cards onto another row.
-    /// A positive size is used until the row no longer fits, then the cards wrap.
-    /// </remarks>
-    [Category(@"Visuals")]
-    [Description(@"Preferred size of one toolkit snap-layout card. Empty sizes and wraps the cards to the work area.")]
-    [DefaultValue(typeof(Size), "0, 0")]
-    public Size GlobalSnapLayoutCardSize
-    {
-        get => SnapLayoutCardSize;
-        set => SnapLayoutCardSize = value;
-    }
-    private bool ShouldSerializeGlobalSnapLayoutCardSize() => GlobalSnapLayoutCardSize != Size.Empty;
-    private void ResetGlobalSnapLayoutCardSize() => GlobalSnapLayoutCardSize = Size.Empty;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether each toolkit snap-layout zone draws this form's icon.
-    /// </summary>
-    /// <remarks>The default is <see langword="true"/>.</remarks>
-    [Category(@"Visuals")]
-    [Description(@"Show this form's icon in each toolkit snap-layout zone.")]
-    [DefaultValue(true)]
-    public bool GlobalSnapLayoutShowIcon
-    {
-        get => SnapLayoutShowIcon;
-        set => SnapLayoutShowIcon = value;
-    }
-    private bool ShouldSerializeGlobalSnapLayoutShowIcon() => !GlobalSnapLayoutShowIcon;
-    private void ResetGlobalSnapLayoutShowIcon() => GlobalSnapLayoutShowIcon = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether hovering a toolkit snap-layout zone previews the snap rectangle.
-    /// </summary>
-    /// <remarks>The default is <see langword="true"/>.</remarks>
-    [Category(@"Visuals")]
-    [Description(@"Show a palette preview of the snap rectangle while the pointer is over a zone.")]
-    [DefaultValue(true)]
-    public bool GlobalSnapLayoutShowPreview
-    {
-        get => SnapLayoutShowPreview;
-        set => SnapLayoutShowPreview = value;
-    }
-    private bool ShouldSerializeGlobalSnapLayoutShowPreview() => !GlobalSnapLayoutShowPreview;
-    private void ResetGlobalSnapLayoutShowPreview() => GlobalSnapLayoutShowPreview = true;
-
-    /// <summary>
-    /// Gets or sets the opacity of the toolkit snap-layout preview, from 0 (invisible) to 1 (opaque).
-    /// </summary>
-    /// <remarks>The default is 0.45. Zero hides the preview.</remarks>
-    [Category(@"Visuals")]
-    [Description(@"Opacity of the toolkit snap-layout preview, from 0 (invisible) to 1 (opaque).")]
-    [DefaultValue(0.45f)]
-    public float GlobalSnapLayoutPreviewOpacity
-    {
-        get => SnapLayoutPreviewOpacity;
-        set => SnapLayoutPreviewOpacity = value;
-    }
-    private bool ShouldSerializeGlobalSnapLayoutPreviewOpacity() => Math.Abs(GlobalSnapLayoutPreviewOpacity - 0.45f) > 0.001f;
-    private void ResetGlobalSnapLayoutPreviewOpacity() => GlobalSnapLayoutPreviewOpacity = 0.45f;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the toolkit snap menu includes the builtin cards.
-    /// </summary>
-    /// <remarks>
-    /// The default is <see langword="true"/>. Set this to <see langword="false"/> to show only
-    /// <see cref="CustomSnapLayouts"/>. An empty custom list and <see langword="false"/> shows no menu.
-    /// </remarks>
-    [Category(@"Visuals")]
-    [Description(@"Include the builtin snap-layout cards. False shows only CustomSnapLayouts.")]
-    [DefaultValue(true)]
-    public bool GlobalIncludeBuiltinSnapLayouts
-    {
-        get => IncludeBuiltinSnapLayouts;
-        set => IncludeBuiltinSnapLayouts = value;
-    }
-    private bool ShouldSerializeGlobalIncludeBuiltinSnapLayouts() => !GlobalIncludeBuiltinSnapLayouts;
-    private void ResetGlobalIncludeBuiltinSnapLayouts() => GlobalIncludeBuiltinSnapLayouts = true;
-
-    /// <summary>
-    /// Gets the custom snap-layout cards appended after the builtin cards.
-    /// </summary>
-    /// <remarks>
-    /// Empty by default, which leaves the builtin menu unchanged. The same list as <see cref="CustomSnapLayouts"/>.
-    /// Add a card, then add zones whose edges are fractions of the work area from 0 to 1.
-    /// </remarks>
-    [Category(@"Visuals")]
-    [Description(@"Snap-layout cards appended after the builtin cards. Each zone is a fraction of the work area.")]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    [Editor(typeof(KryptonSnapLayoutCardCollectionEditor), typeof(UITypeEditor))]
+    [Description(@"Toolkit snap-layout menu: mode, cards, preview, and shadow.")]
     [MergableProperty(false)]
-    public KryptonSnapLayoutCardCollection GlobalCustomSnapLayouts => CustomSnapLayouts;
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public SnapLayoutValues SnapLayout => SnapLayoutValues;
 
-    private bool ShouldSerializeGlobalCustomSnapLayouts() => GlobalCustomSnapLayouts.Count > 0;
+    private bool ShouldSerializeSnapLayout() => !SnapLayout.IsDefault;
 
-    private void ResetGlobalCustomSnapLayouts() => GlobalCustomSnapLayouts.Clear();
+    private void ResetSnapLayout() => SnapLayout.Reset();
 
     /// <summary>
     /// Gets or sets a value indicating if KryptonForm instances are allowed to UseThemeFormChromeBorderWidth.
@@ -1120,6 +973,12 @@ public sealed class KryptonManager : Component
         set => _globalDialogButtonColors = value;
     }
 
+    /// <summary>
+    /// Gets the toolkit snap-layout menu settings.
+    /// </summary>
+    /// <remarks>The same object as the <see cref="SnapLayout"/> property on a <see cref="KryptonManager"/> component.</remarks>
+    public static SnapLayoutValues SnapLayoutValues { get; } = new SnapLayoutValues();
+
     /// <summary>Gets the touchscreen support settings.</summary>
     /// <value>The touchscreen support settings.</value>
     public static TouchscreenSettingValues TouchscreenSettingValues { get; } = new TouchscreenSettingValues();
@@ -1194,174 +1053,6 @@ public sealed class KryptonManager : Component
             }
         }
     }
-    #endregion
-
-    #region Static SnapLayouts
-    /// <summary>
-    /// Gets and sets the layout menu used by forms whose <see cref="KryptonForm.SnapLayouts"/> is <see cref="KryptonSnapLayoutMode.Inherit"/>.
-    /// </summary>
-    /// <remarks>
-    /// <see cref="KryptonSnapLayoutMode.Inherit"/> is stored as <see cref="KryptonSnapLayoutMode.System"/>.
-    /// </remarks>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public static KryptonSnapLayoutMode SnapLayouts
-    {
-        get => _globalSnapLayouts;
-
-        set
-        {
-            if (value == KryptonSnapLayoutMode.Inherit)
-            {
-                value = KryptonSnapLayoutMode.System;
-            }
-
-            if (_globalSnapLayouts != value)
-            {
-                _globalSnapLayouts = value;
-                OnGlobalSnapLayoutsChanged(EventArgs.Empty);
-            }
-        }
-    }
-    #endregion
-
-    #region Static SnapLayout metrics
-    /// <summary>
-    /// Gets and sets the corner radius, in pixels, of the toolkit snap-layout menu.
-    /// </summary>
-    /// <remarks>Values below zero are stored as zero.</remarks>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public static float SnapLayoutCornerRounding
-    {
-        get => _globalSnapLayoutCornerRounding;
-
-        set
-        {
-            if (value < 0f)
-            {
-                value = 0f;
-            }
-
-            if (Math.Abs(_globalSnapLayoutCornerRounding - value) > 0.01f)
-            {
-                _globalSnapLayoutCornerRounding = value;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets and sets the preferred size of one toolkit snap-layout card.
-    /// </summary>
-    /// <remarks>A non-positive width or height is stored as <see cref="Size.Empty"/>, which sizes the cards to the work area.</remarks>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public static Size SnapLayoutCardSize
-    {
-        get => _globalSnapLayoutCardSize;
-
-        set
-        {
-            if (value.Width <= 0 || value.Height <= 0)
-            {
-                value = Size.Empty;
-            }
-
-            if (_globalSnapLayoutCardSize != value)
-            {
-                _globalSnapLayoutCardSize = value;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets and sets a value indicating whether each toolkit snap-layout zone draws the form icon.
-    /// </summary>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public static bool SnapLayoutShowIcon
-    {
-        get => _globalSnapLayoutShowIcon;
-
-        set
-        {
-            if (_globalSnapLayoutShowIcon != value)
-            {
-                _globalSnapLayoutShowIcon = value;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets and sets a value indicating whether hovering a zone previews the snap rectangle.
-    /// </summary>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public static bool SnapLayoutShowPreview
-    {
-        get => _globalSnapLayoutShowPreview;
-
-        set
-        {
-            if (_globalSnapLayoutShowPreview != value)
-            {
-                _globalSnapLayoutShowPreview = value;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets and sets the opacity of the snap-layout preview, from 0 to 1.
-    /// </summary>
-    /// <remarks>Values outside 0..1 are stored at the nearest end. Zero hides the preview.</remarks>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public static float SnapLayoutPreviewOpacity
-    {
-        get => _globalSnapLayoutPreviewOpacity;
-
-        set
-        {
-            if (value < 0f)
-            {
-                value = 0f;
-            }
-            else if (value > 1f)
-            {
-                value = 1f;
-            }
-
-            if (Math.Abs(_globalSnapLayoutPreviewOpacity - value) > 0.001f)
-            {
-                _globalSnapLayoutPreviewOpacity = value;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets and sets a value indicating whether the toolkit snap menu includes the builtin cards.
-    /// </summary>
-    /// <remarks>
-    /// The default is <see langword="true"/>. <see langword="false"/> shows only <see cref="CustomSnapLayouts"/>.
-    /// </remarks>
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public static bool IncludeBuiltinSnapLayouts
-    {
-        get => _globalIncludeBuiltinSnapLayouts;
-
-        set
-        {
-            if (_globalIncludeBuiltinSnapLayouts != value)
-            {
-                _globalIncludeBuiltinSnapLayouts = value;
-            }
-        }
-    }
-
-    /// <summary>
-    /// Gets the custom snap-layout cards appended after the builtin cards.
-    /// </summary>
-    /// <remarks>
-    /// Empty by default, which leaves the builtin menu unchanged. Add cards on the UI thread.
-    /// The menu copies this list when it opens. <see cref="GlobalCustomSnapLayouts"/> edits the same list in the designer.
-    /// </remarks>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public static KryptonSnapLayoutCardCollection CustomSnapLayouts => _customSnapLayouts;
     #endregion
 
     #region Static UseThemeFormChromeBorderWidth
@@ -2912,8 +2603,6 @@ public sealed class KryptonManager : Component
             }
         }
     }
-
-    private static void OnGlobalSnapLayoutsChanged(EventArgs e) => GlobalSnapLayoutsChanged?.Invoke(null, e);
 
     private static void OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs e) => GlobalUseThemeFormChromeBorderWidthChanged?.Invoke(null, e);
 

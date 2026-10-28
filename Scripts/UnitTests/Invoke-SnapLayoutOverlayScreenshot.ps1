@@ -252,9 +252,9 @@ internal static class SnapShotHost
 $customSetup = ''
 if ($CustomCard) {
     $customSetup = @'
-            Krypton.Toolkit.KryptonManager.SnapLayouts = Krypton.Toolkit.KryptonSnapLayoutMode.Toolkit;
-            Krypton.Toolkit.KryptonManager.CustomSnapLayouts.Clear();
-            Krypton.Toolkit.KryptonManager.CustomSnapLayouts.Add(new Krypton.Toolkit.KryptonSnapLayoutCard(
+            Krypton.Toolkit.KryptonManager.SnapLayoutValues.Mode = Krypton.Toolkit.KryptonSnapLayoutMode.Toolkit;
+            Krypton.Toolkit.KryptonManager.SnapLayoutValues.CustomLayouts.Clear();
+            Krypton.Toolkit.KryptonManager.SnapLayoutValues.CustomLayouts.Add(new Krypton.Toolkit.KryptonSnapLayoutCard(
                 new Krypton.Toolkit.KryptonSnapLayoutZone(0f, 0f, 0.7f, 1f),
                 new Krypton.Toolkit.KryptonSnapLayoutZone(0.7f, 0f, 0.3f, 1f)));
             label.Values.Text = "Custom 70/30 card appended after the builtin snap layouts.";

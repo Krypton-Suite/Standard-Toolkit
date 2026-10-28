@@ -179,7 +179,7 @@ public sealed class KryptonSnapLayoutCard
     /// Initializes a card and records whether the menu should label it as custom.
     /// </summary>
     /// <param name="zones">Zones in this card, in left-to-right order. The card keeps its own copy.</param>
-    /// <param name="custom"><see langword="true"/> when the card came from <see cref="KryptonManager.CustomSnapLayouts"/>.</param>
+    /// <param name="custom"><see langword="true"/> when the card came from <see cref="SnapLayoutValues.CustomLayouts"/>.</param>
     /// <exception cref="ArgumentNullException"><paramref name="zones"/> is <see langword="null"/>.</exception>
     /// <exception cref="ArgumentException"><paramref name="zones"/> is empty.</exception>
     internal KryptonSnapLayoutCard(KryptonSnapLayoutZone[] zones, bool custom)
@@ -243,11 +243,11 @@ public sealed class KryptonSnapLayoutZoneCollection : TypedCollection<KryptonSna
 }
 
 /// <summary>
-/// Cards added with <see cref="KryptonManager.CustomSnapLayouts"/>.
+/// Cards added with <see cref="SnapLayoutValues.CustomLayouts"/>.
 /// </summary>
 /// <remarks>
 /// Empty by default, so the menu shows the builtin cards. Add and clear on the UI thread.
-/// The menu reads the list when it opens. The same list is <see cref="KryptonManager.GlobalCustomSnapLayouts"/> in the designer.
+/// The menu reads the list when it opens. The same list is <see cref="SnapLayoutValues.CustomLayouts"/> in the designer.
 /// </remarks>
 public sealed class KryptonSnapLayoutCardCollection : TypedCollection<KryptonSnapLayoutCard>
 {

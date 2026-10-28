@@ -11,7 +11,7 @@ namespace TestForm;
 
 /// <summary>
 /// Exercises <see cref="KryptonForm.SnapLayouts"/> (issue #4579).
-/// Hover this form's maximize button. The form inherits KryptonManager.GlobalSnapLayouts.
+/// Hover this form's maximize button. The form inherits KryptonManager.SnapLayoutValues.Mode.
 /// System keeps the Windows menu. Toolkit draws the palette menu.
 /// </summary>
 public partial class SnapLayoutOverlayDemo : KryptonForm
@@ -38,6 +38,10 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         kchkIncludeBuiltin.CheckedChanged += OnIncludeBuiltinChanged;
         kbtnAddCustom.Click += OnAddCustomClick;
         kbtnClearCustom.Click += OnClearCustomClick;
+        kchkShowShadow.CheckedChanged += OnShowShadowChanged;
+        knudShadowOffset.ValueChanged += OnShadowOffsetChanged;
+        knudShadowBlur.ValueChanged += OnShadowBlurChanged;
+        knudShadowOpacity.ValueChanged += OnShadowOpacityChanged;
     }
 
     private void SnapLayoutOverlayDemo_Load(object? sender, EventArgs e)
@@ -53,11 +57,12 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         kcmbGlobal.Items.Add(KryptonSnapLayoutMode.System);
         kcmbGlobal.Items.Add(KryptonSnapLayoutMode.Toolkit);
         kcmbGlobal.Items.Add(KryptonSnapLayoutMode.None);
-        kcmbGlobal.SelectedItem = KryptonManager.SnapLayouts;
-        kchkShowIcon.Checked = KryptonManager.SnapLayoutShowIcon;
-        kchkShowPreview.Checked = KryptonManager.SnapLayoutShowPreview;
-        kchkIncludeBuiltin.Checked = KryptonManager.IncludeBuiltinSnapLayouts;
-        decimal previewPercent = (decimal)Math.Round(KryptonManager.SnapLayoutPreviewOpacity * 100f);
+        SnapLayoutValues snap = KryptonManager.SnapLayoutValues;
+        kcmbGlobal.SelectedItem = snap.Mode;
+        kchkShowIcon.Checked = snap.ShowIcon;
+        kchkShowPreview.Checked = snap.ShowPreview;
+        kchkIncludeBuiltin.Checked = snap.IncludeBuiltinLayouts;
+        decimal previewPercent = (decimal)Math.Round(snap.PreviewOpacity * 100f);
         if (previewPercent < knudPreviewOpacity.Minimum)
         {
             previewPercent = knudPreviewOpacity.Minimum;
@@ -68,6 +73,24 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         }
 
         knudPreviewOpacity.Value = previewPercent;
+        kchkShowShadow.Checked = snap.ShowShadow;
+        knudShadowOffset.Value = snap.ShadowOffset;
+        knudShadowBlur.Value = snap.ShadowBlur;
+        decimal shadowPercent = (decimal)Math.Round(snap.ShadowOpacity * 100f);
+        if (shadowPercent < knudShadowOpacity.Minimum)
+        {
+            shadowPercent = knudShadowOpacity.Minimum;
+        }
+        else if (shadowPercent > knudShadowOpacity.Maximum)
+        {
+            shadowPercent = knudShadowOpacity.Maximum;
+        }
+
+        knudShadowOpacity.Value = shadowPercent;
+        kcbtnShadow.SelectedColor = snap.ShadowColor.IsEmpty
+            ? Color.Black
+            : snap.ShadowColor;
+        kcbtnShadow.SelectedColorChanged += OnShadowColorChanged;
 
         kcmbTheme.Items.Clear();
         foreach (PaletteMode theme in Themes)
@@ -92,26 +115,26 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
     {
         if (kcmbGlobal.SelectedItem is KryptonSnapLayoutMode mode)
         {
-            KryptonManager.SnapLayouts = mode;
+            KryptonManager.SnapLayoutValues.Mode = mode;
             UpdateBoundsReadout();
         }
     }
 
     private void OnShowIconChanged(object? sender, EventArgs e)
     {
-        KryptonManager.SnapLayoutShowIcon = kchkShowIcon.Checked;
+        KryptonManager.SnapLayoutValues.ShowIcon = kchkShowIcon.Checked;
         UpdateBoundsReadout();
     }
 
     private void OnShowPreviewChanged(object? sender, EventArgs e)
     {
-        KryptonManager.SnapLayoutShowPreview = kchkShowPreview.Checked;
+        KryptonManager.SnapLayoutValues.ShowPreview = kchkShowPreview.Checked;
         UpdateBoundsReadout();
     }
 
     private void OnPreviewOpacityChanged(object? sender, EventArgs e)
     {
-        KryptonManager.SnapLayoutPreviewOpacity = (float)knudPreviewOpacity.Value / 100f;
+        KryptonManager.SnapLayoutValues.PreviewOpacity = (float)knudPreviewOpacity.Value / 100f;
         UpdateBoundsReadout();
     }
 
@@ -123,15 +146,45 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         }
     }
 
+    private void OnShowShadowChanged(object? sender, EventArgs e)
+    {
+        KryptonManager.SnapLayoutValues.ShowShadow = kchkShowShadow.Checked;
+        UpdateBoundsReadout();
+    }
+
+    private void OnShadowOffsetChanged(object? sender, EventArgs e)
+    {
+        KryptonManager.SnapLayoutValues.ShadowOffset = (int)knudShadowOffset.Value;
+        UpdateBoundsReadout();
+    }
+
+    private void OnShadowBlurChanged(object? sender, EventArgs e)
+    {
+        KryptonManager.SnapLayoutValues.ShadowBlur = (int)knudShadowBlur.Value;
+        UpdateBoundsReadout();
+    }
+
+    private void OnShadowOpacityChanged(object? sender, EventArgs e)
+    {
+        KryptonManager.SnapLayoutValues.ShadowOpacity = (float)knudShadowOpacity.Value / 100f;
+        UpdateBoundsReadout();
+    }
+
+    private void OnShadowColorChanged(object? sender, ColorEventArgs e)
+    {
+        KryptonManager.SnapLayoutValues.ShadowColor = e.Color == Color.Black ? Color.Empty : e.Color;
+        UpdateBoundsReadout();
+    }
+
     private void OnIncludeBuiltinChanged(object? sender, EventArgs e)
     {
-        KryptonManager.IncludeBuiltinSnapLayouts = kchkIncludeBuiltin.Checked;
+        KryptonManager.SnapLayoutValues.IncludeBuiltinLayouts = kchkIncludeBuiltin.Checked;
         UpdateBoundsReadout();
     }
 
     private void OnAddCustomClick(object? sender, EventArgs e)
     {
-        KryptonManager.CustomSnapLayouts.Add(new KryptonSnapLayoutCard(
+        KryptonManager.SnapLayoutValues.CustomLayouts.Add(new KryptonSnapLayoutCard(
             new KryptonSnapLayoutZone(0f, 0f, 0.7f, 1f),
             new KryptonSnapLayoutZone(0.7f, 0f, 0.3f, 1f)));
         UpdateBoundsReadout();
@@ -139,7 +192,7 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
 
     private void OnClearCustomClick(object? sender, EventArgs e)
     {
-        KryptonManager.CustomSnapLayouts.Clear();
+        KryptonManager.SnapLayoutValues.CustomLayouts.Clear();
         UpdateBoundsReadout();
     }
 
@@ -162,8 +215,9 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
             return;
         }
 
-        string builtin = KryptonManager.IncludeBuiltinSnapLayouts ? "included" : "hidden";
+        SnapLayoutValues snap = KryptonManager.SnapLayoutValues;
+        string builtin = snap.IncludeBuiltinLayouts ? "included" : "hidden";
         klblBounds.Values.Text =
-            $"This form = {SnapLayouts}. All forms = {KryptonManager.SnapLayouts}. Icon {(KryptonManager.SnapLayoutShowIcon ? "shown" : "hidden")}. Preview {(KryptonManager.SnapLayoutShowPreview ? "on" : "off")} at {(int)Math.Round(KryptonManager.SnapLayoutPreviewOpacity * 100f)}%. Builtin layouts {builtin}. Custom cards {KryptonManager.CustomSnapLayouts.Count}. Bounds {Bounds.X}, {Bounds.Y}  {Bounds.Width} x {Bounds.Height}. State {WindowState}.";
+            $"This form = {SnapLayouts}. All forms = {snap.Mode}. Icon {(snap.ShowIcon ? "shown" : "hidden")}. Preview {(snap.ShowPreview ? "on" : "off")} at {(int)Math.Round(snap.PreviewOpacity * 100f)}%. Shadow {(snap.ShowShadow ? "on" : "off")} at {(int)Math.Round(snap.ShadowOpacity * 100f)}%, offset {snap.ShadowOffset}, blur {snap.ShadowBlur}. Builtin layouts {builtin}. Custom cards {snap.CustomLayouts.Count}. Bounds {Bounds.X}, {Bounds.Y}  {Bounds.Width} x {Bounds.Height}. State {WindowState}.";
     }
 }

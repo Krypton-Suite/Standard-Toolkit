@@ -5172,7 +5172,7 @@ public enum FormCaptionTextBoxEdge
 /// </summary>
 /// <remarks>
 /// <para>
-/// <see cref="Inherit"/> follows <see cref="KryptonManager.GlobalSnapLayouts"/>.
+/// <see cref="Inherit"/> follows <see cref="SnapLayoutValues.Mode"/>.
 /// <see cref="System"/> is that global default and keeps the Windows 11 snap menu.
 /// Set the manager, or one form, to <see cref="Toolkit"/> for the palette menu.
 /// Win+Z remains the shell menu in every mode.
@@ -5196,7 +5196,7 @@ public enum KryptonSnapLayoutMode
     None = 2,
 
     /// <summary>
-    /// Use <see cref="KryptonManager.GlobalSnapLayouts"/>. On the manager itself this is treated as <see cref="System"/>.
+    /// Use <see cref="SnapLayoutValues.Mode"/>. On the manager itself this is treated as <see cref="System"/>.
     /// </summary>
     Inherit = 3
 }

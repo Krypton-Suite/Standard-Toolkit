@@ -405,7 +405,7 @@ public class KryptonForm : VisualForm,
 
 		// Hook into global static events
 		KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged += OnGlobalUseThemeFormChromeBorderWidthChanged;
-		KryptonManager.GlobalSnapLayoutsChanged += OnGlobalSnapLayoutsChanged;
+		KryptonManager.SnapLayoutValues.ModeChanged += OnSnapLayoutModeChanged;
 		KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 		KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
 
@@ -657,7 +657,7 @@ public class KryptonForm : VisualForm,
 			// Unhook from the global static events
 			KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 			KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
-			KryptonManager.GlobalSnapLayoutsChanged -= OnGlobalSnapLayoutsChanged;
+			KryptonManager.SnapLayoutValues.ModeChanged -= OnSnapLayoutModeChanged;
 			KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
 
 			// #1979 Temporary fix
@@ -965,7 +965,7 @@ public class KryptonForm : VisualForm,
 	/// </summary>
 	/// <remarks>
 	/// <para>
-	/// <see cref="KryptonSnapLayoutMode.Inherit"/> (the default) uses <see cref="KryptonManager.GlobalSnapLayouts"/>.
+	/// <see cref="KryptonSnapLayoutMode.Inherit"/> (the default) uses <see cref="KryptonManager.SnapLayoutValues"/>.<see cref="SnapLayoutValues.Mode"/>.
 	/// That global value defaults to <see cref="KryptonSnapLayoutMode.System"/>, which keeps the Windows 11 snap menu.
 	/// Set the manager or this property to <see cref="KryptonSnapLayoutMode.Toolkit"/> for the palette menu.
 	/// Snap Assist is not offered for toolkit zones. <see cref="KryptonSnapLayoutMode.None"/> is maximize and restore only.
@@ -976,7 +976,7 @@ public class KryptonForm : VisualForm,
 	/// </para>
 	/// </remarks>
 	[Category(@"Window Style")]
-	[Description(@"Layout menu shown when the pointer rests on the maximize button. Inherit follows KryptonManager.GlobalSnapLayouts.")]
+	[Description(@"Layout menu shown when the pointer rests on the maximize button. Inherit follows KryptonManager.SnapLayoutValues.Mode.")]
 	[DefaultValue(KryptonSnapLayoutMode.Inherit)]
 	public KryptonSnapLayoutMode SnapLayouts
 	{
@@ -3097,20 +3097,20 @@ public class KryptonForm : VisualForm,
 	/// plus MDI children and the designer, which keep the historical hit-test.
 	/// </summary>
 	/// <summary>
-	/// Form value, or <see cref="KryptonManager.SnapLayouts"/> when this form inherits.
+	/// Form value, or <see cref="SnapLayoutValues.Mode"/> when this form inherits.
 	/// <see cref="KryptonSnapLayoutMode.Inherit"/> from the manager is the Windows menu.
 	/// </summary>
 	private KryptonSnapLayoutMode EffectiveSnapLayouts()
 	{
 		KryptonSnapLayoutMode mode = _snapLayouts == KryptonSnapLayoutMode.Inherit
-			? KryptonManager.SnapLayouts
+			? KryptonManager.SnapLayoutValues.Mode
 			: _snapLayouts;
 		return mode == KryptonSnapLayoutMode.Inherit
 			? KryptonSnapLayoutMode.System
 			: mode;
 	}
 
-	private void OnGlobalSnapLayoutsChanged(object? sender, EventArgs e)
+	private void OnSnapLayoutModeChanged(object? sender, EventArgs e)
 	{
 		if (_snapLayouts == KryptonSnapLayoutMode.Inherit)
 		{
@@ -3238,8 +3238,8 @@ public class KryptonForm : VisualForm,
 			work.Size,
 			MinimumSize,
 			UsesRtlFormButtonLayout(),
-			KryptonManager.CustomSnapLayouts.Snapshot(),
-			KryptonManager.IncludeBuiltinSnapLayouts);
+			KryptonManager.SnapLayoutValues.CustomLayouts.Snapshot(),
+			KryptonManager.SnapLayoutValues.IncludeBuiltinLayouts);
 		if (cards.Length == 0)
 		{
 			return;

@@ -51,13 +51,23 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     /// <param name="renderer">Renderer paired with <paramref name="palette"/>.</param>
     /// <param name="applicationIcon">Icon of the form that owns the menu. Not taken ownership of. Drawn in the zone this form will snap to.</param>
     internal VisualSnapLayoutPopup(PaletteBase palette, IRenderer renderer, Icon? applicationIcon)
-        : base(renderer, true)
+        : base(renderer, KryptonManager.SnapLayoutValues.ShowShadow)
     {
         _palette = palette;
         _applicationImage = CreateApplicationImage(applicationIcon);
 
         // Show lays the popup out. An unattached manager has no control and faults that layout.
         ViewManager?.Attach(this, new ViewLayoutNull());
+
+        // The shaped window paints every pixel itself. Otherwise the erase leaves black in the rounded corners.
+        SetStyle(ControlStyles.Opaque, true);
+    }
+
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        SuppressSystemCornerRounding();
     }
 
     #endregion
@@ -153,12 +163,16 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     /// <inheritdoc />
     protected override void OnPaintBackground(PaintEventArgs e)
     {
-        // Match the chrome colour. The default rectangular back is lighter and shows through the rounded corners.
+        // The buffer starts black. Fill past the rounded clip so a region pixel the clip misses cannot stay black.
         e.Graphics.SmoothingMode = SmoothingMode.None;
+        GraphicsState state = e.Graphics.Save();
+        e.Graphics.ResetClip();
         using (var brush = new SolidBrush(BackColor))
         {
             e.Graphics.FillRectangle(brush, ClientRectangle);
         }
+
+        e.Graphics.Restore(state);
     }
 
     /// <inheritdoc />
@@ -178,17 +192,20 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
 
         Graphics g = e.Graphics;
         Rectangle bounds = ClientRectangle;
-        float radius = Math.Max(0f, KryptonManager.SnapLayoutCornerRounding);
+        float radius = Math.Max(0f, KryptonManager.SnapLayoutValues.CornerRounding);
         float zoneRadius = Math.Min(4f, radius);
 
-        // Fill the window first with no smoothing so the corner pixels match the chrome.
-        // The rounded region then clips the square corners away.
+        // Fill the whole buffer. The rounded region clips the square corners afterwards.
+        GraphicsState savedClip = g.Save();
+        g.ResetClip();
         g.SmoothingMode = SmoothingMode.None;
         g.PixelOffsetMode = PixelOffsetMode.None;
         using (Brush back = CreateBackBrush(bounds, PaletteBackStyle.PanelAlternate, PaletteState.Normal))
         {
             g.FillRectangle(back, bounds);
         }
+
+        g.Restore(savedClip);
 
         int borderWidth = Math.Max(1, _palette.GetBorderWidth(PaletteBorderStyle.ControlClient, PaletteState.Normal));
         Rectangle borderBounds = bounds;
@@ -231,7 +248,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     }
 
     /// <summary>
-    /// Draws the Custom label under cards that came from <see cref="KryptonManager.CustomSnapLayouts"/>.
+    /// Draws the Custom label under cards that came from <see cref="SnapLayoutValues.CustomLayouts"/>.
     /// </summary>
     /// <param name="g">Popup graphics.</param>
     private void DrawCustomCaptions(Graphics g)
@@ -287,7 +304,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     private static void MeasureCards(KryptonSnapLayoutCard[] cards, int workWidth, out int columns, out int cardWidth, out int cardHeight, out int width, out int height)
     {
         int cardCount = cards.Length;
-        Size preferred = KryptonManager.SnapLayoutCardSize;
+        Size preferred = KryptonManager.SnapLayoutValues.CardSize;
         bool flexible = preferred.Width <= 0 || preferred.Height <= 0;
         cardWidth = flexible ? DefaultCardWidth : preferred.Width;
         cardHeight = flexible ? DefaultCardHeight : preferred.Height;
@@ -434,7 +451,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
 
     private Bitmap? IconFor(int hitIndex)
     {
-        if (!KryptonManager.SnapLayoutShowIcon || hitIndex < 0 || hitIndex >= _hits.Count || _taskbarImages.Length == 0)
+        if (!KryptonManager.SnapLayoutValues.ShowIcon || hitIndex < 0 || hitIndex >= _hits.Count || _taskbarImages.Length == 0)
         {
             return null;
         }
@@ -544,7 +561,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
 
     private void DrawZoneIcon(Graphics g, Rectangle zone, Image? image)
     {
-        if (image == null || !KryptonManager.SnapLayoutShowIcon)
+        if (image == null || !KryptonManager.SnapLayoutValues.ShowIcon)
         {
             return;
         }
@@ -611,7 +628,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     private void UpdatePreview()
     {
         if (_hotIndex < 0 || _workArea.Width < 1 || _workArea.Height < 1 || IsDisposed
-            || !KryptonManager.SnapLayoutShowPreview || KryptonManager.SnapLayoutPreviewOpacity <= 0f)
+            || !KryptonManager.SnapLayoutValues.ShowPreview || KryptonManager.SnapLayoutValues.PreviewOpacity <= 0f)
         {
             if (_preview != null && _preview.Visible)
             {
@@ -629,7 +646,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
         PreviewColors(out Color fill, out Color fill2, out Color border);
         Image? icon = IconFor(_hotIndex);
         Rectangle target = KryptonSnapLayoutCatalog.ToScreen(_workArea, _hits[_hotIndex].Zone);
-        _preview.ShowAt(target, fill, fill2, border, KryptonManager.SnapLayoutPreviewOpacity, icon);
+        _preview.ShowAt(target, fill, fill2, border, KryptonManager.SnapLayoutValues.PreviewOpacity, icon);
         if (IsHandleCreated)
         {
             PI.SetWindowPos(Handle, PI.HWND_TOPMOST, 0, 0, 0, 0,
@@ -684,21 +701,64 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
             BackColor = chrome;
         }
 
-        float radius = Math.Max(0f, KryptonManager.SnapLayoutCornerRounding);
+        SuppressSystemCornerRounding();
+        float radius = Math.Max(0f, KryptonManager.SnapLayoutValues.CornerRounding);
         Rectangle bounds = ClientRectangle;
         using (GraphicsPath regionPath = CreateRoundRect(bounds, radius))
         {
             Region = new Region(regionPath);
         }
 
-        Rectangle middle = bounds;
-        middle.Inflate(-1, -1);
-        Rectangle inner = bounds;
-        inner.Inflate(-2, -2);
+        ApplyShadow(radius);
+    }
+
+    /// <summary>
+    /// Places the drop shadow from the manager settings. The menu is already on screen.
+    /// </summary>
+    /// <param name="radius">Corner radius of the menu, in pixels.</param>
+    private void ApplyShadow(float radius)
+    {
+        if (!KryptonManager.SnapLayoutValues.ShowShadow)
+        {
+            return;
+        }
+
+        Color color = KryptonManager.SnapLayoutValues.ShadowColor;
+        if (color.IsEmpty)
+        {
+            color = Color.Black;
+        }
+
+        UpdateShadowAppearance(color, KryptonManager.SnapLayoutValues.ShadowOpacity, true);
+        int offset = KryptonManager.SnapLayoutValues.ShadowOffset;
+        int blur = KryptonManager.SnapLayoutValues.ShadowBlur;
+        var popup = new Rectangle(Location, Size);
+        if (blur <= 0)
+        {
+            // Same shape as the menu, shifted by the drop. This is the historical shadow.
+            ShowShadow(popup, 0, offset);
+            Rectangle middle = ClientRectangle;
+            middle.Inflate(-1, -1);
+            Rectangle inner = ClientRectangle;
+            inner.Inflate(-2, -2);
+            DefineShadowPaths(
+                CreateRoundRect(ClientRectangle, radius),
+                CreateRoundRect(middle, Math.Max(0f, radius - 1f)),
+                CreateRoundRect(inner, Math.Max(0f, radius - 2f)));
+            return;
+        }
+
+        // The shadow window grows by the halo. Paths are in that larger client, with the menu shape at (blur, blur).
+        ShowShadow(popup, blur, offset);
+        var outer = new Rectangle(0, 0, ClientSize.Width + (blur * 2), ClientSize.Height + (blur * 2));
+        Rectangle middleHalo = outer;
+        int inset = Math.Max(1, blur / 2);
+        middleHalo.Inflate(-inset, -inset);
+        var innerShape = new Rectangle(blur, blur, ClientSize.Width, ClientSize.Height);
         DefineShadowPaths(
-            CreateRoundRect(bounds, radius),
-            CreateRoundRect(middle, Math.Max(0f, radius - 1f)),
-            CreateRoundRect(inner, Math.Max(0f, radius - 2f)));
+            CreateRoundRect(outer, radius + blur),
+            CreateRoundRect(middleHalo, Math.Max(0f, radius + blur - inset)),
+            CreateRoundRect(innerShape, radius));
     }
 
     private int HitTest(Point point)
@@ -740,34 +800,33 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
         }
 
         int width = _palette.GetBorderWidth(style, state);
-        return new Pen(color, Math.Max(1, width));
+        var pen = new Pen(color, Math.Max(1, width))
+        {
+            LineJoin = LineJoin.Round
+        };
+        return pen;
     }
 
+    /// <summary>
+    /// Rounded rectangle whose corners meet. A sweep past 90 leaves a loop, and the window region keeps that loop as unpainted black pixels.
+    /// </summary>
     private static GraphicsPath CreateRoundRect(Rectangle bounds, float radius)
     {
-        var path = new GraphicsPath();
+        var path = new GraphicsPath
+        {
+            FillMode = FillMode.Winding
+        };
         if (bounds.Width < 1 || bounds.Height < 1)
         {
             return path;
         }
 
-        float diameter = Math.Min(radius * 2f, Math.Min(bounds.Width, bounds.Height));
-        if (diameter <= 0.5f)
-        {
-            path.AddRectangle(bounds);
-            return path;
-        }
-
-        float right = bounds.Right - diameter;
-        float bottom = bounds.Bottom - diameter;
-        // Sweep past 90 so neighbouring arcs overlap. An exact quarter-turn leaves a gap,
-        // and CloseFigure fills that gap with a chord that anti-aliases as a light corner pixel.
-        const float sweep = 91f;
-        path.AddArc(bounds.X, bounds.Y, diameter, diameter, 180f, sweep);
-        path.AddArc(right, bounds.Y, diameter, diameter, 270f, sweep);
-        path.AddArc(right, bottom, diameter, diameter, 0f, sweep);
-        path.AddArc(bounds.X, bottom, diameter, diameter, 90f, sweep);
-        path.CloseFigure();
+        float maxRadius = Math.Min(bounds.Width, bounds.Height) / 2f;
+        float clamped = Math.Max(0f, Math.Min(radius, maxRadius));
+        var rect = new RectangleF(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+        RoundedPathHelper.CornerArcLengths arcs = RoundedPathHelper.CornerArcLengths.FromCornerRounding(
+            PaletteCornerRounding.Uniform(clamped), rect, 0);
+        RoundedPathHelper.AppendRoundedRectangle(path, rect, arcs, true);
         return path;
     }
 
