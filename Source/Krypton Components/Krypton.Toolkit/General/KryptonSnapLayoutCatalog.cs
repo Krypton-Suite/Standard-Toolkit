@@ -12,49 +12,257 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// One zone inside a snap-layout card, as fractions of the monitor work area.
 /// </summary>
-internal readonly struct KryptonSnapLayoutZone
+/// <remarks>
+/// Edges are fractions from 0 to 1. A value that misses that range by more than a small
+/// rounding tolerance is rejected. Right-to-left mirroring of thirds can land a fraction
+/// of a pixel outside 0 or 1, and that still constructs.
+/// </remarks>
+public sealed class KryptonSnapLayoutZone
 {
+    // Float sums such as (2/3 + 1/3) can sit just outside 0..1. This keeps those, and real mistakes still fail.
+    private const float EdgeTolerance = 0.0001f;
+
+    private float _x;
+    private float _y;
+    private float _width;
+    private float _height;
+
+    /// <summary>
+    /// Initializes an empty zone for the designer. Set <see cref="X"/>, <see cref="Y"/>, <see cref="Width"/>, and <see cref="Height"/> before the menu shows it.
+    /// </summary>
+    public KryptonSnapLayoutZone()
+    {
+    }
+
     /// <summary>
     /// Initializes a zone from work-area fractions in the range 0..1.
     /// </summary>
-    /// <param name="x">Left edge.</param>
-    /// <param name="y">Top edge.</param>
-    /// <param name="width">Width.</param>
-    /// <param name="height">Height.</param>
-    internal KryptonSnapLayoutZone(float x, float y, float width, float height)
+    /// <param name="x">Left edge, from 0 to 1.</param>
+    /// <param name="y">Top edge, from 0 to 1.</param>
+    /// <param name="width">Width, greater than zero. The right edge must stay within 1.</param>
+    /// <param name="height">Height, greater than zero. The bottom edge must stay within 1.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// An edge is outside 0..1, or a size is not positive, or the zone extends past the work area.
+    /// </exception>
+    public KryptonSnapLayoutZone(float x, float y, float width, float height)
     {
-        X = x;
-        Y = y;
-        Width = width;
-        Height = height;
+        RequireEdge(nameof(x), x);
+        RequireEdge(nameof(y), y);
+        RequireSpan(nameof(width), x, width);
+        RequireSpan(nameof(height), y, height);
+        _x = x;
+        _y = y;
+        _width = width;
+        _height = height;
     }
 
-    /// <summary>Gets the left edge as a fraction of the work area.</summary>
-    internal float X { get; }
+    /// <summary>Gets or sets the left edge as a fraction of the work area.</summary>
+    /// <exception cref="ArgumentOutOfRangeException">The edge is outside 0..1, or the zone would extend past the work area.</exception>
+    [Category(@"Layout")]
+    [Description(@"Left edge as a fraction of the work area, from 0 to 1.")]
+    [DefaultValue(0f)]
+    public float X
+    {
+        get => _x;
+        set
+        {
+            RequireEdge(nameof(value), value);
+            if (_width > 0f)
+            {
+                RequireSpan(nameof(value), value, _width);
+            }
 
-    /// <summary>Gets the top edge as a fraction of the work area.</summary>
-    internal float Y { get; }
+            _x = value;
+        }
+    }
 
-    /// <summary>Gets the width as a fraction of the work area.</summary>
-    internal float Width { get; }
+    /// <summary>Gets or sets the top edge as a fraction of the work area.</summary>
+    /// <exception cref="ArgumentOutOfRangeException">The edge is outside 0..1, or the zone would extend past the work area.</exception>
+    [Category(@"Layout")]
+    [Description(@"Top edge as a fraction of the work area, from 0 to 1.")]
+    [DefaultValue(0f)]
+    public float Y
+    {
+        get => _y;
+        set
+        {
+            RequireEdge(nameof(value), value);
+            if (_height > 0f)
+            {
+                RequireSpan(nameof(value), value, _height);
+            }
 
-    /// <summary>Gets the height as a fraction of the work area.</summary>
-    internal float Height { get; }
+            _y = value;
+        }
+    }
+
+    /// <summary>Gets or sets the width as a fraction of the work area.</summary>
+    /// <exception cref="ArgumentOutOfRangeException">The width is not positive, or the zone would extend past the work area.</exception>
+    [Category(@"Layout")]
+    [Description(@"Width as a fraction of the work area. The right edge must stay within 1.")]
+    [DefaultValue(0f)]
+    public float Width
+    {
+        get => _width;
+        set
+        {
+            RequireSpan(nameof(value), _x, value);
+            _width = value;
+        }
+    }
+
+    /// <summary>Gets or sets the height as a fraction of the work area.</summary>
+    /// <exception cref="ArgumentOutOfRangeException">The height is not positive, or the zone would extend past the work area.</exception>
+    [Category(@"Layout")]
+    [Description(@"Height as a fraction of the work area. The bottom edge must stay within 1.")]
+    [DefaultValue(0f)]
+    public float Height
+    {
+        get => _height;
+        set
+        {
+            RequireSpan(nameof(value), _y, value);
+            _height = value;
+        }
+    }
+
+    /// <summary>Returns the four fractions, rounded for the property grid.</summary>
+    /// <returns>Left, top, width, and height.</returns>
+    public override string ToString() => $"{_x:0.##}, {_y:0.##}, {_width:0.##} x {_height:0.##}";
+
+    private static void RequireEdge(string name, float value)
+    {
+        if (float.IsNaN(value) || float.IsInfinity(value) || value < -EdgeTolerance || value > 1f + EdgeTolerance)
+        {
+            throw new ArgumentOutOfRangeException(name, value, @"The edge must be from 0 to 1.");
+        }
+    }
+
+    private static void RequireSpan(string name, float origin, float size)
+    {
+        if (float.IsNaN(size) || float.IsInfinity(size) || size <= 0f || origin + size > 1f + EdgeTolerance)
+        {
+            throw new ArgumentOutOfRangeException(name, size, @"The size must be greater than zero and the zone must stay inside 0..1.");
+        }
+    }
 }
 
 /// <summary>
 /// A layout card: the set of zones the user can pick.
 /// </summary>
-internal sealed class KryptonSnapLayoutCard
+/// <remarks>
+/// Zones are stored in left-to-right order. The snap menu mirrors them when the form is right-to-left.
+/// Call from the UI thread, the same thread that shows the menu.
+/// </remarks>
+public sealed class KryptonSnapLayoutCard
 {
     /// <summary>
-    /// Initializes a card.
+    /// Initializes an empty card for the designer. Add zones to <see cref="Zones"/>.
     /// </summary>
-    /// <param name="zones">Zones in this card. Not mirrored.</param>
-    internal KryptonSnapLayoutCard(KryptonSnapLayoutZone[] zones) => Zones = zones;
+    public KryptonSnapLayoutCard()
+    {
+        Zones = new KryptonSnapLayoutZoneCollection();
+    }
+
+    /// <summary>
+    /// Initializes a card from at least one zone.
+    /// </summary>
+    /// <param name="zones">Zones in this card, in left-to-right order. The card keeps its own copy.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="zones"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="zones"/> is empty.</exception>
+    public KryptonSnapLayoutCard(params KryptonSnapLayoutZone[] zones)
+        : this(zones, false)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a card and records whether the menu should label it as custom.
+    /// </summary>
+    /// <param name="zones">Zones in this card, in left-to-right order. The card keeps its own copy.</param>
+    /// <param name="custom"><see langword="true"/> when the card came from <see cref="KryptonManager.CustomSnapLayouts"/>.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="zones"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="zones"/> is empty.</exception>
+    internal KryptonSnapLayoutCard(KryptonSnapLayoutZone[] zones, bool custom)
+        : this()
+    {
+        if (zones == null)
+        {
+            throw new ArgumentNullException(nameof(zones));
+        }
+
+        if (zones.Length == 0)
+        {
+            throw new ArgumentException(@"A snap-layout card needs at least one zone.", nameof(zones));
+        }
+
+        foreach (KryptonSnapLayoutZone zone in zones)
+        {
+            if (zone == null)
+            {
+                throw new ArgumentNullException(nameof(zones));
+            }
+
+            Zones.Add(new KryptonSnapLayoutZone(zone.X, zone.Y, zone.Width, zone.Height));
+        }
+
+        IsCustom = custom;
+    }
 
     /// <summary>Gets the zones drawn in this card.</summary>
-    internal KryptonSnapLayoutZone[] Zones { get; }
+    [Category(@"Layout")]
+    [Description(@"Zones in this card, as fractions of the work area.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Editor(typeof(KryptonSnapLayoutZoneCollectionEditor), typeof(UITypeEditor))]
+    public KryptonSnapLayoutZoneCollection Zones { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether the menu labels this card as a custom layout.
+    /// </summary>
+    /// <remarks>
+    /// The menu sets this on the copy it shows. A card constructed by the caller stays <see langword="false"/>.
+    /// </remarks>
+    internal bool IsCustom { get; private set; }
+
+    /// <summary>Returns how many zones the card contains.</summary>
+    /// <returns>Zone count, for the collection editor list.</returns>
+    public override string ToString() => Zones.Count == 0 ? @"Snap layout" : $"{Zones.Count} zones";
+
+    private bool ShouldSerializeZones() => Zones.Count > 0;
+
+    private void ResetZones() => Zones.Clear();
+}
+
+/// <summary>
+/// Zones that make up one <see cref="KryptonSnapLayoutCard"/>.
+/// </summary>
+public sealed class KryptonSnapLayoutZoneCollection : TypedCollection<KryptonSnapLayoutZone>
+{
+    /// <summary>Returns how many zones are in the collection.</summary>
+    /// <returns>Zone count.</returns>
+    public override string ToString() => Count == 0 ? @"None" : $"{Count} zones";
+}
+
+/// <summary>
+/// Cards added with <see cref="KryptonManager.CustomSnapLayouts"/>.
+/// </summary>
+/// <remarks>
+/// Empty by default, so the menu shows the builtin cards. Add and clear on the UI thread.
+/// The menu reads the list when it opens. The same list is <see cref="KryptonManager.GlobalCustomSnapLayouts"/> in the designer.
+/// </remarks>
+public sealed class KryptonSnapLayoutCardCollection : TypedCollection<KryptonSnapLayoutCard>
+{
+    /// <summary>Returns how many custom cards are in the collection.</summary>
+    /// <returns>Card count.</returns>
+    public override string ToString() => Count == 0 ? @"None" : $"{Count} cards";
+
+    /// <summary>Copies the current cards so the menu can read a stable list.</summary>
+    /// <returns>The cards in add order. The array is empty when <see cref="TypedCollection{T}.Count"/> is zero.</returns>
+    internal KryptonSnapLayoutCard[] Snapshot()
+    {
+        var copy = new KryptonSnapLayoutCard[Count];
+        CopyTo(copy, 0);
+        return copy;
+    }
 }
 
 /// <summary>
@@ -128,34 +336,85 @@ internal static class KryptonSnapLayoutCatalog
     /// <param name="workArea">Monitor work area the form will snap into.</param>
     /// <param name="minimumSize">Form minimum size. Empty dimensions are not constrained.</param>
     /// <param name="rightToLeft">Mirror zones on the horizontal axis.</param>
+    /// <param name="custom">Cards to append after the builtins. <see langword="null"/> or empty adds nothing. Wide-monitor gating does not apply to these.</param>
+    /// <param name="includeBuiltin">When <see langword="false"/>, only <paramref name="custom"/> is considered.</param>
     /// <returns>Cards safe to show. May be empty.</returns>
-    internal static KryptonSnapLayoutCard[] GetCards(Size workArea, Size minimumSize, bool rightToLeft)
+    internal static KryptonSnapLayoutCard[] GetCards(Size workArea, Size minimumSize, bool rightToLeft, KryptonSnapLayoutCard[]? custom, bool includeBuiltin)
     {
-        var templates = new List<KryptonSnapLayoutZone[]>
+        var cards = new List<KryptonSnapLayoutCard>();
+        if (includeBuiltin)
         {
-            _halves,
-            _leftStack,
-            _rightStack,
-            _quarters
-        };
+            var templates = new List<KryptonSnapLayoutZone[]>
+            {
+                _halves,
+                _leftStack,
+                _rightStack,
+                _quarters
+            };
 
-        if (workArea.Width >= WideWorkAreaWidth)
-        {
-            templates.Add(_thirds);
-            templates.Add(_centerWide);
+            if (workArea.Width >= WideWorkAreaWidth)
+            {
+                templates.Add(_thirds);
+                templates.Add(_centerWide);
+            }
+
+            foreach (KryptonSnapLayoutZone[] template in templates)
+            {
+                TryAdd(cards, workArea, minimumSize, rightToLeft, template, false);
+            }
         }
 
-        var cards = new List<KryptonSnapLayoutCard>();
-        foreach (KryptonSnapLayoutZone[] template in templates)
+        if (custom != null)
         {
-            KryptonSnapLayoutZone[] zones = rightToLeft ? Mirror(template) : template;
-            if (Fits(workArea, minimumSize, zones))
+            foreach (KryptonSnapLayoutCard card in custom)
             {
-                cards.Add(new KryptonSnapLayoutCard(zones));
+                KryptonSnapLayoutZone[]? zones = CopyForMenu(card.Zones);
+                if (zones != null)
+                {
+                    TryAdd(cards, workArea, minimumSize, rightToLeft, zones, true);
+                }
             }
         }
 
         return cards.ToArray();
+    }
+
+    /// <summary>
+    /// Copies designer zones into validated instances. An unfinished zone drops the whole card.
+    /// </summary>
+    /// <param name="zones">Zones from a custom card.</param>
+    /// <returns>Validated copies, or <see langword="null"/> when the card cannot be shown.</returns>
+    private static KryptonSnapLayoutZone[]? CopyForMenu(KryptonSnapLayoutZoneCollection zones)
+    {
+        if (zones.Count == 0)
+        {
+            return null;
+        }
+
+        var copy = new KryptonSnapLayoutZone[zones.Count];
+        for (int i = 0; i < zones.Count; i++)
+        {
+            KryptonSnapLayoutZone zone = zones[i];
+            try
+            {
+                copy[i] = new KryptonSnapLayoutZone(zone.X, zone.Y, zone.Width, zone.Height);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return null;
+            }
+        }
+
+        return copy;
+    }
+
+    private static void TryAdd(List<KryptonSnapLayoutCard> cards, Size workArea, Size minimumSize, bool rightToLeft, KryptonSnapLayoutZone[] template, bool custom)
+    {
+        KryptonSnapLayoutZone[] zones = rightToLeft ? Mirror(template) : template;
+        if (Fits(workArea, minimumSize, zones))
+        {
+            cards.Add(new KryptonSnapLayoutCard(zones, custom));
+        }
     }
 
     /// <summary>

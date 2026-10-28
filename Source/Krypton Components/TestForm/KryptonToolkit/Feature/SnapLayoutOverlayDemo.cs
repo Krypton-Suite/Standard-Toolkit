@@ -35,6 +35,9 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         kchkShowPreview.CheckedChanged += OnShowPreviewChanged;
         knudPreviewOpacity.ValueChanged += OnPreviewOpacityChanged;
         kcmbTheme.SelectedIndexChanged += OnThemeChanged;
+        kchkIncludeBuiltin.CheckedChanged += OnIncludeBuiltinChanged;
+        kbtnAddCustom.Click += OnAddCustomClick;
+        kbtnClearCustom.Click += OnClearCustomClick;
     }
 
     private void SnapLayoutOverlayDemo_Load(object? sender, EventArgs e)
@@ -53,6 +56,7 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         kcmbGlobal.SelectedItem = KryptonManager.SnapLayouts;
         kchkShowIcon.Checked = KryptonManager.SnapLayoutShowIcon;
         kchkShowPreview.Checked = KryptonManager.SnapLayoutShowPreview;
+        kchkIncludeBuiltin.Checked = KryptonManager.IncludeBuiltinSnapLayouts;
         decimal previewPercent = (decimal)Math.Round(KryptonManager.SnapLayoutPreviewOpacity * 100f);
         if (previewPercent < knudPreviewOpacity.Minimum)
         {
@@ -119,6 +123,26 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         }
     }
 
+    private void OnIncludeBuiltinChanged(object? sender, EventArgs e)
+    {
+        KryptonManager.IncludeBuiltinSnapLayouts = kchkIncludeBuiltin.Checked;
+        UpdateBoundsReadout();
+    }
+
+    private void OnAddCustomClick(object? sender, EventArgs e)
+    {
+        KryptonManager.CustomSnapLayouts.Add(new KryptonSnapLayoutCard(
+            new KryptonSnapLayoutZone(0f, 0f, 0.7f, 1f),
+            new KryptonSnapLayoutZone(0.7f, 0f, 0.3f, 1f)));
+        UpdateBoundsReadout();
+    }
+
+    private void OnClearCustomClick(object? sender, EventArgs e)
+    {
+        KryptonManager.CustomSnapLayouts.Clear();
+        UpdateBoundsReadout();
+    }
+
     protected override void OnResize(EventArgs e)
     {
         base.OnResize(e);
@@ -138,7 +162,8 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
             return;
         }
 
+        string builtin = KryptonManager.IncludeBuiltinSnapLayouts ? "included" : "hidden";
         klblBounds.Values.Text =
-            $"This form = {SnapLayouts}. All forms = {KryptonManager.SnapLayouts}. Icon {(KryptonManager.SnapLayoutShowIcon ? "shown" : "hidden")}. Preview {(KryptonManager.SnapLayoutShowPreview ? "on" : "off")} at {(int)Math.Round(KryptonManager.SnapLayoutPreviewOpacity * 100f)}%. Bounds {Bounds.X}, {Bounds.Y}  {Bounds.Width} x {Bounds.Height}. State {WindowState}.";
+            $"This form = {SnapLayouts}. All forms = {KryptonManager.SnapLayouts}. Icon {(KryptonManager.SnapLayoutShowIcon ? "shown" : "hidden")}. Preview {(KryptonManager.SnapLayoutShowPreview ? "on" : "off")} at {(int)Math.Round(KryptonManager.SnapLayoutPreviewOpacity * 100f)}%. Builtin layouts {builtin}. Custom cards {KryptonManager.CustomSnapLayouts.Count}. Bounds {Bounds.X}, {Bounds.Y}  {Bounds.Width} x {Bounds.Height}. State {WindowState}.";
     }
 }

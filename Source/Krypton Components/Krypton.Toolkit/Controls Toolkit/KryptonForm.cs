@@ -3234,7 +3234,12 @@ public class KryptonForm : VisualForm,
 		}
 
 		Rectangle work = Screen.FromHandle(Handle).WorkingArea;
-		KryptonSnapLayoutCard[] cards = KryptonSnapLayoutCatalog.GetCards(work.Size, MinimumSize, UsesRtlFormButtonLayout());
+		KryptonSnapLayoutCard[] cards = KryptonSnapLayoutCatalog.GetCards(
+			work.Size,
+			MinimumSize,
+			UsesRtlFormButtonLayout(),
+			KryptonManager.CustomSnapLayouts.Snapshot(),
+			KryptonManager.IncludeBuiltinSnapLayouts);
 		if (cards.Length == 0)
 		{
 			return;

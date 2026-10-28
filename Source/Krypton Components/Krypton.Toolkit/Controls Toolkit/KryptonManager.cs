@@ -38,6 +38,8 @@ public sealed class KryptonManager : Component
     private static bool _globalSnapLayoutShowIcon = true;
     private static bool _globalSnapLayoutShowPreview = true;
     private static float _globalSnapLayoutPreviewOpacity = 0.45f;
+    private static bool _globalIncludeBuiltinSnapLayouts = true;
+    private static readonly KryptonSnapLayoutCardCollection _customSnapLayouts = new KryptonSnapLayoutCardCollection();
     private static bool _globalTouchscreenMode = false;
     private static float _globalTouchscreenScaleFactor = 1.25f;
     private static bool _globalTouchscreenFontScaling = true;
@@ -287,6 +289,8 @@ public sealed class KryptonManager : Component
                                ShouldSerializeGlobalSnapLayoutShowIcon() ||
                                ShouldSerializeGlobalSnapLayoutShowPreview() ||
                                ShouldSerializeGlobalSnapLayoutPreviewOpacity() ||
+                               ShouldSerializeGlobalIncludeBuiltinSnapLayouts() ||
+                               ShouldSerializeGlobalCustomSnapLayouts() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
                                ShouldSerializePaletteSpecificValues() ||
@@ -315,6 +319,8 @@ public sealed class KryptonManager : Component
         ResetGlobalSnapLayoutShowIcon();
         ResetGlobalSnapLayoutShowPreview();
         ResetGlobalSnapLayoutPreviewOpacity();
+        ResetGlobalIncludeBuiltinSnapLayouts();
+        ResetGlobalCustomSnapLayouts();
         ResetBaseFont();
         ResetGlobalPaletteMode();
         ResetPaletteSpecificValues();
@@ -612,6 +618,42 @@ public sealed class KryptonManager : Component
     }
     private bool ShouldSerializeGlobalSnapLayoutPreviewOpacity() => Math.Abs(GlobalSnapLayoutPreviewOpacity - 0.45f) > 0.001f;
     private void ResetGlobalSnapLayoutPreviewOpacity() => GlobalSnapLayoutPreviewOpacity = 0.45f;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the toolkit snap menu includes the builtin cards.
+    /// </summary>
+    /// <remarks>
+    /// The default is <see langword="true"/>. Set this to <see langword="false"/> to show only
+    /// <see cref="CustomSnapLayouts"/>. An empty custom list and <see langword="false"/> shows no menu.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Include the builtin snap-layout cards. False shows only CustomSnapLayouts.")]
+    [DefaultValue(true)]
+    public bool GlobalIncludeBuiltinSnapLayouts
+    {
+        get => IncludeBuiltinSnapLayouts;
+        set => IncludeBuiltinSnapLayouts = value;
+    }
+    private bool ShouldSerializeGlobalIncludeBuiltinSnapLayouts() => !GlobalIncludeBuiltinSnapLayouts;
+    private void ResetGlobalIncludeBuiltinSnapLayouts() => GlobalIncludeBuiltinSnapLayouts = true;
+
+    /// <summary>
+    /// Gets the custom snap-layout cards appended after the builtin cards.
+    /// </summary>
+    /// <remarks>
+    /// Empty by default, which leaves the builtin menu unchanged. The same list as <see cref="CustomSnapLayouts"/>.
+    /// Add a card, then add zones whose edges are fractions of the work area from 0 to 1.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Snap-layout cards appended after the builtin cards. Each zone is a fraction of the work area.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Editor(typeof(KryptonSnapLayoutCardCollectionEditor), typeof(UITypeEditor))]
+    [MergableProperty(false)]
+    public KryptonSnapLayoutCardCollection GlobalCustomSnapLayouts => CustomSnapLayouts;
+
+    private bool ShouldSerializeGlobalCustomSnapLayouts() => GlobalCustomSnapLayouts.Count > 0;
+
+    private void ResetGlobalCustomSnapLayouts() => GlobalCustomSnapLayouts.Clear();
 
     /// <summary>
     /// Gets or sets a value indicating if KryptonForm instances are allowed to UseThemeFormChromeBorderWidth.
@@ -1289,6 +1331,37 @@ public sealed class KryptonManager : Component
             }
         }
     }
+
+    /// <summary>
+    /// Gets and sets a value indicating whether the toolkit snap menu includes the builtin cards.
+    /// </summary>
+    /// <remarks>
+    /// The default is <see langword="true"/>. <see langword="false"/> shows only <see cref="CustomSnapLayouts"/>.
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static bool IncludeBuiltinSnapLayouts
+    {
+        get => _globalIncludeBuiltinSnapLayouts;
+
+        set
+        {
+            if (_globalIncludeBuiltinSnapLayouts != value)
+            {
+                _globalIncludeBuiltinSnapLayouts = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the custom snap-layout cards appended after the builtin cards.
+    /// </summary>
+    /// <remarks>
+    /// Empty by default, which leaves the builtin menu unchanged. Add cards on the UI thread.
+    /// The menu copies this list when it opens. <see cref="GlobalCustomSnapLayouts"/> edits the same list in the designer.
+    /// </remarks>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public static KryptonSnapLayoutCardCollection CustomSnapLayouts => _customSnapLayouts;
     #endregion
 
     #region Static UseThemeFormChromeBorderWidth

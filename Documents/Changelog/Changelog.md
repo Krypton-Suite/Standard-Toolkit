@@ -46,6 +46,9 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented, Custom snap-layout cards can be added to the palette maximize menu.
+  - `KryptonManager.CustomSnapLayouts` accepts cards made of work-area fractions. Builtin cards stay in the menu unless `KryptonManager.IncludeBuiltinSnapLayouts` is set to false. Cards you add are labelled Custom.
+  - Drop a `KryptonManager` and edit `GlobalCustomSnapLayouts` in the property grid. Each card has a `Zones` collection of work-area fractions.
 - Implemented [#4579](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4579), `KryptonForm` can show a palette snap-layout menu when the pointer rests on the maximize button.
   - `KryptonManager.GlobalSnapLayouts` chooses the menu for every form that inherits. `System` (the default) keeps the Windows 11 menu. `Toolkit` draws the palette menu and snaps that form. `None` is maximize and restore only.
   - `KryptonForm.SnapLayouts` defaults to `Inherit`. Set it on one form to override the manager.

@@ -23,9 +23,11 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     private const int MinimumCardWidth = 64;
     private const int MinimumCardHeight = 48;
     private const int PreferredRowWidth = 440;
+    private const int CustomCaptionHeight = 16;
 
     private readonly PaletteBase _palette;
     private readonly List<ZoneHit> _hits = new List<ZoneHit>();
+    private readonly List<Rectangle> _customCaptions = new List<Rectangle>();
     private readonly Bitmap? _applicationImage;
     private Bitmap?[] _taskbarImages = Array.Empty<Bitmap?>();
     private Rectangle _workArea;
@@ -106,7 +108,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
         Rectangle work = workArea.Width > 0 && workArea.Height > 0
             ? workArea
             : Screen.GetWorkingArea(anchorScreen);
-        MeasureCards(cards.Length, work.Width, out int columns, out int cardWidth, out int cardHeight, out int width, out int height);
+        MeasureCards(cards, work.Width, out int columns, out int cardWidth, out int cardHeight, out int width, out int height);
         LayoutCards(cards, columns, cardWidth, cardHeight);
 
         // Keep the menu under the maximize button. A wide menu grows left from that button.
@@ -212,6 +214,30 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
                 g.Restore(saved);
             }
         }
+
+        DrawCustomCaptions(g);
+    }
+
+    /// <summary>
+    /// Draws the Custom label under cards that came from <see cref="KryptonManager.CustomSnapLayouts"/>.
+    /// </summary>
+    /// <param name="g">Popup graphics.</param>
+    private void DrawCustomCaptions(Graphics g)
+    {
+        if (_customCaptions.Count == 0)
+        {
+            return;
+        }
+
+        Font font = _palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal)
+            ?? KryptonManager.CurrentGlobalPalette?.BaseFont
+            ?? SystemFonts.DefaultFont;
+        Color color = _palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+        const TextFormatFlags flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPadding;
+        foreach (Rectangle caption in _customCaptions)
+        {
+            TextRenderer.DrawText(g, @"Custom", font, caption, color, flags);
+        }
     }
 
     /// <inheritdoc />
@@ -246,8 +272,9 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
         base.OnMouseLeave(e);
     }
 
-    private static void MeasureCards(int cardCount, int workWidth, out int columns, out int cardWidth, out int cardHeight, out int width, out int height)
+    private static void MeasureCards(KryptonSnapLayoutCard[] cards, int workWidth, out int columns, out int cardWidth, out int cardHeight, out int width, out int height)
     {
+        int cardCount = cards.Length;
         Size preferred = KryptonManager.SnapLayoutCardSize;
         bool flexible = preferred.Width <= 0 || preferred.Height <= 0;
         cardWidth = flexible ? DefaultCardWidth : preferred.Width;
@@ -276,7 +303,35 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
 
         int rows = (Math.Max(1, cardCount) + columns - 1) / columns;
         width = RowWidth(columns, cardWidth);
-        height = OuterPadding * 2 + rows * cardHeight + Math.Max(0, rows - 1) * CardGap;
+        height = OuterPadding * 2;
+        for (int row = 0; row < rows; row++)
+        {
+            height += cardHeight;
+            if (RowHasCustomCard(cards, row, columns))
+            {
+                height += CustomCaptionHeight;
+            }
+
+            if (row < rows - 1)
+            {
+                height += CardGap;
+            }
+        }
+    }
+
+    private static bool RowHasCustomCard(KryptonSnapLayoutCard[] cards, int row, int columns)
+    {
+        int start = row * columns;
+        int count = Math.Min(columns, cards.Length - start);
+        for (int i = 0; i < count; i++)
+        {
+            if (cards[start + i].IsCustom)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static int RowWidth(int columns, int cardWidth) =>
@@ -285,15 +340,30 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     private void LayoutCards(KryptonSnapLayoutCard[] cards, int columns, int cardWidth, int cardHeight)
     {
         _hits.Clear();
+        _customCaptions.Clear();
+        int top = OuterPadding;
         for (int i = 0; i < cards.Length; i++)
         {
             int column = i % columns;
             int row = i / columns;
+            if (column == 0 && row > 0)
+            {
+                top += cardHeight + CardGap;
+                if (RowHasCustomCard(cards, row - 1, columns))
+                {
+                    top += CustomCaptionHeight;
+                }
+            }
+
             var cardBounds = new Rectangle(
                 OuterPadding + column * (cardWidth + CardGap),
-                OuterPadding + row * (cardHeight + CardGap),
+                top,
                 cardWidth,
                 cardHeight);
+            if (cards[i].IsCustom)
+            {
+                _customCaptions.Add(new Rectangle(cardBounds.X, cardBounds.Bottom, cardBounds.Width, CustomCaptionHeight));
+            }
             var inner = new Rectangle(
                 cardBounds.X + CardPadding,
                 cardBounds.Y + CardPadding,

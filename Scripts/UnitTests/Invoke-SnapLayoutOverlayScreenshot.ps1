@@ -11,13 +11,16 @@
 
 .EXAMPLE
     powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-SnapLayoutOverlayScreenshot.ps1
+
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-SnapLayoutOverlayScreenshot.ps1 -CustomCard
 #>
 [CmdletBinding()]
 param(
     [string]$Configuration = 'Debug',
     [string]$TargetFramework = 'net472',
     [string]$BinDir,
-    [string]$OutputPath
+    [string]$OutputPath,
+    [switch]$CustomCard
 )
 
 $ErrorActionPreference = 'Stop'
@@ -26,7 +29,8 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Get-UnitTestRepoRoot
 $bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
 if (-not $OutputPath) {
-    $OutputPath = Join-Path $repoRoot 'Documents\PR\4579-snap-layout-overlay.png'
+    $shotName = if ($CustomCard) { 'custom-snap-layouts-menu.png' } else { '4579-snap-layout-overlay.png' }
+    $OutputPath = Join-Path $repoRoot (Join-Path 'Documents\PR' $shotName)
 }
 
 $toolkit = Join-Path $bin 'Krypton.Toolkit.dll'
@@ -42,7 +46,7 @@ if ($outDir -and -not (Test-Path -LiteralPath $outDir)) {
 $hostCs = Join-Path $bin 'SnapShotHost.cs'
 $hostExe = Join-Path $bin 'SnapShotHost.exe'
 $hostLog = Join-Path $bin 'SnapShotHost.log'
-@'
+$hostSource = @'
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -101,6 +105,7 @@ internal static class SnapShotHost
             };
             label.Values.Text = "Issue #4579. Palette snap-layout menu under the maximize button.";
             form.Controls.Add(label);
+            /*CUSTOM_SETUP*/
             form.Show();
             form.Activate();
             SetForegroundWindow(form.Handle);
@@ -243,7 +248,21 @@ internal static class SnapShotHost
         return bmp;
     }
 }
-'@ | Set-Content -LiteralPath $hostCs -Encoding UTF8
+'@
+$customSetup = ''
+if ($CustomCard) {
+    $customSetup = @'
+            Krypton.Toolkit.KryptonManager.SnapLayouts = Krypton.Toolkit.KryptonSnapLayoutMode.Toolkit;
+            Krypton.Toolkit.KryptonManager.CustomSnapLayouts.Clear();
+            Krypton.Toolkit.KryptonManager.CustomSnapLayouts.Add(new Krypton.Toolkit.KryptonSnapLayoutCard(
+                new Krypton.Toolkit.KryptonSnapLayoutZone(0f, 0f, 0.7f, 1f),
+                new Krypton.Toolkit.KryptonSnapLayoutZone(0.7f, 0f, 0.3f, 1f)));
+            label.Values.Text = "Custom 70/30 card appended after the builtin snap layouts.";
+'@
+}
+
+$hostSource = $hostSource.Replace('/*CUSTOM_SETUP*/', $customSetup)
+Set-Content -LiteralPath $hostCs -Value $hostSource -Encoding UTF8
 
 $csc = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 & $csc /nologo /t:winexe /r:System.Windows.Forms.dll /r:System.Drawing.dll /r:$toolkit /out:$hostExe $hostCs
