@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -36,7 +36,7 @@ public class PaletteModeConverter : StringLookupConverter<PaletteMode>
     /// <inheritdoc />
     public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext? context)
     {
-        // The manager static constructor probes before the designer sites the component.
+        // The default core palette does not load Krypton.Themes.
         // Ask Visual Studio for Krypton.Themes when the PaletteMode drop-down opens.
         KryptonThemeCatalog.DiscoverThemes(context);
 

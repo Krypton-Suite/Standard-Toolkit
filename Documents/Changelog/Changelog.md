@@ -46,6 +46,8 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Resolved [#4249](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4249), Startup on the default theme no longer loads every extra palette.
+  - `Krypton.Themes.dll` loads on the first UI idle, after the first form can paint. An extra `PaletteMode` or a theme list still loads it immediately. The designer does not use the idle probe. Toolbar packs, checkbox, radio, and gallery strips, and Microsoft 365 button-spec images load when something draws them. Caption glyphs stay ready for the first form.
 - Resolved [#4649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4649), Fix `TestForm` application
   - Restored missing demos and test forms to the `TestForm` application. The `TestForm` project now builds and runs correctly, showcasing the various features and controls of the Krypton Toolkit.
 - Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.

@@ -74,6 +74,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
 | `UnitTest-ResourcesFallback.ps1` | Missing `Krypton.Resources.dll`: Toolkit still loads, control text is readable, palette schema strings resolve, and image accessors draw named fallback glyphs | `include` |
+| `UnitTest-StartupTiming.ps1` | #4249 prints milliseconds for the first `KryptonManager` touch, an optional `-PaletteMode` switch before the form, and a minimal `KryptonForm` until `Shown`, plus whether `Krypton.Themes.dll` loaded at init, inside `Shown`, and after one idle pump | `exclude` |
 | `UnitTest-RibbonOverflowGlyph.ps1` | #4253 overflow glyph: `GetCachedRibbonOverflowImage` 16x16; `ViewLayoutRibbonGroups.IsOverflow` / `DisplayOverflowButton` | `include` |
 | `UnitTest-RibbonTranslations.ps1` | #4369 RibbonTranslations.xml/JSON round-trip plus Auto Discover of `RibbonTranslations.de.xml` | `include` |
 | `UnitTest-ToolkitTranslationsCoverage.ps1` | #4370 stale `ToolkitTranslations.xml` coverage, Merge Missing, tolerant vs strict import, CSV report | `include` |
@@ -149,6 +150,14 @@ The invoker prints `[PASS]` / `[FAIL]` / `[SKIP]` banners and a summary table. O
 
 ```powershell
 gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -f timeout_seconds=600 -f notify_discord=true
+```
+
+## Typical usage (#4249 startup timing)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-StartupTiming.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-StartupTiming.ps1 -PaletteMode Office2007Blue
 ```
 
 ## Typical usage (#925 caption tabs)

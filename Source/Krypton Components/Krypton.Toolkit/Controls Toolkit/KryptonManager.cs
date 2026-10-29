@@ -192,19 +192,54 @@ public sealed class KryptonManager : Component
     #endregion
 
     #region Identity
+    private static EventHandler? _deferredThemeDiscovery;
+    private static KryptonImageStorage? _images;
+
     static KryptonManager()
     {
         // We need to notice when system color settings change
         SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
 
-        // Align toolbar image storage with the startup theme before any change event
-        UpdatePaletteImages(CurrentGlobalPaletteMode);
+        // Toolbar image packs load on the first use of Images, not while the first form is created.
 
         // Update the tool strip global renderer with the default setting
         UpdateToolStripManager();
 
         // Probe the application base directory for a Translations file and load it if found.
         RunAutoDiscovery();
+
+        // Extra themes load on the first UI idle, after the first form can paint.
+        ScheduleDeferredThemeDiscovery();
+    }
+
+    /// <summary>
+    /// Subscribes once to <see cref="Application.Idle"/> so <c>Krypton.Themes.dll</c> loads after the
+    /// UI thread has finished the messages that show the first form.
+    /// </summary>
+    private static void ScheduleDeferredThemeDiscovery()
+    {
+        if (!AutoDiscoverThemes || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+        {
+            return;
+        }
+
+        _deferredThemeDiscovery = OnDeferredThemeDiscovery;
+        Application.Idle += _deferredThemeDiscovery;
+    }
+
+    private static void OnDeferredThemeDiscovery(object? sender, EventArgs e)
+    {
+        if (_deferredThemeDiscovery != null)
+        {
+            Application.Idle -= _deferredThemeDiscovery;
+            _deferredThemeDiscovery = null;
+        }
+
+        if (!AutoDiscoverThemes || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+        {
+            return;
+        }
+
         KryptonThemeCatalog.DiscoverThemes();
     }
 
@@ -605,12 +640,17 @@ public sealed class KryptonManager : Component
     public const string DefaultTranslationsBaseName = @"ToolkitTranslations";
 
     /// <summary>
-    /// When <see langword="true"/>, the manager loads <c>Krypton.Themes.dll</c> from the application directory
-    /// (and already-loaded assemblies) and registers extra builtin palettes. Defaults to <see langword="true"/>.
+    /// When <see langword="true"/>, extra builtin palettes are discovered automatically.
+    /// Defaults to <see langword="true"/>.
     /// </summary>
     /// <remarks>
-    /// Set to <see langword="false"/> before the first palette lookup to keep only core themes
-    /// (Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black).
+    /// The default core palette does not load <c>Krypton.Themes.dll</c>. The first
+    /// <see cref="Application.Idle"/> does, after the first form can paint. An extra
+    /// <see cref="PaletteMode"/> or a theme list still discovers immediately if idle has not run.
+    /// The designer does not use the idle probe; the <see cref="PaletteMode"/> drop-down asks Visual Studio
+    /// for the assembly. Set this to <see langword="false"/> before the first Krypton type is used to keep
+    /// only core themes (Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue,
+    /// Silver, and Black).
     /// </remarks>
     public static bool AutoDiscoverThemes { get; set; } = true;
 
@@ -931,9 +971,24 @@ public sealed class KryptonManager : Component
         }
     }
 
-    /// <summary>Gets the images.</summary>
-    /// <value>The images.</value>
-    public static KryptonImageStorage Images { get; } = new KryptonImageStorage();
+    /// <summary>
+    /// Gets the toolkit images. The toolbar pack for the current theme is applied the first time this is read.
+    /// </summary>
+    public static KryptonImageStorage Images
+    {
+        get
+        {
+            if (_images != null)
+            {
+                return _images;
+            }
+
+            var images = new KryptonImageStorage();
+            _images = images;
+            UpdatePaletteImages(CurrentGlobalPaletteMode);
+            return images;
+        }
+    }
 
     /// <summary>Gets the colors.</summary>
     /// <value>The colors.</value>
@@ -2592,7 +2647,10 @@ public sealed class KryptonManager : Component
     {
         UpdateToolStripManager();
 
-        UpdatePaletteImages(CurrentGlobalPaletteMode);
+        if (_images != null)
+        {
+            UpdatePaletteImages(CurrentGlobalPaletteMode);
+        }
 
         ToolStripFontSync.RefreshAllOpenForms();
 
