@@ -21,6 +21,7 @@ on:
       - alpha
       - canary
       - V105-LTS
+      - V115
   workflow_dispatch:
 
 jobs:
@@ -54,34 +55,34 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
 
-      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
-      - name: Setup .NET (9 and 10)
+      # .NET 10 required; .NET 11 with preview fallback (NETSDK1045 if only 10.x is selected). .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10 and 11)
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            9.0.x
             10.0.x
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_master
         continue-on-error: true
-        # Kill switch check
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
       - name: Setup .NET Preview (preview fallback)
-        # Kill switch check
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_master.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
-      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json uses stable SDK below.
+      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips next-band (.NET 12) and preview SDK; global.json uses stable SDK below.
       - name: Setup .NET Preview
         # Kill switch check
         if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
@@ -90,7 +91,7 @@ jobs:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # Pin sdk.version for CI; preview band vs stable follows USE_DOTNET_PREVIEW; always allow .NET 11 for net11.0-windows TFMs.
+      # Pin sdk.version for CI; preview band vs stable follows USE_DOTNET_PREVIEW; always allow .NET 12 for net12.0-windows TFMs.
       - name: Pin SDK via global.json
         if: steps.release_kill_switch.outputs.enabled == 'true'
         env:
@@ -109,14 +110,17 @@ jobs:
           $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
           $sdkVersion = $null
           if (-not $usePreview) {
-            $sdkVersion = Get-ListedSdkVersion '11.0'
+            $sdkVersion = Get-ListedSdkVersion '12.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
-            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
               Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '12.0'
+            }
             if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '11.0'
             }
@@ -126,6 +130,9 @@ jobs:
           }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"
@@ -439,7 +446,7 @@ jobs:
                   }
                   @{
                     name = "🎯 Target Frameworks"
-                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 10.0`n• .NET 11.0"
                     inline = $false
                   }
                   @{
@@ -527,23 +534,6 @@ jobs:
           dotnet-version: |
             9.0.x
             10.0.x
-
-      - name: Setup .NET Preview (stable)
-        id: setup_dotnetpreview_stable_v105
-        continue-on-error: true
-        # Kill switch check
-        if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
-
-      - name: Setup .NET Preview (preview fallback)
-        # Kill switch check
-        if: steps.release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_v105.outcome == 'failure'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
-          dotnet-quality: preview
 
       - name: Setup .NET Preview
         # Kill switch check
@@ -906,34 +896,34 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
 
-      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
-      - name: Setup .NET (9 and 10)
+      # .NET 10 required; .NET 11 with preview fallback (NETSDK1045 if only 10.x is selected). .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10 and 11)
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            9.0.x
             10.0.x
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_canary
         continue-on-error: true
-        # Kill switch check
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
       - name: Setup .NET Preview (preview fallback)
-        # Kill switch check
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_canary.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
-      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json uses stable SDK below.
+      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips next-band (.NET 12) and preview SDK; global.json uses stable SDK below.
       - name: Setup .NET Preview
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
@@ -960,14 +950,17 @@ jobs:
           $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
           $sdkVersion = $null
           if (-not $usePreview) {
-            $sdkVersion = Get-ListedSdkVersion '11.0'
+            $sdkVersion = Get-ListedSdkVersion '12.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
-            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
               Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '12.0'
+            }
             if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '11.0'
             }
@@ -977,6 +970,9 @@ jobs:
           }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"
@@ -1282,7 +1278,7 @@ jobs:
                   }
                   @{
                     name = "🎯 Target Frameworks"
-                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0`n• .NET 11.0"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 10.0`n• .NET 11.0"
                     inline = $false
                   }
                   @{
@@ -1330,33 +1326,34 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
 
-      # .NET 9 and 10; .NET 11 for net11.0-windows — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (aligned with build.yml).
-      - name: Setup .NET (9 and 10)
+      # .NET 10 required; .NET 11 with preview fallback (NETSDK1045 if only 10.x is selected). .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10 and 11)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            9.0.x
             10.0.x
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_alpha
         continue-on-error: true
-        # Kill switch check
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
       - name: Setup .NET Preview (preview fallback)
-        # Kill switch check
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnetpreview_stable_alpha.outcome == 'failure'
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_alpha.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
+      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips next-band (.NET 12) and preview SDK; global.json uses stable SDK below.
       - name: Setup .NET Preview
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
@@ -1365,7 +1362,7 @@ jobs:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # Pin sdk.version to newest installed 11.x / 10.x / 9.x (must support net11.0-windows TFMs).
+      # Pin sdk.version to newest installed 12.x / 11.x / 10.x (must support net12.0-windows TFMs).
       - name: Pin SDK via global.json
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
@@ -1378,11 +1375,14 @@ jobs:
             if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
             return (($line -split '\s+', 2)[0])
           }
-          $sdkVersion = Get-ListedSdkVersion '11.0'
+          $sdkVersion = Get-ListedSdkVersion '12.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
           if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
-          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"

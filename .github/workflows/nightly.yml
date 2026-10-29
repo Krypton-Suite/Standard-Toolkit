@@ -11,10 +11,11 @@
 # last 24 hours.
 #
 # SCHEDULED PUBLISH DAYS: In addition to the daily 24-hour change check, the workflow can also publish
-# on 1 January and on UTC days of the year whose number ends in 0 (e.g. 10, 20, 30, 100, 300, 310),
+# on 1 January, 31 December and on UTC days of the year whose number ends in 0 (e.g. 10, 20, 30, 100, 300, 310),
 # even when there are no qualifying commits. Enable each rule via repository variables:
 #   NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED=true
 #   NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED=true
+#   NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED=true
 #
 # NUGET: Trusted publishing via NuGet/login (up to 3 attempts). Secret NUGET_USER is the nuget.org profile name.
 # A transient OIDC failure skips the NuGet push instead of failing the nightly. Package pushes retry with backoff.
@@ -143,6 +144,7 @@ jobs:
           SKIP_CHANGE_CHECK_INPUT: ${{ github.event_name == 'workflow_dispatch' && inputs.skip_change_check == true && 'true' || 'false' }}
           SKIP_NIGHTLY_24_HOUR_CHECK: ${{ vars.SKIP_NIGHTLY_24_HOUR_CHECK }}
           NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED: ${{ vars.NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED }}
+          NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED: ${{ vars.NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED }}
           NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED: ${{ vars.NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED }}
         run: |
           $ErrorActionPreference = 'Stop'
@@ -166,6 +168,7 @@ jobs:
           $todayUtc = (Get-Date).ToUniversalTime()
           $dayOfYear = $todayUtc.DayOfYear
           $jan1PublishEnabled = $env:NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED -eq 'true'
+          $dec31PublishEnabled = $env:NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED -eq 'true'
           $dayEndsZeroPublishEnabled = $env:NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED -eq 'true'
           $forcedPublishDay = $false
           $forcedPublishReason = $null
@@ -173,6 +176,9 @@ jobs:
           if ($jan1PublishEnabled -and $todayUtc.Month -eq 1 -and $todayUtc.Day -eq 1) {
             $forcedPublishDay = $true
             $forcedPublishReason = 'scheduled publish day (1 January; NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED=true)'
+          } elseif ($dec31PublishEnabled -and $todayUtc.Month -eq 12 -and $todayUtc.Day -eq 31) {
+            $forcedPublishDay = $true
+            $forcedPublishReason = 'scheduled publish day (31 December; NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED=true)'
           } elseif ($dayEndsZeroPublishEnabled -and ($dayOfYear % 10 -eq 0)) {
             $forcedPublishDay = $true
             $forcedPublishReason = "scheduled publish day (day $dayOfYear of year ends in 0; NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED=true)"
@@ -182,6 +188,8 @@ jobs:
             Write-Host "Scheduled publish day matched: $forcedPublishReason"
           } elseif ($todayUtc.Month -eq 1 -and $todayUtc.Day -eq 1) {
             Write-Host '1 January matched, but NIGHTLY_SCHEDULED_PUBLISH_JAN1_ENABLED is not true - scheduled publish skipped'
+          } elseif ($dec31PublishEnabled -and $todayUtc.Month -eq 12 -and $todayUtc.Day -eq 31) {
+            Write-Host '31 December matched, but NIGHTLY_SCHEDULED_PUBLISH_DEC31_ENABLED is not true - scheduled publish skipped'
           } elseif ($dayOfYear % 10 -eq 0) {
             Write-Host "Day $dayOfYear of year ends in 0, but NIGHTLY_SCHEDULED_PUBLISH_DAY_ENDS_ZERO_ENABLED is not true - scheduled publish skipped"
           }
@@ -194,7 +202,7 @@ jobs:
             }
             echo "has_changes=true" >> $env:GITHUB_OUTPUT
           } else {
-            Write-Host "No changes detected (or only .github-only changes) and not a scheduled publish day - skipping nightly build"
+            Write-Host "No changes detected (or only .github-only changes) and not a scheduled publish day - skipping nightly build. Going back to sleep until next scheduled run."
             echo "has_changes=false" >> $env:GITHUB_OUTPUT
           }
 
@@ -203,34 +211,34 @@ jobs:
         run: |
           Write-Host "::notice::No commits (other than .github-only changes) in the last 24 hours and not a scheduled publish day. Skipping nightly build and publish."
 
-      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
-      - name: Setup .NET (9 and 10)
+      # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10 and 11)
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            9.0.x
             10.0.x
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_nightly
         continue-on-error: true
-        # Kill switch check
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
       - name: Setup .NET Preview (preview fallback)
-        # Kill switch check
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_nightly.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
-      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips preview SDK; global.json step uses stable SDK.
+      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips next-band (.NET 12) and preview SDK; global.json step uses stable SDK.
       - name: Setup .NET Preview
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
@@ -258,14 +266,17 @@ jobs:
           $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
           $sdkVersion = $null
           if (-not $usePreview) {
-            $sdkVersion = Get-ListedSdkVersion '11.0'
+            $sdkVersion = Get-ListedSdkVersion '12.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
-            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
               Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '12.0'
+            }
             if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '11.0'
             }
@@ -275,6 +286,9 @@ jobs:
           }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"
@@ -370,7 +384,7 @@ jobs:
 
       # Verify Krypton.Interop is present in NuGet packages (V110+ only; major resolved earlier for WebView2 gate)
       - name: Verify Krypton.Interop in NuGet packages
-        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && steps.krypton_major_version.outputs.major >= 110
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.check_changes.outputs.has_changes == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -596,7 +610,7 @@ jobs:
 
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
-            $version = "100.25.1.1"
+            $version = "120.27.1.1"
           }
 
           Write-Host "Final determined version: $version"
@@ -690,7 +704,7 @@ jobs:
                   }
                   @{
                     name = "🎯 Target Frameworks"
-                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0`n• .NET 11.0"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 10.0`n• .NET 11.0"
                     inline = $false
                   }
                   @{
