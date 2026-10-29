@@ -476,6 +476,80 @@ public class SnapLayoutValues : Storage
 
     private void ResetCustomLayouts() => CustomLayouts.Clear();
 
+    /// <summary>
+    /// Serializes <see cref="CustomLayouts"/> and <see cref="IncludeBuiltinLayouts"/> to a versioned XML document.
+    /// </summary>
+    /// <returns>UTF-8 XML that <see cref="ImportCustomLayouts"/> can restore.</returns>
+    public string ExportCustomLayouts() =>
+        KryptonSnapLayoutPersistence.Export(CustomLayouts, IncludeBuiltinLayouts);
+
+    /// <summary>
+    /// Restores <see cref="CustomLayouts"/> and <see cref="IncludeBuiltinLayouts"/> from <see cref="ExportCustomLayouts"/>.
+    /// </summary>
+    /// <param name="xml">Exported document. Null or whitespace clears custom cards and resets <see cref="IncludeBuiltinLayouts"/> to <see langword="true"/>.</param>
+    /// <exception cref="ArgumentException">The document is not valid XML or has the wrong root.</exception>
+    /// <exception cref="InvalidOperationException">The document version is unsupported.</exception>
+    public void ImportCustomLayouts(string? xml)
+    {
+        if (!KryptonSnapLayoutPersistence.TryImport(xml, out List<KryptonSnapLayoutCard> cards, out bool includeBuiltin))
+        {
+            CustomLayouts.Clear();
+            IncludeBuiltinLayouts = true;
+            return;
+        }
+
+        // Replace as a batch so a bad document cannot leave a half-cleared collection.
+        CustomLayouts.Clear();
+        for (int i = 0; i < cards.Count; i++)
+        {
+            CustomLayouts.Add(cards[i]);
+        }
+
+        IncludeBuiltinLayouts = includeBuiltin;
+    }
+
+    /// <summary>
+    /// Writes <see cref="ExportCustomLayouts"/> to a UTF-8 file.
+    /// </summary>
+    /// <param name="path">Destination path.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="path"/> is empty.</exception>
+    public void SaveCustomLayoutsToFile(string path)
+    {
+        if (path == null)
+        {
+            throw new ArgumentNullException(nameof(path));
+        }
+
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            throw new ArgumentException(@"A file path is required.", nameof(path));
+        }
+
+        File.WriteAllText(path, ExportCustomLayouts(), new UTF8Encoding(false));
+    }
+
+    /// <summary>
+    /// Reads a file produced by <see cref="SaveCustomLayoutsToFile"/> and calls <see cref="ImportCustomLayouts"/>.
+    /// </summary>
+    /// <param name="path">Source path.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="path"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException"><paramref name="path"/> is empty.</exception>
+    public void LoadCustomLayoutsFromFile(string path)
+    {
+        if (path == null)
+        {
+            throw new ArgumentNullException(nameof(path));
+        }
+
+        if (string.IsNullOrWhiteSpace(path))
+        {
+            throw new ArgumentException(@"A file path is required.", nameof(path));
+        }
+
+        ImportCustomLayouts(File.ReadAllText(path));
+    }
+
     #endregion
 
     #region IsDefault

@@ -56,6 +56,7 @@
   - Implemented, Custom snap-layout cards can be added to the palette maximize menu.
     - `KryptonManager.SnapLayoutValues.CustomLayouts` accepts cards made of work-area fractions. Builtin cards stay in the menu unless `IncludeBuiltinLayouts` is set to false. Cards you add are labelled Custom.
     - On a `KryptonManager`, expand `SnapLayout` and edit `CustomLayouts`. Each card has a `Zones` collection of work-area fractions. `IncludeBuiltinLayouts` keeps the standard cards.
+    - `ExportCustomLayouts` / `ImportCustomLayouts` and `SaveCustomLayoutsToFile` / `LoadCustomLayoutsFromFile` persist those cards and `IncludeBuiltinLayouts` as versioned XML (for app settings or a file).
   - Implemented, Own-app Snap Groups and Assist for the toolkit maximize menu.
     - When two or more live `KryptonForm` windows in this process share a card, the menu shows a `Group | …` caption and restores every member when you click a group zone. `SnapLayout.RememberGroups` (default true) turns that off.
     - After this form snaps into one zone of a multi-zone card, Assist offers other open `KryptonForm` windows for the remaining zones. `SnapLayout.ShowAssist` (default true) turns that off. Other applications are never moved.

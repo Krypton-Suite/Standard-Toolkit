@@ -41,6 +41,8 @@ partial class SnapLayoutOverlayDemo
         this.kchkIncludeBuiltin = new Krypton.Toolkit.KryptonCheckBox();
         this.kbtnAddCustom = new Krypton.Toolkit.KryptonButton();
         this.kbtnClearCustom = new Krypton.Toolkit.KryptonButton();
+        this.kbtnSaveCustom = new Krypton.Toolkit.KryptonButton();
+        this.kbtnLoadCustom = new Krypton.Toolkit.KryptonButton();
         this.kchkShowShadow = new Krypton.Toolkit.KryptonCheckBox();
         this.klblShadowOffset = new Krypton.Toolkit.KryptonLabel();
         this.knudShadowOffset = new Krypton.Toolkit.KryptonNumericUpDown();
@@ -74,6 +76,8 @@ partial class SnapLayoutOverlayDemo
         this.kryptonPanel1.Controls.Add(this.knudShadowOffset);
         this.kryptonPanel1.Controls.Add(this.klblShadowOffset);
         this.kryptonPanel1.Controls.Add(this.kchkShowShadow);
+        this.kryptonPanel1.Controls.Add(this.kbtnLoadCustom);
+        this.kryptonPanel1.Controls.Add(this.kbtnSaveCustom);
         this.kryptonPanel1.Controls.Add(this.kbtnClearCustom);
         this.kryptonPanel1.Controls.Add(this.kbtnAddCustom);
         this.kryptonPanel1.Controls.Add(this.kchkIncludeBuiltin);
@@ -93,7 +97,7 @@ partial class SnapLayoutOverlayDemo
         this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
         this.kryptonPanel1.Name = "kryptonPanel1";
         this.kryptonPanel1.Padding = new System.Windows.Forms.Padding(12);
-        this.kryptonPanel1.Size = new System.Drawing.Size(720, 820);
+        this.kryptonPanel1.Size = new System.Drawing.Size(720, 860);
         this.kryptonPanel1.TabIndex = 0;
         // 
         // klblInstructions
@@ -107,7 +111,7 @@ partial class SnapLayoutOverlayDemo
         this.klblInstructions.StateCommon.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
         this.klblInstructions.StateCommon.ShortText.TextV = Krypton.Toolkit.PaletteRelativeAlign.Near;
         this.klblInstructions.TabIndex = 0;
-        this.klblInstructions.Values.Text = "Issue #4579. Rest the pointer on this form's maximize button.\r\n\r\nAll forms follow KryptonManager.SnapLayoutValues.Mode. A KryptonManager edits the same values under Snap layout. System (the default) keeps the Windows 11 menu. Toolkit draws the palette menu and snaps this window. None is maximize and restore only.\r\nThis form inherits that choice unless you pick a mode of its own.\r\nShow application icon puts this form in the zone it will snap to and the other taskbar applications in the remaining zones.\r\nShow snap preview draws that rectangle in the palette highlight colours. Preview % is its opacity. Show preview ghost stretches a capture of this window into the zone instead of the colour fill.\r\nShow shadow draws the drop shadow. Offset is the drop in pixels, blur is the halo, and shadow % is the strength. The colour button tints it; black is the default.\r\nAdd 70/30 layout appends a custom card (70% then 30%) after the builtin cards. That card is labelled Custom. Clear custom layouts removes those cards. Include builtin layouts keeps the standard cards; clear it to show only custom cards.\r\nOpen peer form, set All forms to Toolkit, snap this window into one half, then pick the peer from Assist for the other half. Hover the same card again for Group | … and click a group zone to restore both. Remember groups / Show Assist turn those off.\r\nThe restore glyph returns the previous size. Drag the caption to unsnap. Win+Z stays the shell menu.";
+        this.klblInstructions.Values.Text = "Issue #4579. Rest the pointer on this form's maximize button.\r\n\r\nAll forms follow KryptonManager.SnapLayoutValues.Mode. A KryptonManager edits the same values under Snap layout. System (the default) keeps the Windows 11 menu. Toolkit draws the palette menu and snaps this window. None is maximize and restore only.\r\nThis form inherits that choice unless you pick a mode of its own.\r\nShow application icon puts this form in the zone it will snap to and the other taskbar applications in the remaining zones.\r\nShow snap preview draws that rectangle in the palette highlight colours. Preview % is its opacity. Show preview ghost stretches a capture of this window into the zone instead of the colour fill.\r\nShow shadow draws the drop shadow. Offset is the drop in pixels, blur is the halo, and shadow % is the strength. The colour button tints it; black is the default.\r\nAdd 70/30 layout appends a custom card (70% then 30%) after the builtin cards. That card is labelled Custom. Clear custom layouts removes those cards. Save / Load custom layouts write and restore those cards (and Include builtin layouts) as versioned XML. Include builtin layouts keeps the standard cards; clear it to show only custom cards.\r\nOpen peer form, set All forms to Toolkit, snap this window into one half, then pick the peer from Assist for the other half. Hover the same card again for Group | … and click a group zone to restore both. Remember groups / Show Assist turn those off.\r\nThe restore glyph returns the previous size. Drag the caption to unsnap. Win+Z stays the shell menu.";
         // 
         // klblMode
         // 
@@ -228,10 +232,26 @@ partial class SnapLayoutOverlayDemo
         this.kbtnClearCustom.TabIndex = 13;
         this.kbtnClearCustom.Values.Text = "Clear custom layouts";
         // 
+        // kbtnSaveCustom
+        // 
+        this.kbtnSaveCustom.Location = new System.Drawing.Point(150, 564);
+        this.kbtnSaveCustom.Name = "kbtnSaveCustom";
+        this.kbtnSaveCustom.Size = new System.Drawing.Size(180, 28);
+        this.kbtnSaveCustom.TabIndex = 14;
+        this.kbtnSaveCustom.Values.Text = "Save custom layouts…";
+        // 
+        // kbtnLoadCustom
+        // 
+        this.kbtnLoadCustom.Location = new System.Drawing.Point(340, 564);
+        this.kbtnLoadCustom.Name = "kbtnLoadCustom";
+        this.kbtnLoadCustom.Size = new System.Drawing.Size(180, 28);
+        this.kbtnLoadCustom.TabIndex = 15;
+        this.kbtnLoadCustom.Values.Text = "Load custom layouts…";
+        // 
         // kchkShowShadow
         // 
         this.kchkShowShadow.Checked = true;
-        this.kchkShowShadow.Location = new System.Drawing.Point(150, 568);
+        this.kchkShowShadow.Location = new System.Drawing.Point(150, 604);
         this.kchkShowShadow.Name = "kchkShowShadow";
         this.kchkShowShadow.Size = new System.Drawing.Size(140, 24);
         this.kchkShowShadow.TabIndex = 14;
@@ -239,7 +259,7 @@ partial class SnapLayoutOverlayDemo
         // 
         // klblShadowOffset
         // 
-        this.klblShadowOffset.Location = new System.Drawing.Point(310, 568);
+        this.klblShadowOffset.Location = new System.Drawing.Point(310, 604);
         this.klblShadowOffset.Name = "klblShadowOffset";
         this.klblShadowOffset.Size = new System.Drawing.Size(70, 24);
         this.klblShadowOffset.TabIndex = 15;
@@ -247,7 +267,7 @@ partial class SnapLayoutOverlayDemo
         // 
         // knudShadowOffset
         // 
-        this.knudShadowOffset.Location = new System.Drawing.Point(390, 564);
+        this.knudShadowOffset.Location = new System.Drawing.Point(390, 600);
         this.knudShadowOffset.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
         this.knudShadowOffset.Name = "knudShadowOffset";
         this.knudShadowOffset.Size = new System.Drawing.Size(70, 22);
@@ -256,7 +276,7 @@ partial class SnapLayoutOverlayDemo
         // 
         // klblShadowBlur
         // 
-        this.klblShadowBlur.Location = new System.Drawing.Point(16, 608);
+        this.klblShadowBlur.Location = new System.Drawing.Point(16, 644);
         this.klblShadowBlur.Name = "klblShadowBlur";
         this.klblShadowBlur.Size = new System.Drawing.Size(70, 24);
         this.klblShadowBlur.TabIndex = 17;
@@ -264,7 +284,7 @@ partial class SnapLayoutOverlayDemo
         // 
         // knudShadowBlur
         // 
-        this.knudShadowBlur.Location = new System.Drawing.Point(150, 604);
+        this.knudShadowBlur.Location = new System.Drawing.Point(150, 640);
         this.knudShadowBlur.Maximum = new decimal(new int[] { 32, 0, 0, 0 });
         this.knudShadowBlur.Name = "knudShadowBlur";
         this.knudShadowBlur.Size = new System.Drawing.Size(70, 22);
@@ -272,7 +292,7 @@ partial class SnapLayoutOverlayDemo
         // 
         // klblShadowOpacity
         // 
-        this.klblShadowOpacity.Location = new System.Drawing.Point(240, 608);
+        this.klblShadowOpacity.Location = new System.Drawing.Point(240, 644);
         this.klblShadowOpacity.Name = "klblShadowOpacity";
         this.klblShadowOpacity.Size = new System.Drawing.Size(90, 24);
         this.klblShadowOpacity.TabIndex = 19;
@@ -280,7 +300,7 @@ partial class SnapLayoutOverlayDemo
         // 
         // knudShadowOpacity
         // 
-        this.knudShadowOpacity.Location = new System.Drawing.Point(340, 604);
+        this.knudShadowOpacity.Location = new System.Drawing.Point(340, 640);
         this.knudShadowOpacity.Maximum = new decimal(new int[] { 100, 0, 0, 0 });
         this.knudShadowOpacity.Name = "knudShadowOpacity";
         this.knudShadowOpacity.Size = new System.Drawing.Size(70, 22);
@@ -289,7 +309,7 @@ partial class SnapLayoutOverlayDemo
         // 
         // kcbtnShadow
         // 
-        this.kcbtnShadow.Location = new System.Drawing.Point(430, 600);
+        this.kcbtnShadow.Location = new System.Drawing.Point(430, 636);
         this.kcbtnShadow.Name = "kcbtnShadow";
         this.kcbtnShadow.Size = new System.Drawing.Size(160, 28);
         this.kcbtnShadow.TabIndex = 21;
@@ -298,7 +318,7 @@ partial class SnapLayoutOverlayDemo
         // kchkRememberGroups
         // 
         this.kchkRememberGroups.Checked = true;
-        this.kchkRememberGroups.Location = new System.Drawing.Point(150, 644);
+        this.kchkRememberGroups.Location = new System.Drawing.Point(150, 680);
         this.kchkRememberGroups.Name = "kchkRememberGroups";
         this.kchkRememberGroups.Size = new System.Drawing.Size(180, 24);
         this.kchkRememberGroups.TabIndex = 22;
@@ -307,7 +327,7 @@ partial class SnapLayoutOverlayDemo
         // kchkShowAssist
         // 
         this.kchkShowAssist.Checked = true;
-        this.kchkShowAssist.Location = new System.Drawing.Point(340, 644);
+        this.kchkShowAssist.Location = new System.Drawing.Point(340, 680);
         this.kchkShowAssist.Name = "kchkShowAssist";
         this.kchkShowAssist.Size = new System.Drawing.Size(160, 24);
         this.kchkShowAssist.TabIndex = 23;
@@ -315,7 +335,7 @@ partial class SnapLayoutOverlayDemo
         // 
         // kbtnOpenPeer
         // 
-        this.kbtnOpenPeer.Location = new System.Drawing.Point(520, 640);
+        this.kbtnOpenPeer.Location = new System.Drawing.Point(520, 676);
         this.kbtnOpenPeer.Name = "kbtnOpenPeer";
         this.kbtnOpenPeer.Size = new System.Drawing.Size(160, 28);
         this.kbtnOpenPeer.TabIndex = 24;
@@ -324,20 +344,20 @@ partial class SnapLayoutOverlayDemo
         // klblBounds
         // 
         this.klblBounds.AutoSize = false;
-        this.klblBounds.Location = new System.Drawing.Point(16, 684);
+        this.klblBounds.Location = new System.Drawing.Point(16, 720);
         this.klblBounds.Name = "klblBounds";
         this.klblBounds.Size = new System.Drawing.Size(680, 64);
         this.klblBounds.StateCommon.ShortText.MultiLine = Krypton.Toolkit.InheritBool.True;
-        this.klblBounds.TabIndex = 25;
+        this.klblBounds.TabIndex = 27;
         this.klblBounds.Values.Text = "Bounds";
         // 
         // SnapLayoutOverlayDemo
         // 
         this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(720, 820);
+        this.ClientSize = new System.Drawing.Size(720, 860);
         this.Controls.Add(this.kryptonPanel1);
-        this.MinimumSize = new System.Drawing.Size(480, 780);
+        this.MinimumSize = new System.Drawing.Size(480, 820);
         this.Name = "SnapLayoutOverlayDemo";
         this.Text = "4579 Snap Layout Overlay";
         this.Load += new System.EventHandler(this.SnapLayoutOverlayDemo_Load);
@@ -366,6 +386,8 @@ partial class SnapLayoutOverlayDemo
     private Krypton.Toolkit.KryptonCheckBox kchkIncludeBuiltin;
     private Krypton.Toolkit.KryptonButton kbtnAddCustom;
     private Krypton.Toolkit.KryptonButton kbtnClearCustom;
+    private Krypton.Toolkit.KryptonButton kbtnSaveCustom;
+    private Krypton.Toolkit.KryptonButton kbtnLoadCustom;
     private Krypton.Toolkit.KryptonCheckBox kchkShowShadow;
     private Krypton.Toolkit.KryptonLabel klblShadowOffset;
     private Krypton.Toolkit.KryptonNumericUpDown knudShadowOffset;

@@ -39,6 +39,8 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         kchkIncludeBuiltin.CheckedChanged += OnIncludeBuiltinChanged;
         kbtnAddCustom.Click += OnAddCustomClick;
         kbtnClearCustom.Click += OnClearCustomClick;
+        kbtnSaveCustom.Click += OnSaveCustomClick;
+        kbtnLoadCustom.Click += OnLoadCustomClick;
         kchkShowShadow.CheckedChanged += OnShowShadowChanged;
         knudShadowOffset.ValueChanged += OnShadowOffsetChanged;
         knudShadowBlur.ValueChanged += OnShadowBlurChanged;
@@ -207,6 +209,50 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
     {
         KryptonManager.SnapLayoutValues.CustomLayouts.Clear();
         UpdateBoundsReadout();
+    }
+
+    private void OnSaveCustomClick(object? sender, EventArgs e)
+    {
+        using (var dialog = new SaveFileDialog())
+        {
+            dialog.Filter = @"Snap layouts (*.xml)|*.xml|All files (*.*)|*.*";
+            dialog.DefaultExt = @"xml";
+            dialog.FileName = @"KryptonSnapCustomLayouts.xml";
+            dialog.Title = @"Save custom snap layouts";
+            if (dialog.ShowDialog(this) != DialogResult.OK)
+            {
+                return;
+            }
+
+            KryptonManager.SnapLayoutValues.SaveCustomLayoutsToFile(dialog.FileName);
+            UpdateBoundsReadout();
+        }
+    }
+
+    private void OnLoadCustomClick(object? sender, EventArgs e)
+    {
+        using (var dialog = new OpenFileDialog())
+        {
+            dialog.Filter = @"Snap layouts (*.xml)|*.xml|All files (*.*)|*.*";
+            dialog.DefaultExt = @"xml";
+            dialog.Title = @"Load custom snap layouts";
+            if (dialog.ShowDialog(this) != DialogResult.OK)
+            {
+                return;
+            }
+
+            try
+            {
+                KryptonManager.SnapLayoutValues.LoadCustomLayoutsFromFile(dialog.FileName);
+                kchkIncludeBuiltin.Checked = KryptonManager.SnapLayoutValues.IncludeBuiltinLayouts;
+                UpdateBoundsReadout();
+            }
+            catch (Exception ex)
+            {
+                KryptonMessageBox.Show(this, ex.Message, @"Load custom snap layouts",
+                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Warning);
+            }
+        }
     }
 
     private void OnRememberGroupsChanged(object? sender, EventArgs e)
