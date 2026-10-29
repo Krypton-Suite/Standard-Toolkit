@@ -1,0 +1,161 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Scores WCAG contrast for every built-in theme and smoke-tests accessible objects
+# for every constructible Krypton control. Fails when a failure key is not already
+# listed in Scripts/Accessibility/baseline.json, or when one of the ten provider
+# controls reports the wrong role.
+#
+# KILL-SWITCH: Set repository variable ACCESSIBILITY_CHECK_DISABLED=true to skip.
+#
+# Local run: see Source/TestHarnesses/AccessibilityAudit/README.md.
+
+name: Accessibility audit
+
+permissions:
+  contents: read
+
+concurrency:
+  group: accessibility-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ['**']
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'Source/Krypton Components/**'
+      - 'Source/TestHarnesses/AccessibilityAudit/**'
+      - 'Scripts/Accessibility/**'
+      - '.github/workflows/accessibility.yml'
+  push:
+    branches:
+      - master
+      - alpha
+      - canary
+      - gold
+      - V115
+    paths:
+      - 'Source/Krypton Components/**'
+      - 'Source/TestHarnesses/AccessibilityAudit/**'
+      - 'Scripts/Accessibility/**'
+      - '.github/workflows/accessibility.yml'
+
+jobs:
+  accessibility:
+    name: Theme and control accessibility
+    runs-on: windows-2025-vs2026
+    # Always allow workflow_dispatch; block only fork pull_request runs.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+
+    steps:
+      - name: Accessibility check kill switch
+        id: kill_switch
+        shell: pwsh
+        env:
+          ACCESSIBILITY_CHECK_DISABLED: ${{ vars.ACCESSIBILITY_CHECK_DISABLED }}
+        run: |
+          if ($env:ACCESSIBILITY_CHECK_DISABLED -eq 'true') {
+            Write-Host '::warning:: Accessibility check is DISABLED (ACCESSIBILITY_CHECK_DISABLED=true).'
+            "enabled=false" >> $env:GITHUB_OUTPUT
+          }
+          else {
+            "enabled=true" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Checkout
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v7
+
+      - name: Setup .NET (10)
+        if: steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            10.0.x
+
+      - name: Setup .NET (11)
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: setup_dotnet11_accessibility
+        continue-on-error: true
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+
+      - name: Setup .NET (11 preview fallback)
+        if: steps.kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_accessibility.outcome == 'failure'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 11.0.x
+          dotnet-quality: preview
+
+      # Toolkit graphs include net12.0-windows when USE_DOTNET_PREVIEW != false; restore needs a 12.x SDK (NETSDK1045 otherwise).
+      - name: Setup .NET Preview
+        id: setup_dotnetpreview
+        continue-on-error: true
+        if: steps.kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
+
+      - name: Setup .NET Preview (preview fallback)
+        if: steps.kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview.outcome == 'failure'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
+          dotnet-quality: preview
+
+      - name: Restore AccessibilityAudit
+        if: steps.kill_switch.outputs.enabled == 'true'
+        run: >
+          dotnet restore "Source/TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj"
+          -p:Configuration=Debug
+
+      - name: Build AccessibilityAudit
+        if: steps.kill_switch.outputs.enabled == 'true'
+        run: >
+          dotnet build "Source/TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj"
+          -c Debug
+          -f net10.0-windows
+          --no-restore
+          -m:1
+          -p:BuildInParallel=false
+
+      - name: Run accessibility audit
+        id: audit
+        if: steps.kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        env:
+          KRYPTON_HEADLESS: '1'
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $exe = Join-Path $env:GITHUB_WORKSPACE 'Source\TestHarnesses\AccessibilityAudit\bin\Debug\net10.0-windows\AccessibilityAudit.exe'
+          $baseline = Join-Path $env:GITHUB_WORKSPACE 'Scripts\Accessibility\baseline.json'
+          $report = Join-Path $env:GITHUB_WORKSPACE 'accessibility-report.md'
+          if (-not (Test-Path -LiteralPath $exe)) {
+            throw "Expected AccessibilityAudit.exe at $exe"
+          }
+          if (-not (Test-Path -LiteralPath $baseline)) {
+            throw "Expected baseline at $baseline"
+          }
+
+          # WinExe is not waited on by the call operator, so take the exit code from Start-Process.
+          $audit = Start-Process -FilePath $exe -ArgumentList @('--baseline', $baseline, '--report', $report) -WorkingDirectory $env:GITHUB_WORKSPACE -Wait -PassThru
+          if ($audit.ExitCode -ne 0) {
+            Write-Host "[FAIL] AccessibilityAudit.exe exited $($audit.ExitCode)"
+            exit $audit.ExitCode
+          }
+
+          Write-Host '[PASS] AccessibilityAudit.exe completed successfully'
+
+      - name: Upload accessibility report
+        if: always() && steps.kill_switch.outputs.enabled == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: accessibility-report
+          path: accessibility-report.md
+          if-no-files-found: warn
