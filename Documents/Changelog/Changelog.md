@@ -48,6 +48,8 @@
 
 - Implemented [#4379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4379), Support for animated GIFs on `KryptonToolTip`
   - `KryptonToolTip` and other themed tooltips play multi-frame GIF images while the tip is open.
+- Resolved [#4649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4649), Fix `TestForm` application
+  - Restored missing demos and test forms to the `TestForm` application. The `TestForm` project now builds and runs correctly, showcasing the various features and controls of the Krypton Toolkit.
 - Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.
   - `System.Resources.Extensions` is referenced only for .NET Framework builds, which removes `NU1510` on the modern Design projects. Framework builds still use the package for preserialized resources.
 - Added support for .NET 12
