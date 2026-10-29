@@ -1,4 +1,4 @@
-namespace TestForm
+﻿namespace TestForm
 {
     partial class CountdownButtonTest
     {
@@ -36,12 +36,12 @@ namespace TestForm
             this.chkEnableAtZero = new Krypton.Toolkit.KryptonCheckBox();
             this.btnStartCountdown5 = new Krypton.Toolkit.KryptonButton();
             this.btnReset5 = new Krypton.Toolkit.KryptonButton();
-            this.btnCountdown5 = new Krypton.Utilities.KryptonCountdownButton();
+            this.btnCountdown5 = new Krypton.Toolkit.Utilities.KryptonCountdownButton();
             this.kryptonLabel15 = new Krypton.Toolkit.KryptonLabel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.btnStartCountdown4 = new Krypton.Toolkit.KryptonButton();
             this.btnReset4 = new Krypton.Toolkit.KryptonButton();
-            this.btnCountdown4 = new Krypton.Utilities.KryptonCountdownButton();
+            this.btnCountdown4 = new Krypton.Toolkit.Utilities.KryptonCountdownButton();
             this.kryptonLabel14 = new Krypton.Toolkit.KryptonLabel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.kryptonLabel8 = new Krypton.Toolkit.KryptonLabel();
@@ -56,21 +56,21 @@ namespace TestForm
             this.kryptonLabel9 = new Krypton.Toolkit.KryptonLabel();
             this.btnStartCountdown3 = new Krypton.Toolkit.KryptonButton();
             this.btnReset3 = new Krypton.Toolkit.KryptonButton();
-            this.btnCountdown3 = new Krypton.Utilities.KryptonCountdownButton();
+            this.btnCountdown3 = new Krypton.Toolkit.Utilities.KryptonCountdownButton();
             this.kryptonLabel4 = new Krypton.Toolkit.KryptonLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.numDuration2 = new Krypton.Toolkit.KryptonNumericUpDown();
             this.kryptonLabel3 = new Krypton.Toolkit.KryptonLabel();
             this.btnStartCountdown2 = new Krypton.Toolkit.KryptonButton();
             this.btnReset2 = new Krypton.Toolkit.KryptonButton();
-            this.btnCountdown2 = new Krypton.Utilities.KryptonCountdownButton();
+            this.btnCountdown2 = new Krypton.Toolkit.Utilities.KryptonCountdownButton();
             this.kryptonLabel2 = new Krypton.Toolkit.KryptonLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.numDuration1 = new Krypton.Toolkit.KryptonNumericUpDown();
             this.kryptonLabel1 = new Krypton.Toolkit.KryptonLabel();
             this.btnStartCountdown1 = new Krypton.Toolkit.KryptonButton();
             this.btnReset1 = new Krypton.Toolkit.KryptonButton();
-            this.btnCountdown1 = new Krypton.Utilities.KryptonCountdownButton();
+            this.btnCountdown1 = new Krypton.Toolkit.Utilities.KryptonCountdownButton();
             this.kryptonLabel9 = new Krypton.Toolkit.KryptonLabel();
             this.btnStartAll = new Krypton.Toolkit.KryptonButton();
             this.btnResetAll = new Krypton.Toolkit.KryptonButton();
@@ -687,29 +687,29 @@ namespace TestForm
         private Krypton.Toolkit.KryptonGroupBox kryptonGroupBox1;
         private Krypton.Toolkit.KryptonPanel kryptonPanel2;
         private System.Windows.Forms.GroupBox groupBox1;
-        private Krypton.Utilities.KryptonCountdownButton btnCountdown1;
+        private Krypton.Toolkit.Utilities.KryptonCountdownButton btnCountdown1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel9;
         private Krypton.Toolkit.KryptonButton btnStartCountdown1;
         private Krypton.Toolkit.KryptonButton btnReset1;
         private Krypton.Toolkit.KryptonButton btnStartAll;
         private Krypton.Toolkit.KryptonButton btnResetAll;
         private System.Windows.Forms.GroupBox groupBox2;
-        private Krypton.Utilities.KryptonCountdownButton btnCountdown2;
+        private Krypton.Toolkit.Utilities.KryptonCountdownButton btnCountdown2;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
         private Krypton.Toolkit.KryptonButton btnStartCountdown2;
         private Krypton.Toolkit.KryptonButton btnReset2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private Krypton.Utilities.KryptonCountdownButton btnCountdown3;
+        private Krypton.Toolkit.Utilities.KryptonCountdownButton btnCountdown3;
         private Krypton.Toolkit.KryptonLabel kryptonLabel4;
         private Krypton.Toolkit.KryptonButton btnStartCountdown3;
         private Krypton.Toolkit.KryptonButton btnReset3;
         private System.Windows.Forms.GroupBox groupBox4;
-        private Krypton.Utilities.KryptonCountdownButton btnCountdown4;
+        private Krypton.Toolkit.Utilities.KryptonCountdownButton btnCountdown4;
         private Krypton.Toolkit.KryptonLabel kryptonLabel14;
         private Krypton.Toolkit.KryptonButton btnStartCountdown4;
         private Krypton.Toolkit.KryptonButton btnReset4;
         private System.Windows.Forms.GroupBox groupBox5;
-        private Krypton.Utilities.KryptonCountdownButton btnCountdown5;
+        private Krypton.Toolkit.Utilities.KryptonCountdownButton btnCountdown5;
         private Krypton.Toolkit.KryptonLabel kryptonLabel15;
         private Krypton.Toolkit.KryptonButton btnStartCountdown5;
         private Krypton.Toolkit.KryptonButton btnReset5;
