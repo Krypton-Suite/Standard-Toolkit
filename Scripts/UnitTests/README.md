@@ -69,6 +69,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-SystemInformationApi.ps1` | #3176 `KryptonSystemInformation` type/API smoke (no UI) | `include` |
 | `UnitTest-SystemInformationUi.ps1` | #3176 host the viewer and wait for System Summary rows (WMI) | `include` |
 | `UnitTest-InteractiveToolTips.ps1` | #4192 hosted-control tooltip / HTML helper / NotifyIcon popup API surface | `include` |
+| `UnitTest-TooltipAnimatedGif.ps1` | #4379 tooltip popup plays a multi-frame GIF: two PrintWindow captures must differ | `exclude` |
 | `UnitTest-SplashScreenManager.ps1` | #4180 splash manager API: defaults, Show/SetStatus/Close, Run(steps), throwing step | `include` |
 | `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
 | `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
