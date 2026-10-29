@@ -60,6 +60,8 @@
   - Implemented, Own-app Snap Groups and Assist for the toolkit maximize menu.
     - When two or more live `KryptonForm` windows in this process share a card, the menu shows a `Group | …` caption and restores every member when you click a group zone. `SnapLayout.RememberGroups` (default true) turns that off.
     - After this form snaps into one zone of a multi-zone card, Assist offers other open `KryptonForm` windows for the remaining zones. `SnapLayout.ShowAssist` (default true) turns that off. Other applications are never moved.
+- Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.
+  - `System.Resources.Extensions` is referenced only for .NET Framework builds, which removes `NU1510` on the modern Design projects. Framework builds still use the package for preserialized resources.
 - Added support for .NET 12
 - Removed support for .NET 8 and 9
 - Version bump `115.xx.xx.xxx` to `120.xx.xx.xxx`
@@ -77,7 +79,7 @@
   - Bordered `KryptonForm` dialogs no longer flash the Windows 11 system title bar when opened with `ShowDialog`.
 - Resolved [#4582](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4582), Cannot add `KryptonHeader` or `KryptonHeaderGroup` in the .NET 10 WinForms designer (`displayName` cannot be null).
 - Resolved [#4580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4580), Improve `KryptonSearchBox` suggestion performance for typing, dropdown updates, and item selection.
-   To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
   - Suggestion filtering is debounced via `SearchBoxValues.SuggestionUpdateDelay` (default 75 ms; set to `0` for immediate updates).
 - Implemented [#4550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4550), `KryptonTextBox` & `KryptonSearchBox` in form titlebar
   - Use `KryptonCaptionForm` when the caption hosts controls. Ordinary `KryptonForm` keeps the previous designer surface.
