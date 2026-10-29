@@ -366,10 +366,7 @@ public partial class Main : KryptonForm
         new CheckBoxStyleExamples().Show();
     }
 
-    private void kbtnCheckBoxExtendedDemo_Click(object sender, EventArgs e)
-    {
-        //  ToDo: Fix this: new CheckBoxExtendedDemo().ShowDialog(this);
-    }
+    private void kbtnCheckBoxExtendedDemo_Click(object sender, EventArgs e) => new CheckBoxExtendedDemo().ShowDialog(this);
 
     private void kryptonButton14_Click(object sender, EventArgs e)
     {

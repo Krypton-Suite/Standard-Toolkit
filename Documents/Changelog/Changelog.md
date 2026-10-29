@@ -60,6 +60,8 @@
   - Implemented, Own-app Snap Groups and Assist for the toolkit maximize menu.
     - When two or more live `KryptonForm` windows in this process share a card, the menu shows a `Group | …` caption and restores every member when you click a group zone. `SnapLayout.RememberGroups` (default true) turns that off.
     - After this form snaps into one zone of a multi-zone card, Assist offers other open `KryptonForm` windows for the remaining zones. `SnapLayout.ShowAssist` (default true) turns that off. Other applications are never moved.
+- Resolved [#4649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4649), Fix `TestForm` application
+  - Restored missing demos and test forms to the `TestForm` application. The `TestForm` project now builds and runs correctly, showcasing the various features and controls of the Krypton Toolkit.
 - Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.
   - `System.Resources.Extensions` is referenced only for .NET Framework builds, which removes `NU1510` on the modern Design projects. Framework builds still use the package for preserialized resources.
 - Added support for .NET 12
