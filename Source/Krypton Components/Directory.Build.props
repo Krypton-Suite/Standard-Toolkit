@@ -27,7 +27,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" />
+		<!-- net4x only. Modern TFMs ship this assembly in the shared framework; an explicit
+		     PackageReference there warns NU1510. $(PkgSystem_Resources_Extensions) stays available
+		     for Framework pack and copy targets. -->
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" Condition="$(TargetFramework.StartsWith('net4'))" />
 		<PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.14.0" PrivateAssets="all" Condition="'$(ExcludeModernTargetFrameworks)' == 'true'" />
 	</ItemGroup>
 
@@ -65,16 +68,6 @@
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
-
-	<!-- MSB3822/3823: binary .resx (images/icons) need preserialized GenerateResource + System.Resources.Extensions.
-	     Defined here (not repo root) so it applies after SDK props; all projects under this folder are WinForms SDK. -->
-	<PropertyGroup>
-		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" />
-	</ItemGroup>
 
 	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
 	<Choose>

@@ -129,6 +129,13 @@
 	  <EmbeddedResource Update="Components\Krypton System Information\Controls Visuals\VisualSystemInformationForm.resx">
 	    <DependentUpon>VisualSystemInformationForm.cs</DependentUpon>
 	  </EmbeddedResource>
+	  <!-- Toast form .resx files sit under deep folders. The path-derived manifest name exceeds MAX_PATH
+	       for obj intermediates (issue #4636). Use namespace + type name, which matches the form namespace.
+	       Leave ToastImageResources on its path-derived name; its designer looks that id up. -->
+	  <EmbeddedResource Update="Components\Krypton Toast\Controls Visuals\**\*.resx">
+	    <ManifestResourceName>Krypton.Toolkit.Utilities.%(Filename)</ManifestResourceName>
+	    <LogicalName>Krypton.Toolkit.Utilities.%(Filename).resources</LogicalName>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -140,17 +147,6 @@
 	  <Folder Include="Components\Krypton System Information\Providers\" />
 	  <Folder Include="Components\Krypton System Information\Translations\" />
 	</ItemGroup>
-
-	<!-- KryptonToast form .resx files under deep folders exceed MAX_PATH for obj intermediates.
-	     Use namespace + type name (WinForms convention) instead of path-derived manifest names. -->
-	<Target Name="ShortenKryptonToastFormResourceNames" BeforeTargets="CreateManifestResourceNames">
-		<ItemGroup>
-			<EmbeddedResource Condition="$([System.String]::Copy('%(Identity)').Contains('KryptonToast\Controls Visuals\'))">
-				<ManifestResourceName>Krypton.Toolkit.Utilities.$([System.IO.Path]::GetFileNameWithoutExtension('%(Identity)'))</ManifestResourceName>
-				<LogicalName>Krypton.Toolkit.Utilities.$([System.IO.Path]::GetFileNameWithoutExtension('%(Identity)')).resources</LogicalName>
-			</EmbeddedResource>
-		</ItemGroup>
-	</Target>
 
 	<ItemGroup>
 	  <Compile Update="Components\Krypton System Information\Controls Visuals\VisualSystemInformationForm.cs">
