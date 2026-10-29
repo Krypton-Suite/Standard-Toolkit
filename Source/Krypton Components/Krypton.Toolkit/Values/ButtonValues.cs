@@ -27,6 +27,8 @@ public class ButtonValues : Storage,
 
     private bool _useAsDialogButton;
     private bool _useAsUACElevationButton;
+    private bool _uacShieldLocked;
+    private bool _applyingUacShield;
     private bool _showSplitOption;
     private IconSize? _iconSize;
     private IconSelectionStrategy _iconSelectionStrategy;
@@ -122,6 +124,9 @@ public class ButtonValues : Storage,
     /// <summary>
     /// Gets and sets the button image.
     /// </summary>
+    /// <remarks>
+    /// Ignored while <see cref="KryptonButton.ElevatedClick"/> has a handler. The UAC shield stays in place.
+    /// </remarks>
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Button image.")]
@@ -133,6 +138,12 @@ public class ButtonValues : Storage,
 
         set
         {
+            // ElevatedClick keeps the shield. Internal shield assignment sets _applyingUacShield.
+            if (_uacShieldLocked && !_applyingUacShield)
+            {
+                return;
+            }
+
             if (_image != value)
             {
                 _image = value;
@@ -147,8 +158,16 @@ public class ButtonValues : Storage,
     /// <summary>
     /// Resets the Image property to its default value.
     /// </summary>
+    /// <remarks>
+    /// Ignored while <see cref="KryptonButton.ElevatedClick"/> has a handler.
+    /// </remarks>
     public void ResetImage()
     {
+        if (_uacShieldLocked)
+        {
+            return;
+        }
+
         _image = _factoryImage;
         _imageIsDefault = true;
         PerformNeedPaint(true);
@@ -285,8 +304,13 @@ public class ButtonValues : Storage,
 
     #region UseAsUACElevationButton
 
-    /// <summary>Gets or sets a value indicating whether [use as uac elevation button].</summary>
-    /// <value><c>true</c> if [use as uac elevation button]; otherwise, <c>false</c>.</value>
+    /// <summary>
+    /// Gets or sets a value indicating whether the button shows the UAC shield.
+    /// </summary>
+    /// <value><c>true</c> when the button shows the UAC shield; otherwise, <c>false</c>.</value>
+    /// <remarks>
+    /// Setting this to <c>false</c> is ignored while <see cref="KryptonButton.ElevatedClick"/> has a handler.
+    /// </remarks>
     [DefaultValue(false),
      Description(@"Transforms the button into a UAC elevated button.")]
     public bool UseAsUACElevationButton
@@ -294,6 +318,11 @@ public class ButtonValues : Storage,
         get => _useAsUACElevationButton;
         set
         {
+            if (_uacShieldLocked && !value)
+            {
+                return;
+            }
+
             _useAsUACElevationButton = value;
 
             ShowUACShield(value, _iconSize ?? IconSize.ExtraSmall);
@@ -561,6 +590,46 @@ public class ButtonValues : Storage,
 
     #region UAC Stuff
 
+    /// <summary>
+    /// Shows the UAC shield and ignores later attempts to hide it or replace <see cref="Image"/>.
+    /// </summary>
+    /// <remarks>
+    /// Called when the first <see cref="KryptonButton.ElevatedClick"/> handler is attached.
+    /// The previous image is not kept.
+    /// </remarks>
+    internal void LockUacShieldForElevation()
+    {
+        _uacShieldLocked = true;
+        UseAsUACElevationButton = true;
+    }
+
+    /// <summary>
+    /// Clears the elevation shield lock. The shield image stays until <see cref="UseAsUACElevationButton"/> is set to <c>false</c>.
+    /// </summary>
+    internal void UnlockUacShieldForElevation() => _uacShieldLocked = false;
+
+    /// <summary>
+    /// Assigns the shield image while the elevation lock would otherwise reject <see cref="Image"/> changes.
+    /// </summary>
+    /// <param name="image">Shield bitmap to show.</param>
+    private void AssignUacShieldImage(Image? image)
+    {
+        if (image == null)
+        {
+            return;
+        }
+
+        _applyingUacShield = true;
+        try
+        {
+            Image = image;
+        }
+        finally
+        {
+            _applyingUacShield = false;
+        }
+    }
+
     /// <summary>Shows the uac shield.</summary>
     /// <param name="showUACShield">if set to <c>true</c> [show uac shield].</param>
     /// <param name="iconSize">Size of the shield icon.</param>
@@ -584,14 +653,14 @@ public class ButtonValues : Storage,
 
                 if (icon != null)
                 {
-                    Image = new Bitmap(icon.ToBitmap(), customSize);
+                    AssignUacShieldImage(new Bitmap(icon.ToBitmap(), customSize));
                     icon.Dispose();
                 }
                 else
                 {
                     // Fallback to scaled version
                     Image shieldFallback = GetOSSpecificShieldIcon();
-                    Image = GraphicsExtensions.ScaleImage(shieldFallback, customSize.Width, customSize.Height);
+                    AssignUacShieldImage(GraphicsExtensions.ScaleImage(shieldFallback, customSize.Width, customSize.Height));
                 }
             }
             else if (width.HasValue && height.HasValue)
@@ -608,14 +677,14 @@ public class ButtonValues : Storage,
 
                 if (icon != null)
                 {
-                    Image = new Bitmap(icon.ToBitmap(), customSize);
+                    AssignUacShieldImage(new Bitmap(icon.ToBitmap(), customSize));
                     icon.Dispose();
                 }
                 else
                 {
                     // Fallback to scaled version
                     Image shieldFallback = GetOSSpecificShieldIcon();
-                    Image = GraphicsExtensions.ScaleImage(shieldFallback, width.Value, height.Value);
+                    AssignUacShieldImage(GraphicsExtensions.ScaleImage(shieldFallback, width.Value, height.Value));
                 }
             }
             else
@@ -630,7 +699,7 @@ public class ButtonValues : Storage,
                 if (icon != null)
                 {
                     var targetSize = GetSizeFromIconSize(iconSize ?? IconSize.ExtraSmall);
-                    Image = new Bitmap(icon.ToBitmap(), targetSize);
+                    AssignUacShieldImage(new Bitmap(icon.ToBitmap(), targetSize));
                     icon.Dispose();
                 }
                 else
@@ -638,7 +707,7 @@ public class ButtonValues : Storage,
                     // Fallback to old method for backward compatibility
                     Image shield = GetOSSpecificShieldIcon();
                     var targetSize = GetSizeFromIconSize(iconSize ?? IconSize.ExtraSmall);
-                    Image = GraphicsExtensions.ScaleImage(shield, targetSize);
+                    AssignUacShieldImage(GraphicsExtensions.ScaleImage(shield, targetSize));
                 }
             }
         }

@@ -65,6 +65,11 @@ namespace TestForm
             this.kryptonButton3 = new Krypton.Toolkit.KryptonButton();
             this.kryptonButton1 = new Krypton.Toolkit.KryptonButton();
             this.kryptonSplitButton1 = new Krypton.Toolkit.KryptonSplitButton();
+            this.klblElevatedClick = new Krypton.Toolkit.KryptonLabel();
+            this.klblElevatedHint = new Krypton.Toolkit.KryptonLabel();
+            this.kbtnElevatedClick = new Krypton.Toolkit.KryptonButton();
+            this.kbtnTryHideShield = new Krypton.Toolkit.KryptonButton();
+            this.ktxtElevatedLog = new Krypton.Toolkit.KryptonTextBox();
             this.buttonSpecAny1 = new Krypton.Toolkit.ButtonSpecAny();
             this.kryptonContextMenuComboBox1 = new Krypton.Toolkit.KryptonContextMenuComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -76,6 +81,11 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.ktxtElevatedLog);
+            this.kryptonPanel1.Controls.Add(this.kbtnTryHideShield);
+            this.kryptonPanel1.Controls.Add(this.kbtnElevatedClick);
+            this.kryptonPanel1.Controls.Add(this.klblElevatedHint);
+            this.kryptonPanel1.Controls.Add(this.klblElevatedClick);
             this.kryptonPanel1.Controls.Add(this.KryptonCalcInput1);
             this.kryptonPanel1.Controls.Add(this.kryptonLabel2);
             this.kryptonPanel1.Controls.Add(this.kcbColorScheme);
@@ -97,7 +107,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(562, 318);
+            this.kryptonPanel1.Size = new System.Drawing.Size(562, 470);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // KryptonCalcInput1
@@ -361,6 +371,50 @@ namespace TestForm
             this.kryptonSplitButton1.TabIndex = 17;
             this.kryptonSplitButton1.Values.Text = "KryptonSplitButton";
             // 
+            // klblElevatedClick
+            // 
+            this.klblElevatedClick.Location = new System.Drawing.Point(18, 308);
+            this.klblElevatedClick.Name = "klblElevatedClick";
+            this.klblElevatedClick.Size = new System.Drawing.Size(318, 20);
+            this.klblElevatedClick.TabIndex = 18;
+            this.klblElevatedClick.Values.Text = "ElevatedClick keeps the UAC shield visible.";
+            // 
+            // klblElevatedHint
+            // 
+            this.klblElevatedHint.Location = new System.Drawing.Point(18, 328);
+            this.klblElevatedHint.Name = "klblElevatedHint";
+            this.klblElevatedHint.Size = new System.Drawing.Size(339, 20);
+            this.klblElevatedHint.TabIndex = 19;
+            this.klblElevatedHint.Values.Text = "Click uses RunAs unless already Administrator. Try to hide the shield.";
+            // 
+            // kbtnElevatedClick
+            // 
+            this.kbtnElevatedClick.Location = new System.Drawing.Point(18, 354);
+            this.kbtnElevatedClick.Name = "kbtnElevatedClick";
+            this.kbtnElevatedClick.Size = new System.Drawing.Size(243, 25);
+            this.kbtnElevatedClick.TabIndex = 20;
+            this.kbtnElevatedClick.Values.Text = "Elevated Click";
+            this.kbtnElevatedClick.ElevatedClick += new System.EventHandler(this.kbtnElevatedClick_ElevatedClick);
+            this.kbtnElevatedClick.Click += new System.EventHandler(this.kbtnElevatedClick_Click);
+            // 
+            // kbtnTryHideShield
+            // 
+            this.kbtnTryHideShield.Location = new System.Drawing.Point(278, 354);
+            this.kbtnTryHideShield.Name = "kbtnTryHideShield";
+            this.kbtnTryHideShield.Size = new System.Drawing.Size(243, 25);
+            this.kbtnTryHideShield.TabIndex = 21;
+            this.kbtnTryHideShield.Values.Text = "Try to hide shield";
+            this.kbtnTryHideShield.Click += new System.EventHandler(this.kbtnTryHideShield_Click);
+            // 
+            // ktxtElevatedLog
+            // 
+            this.ktxtElevatedLog.Location = new System.Drawing.Point(18, 386);
+            this.ktxtElevatedLog.Multiline = true;
+            this.ktxtElevatedLog.Name = "ktxtElevatedLog";
+            this.ktxtElevatedLog.ReadOnly = true;
+            this.ktxtElevatedLog.Size = new System.Drawing.Size(503, 68);
+            this.ktxtElevatedLog.TabIndex = 22;
+            // 
             // buttonSpecAny1
             // 
             this.buttonSpecAny1.Text = "Test Text";
@@ -375,7 +429,7 @@ namespace TestForm
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ButtonSpecs.Add(this.buttonSpecAny1);
-            this.ClientSize = new System.Drawing.Size(562, 318);
+            this.ClientSize = new System.Drawing.Size(562, 470);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -426,5 +480,10 @@ namespace TestForm
         private KryptonCalcInput KryptonCalcInput1;
         private ButtonSpecAny buttonSpecAny2;
         private KryptonContextMenuComboBox kryptonContextMenuComboBox1;
+        private Krypton.Toolkit.KryptonLabel klblElevatedClick;
+        private Krypton.Toolkit.KryptonLabel klblElevatedHint;
+        private Krypton.Toolkit.KryptonButton kbtnElevatedClick;
+        private Krypton.Toolkit.KryptonButton kbtnTryHideShield;
+        private Krypton.Toolkit.KryptonTextBox ktxtElevatedLog;
     }
 }

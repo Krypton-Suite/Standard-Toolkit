@@ -106,6 +106,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-TextBoxInputModeScreenshot.ps1` | Opens `TextBoxInputModeDemo` (#4417) and writes `Documents/PR/4417-textbox-input-mode-demo.png` | `exclude` |
 | `Invoke-ToastDpiScreenshot.ps1` | Shows basic toasts with/without close box and writes `Documents/PR/4419-toast-dpi-*.png` (#4419) | `exclude` |
 | `Invoke-SplitButtonScreenshot.ps1` | Hosts `KryptonSplitButtonDemo` (#4366) and writes `Documents/PR/4366-krypton-split-button-default.png` | `exclude` |
+| `Invoke-ElevatedClickScreenshot.ps1` | Hosts the #4648 ElevatedClick shield without clicking (no UAC prompt) and writes `Documents/PR/4648-elevated-click-demo.png` | `exclude` |
 | `Invoke-ButtonSpecFillHeightScreenshot.ps1` | Hosts `Bug4432ButtonSpecFillHeightDemo` (#4432) and writes `Documents/PR/4432-buttonspec-fillheight-default.png` | `exclude` |
 | `Probe-ButtonSpecFillHeight.ps1` | Prints TextBox ButtonSpec client rectangles for #4432 FillHeight vs centred | `exclude` |
 | `Invoke-WinFormsDesignerSdkScreenshot.ps1` | Hosts `WinFormsDesignerSdkDemo` (#593) and writes `Documents/PR/593-winforms-designer-sdk-host.png` | `exclude` |

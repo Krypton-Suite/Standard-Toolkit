@@ -46,6 +46,7 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4648), `KryptonButton.ElevatedClick` runs before `Click` and starts `ElevatedProcessPath` with the RunAs verb when the process is not already an administrator. While a handler is attached, the UAC shield stays visible and cannot be turned off or replaced. Dismissing the UAC prompt raises neither event.
 - Added support for .NET 12
 - Removed support for .NET 8 and 9
 - Version bump `115.xx.xx.xxx` to `120.xx.xx.xxx`
