@@ -1,15 +1,14 @@
-<!--
-Suggested PR title: Feature: <Short imperative title> (#<issue>)
+Suggested title: `Feature: short imperative title (#ISSUE)`
+
 Delete any section that does not apply.
--->
 
 ## Summary
 
-<1-3 sentences describing what changed and why it matters to consumers of the toolkit.>
+What changed, and why it matters to consumers of the toolkit.
 
 ## Related issues
 
-- Closes #<issue>
+- Closes #ISSUE
 
 ## Type of change
 
@@ -18,8 +17,7 @@ Delete any section that does not apply.
 
 ## Changes
 
-- <Notable change 1, grouped by area/project.>
-- <Notable change 2.>
+- Notable change, grouped by area or project.
 
 ## Affected packages & target frameworks
 
@@ -28,39 +26,39 @@ Delete any section that does not apply.
 
 ## Validation
 
-- TestForm demo: `<FormName>` (registered in `StartScreen.AddButtons()`).
+- TestForm demo: `FormName` (registered in `StartScreen.AddButtons()`).
 - Manual steps:
-  1. <step>
-  2. <expected result>
+  1. Step
+  2. Expected result
 - Build: `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug`
 
 ## Screenshots / GIFs
 
-<!-- Capture per AGENTS.md into Documents/PR/<issue>-<short-title>-<state>.png or .gif. Do not upload or attach images to this GitHub pull request. -->
+Save stills or GIFs as `Documents/PR/ISSUE-short-title-state.png` (or `.gif`). Do not upload or attach them to this pull request. Remove this section when there is no UI change.
 
-- Local draft path: `Documents/PR/<issue>-<short-title>-<state>.png` (or N/A — no UI change)
+- Local draft path: `Documents/PR/ISSUE-short-title-state.png` (or N/A — no UI change)
 
 ## Changelog
 
 - Entry added to `Documents/Changelog/Changelog.md`:
 
 ```markdown
-- Implemented [#<issue>](https://github.com/Krypton-Suite/Standard-Toolkit/issues/<issue>), <short user-facing summary>.
+- Implemented [#ISSUE](https://github.com/Krypton-Suite/Standard-Toolkit/issues/ISSUE), short user-facing summary.
 ```
 
 ## Breaking changes & migration
 
-<None, or describe what broke and exactly what consumers must update.>
+None, or describe what broke and what consumers must update.
 
 ## Developer documentation
 
-- `Documents/Development/<guide>.md` (add for substantial new features; omit for trivial enhancements).
+- `Documents/Development/guide.md` (add for substantial new features; omit for trivial enhancements).
 
 ## Build log
 
-<!-- Capture per AGENTS.md Build Log Screenshot. Save as Documents/PR/<issue>-<short-title>-build.png. Do not upload or attach it to this GitHub pull request. -->
+Save the build-log screenshot as `Documents/PR/ISSUE-short-title-build.png`. Do not upload or attach it to this pull request.
 
-- Local draft path: `Documents/PR/<issue>-<short-title>-build.png`
+- Local draft path: `Documents/PR/ISSUE-short-title-build.png`
 
 ## Checklist
 
