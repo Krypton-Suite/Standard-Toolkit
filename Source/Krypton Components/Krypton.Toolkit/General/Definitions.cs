@@ -5164,3 +5164,41 @@ public enum FormCaptionTextBoxEdge
 }
 
 #endregion
+
+#region Enum KryptonSnapLayoutMode
+
+/// <summary>
+/// Chooses which maximize-button layout menu a <see cref="KryptonForm"/> shows.
+/// </summary>
+/// <remarks>
+/// <para>
+/// <see cref="Inherit"/> follows <see cref="SnapLayoutValues.Mode"/>.
+/// <see cref="System"/> is that global default and keeps the Windows 11 snap menu.
+/// Set the manager, or one form, to <see cref="Toolkit"/> for the palette menu.
+/// Win+Z remains the shell menu in every mode.
+/// </para>
+/// </remarks>
+public enum KryptonSnapLayoutMode
+{
+    /// <summary>
+    /// Show the palette-drawn layout menu and snap this form to the chosen work-area zone.
+    /// </summary>
+    Toolkit = 0,
+
+    /// <summary>
+    /// Keep the shell maximize hit-test so Windows 11 draws its own snap menu.
+    /// </summary>
+    System = 1,
+
+    /// <summary>
+    /// Maximize and restore only. The shell snap menu is not requested.
+    /// </summary>
+    None = 2,
+
+    /// <summary>
+    /// Use <see cref="SnapLayoutValues.Mode"/>. On the manager itself this is treated as <see cref="System"/>.
+    /// </summary>
+    Inherit = 3
+}
+
+#endregion

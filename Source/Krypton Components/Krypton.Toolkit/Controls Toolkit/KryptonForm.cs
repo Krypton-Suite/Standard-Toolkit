@@ -275,6 +275,22 @@ public class KryptonForm : VisualForm,
 	private ButtonSpecManagerDraw? _titleBarMenuStripButtonManager;
 	private KryptonMenuBar? _menuBar;
 
+	// Snap layouts (#4579). Toolkit mode replaces the shell hover menu; System keeps HTMAXBUTTON.
+	private KryptonSnapLayoutMode _snapLayouts = KryptonSnapLayoutMode.Inherit;
+	private Timer? _snapLayoutHoverTimer;
+	private Timer? _snapLayoutDismissTimer;
+	private VisualSnapLayoutPopup? _snapLayoutPopup;
+	private VisualSnapLayoutAssistPopup? _snapAssistPopup;
+	private KryptonSnapLayoutZone[]? _assistCardZones;
+	private readonly List<int> _assistRemainingZones = new List<int>();
+	private Rectangle _assistWorkArea;
+	private bool _toolkitSnapActive;
+	private bool _applyingToolkitSnap;
+	private Rectangle _preSnapBounds;
+	private Rectangle _snappedBounds;
+	private const int SnapLayoutHoverDelayMs = 400;
+	private const int SnapLayoutDismissDelayMs = 250;
+
 	#endregion
 
 	#region Identity
@@ -393,6 +409,7 @@ public class KryptonForm : VisualForm,
 
 		// Hook into global static events
 		KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged += OnGlobalUseThemeFormChromeBorderWidthChanged;
+		KryptonManager.SnapLayoutValues.ModeChanged += OnSnapLayoutModeChanged;
 		KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 		KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
 
@@ -644,7 +661,10 @@ public class KryptonForm : VisualForm,
 			// Unhook from the global static events
 			KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 			KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
+			KryptonManager.SnapLayoutValues.ModeChanged -= OnSnapLayoutModeChanged;
 			KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
+			KryptonSnapGroupRegistry.Unregister(this);
+			DismissSnapAssistPopup();
 
 			// #1979 Temporary fix
 			base.PaletteChanged -= (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
@@ -684,6 +704,11 @@ public class KryptonForm : VisualForm,
 
 			// Dispose the click timer
 			_clickTimer?.Dispose();
+			DismissSnapLayoutPopup();
+			_snapLayoutHoverTimer?.Dispose();
+			_snapLayoutHoverTimer = null;
+			_snapLayoutDismissTimer?.Dispose();
+			_snapLayoutDismissTimer = null;
 
 			_pulsingBorder.Dispose();
 		}
@@ -938,6 +963,40 @@ public class KryptonForm : VisualForm,
 				base.MaximizeBox = value;
 				_buttonManager.PerformNeedPaint(true);
 			}
+		}
+	}
+
+	/// <summary>
+	/// Gets or sets which layout menu the maximize button shows.
+	/// </summary>
+	/// <remarks>
+	/// <para>
+	/// <see cref="KryptonSnapLayoutMode.Inherit"/> (the default) uses <see cref="KryptonManager.SnapLayoutValues"/>.<see cref="SnapLayoutValues.Mode"/>.
+	/// That global value defaults to <see cref="KryptonSnapLayoutMode.System"/>, which keeps the Windows 11 snap menu.
+	/// Set the manager or this property to <see cref="KryptonSnapLayoutMode.Toolkit"/> for the palette menu.
+	/// Snap Assist is not offered for toolkit zones. <see cref="KryptonSnapLayoutMode.None"/> is maximize and restore only.
+	/// </para>
+	/// <para>
+	/// The toolkit menu is shown only for a top-level sizable form with <see cref="MaximizeBox"/>, outside design mode.
+	/// MDI children keep the shell hit-test. Win+Z stays the shell menu in every mode.
+	/// </para>
+	/// </remarks>
+	[Category(@"Window Style")]
+	[Description(@"Layout menu shown when the pointer rests on the maximize button. Inherit follows KryptonManager.SnapLayoutValues.Mode.")]
+	[DefaultValue(KryptonSnapLayoutMode.Inherit)]
+	public KryptonSnapLayoutMode SnapLayouts
+	{
+		get => _snapLayouts;
+
+		set
+		{
+			if (_snapLayouts == value)
+			{
+				return;
+			}
+
+			_snapLayouts = value;
+			DismissSnapLayoutPopup();
 		}
 	}
 
@@ -2241,6 +2300,12 @@ public class KryptonForm : VisualForm,
 		// Let default processing run first
 		base.WndProc(ref m);
 
+		// A finished user move or resize leaves the toolkit snap. Caption-drag unsnap clears the flag first.
+		if (m.Msg == PI.WM_.EXITSIZEMOVE)
+		{
+			NoteToolkitSnapExitSizeMove();
+		}
+
 		// After the client has painted, draw our grip overlay last so it isn't erased
 		if (m.Msg == WM_PAINT)
 		{
@@ -2508,8 +2573,11 @@ public class KryptonForm : VisualForm,
 	/// Perform non-client mouse movement processing.
 	/// </summary>
 	/// <param name="pt">Point in window coordinates.</param>
-	protected override void WindowChromeNonClientMouseMove(Point pt) =>
+	protected override void WindowChromeNonClientMouseMove(Point pt)
+	{
 		base.WindowChromeNonClientMouseMove(MapMaximizedControlBoxMousePoint(pt));
+		UpdateSnapLayoutHover(pt);
+	}
 
 	/// <summary>
 	/// Control-box hit rectangle, expanded to the top (and Close to the right) when maximized
@@ -2621,7 +2689,9 @@ public class KryptonForm : VisualForm,
 				buttonController.NonClientAsNormal = true;
 			}
 
-			return new IntPtr(OSUtilities.IsAtLeastWindowsEleven ? PI.HT.MAXBUTTON : PI.HT.ZOOM);
+			// HTMAXBUTTON (same value as HTZOOM) is what makes Windows 11 open its snap menu.
+			// Toolkit and None must return a different code or that menu still appears.
+			return new IntPtr(UseSystemSnapLayoutHitTest() ? PI.HT.MAXBUTTON : PI.HT.BORDER);
 		}
 
 		if (GetControlBoxHitRectangle(ButtonSpecMin).Contains(pt))
@@ -2892,6 +2962,12 @@ public class KryptonForm : VisualForm,
 	/// <returns>True if event is processed; otherwise false.</returns>
 	protected override bool WindowChromeLeftMouseDown(Point windowPoint)
 	{
+		// Restore the pre-snap size before DefWindowProc starts the caption move.
+		if (_toolkitSnapActive && IsSnapLayoutCaptionDragPoint(windowPoint))
+		{
+			UnsnapForCaptionDrag(windowPoint);
+		}
+
 		// Let base class perform standard processing of the event
 		var ret = base.WindowChromeLeftMouseDown(windowPoint);
 
@@ -2945,9 +3021,652 @@ public class KryptonForm : VisualForm,
 		SyncCaptionChromeHosts();
 	}
 
+	/// <inheritdoc />
+	protected override void OnResize(EventArgs e)
+	{
+		base.OnResize(e);
+
+		// Maximizing replaces a toolkit snap. Windows then restores to the snapped rectangle.
+		if (!_applyingToolkitSnap && _toolkitSnapActive && WindowState == FormWindowState.Maximized)
+		{
+			ClearToolkitSnapState();
+		}
+	}
+
+	/// <inheritdoc />
+	protected override void WindowChromeMouseLeave()
+	{
+		base.WindowChromeMouseLeave();
+
+		if (!CanShowToolkitSnapLayoutPopup())
+		{
+			StopSnapLayoutHoverTimer();
+			return;
+		}
+
+		if (IsSnapLayoutPopupOpen())
+		{
+			if (!IsCursorOverMaxButton() && !IsCursorOverSnapLayoutPopup())
+			{
+				ScheduleSnapLayoutDismiss();
+			}
+		}
+		else
+		{
+			StopSnapLayoutHoverTimer();
+		}
+	}
+
 	#endregion
 
 	#region Implementation
+
+	/// <summary>
+	/// Restores the bounds saved before the last toolkit snap.
+	/// </summary>
+	/// <returns><see langword="true"/> when a toolkit snap was active.</returns>
+	internal bool TryRestoreToolkitSnap()
+	{
+		if (!_toolkitSnapActive)
+		{
+			return false;
+		}
+
+		Rectangle saved = _preSnapBounds;
+		ClearToolkitSnapState();
+		if (saved.Width < 1 || saved.Height < 1)
+		{
+			return true;
+		}
+
+		_applyingToolkitSnap = true;
+		try
+		{
+			if (WindowState != FormWindowState.Normal)
+			{
+				WindowState = FormWindowState.Normal;
+			}
+
+			SetBounds(saved.X, saved.Y, saved.Width, saved.Height, BoundsSpecified.All);
+		}
+		finally
+		{
+			_applyingToolkitSnap = false;
+		}
+
+		PerformNeedPaint(true);
+		return true;
+	}
+
+	/// <summary>
+	/// Shell snap menu is requested only for <see cref="KryptonSnapLayoutMode.System"/>,
+	/// plus MDI children and the designer, which keep the historical hit-test.
+	/// </summary>
+	/// <summary>
+	/// Form value, or <see cref="SnapLayoutValues.Mode"/> when this form inherits.
+	/// <see cref="KryptonSnapLayoutMode.Inherit"/> from the manager is the Windows menu.
+	/// </summary>
+	private KryptonSnapLayoutMode EffectiveSnapLayouts()
+	{
+		KryptonSnapLayoutMode mode = _snapLayouts == KryptonSnapLayoutMode.Inherit
+			? KryptonManager.SnapLayoutValues.Mode
+			: _snapLayouts;
+		return mode == KryptonSnapLayoutMode.Inherit
+			? KryptonSnapLayoutMode.System
+			: mode;
+	}
+
+	private void OnSnapLayoutModeChanged(object? sender, EventArgs e)
+	{
+		if (_snapLayouts == KryptonSnapLayoutMode.Inherit)
+		{
+			DismissSnapLayoutPopup();
+		}
+	}
+
+	private bool UseSystemSnapLayoutHitTest() =>
+		IsMdiChild
+		|| DesignMode
+		|| CommonHelper.DesignMode()
+		|| EffectiveSnapLayouts() == KryptonSnapLayoutMode.System;
+
+	private bool CanShowToolkitSnapLayoutPopup()
+	{
+		if (EffectiveSnapLayouts() != KryptonSnapLayoutMode.Toolkit
+			|| IsMdiChild
+			|| IsDisposed
+			|| Disposing
+			|| !IsHandleCreated
+			|| InertForm
+			|| DesignMode
+			|| CommonHelper.DesignMode()
+			|| !MaximizeBox
+			|| !ControlBox
+			|| WindowState == FormWindowState.Minimized)
+		{
+			return false;
+		}
+
+		return FormBorderStyle is FormBorderStyle.Sizable or FormBorderStyle.SizableToolWindow;
+	}
+
+	private void UpdateSnapLayoutHover(Point windowPoint)
+	{
+		if (!CanShowToolkitSnapLayoutPopup())
+		{
+			StopSnapLayoutHoverTimer();
+			DismissSnapLayoutPopup();
+			return;
+		}
+
+		bool overButton = GetControlBoxHitRectangle(ButtonSpecMax).Contains(windowPoint);
+		bool overPopup = IsCursorOverSnapLayoutPopup();
+		if (overButton || overPopup)
+		{
+			CancelSnapLayoutDismiss();
+			if (overButton && !IsSnapLayoutPopupOpen())
+			{
+				StartSnapLayoutHoverTimer();
+			}
+
+			return;
+		}
+
+		StopSnapLayoutHoverTimer();
+		if (IsSnapLayoutPopupOpen())
+		{
+			ScheduleSnapLayoutDismiss();
+		}
+	}
+
+	private void StartSnapLayoutHoverTimer()
+	{
+		if (_snapLayoutHoverTimer == null)
+		{
+			_snapLayoutHoverTimer = new Timer { Interval = SnapLayoutHoverDelayMs };
+			_snapLayoutHoverTimer.Tick += OnSnapLayoutHoverTick;
+		}
+
+		if (!_snapLayoutHoverTimer.Enabled)
+		{
+			_snapLayoutHoverTimer.Start();
+		}
+	}
+
+	private void StopSnapLayoutHoverTimer() => _snapLayoutHoverTimer?.Stop();
+
+	private void OnSnapLayoutHoverTick(object? sender, EventArgs e)
+	{
+		StopSnapLayoutHoverTimer();
+		if (!CanShowToolkitSnapLayoutPopup() || IsSnapLayoutPopupOpen() || !IsCursorOverMaxButton())
+		{
+			return;
+		}
+
+		ShowSnapLayoutPopup();
+	}
+
+	private void ScheduleSnapLayoutDismiss()
+	{
+		if (_snapLayoutDismissTimer == null)
+		{
+			_snapLayoutDismissTimer = new Timer { Interval = SnapLayoutDismissDelayMs };
+			_snapLayoutDismissTimer.Tick += OnSnapLayoutDismissTick;
+		}
+
+		if (!_snapLayoutDismissTimer.Enabled)
+		{
+			_snapLayoutDismissTimer.Start();
+		}
+	}
+
+	private void CancelSnapLayoutDismiss() => _snapLayoutDismissTimer?.Stop();
+
+	private void OnSnapLayoutDismissTick(object? sender, EventArgs e)
+	{
+		CancelSnapLayoutDismiss();
+		if (!IsCursorOverMaxButton() && !IsCursorOverSnapLayoutPopup())
+		{
+			DismissSnapLayoutPopup();
+		}
+	}
+
+	private void ShowSnapLayoutPopup()
+	{
+		PaletteBase? palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+		if (palette == null)
+		{
+			return;
+		}
+
+		Rectangle work = Screen.FromHandle(Handle).WorkingArea;
+		KryptonSnapLayoutCard[] cards = KryptonSnapLayoutCatalog.GetCards(
+			work.Size,
+			MinimumSize,
+			UsesRtlFormButtonLayout(),
+			KryptonManager.SnapLayoutValues.CustomLayouts.Snapshot(),
+			KryptonManager.SnapLayoutValues.IncludeBuiltinLayouts);
+		if (cards.Length == 0)
+		{
+			return;
+		}
+
+		DismissSnapLayoutPopup();
+		IRenderer renderer = Renderer ?? palette.GetRenderer();
+		var popup = new VisualSnapLayoutPopup(palette, renderer, Icon);
+		popup.ZoneSelected += OnSnapLayoutZoneSelected;
+		popup.PointerLeft += OnSnapLayoutPointerLeft;
+		popup.DismissedDelegate = OnSnapLayoutDismissed;
+		_snapLayoutPopup = popup;
+
+		Rectangle button = GetControlBoxHitRectangle(ButtonSpecMax);
+		Point origin = WindowPointToScreen(button.Location);
+		var anchor = new Rectangle(origin.X, origin.Y, button.Width, button.Height);
+		popup.ShowBelow(anchor, cards, work, Handle);
+	}
+
+	private void OnSnapLayoutZoneSelected(object? sender, KryptonSnapLayoutZoneEventArgs e)
+	{
+		if (IsDisposed || !IsHandleCreated)
+		{
+			DismissSnapLayoutPopup();
+			return;
+		}
+
+		Rectangle work = Screen.FromHandle(Handle).WorkingArea;
+		if (e.IsGroupRestore && e.CardZones.Length > 0)
+		{
+			RestoreSnapGroup(e.CardZones, work);
+			return;
+		}
+
+		ApplyToolkitSnap(e.CardZones, e.ZoneIndex, work, offerAssist: true);
+	}
+
+	private void OnSnapLayoutPointerLeft(object? sender, EventArgs e)
+	{
+		if (!IsCursorOverMaxButton() && !IsCursorOverSnapLayoutPopup())
+		{
+			ScheduleSnapLayoutDismiss();
+		}
+	}
+
+	private void OnSnapLayoutDismissed(object? sender, EventArgs e)
+	{
+		if (ReferenceEquals(_snapLayoutPopup, sender))
+		{
+			_snapLayoutPopup = null;
+		}
+	}
+
+	/// <summary>
+	/// Snaps this form into a zone of a card and optionally opens Assist for the remaining zones.
+	/// </summary>
+	/// <param name="cardZones">Zones of the chosen card.</param>
+	/// <param name="zoneIndex">Index of the zone this form occupies.</param>
+	/// <param name="workArea">Monitor work area.</param>
+	/// <param name="offerAssist"><see langword="true"/> to offer peer forms for empty zones.</param>
+	internal void ApplyToolkitSnap(KryptonSnapLayoutZone[] cardZones, int zoneIndex, Rectangle workArea, bool offerAssist)
+	{
+		DismissSnapLayoutPopup();
+		DismissSnapAssistPopup();
+		if (cardZones == null || cardZones.Length == 0
+			|| zoneIndex < 0 || zoneIndex >= cardZones.Length
+			|| workArea.Width < 1 || workArea.Height < 1 || IsDisposed)
+		{
+			return;
+		}
+
+		Rectangle target = KryptonSnapLayoutCatalog.ToScreen(workArea, cardZones[zoneIndex]);
+		ApplyToolkitSnapBounds(target);
+
+		if (KryptonManager.SnapLayoutValues.RememberGroups)
+		{
+			KryptonSnapGroupRegistry.Register(this, cardZones, zoneIndex, workArea);
+		}
+
+		if (offerAssist
+			&& KryptonManager.SnapLayoutValues.ShowAssist
+			&& cardZones.Length > 1)
+		{
+			BeginSnapAssist(cardZones, zoneIndex, workArea);
+		}
+	}
+
+	private void ApplyToolkitSnapBounds(Rectangle target)
+	{
+		if (target.Width < 1 || target.Height < 1 || IsDisposed)
+		{
+			return;
+		}
+
+		// A second zone keeps the original restored bounds, not the current snapped rectangle.
+		if (!_toolkitSnapActive)
+		{
+			_preSnapBounds = WindowState == FormWindowState.Maximized
+				&& RestoreBounds.Width > 0
+				&& RestoreBounds.Height > 0
+				? RestoreBounds
+				: Bounds;
+		}
+
+		_applyingToolkitSnap = true;
+		try
+		{
+			if (WindowState != FormWindowState.Normal)
+			{
+				WindowState = FormWindowState.Normal;
+			}
+
+			SetBounds(target.X, target.Y, target.Width, target.Height, BoundsSpecified.All);
+		}
+		finally
+		{
+			_applyingToolkitSnap = false;
+		}
+
+		_snappedBounds = Bounds;
+		_toolkitSnapActive = true;
+		PerformNeedPaint(true);
+	}
+
+	private void RestoreSnapGroup(KryptonSnapLayoutZone[] cardZones, Rectangle workArea)
+	{
+		DismissSnapLayoutPopup();
+		DismissSnapAssistPopup();
+		if (!KryptonSnapGroupRegistry.TryGetGroup(cardZones, workArea, out KryptonSnapGroupMember[] members))
+		{
+			return;
+		}
+
+		// Last activated is the form that opened the menu when it is in the group.
+		for (int i = 0; i < members.Length; i++)
+		{
+			KryptonSnapGroupMember member = members[i];
+			if (member.Form.IsDisposed)
+			{
+				continue;
+			}
+
+			member.Form.ApplyToolkitSnap(cardZones, member.ZoneIndex, workArea, offerAssist: false);
+		}
+
+		for (int i = 0; i < members.Length; i++)
+		{
+			KryptonForm form = members[i].Form;
+			if (!form.IsDisposed && form.IsHandleCreated && !ReferenceEquals(form, this))
+			{
+				form.Activate();
+			}
+		}
+
+		if (!IsDisposed)
+		{
+			Activate();
+		}
+	}
+
+	private void BeginSnapAssist(KryptonSnapLayoutZone[] cardZones, int occupiedZoneIndex, Rectangle workArea)
+	{
+		_assistRemainingZones.Clear();
+		for (int i = 0; i < cardZones.Length; i++)
+		{
+			if (i != occupiedZoneIndex)
+			{
+				_assistRemainingZones.Add(i);
+			}
+		}
+
+		if (_assistRemainingZones.Count == 0)
+		{
+			return;
+		}
+
+		KryptonSnapLayoutZone[] remaining = new KryptonSnapLayoutZone[_assistRemainingZones.Count];
+		for (int i = 0; i < _assistRemainingZones.Count; i++)
+		{
+			remaining[i] = cardZones[_assistRemainingZones[i]];
+		}
+
+		KryptonForm[] peers = KryptonSnapGroupRegistry.CollectAssistPeers(this, remaining, workArea);
+		if (peers.Length == 0)
+		{
+			return;
+		}
+
+		_assistCardZones = KryptonSnapGroupRegistry.CloneZones(cardZones);
+		_assistWorkArea = workArea;
+		ShowSnapAssist(peers);
+	}
+
+	private void ShowSnapAssist(KryptonForm[] peers)
+	{
+		DisposeSnapAssistPopupUi();
+		if (_assistCardZones == null || _assistRemainingZones.Count == 0 || peers.Length == 0)
+		{
+			return;
+		}
+
+		PaletteBase? palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+		if (palette == null)
+		{
+			return;
+		}
+
+		int nextZone = _assistRemainingZones[0];
+		string instruction = @"Snap into remaining zone " + (nextZone + 1);
+		IRenderer renderer = Renderer ?? palette.GetRenderer();
+		var assist = new VisualSnapLayoutAssistPopup(palette, renderer);
+		assist.PeerSelected += OnSnapAssistPeerSelected;
+		assist.Cancelled += OnSnapAssistCancelled;
+		_snapAssistPopup = assist;
+		Rectangle anchor = Bounds;
+		assist.ShowPeers(anchor, peers, _assistWorkArea, instruction);
+	}
+
+	private void OnSnapAssistPeerSelected(object? sender, KryptonSnapLayoutAssistEventArgs e)
+	{
+		if (_assistCardZones == null || _assistRemainingZones.Count == 0 || e.Form.IsDisposed)
+		{
+			DismissSnapAssistPopup();
+			return;
+		}
+
+		int zoneIndex = _assistRemainingZones[0];
+		_assistRemainingZones.RemoveAt(0);
+		e.Form.ApplyToolkitSnap(_assistCardZones, zoneIndex, _assistWorkArea, offerAssist: false);
+
+		if (_assistRemainingZones.Count == 0)
+		{
+			DismissSnapAssistPopup();
+			return;
+		}
+
+		KryptonSnapLayoutZone[] remaining = new KryptonSnapLayoutZone[_assistRemainingZones.Count];
+		for (int i = 0; i < _assistRemainingZones.Count; i++)
+		{
+			remaining[i] = _assistCardZones[_assistRemainingZones[i]];
+		}
+
+		KryptonForm[] peers = KryptonSnapGroupRegistry.CollectAssistPeers(this, remaining, _assistWorkArea);
+		if (peers.Length == 0)
+		{
+			DismissSnapAssistPopup();
+			return;
+		}
+
+		ShowSnapAssist(peers);
+	}
+
+	private void OnSnapAssistCancelled(object? sender, EventArgs e) => DismissSnapAssistPopup();
+
+	private void DisposeSnapAssistPopupUi()
+	{
+		VisualSnapLayoutAssistPopup? assist = _snapAssistPopup;
+		_snapAssistPopup = null;
+		if (assist == null || assist.IsDisposed)
+		{
+			return;
+		}
+
+		assist.PeerSelected -= OnSnapAssistPeerSelected;
+		assist.Cancelled -= OnSnapAssistCancelled;
+		assist.Dispose();
+	}
+
+	private void DismissSnapAssistPopup()
+	{
+		DisposeSnapAssistPopupUi();
+		_assistCardZones = null;
+		_assistRemainingZones.Clear();
+		_assistWorkArea = Rectangle.Empty;
+	}
+
+	private void UnsnapForCaptionDrag(Point windowPoint)
+	{
+		Rectangle saved = _preSnapBounds;
+		ClearToolkitSnapState();
+		if (saved.Width < 1 || saved.Height < 1)
+		{
+			return;
+		}
+
+		int currentWidth = Math.Max(1, Width);
+		int offsetX = Math.Max(0, Math.Min(currentWidth - 1, windowPoint.X));
+		int newOffsetX = (int)Math.Round(offsetX * (saved.Width / (double)currentWidth));
+		newOffsetX = Math.Max(0, Math.Min(Math.Max(0, saved.Width - 1), newOffsetX));
+		Point cursor = Cursor.Position;
+
+		_applyingToolkitSnap = true;
+		try
+		{
+			if (WindowState != FormWindowState.Normal)
+			{
+				WindowState = FormWindowState.Normal;
+			}
+
+			SetBounds(cursor.X - newOffsetX, cursor.Y - Math.Max(0, windowPoint.Y), saved.Width, saved.Height, BoundsSpecified.All);
+		}
+		finally
+		{
+			_applyingToolkitSnap = false;
+		}
+
+		PerformNeedPaint(true);
+	}
+
+	private bool IsSnapLayoutCaptionDragPoint(Point windowPoint)
+	{
+		if (GetControlBoxHitRectangle(ButtonSpecClose).Contains(windowPoint)
+			|| GetControlBoxHitRectangle(ButtonSpecMax).Contains(windowPoint)
+			|| GetControlBoxHitRectangle(ButtonSpecMin).Contains(windowPoint)
+			|| GetControlBoxHitRectangle(ButtonSpecHelp).Contains(windowPoint))
+		{
+			return false;
+		}
+
+		if (!_drawHeading.ClientRectangle.Contains(windowPoint))
+		{
+			return false;
+		}
+
+		ViewBase? view = ViewManager?.Root.ViewFromPoint(windowPoint);
+		return view?.FindMouseController() is not ButtonController;
+	}
+
+	private void ClearToolkitSnapState()
+	{
+		if (!_toolkitSnapActive && _preSnapBounds.IsEmpty)
+		{
+			return;
+		}
+
+		_toolkitSnapActive = false;
+		_preSnapBounds = Rectangle.Empty;
+		_snappedBounds = Rectangle.Empty;
+		KryptonSnapGroupRegistry.Unregister(this);
+		PerformNeedPaint(false);
+	}
+
+	private void NoteToolkitSnapExitSizeMove()
+	{
+		if (_applyingToolkitSnap || !_toolkitSnapActive)
+		{
+			return;
+		}
+
+		if (!BoundsNear(_snappedBounds, Bounds))
+		{
+			ClearToolkitSnapState();
+		}
+	}
+
+	private static bool BoundsNear(Rectangle left, Rectangle right) =>
+		Math.Abs(left.X - right.X) <= 4
+		&& Math.Abs(left.Y - right.Y) <= 4
+		&& Math.Abs(left.Width - right.Width) <= 4
+		&& Math.Abs(left.Height - right.Height) <= 4;
+
+	private void DismissSnapLayoutPopup()
+	{
+		StopSnapLayoutHoverTimer();
+		CancelSnapLayoutDismiss();
+		VisualSnapLayoutPopup? popup = _snapLayoutPopup;
+		_snapLayoutPopup = null;
+		if (popup == null || popup.IsDisposed)
+		{
+			return;
+		}
+
+		if (VisualPopupManager.Singleton.IsTracking && ReferenceEquals(VisualPopupManager.Singleton.CurrentPopup, popup))
+		{
+			VisualPopupManager.Singleton.EndPopupTracking(popup);
+		}
+
+		if (!popup.IsDisposed)
+		{
+			popup.Dispose();
+		}
+	}
+
+	private bool IsSnapLayoutPopupOpen() => _snapLayoutPopup is { IsDisposed: false, Visible: true };
+
+	private bool IsCursorOverMaxButton()
+	{
+		if (!IsHandleCreated)
+		{
+			return false;
+		}
+
+		Point windowPoint = ScreenToWindow(Cursor.Position);
+		return GetControlBoxHitRectangle(ButtonSpecMax).Contains(windowPoint);
+	}
+
+	private bool IsCursorOverSnapLayoutPopup()
+	{
+		if (_snapLayoutPopup == null || _snapLayoutPopup.IsDisposed || !_snapLayoutPopup.IsHandleCreated)
+		{
+			return false;
+		}
+
+		Rectangle screen = _snapLayoutPopup.RectangleToScreen(_snapLayoutPopup.ClientRectangle);
+		screen.Inflate(8, 8);
+		return screen.Contains(Cursor.Position);
+	}
+
+	private Point WindowPointToScreen(Point windowPoint)
+	{
+		if (IsHandleCreated)
+		{
+			var windowRect = new PI.RECT();
+			if (PI.GetWindowRect(Handle, ref windowRect))
+			{
+				return new Point(windowRect.left + windowPoint.X, windowRect.top + windowPoint.Y);
+			}
+		}
+
+		return PointToScreen(windowPoint);
+	}
 
 	private IPaletteDouble GetFormPaletteState() => WindowActive ? StateActive : StateInactive;
 
@@ -3169,8 +3888,11 @@ public class KryptonForm : VisualForm,
 			// Do we have a manager to use for laying out?
 			if (ViewManager != null)
 			{
-				// Make sure the max/restore setting is correct
-				ButtonSpecMax.ButtonSpecType = WindowState == FormWindowState.Maximized
+				// Make sure the max/restore setting is correct.
+				// A toolkit snap stays Normal, so the glyph follows the snap flag as well as WindowState.
+				bool showRestore = WindowState == FormWindowState.Maximized
+					|| (WindowState == FormWindowState.Normal && _toolkitSnapActive);
+				ButtonSpecMax.ButtonSpecType = showRestore
 					? PaletteButtonSpecStyle.FormRestore
 					: PaletteButtonSpecStyle.FormMax;
 

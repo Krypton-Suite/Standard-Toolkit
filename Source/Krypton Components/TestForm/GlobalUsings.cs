@@ -22,3 +22,4 @@ global using System.Windows.Forms;
 
 global using Krypton.Interop;
 global using Krypton.Toolkit;
+global using Krypton.Toolkit.Utilities;

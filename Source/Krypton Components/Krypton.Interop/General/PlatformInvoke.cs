@@ -5116,7 +5116,9 @@ No 	                    No 	                    Show text only
             PlaceHolder1,
             PlaceHolder2,
             PlaceHolder3,
-            AccentPolicy = 19
+            AccentPolicy = 19,
+            // Windows 11. 33 is the documented value; the placeholders above are not a count.
+            WindowCornerPreference = 33
         }
 
         public enum DWMNCRENDERINGPOLICY : uint
