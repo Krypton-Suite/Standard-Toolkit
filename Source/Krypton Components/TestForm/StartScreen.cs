@@ -13,7 +13,8 @@ using System.Windows.Forms;
 
 using Krypton.Toolkit.Utilities;
 
-using static Krypton.Interop.NativeFunctions;
+using Krypton.Interop;
+
 
 namespace TestForm;
 
