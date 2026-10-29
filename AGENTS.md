@@ -15,6 +15,7 @@ These are recurring issues observed when using AI coding agents and shell wrappe
 - Do not pack extra nupkg files as `lib\$(TargetFramework)\` for `netX.0-windows` (NU5128: extra `net8.0-windows` folder vs nuspec `net8.0-windows7.0`). Use `_KryptonPackageLibFolder` (see **WinForms Designer Extensibility SDK**).
 - Do not `dotnet pack` after a VS 2026 build that skipped net11 without `-p:ExcludeNet11=true` on **both** restore and pack (or pack with a rebuild so net11 compiles). Otherwise NU5128 asks for `net11.0-windows7.0` lib assemblies that were never built.
 - Do not capture PR screenshots with bare `Graphics.CopyFromScreen` after only `$form.Show()` / `$form.Activate()`. Cursor, Visual Studio, or the terminal often stays on top, so the PNG shows the IDE instead of the demo. Correct example: call `Save-UnitTestWindowPng` from `Scripts/UnitTests/UnitTestCommon.ps1` (PrintWindow of the HWND; see **UI Screenshots / GIFs**).
+- Do not add a WinForms `.resx` whose generated `obj` path reaches 260 characters. `GenerateResource` names that file from the folder path and fails with `MSB3554` when Windows long paths are off. Keep the class name and shorten the manifest name (see **Generated .resx path length**).
 
 ## Always
 
@@ -303,6 +304,24 @@ When startup or a hot path is the task, time it before and after. Reuse `Scripts
 - Target frameworks are selected by MSBuild properties. VS2019/full MSBuild builds only .NET Framework 4.x TFMs; VS2022/full MSBuild excludes `net10.0-windows` and `net11.0-windows`; VS2026/full MSBuild excludes `net11.0-windows` unless explicitly enabled; CI or SDK-based builds can include `net472`, `net48`, `net481`, `net8.0-windows`, `net9.0-windows`, `net10.0-windows`, and `net11.0-windows` when the required SDKs are installed.
 - Extra `TfmSpecificPackageFile` items must use `_KryptonPackageLibFolder` (`netX.0-windows7.0`), not `$(TargetFramework)` (NU5128). Orchestrated pack builds Design projects (`KryptonBuildDesign`) before Pack; `Exists()` packing omits Design/WinForms if that target did not run (see **WinForms Designer Extensibility SDK**).
 - New files must use only the current Standard Toolkit BSD header. Do not add the original ComponentFactory BSD header unless the file is derived from original ComponentFactory source.
+
+## Generated .resx path length
+
+`GenerateResource` writes each WinForms `.resx` to:
+
+`$(MSBuildProjectDirectory)\obj\$(Configuration)\$(TargetFramework)\$(ManifestResourceName).resources`
+
+The default manifest name is `$(RootNamespace)` plus the project-relative folder (`\` becomes `.`; spaces and other non-identifier characters become `_`) plus the file name. The full path must be under 260 characters. `MSB3554` / `MSB3560` are that limit (the message also cites a 248-character directory limit). The longest TFM folder in this repo is `net11.0-windows`. Enabling long paths does not remove this check for new resources (issue [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636)).
+
+Before adding a `.resx` under a deep folder, measure that path for `obj\Debug\net11.0-windows` on a checkout at least as long as `Z:\Development\Krypton\Standard-Toolkit`. When the path is 260 characters or more:
+
+- Keep the class name and the source file name.
+- Set `ManifestResourceName` to `$(RootNamespace).%(Filename)` (no `.resources` suffix). `GenerateResource` appends `.resources` to the `obj` file name.
+- Set `LogicalName` to `$(RootNamespace).%(Filename).resources`. That is the name embedded in the assembly.
+- Do this only when the type's namespace is `RootNamespace` and the file name matches the class name. Toast forms in `Krypton.Toolkit.Utilities.csproj` (`Components\Krypton Toast\Controls Visuals\**\*.resx`) are the pattern.
+- Leave a strongly typed `.resx` on its path-derived name when the generated designer looks that name up. `ToastImageResources` uses `Krypton.Toolkit.Utilities.Components.Krypton_Toast.Resources.ToastImageResources`.
+
+Do not rename a public type to get under the limit.
 
 ## Coding Style & Naming Conventions
 
@@ -1045,4 +1064,4 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 
 ## Security & Configuration Tips
 
-- Windows long paths must be enabled to build locally (see README link). Build on Windows for `-windows` TFMs
+- Windows long paths must be enabled to build locally (see README link). Build on Windows for `-windows` TFMs. Keep new `.resx` intermediates under 260 characters even when long paths are enabled (see **Generated .resx path length**).
