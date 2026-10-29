@@ -112,7 +112,7 @@ namespace Example
 
     private void InitializeSampleCode()
     {
-        var samples = new Dictionary<string, string>
+        var samples = new Dictionary<string?, string>
         {
             ["C#"] = @"using System;
 
@@ -399,7 +399,7 @@ Get-PersonInfo -Name ""John"" -Age 30"
         _sampleCode = samples;
     }
 
-    private Dictionary<string, string> _sampleCode = new Dictionary<string, string>();
+    private Dictionary<string?, string> _sampleCode = new Dictionary<string?, string>();
 
     private void kcmbLanguage_SelectedIndexChanged(object sender, EventArgs e)
     {
