@@ -250,9 +250,42 @@ WinForms base properties whose `[DefaultValue]` lives on `System.Windows.Forms` 
 
 ## Performance
 
+Correctness, `net472` compatibility, binary compatibility, designer serialization, and readable code stay in force (**Editing Philosophy**, **Public API**). A faster path that changes colours, skips disposal, or breaks a public contract is not an improvement. Do not start a repo-wide performance rewrite unless asked. Optimize the path you are already changing.
+
 - Avoid unnecessary allocations in paint paths.
 - Avoid creating disposable GDI objects inside tight rendering loops.
 - Reuse existing rendering infrastructure whenever possible.
+
+### Startup (time to first form)
+
+Touching `KryptonManager` runs static field initializers before the static constructor, including `CurrentGlobalPalette`. That path runs before the first form. Keep it on the core palette.
+
+`KryptonManager.AutoDiscoverThemes` stays on by default. That is the auto-discovery feature for extra themes. It does not run while the default palette is created. Core palettes (Professional, Sparkle Blue/Orange/Purple, Office 2007/2010/Microsoft 365 Blue, Silver, and Black) must be creatable without loading `Krypton.Themes.dll`. The first `Application.Idle` calls `DiscoverThemes` once the UI thread is free, unless auto-discovery is off or the caller is the designer. An extra `PaletteMode`, a theme list, or the `PaletteMode` drop-down still calls `DiscoverThemes` immediately if idle has not run. Do not call it from the `KryptonManager` static constructor, and do not `Assembly.Load` or scan `AppDomain` assemblies while creating the default palette.
+
+- Caption glyphs the first form paints may be created with the palette. Context-menu, toolbar, and other strips wait until a caller asks (`??=` on a cached field, not a `static readonly` initializer).
+- Resource getters such as `Office2019ToolbarImageResources` return a new `Bitmap` on every get. Do not call them from static field initializers unless that image is needed before the first paint.
+- Do not walk types, call `RunClassConstructor`, or use reflection on every colour or paint lookup. Cache the result and drop the cache when the value can change (`SetArrayColor`).
+
+### Paint, layout, and input
+
+These run per control, per state, per frame.
+
+- Do not allocate per call: no LINQ, no string concatenation, no `new List` or event-args object that can be reused, and no closure allocated only to pass a resource getter. A cached field or a direct property is enough.
+- Do not create `Pen`, `Brush`, `Font`, `GraphicsPath`, or `Bitmap` inside a loop. Reuse the renderer and palette objects that already exist. Dispose what you create. Do not dispose a static or shared image.
+- Theme switches and system-colour changes must still refresh. A cache that ignores `UserPreferenceChanged` or a palette paint event is a bug.
+
+### Measure, then change
+
+When startup or a hot path is the task, time it before and after. Reuse `Scripts/UnitTests/UnitTest-StartupTiming.ps1` for time-to-first-form (`UnitTest-CI: exclude`). Record the numbers in the local PR description. Do not claim a speedup without a before/after on the same machine.
+
+### Do not
+
+- Trade a public behaviour change, a broken designer default, or a leaked GDI object for a smaller diff or a guessed speedup.
+- Turn auto-discovery off, or load every extra theme before the first form is shown. Discovery runs on the first UI idle, or sooner when an extra theme or a theme list asks.
+- Micro-optimize cold code, one-off dialogs, or designer-only paths.
+- Mass-edit palette files to lazy-load images that are not on the path being changed.
+- Cache a lookup without an invalidation point.
+- Block startup on work that only an extra theme, a toolbar, or a menu needs.
 
 ## Build, Test, and Development Commands
 
