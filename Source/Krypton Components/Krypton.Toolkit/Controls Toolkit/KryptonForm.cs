@@ -280,6 +280,10 @@ public class KryptonForm : VisualForm,
 	private Timer? _snapLayoutHoverTimer;
 	private Timer? _snapLayoutDismissTimer;
 	private VisualSnapLayoutPopup? _snapLayoutPopup;
+	private VisualSnapLayoutAssistPopup? _snapAssistPopup;
+	private KryptonSnapLayoutZone[]? _assistCardZones;
+	private readonly List<int> _assistRemainingZones = new List<int>();
+	private Rectangle _assistWorkArea;
 	private bool _toolkitSnapActive;
 	private bool _applyingToolkitSnap;
 	private Rectangle _preSnapBounds;
@@ -659,6 +663,8 @@ public class KryptonForm : VisualForm,
 			KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
 			KryptonManager.SnapLayoutValues.ModeChanged -= OnSnapLayoutModeChanged;
 			KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
+			KryptonSnapGroupRegistry.Unregister(this);
+			DismissSnapAssistPopup();
 
 			// #1979 Temporary fix
 			base.PaletteChanged -= (s, e) => _internalKryptonPanel.PaletteMode = PaletteMode;
@@ -3268,7 +3274,13 @@ public class KryptonForm : VisualForm,
 		}
 
 		Rectangle work = Screen.FromHandle(Handle).WorkingArea;
-		ApplyToolkitSnap(KryptonSnapLayoutCatalog.ToScreen(work, e.Zone));
+		if (e.IsGroupRestore && e.CardZones.Length > 0)
+		{
+			RestoreSnapGroup(e.CardZones, work);
+			return;
+		}
+
+		ApplyToolkitSnap(e.CardZones, e.ZoneIndex, work, offerAssist: true);
 	}
 
 	private void OnSnapLayoutPointerLeft(object? sender, EventArgs e)
@@ -3287,9 +3299,42 @@ public class KryptonForm : VisualForm,
 		}
 	}
 
-	private void ApplyToolkitSnap(Rectangle target)
+	/// <summary>
+	/// Snaps this form into a zone of a card and optionally opens Assist for the remaining zones.
+	/// </summary>
+	/// <param name="cardZones">Zones of the chosen card.</param>
+	/// <param name="zoneIndex">Index of the zone this form occupies.</param>
+	/// <param name="workArea">Monitor work area.</param>
+	/// <param name="offerAssist"><see langword="true"/> to offer peer forms for empty zones.</param>
+	internal void ApplyToolkitSnap(KryptonSnapLayoutZone[] cardZones, int zoneIndex, Rectangle workArea, bool offerAssist)
 	{
 		DismissSnapLayoutPopup();
+		DismissSnapAssistPopup();
+		if (cardZones == null || cardZones.Length == 0
+			|| zoneIndex < 0 || zoneIndex >= cardZones.Length
+			|| workArea.Width < 1 || workArea.Height < 1 || IsDisposed)
+		{
+			return;
+		}
+
+		Rectangle target = KryptonSnapLayoutCatalog.ToScreen(workArea, cardZones[zoneIndex]);
+		ApplyToolkitSnapBounds(target);
+
+		if (KryptonManager.SnapLayoutValues.RememberGroups)
+		{
+			KryptonSnapGroupRegistry.Register(this, cardZones, zoneIndex, workArea);
+		}
+
+		if (offerAssist
+			&& KryptonManager.SnapLayoutValues.ShowAssist
+			&& cardZones.Length > 1)
+		{
+			BeginSnapAssist(cardZones, zoneIndex, workArea);
+		}
+	}
+
+	private void ApplyToolkitSnapBounds(Rectangle target)
+	{
 		if (target.Width < 1 || target.Height < 1 || IsDisposed)
 		{
 			return;
@@ -3323,6 +3368,158 @@ public class KryptonForm : VisualForm,
 		_snappedBounds = Bounds;
 		_toolkitSnapActive = true;
 		PerformNeedPaint(true);
+	}
+
+	private void RestoreSnapGroup(KryptonSnapLayoutZone[] cardZones, Rectangle workArea)
+	{
+		DismissSnapLayoutPopup();
+		DismissSnapAssistPopup();
+		if (!KryptonSnapGroupRegistry.TryGetGroup(cardZones, workArea, out KryptonSnapGroupMember[] members))
+		{
+			return;
+		}
+
+		// Last activated is the form that opened the menu when it is in the group.
+		for (int i = 0; i < members.Length; i++)
+		{
+			KryptonSnapGroupMember member = members[i];
+			if (member.Form.IsDisposed)
+			{
+				continue;
+			}
+
+			member.Form.ApplyToolkitSnap(cardZones, member.ZoneIndex, workArea, offerAssist: false);
+		}
+
+		for (int i = 0; i < members.Length; i++)
+		{
+			KryptonForm form = members[i].Form;
+			if (!form.IsDisposed && form.IsHandleCreated && !ReferenceEquals(form, this))
+			{
+				form.Activate();
+			}
+		}
+
+		if (!IsDisposed)
+		{
+			Activate();
+		}
+	}
+
+	private void BeginSnapAssist(KryptonSnapLayoutZone[] cardZones, int occupiedZoneIndex, Rectangle workArea)
+	{
+		_assistRemainingZones.Clear();
+		for (int i = 0; i < cardZones.Length; i++)
+		{
+			if (i != occupiedZoneIndex)
+			{
+				_assistRemainingZones.Add(i);
+			}
+		}
+
+		if (_assistRemainingZones.Count == 0)
+		{
+			return;
+		}
+
+		KryptonSnapLayoutZone[] remaining = new KryptonSnapLayoutZone[_assistRemainingZones.Count];
+		for (int i = 0; i < _assistRemainingZones.Count; i++)
+		{
+			remaining[i] = cardZones[_assistRemainingZones[i]];
+		}
+
+		KryptonForm[] peers = KryptonSnapGroupRegistry.CollectAssistPeers(this, remaining, workArea);
+		if (peers.Length == 0)
+		{
+			return;
+		}
+
+		_assistCardZones = KryptonSnapGroupRegistry.CloneZones(cardZones);
+		_assistWorkArea = workArea;
+		ShowSnapAssist(peers);
+	}
+
+	private void ShowSnapAssist(KryptonForm[] peers)
+	{
+		DisposeSnapAssistPopupUi();
+		if (_assistCardZones == null || _assistRemainingZones.Count == 0 || peers.Length == 0)
+		{
+			return;
+		}
+
+		PaletteBase? palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+		if (palette == null)
+		{
+			return;
+		}
+
+		int nextZone = _assistRemainingZones[0];
+		string instruction = @"Snap into remaining zone " + (nextZone + 1);
+		IRenderer renderer = Renderer ?? palette.GetRenderer();
+		var assist = new VisualSnapLayoutAssistPopup(palette, renderer);
+		assist.PeerSelected += OnSnapAssistPeerSelected;
+		assist.Cancelled += OnSnapAssistCancelled;
+		_snapAssistPopup = assist;
+		Rectangle anchor = Bounds;
+		assist.ShowPeers(anchor, peers, _assistWorkArea, instruction);
+	}
+
+	private void OnSnapAssistPeerSelected(object? sender, KryptonSnapLayoutAssistEventArgs e)
+	{
+		if (_assistCardZones == null || _assistRemainingZones.Count == 0 || e.Form.IsDisposed)
+		{
+			DismissSnapAssistPopup();
+			return;
+		}
+
+		int zoneIndex = _assistRemainingZones[0];
+		_assistRemainingZones.RemoveAt(0);
+		e.Form.ApplyToolkitSnap(_assistCardZones, zoneIndex, _assistWorkArea, offerAssist: false);
+
+		if (_assistRemainingZones.Count == 0)
+		{
+			DismissSnapAssistPopup();
+			return;
+		}
+
+		KryptonSnapLayoutZone[] remaining = new KryptonSnapLayoutZone[_assistRemainingZones.Count];
+		for (int i = 0; i < _assistRemainingZones.Count; i++)
+		{
+			remaining[i] = _assistCardZones[_assistRemainingZones[i]];
+		}
+
+		KryptonForm[] peers = KryptonSnapGroupRegistry.CollectAssistPeers(this, remaining, _assistWorkArea);
+		if (peers.Length == 0)
+		{
+			DismissSnapAssistPopup();
+			return;
+		}
+
+		ShowSnapAssist(peers);
+	}
+
+	private void OnSnapAssistCancelled(object? sender, EventArgs e) => DismissSnapAssistPopup();
+
+	private void DisposeSnapAssistPopupUi()
+	{
+		VisualSnapLayoutAssistPopup? assist = _snapAssistPopup;
+		_snapAssistPopup = null;
+		if (assist == null || assist.IsDisposed)
+		{
+			return;
+		}
+
+		assist.PeerSelected -= OnSnapAssistPeerSelected;
+		assist.Cancelled -= OnSnapAssistCancelled;
+		assist.Dispose();
+	}
+
+	private void DismissSnapAssistPopup()
+	{
+		DisposeSnapAssistPopupUi();
+		_assistCardZones = null;
+		_assistRemainingZones.Clear();
+		_assistWorkArea = Rectangle.Empty;
 	}
 
 	private void UnsnapForCaptionDrag(Point windowPoint)
@@ -3387,6 +3584,7 @@ public class KryptonForm : VisualForm,
 		_toolkitSnapActive = false;
 		_preSnapBounds = Rectangle.Empty;
 		_snappedBounds = Rectangle.Empty;
+		KryptonSnapGroupRegistry.Unregister(this);
 		PerformNeedPaint(false);
 	}
 

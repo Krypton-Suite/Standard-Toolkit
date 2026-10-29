@@ -51,11 +51,14 @@
   - `KryptonForm.SnapLayouts` defaults to `Inherit`. Set it on one form to override the manager.
   - The toolkit menu snaps this form only. Win+Z still opens the shell menu.
   - The toolkit menu uses the `PanelAlternate` background. `SnapLayout.CardSize` (`Empty` by default) sizes and wraps the cards to the work area. `SnapLayout.CornerRounding` (default 8) sets the corner radius; zero is square. Rounded corners no longer leave a dark fringe. Each zone shows this form's icon, or another taskbar application's icon, when `SnapLayout.ShowIcon` is true (the default).
-  - Hovering a zone previews where this form will snap. `SnapLayout.ShowPreview` (default true) turns that preview off. `SnapLayout.PreviewOpacity` (default 0.45) sets how transparent it is. The fill and border use the palette highlight colours.
+  - Hovering a zone previews where this form will snap. `SnapLayout.ShowPreview` (default true) turns that preview off. `SnapLayout.PreviewOpacity` (default 0.45) sets how transparent it is. The fill and border use the palette highlight colours. `SnapLayout.ShowPreviewGhost` (default false) stretches a capture of this window into the zone instead of the colour fill and icon.
   - The toolkit menu draws a drop shadow. `SnapLayout.ShowShadow` (default true) turns it off. `ShadowColor` (empty uses black), `ShadowOpacity` (default 0.18), `ShadowOffset` (default 3), and `ShadowBlur` (default 0) set the colour, strength, drop, and halo.
   - Implemented, Custom snap-layout cards can be added to the palette maximize menu.
     - `KryptonManager.SnapLayoutValues.CustomLayouts` accepts cards made of work-area fractions. Builtin cards stay in the menu unless `IncludeBuiltinLayouts` is set to false. Cards you add are labelled Custom.
     - On a `KryptonManager`, expand `SnapLayout` and edit `CustomLayouts`. Each card has a `Zones` collection of work-area fractions. `IncludeBuiltinLayouts` keeps the standard cards.
+  - Implemented, Own-app Snap Groups and Assist for the toolkit maximize menu.
+    - When two or more live `KryptonForm` windows in this process share a card, the menu shows a `Group | …` caption and restores every member when you click a group zone. `SnapLayout.RememberGroups` (default true) turns that off.
+    - After this form snaps into one zone of a multi-zone card, Assist offers other open `KryptonForm` windows for the remaining zones. `SnapLayout.ShowAssist` (default true) turns that off. Other applications are never moved.
 - Added support for .NET 12
 - Removed support for .NET 8 and 9
 - Version bump `115.xx.xx.xxx` to `120.xx.xx.xxx`

@@ -33,6 +33,7 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         kcmbGlobal.SelectedIndexChanged += OnGlobalChanged;
         kchkShowIcon.CheckedChanged += OnShowIconChanged;
         kchkShowPreview.CheckedChanged += OnShowPreviewChanged;
+        kchkShowPreviewGhost.CheckedChanged += OnShowPreviewGhostChanged;
         knudPreviewOpacity.ValueChanged += OnPreviewOpacityChanged;
         kcmbTheme.SelectedIndexChanged += OnThemeChanged;
         kchkIncludeBuiltin.CheckedChanged += OnIncludeBuiltinChanged;
@@ -42,6 +43,9 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         knudShadowOffset.ValueChanged += OnShadowOffsetChanged;
         knudShadowBlur.ValueChanged += OnShadowBlurChanged;
         knudShadowOpacity.ValueChanged += OnShadowOpacityChanged;
+        kchkRememberGroups.CheckedChanged += OnRememberGroupsChanged;
+        kchkShowAssist.CheckedChanged += OnShowAssistChanged;
+        kbtnOpenPeer.Click += OnOpenPeerClick;
     }
 
     private void SnapLayoutOverlayDemo_Load(object? sender, EventArgs e)
@@ -61,6 +65,7 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         kcmbGlobal.SelectedItem = snap.Mode;
         kchkShowIcon.Checked = snap.ShowIcon;
         kchkShowPreview.Checked = snap.ShowPreview;
+        kchkShowPreviewGhost.Checked = snap.ShowPreviewGhost;
         kchkIncludeBuiltin.Checked = snap.IncludeBuiltinLayouts;
         decimal previewPercent = (decimal)Math.Round(snap.PreviewOpacity * 100f);
         if (previewPercent < knudPreviewOpacity.Minimum)
@@ -91,6 +96,8 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
             ? Color.Black
             : snap.ShadowColor;
         kcbtnShadow.SelectedColorChanged += OnShadowColorChanged;
+        kchkRememberGroups.Checked = snap.RememberGroups;
+        kchkShowAssist.Checked = snap.ShowAssist;
 
         kcmbTheme.Items.Clear();
         foreach (PaletteMode theme in Themes)
@@ -129,6 +136,12 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
     private void OnShowPreviewChanged(object? sender, EventArgs e)
     {
         KryptonManager.SnapLayoutValues.ShowPreview = kchkShowPreview.Checked;
+        UpdateBoundsReadout();
+    }
+
+    private void OnShowPreviewGhostChanged(object? sender, EventArgs e)
+    {
+        KryptonManager.SnapLayoutValues.ShowPreviewGhost = kchkShowPreviewGhost.Checked;
         UpdateBoundsReadout();
     }
 
@@ -196,6 +209,43 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         UpdateBoundsReadout();
     }
 
+    private void OnRememberGroupsChanged(object? sender, EventArgs e)
+    {
+        KryptonManager.SnapLayoutValues.RememberGroups = kchkRememberGroups.Checked;
+        UpdateBoundsReadout();
+    }
+
+    private void OnShowAssistChanged(object? sender, EventArgs e)
+    {
+        KryptonManager.SnapLayoutValues.ShowAssist = kchkShowAssist.Checked;
+        UpdateBoundsReadout();
+    }
+
+    private void OnOpenPeerClick(object? sender, EventArgs e)
+    {
+        var peer = new KryptonForm
+        {
+            Text = @"4579 Snap Peer",
+            Size = new Size(420, 280),
+            StartPosition = FormStartPosition.Manual,
+            Location = new Point(Left + 40, Top + 40),
+            SnapLayouts = SnapLayouts,
+            PaletteMode = PaletteMode,
+            ShowInTaskbar = true
+        };
+        var label = new KryptonLabel
+        {
+            Dock = DockStyle.Fill,
+            LabelStyle = LabelStyle.NormalPanel
+        };
+        label.Values.Text = @"Peer KryptonForm for Assist and Snap Groups. Snap the main demo into one zone of a two-zone card, then pick this window from Assist for the other zone. Hover the same card again and click a group zone to restore both.";
+        label.StateCommon.ShortText.MultiLine = InheritBool.True;
+        label.StateCommon.ShortText.TextH = PaletteRelativeAlign.Near;
+        label.StateCommon.ShortText.TextV = PaletteRelativeAlign.Near;
+        peer.Controls.Add(label);
+        peer.Show(this);
+    }
+
     protected override void OnResize(EventArgs e)
     {
         base.OnResize(e);
@@ -218,6 +268,6 @@ public partial class SnapLayoutOverlayDemo : KryptonForm
         SnapLayoutValues snap = KryptonManager.SnapLayoutValues;
         string builtin = snap.IncludeBuiltinLayouts ? "included" : "hidden";
         klblBounds.Values.Text =
-            $"This form = {SnapLayouts}. All forms = {snap.Mode}. Icon {(snap.ShowIcon ? "shown" : "hidden")}. Preview {(snap.ShowPreview ? "on" : "off")} at {(int)Math.Round(snap.PreviewOpacity * 100f)}%. Shadow {(snap.ShowShadow ? "on" : "off")} at {(int)Math.Round(snap.ShadowOpacity * 100f)}%, offset {snap.ShadowOffset}, blur {snap.ShadowBlur}. Builtin layouts {builtin}. Custom cards {snap.CustomLayouts.Count}. Bounds {Bounds.X}, {Bounds.Y}  {Bounds.Width} x {Bounds.Height}. State {WindowState}.";
+            $"This form = {SnapLayouts}. All forms = {snap.Mode}. Icon {(snap.ShowIcon ? "shown" : "hidden")}. Preview {(snap.ShowPreview ? "on" : "off")}{(snap.ShowPreviewGhost ? " ghost" : string.Empty)} at {(int)Math.Round(snap.PreviewOpacity * 100f)}%. Shadow {(snap.ShowShadow ? "on" : "off")} at {(int)Math.Round(snap.ShadowOpacity * 100f)}%, offset {snap.ShadowOffset}, blur {snap.ShadowBlur}. Groups {(snap.RememberGroups ? "on" : "off")}. Assist {(snap.ShowAssist ? "on" : "off")}. Builtin layouts {builtin}. Custom cards {snap.CustomLayouts.Count}. Bounds {Bounds.X}, {Bounds.Y}  {Bounds.Width} x {Bounds.Height}. State {WindowState}.";
     }
 }

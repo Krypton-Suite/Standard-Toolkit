@@ -36,9 +36,16 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
     private readonly List<Rectangle> _customCaptions = new List<Rectangle>();
     private readonly Bitmap? _applicationImage;
     private Bitmap?[] _taskbarImages = Array.Empty<Bitmap?>();
+    private KryptonSnapLayoutCard[] _cards = Array.Empty<KryptonSnapLayoutCard>();
+    private KryptonSnapGroupMember[]?[] _groupsByCard = Array.Empty<KryptonSnapGroupMember[]?>();
+    private Bitmap?[][] _groupIconsByCard = Array.Empty<Bitmap?[]>();
     private Rectangle _workArea;
+    private IntPtr _ownerWindow;
+    private Bitmap? _ownerGhost;
     private SnapPreviewWindow? _preview;
+    private SnapGroupCaptionWindow? _groupCaption;
     private int _hotIndex = -1;
+    private const uint PrintWindowRenderFullContent = 2;
 
     #endregion
 
@@ -96,6 +103,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
                 _preview = null;
             }
 
+            DisposeOwnerGhost();
             for (int i = 0; i < _taskbarImages.Length; i++)
             {
                 Bitmap? image = _taskbarImages[i];
@@ -103,6 +111,13 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
                 {
                     image.Dispose();
                 }
+            }
+
+            DisposeGroupIcons();
+            if (_groupCaption != null)
+            {
+                _groupCaption.Dispose();
+                _groupCaption = null;
             }
 
             _applicationImage?.Dispose();
@@ -126,7 +141,11 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
         }
 
         _workArea = workArea;
+        _ownerWindow = ownerWindow;
+        DisposeOwnerGhost();
+        _cards = cards;
         _taskbarImages = KryptonSnapLayoutTaskbar.Collect(ownerWindow, _applicationImage);
+        LoadGroups(cards, workArea);
         Rectangle work = workArea.Width > 0 && workArea.Height > 0
             ? workArea
             : Screen.GetWorkingArea(anchorScreen);
@@ -284,7 +303,10 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
             int hot = HitTest(e.Location);
             if (hot >= 0)
             {
-                ZoneSelected?.Invoke(this, new KryptonSnapLayoutZoneEventArgs(_hits[hot].Zone));
+                ZoneHit hit = _hits[hot];
+                KryptonSnapLayoutZone[] cardZones = KryptonSnapGroupRegistry.SnapshotCardZones(_cards[hit.CardIndex]);
+                bool restoreGroup = IsGroupZone(hit.CardIndex, hit.ZoneIndex);
+                ZoneSelected?.Invoke(this, new KryptonSnapLayoutZoneEventArgs(hit.Zone, cardZones, hit.ZoneIndex, restoreGroup));
                 return;
             }
         }
@@ -451,12 +473,23 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
 
     private Bitmap? IconFor(int hitIndex)
     {
-        if (!KryptonManager.SnapLayoutValues.ShowIcon || hitIndex < 0 || hitIndex >= _hits.Count || _taskbarImages.Length == 0)
+        if (!KryptonManager.SnapLayoutValues.ShowIcon || hitIndex < 0 || hitIndex >= _hits.Count)
         {
             return null;
         }
 
         ZoneHit hit = _hits[hitIndex];
+        Bitmap? groupIcon = GroupIconFor(hit.CardIndex, hit.ZoneIndex);
+        if (groupIcon != null)
+        {
+            return groupIcon;
+        }
+
+        if (_taskbarImages.Length == 0)
+        {
+            return null;
+        }
+
         int formZone = FormZone(hit.CardIndex);
         if (hit.ZoneIndex == formZone)
         {
@@ -482,6 +515,146 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
         }
 
         return null;
+    }
+
+    private void LoadGroups(KryptonSnapLayoutCard[] cards, Rectangle workArea)
+    {
+        DisposeGroupIcons();
+        _groupsByCard = new KryptonSnapGroupMember[]?[cards.Length];
+        _groupIconsByCard = new Bitmap?[cards.Length][];
+        if (!KryptonManager.SnapLayoutValues.RememberGroups)
+        {
+            return;
+        }
+
+        for (int i = 0; i < cards.Length; i++)
+        {
+            KryptonSnapLayoutZone[] zones = KryptonSnapGroupRegistry.SnapshotCardZones(cards[i]);
+            if (!KryptonSnapGroupRegistry.TryGetGroup(zones, workArea, out KryptonSnapGroupMember[] members))
+            {
+                continue;
+            }
+
+            _groupsByCard[i] = members;
+            var icons = new Bitmap?[zones.Length];
+            for (int m = 0; m < members.Length; m++)
+            {
+                int zoneIndex = members[m].ZoneIndex;
+                if (zoneIndex < 0 || zoneIndex >= icons.Length)
+                {
+                    continue;
+                }
+
+                icons[zoneIndex] = CreateApplicationImage(members[m].Form.Icon);
+            }
+
+            _groupIconsByCard[i] = icons;
+        }
+    }
+
+    private void DisposeGroupIcons()
+    {
+        for (int card = 0; card < _groupIconsByCard.Length; card++)
+        {
+            Bitmap?[]? icons = _groupIconsByCard[card];
+            if (icons == null)
+            {
+                continue;
+            }
+
+            for (int i = 0; i < icons.Length; i++)
+            {
+                icons[i]?.Dispose();
+            }
+        }
+
+        _groupIconsByCard = Array.Empty<Bitmap?[]>();
+        _groupsByCard = Array.Empty<KryptonSnapGroupMember[]?>();
+    }
+
+    private Bitmap? GroupIconFor(int cardIndex, int zoneIndex)
+    {
+        if (cardIndex < 0 || cardIndex >= _groupIconsByCard.Length)
+        {
+            return null;
+        }
+
+        Bitmap?[]? icons = _groupIconsByCard[cardIndex];
+        if (icons == null || zoneIndex < 0 || zoneIndex >= icons.Length)
+        {
+            return null;
+        }
+
+        return icons[zoneIndex];
+    }
+
+    private bool IsGroupZone(int cardIndex, int zoneIndex)
+    {
+        if (cardIndex < 0 || cardIndex >= _groupsByCard.Length)
+        {
+            return false;
+        }
+
+        KryptonSnapGroupMember[]? members = _groupsByCard[cardIndex];
+        if (members == null)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < members.Length; i++)
+        {
+            if (members[i].ZoneIndex == zoneIndex)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void UpdateGroupCaption()
+    {
+        if (_hotIndex < 0 || _hotIndex >= _hits.Count || !KryptonManager.SnapLayoutValues.RememberGroups)
+        {
+            HideGroupCaption();
+            return;
+        }
+
+        int cardIndex = _hits[_hotIndex].CardIndex;
+        if (cardIndex < 0 || cardIndex >= _groupsByCard.Length || _groupsByCard[cardIndex] == null)
+        {
+            HideGroupCaption();
+            return;
+        }
+
+        KryptonSnapGroupMember[] members = _groupsByCard[cardIndex]!;
+        string caption = KryptonSnapGroupRegistry.FormatGroupCaption(members);
+        if (string.IsNullOrEmpty(caption))
+        {
+            HideGroupCaption();
+            return;
+        }
+
+        if (_groupCaption == null)
+        {
+            _groupCaption = new SnapGroupCaptionWindow(_palette);
+        }
+
+        Point screen = PointToScreen(new Point(0, 0));
+        _groupCaption.ShowAbove(new Rectangle(screen.X, screen.Y, Width, Height), caption);
+        if (IsHandleCreated)
+        {
+            PI.SetWindowPos(Handle, PI.HWND_TOPMOST, 0, 0, 0, 0,
+                PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE | PI.SWP_.NOSIZE | PI.SWP_.SHOWWINDOW);
+        }
+    }
+
+    private void HideGroupCaption()
+    {
+        if (_groupCaption != null && _groupCaption.Visible)
+        {
+            PI.ShowWindow(_groupCaption.Handle, PI.ShowWindowCommands.SW_HIDE);
+        }
     }
 
     /// <summary>
@@ -622,6 +795,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
 
         _hotIndex = hot;
         UpdatePreview();
+        UpdateGroupCaption();
         Invalidate();
     }
 
@@ -645,13 +819,79 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
 
         PreviewColors(out Color fill, out Color fill2, out Color border);
         Image? icon = IconFor(_hotIndex);
+        Image? ghost = null;
+        if (KryptonManager.SnapLayoutValues.ShowPreviewGhost)
+        {
+            ghost = EnsureOwnerGhost();
+            if (ghost != null)
+            {
+                icon = null;
+            }
+        }
+
         Rectangle target = KryptonSnapLayoutCatalog.ToScreen(_workArea, _hits[_hotIndex].Zone);
-        _preview.ShowAt(target, fill, fill2, border, KryptonManager.SnapLayoutValues.PreviewOpacity, icon);
+        _preview.ShowAt(target, fill, fill2, border, KryptonManager.SnapLayoutValues.PreviewOpacity, icon, ghost);
         if (IsHandleCreated)
         {
             PI.SetWindowPos(Handle, PI.HWND_TOPMOST, 0, 0, 0, 0,
                 PI.SWP_.NOACTIVATE | PI.SWP_.NOMOVE | PI.SWP_.NOSIZE | PI.SWP_.SHOWWINDOW);
         }
+    }
+
+    private Bitmap? EnsureOwnerGhost()
+    {
+        if (_ownerGhost != null)
+        {
+            return _ownerGhost;
+        }
+
+        if (_ownerWindow == IntPtr.Zero)
+        {
+            return null;
+        }
+
+        var rect = new PI.RECT();
+        if (!PI.GetWindowRect(_ownerWindow, ref rect))
+        {
+            return null;
+        }
+
+        int width = rect.right - rect.left;
+        int height = rect.bottom - rect.top;
+        if (width < 1 || height < 1)
+        {
+            return null;
+        }
+
+        var bitmap = new Bitmap(width, height);
+        bool captured;
+        using (Graphics g = Graphics.FromImage(bitmap))
+        {
+            IntPtr hdc = g.GetHdc();
+            try
+            {
+                captured = PI.PrintWindow(_ownerWindow, hdc, PrintWindowRenderFullContent);
+            }
+            finally
+            {
+                g.ReleaseHdc(hdc);
+            }
+        }
+
+        if (!captured)
+        {
+            bitmap.Dispose();
+            return null;
+        }
+
+        _ownerGhost = bitmap;
+        return _ownerGhost;
+    }
+
+    private void DisposeOwnerGhost()
+    {
+        _ownerGhost?.Dispose();
+        _ownerGhost = null;
     }
 
     private void PreviewColors(out Color fill, out Color fill2, out Color border)
@@ -857,6 +1097,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
         private Color _border = SystemColors.Highlight;
         private Color _fill2 = SystemColors.Highlight;
         private Image? _image;
+        private Image? _ghost;
 
         internal SnapPreviewWindow()
         {
@@ -879,7 +1120,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
             }
         }
 
-        internal void ShowAt(Rectangle screen, Color fill, Color fill2, Color border, float opacity, Image? applicationImage)
+        internal void ShowAt(Rectangle screen, Color fill, Color fill2, Color border, float opacity, Image? applicationImage, Image? ghostImage)
         {
             if (screen.Width < 1 || screen.Height < 1 || IsDisposed)
             {
@@ -889,6 +1130,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
             _border = border;
             _fill2 = fill2.IsEmpty ? fill : fill2;
             _image = applicationImage;
+            _ghost = ghostImage;
             BackColor = fill;
             if (opacity < 0f)
             {
@@ -929,7 +1171,12 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
             Rectangle bounds = ClientRectangle;
             bounds.Width = Math.Max(0, bounds.Width - 1);
             bounds.Height = Math.Max(0, bounds.Height - 1);
-            if (bounds.Width > 0 && bounds.Height > 0)
+            if (_ghost != null && bounds.Width > 0 && bounds.Height > 0)
+            {
+                e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                e.Graphics.DrawImage(_ghost, ClientRectangle);
+            }
+            else if (bounds.Width > 0 && bounds.Height > 0)
             {
                 using (Brush brush = CreateFillBrush(bounds))
                 {
@@ -945,7 +1192,7 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
                 }
             }
 
-            if (_image == null)
+            if (_ghost != null || _image == null)
             {
                 return;
             }
@@ -973,6 +1220,119 @@ internal sealed class VisualSnapLayoutPopup : VisualPopup
             }
 
             return new LinearGradientBrush(bounds, BackColor, _fill2, LinearGradientMode.Vertical);
+        }
+    }
+
+    /// <summary>
+    /// Small caption shown above the menu when a Snap Group is hot.
+    /// </summary>
+    private sealed class SnapGroupCaptionWindow : Form
+    {
+        private readonly PaletteBase _palette;
+        private string _caption = string.Empty;
+
+        internal SnapGroupCaptionWindow(PaletteBase palette)
+        {
+            _palette = palette;
+            FormBorderStyle = FormBorderStyle.None;
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.Manual;
+            ShowIcon = false;
+            ControlBox = false;
+            SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
+        }
+
+        /// <inheritdoc />
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= unchecked((int)(PI.WS_EX_.NOACTIVATE | PI.WS_EX_.TOOLWINDOW | PI.WS_EX_.TOPMOST));
+                return cp;
+            }
+        }
+
+        internal void ShowAbove(Rectangle popupScreen, string caption)
+        {
+            if (IsDisposed || string.IsNullOrEmpty(caption))
+            {
+                return;
+            }
+
+            _caption = caption;
+            Font font = _palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal)
+                ?? SystemFonts.DefaultFont;
+            Size textSize = TextRenderer.MeasureText(_caption, font, Size.Empty, TextFormatFlags.NoPadding);
+            int width = Math.Max(120, textSize.Width + 24);
+            int height = Math.Max(28, textSize.Height + 12);
+            int x = popupScreen.X + Math.Max(0, (popupScreen.Width - width) / 2);
+            int y = popupScreen.Y - height - 6;
+            Color back = _palette.GetBackColor1(PaletteBackStyle.ContextMenuOuter, PaletteState.Normal);
+            if (back.IsEmpty)
+            {
+                back = _palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+            }
+
+            if (back.IsEmpty)
+            {
+                back = SystemColors.ControlDarkDark;
+            }
+
+            BackColor = back;
+            if (!IsHandleCreated)
+            {
+                CreateControl();
+            }
+
+            if (!Visible)
+            {
+                Bounds = new Rectangle(x, y, width, height);
+                PI.ShowWindow(Handle, PI.ShowWindowCommands.SW_SHOWNOACTIVATE);
+            }
+            else
+            {
+                PI.SetWindowPos(Handle, PI.HWND_TOPMOST, x, y, width, height,
+                    PI.SWP_.NOACTIVATE | PI.SWP_.SHOWWINDOW);
+            }
+
+            Invalidate();
+        }
+
+        /// <inheritdoc />
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            Rectangle bounds = ClientRectangle;
+            Color border = _palette.GetBorderColor1(PaletteBorderStyle.ContextMenuOuter, PaletteState.Normal);
+            if (border.IsEmpty)
+            {
+                border = SystemColors.ControlDark;
+            }
+
+            using (var path = CreateRoundRect(bounds, 6f))
+            {
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                using (var brush = new SolidBrush(BackColor))
+                {
+                    e.Graphics.FillPath(brush, path);
+                }
+
+                using (var pen = new Pen(border))
+                {
+                    e.Graphics.DrawPath(pen, path);
+                }
+            }
+
+            Font font = _palette.GetContentShortTextFont(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal)
+                ?? SystemFonts.DefaultFont;
+            Color color = _palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, PaletteState.Normal);
+            if (color.IsEmpty)
+            {
+                color = SystemColors.ControlLightLight;
+            }
+
+            TextRenderer.DrawText(e.Graphics, _caption, font, bounds, color,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.NoPadding);
         }
     }
 }

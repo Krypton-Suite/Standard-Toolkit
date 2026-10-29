@@ -266,18 +266,36 @@ public sealed class KryptonSnapLayoutCardCollection : TypedCollection<KryptonSna
 }
 
 /// <summary>
-/// Event data for a chosen snap-layout zone.
+/// Event data for a chosen snap-layout zone or group restore.
 /// </summary>
 internal sealed class KryptonSnapLayoutZoneEventArgs : EventArgs
 {
     /// <summary>
-    /// Initializes event data for <paramref name="zone"/>.
+    /// Initializes event data for a single-zone snap or a group restore.
     /// </summary>
-    /// <param name="zone">Zone the user selected.</param>
-    internal KryptonSnapLayoutZoneEventArgs(KryptonSnapLayoutZone zone) => Zone = zone;
+    /// <param name="zone">Zone the user selected. For a group restore this is the hot zone.</param>
+    /// <param name="cardZones">All zones of the card, in left-to-right order.</param>
+    /// <param name="zoneIndex">Index of <paramref name="zone"/> in <paramref name="cardZones"/>.</param>
+    /// <param name="isGroupRestore"><see langword="true"/> to restore every live member of the group.</param>
+    internal KryptonSnapLayoutZoneEventArgs(KryptonSnapLayoutZone zone, KryptonSnapLayoutZone[] cardZones, int zoneIndex, bool isGroupRestore)
+    {
+        Zone = zone;
+        CardZones = cardZones ?? Array.Empty<KryptonSnapLayoutZone>();
+        ZoneIndex = zoneIndex;
+        IsGroupRestore = isGroupRestore;
+    }
 
     /// <summary>Gets the selected zone.</summary>
     internal KryptonSnapLayoutZone Zone { get; }
+
+    /// <summary>Gets the zones of the card.</summary>
+    internal KryptonSnapLayoutZone[] CardZones { get; }
+
+    /// <summary>Gets the index of <see cref="Zone"/> in <see cref="CardZones"/>.</summary>
+    internal int ZoneIndex { get; }
+
+    /// <summary>Gets a value indicating whether the click restores a Snap Group.</summary>
+    internal bool IsGroupRestore { get; }
 }
 
 /// <summary>

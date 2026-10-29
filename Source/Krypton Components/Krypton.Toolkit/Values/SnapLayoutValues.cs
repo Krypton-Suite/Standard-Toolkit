@@ -26,6 +26,7 @@ public class SnapLayoutValues : Storage
     private Size _cardSize = Size.Empty;
     private bool _showIcon = true;
     private bool _showPreview = true;
+    private bool _showPreviewGhost;
     private float _previewOpacity = 0.45f;
     private bool _showShadow = true;
     private Color _shadowColor = Color.Empty;
@@ -33,6 +34,8 @@ public class SnapLayoutValues : Storage
     private int _shadowOffset = 3;
     private int _shadowBlur;
     private bool _includeBuiltinLayouts = true;
+    private bool _rememberGroups = true;
+    private bool _showAssist = true;
     private readonly KryptonSnapLayoutCardCollection _customLayouts = new KryptonSnapLayoutCardCollection();
 
     #endregion
@@ -54,6 +57,7 @@ public class SnapLayoutValues : Storage
         ResetCardSize();
         ResetShowIcon();
         ResetShowPreview();
+        ResetShowPreviewGhost();
         ResetPreviewOpacity();
         ResetShowShadow();
         ResetShadowColor();
@@ -61,6 +65,8 @@ public class SnapLayoutValues : Storage
         ResetShadowOffset();
         ResetShadowBlur();
         ResetIncludeBuiltinLayouts();
+        ResetRememberGroups();
+        ResetShowAssist();
         ResetCustomLayouts();
     }
 
@@ -205,6 +211,26 @@ public class SnapLayoutValues : Storage
     private bool ShouldSerializeShowPreview() => !ShowPreview;
 
     private void ResetShowPreview() => ShowPreview = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the zone preview ghosts this form's window contents.
+    /// </summary>
+    /// <remarks>
+    /// The default is <see langword="false"/>. When <see langword="true"/> and <see cref="ShowPreview"/> is on,
+    /// the preview draws a scaled capture of the owning form in the hot zone instead of the palette fill and icon.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Ghost this form's window contents in the snap zone preview. Requires ShowPreview.")]
+    [DefaultValue(false)]
+    public bool ShowPreviewGhost
+    {
+        get => _showPreviewGhost;
+        set => _showPreviewGhost = value;
+    }
+
+    private bool ShouldSerializeShowPreviewGhost() => ShowPreviewGhost;
+
+    private void ResetShowPreviewGhost() => ShowPreviewGhost = false;
 
     /// <summary>
     /// Gets or sets the opacity of the snap-layout preview, from 0 (invisible) to 1 (opaque).
@@ -393,6 +419,45 @@ public class SnapLayoutValues : Storage
     private void ResetIncludeBuiltinLayouts() => IncludeBuiltinLayouts = true;
 
     /// <summary>
+    /// Gets or sets a value indicating whether toolkit snaps remember in-process Snap Groups.
+    /// </summary>
+    /// <remarks>
+    /// The default is <see langword="true"/>. When two or more live <see cref="KryptonForm"/> instances
+    /// share a card, the menu shows a Group caption and can restore them together.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Remember in-process Snap Groups of peer KryptonForms and restore them from the menu.")]
+    [DefaultValue(true)]
+    public bool RememberGroups
+    {
+        get => _rememberGroups;
+        set => _rememberGroups = value;
+    }
+
+    private bool ShouldSerializeRememberGroups() => !RememberGroups;
+
+    private void ResetRememberGroups() => RememberGroups = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating whether remaining zones offer peer forms after a toolkit snap.
+    /// </summary>
+    /// <remarks>
+    /// The default is <see langword="true"/>. Only other open <see cref="KryptonForm"/> windows in this process are offered.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"After a toolkit snap, offer peer KryptonForms for the remaining zones of the card.")]
+    [DefaultValue(true)]
+    public bool ShowAssist
+    {
+        get => _showAssist;
+        set => _showAssist = value;
+    }
+
+    private bool ShouldSerializeShowAssist() => !ShowAssist;
+
+    private void ResetShowAssist() => ShowAssist = true;
+
+    /// <summary>
     /// Gets the custom snap-layout cards appended after the builtin cards.
     /// </summary>
     /// <remarks>
@@ -424,6 +489,7 @@ public class SnapLayoutValues : Storage
                                       && !ShouldSerializeCardSize()
                                       && !ShouldSerializeShowIcon()
                                       && !ShouldSerializeShowPreview()
+                                      && !ShouldSerializeShowPreviewGhost()
                                       && !ShouldSerializePreviewOpacity()
                                       && !ShouldSerializeShowShadow()
                                       && !ShouldSerializeShadowColor()
@@ -431,6 +497,8 @@ public class SnapLayoutValues : Storage
                                       && !ShouldSerializeShadowOffset()
                                       && !ShouldSerializeShadowBlur()
                                       && !ShouldSerializeIncludeBuiltinLayouts()
+                                      && !ShouldSerializeRememberGroups()
+                                      && !ShouldSerializeShowAssist()
                                       && !ShouldSerializeCustomLayouts();
 
     #endregion

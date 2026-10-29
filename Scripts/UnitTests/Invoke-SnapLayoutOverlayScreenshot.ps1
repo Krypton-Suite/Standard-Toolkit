@@ -13,6 +13,8 @@
     powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-SnapLayoutOverlayScreenshot.ps1
 
     powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-SnapLayoutOverlayScreenshot.ps1 -CustomCard
+
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-SnapLayoutOverlayScreenshot.ps1 -Ghost
 #>
 [CmdletBinding()]
 param(
@@ -20,7 +22,8 @@ param(
     [string]$TargetFramework = 'net472',
     [string]$BinDir,
     [string]$OutputPath,
-    [switch]$CustomCard
+    [switch]$CustomCard,
+    [switch]$Ghost
 )
 
 $ErrorActionPreference = 'Stop'
@@ -29,7 +32,15 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Get-UnitTestRepoRoot
 $bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
 if (-not $OutputPath) {
-    $shotName = if ($CustomCard) { 'custom-snap-layouts-menu.png' } else { '4579-snap-layout-overlay.png' }
+    $shotName = if ($Ghost) {
+        '4579-snap-preview-ghost.png'
+    }
+    elseif ($CustomCard) {
+        'custom-snap-layouts-menu.png'
+    }
+    else {
+        '4579-snap-layout-overlay.png'
+    }
     $OutputPath = Join-Path $repoRoot (Join-Path 'Documents\PR' $shotName)
 }
 
@@ -250,7 +261,16 @@ internal static class SnapShotHost
 }
 '@
 $customSetup = ''
-if ($CustomCard) {
+if ($Ghost) {
+    $customSetup = @'
+            Krypton.Toolkit.KryptonManager.SnapLayoutValues.Mode = Krypton.Toolkit.KryptonSnapLayoutMode.Toolkit;
+            Krypton.Toolkit.KryptonManager.SnapLayoutValues.ShowPreview = true;
+            Krypton.Toolkit.KryptonManager.SnapLayoutValues.ShowPreviewGhost = true;
+            Krypton.Toolkit.KryptonManager.SnapLayoutValues.PreviewOpacity = 0.55f;
+            label.Values.Text = "ShowPreviewGhost stretches this window into the hot zone.";
+'@
+}
+elseif ($CustomCard) {
     $customSetup = @'
             Krypton.Toolkit.KryptonManager.SnapLayoutValues.Mode = Krypton.Toolkit.KryptonSnapLayoutMode.Toolkit;
             Krypton.Toolkit.KryptonManager.SnapLayoutValues.CustomLayouts.Clear();
