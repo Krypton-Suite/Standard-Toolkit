@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -35,11 +35,12 @@ internal class ViewDrawRibbonDesignGroupContainer : ViewDrawRibbonDesignBase
         // Use image list to convert background Magenta to transparent
         _imageList = new ImageList
         {
-            TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR
+            TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR
         };
         _imageList.Images.AddRange([
             GenericImageResources.KryptonRibbonGroupTriple,
             GenericImageResources.KryptonRibbonGroupLines,
+            GenericImageResources.KryptonRibbonGroupStack,
             GenericImageResources.KryptonRibbonGroupSeparator,
             GenericImageResources.KryptonGallery
         ]);
@@ -111,17 +112,19 @@ internal class ViewDrawRibbonDesignGroupContainer : ViewDrawRibbonDesignBase
             // Create child items
             var menuTriple = new ToolStripMenuItem("Add Triple", null, OnAddTriple);
             var menuLines = new ToolStripMenuItem("Add Lines", null, OnAddLines);
+            var menuStack = new ToolStripMenuItem("Add Stack", null, OnAddStack);
             var menuSeparator = new ToolStripMenuItem("Add Separator", null, OnAddSeparator);
             var menuGallery = new ToolStripMenuItem("Add Gallery", null, OnAddGallery);
 
             // Assign correct images
             menuTriple.ImageIndex = 0;
             menuLines.ImageIndex = 1;
-            menuSeparator.ImageIndex = 2;
-            menuGallery.ImageIndex = 3;
+            menuStack.ImageIndex = 2;
+            menuSeparator.ImageIndex = 3;
+            menuGallery.ImageIndex = 4;
 
             // Finally, add all items to the strip
-            _cms.Items.AddRange(new ToolStripItem[] { menuTriple, menuLines, menuSeparator, menuGallery });
+            _cms.Items.AddRange(new ToolStripItem[] { menuTriple, menuLines, menuStack, menuSeparator, menuGallery });
         }
 
         if (CommonHelper.ValidContextMenuStrip(_cms))
@@ -139,6 +142,8 @@ internal class ViewDrawRibbonDesignGroupContainer : ViewDrawRibbonDesignBase
     private void OnAddTriple(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddTriple();
 
     private void OnAddLines(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddLines();
+
+    private void OnAddStack(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddStack();
 
     private void OnAddSeparator(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddSeparator();
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -43,9 +43,9 @@ internal class MaskedTextBoxController : GlobalId,
         Debug.Assert(maskedTextBox is not null);
         Debug.Assert(target is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _maskedTextBox = maskedTextBox ?? throw new ArgumentNullException(nameof(maskedTextBox));
-        _target = target ?? throw new ArgumentNullException(nameof(target));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _maskedTextBox = maskedTextBox ?? ThrowHelper.ThrowArgumentNullException(maskedTextBox);
+        _target = target ?? ThrowHelper.ThrowArgumentNullException(target);
     }
     #endregion
 
@@ -157,15 +157,15 @@ internal class MaskedTextBoxController : GlobalId,
 
         if (ribbon is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.ParameterCannotBeNull(nameof(ribbon)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.ParameterCannotBeNull(nameof(ribbon)));
         }
 
         if (ribbon.TabsArea is null)
         {
-            throw new NullReferenceException(GlobalStaticValues.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
+            ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.PropertyCannotBeNull(nameof(ribbon.TabsArea)));
         }
 
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:
@@ -215,7 +215,7 @@ internal class MaskedTextBoxController : GlobalId,
 
     private void KeyDownPopupGroup(VisualPopupGroup popupGroup, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:
@@ -230,7 +230,7 @@ internal class MaskedTextBoxController : GlobalId,
 
     private void KeyDownPopupMinimized(VisualPopupMinimized popupMinimized, KeyEventArgs e)
     {
-        switch (e.KeyData)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyData, RibbonRtlLayout.IsRtl(_ribbon)))
         {
             case Keys.Tab | Keys.Shift:
             case Keys.Left:

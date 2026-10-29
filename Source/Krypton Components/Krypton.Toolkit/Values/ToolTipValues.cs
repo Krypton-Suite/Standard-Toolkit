@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -20,14 +20,32 @@ namespace Krypton.Toolkit;
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class ToolTipValues : HeaderValues
 {
+    #region Instance Fields
+
     private int _showIntervalDelay = 500;
     private int _closeIntervalDelay = 5000;
     private LabelStyle _toolTipStyle = LabelStyle.SuperTip;
+    private Control? _hostedContent;
+
+    #endregion
+
+    #region Events
+
+    /// <summary>Raised when <see cref="ShowIntervalDelay"/> changes.</summary>
+    public event EventHandler? ShowIntervalDelayChanged;
+
+    /// <summary>Raised when <see cref="CloseIntervalDelay"/> changes.</summary>
+    public event EventHandler? CloseIntervalDelayChanged;
+
+    #endregion
+
+    #region Identity
 
     /// <summary>
+    /// Initializes a new instance of the ToolTipValues class with the specified paint notification handler and DPI factor provider.
     /// </summary>
-    /// <param name="needPaint"></param>
-    /// <param name="getDpiFactor"></param>
+    /// <param name="needPaint">A delegate used to notify when a repaint is required. Can be null if paint notifications are not needed.</param>
+    /// <param name="getDpiFactor">A delegate that provides the current DPI scaling factor for rendering.</param>
     public ToolTipValues(NeedPaintHandler? needPaint, GetDpiFactor getDpiFactor)
         : base(needPaint, getDpiFactor)
     {
@@ -35,20 +53,37 @@ public class ToolTipValues : HeaderValues
         ToolTipPosition = new PopupPositionValues();
     }
 
+    #endregion
+
+    #region Protected Overrides
+
     /// <inheritdoc />
     protected override Image? GetImageDefault() => null;
 
+    #endregion
+
+    #region Public
+
     #region EnableToolTips
     /// <summary>
-    /// Make sure default values are         
     /// Gets and sets the EnableToolTips
     /// </summary>
-    [DefaultValue(false)]
     public bool EnableToolTips { get; set; }
 
-    private bool ShouldSerializeEnableToolTips() => EnableToolTips;
+    private bool _defaultEnableToolTips;
 
-    private void ResetEnableToolTips() => EnableToolTips = false;
+    private bool ShouldSerializeEnableToolTips() => EnableToolTips != _defaultEnableToolTips;
+
+    private void ResetEnableToolTips() => EnableToolTips = _defaultEnableToolTips;
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="EnableToolTips"/>.
+    /// </summary>
+    internal void SetDefaultEnableToolTips(bool value)
+    {
+        _defaultEnableToolTips = value;
+        EnableToolTips = value;
+    }
     #endregion
 
     #region ToolTipShadow
@@ -115,8 +150,12 @@ public class ToolTipValues : HeaderValues
                 value = 1;
             }
 
-            _showIntervalDelay = value;
-            // TODO: Raise an event to cause the tooltipMgr to update !
+            if (_showIntervalDelay != value)
+            {
+                _showIntervalDelay = value;
+
+                ShowIntervalDelayChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
@@ -126,31 +165,109 @@ public class ToolTipValues : HeaderValues
     #endregion
 
     #region CloseIntervalDelay
+
     /// <summary>
-    /// Gets and sets the tooltip label style.
+    /// Gets and sets the interval (in milliseconds) before a tooltip is closed.
+    /// Use 0 for infinite display (tooltip stays until the pointer leaves the control).
     /// </summary>
     [Category(@"ToolTip")]
-    [Description(@"Interval (in millisecs) before a tooltip is closed\n[Currently ONLY designer values used]")]
+    [Description("Interval (in millisecs) before a tooltip is closed. Use 0 for infinite.\n[Currently ONLY designer values used]")]
     [DefaultValue(5000)]
     public int CloseIntervalDelay
     {
         get => _closeIntervalDelay;
         set
         {
-            // Cannot have an interval less than 1ms
+            // 0 = infinite; negative values are clamped to 0
             if (value < 0)
             {
-                value = 1;
+                value = 0;
             }
 
-            _closeIntervalDelay = value;
-            // TODO: Raise an event to cause the tooltipMgr to update !
+            if (_closeIntervalDelay != value)
+            {
+                _closeIntervalDelay = value;
+
+                CloseIntervalDelayChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
     private bool ShouldSerializeCloseIntervalDelay() => _closeIntervalDelay != 5000;
 
     private void ResetCloseIntervalDelay() => CloseIntervalDelay = 5000;
+
+    #endregion
+
+    #region HostedContent
+    /// <summary>
+    /// Optional control shown inside the tooltip chrome (interactive). Not designer-serialized.
+    /// Cannot be a <see cref="Form"/>. The tooltip unparents the control while shown and does not dispose it.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [DefaultValue(null)]
+    public Control? HostedContent
+    {
+        get => _hostedContent;
+        set
+        {
+            if (value is Form)
+            {
+                ThrowHelper.ThrowArgumentException(@"A Form cannot be hosted inside a tooltip.", nameof(value));
+            }
+
+            _hostedContent = value;
+        }
+    }
+
+    private bool ShouldSerializeHostedContent() => HostedContent != null;
+
+    private void ResetHostedContent() => HostedContent = null;
+    #endregion
+
+    #region EnableInteractiveKeyboard
+    /// <summary>
+    /// When true, an interactive hosted tooltip receives keyboard input (Escape dismisses). Default is false so hover does not steal typing.
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"When true, hosted-control tooltips receive keyboard input (Escape dismisses).")]
+    [DefaultValue(false)]
+    public bool EnableInteractiveKeyboard { get; set; }
+
+    private bool ShouldSerializeEnableInteractiveKeyboard() => EnableInteractiveKeyboard;
+
+    private void ResetEnableInteractiveKeyboard() => EnableInteractiveKeyboard = false;
+    #endregion
+
+    #region UseCloseTimerForInteractive
+    /// <summary>
+    /// When true, <see cref="CloseIntervalDelay"/> also applies to hosted-control tooltips. Default is false (stay until leave or click-away).
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"When true, CloseIntervalDelay applies to interactive hosted-control tooltips.")]
+    [DefaultValue(false)]
+    public bool UseCloseTimerForInteractive { get; set; }
+
+    private bool ShouldSerializeUseCloseTimerForInteractive() => UseCloseTimerForInteractive;
+
+    private void ResetUseCloseTimerForInteractive() => UseCloseTimerForInteractive = false;
+    #endregion
+
+    #region DismissInteractiveOnTargetMouseDown
+    /// <summary>
+    /// When true, mouse-down on the hover target dismisses an interactive tooltip. Default is false.
+    /// </summary>
+    [Category(@"ToolTip")]
+    [Description(@"When true, clicking the hover target dismisses an interactive tooltip.")]
+    [DefaultValue(false)]
+    public bool DismissInteractiveOnTargetMouseDown { get; set; }
+
+    private bool ShouldSerializeDismissInteractiveOnTargetMouseDown() => DismissInteractiveOnTargetMouseDown;
+
+    private void ResetDismissInteractiveOnTargetMouseDown() => DismissInteractiveOnTargetMouseDown = false;
+    #endregion
+
     #endregion
 
     #region IsDefault
@@ -168,6 +285,10 @@ public class ToolTipValues : HeaderValues
         ResetDescription();
         ResetShowIntervalDelay();
         ResetCloseIntervalDelay();
+        ResetHostedContent();
+        ResetEnableInteractiveKeyboard();
+        ResetUseCloseTimerForInteractive();
+        ResetDismissInteractiveOnTargetMouseDown();
     }
 
     /// <summary>
@@ -180,6 +301,10 @@ public class ToolTipValues : HeaderValues
                                       && !ShouldSerializeToolTipPosition()
                                       && !ShouldSerializeShowIntervalDelay()
                                       && !ShouldSerializeCloseIntervalDelay()
+                                      && !ShouldSerializeHostedContent()
+                                      && !ShouldSerializeEnableInteractiveKeyboard()
+                                      && !ShouldSerializeUseCloseTimerForInteractive()
+                                      && !ShouldSerializeDismissInteractiveOnTargetMouseDown()
                                       && base.IsDefault
     ;
     #endregion

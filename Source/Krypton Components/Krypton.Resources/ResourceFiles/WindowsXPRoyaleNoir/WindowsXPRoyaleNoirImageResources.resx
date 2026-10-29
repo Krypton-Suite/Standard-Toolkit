@@ -1,0 +1,1243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="DARKROYALEBALLOONCLOSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEBALLOONCLOSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECAPTIONBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECAPTIONBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECheckbox13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECheckbox13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECheckbox16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECheckbox16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECheckbox25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECheckbox25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECHEVRONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECHEVRONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECLOSEBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECLOSEBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECloseglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECloseglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECloseglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECloseglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECloseglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECloseglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECloseglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECloseglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECLOSEGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECLOSEGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECOMBOBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECOMBOBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALECOMBOBUTTONGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALECOMBOBUTTONGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEEXPLORERBARHEADERBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEEXPLORERBARHEADERBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEEXPLORERBARHEADERCLOSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEEXPLORERBARHEADERCLOSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEEXPLORERBARHEADERPINBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEEXPLORERBARHEADERPINBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEEXPLORERBARTOOLBARBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEEXPLORERBARTOOLBARBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEEXPLORERBARTOOLBARBUTTONSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEEXPLORERBARTOOLBARBUTTONSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEEXPLORERBARTOOLBARBUTTONSSPLITBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEEXPLORERBARTOOLBARBUTTONSSPLITBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEEXPLORERBARTOOLBARBUTTONSSPLITDROPDOWNBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEEXPLORERBARTOOLBARBUTTONSSPLITDROPDOWNBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEFIELDOUTLINEBLUEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEFIELDOUTLINEBLUEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEFRAMEBOTTOMBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEFRAMEBOTTOMBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEFRAMECAPTIONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEFRAMECAPTIONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEFRAMECAPTIONMINBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEFRAMECAPTIONMINBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEFRAMECAPTIONSIZINGBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEFRAMECAPTIONSIZINGBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEFRAMELEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEFRAMELEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEFRAMEMAXIMIZEDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEFRAMEMAXIMIZEDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEFRAMERIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEFRAMERIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEGRIPPERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEGRIPPERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEGRIPPERVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEGRIPPERVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEGROUPBOXBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEGROUPBOXBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEHelpglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEHelpglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEHelpglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEHelpglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEHelpglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEHelpglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEHelpglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEHelpglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEHELPGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEHELPGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEIEPERSONALBARMENUBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEIEPERSONALBARMENUBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALELISTVIEWHEADERBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALELISTVIEWHEADERBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALELISTVIEWHEADERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALELISTVIEWHEADERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMaximizeglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMaximizeglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMaximizeglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMaximizeglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMaximizeglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMaximizeglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMaximizeglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMaximizeglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMAXIMIZEGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMAXIMIZEGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMDICAPTIONBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMDICAPTIONBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMDIGLYPHCLOSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMDIGLYPHCLOSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMDIGLYPHMINIMIZEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMDIGLYPHMINIMIZEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMDIGLYPHRESTOREBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMDIGLYPHRESTOREBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMinimizeglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMinimizeglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMinimizeglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMinimizeglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMinimizeglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMinimizeglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMinimizeglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMinimizeglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEMINIMIZEGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEMINIMIZEGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALENORMALGROUPBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALENORMALGROUPBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALENORMALGROUPCOLLAPSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALENORMALGROUPCOLLAPSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALENORMALGROUPEXPANDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALENORMALGROUPEXPANDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALENORMALGROUPHEADBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALENORMALGROUPHEADBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEPLACEBARBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEPLACEBARBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEPLACEBARBUTTONSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEPLACEBARBUTTONSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEPROGRESSCHUNKBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEPROGRESSCHUNKBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEPROGRESSCHUNKVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEPROGRESSCHUNKVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEPROGRESSTRACKBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEPROGRESSTRACKBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEPROGRESSTRACKVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEPROGRESSTRACKVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALERadiobutton13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALERadiobutton13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALERadiobutton16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALERadiobutton16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALERadiobutton25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALERadiobutton25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEResizegrip2Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEResizegrip2Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALERestoreglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALERestoreglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALERestoreglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALERestoreglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALERestoreglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALERestoreglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALERestoreglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALERestoreglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALERESTOREGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALERESTOREGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESCROLLARROWGLYPHSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESCROLLARROWGLYPHSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESCROLLARROWGLYPHSSMALLBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESCROLLARROWGLYPHSSMALLBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESCROLLARROWSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESCROLLARROWSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESCROLLSHAFTHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESCROLLSHAFTHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESCROLLSHAFTVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESCROLLSHAFTVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESCROLLTHUMBGRIPPERHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESCROLLTHUMBGRIPPERHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESCROLLTHUMBGRIPPERVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESCROLLTHUMBGRIPPERVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESCROLLTHUMBHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESCROLLTHUMBHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESCROLLTHUMBVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESCROLLTHUMBVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESEPARATORBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESEPARATORBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESEPARATORVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESEPARATORVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESLIDERTRACKBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESLIDERTRACKBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESMALLCLOSEBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESMALLCLOSEBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESMALLCLOSEGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESMALLCLOSEGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESMALLFRAMECAPTIONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESMALLFRAMECAPTIONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESMALLFRAMECAPTIONSIZINGBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESMALLFRAMECAPTIONSIZINGBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPECIALGROUPBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPECIALGROUPBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPECIALGROUPCOLLAPSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPECIALGROUPCOLLAPSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPECIALGROUPEXPANDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPECIALGROUPEXPANDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPECIALGROUPHEADBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPECIALGROUPHEADBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPINBUTTONBACKGROUNDDOWNBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPINBUTTONBACKGROUNDDOWNBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPINBUTTONBACKGROUNDLEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPINBUTTONBACKGROUNDLEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPINBUTTONBACKGROUNDRIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPINBUTTONBACKGROUNDRIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPINBUTTONBACKGROUNDUPBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPINBUTTONBACKGROUNDUPBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPINDOWNGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPINDOWNGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPINLEFTGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPINLEFTGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPINRIGHTGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPINRIGHTGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESPINUPGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESPINUPGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTGROUPBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTGROUPBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTGROUPNEWAPPBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTGROUPNEWAPPBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTGROUPSEPERATORBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTGROUPSEPERATORBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTGROUPTOOLBARBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTGROUPTOOLBARBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPANELLOGOFFBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPANELLOGOFFBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPANELLOGOFFBUTTONSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPANELLOGOFFBUTTONSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPANELLOGOFFBUTTONSHOTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPANELLOGOFFBUTTONSHOTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPANELMFUBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPANELMFUBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPANELMOREPROGARROWBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPANELMOREPROGARROWBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPANELMOREPROGARROWHOTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPANELMOREPROGARROWHOTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPANELMOREPROGBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPANELMOREPROGBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPANELPLACESBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPANELPLACESBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPLACESSEPARATORBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPLACESSEPARATORBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTPROGRAMSSEPARATORBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTPROGRAMSSEPARATORBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTARTUSERPANELBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTARTUSERPANELBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTATUSBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTATUSBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALESTATUSPANEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALESTATUSPANEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETabbackground133Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETabbackground133Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABITEMBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABITEMBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABITEMBOTHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABITEMBOTHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABITEMLEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABITEMLEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABITEMRIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABITEMRIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABITEMTOPBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABITEMTOPBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABITEMTOPBOTHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABITEMTOPBOTHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABITEMTOPLEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABITEMTOPLEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABITEMTOPRIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABITEMTOPRIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETABPANEEDGEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETABPANEEDGEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDBUTTONNOEDGEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDBUTTONNOEDGEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDBUTTONNOEDGEVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDBUTTONNOEDGEVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDBUTTONVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDBUTTONVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDFLASHBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDFLASHBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDFLASHBUTTONGROUPMENUBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDFLASHBUTTONGROUPMENUBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDHOVERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDHOVERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDSCROLLARROWGLYPHSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDSCROLLARROWGLYPHSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDSCROLLARROWSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDSCROLLARROWSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDSCROLLSHAFTHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDSCROLLSHAFTHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDSCROLLSHAFTVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDSCROLLSHAFTVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDSCROLLTHUMBGRIPPERHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDSCROLLTHUMBGRIPPERHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDSCROLLTHUMBGRIPPERVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDSCROLLTHUMBGRIPPERVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDSCROLLTHUMBHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDSCROLLTHUMBHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBANDSCROLLTHUMBVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBANDSCROLLTHUMBVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARBACKGROUNDVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARBACKGROUNDVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARCHEVRONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARCHEVRONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARCHEVRONVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARCHEVRONVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARGRIPPERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARGRIPPERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARGRIPPERVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARGRIPPERVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARSIZINGBARBOTTOMBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARSIZINGBARBOTTOMBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARSIZINGBARLEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARSIZINGBARLEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARSIZINGBARRIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARSIZINGBARRIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARSIZINGBARTOPBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARSIZINGBARTOPBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARTRAYBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARTRAYBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETASKBARTRAYVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETASKBARTRAYVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETOOLBARBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETOOLBARBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETOOLBARBUTTONSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETOOLBARBUTTONSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETOOLBARBUTTONSSPLITBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETOOLBARBUTTONSSPLITBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETOOLBARBUTTONSSPLITDROPDOWNBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETOOLBARBUTTONSSPLITDROPDOWNBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETOOLBARBUTTONSSPLITDROPDOWNGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETOOLBARBUTTONSSPLITDROPDOWNGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETOOLBARGRIPPERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETOOLBARGRIPPERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETOOLBARGRIPPERVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETOOLBARGRIPPERVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbardown13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbardown13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbardown16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbardown16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbardown25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbardown25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETRACKBARHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETRACKBARHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbarleft13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbarleft13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbarleft16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbarleft16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbarleft25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbarleft25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbarright13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbarright13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbarright16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbarright16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbarright25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbarright25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbarup13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbarup13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbarup16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbarup16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETrackbarup25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETrackbarup25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETRACKBARVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETRACKBARVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETRAYCHEVRONHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETRAYCHEVRONHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETRAYCHEVRONHORIZONTALOPENBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETRAYCHEVRONHORIZONTALOPENBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETreeexpandcollapse10Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETreeexpandcollapse10Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETreeexpandcollapse15Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETreeexpandcollapse15Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALETREEEXPANDCOLLAPSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALETREEEXPANDCOLLAPSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALEUSERTILEBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALEUSERTILEBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DARKROYALE_GRIPPER_BMP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\DARKROYALE_GRIPPER_BMP.dib;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ROYALEBALLOONCLOSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEBALLOONCLOSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECAPTIONBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECAPTIONBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECheckbox13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECheckbox13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECheckbox16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECheckbox16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECheckbox25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECheckbox25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECHEVRONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECHEVRONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECLOSEBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECLOSEBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECloseglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECloseglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECloseglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECloseglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECloseglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECloseglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECloseglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECloseglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECLOSEGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECLOSEGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECOMBOBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECOMBOBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALECOMBOBUTTONGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALECOMBOBUTTONGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEEXPLORERBARHEADERBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEEXPLORERBARHEADERBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEEXPLORERBARHEADERCLOSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEEXPLORERBARHEADERCLOSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEEXPLORERBARHEADERPINBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEEXPLORERBARHEADERPINBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEEXPLORERBARTOOLBARBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEEXPLORERBARTOOLBARBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEEXPLORERBARTOOLBARBUTTONSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEEXPLORERBARTOOLBARBUTTONSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEEXPLORERBARTOOLBARBUTTONSSPLITBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEEXPLORERBARTOOLBARBUTTONSSPLITBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEEXPLORERBARTOOLBARBUTTONSSPLITDROPDOWNBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEEXPLORERBARTOOLBARBUTTONSSPLITDROPDOWNBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEFIELDOUTLINEBLUEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEFIELDOUTLINEBLUEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEFRAMEBOTTOMBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEFRAMEBOTTOMBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEFRAMECAPTIONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEFRAMECAPTIONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEFRAMECAPTIONMINBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEFRAMECAPTIONMINBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEFRAMECAPTIONSIZINGBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEFRAMECAPTIONSIZINGBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEFRAMELEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEFRAMELEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEFRAMEMAXIMIZEDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEFRAMEMAXIMIZEDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEFRAMERIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEFRAMERIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEGRIPPERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEGRIPPERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEGRIPPERVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEGRIPPERVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEGROUPBOXBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEGROUPBOXBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEHelpglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEHelpglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEHelpglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEHelpglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEHelpglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEHelpglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEHelpglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEHelpglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEHELPGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEHELPGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEIEPERSONALBARMENUBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEIEPERSONALBARMENUBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALELISTVIEWHEADERBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALELISTVIEWHEADERBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALELISTVIEWHEADERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALELISTVIEWHEADERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMaximizeglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMaximizeglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMaximizeglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMaximizeglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMaximizeglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMaximizeglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMaximizeglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMaximizeglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMAXIMIZEGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMAXIMIZEGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMDICAPTIONBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMDICAPTIONBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMDIGLYPHCLOSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMDIGLYPHCLOSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMDIGLYPHMINIMIZEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMDIGLYPHMINIMIZEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMDIGLYPHRESTOREBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMDIGLYPHRESTOREBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMinimizeglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMinimizeglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMinimizeglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMinimizeglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMinimizeglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMinimizeglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMinimizeglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMinimizeglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEMINIMIZEGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEMINIMIZEGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALENORMALGROUPBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALENORMALGROUPBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALENORMALGROUPCOLLAPSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALENORMALGROUPCOLLAPSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALENORMALGROUPEXPANDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALENORMALGROUPEXPANDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALENORMALGROUPHEADBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALENORMALGROUPHEADBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEPLACEBARBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEPLACEBARBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEPLACEBARBUTTONSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEPLACEBARBUTTONSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEPROGRESSCHUNKBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEPROGRESSCHUNKBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEPROGRESSCHUNKVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEPROGRESSCHUNKVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEPROGRESSTRACKBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEPROGRESSTRACKBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEPROGRESSTRACKVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEPROGRESSTRACKVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALERadiobutton13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALERadiobutton13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALERadiobutton16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALERadiobutton16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALERadiobutton25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALERadiobutton25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEResizegrip2Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEResizegrip2Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALERestoreglyph6Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALERestoreglyph6Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALERestoreglyph9Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALERestoreglyph9Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALERestoreglyph19Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALERestoreglyph19Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALERestoreglyph23Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALERestoreglyph23Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALERESTOREGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALERESTOREGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESCROLLARROWGLYPHSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESCROLLARROWGLYPHSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESCROLLARROWGLYPHSSMALLBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESCROLLARROWGLYPHSSMALLBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESCROLLARROWSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESCROLLARROWSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESCROLLSHAFTHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESCROLLSHAFTHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESCROLLSHAFTVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESCROLLSHAFTVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESCROLLTHUMBGRIPPERHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESCROLLTHUMBGRIPPERHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESCROLLTHUMBGRIPPERVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESCROLLTHUMBGRIPPERVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESCROLLTHUMBHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESCROLLTHUMBHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESCROLLTHUMBVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESCROLLTHUMBVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESEPARATORBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESEPARATORBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESEPARATORVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESEPARATORVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESLIDERTRACKBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESLIDERTRACKBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESMALLCLOSEBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESMALLCLOSEBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESMALLCLOSEGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESMALLCLOSEGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESMALLFRAMECAPTIONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESMALLFRAMECAPTIONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESMALLFRAMECAPTIONSIZINGBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESMALLFRAMECAPTIONSIZINGBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPECIALGROUPBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPECIALGROUPBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPECIALGROUPCOLLAPSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPECIALGROUPCOLLAPSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPECIALGROUPEXPANDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPECIALGROUPEXPANDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPECIALGROUPHEADBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPECIALGROUPHEADBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPINBUTTONBACKGROUNDDOWNBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPINBUTTONBACKGROUNDDOWNBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPINBUTTONBACKGROUNDLEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPINBUTTONBACKGROUNDLEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPINBUTTONBACKGROUNDRIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPINBUTTONBACKGROUNDRIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPINBUTTONBACKGROUNDUPBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPINBUTTONBACKGROUNDUPBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPINDOWNGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPINDOWNGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPINLEFTGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPINLEFTGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPINRIGHTGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPINRIGHTGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESPINUPGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESPINUPGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTGROUPBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTGROUPBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTGROUPNEWAPPBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTGROUPNEWAPPBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTGROUPSEPERATORBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTGROUPSEPERATORBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTGROUPTOOLBARBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTGROUPTOOLBARBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPANELLOGOFFBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPANELLOGOFFBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPANELLOGOFFBUTTONSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPANELLOGOFFBUTTONSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPANELLOGOFFBUTTONSHOTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPANELLOGOFFBUTTONSHOTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPANELMFUBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPANELMFUBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPANELMOREPROGARROWBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPANELMOREPROGARROWBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPANELMOREPROGARROWHOTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPANELMOREPROGARROWHOTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPANELMOREPROGBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPANELMOREPROGBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPANELPLACESBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPANELPLACESBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPLACESSEPARATORBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPLACESSEPARATORBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTPROGRAMSSEPARATORBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTPROGRAMSSEPARATORBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTARTUSERPANELBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTARTUSERPANELBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTATUSBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTATUSBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALESTATUSPANEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALESTATUSPANEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETabbackground133Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETabbackground133Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABITEMBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABITEMBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABITEMBOTHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABITEMBOTHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABITEMLEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABITEMLEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABITEMRIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABITEMRIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABITEMTOPBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABITEMTOPBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABITEMTOPBOTHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABITEMTOPBOTHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABITEMTOPLEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABITEMTOPLEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABITEMTOPRIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABITEMTOPRIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETABPANEEDGEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETABPANEEDGEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDBUTTONNOEDGEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDBUTTONNOEDGEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDBUTTONNOEDGEVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDBUTTONNOEDGEVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDBUTTONVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDBUTTONVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDFLASHBUTTONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDFLASHBUTTONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDFLASHBUTTONGROUPMENUBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDFLASHBUTTONGROUPMENUBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDHOVERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDHOVERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDSCROLLARROWGLYPHSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDSCROLLARROWGLYPHSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDSCROLLARROWSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDSCROLLARROWSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDSCROLLSHAFTHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDSCROLLSHAFTHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDSCROLLSHAFTVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDSCROLLSHAFTVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDSCROLLTHUMBGRIPPERHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDSCROLLTHUMBGRIPPERHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDSCROLLTHUMBGRIPPERVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDSCROLLTHUMBGRIPPERVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDSCROLLTHUMBHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDSCROLLTHUMBHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBANDSCROLLTHUMBVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBANDSCROLLTHUMBVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARBACKGROUNDVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARBACKGROUNDVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARCHEVRONBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARCHEVRONBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARCHEVRONVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARCHEVRONVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARGRIPPERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARGRIPPERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARGRIPPERVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARGRIPPERVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARSIZINGBARBOTTOMBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARSIZINGBARBOTTOMBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARSIZINGBARLEFTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARSIZINGBARLEFTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARSIZINGBARRIGHTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARSIZINGBARRIGHTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARSIZINGBARTOPBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARSIZINGBARTOPBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARTRAYBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARTRAYBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETASKBARTRAYVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETASKBARTRAYVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETOOLBARBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETOOLBARBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETOOLBARBUTTONSBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETOOLBARBUTTONSBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETOOLBARBUTTONSSPLITBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETOOLBARBUTTONSSPLITBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETOOLBARBUTTONSSPLITDROPDOWNBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETOOLBARBUTTONSSPLITDROPDOWNBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETOOLBARBUTTONSSPLITDROPDOWNGLYPHBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETOOLBARBUTTONSSPLITDROPDOWNGLYPHBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETOOLBARGRIPPERBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETOOLBARGRIPPERBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETOOLBARGRIPPERVERTBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETOOLBARGRIPPERVERTBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbardown13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbardown13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbardown16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbardown16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbardown25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbardown25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETRACKBARHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETRACKBARHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbarleft13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbarleft13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbarleft16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbarleft16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbarleft25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbarleft25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbarright13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbarright13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbarright16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbarright16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbarright25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbarright25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbarup13Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbarup13Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbarup16Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbarup16Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETrackbarup25Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETrackbarup25Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETRACKBARVERTICALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETRACKBARVERTICALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETRAYCHEVRONHORIZONTALBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETRAYCHEVRONHORIZONTALBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETRAYCHEVRONHORIZONTALOPENBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETRAYCHEVRONHORIZONTALOPENBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETreeexpandcollapse10Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETreeexpandcollapse10Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETreeexpandcollapse15Bmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETreeexpandcollapse15Bmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALETREEEXPANDCOLLAPSEBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALETREEEXPANDCOLLAPSEBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALEUSERTILEBACKGROUNDBmp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALEUSERTILEBACKGROUNDBmp.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ROYALE_GRIPPER_BMP" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\..\Resources\ROYALE_GRIPPER_BMP.dib;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -239,12 +239,12 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
 
         if (page is null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
         }
 
         if (property is null)
         {
-            throw new ArgumentNullException(nameof(property));
+            ThrowHelper.ThrowArgumentNullException(nameof(property));
         }
 
         switch (property)
@@ -927,6 +927,8 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
             case @"ContextButtonDisplay":
             case @"CloseButtonDisplay":
             case nameof(ButtonDisplayLogic):
+            case nameof(KryptonNavigator.Owner):
+            case nameof(KryptonNavigator.ControlKryptonFormFeatures):
                 _buttonManager?.RecreateButtons();
                 Navigator.PerformNeedPaint(true);
                 break;
@@ -1210,7 +1212,7 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
     private void OnCheckButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e)
     {
         // Cast incoming reference to the actual button view
-        var reorderItem = sender as INavCheckItem ?? throw new ArgumentNullException(nameof(sender));
+        var reorderItem =sender as INavCheckItem ?? ThrowHelper.ThrowArgumentNullException(sender as INavCheckItem, nameof(sender));
         var reorderView = reorderItem.View;
 
         // Scan the collection of children

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -25,6 +25,7 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
     private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
     private readonly Padding _smallImagePadding; // = new(3);
     private readonly KryptonRibbon _ribbon;
+    private bool? _overflowCopy;
     private ViewLayoutRibbonCheckBox _viewLarge;
     private ViewDrawRibbonGroupCheckBoxImage _viewLargeImage;
     private ViewDrawRibbonGroupCheckBoxText _viewLargeText1;
@@ -58,9 +59,9 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupCheckBox = ribbonCheckBox ?? throw new ArgumentNullException(nameof(ribbonCheckBox));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupCheckBox = ribbonCheckBox ?? ThrowHelper.ThrowArgumentNullException(ribbonCheckBox);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupCheckBox.ItemSizeCurrent;
 
         // Create delegate used to process end of click action
@@ -107,7 +108,10 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
                 GroupCheckBox.PropertyChanged -= OnCheckBoxPropertyChanged;
 
                 // Remove association with definition
-                GroupCheckBox.CheckBoxView = null!;
+                if (_overflowCopy == false)
+                {
+                    GroupCheckBox.CheckBoxView = null!;
+                }
                 GroupCheckBox = null!;
             }
         }
@@ -213,12 +217,19 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
             switch (_currentSize)
             {
                 case GroupItemSize.Large:
+                    if (_ribbon.CompactMode)
+                    {
+                        screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, 2);
+                        controller = _viewMediumSmallController;
+                        break;
+                    }
+
                     screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
                     controller = _viewLargeController;
                     break;
                 case GroupItemSize.Medium:
                 case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
+                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, _ribbon.CompactMode ? 2 : lineHint);
                     controller = _viewMediumSmallController;
                     break;
             }
@@ -250,7 +261,7 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
         // Get the preferred size of check box view
         Size preferredSize = base.GetPreferredSize(context);
 
-        preferredSize.Height = _currentSize == GroupItemSize.Large
+        preferredSize.Height = _currentSize == GroupItemSize.Large && !_ribbon.CompactMode
             ? _ribbon.CalculatedValues.GroupTripleHeight
             : _ribbon.CalculatedValues.GroupLineHeight;
 
@@ -389,7 +400,10 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
         Add(view);
 
         // Provide back reference to the check box definition
-        GroupCheckBox.CheckBoxView = view;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupCheckBox.CheckBoxView = view;
+        }
     }
 
     private void UpdateEnabledState()
@@ -438,7 +452,7 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
                 DefineRootView(_viewMediumSmall);
                 break;
             case GroupItemSize.Large:
-                DefineRootView(_viewLarge);
+                DefineRootView(_ribbon.CompactMode ? _viewMediumSmall : _viewLarge);
                 break;
         }
     }
@@ -567,6 +581,48 @@ internal class ViewDrawRibbonGroupCheckBox : ViewComposite,
     /// </summary>
     /// <returns></returns>
     public string GetLongText() => GroupCheckBox.TextLine2;
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state) => null;
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor (0.0 to 2.0).</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
 
     #endregion
 }

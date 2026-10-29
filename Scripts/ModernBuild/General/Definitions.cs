@@ -150,6 +150,28 @@ public enum TasksPage
 }
 
 /// <summary>
+/// Defines which scripts folder variant the Modern Build tool should target.
+/// This allows explicit distinction between VS2022 and Current (VS2026) script sets.
+/// </summary>
+public enum ScriptProfile
+{
+    /// <summary>
+    /// Automatically choose the best scripts folder based on the detected MSBuild path.
+    /// </summary>
+    Auto,
+
+    /// <summary>
+    /// Force use of the Scripts/VS2022 project files.
+    /// </summary>
+    VS2022,
+
+    /// <summary>
+    /// Force use of the Scripts/Current project files (intended for VS2026+).
+    /// </summary>
+    Current
+}
+
+/// <summary>
 /// Defines the different NuGet-specific actions available in the NuGet page.
 /// Each action represents a specific NuGet operation or combination of operations.
 /// </summary>

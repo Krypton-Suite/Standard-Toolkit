@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -40,6 +40,20 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
         UpdateButtons();
     }
 
+    /// <inheritdoc />
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        UpdatePromptLayout();
+    }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+        UpdatePromptLayout();
+    }
+
     #endregion
 
     #region Implementation
@@ -58,6 +72,22 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
             : string.Empty;
     }
 
+    internal static async Task<string> InternalShowAsync(KryptonInputBoxData inputBoxData)
+    {
+        // If do not have an owner passed in then get the active window and use that instead
+        IWin32Window? showOwner = inputBoxData.Owner ?? FromHandle(PI.GetActiveWindow());
+
+        using var ib = new VisualInputBoxRtlAwareForm(inputBoxData);
+        ib.StartPosition = showOwner == null ? FormStartPosition.CenterScreen : FormStartPosition.CenterParent;
+
+        // Await required so using does not dispose the form before the dialog completes.
+        DialogResult result = await KryptonFormAsync.ShowDialogAsync(ib, showOwner).ConfigureAwait(false);
+
+        return result == DialogResult.OK
+            ? ib.InputResponse
+            : string.Empty;
+    }
+
     internal string InputResponse => ktxtUserResponse.Text;
 
     private void UpdateText()
@@ -72,7 +102,7 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
     {
         ktxtUserResponse.CueHint.CueHintText = _inputBoxData.CueText;
 
-        if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != GlobalStaticValues.EMPTY_COLOR)
+        if (_inputBoxData.CueColor != null || _inputBoxData.CueColor != Color.Transparent || _inputBoxData.CueColor != SharedStaticVariables.EMPTY_COLOR)
         {
             ktxtUserResponse.CueHint.Color1 = _inputBoxData.CueColor ?? Color.Gray;
         }
@@ -87,6 +117,25 @@ internal partial class VisualInputBoxRtlAwareForm : KryptonForm
     {
         kbtnOk.Text = KryptonManager.Strings.GeneralStrings.OK;
         kbtnCancel.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+    }
+
+    /// <summary>
+    /// Sizes the prompt to its wrapped text and the owner monitor.
+    /// </summary>
+    private void UpdatePromptLayout()
+    {
+        IWin32Window? owner = _inputBoxData.Owner;
+        var maxClient = KryptonDialogLayout.GetMaximumClientSize(this, owner, true);
+        if (ktxtUserResponse.MinimumSize.Width > maxClient.Width - 24)
+        {
+            ktxtUserResponse.MinimumSize = new Size(Math.Max(120, maxClient.Width - 24), ktxtUserResponse.MinimumSize.Height);
+        }
+
+        var buttonWidth = kbtnOk.GetPreferredSize(Size.Empty).Width
+                          + kbtnCancel.GetPreferredSize(Size.Empty).Width
+                          + 32;
+        var minimum = Math.Max(ktxtUserResponse.MinimumSize.Width, buttonWidth);
+        KryptonDialogLayout.FitWrappedPrompt(this, kwlblPrompt, tableLayoutPanel2, owner, minimum);
     }
 
     private void ktxtUserResponse_KeyDown(object sender, KeyEventArgs e)

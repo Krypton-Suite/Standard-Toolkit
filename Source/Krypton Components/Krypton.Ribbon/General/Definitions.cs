@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -96,6 +96,12 @@ public interface IQuickAccessToolbarButton
     /// Gets the body text for the item ToolTip.
     /// </summary>
     string GetToolTipBody();
+
+    /// <summary>
+    /// Gets the button specification style (e.g. New, Open, Save) for themed icons.
+    /// </summary>
+    /// <returns>Button spec style; Generic uses custom Image.</returns>
+    PaletteButtonSpecStyle GetButtonSpecType();
 
     /// <summary>
     /// Does the tooltip have a shadow?
@@ -421,6 +427,29 @@ public enum QATLocation
 }
 #endregion
 
+#region Enum CompactButtonLocation
+/// <summary>
+/// Where the compact-mode arrow is drawn when <see cref="KryptonRibbon.ShowCompactButton"/> is set.
+/// </summary>
+public enum CompactButtonLocation
+{
+    /// <summary>
+    /// Places the arrow at the right of the groups card.
+    /// </summary>
+    BelowGroups,
+
+    /// <summary>
+    /// Places the arrow at the trailing edge of the groups area.
+    /// </summary>
+    GroupsTrailing,
+
+    /// <summary>
+    /// Places the arrow on the tab row, beside the window buttons.
+    /// </summary>
+    Tabs
+}
+#endregion
+
 #region Enum KeyTipMode
 internal enum KeyTipMode
 {
@@ -472,6 +501,118 @@ public enum RibbonItemAlignment
     /// </summary>
     Far
 }
+#endregion
+
+#region Enum RibbonGroupStackLayout
+/// <summary>
+/// Specifies how a <see cref="KryptonRibbonGroupStack"/> arranges its children inside the three-line ribbon height.
+/// </summary>
+public enum RibbonGroupStackLayout
+{
+    /// <summary>
+    /// Fills down a column of at most three items, then the next column.
+    /// A large container uses medium children. Medium and small containers use small children.
+    /// </summary>
+    Columns = 0,
+
+    /// <summary>
+    /// Large children sit in one horizontal row. Medium and small children wrap into columns of three.
+    /// </summary>
+    Adaptive = 1
+}
+#endregion
+
+#region Enum BackstageItemSize
+
+/// <summary>
+/// Specifies the size of a navigation item in the Backstage View.
+/// </summary>
+public enum BackstageItemSize
+{
+    /// <summary>
+    /// Small item size (default, compact display).
+    /// </summary>
+    Small = 0,
+
+    /// <summary>
+    /// Large item size (Office-like, more prominent display with larger image area).
+    /// </summary>
+    Large = 1
+}
+
+#endregion
+
+#region Enum BackstageOverlayMode
+
+/// <summary>
+/// Specifies the overlay coverage mode for the Backstage View.
+/// </summary>
+public enum BackstageOverlayMode
+{
+    /// <summary>
+    /// Overlay covers the entire form client area (default).
+    /// </summary>
+    FullClient = 0,
+
+    /// <summary>
+    /// Overlay covers only the area below the ribbon.
+    /// </summary>
+    BelowRibbon = 1
+}
+
+#endregion
+
+#region Enum BackstageNavigationStyle
+
+/// <summary>
+/// Specifies which backstage navigation rail to draw.
+/// </summary>
+public enum BackstageNavigationStyle
+{
+    /// <summary>
+    /// Follow the ribbon shape. Office 2024 uses the compact pill rail. Other shapes keep the Office 2010 rail.
+    /// </summary>
+    Inherit = 0,
+
+    /// <summary>
+    /// Office 2010 full-width navigation bars.
+    /// </summary>
+    Office2010 = 1,
+
+    /// <summary>
+    /// Office 2024 compact rail with rounded selection pills.
+    /// </summary>
+    Office2024 = 2
+}
+
+#endregion
+
+#region Enum RibbonNotificationBarType
+
+/// <summary>
+/// Specifies the type of notification bar.
+/// </summary>
+public enum RibbonNotificationBarType
+{
+    /// <summary>Unknown notification type (not assigned).</summary>
+    Unknown = 0,
+
+    /// <summary>Information notification (blue).</summary>
+    Information = 1,
+
+    /// <summary>Warning notification (yellow/orange).</summary>
+    Warning = 2,
+
+    /// <summary>Error notification (red).</summary>
+    Error = 3,
+
+    /// <summary>Success notification (green).</summary>
+    Success = 4,
+
+    /// <summary>Custom notification (uses custom colors).</summary>
+    Custom = 5
+}
+
 #endregion
 
 #region Delegates

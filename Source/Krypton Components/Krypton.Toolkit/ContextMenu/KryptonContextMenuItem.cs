@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -17,12 +17,12 @@ namespace Krypton.Toolkit;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonContextMenuItem), "ToolboxBitmaps.KryptonContextMenuItem.bmp")]
-[Designer(typeof(KryptonContextMenuItemDesigner))]
+[Designer("Krypton.Toolkit.KryptonContextMenuItemDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Text))]
 [DefaultEvent(nameof(Click))]
-public class KryptonContextMenuItem : KryptonContextMenuItemBase
+public class KryptonContextMenuItem : KryptonContextMenuItemBase, IKryptonContextMenuCommandItem
 {
     #region Nested Classes
     // Provides proper design-time reference conversion for the KryptonCommand property even when the item is not sited.
@@ -160,7 +160,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
         _showShortcutKeys = true;
         _largeKryptonCommandImage = false;
         _extraText = string.Empty;
-        _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _shortcutKeys = shortcut;
         _shortcutKeyDisplayString = string.Empty;
         _checkState = CheckState.Unchecked;
@@ -237,6 +237,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Standard menu item text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"MenuItem")]
     [Localizable(true)]
@@ -261,6 +262,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
     [KryptonPersist]
     [Category(@"Appearance")]
     [Description(@"Standard menu item extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [Localizable(true)]
     [Bindable(true)]
@@ -288,6 +290,7 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
     [DefaultValue(null)]
     [Localizable(true)]
     [Bindable(true)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -324,8 +327,8 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(GlobalStaticValues.EMPTY_COLOR);
-    private void ResetImageTransparentColor() => _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => !_imageTransparentColor.Equals(SharedStaticVariables.EMPTY_COLOR);
+    private void ResetImageTransparentColor() => _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets and sets the shortcut key combination associated with the menu item.
@@ -685,16 +688,12 @@ public class KryptonContextMenuItem : KryptonContextMenuItemBase
             CheckState state = KryptonCommand?.CheckState ?? CheckState;
 
             // Find new state
-            switch (state)
+            state = state switch
             {
-                case CheckState.Unchecked:
-                    state = CheckState.Checked;
-                    break;
-                case CheckState.Indeterminate:
-                case CheckState.Checked:
-                    state = CheckState.Unchecked;
-                    break;
-            }
+                CheckState.Unchecked => CheckState.Checked,
+                CheckState.Indeterminate or CheckState.Checked => CheckState.Unchecked,
+                _ => state
+            };
 
             // Update correct property
             if (KryptonCommand != null)

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -60,6 +60,45 @@ internal class ViewDrawRibbonPanel : ViewDrawPanel
             Factors = [0.0f, 0.10f, 0.25f, 0.50f, 0.70f, 0.80f]
         };
     }
+    #endregion
+
+    #region Paint
+
+    /// <inheritdoc />
+    /// <remarks>
+    /// The ribbon panel uses <see cref="PaletteBackStyle.PanelClient"/>, which stays light for Office 2013 Grey
+    /// (document surface). When the palette supplies a tab-row solid colour, paint that over the tabs strip
+    /// so Dark Grey chrome is not a white band between the caption and the groups area.
+    /// Office 2024 supplies <see cref="PaletteBackStyle.PanelClient"/> for that colour.
+    /// </remarks>
+    public override void RenderBefore(RenderContext context)
+    {
+        base.RenderBefore(context);
+
+        Color tabRow = _palette.GetRibbonTabRowBackgroundSolidColor(State);
+        if (tabRow.IsEmpty)
+        {
+            return;
+        }
+
+        ViewLayoutRibbonTabsArea? tabsArea = _ribbon.TabsArea;
+        if (tabsArea == null)
+        {
+            return;
+        }
+
+        Rectangle tabsRect = tabsArea.ClientRectangle;
+        if (tabsRect.Width <= 0 || tabsRect.Height <= 0)
+        {
+            return;
+        }
+
+        using (var brush = new SolidBrush(tabRow))
+        {
+            context.Graphics.FillRectangle(brush, tabsRect);
+        }
+    }
+
     #endregion
 
 }

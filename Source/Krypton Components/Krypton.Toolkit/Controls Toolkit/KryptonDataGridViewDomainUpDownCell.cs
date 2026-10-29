@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -78,7 +78,7 @@ public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCel
         DataGridView? dataGridView = DataGridView;
         if (dataGridView?.EditingControl == null)
         {
-            throw new InvalidOperationException(@"Cell is detached or its grid has no editing control.");
+            ThrowHelper.ThrowInvalidOperationException(@"Cell is detached or its grid has no editing control.");
         }
 
         if (dataGridView.EditingControl is KryptonDomainUpDown domainUpDown)
@@ -147,7 +147,7 @@ public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCel
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
             // Use the same button width as the editor so renderer output matches
-            int buttonWidth = SystemInformation.VerticalScrollBarWidth - 2;
+            int buttonWidth = SystemInformation.VerticalScrollBarWidth + 1;
             int reservedStrip = buttonWidth + IndicatorGap;
 
             if (righToLeft)
@@ -242,7 +242,7 @@ public class KryptonDataGridViewDomainUpDownCell : KryptonDataGridViewTextBoxCel
     #region Private
 
     private KryptonDataGridViewDomainUpDownEditingControl EditingDomainUpDown => DataGridView!.EditingControl as KryptonDataGridViewDomainUpDownEditingControl
-        ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
+ ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewDomainUpDownEditingControl>(SharedStaticFunctions.VariableCannotBeNull(nameof(DataGridView.EditingControl)));
 
     private void OnCommonChange()
     {

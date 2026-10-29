@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *   BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -63,12 +63,12 @@ public class RenderVisualStudio2010With2007 : RenderProfessional
 
         if (paletteBack is null)
         {
-            throw new ArgumentNullException(nameof(paletteBack));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteBack));
         }
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Get the first border color
@@ -99,7 +99,7 @@ public class RenderVisualStudio2010With2007 : RenderProfessional
         // Validate incoming parameter
         if (colorPalette == null)
         {
-            throw new ArgumentNullException(nameof(colorPalette));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
         }
 
         // Use the professional renderer but pull colors from the palette

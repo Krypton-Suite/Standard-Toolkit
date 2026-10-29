@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupRichTextBox : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupRichTextBox = ribbonRichTextBox ?? throw new ArgumentNullException(nameof(ribbonRichTextBox));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupRichTextBox = ribbonRichTextBox ?? ThrowHelper.ThrowArgumentNullException(ribbonRichTextBox);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupRichTextBox.ItemSizeCurrent;
 
         // Hook into the richtextbox events
@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupRichTextBox : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the rich text box definition
-        GroupRichTextBox.RichTextBoxView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupRichTextBox.RichTextBoxView = this;
 
         // Give paint delegate to richtextbox so its palette changes are redrawn
-        GroupRichTextBox.ViewPaintDelegate = needPaint;
+            GroupRichTextBox.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupRichTextBox.RichTextBox);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupRichTextBox : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupRichTextBox.MouseEnterControl -= OnMouseEnterControl;
                 GroupRichTextBox.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupRichTextBox.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupRichTextBox.RichTextBoxView, this))
+                {
+                    GroupRichTextBox.ViewPaintDelegate = null;
+                }
                 GroupRichTextBox.PropertyChanged -= OnRichTextBoxPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupRichTextBox.RichTextBoxView = null;
+                if (ReferenceEquals(GroupRichTextBox.RichTextBoxView, this))
+                {
+                    GroupRichTextBox.RichTextBoxView = null;
+                }
                 GroupRichTextBox = null;
             }
         }
@@ -227,19 +236,15 @@ internal class ViewDrawRibbonGroupRichTextBox : ViewComposite,
             Rectangle viewRect = LastRichTextBox.Parent!.RectangleToScreen(ClientRectangle);
 
             // Determine the screen position of the key tip
-            var screenPt = Point.Empty;
 
             // Determine the screen position of the key tip dependant on item location/size
-            switch (_currentSize)
+            var screenPt = _currentSize switch
             {
-                case GroupItemSize.Large:
-                    screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
-                    break;
-                case GroupItemSize.Medium:
-                case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
-                    break;
-            }
+                GroupItemSize.Large => new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom),
+                GroupItemSize.Medium or GroupItemSize.Small => _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect,
+                    lineHint),
+                _ => Point.Empty
+            };
 
             keyTipList.Add(new KeyTipInfo(GroupRichTextBox!.Enabled, 
                 GroupRichTextBox.KeyTip,

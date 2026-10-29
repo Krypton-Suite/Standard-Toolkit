@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -209,7 +209,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -243,7 +243,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.Width <= 0 || rect.Height <= 0
@@ -278,7 +278,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -311,7 +311,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -400,7 +400,7 @@ internal static class ScrollBarExtendedRenderer
     {
         if (g == null)
         {
-            throw new ArgumentNullException(nameof(g));
+            ThrowHelper.ThrowArgumentNullException(nameof(g));
         }
 
         if (rect.IsEmpty || g.IsVisibleClipEmpty
@@ -770,25 +770,13 @@ internal static class ScrollBarExtendedRenderer
         g.SmoothingMode = SmoothingMode.None;
         g.InterpolationMode = InterpolationMode.Low;
 
-        var index = -1;
-
-        switch (state)
+        var index = state switch
         {
-            case ScrollBarArrowButtonState.UpHot:
-            case ScrollBarArrowButtonState.DownHot:
-                index = 1;
-                break;
-
-            case ScrollBarArrowButtonState.UpActive:
-            case ScrollBarArrowButtonState.DownActive:
-                index = 0;
-                break;
-
-            case ScrollBarArrowButtonState.UpPressed:
-            case ScrollBarArrowButtonState.DownPressed:
-                index = 2;
-                break;
-        }
+            ScrollBarArrowButtonState.UpHot or ScrollBarArrowButtonState.DownHot => 1,
+            ScrollBarArrowButtonState.UpActive or ScrollBarArrowButtonState.DownActive => 0,
+            ScrollBarArrowButtonState.UpPressed or ScrollBarArrowButtonState.DownPressed => 2,
+            _ => -1
+        };
 
         if (index != -1)
         {

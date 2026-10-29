@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -28,6 +28,7 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     private readonly KryptonRibbonGroupTriple _ribbonTriple;
+    private readonly bool _showOnlyOverflow;
     private ViewDrawRibbonDesignGroupTriple _viewAddItem;
     private readonly NeedPaintHandler _needPaint;
     private GroupItemSize _currentSize;
@@ -55,9 +56,10 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonTriple = ribbonTriple ?? throw new ArgumentNullException(nameof(ribbonTriple));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonTriple = ribbonTriple ?? ThrowHelper.ThrowArgumentNullException(ribbonTriple);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyOverflow = _ribbon.CompactOverflowCapture;
 
         // Associate the component with this view element for design time selection
         Component = _ribbonTriple;
@@ -73,7 +75,11 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
 
         // Hook into changes in the ribbon triple definition
         _ribbonTriple!.PropertyChanged += OnTriplePropertyChanged;
-        _ribbonTriple.TripleView = this;
+        // Only the on-ribbon view owns the design-time back reference.
+        if (!_showOnlyOverflow)
+        {
+            _ribbonTriple.TripleView = this;
+        }
 
         // At design time we want to track the mouse and show feedback
         if (_ribbon!.InDesignMode)
@@ -261,7 +267,9 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
             {
                 if (child is IRibbonViewGroupItemView item)
                 {
-                    item.GetGroupKeyTips(keyTipList, IndexOf(child) + 1);
+                    // Compact items share one row, so every key tip uses the single-line anchor.
+                    var line = _ribbon.CompactMode ? 2 : IndexOf(child) + 1;
+                    item.GetGroupKeyTips(keyTipList, line);
                 }
             }
         }
@@ -283,10 +291,19 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         var results = new List<ItemSizeWidth>();
 
         // Are we allowed to be in the large size?
+        // Compact mode has no tall image-over-text layout. Measure the icon-and-text row instead.
         if (_ribbonTriple.ItemSizeMaximum == GroupItemSize.Large)
         {
-            ApplySize(GroupItemSize.Large);
-            results.Add(new ItemSizeWidth(GroupItemSize.Large, GetPreferredSize(context).Width));
+            if (_ribbon.CompactMode)
+            {
+                ApplySize(GroupItemSize.Medium);
+                results.Add(new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width));
+            }
+            else
+            {
+                ApplySize(GroupItemSize.Large);
+                results.Add(new ItemSizeWidth(GroupItemSize.Large, GetPreferredSize(context).Width));
+            }
         }
 
         // Are we allowed to be in the medium size?
@@ -393,9 +410,10 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         SyncChildrenToRibbonGroupItems();
 
         var preferredSize = Size.Empty;
+        Rectangle area = context.DisplayRectangle;
 
-        // Are we sizing horizontal or vertical?
-        var horizontal = _currentSize == GroupItemSize.Large;
+        // Compact mode places every size on one row. Classic large is the only horizontal size.
+        var horizontal = _currentSize == GroupItemSize.Large || _ribbon.CompactMode;
 
         // Find total width and maximum height across all child elements
         for (var i = 0; i < Count; i++)
@@ -406,6 +424,7 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
             if (child!.Visible)
             {
                 // Cache preferred size of the child
+                context.DisplayRectangle = area;
                 Size childSize = child.GetPreferredSize(context);
 
                 // Add into the size cache for use in layout code
@@ -470,80 +489,80 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         // Store the provided client area
         ClientRectangle = context!.DisplayRectangle;
 
-        // Are we sizing horizontal or vertical?
-        var horizontal = _currentSize == GroupItemSize.Large;
+        // Compact mode places every size on one row. Classic large is the only horizontal size.
+        var horizontal = _currentSize == GroupItemSize.Large || _ribbon.CompactMode;
         var widest = _currentSize == GroupItemSize.Small ? _smallWidest : _mediumWidest;
 
         // Are there any children to layout?
         if (Count > 0)
         {
-            var x = ClientLocation.X;
-            var y = ClientLocation.Y;
+        var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+        var x = horizontal ? RibbonRtlLayout.StartX(ClientRectangle, isRtl) : ClientLocation.X;
+        var y = ClientLocation.Y;
 
-            // At design time we reserve space at the left side for the selection flap
-            if (_ribbon.InDesignHelperMode)
+        // At design time we reserve space at the left side for the selection flap
+        if (_ribbon.InDesignHelperMode)
+        {
+            x = isRtl ? x : x + DesignTimeDraw.FlapWidth;
+        }
+
+        // Position each item along the reading direction
+        for (var i = 0; i < Count; i++)
+        {
+            ViewBase? child = this[i];
+
+            // We only position visible items
+            if (child!.Visible)
             {
-                x += DesignTimeDraw.FlapWidth;
-            }
-
-            // Position each item from left/top to right/bottom 
-            for (var i = 0; i < Count; i++)
-            {
-                ViewBase? child = this[i];
-
-                // We only position visible items
-                if (child!.Visible)
+                // Get the cached size of this view
+                var childSize = _currentSize switch
                 {
-                    // Get the cached size of this view
-                    var childSize = Size.Empty;
-                    switch (_currentSize)
-                    {
-                        case GroupItemSize.Small:
-                            childSize = _smallCache[child];
-                            break;
-                        case GroupItemSize.Medium:
-                            childSize = _mediumCache[child];
-                            break;
-                        case GroupItemSize.Large:
-                            childSize = _largeCache[child];
-                            break;
-                    }
+                    GroupItemSize.Small => _smallCache[child],
+                    GroupItemSize.Medium => _mediumCache[child],
+                    GroupItemSize.Large => _largeCache[child],
+                    _ => Size.Empty
+                };
 
-                    if (horizontal)
-                    {
-                        // Define display rectangle for the group
-                        context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
+                if (horizontal)
+                {
+                    // Define display rectangle for the group
+                    context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, ClientHeight, isRtl, 1);
 
-                        // Position the element
-                        this[i]?.Layout(context);
-
-                        // Move across to next position (add 1 extra as the spacing gap)
-                        x += childSize.Width + 1;
-                    }
-                    else
+                    // Position the element
+                    this[i]?.Layout(context);
+                }
+                else
+                {
+                    var align = _ribbonTriple.ItemAlignment;
+                    if (isRtl)
                     {
-                        // Define display rectangle for the group
-                        switch (_ribbonTriple.ItemAlignment)
+                        align = align switch
                         {
-                            case RibbonItemAlignment.Near:
-                                context.DisplayRectangle = new Rectangle(x, y, childSize.Width, childSize.Height);
-                                break;
-                            case RibbonItemAlignment.Center:
-                                context.DisplayRectangle = new Rectangle(x + ((widest - childSize.Width) / 2), y, childSize.Width, childSize.Height);
-                                break;
-                            case RibbonItemAlignment.Far:
-                                context.DisplayRectangle = new Rectangle(x + widest - childSize.Width, y, childSize.Width, childSize.Height);
-                                break;
-                        }
-
-                        // Position the element
-                        this[i]?.Layout(context);
-
-                        // Move down to next position
-                        y += childSize.Height;
+                            RibbonItemAlignment.Near => RibbonItemAlignment.Far,
+                            RibbonItemAlignment.Far => RibbonItemAlignment.Near,
+                            _ => align
+                        };
                     }
+
+                    // Define display rectangle for the group
+                    context.DisplayRectangle = align switch
+                    {
+                        RibbonItemAlignment.Near => new Rectangle(x, y, childSize.Width, childSize.Height),
+                        RibbonItemAlignment.Center => new Rectangle(x + ((widest - childSize.Width) / 2), y,
+                            childSize.Width, childSize.Height),
+                        RibbonItemAlignment.Far => new Rectangle(x + widest - childSize.Width, y, childSize.Width,
+                            childSize.Height),
+                        _ => context.DisplayRectangle
+                    };
+
+                    // Position the element
+                    this[i]?.Layout(context);
+
+                    // Move down to next position
+                    y += childSize.Height;
                 }
             }
+        }
         }
 
         // Update the display rectangle we allocated for use by parent
@@ -591,11 +610,16 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
     #region Implementation
     private void ApplySize(GroupItemSize size)
     {
+        // A compact large child would be the tall button. Cap it at icon-and-text.
+        var childSize = _ribbon.CompactMode && size == GroupItemSize.Large
+            ? GroupItemSize.Medium
+            : size;
+
         foreach (ViewBase item in this)
         {
             if (item is IRibbonViewGroupItemView viewItem)
             {
-                viewItem.SetGroupItemSize(size);
+                viewItem.SetGroupItemSize(childSize);
             }
         }
 
@@ -635,6 +659,12 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         // Add a view element for each group item
         foreach (IRibbonGroupItem item in _ribbonTriple.Items!)
         {
+            // The popup builds views only for commands that did not fit.
+            if (_showOnlyOverflow && _ribbon.CompactOverflowHides(item, true))
+            {
+                continue;
+            }
+
             ViewBase itemView;
 
             // Do we already have a view for this item definition
@@ -648,11 +678,14 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
             else
             {
                 // Ask the item definition to return an appropriate view
-                itemView = item.CreateView(_ribbon, _needPaint);
+                itemView = _ribbon.CreateCompactOverflowView(_showOnlyOverflow, () => item.CreateView(_ribbon, _needPaint));
             }
 
             // Update the visible state of the item
-            itemView.Visible = _ribbon.InDesignHelperMode || item.Visible;
+            // Update the visible state of the item.
+            // Overflow hiding is layout-only and does not change the item Visible property.
+            itemView.Visible = (_ribbon.InDesignHelperMode || item.Visible) &&
+                               !_ribbon.CompactOverflowHides(item, _showOnlyOverflow);
 
             // We need to keep this association
             regenerate.Add(item, itemView);

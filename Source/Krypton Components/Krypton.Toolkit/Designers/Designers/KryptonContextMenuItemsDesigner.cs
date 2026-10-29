@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -44,18 +44,22 @@ internal class KryptonContextMenuItemsDesigner : ComponentDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
-            var compound = new ArrayList(base.AssociatedComponents);
+            var compound = KryptonDesignerSdkCompat.ToArrayList(base.AssociatedComponents);
 
             if (_contextMenuItems != null)
             {
                 compound.AddRange(_contextMenuItems.Items);
             }
 
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
     #endregion

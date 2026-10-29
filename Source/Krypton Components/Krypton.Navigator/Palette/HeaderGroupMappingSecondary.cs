@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -80,7 +80,7 @@ public class HeaderGroupMappingSecondary : HeaderGroupMappingBase
     /// <summary>
     /// Gets and sets the mapping used for the Image property.
     /// </summary>
-    //[DefaultValue(typeof(MapKryptonPageImage), "None (Null image)")]
+    [DefaultValue(typeof(MapKryptonPageImage), "None (Null image)")]
     public override MapKryptonPageImage MapImage
     {
         get => base.MapImage;
@@ -92,7 +92,7 @@ public class HeaderGroupMappingSecondary : HeaderGroupMappingBase
     /// <summary>
     /// Gets and sets the mapping used for the Heading property.
     /// </summary>
-    //[DefaultValue(typeof(MapKryptonPageText), "Description")]
+    [DefaultValue(typeof(MapKryptonPageText), "Description")]
     public override MapKryptonPageText MapHeading
     {
         get => base.MapHeading;
@@ -104,7 +104,7 @@ public class HeaderGroupMappingSecondary : HeaderGroupMappingBase
     /// <summary>
     /// Gets and sets the mapping used for the Description property.
     /// </summary>
-    //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+    [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
     public override MapKryptonPageText MapDescription
     {
         get => base.MapDescription;

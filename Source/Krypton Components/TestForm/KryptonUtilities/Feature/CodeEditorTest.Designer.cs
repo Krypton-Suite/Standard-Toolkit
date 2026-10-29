@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.kpnlMain = new Krypton.Toolkit.KryptonPanel();
-            this.kceEditor = new Krypton.Utilities.KryptonCodeEditor();
+            this.kceEditor = new Krypton.Toolkit.Utilities.KryptonCodeEditor();
             this.kpnlTop = new Krypton.Toolkit.KryptonPanel();
             this.kpgbOptions = new Krypton.Toolkit.KryptonGroupBox();
             this.kpnlOptions = new Krypton.Toolkit.KryptonPanel();
@@ -301,7 +301,7 @@
         #endregion
 
         private Krypton.Toolkit.KryptonPanel kpnlMain;
-        private Krypton.Utilities.KryptonCodeEditor kceEditor;
+        private Krypton.Toolkit.Utilities.KryptonCodeEditor kceEditor;
         private Krypton.Toolkit.KryptonPanel kpnlTop;
         private Krypton.Toolkit.KryptonGroupBox kpgbOptions;
         private Krypton.Toolkit.KryptonPanel kpnlOptions;

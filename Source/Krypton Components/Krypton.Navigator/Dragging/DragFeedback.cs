@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -87,10 +87,10 @@ public abstract class DragFeedback : IDisposable
         Debug.Assert(pageDragEndData is not null);
         Debug.Assert(dragTargets is not null);
 
-        PaletteDragDrop = paletteDragDrop ?? throw new ArgumentNullException(nameof(paletteDragDrop));
-        Renderer = renderer ?? throw new ArgumentNullException(nameof(renderer));
-        PageDragEndData = pageDragEndData ?? throw new ArgumentNullException(nameof(pageDragEndData));
-        DragTargets = dragTargets ?? throw new ArgumentNullException(nameof(dragTargets));
+        PaletteDragDrop = paletteDragDrop ?? ThrowHelper.ThrowArgumentNullException(paletteDragDrop);
+        Renderer = renderer ?? ThrowHelper.ThrowArgumentNullException(renderer);
+        PageDragEndData = pageDragEndData ?? ThrowHelper.ThrowArgumentNullException(pageDragEndData);
+        DragTargets = dragTargets ?? ThrowHelper.ThrowArgumentNullException(dragTargets);
     }
 
     /// <summary>

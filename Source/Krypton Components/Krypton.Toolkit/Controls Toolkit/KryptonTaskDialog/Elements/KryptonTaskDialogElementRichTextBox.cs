@@ -2,7 +2,7 @@
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -14,16 +14,19 @@ public class KryptonTaskDialogElementRichTextBox : KryptonTaskDialogElementBase,
     IKryptonTaskDialogElementHeight,
     IKryptonTaskDialogElementRoundedCorners
 {
-    #region fields
+    #region Instance Fields
+
     private bool _disposed;
     private KryptonTaskDialogKryptonRichTextBox _richTextBox;
     private KryptonContextMenu _contextMenu;
-    KryptonContextMenuItem _kcmiCopy;
-    KryptonContextMenuItem _kcmiCut;
-    KryptonContextMenuItem _kcmiPaste;
+    private KryptonContextMenuItem _kcmiCopy;
+    private KryptonContextMenuItem _kcmiCut;
+    private KryptonContextMenuItem _kcmiPaste;
+    
     #endregion
 
     #region Identity
+    
     public KryptonTaskDialogElementRichTextBox(KryptonTaskDialogDefaults taskDialogDefaults) : 
         base(taskDialogDefaults)
     {
@@ -40,6 +43,7 @@ public class KryptonTaskDialogElementRichTextBox : KryptonTaskDialogElementBase,
         EnableContextMenu = true;
         ScrollBars = RichTextBoxScrollBars.Both;
     }
+   
     #endregion
 
     #region Protected/Internal
@@ -152,6 +156,15 @@ public class KryptonTaskDialogElementRichTextBox : KryptonTaskDialogElementBase,
     {
         get => _richTextBox.Text;
         set => _richTextBox.Text = value;
+    }
+
+    /// <summary>
+    /// Get or set the RTF content in the richtextbox.
+    /// </summary>
+    public string? Rtf
+    {
+        get => _richTextBox.Rtf;
+        set => _richTextBox.Rtf = value;
     }
 
     ///<summary>

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
         Debug.Assert(ribbonSeparator is not null);
         Debug.Assert(needPaint is not null);
 
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonSeparator = ribbonSeparator ?? throw new ArgumentNullException(nameof(ribbonSeparator));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonSeparator = ribbonSeparator ?? ThrowHelper.ThrowArgumentNullException(ribbonSeparator);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Associate this view with the source component (required for design time selection)
         Component = _ribbonSeparator;
@@ -61,7 +61,10 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
         }
 
         // Define back reference to view for the separator definition
-        _ribbonSeparator.SeparatorView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            _ribbonSeparator.SeparatorView = this;
+        }
 
         // Hook into changes in the ribbon separator definition
         _ribbonSeparator.PropertyChanged += OnSeparatorPropertyChanged;
@@ -94,7 +97,10 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
             _ribbonSeparator!.PropertyChanged -= OnSeparatorPropertyChanged;
 
             // Remove association with definition
-            _ribbonSeparator.SeparatorView = null;
+            if (ReferenceEquals(_ribbonSeparator.SeparatorView, this))
+            {
+                _ribbonSeparator.SeparatorView = null;
+            }
             _ribbonSeparator = null;
         }
 
@@ -179,8 +185,14 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
                     _preferredSize = _preferredSize2007;
                     break;
                 case PaletteRibbonShape.Office2010:
-                    _lastShape = PaletteRibbonShape.Office2010;
+                case PaletteRibbonShape.OSXAqua:
+                case PaletteRibbonShape.MacOS:
+                    _lastShape = _ribbon.RibbonShape;
                     _preferredSize = _preferredSize2010;
+                    break;
+                case PaletteRibbonShape.Office2024:
+                    _lastShape = PaletteRibbonShape.Office2024;
+                    _preferredSize = new Size((int)(8 * FactorDpiX), _preferredSize2010.Height);
                     break;
             }
         }
@@ -232,7 +244,12 @@ internal class ViewDrawRibbonGroupSeparator : ViewLeaf,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
+        }
+
+        if (_ribbon.RibbonShape == PaletteRibbonShape.Office2024 && !_ribbon.CompactMode)
+        {
+            return;
         }
 
         context.Renderer.RenderGlyph.DrawRibbonGroupSeparator(_ribbon.RibbonShape,

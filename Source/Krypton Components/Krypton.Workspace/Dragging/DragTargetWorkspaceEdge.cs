@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -53,7 +53,8 @@ public class DragTargetWorkspaceEdge : DragTargetWorkspace
                 break;
             default:
                 Debug.Assert(false);
-                throw new ArgumentOutOfRangeException(nameof(hint), @"Hint must be an edge value.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(hint), @"Hint must be an edge value.");
+                return;
         }
     }
     #endregion
@@ -74,7 +75,7 @@ public class DragTargetWorkspaceEdge : DragTargetWorkspace
     {
         if (Workspace is null)
         {
-            throw new ArgumentNullException(nameof(Workspace));
+            ThrowHelper.ThrowArgumentNullException(nameof(Workspace));
         }
 
         // Transfer the dragged pages into a new cell
@@ -111,8 +112,10 @@ public class DragTargetWorkspaceEdge : DragTargetWorkspace
                     : Orientation.Horizontal;
             }
 
-            // Add to the start or the end of the root sequence?
-            if (Edge is VisualOrientation.Left or VisualOrientation.Top)
+            // Add to the start or the end of the root sequence.
+            // Under RTL, Left/Right map to the opposite collection end so a drop on the
+            // physical left still appears on the visual left.
+            if (WorkspaceRtlLayout.InsertAtCollectionStart(Edge, WorkspaceRtlLayout.IsRtl(Workspace)))
             {
                 Workspace.Root.Children!.Insert(0, cell);
             }

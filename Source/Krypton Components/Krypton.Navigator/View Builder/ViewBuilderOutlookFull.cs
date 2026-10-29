@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -226,24 +226,10 @@ internal class ViewBuilderOutlookFull : ViewBuilderOutlookBase
     /// <param name="page">Page to bring into view.</param>
     protected override void BringPageIntoView(KryptonPage page)
     {
-        // Remember the view for the requested page
-        ViewDrawNavCheckButtonBase? viewPage = null;
-
-        // Make sure only the selected page is checked
-        foreach (ViewDrawNavCheckButtonBase child in _pageStackLookup!.Values)
+        // Scroll the check button that represents the requested page into view
+        if (_pageStackLookup != null &&
+            _pageStackLookup.TryGetValue(page, out ViewDrawNavCheckButtonBase? viewPage))
         {
-            // Should this check button be selected
-            if (Navigator.SelectedPage == child.Page)
-            {
-                viewPage = child;
-                break;
-            }
-        }
-
-        // If we found a matching view
-        if (viewPage != null)
-        {
-            // Ask the viewport to bring this rectangle of the view
             _viewOutlook.BringIntoView(viewPage.ClientRectangle);
         }
     }
@@ -255,12 +241,11 @@ internal class ViewBuilderOutlookFull : ViewBuilderOutlookBase
     /// <param name="e">Property changed details.</param>
     protected override void OnViewBuilderPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        switch (e.PropertyName)
+        _viewOutlook.VerticalViewport = e.PropertyName switch
         {
-            case @"OrientationOutlook":
-                _viewOutlook.VerticalViewport = (Navigator.Outlook.Orientation == Orientation.Vertical);
-                break;
-        }
+            @"OrientationOutlook" => (Navigator.Outlook.Orientation == Orientation.Vertical),
+            _ => _viewOutlook.VerticalViewport
+        };
 
         // Let base class perform other actions
         base.OnViewBuilderPropertyChanged(sender, e);

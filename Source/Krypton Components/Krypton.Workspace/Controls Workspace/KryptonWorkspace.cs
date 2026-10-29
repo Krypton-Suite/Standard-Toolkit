@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -21,7 +21,7 @@ namespace Krypton.Workspace;
 [ToolboxBitmap(typeof(KryptonWorkspace), "ToolboxBitmaps.KryptonWorkspace.bmp")]
 [DefaultEvent("WorkspaceCellAdded")]
 [DefaultProperty(nameof(Root))]
-[Designer(typeof(KryptonWorkspaceDesigner))]
+[Designer("Krypton.Workspace.KryptonWorkspaceDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Layout a hierarchy of KryptonNavigator instances.")]
 [Docking(DockingBehavior.Ask)]
@@ -86,11 +86,14 @@ public class KryptonWorkspace : VisualContainerControl,
 
     // Exposed fields
     private CompactFlags _compactFlags;
+    private CompactFlags _factoryCompactFlags = CompactFlags.All;
+    private bool _factoryShowMaximizeButton = true;
     private KryptonWorkspaceCell? _maximizedCell;
     private KryptonWorkspaceCell? _activeCell;
     private bool _allowResizing;
     private bool _showMaximizeButton;
     private int _splitterWidth;
+    private Form? _rtlSourceForm;
 
     // Page level context menu items
     private KryptonContextMenuItems? _menuItems;
@@ -262,6 +265,16 @@ public class KryptonWorkspace : VisualContainerControl,
 
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawPanel);
+        CaptureWorkspaceFactoryDefaults();
+    }
+
+    /// <summary>
+    /// Records compact flags and the maximize button as the designer factory values.
+    /// </summary>
+    protected void CaptureWorkspaceFactoryDefaults()
+    {
+        _factoryCompactFlags = _compactFlags;
+        _factoryShowMaximizeButton = _showMaximizeButton;
     }
 
     /// <summary>
@@ -272,6 +285,8 @@ public class KryptonWorkspace : VisualContainerControl,
     {
         if (disposing)
         {
+            UnhookRtlSourceForm();
+
             // Allow the children to be removed during dispose
             ((KryptonReadOnlyControls)Controls).AllowRemoveInternal = true;
 
@@ -434,12 +449,15 @@ public class KryptonWorkspace : VisualContainerControl,
      DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public KryptonPage? ActivePage { get; set; }
 
+    private bool ShouldSerializeActivePage() => ActivePage != null;
+
+    private void ResetActivePage() => ActivePage = null;
+
     /// <summary>
     /// Gets and sets the compacting options to be applied.
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Determines the compacting options to be applied.")]
-    //[DefaultValue(typeof(CompactFlags), "All")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public CompactFlags CompactFlags
     {
@@ -454,6 +472,10 @@ public class KryptonWorkspace : VisualContainerControl,
             }
         }
     }
+
+    private bool ShouldSerializeCompactFlags() => _compactFlags != _factoryCompactFlags;
+
+    private void ResetCompactFlags() => CompactFlags = _factoryCompactFlags;
 
     /// <summary>
     /// Gets and sets the cell to maximize inside the client area.
@@ -477,12 +499,41 @@ public class KryptonWorkspace : VisualContainerControl,
     }
 
     /// <summary>
+    /// Gets or sets whether horizontal sequences pack from the reading-order start edge.
+    /// </summary>
+    /// <remarks>
+    /// When hosted on a <see cref="Form"/>, this is copied from the form automatically.
+    /// Packing also requires <see cref="Control.RightToLeft"/> equal to <see cref="RightToLeft.Yes"/>.
+    /// Named to match WinForms <see cref="Form"/>; not the Toolkit <c>RightToLeftLayout</c> enum.
+    /// Does not set <c>WS_EX_LAYOUTRTL</c>; cell contents are not GDI-mirrored.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether horizontal workspace sequences pack from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public override bool RightToLeftLayout
+    {
+        get => base.RightToLeftLayout;
+        set
+        {
+            if (base.RightToLeftLayout != value)
+            {
+                base.RightToLeftLayout = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
     /// Gets and sets the thickness of the splitters.
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Determines the thickness of the splitters.")]
     [Localizable(true)]
-    //[DefaultValue(typeof(int), "5")]
+    [DefaultValue(5)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public int SplitterWidth
     {
@@ -496,7 +547,7 @@ public class KryptonWorkspace : VisualContainerControl,
                 // Cannot assign a value of less than zero
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(SplitterWidth), @"Value cannot be less than zero");
                 }
 
                 // Use new width of the splitter area
@@ -533,7 +584,7 @@ public class KryptonWorkspace : VisualContainerControl,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Container background style.")]
-    //[DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
+    [DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public PaletteBackStyle ContainerBackStyle
     {
@@ -554,7 +605,7 @@ public class KryptonWorkspace : VisualContainerControl,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Separator style.")]
-    //[DefaultValue(typeof(SeparatorStyle), "Low Profile")]
+    [DefaultValue(typeof(SeparatorStyle), "Low Profile")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public SeparatorStyle SeparatorStyle
     {
@@ -661,7 +712,6 @@ public class KryptonWorkspace : VisualContainerControl,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Determines if the maximized/restore button is Displayed.")]
-    [DefaultValue(true)]
     public bool ShowMaximizeButton
     {
         get => _showMaximizeButton;
@@ -675,6 +725,10 @@ public class KryptonWorkspace : VisualContainerControl,
             }
         }
     }
+
+    private bool ShouldSerializeShowMaximizeButton() => _showMaximizeButton != _factoryShowMaximizeButton;
+
+    private void ResetShowMaximizeButton() => ShowMaximizeButton = _factoryShowMaximizeButton;
 
     /// <summary>
     /// Gets the number of of defined pages in the workspace hierarchy.
@@ -1901,7 +1955,7 @@ public class KryptonWorkspace : VisualContainerControl,
             // Double check this has the correct element name
             if (xmlReader.Name != @"KW")
             {
-                throw new ArgumentException(@"Root element must be named 'KW'");
+                ThrowHelper.ThrowArgumentException(@"Root element must be named 'KW'");
             }
 
             // Load the format version number
@@ -1914,7 +1968,7 @@ public class KryptonWorkspace : VisualContainerControl,
             // We can only load 1 upward version formats
             if (formatVersion < 1)
             {
-                throw new ArgumentException(@"Can only load Version 1 and upwards of KryptonWorkspace persisted data.");
+                ThrowHelper.ThrowArgumentException(@"Can only load Version 1 and upwards of KryptonWorkspace persisted data.");
             }
 
             var obscurer = new ScreenObscurer();
@@ -1939,12 +1993,12 @@ public class KryptonWorkspace : VisualContainerControl,
                 // Read to custom data element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.");
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                 }
 
                 if (xmlReader.Name != @"CGD")
                 {
-                    throw new ArgumentException(@"Expected 'CGD' element was not found.");
+                    ThrowHelper.ThrowArgumentException(@"Expected 'CGD' element was not found.");
                 }
 
                 var finished = xmlReader.IsEmptyElement;
@@ -1965,7 +2019,7 @@ public class KryptonWorkspace : VisualContainerControl,
                     {
                         if (!xmlReader.Read())
                         {
-                            throw new ArgumentException(@"An element was expected but could not be read in.");
+                            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                         }
                     }
                 }
@@ -1973,13 +2027,13 @@ public class KryptonWorkspace : VisualContainerControl,
                 // Read the next well known element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"An element was expected but could not be read in.");
+                    ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
                 }
 
                 // Is it the expected element?
                 if (xmlReader.Name != @"WS")
                 {
-                    throw new ArgumentException(@"Element 'WS' was expected but not found.");
+                    ThrowHelper.ThrowArgumentException(@"Element 'WS' was expected but not found.");
                 }
 
                 // Reload the root sequence
@@ -1988,13 +2042,13 @@ public class KryptonWorkspace : VisualContainerControl,
                 // Move past the end element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException(@"Could not read in next expected node.");
+                    ThrowHelper.ThrowArgumentException(@"Could not read in next expected node.");
                 }
 
                 // Check it has the expected name
                 if (xmlReader.NodeType != XmlNodeType.EndElement)
                 {
-                    throw new ArgumentException(@"EndElement expected but not found.");
+                    ThrowHelper.ThrowArgumentException(@"EndElement expected but not found.");
                 }
 
                 // Are there any unmatched pages?
@@ -2139,11 +2193,8 @@ public class KryptonWorkspace : VisualContainerControl,
         XmlHelper.TextToXmlAttribute(xmlWriter, @"MAXS", CommonHelper.SizeToString(page.MaximumSize), "0, 0");
         XmlHelper.TextToXmlAttribute(xmlWriter, @"AHSS", CommonHelper.SizeToString(page.AutoHiddenSlideSize), "150, 150");
         XmlHelper.TextToXmlAttribute(xmlWriter, @"F", page.Flags.ToString());
-
-        //Seb
-        //TODO store object instead of strings
-        XmlHelper.TextToXmlAttribute(xmlWriter, @"TAG", page.Tag?.ToString()!);
-        //End Seb
+        XmlHelper.TextToXmlAttribute(xmlWriter, @"TG", page.TabGroupId, string.Empty);
+        XmlHelper.ObjectToXmlAttributes(xmlWriter, @"TAG", @"TAGT", page.Tag);
 
         // Write out images as child elements
         XmlHelper.ImageToXmlCData(xmlWriter, @"IS", page.ImageSmall);
@@ -2204,16 +2255,19 @@ public class KryptonWorkspace : VisualContainerControl,
             page.MaximumSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"MAXS", @"0, 0"));
             page.AutoHiddenSlideSize = CommonHelper.StringToSize(XmlHelper.XmlAttributeToText(xmlReader, @"AHSS", @"150, 150"));
             page.Flags = int.Parse(XmlHelper.XmlAttributeToText(xmlReader, @"F", page.Flags.ToString()));
+            page.TabGroupId = XmlHelper.XmlAttributeToText(xmlReader, @"TG", string.Empty);
 
-            //Seb
-            page.Tag = XmlHelper.XmlAttributeToText(xmlReader, @"TAG");
-            //End Seb
+            object? tag = XmlHelper.XmlAttributesToObject(xmlReader, @"TAG", @"TAGT", out bool tagPresent);
+            if (tagPresent)
+            {
+                page.Tag = tag;
+            }
         }
 
         // Read the next Element
         if (!xmlReader.Read())
         {
-            throw new ArgumentException(@"An element was expected but could not be read in.");
+            ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
         }
 
         if (page != null)
@@ -2317,6 +2371,54 @@ public class KryptonWorkspace : VisualContainerControl,
         if (sender is KryptonWorkspaceCell cell)
         {
             MaximizedCell = MaximizedCell == cell ? null : cell;
+        }
+    }
+
+    private void SyncRightToLeftLayoutFromParent()
+    {
+        UnhookRtlSourceForm();
+
+        var form = FindForm();
+        if (form == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm = form;
+        _rtlSourceForm.RightToLeftChanged += OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged += OnRtlSourceFormRtlChanged;
+        CopyRightToLeftLayoutFromForm(form);
+    }
+
+    private void UnhookRtlSourceForm()
+    {
+        if (_rtlSourceForm == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm.RightToLeftChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm = null;
+    }
+
+    private void OnRtlSourceFormRtlChanged(object? sender, EventArgs e)
+    {
+        if (_rtlSourceForm != null)
+        {
+            CopyRightToLeftLayoutFromForm(_rtlSourceForm);
+        }
+    }
+
+    private void CopyRightToLeftLayoutFromForm(Form form)
+    {
+        if (RightToLeftLayout != form.RightToLeftLayout)
+        {
+            RightToLeftLayout = form.RightToLeftLayout;
+        }
+        else
+        {
+            PerformNeedPaint(true);
         }
     }
     #endregion
@@ -2433,6 +2535,26 @@ public class KryptonWorkspace : VisualContainerControl,
         ActiveCell?.Select();
 
         base.OnGotFocus(e);
+    }
+
+    /// <summary>
+    /// Raises the ParentChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        SyncRightToLeftLayoutFromParent();
+    }
+
+    /// <summary>
+    /// Raises the HandleCreated event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        SyncRightToLeftLayoutFromParent();
     }
 
     /// <summary>
@@ -2618,7 +2740,7 @@ public class KryptonWorkspace : VisualContainerControl,
     protected override void WndProc(ref Message m)
     {
         // We need to snoop the need to show a context menu
-        if (m.Msg == PI.WM_CONTEXTMENU)
+        if (m.Msg == PI.WM_.CONTEXTMENU)
         {
             // We never allow our ContextMenuStrip/KryptonContextMenu to show if there are cells 
             // Displayed, we only want the context menus showing if there are no cells at all Displayed
@@ -2761,14 +2883,20 @@ public class KryptonWorkspace : VisualContainerControl,
         {
             return false;
         }
+
+        // A layout can compact away the sequence that owned the separator while the view
+        // manager still refers to the separator as its active view (#4485)
+        if (separator.WorkspaceItem.WorkspaceParent is null)
+        {
+            return false;
+        }
+
         SeparatorToItems(separator, out IWorkspaceItem after, out IWorkspaceItem? before);
 
         // Are both items allowed to be resized by the user?
         // (at design time we can get null references)
-        if (/*(after == null)
-            ||*/ !after.WorkspaceAllowResizing
-                 || (before == null)
-                 || !before.WorkspaceAllowResizing
+        if (after is not { WorkspaceAllowResizing: true }
+            || before is not { WorkspaceAllowResizing: true }
            )
         {
             return false;
@@ -2824,6 +2952,13 @@ public class KryptonWorkspace : VisualContainerControl,
             if (separator.Orientation == Orientation.Vertical)
             {
                 offset = splitter.X - separator.ClientLocation.X;
+                // Horizontal sequences pack from the right under RTL; keep before/after
+                // index semantics and flip the mouse delta so dragging toward the visual
+                // right shrinks the right-hand (first) child, matching SplitContainer.
+                if (WorkspaceRtlLayout.IsRtl(this))
+                {
+                    offset = -offset;
+                }
             }
             else
             {
@@ -3209,6 +3344,8 @@ public class KryptonWorkspace : VisualContainerControl,
         // Pass #5, Create display rectangles based on space allocated to each item
         var offset = 0;
         var first = true;
+        var isRtlHorizontal = WorkspaceRtlLayout.IsHorizontalRtl(this, seq.Orientation);
+        var runningX = WorkspaceRtlLayout.StartX(client, isRtlHorizontal);
         for (var i = 0; i < seq.Children.Count; i++)
         {
             // Can only work with items that have an IWorkspaceItem interface
@@ -3252,19 +3389,18 @@ public class KryptonWorkspace : VisualContainerControl,
                         {
                             viewSeparator.Orientation = Orientation.Horizontal;
                             layoutContext.DisplayRectangle = client with { Y = client.Y + offset, Height = SplitterWidth };
+                            offset += SplitterWidth;
                         }
                         else
                         {
                             viewSeparator.Orientation = Orientation.Vertical;
-                            layoutContext.DisplayRectangle = client with { X = client.X + offset, Width = SplitterWidth };
+                            layoutContext.DisplayRectangle = WorkspaceRtlLayout.NextItem(ref runningX, client.Y,
+                                SplitterWidth, client.Height, isRtlHorizontal);
                         }
 
                         // Ask the separator to position itself
                         viewSeparator.Layout(layoutContext);
                         viewSeparator.Visible = true;
-
-                        // Move over the splitter
-                        offset += SplitterWidth;
                     }
                     else
                     {
@@ -3273,12 +3409,17 @@ public class KryptonWorkspace : VisualContainerControl,
                     }
 
                     // Calculate the display rect for the item
-                    info[i].DisplayRect = seq.Orientation == Orientation.Vertical
-                        ? client with { Y = client.Y + offset, Height = info[i].DisplaySpace }
-                        : client with { X = client.X + offset, Width = info[i].DisplaySpace };
+                    if (seq.Orientation == Orientation.Vertical)
+                    {
+                        info[i].DisplayRect = client with { Y = client.Y + offset, Height = info[i].DisplaySpace };
+                        offset += info[i].DisplaySpace;
+                    }
+                    else
+                    {
+                        info[i].DisplayRect = WorkspaceRtlLayout.NextItem(ref runningX, client.Y,
+                            info[i].DisplaySpace, client.Height, isRtlHorizontal);
+                    }
 
-                    // Move over the cell
-                    offset += info[i].DisplaySpace;
                     first = false;
                 }
                 else
@@ -3690,7 +3831,7 @@ public class KryptonWorkspace : VisualContainerControl,
     private void CompactAtLeastOneVisibleCell()
     {
         // If there are no visible cells found in entire hierarchy
-        if (Root.Children != null && !Root.Children.ContainsVisibleCell)
+        if (Root.Children is { ContainsVisibleCell: false })
         {
             Root.Children.Add(new KryptonWorkspaceCell());
         }
@@ -3806,12 +3947,12 @@ public class KryptonWorkspace : VisualContainerControl,
 
             if (_menuPage is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_menuPage)));
+                ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_menuPage)));
             }
 
             if (_menuCell is null)
             {
-                throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_menuCell)));
+                ThrowHelper.ThrowNullReferenceException(SharedStaticFunctions.VariableCannotBeNull(nameof(_menuCell)));
             }
 
             // Update the individual menu options
@@ -3851,7 +3992,7 @@ public class KryptonWorkspace : VisualContainerControl,
     private void OnCellClosedContextMenu(object? sender, ToolStripDropDownClosedEventArgs e)
     {
         // Unhook from context menu
-        var contextMenu = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var contextMenu =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
 
         // Remove our menu items as we only want them to be inside the currently showing context menu
         contextMenu.Closed -= OnCellClosedContextMenu;
@@ -4072,7 +4213,7 @@ public class KryptonWorkspace : VisualContainerControl,
             // Move to the contained CData element
             if (!xmlReader.Read())
             {
-                throw new ArgumentException(@"An element was expected but could not be read in.");
+                ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
             }
 
             // Load the image from the elements contained data
@@ -4081,7 +4222,7 @@ public class KryptonWorkspace : VisualContainerControl,
             // Read past the end of optional element                   
             if (!xmlReader.Read())
             {
-                throw new ArgumentException(@"An element was expected but could not be read in.");
+                ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.");
             }
         }
 

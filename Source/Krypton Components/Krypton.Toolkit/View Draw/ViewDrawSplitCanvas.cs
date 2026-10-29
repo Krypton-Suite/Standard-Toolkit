@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -340,12 +340,12 @@ public class ViewDrawSplitCanvas : ViewComposite
     {
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         if (PaletteBorder != null)
@@ -372,12 +372,12 @@ public class ViewDrawSplitCanvas : ViewComposite
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Ask the renderer to evaluate the given palette
@@ -400,12 +400,12 @@ public class ViewDrawSplitCanvas : ViewComposite
         // Validate incoming reference
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Let base class find preferred size of the children
@@ -416,7 +416,8 @@ public class ViewDrawSplitCanvas : ViewComposite
             DrawTabBorder
                 ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder!, State, Orientation,
                     TabBorderStyle)
-                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation));
+                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation,
+                    context.DisplayRectangle.Size));
 
         // Do we have a metric source for additional padding?
         if (PaletteMetric != null && _metricPadding != PaletteMetricPadding.None)
@@ -440,12 +441,12 @@ public class ViewDrawSplitCanvas : ViewComposite
         // Validate incoming reference
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We take on all the available display area
@@ -465,7 +466,8 @@ public class ViewDrawSplitCanvas : ViewComposite
         var padding = DrawTabBorder
             ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, PaletteBorder!, State,
                 Orientation, TabBorderStyle)
-            : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation);
+            : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(PaletteBorder!, State, Orientation,
+                ClientRectangle.Size);
 
         // Apply the padding to the client rectangle
         context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);
@@ -492,12 +494,12 @@ public class ViewDrawSplitCanvas : ViewComposite
         // Validate incoming reference
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Skip if we have no drawable area (can happen briefly during theme toggles)
@@ -509,8 +511,7 @@ public class ViewDrawSplitCanvas : ViewComposite
         RenderBackground(context, ClientRectangle);
 
         if (DrawCanvas && PaletteBorder != null &&
-            ClientRectangle.Width > 0 &&
-            ClientRectangle.Height > 0)
+            ClientRectangle is { Width: > 0, Height: > 0 })
         {
             // Do we draw the border before the children?
             if (!DrawBorderLast)
@@ -526,7 +527,7 @@ public class ViewDrawSplitCanvas : ViewComposite
             var draw = PaletteBorder.GetBorderDraw(State);
             var edges = PaletteBorder.GetBorderDrawBorders(State);
             var width = PaletteBorder.GetBorderWidth(State);
-            if (!ThemeChangeCoordinator.InProgress && rect.Width > 0 && rect.Height > 0 && draw == InheritBool.True && CommonHelper.HasABorder(edges) && width > 0)
+            if (!ThemeChangeCoordinator.InProgress && rect is { Width: > 0, Height: > 0 } && draw == InheritBool.True && CommonHelper.HasABorder(edges) && width > 0)
             {
                 // Remember the current clipping region
                 _clipRegion = context.Graphics.Clip.Clone();
@@ -567,12 +568,11 @@ public class ViewDrawSplitCanvas : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (DrawCanvas && PaletteBorder != null &&
-            ClientRectangle.Width > 0 &&
-            ClientRectangle.Height > 0)
+            ClientRectangle is { Width: > 0, Height: > 0 })
         {
             // Do we draw the border after the children?
             if (DrawBorderLast)
@@ -640,6 +640,12 @@ public class ViewDrawSplitCanvas : ViewComposite
             // If a theme change is in progress, still draw normally here; higher-level guards already prevent risky clipping
             if (Splitter)
             {
+                if (UseUnifiedRetroSplitState)
+                {
+                    DrawBackground(context, rect, PaletteBack, PaletteBorder!, State);
+                    return;
+                }
+
                 var mouseInSplit = MouseInSplit;
                 switch (State)
                 {
@@ -726,6 +732,12 @@ public class ViewDrawSplitCanvas : ViewComposite
         {
             if (Splitter)
             {
+                if (UseUnifiedRetroSplitState)
+                {
+                    DrawBorder(context!, rect, PaletteBorder, State);
+                    return;
+                }
+
                 var mouseInSplit = MouseInSplit;
                 switch (State)
                 {
@@ -761,7 +773,7 @@ public class ViewDrawSplitCanvas : ViewComposite
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         GraphicsPath borderPath;
@@ -796,7 +808,7 @@ public class ViewDrawSplitCanvas : ViewComposite
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Render the border over the background and children
@@ -829,6 +841,12 @@ public class ViewDrawSplitCanvas : ViewComposite
     private bool SplitWithFading => PaletteMetric == null ||
                                     PaletteMetric.GetMetricBool(State, PaletteMetricBool.SplitWithFading) ==
                                     InheritBool.True;
+
+    private bool UseUnifiedRetroSplitState =>
+        State is PaletteState.Tracking or PaletteState.Pressed
+            or PaletteState.CheckedTracking or PaletteState.CheckedPressed
+        && RetroRenderHelper.IsRetroPalette(KryptonManager.CurrentGlobalPalette)
+        && RetroRenderHelper.IsRetroButtonBack(PaletteBack, State);
 
     #endregion
 

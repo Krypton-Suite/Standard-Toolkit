@@ -2,7 +2,7 @@
 # Used by .github/workflows/templates-release.yml and for local VSIX builds.
 #
 # Channel mapping (see https://github.com/Krypton-Suite/Standard-Toolkit/issues/3566):
-#   stable / current / dev-*  -> Krypton.Standard.Toolkit
+#   stable / current / rc / gold / dev-*  -> Krypton.Standard.Toolkit
 #   canary                    -> Krypton.Standard.Toolkit.Canary
 #   alpha                     -> Krypton.Standard.Toolkit.Nightly
 
@@ -17,16 +17,20 @@ $ErrorActionPreference = 'Stop'
 $packageId = switch ($Channel.ToLowerInvariant()) {
     'canary' { 'Krypton.Standard.Toolkit.Canary' }
     'alpha' { 'Krypton.Standard.Toolkit.Nightly' }
+    'rc' { 'Krypton.Standard.Toolkit' }
+    'gold' { 'Krypton.Standard.Toolkit' }
     default { 'Krypton.Standard.Toolkit' }
 }
 
 $templateCsprojs = @(
     (Join-Path $RepoRoot 'Templates\ProjectTemplates\KryptonWinFormsApp\KryptonWinFormsApp.csproj'),
-    (Join-Path $RepoRoot 'Templates\ProjectTemplates\KryptonRibbonWinFormsApp\KryptonRibbonWinFormsApp.csproj')
+    (Join-Path $RepoRoot 'Templates\ProjectTemplates\KryptonRibbonWinFormsApp\KryptonRibbonWinFormsApp.csproj'),
+    (Join-Path $RepoRoot 'Templates\ProjectTemplates\KryptonCaptionWinFormsApp\KryptonCaptionWinFormsApp.csproj')
 )
 
 $utf8NoBom = New-Object System.Text.UTF8Encoding $false
 $pattern = 'Include="Krypton\.Standard\.Toolkit(?:\.Canary|\.Nightly)?"'
+$targetInclude = "Include=`"$packageId`""
 
 foreach ($path in $templateCsprojs) {
     if (-not (Test-Path -LiteralPath $path)) {
@@ -34,7 +38,12 @@ foreach ($path in $templateCsprojs) {
     }
 
     $text = [System.IO.File]::ReadAllText($path, $utf8NoBom)
-    $updated = [regex]::Replace($text, $pattern, "Include=`"$packageId`"")
+    if ($text -match [regex]::Escape($targetInclude)) {
+        Write-Host "Already set to '$packageId' in: $path"
+        continue
+    }
+
+    $updated = [regex]::Replace($text, $pattern, $targetInclude)
     if ($updated -eq $text) {
         throw "PackageReference for Krypton.Standard.Toolkit was not found in: $path"
     }

@@ -3,7 +3,7 @@
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
  *
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -55,9 +55,9 @@ public class KryptonEmojiParser
         // Determine the URL to fetch based on the specified emoji list type
         var emojiListUrl = emojiListType switch
         {
-            KryptonEmojiListType.Latest => GlobalStaticValues.DEFAULT_LATEST_EMOJI_LIST_URL,
-            KryptonEmojiListType.Public => GlobalStaticValues.DEFAULT_PUBLIC_EMOJI_LIST_URL,
-            _ => throw new ArgumentException("Invalid emoji list type specified.")
+            KryptonEmojiListType.Latest => SharedStaticConstants.DEFAULT_LATEST_EMOJI_LIST_URL,
+            KryptonEmojiListType.Public => SharedStaticConstants.DEFAULT_PUBLIC_EMOJI_LIST_URL,
+            _ => ThrowHelper.ThrowArgumentException<string>("Invalid emoji list type specified.")
         };
 
         // Fetch the emoji list content from the specified URL

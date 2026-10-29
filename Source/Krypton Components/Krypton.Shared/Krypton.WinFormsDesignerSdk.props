@@ -1,0 +1,35 @@
+﻿<Project>
+	<!--
+	  Shared settings for WinForms Designer Extensibility SDK projects (issue #593).
+	  Imported by Krypton.*.Design, Krypton.Toolkit.Design.Protocol, and Krypton.Toolkit.Design.Client.
+	  Do not import from runtime control libraries.
+	-->
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<IsPackable>false</IsPackable>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)..\Krypton.Interop\StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<NeutralLanguage>en</NeutralLanguage>
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Nullable>enable</Nullable>
+		<WarningLevel>8</WarningLevel>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+		<NoWarn>1701;1702</NoWarn>
+		<DefineConstants>$(DefineConstants);KRYPTON_WINFORMS_DESIGNER_SDK</DefineConstants>
+		<!-- Keep System.Windows.Forms.Design so DesignerVerb / IDesignerHost resolve; SDK ControlDesigner types are aliased in GlobalDeclarations. -->
+		<IncludeWinFormsDesignReferences>true</IncludeWinFormsDesignReferences>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.WinForms.Designer.SDK" Version="$(KryptonWinFormsDesignerSdkVersion)" PrivateAssets="all" />
+	</ItemGroup>
+</Project>

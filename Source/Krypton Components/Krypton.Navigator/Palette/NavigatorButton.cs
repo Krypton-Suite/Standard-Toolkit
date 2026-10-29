@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -52,7 +52,7 @@ public class NavigatorButton : Storage
         Debug.Assert(navigator is not null);
 
         // Remember back reference
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
@@ -75,19 +75,15 @@ public class NavigatorButton : Storage
         NextButton.Click += OnNextClick;
         ContextButton.Click += OnContextClick;
         CloseButton.Click += OnCloseClick;
-        FormCloseButton.Click += OnCloseButtonClick;
-        FormMinimizeButton.Click += OnMinimizeButtonClick;
-        FormMaximizeButton.Click += OnMaximizeButtonClick;
+        // Form min/max/close clicks are handled inside ButtonSpecNavForm* (SendSysCommand).
 
-        // Add fixed buttons into the display collection
-        if (_navigator is { Owner: not null, ControlKryptonFormFeatures: false })
+        // Always include form chrome button specs; GetVisible hides them until Owner is set
+        // and ControlKryptonFormFeatures is false (navigator owns caption buttons).
+        FixedSpecs.AddRange(new ButtonSpecNavFixed[]
         {
-            FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton, FormMinimizeButton, FormMaximizeButton, FormCloseButton });
-        }
-        else
-        {
-            FixedSpecs.AddRange(new ButtonSpecNavFixed[] { PreviousButton, NextButton, ContextButton, CloseButton });
-        }
+            PreviousButton, NextButton, ContextButton, CloseButton,
+            FormMinimizeButton, FormMaximizeButton, FormCloseButton
+        });
 
         // Default fields
         _displayLogic = ButtonDisplayLogic.Context;
@@ -139,6 +135,7 @@ public class NavigatorButton : Storage
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
     [MergableProperty(false)]
+    [Editor(typeof(KryptonDesignerButtonSpecNavigatorCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public NavigatorButtonSpecCollection? ButtonSpecs { get; }
 
@@ -163,7 +160,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Action to take when the previous button is clicked.")]
-    //[DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
+    [DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
     public DirectionButtonAction PreviousButtonAction
     {
         get => _actionPrevious;
@@ -185,7 +182,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Logic used to decide if previous button is Displayed.")]
-    //[DefaultValue(typeof(ButtonDisplay), "Logic")]
+    [DefaultValue(typeof(ButtonDisplay), "Logic")]
     public ButtonDisplay PreviousButtonDisplay
     {
         get => _displayPrevious;
@@ -208,7 +205,7 @@ public class NavigatorButton : Storage
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Shortcut for invoking the previous action.")]
-    //[DefaultValue(typeof(Keys), "F6, Shift, Control")]
+    [DefaultValue(typeof(Keys), "F6, Shift, Control")]
     public Keys PreviousButtonShortcut { get; set; }
 
     private bool ShouldSerializePreviousButtonShortcut() => (PreviousButtonShortcut != DEFAULT_SHORTCUT_PREVIOUS);
@@ -238,7 +235,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Action to take when the next button is clicked.")]
-    //[DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
+    [DefaultValue(typeof(DirectionButtonAction), "Mode Appropriate Action")]
     public DirectionButtonAction NextButtonAction
     {
         get => _actionNext;
@@ -260,7 +257,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Logic used to decide if next button is Displayed.")]
-    //[DefaultValue(typeof(ButtonDisplay), "Logic")]
+    [DefaultValue(typeof(ButtonDisplay), "Logic")]
     public ButtonDisplay NextButtonDisplay
     {
         get => _displayNext;
@@ -283,7 +280,7 @@ public class NavigatorButton : Storage
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Shortcut for invoking the next action.")]
-    //[DefaultValue(typeof(Keys), "F6, Control")]
+    [DefaultValue(typeof(Keys), "F6, Control")]
     public Keys NextButtonShortcut { get; set; }
 
     private bool ShouldSerializeNextButtonShortcut() => (NextButtonShortcut != DEFAULT_SHORTCUT_NEXT);
@@ -313,7 +310,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Action to take when the context button is clicked.")]
-    //[DefaultValue(typeof(ContextButtonAction), "Select Page")]
+    [DefaultValue(typeof(ContextButtonAction), "Select Page")]
     public ContextButtonAction ContextButtonAction
     {
         get => _actionContext;
@@ -335,7 +332,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Logic used to decide if context button is Displayed.")]
-    //[DefaultValue(typeof(ButtonDisplay), "Logic")]
+    [DefaultValue(typeof(ButtonDisplay), "Logic")]
     public ButtonDisplay ContextButtonDisplay
     {
         get => _displayContext;
@@ -358,7 +355,7 @@ public class NavigatorButton : Storage
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Shortcut for invoking the context action.")]
-    //[DefaultValue(typeof(Keys), "Down, Alt, Control")]
+    [DefaultValue(typeof(Keys), "Down, Alt, Control")]
     public Keys ContextButtonShortcut { get; set; }
 
     private bool ShouldSerializeContextButtonShortcut() => (ContextButtonShortcut != DEFAULT_SHORTCUT_CONTEXT);
@@ -375,7 +372,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Mapping used to generate context menu item image.")]
-    //[DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
+    [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
     public MapKryptonPageText ContextMenuMapText { get; set; }
 
     #endregion
@@ -386,7 +383,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Mapping used to generate context menu item text.")]
-    //[DefaultValue(typeof(MapKryptonPageImage), "Small")]
+    [DefaultValue(typeof(MapKryptonPageImage), "Small")]
     public MapKryptonPageImage ContextMenuMapImage { get; set; }
 
     #endregion
@@ -410,7 +407,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Action to take when the close button is clicked.")]
-    //[DefaultValue(typeof(CloseButtonAction), "RemovePage & Dispose")]
+    [DefaultValue(CloseButtonAction.RemovePageAndDispose)]
     public CloseButtonAction CloseButtonAction
     {
         get => _actionClosed;
@@ -432,7 +429,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Logic used to decide if close button is Displayed.")]
-    //[DefaultValue(typeof(ButtonDisplay), "Logic")]
+    [DefaultValue(typeof(ButtonDisplay), "Logic")]
     public ButtonDisplay CloseButtonDisplay
     {
         get => _displayClosed;
@@ -455,7 +452,7 @@ public class NavigatorButton : Storage
     [Localizable(true)]
     [Category(@"Visuals")]
     [Description(@"Shortcut for invoking the close action.")]
-    //[DefaultValue(typeof(Keys), "F4, Control")]
+    [DefaultValue(typeof(Keys), "F4, Control")]
     public Keys CloseButtonShortcut { get; set; }
 
     private bool ShouldSerializeCloseButtonShortcut() => (CloseButtonShortcut != DEFAULT_SHORTCUT_CLOSE);
@@ -514,7 +511,7 @@ public class NavigatorButton : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Define the logic used to control button display.")]
-    //[DefaultValue(typeof(ButtonDisplayLogic), "Context")]
+    [DefaultValue(typeof(ButtonDisplayLogic), "Context")]
     public ButtonDisplayLogic ButtonDisplayLogic
     {
         get => _displayLogic;
@@ -548,11 +545,5 @@ public class NavigatorButton : Storage
     private void OnContextClick(object? sender, EventArgs e) => _navigator.PerformContextAction();
 
     private void OnCloseClick(object? sender, EventArgs e) => _navigator.PerformCloseAction();
-
-    private void OnMaximizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
-
-    private void OnMinimizeButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
-
-    private void OnCloseButtonClick(object? sender, EventArgs e) => throw new NotImplementedException();
     #endregion
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -46,7 +46,9 @@ public abstract class ButtonSpec : Component,
     private PaletteButtonStyle _style;
     private PaletteButtonOrientation _orientation;
     private PaletteRelativeEdgeAlign _edge;
+    private bool _fillHeight;
     private readonly CheckButtonImageStates _imageStates;
+    private readonly CheckOverlayImageValues _overlayImage;
 
     #endregion
 
@@ -74,9 +76,9 @@ public abstract class ButtonSpec : Component,
     {
         _image = null;
         _toolTipImage = null;
-        _colorMap = GlobalStaticValues.EMPTY_COLOR;
-        _imageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
-        _toolTipImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+        _colorMap = SharedStaticVariables.EMPTY_COLOR;
+        _imageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
+        _toolTipImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         _text = string.Empty;
         _extraText = string.Empty;
         UniqueName = CommonHelper.UniqueString;
@@ -91,10 +93,12 @@ public abstract class ButtonSpec : Component,
         _orientation = PaletteButtonOrientation.Inherit;
         ProtectedType = PaletteButtonSpecStyle.Generic;
         _edge = PaletteRelativeEdgeAlign.Inherit;
+        _fillHeight = false;
         _imageStates = new CheckButtonImageStates
         {
             NeedPaint = OnImageStateChanged!
         };
+        _overlayImage = new CheckOverlayImageValues(OnOverlayImageChanged!);
         ContextMenuStrip = null;
         KryptonContextMenu = null;
         _buttonSpecView = null;
@@ -133,11 +137,13 @@ public abstract class ButtonSpec : Component,
         clone.Style = Style;
         clone.Orientation = Orientation;
         clone.Edge = Edge;
+        clone.FillHeight = FillHeight;
         clone.ContextMenuStrip = ContextMenuStrip;
         clone.KryptonContextMenu = KryptonContextMenu;
         clone.KryptonCommand = KryptonCommand;
         clone.Owner = Owner;
         clone.Tag = Tag;
+        clone.OverlayImage.CopyFrom(OverlayImage);
         return clone;
     }
     #endregion
@@ -163,6 +169,8 @@ public abstract class ButtonSpec : Component,
                                      !ShouldSerializeStyle() &&
                                      !ShouldSerializeOrientation() &&
                                      !ShouldSerializeEdge() &&
+                                     !ShouldSerializeFillHeight() &&
+                                     !ShouldSerializeOverlayImage() &&
                                      (ContextMenuStrip == null) &&
                                      AllowInheritImage &&
                                      AllowInheritText &&
@@ -178,6 +186,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Button image.")]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -217,8 +226,8 @@ public abstract class ButtonSpec : Component,
             }
         }
     }
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
+    private void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ImageStates
@@ -232,6 +241,17 @@ public abstract class ButtonSpec : Component,
     private bool ShouldSerializeImageStates() => !_imageStates.IsDefault;
     #endregion
 
+    #region OverlayImage
+    /// <summary>
+    /// Gets access to the overlay image values.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"Overlay image drawn on top of the button image.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public OverlayImageValues OverlayImage => _overlayImage;
+    private bool ShouldSerializeOverlayImage() => !_overlayImage.IsDefault;
+    #endregion
+
     #region Text
     /// <summary>
     /// Gets and sets the button text.
@@ -239,6 +259,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Button text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string Text
     {
@@ -264,6 +285,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"Appearance")]
     [Description(@"Button extra text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public string ExtraText
     {
@@ -290,6 +312,7 @@ public abstract class ButtonSpec : Component,
     [Category(@"ToolTip")]
     [Description(@"Button tooltip image.")]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ToolTipImage
     {
         get => _toolTipImage;
@@ -328,8 +351,8 @@ public abstract class ButtonSpec : Component,
             }
         }
     }
-    private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeToolTipImageTransparentColor() => ToolTipImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
+    private void ResetToolTipImageTransparentColor() => ToolTipImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ToolTipTitle
@@ -339,6 +362,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"ToolTip")]
     [Description(@"Button tooltip title text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string ToolTipTitle
@@ -365,6 +389,7 @@ public abstract class ButtonSpec : Component,
     [Localizable(true)]
     [Category(@"ToolTip")]
     [Description(@"Button tooltip body text.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue(@"")]
     public string ToolTipBody
@@ -406,6 +431,35 @@ public abstract class ButtonSpec : Component,
     public bool ToolTipShadow { get; set; } = true;
     private bool ShouldSerializeToolTipShadow() => !ToolTipShadow;
     private void ResetToolTipShadow() => ToolTipShadow = true;
+    #endregion
+
+    #region Name
+    /// <summary>
+    /// Gets or sets the designer name of the button specification.
+    /// </summary>
+    /// <remarks>
+    /// This is the component name shown in the collection editor (<c>buttonSpecAny1</c>). It is stored on <see cref="IComponent.Site"/> and is not serialized as a property. <see cref="UniqueName"/> remains the persistence key.
+    /// </remarks>
+    [Category(@"Design")]
+    [ParenthesizePropertyName(true)]
+    [Description(@"The designer name of the button specification.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public string Name
+    {
+        get => Site?.Name ?? string.Empty;
+
+        set
+        {
+            if (Site is null || value is null || Site.Name == value)
+            {
+                return;
+            }
+
+            Site.Name = value;
+        }
+    }
+
+    private bool ShouldSerializeName() => false;
     #endregion
 
     #region UniqueName
@@ -545,8 +599,8 @@ public abstract class ButtonSpec : Component,
             }
         }
     }
-    private bool ShouldSerializeColorMap() => ColorMap != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetColorMap() => ColorMap = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeColorMap() => ColorMap != SharedStaticVariables.EMPTY_COLOR;
+    private void ResetColorMap() => ColorMap = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region Style
@@ -624,6 +678,39 @@ public abstract class ButtonSpec : Component,
     private void ResetEdge() => Edge = PaletteRelativeEdgeAlign.Inherit;
     #endregion
 
+    #region FillHeight
+    /// <summary>
+    /// Gets and sets whether the button stretches to the full height of its host allocation.
+    /// </summary>
+    /// <remarks>
+    /// When <see langword="false"/> (the default), the button keeps its preferred size and is
+    /// vertically centred — the historic ButtonSpec layout used by headers and form chrome.
+    /// Set <see langword="true"/> on tall input hosts (for example <see cref="KryptonTextBox"/>,
+    /// <see cref="KryptonComboBox"/>, or <see cref="KryptonDateTimePicker"/>) so the ButtonSpec
+    /// fills the control height like a built-in drop-down button (issue #4432).
+    /// </remarks>
+    [Localizable(true)]
+    [Category(@"Behavior")]
+    [Description(@"Stretch the button to the full height of the host control allocation.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(false)]
+    public bool FillHeight
+    {
+        get => _fillHeight;
+
+        set
+        {
+            if (_fillHeight != value)
+            {
+                _fillHeight = value;
+                OnButtonSpecPropertyChanged(nameof(FillHeight));
+            }
+        }
+    }
+    private bool ShouldSerializeFillHeight() => FillHeight;
+    private void ResetFillHeight() => FillHeight = false;
+    #endregion
+
     #region ContextMenuStrip
     /// <summary>
     /// Gets and sets the context menu strip for the button.
@@ -644,8 +731,28 @@ public abstract class ButtonSpec : Component,
     [Category(@"Behavior")]
     [Description(@"KryptonContextMenu to show when the button is pressed.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(null)]
-    public KryptonContextMenu? KryptonContextMenu { get; set; }
+    public KryptonContextMenu? KryptonContextMenu
+    {
+        get => _kryptonContextMenu;
+        set => _kryptonContextMenu = value;
+    }
+
+    private KryptonContextMenu? _kryptonContextMenu;
+    private KryptonContextMenu? _factoryKryptonContextMenu;
+
+    /// <summary>
+    /// Records <paramref name="menu"/> as the designer factory context menu.
+    /// </summary>
+    /// <param name="menu">Menu created by the constructor, or null.</param>
+    protected void SetFactoryKryptonContextMenu(KryptonContextMenu? menu)
+    {
+        _factoryKryptonContextMenu = menu;
+        _kryptonContextMenu = menu;
+    }
+
+    private bool ShouldSerializeKryptonContextMenu() => !ReferenceEquals(_kryptonContextMenu, _factoryKryptonContextMenu);
+
+    private void ResetKryptonContextMenu() => _kryptonContextMenu = _factoryKryptonContextMenu;
     #endregion
 
     #region KryptonCommand
@@ -715,6 +822,7 @@ public abstract class ButtonSpec : Component,
         Image = source.Image;
         ImageTransparentColor = source.ImageTransparentColor;
         ImageStates.CopyFrom(source.ImageStates);
+        OverlayImage.CopyFrom(source.OverlayImage);
         Text = source.Text;
         ExtraText = source.ExtraText;
         AllowInheritImage = source.AllowInheritImage;
@@ -750,31 +858,58 @@ public abstract class ButtonSpec : Component,
     /// <returns>Button image.</returns>
     public virtual Image? GetImage(PaletteBase? palette, PaletteState state)
     {
-        Image? image = null;
-
         // Prefer to get image from the command first
         if (KryptonCommand != null)
         {
-            return KryptonCommand.ImageSmall;
+            return KryptonCommand.GetButtonSpecImage(palette, state) ?? KryptonCommand.ImageSmall;
         }
 
-        // Try and recover a state specific image
-        image = state switch
-        {
-            PaletteState.Disabled => ImageStates.ImageDisabled,
-            PaletteState.Normal => ImageStates.ImageNormal,
-            PaletteState.Pressed => ImageStates.ImagePressed,
-            PaletteState.Tracking => ImageStates.ImageTracking,
-            PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
-            PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
-            PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
-            _ => image
-        } ?? Image; // Default to the image if no state specific image is found
+        Image? image = GetStateImage(state) ?? Image;
 
-        return (image != null) || !AllowInheritImage
-            ? image
-            : palette?.GetButtonSpecImage(ProtectedType, state);
+        if (image != null || !AllowInheritImage)
+        {
+            return image;
+        }
+
+        return palette?.GetButtonSpecImage(ProtectedType, state);
     }
+
+    /// <summary>
+    /// Gets the overlay image for the specified state.
+    /// </summary>
+    /// <param name="state">State for which an overlay image is needed.</param>
+    /// <returns>Overlay image, or null if none is set.</returns>
+    public virtual Image? GetOverlayImage(PaletteState state) => _overlayImage.GetImage(state);
+
+    /// <summary>
+    /// Gets the overlay image transparent color.
+    /// </summary>
+    /// <returns>Color value.</returns>
+    public virtual Color GetOverlayImageTransparentColor() => _overlayImage.ImageTransparentColor;
+
+    /// <summary>
+    /// Gets the overlay image position.
+    /// </summary>
+    /// <returns>Overlay image position.</returns>
+    public virtual OverlayImagePosition GetOverlayImagePosition() => _overlayImage.Position;
+
+    /// <summary>
+    /// Gets the overlay image scale mode.
+    /// </summary>
+    /// <returns>Overlay image scale mode.</returns>
+    public virtual OverlayImageScaleMode GetOverlayImageScaleMode() => _overlayImage.ScaleMode;
+
+    /// <summary>
+    /// Gets the overlay image scale factor.
+    /// </summary>
+    /// <returns>Scale factor.</returns>
+    public virtual float GetOverlayImageScaleFactor() => _overlayImage.ScaleFactor;
+
+    /// <summary>
+    /// Gets the overlay image fixed size.
+    /// </summary>
+    /// <returns>Fixed size.</returns>
+    public virtual Size GetOverlayImageFixedSize() => _overlayImage.FixedSize;
 
     /// <summary>
     /// Gets the image transparent color.
@@ -785,12 +920,12 @@ public abstract class ButtonSpec : Component,
     {
         if (KryptonCommand != null)
         {
-            return KryptonCommand.ImageTransparentColor;
+            return KryptonCommand.GetButtonSpecImageTransparentColor(palette);
         }
 
-        return ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR
+        return ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR
             ? ImageTransparentColor
-            : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? GlobalStaticValues.EMPTY_COLOR;
+            : palette?.GetButtonSpecImageTransparentColor(ProtectedType) ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>
@@ -843,7 +978,7 @@ public abstract class ButtonSpec : Component,
     /// </summary>
     /// <param name="palette">Palette to use for inheriting values.</param>
     /// <returns>Color value.</returns>
-    public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != GlobalStaticValues.EMPTY_COLOR
+    public virtual Color GetColorMap(PaletteBase? palette) => ColorMap != SharedStaticVariables.EMPTY_COLOR
         ? ColorMap
         : palette!.GetButtonSpecColorMap(ProtectedType);
 
@@ -971,6 +1106,7 @@ public abstract class ButtonSpec : Component,
             case nameof(ExtraText):
             case @"ImageSmall":
             case nameof(ImageTransparentColor):
+            case nameof(KryptonCommand.CommandType):
                 OnButtonSpecPropertyChanged(e.PropertyName);
                 break;
         }
@@ -1090,6 +1226,40 @@ public abstract class ButtonSpec : Component,
 
     #region Implementation
     private void OnImageStateChanged(object sender, NeedLayoutEventArgs e) => OnButtonSpecPropertyChanged(nameof(Image));
+
+    private void OnOverlayImageChanged(object? sender, NeedLayoutEventArgs e) => OnButtonSpecPropertyChanged(nameof(OverlayImage));
+
+    private Image? GetStateImage(PaletteState state)
+    {
+        Image? image = state switch
+        {
+            PaletteState.Disabled => ImageStates.ImageDisabled,
+            PaletteState.Normal => ImageStates.ImageNormal,
+            PaletteState.Pressed => ImageStates.ImagePressed,
+            PaletteState.Tracking => ImageStates.ImageTracking,
+            PaletteState.CheckedNormal => ImageStates.ImageCheckedNormal,
+            PaletteState.CheckedPressed => ImageStates.ImageCheckedPressed,
+            PaletteState.CheckedTracking => ImageStates.ImageCheckedTracking,
+            _ => null
+        };
+
+        if (image != null)
+        {
+            return image;
+        }
+
+        // When only a subset of ImageStates is assigned (for example ImageNormal without Image),
+        // reuse those images for other states instead of inheriting a different palette glyph on hover.
+        return state switch
+        {
+            PaletteState.Disabled => ImageStates.ImageNormal,
+            PaletteState.Pressed => ImageStates.ImageTracking ?? ImageStates.ImageNormal,
+            PaletteState.Tracking => ImageStates.ImageNormal,
+            PaletteState.CheckedPressed => ImageStates.ImageCheckedTracking ?? ImageStates.ImageCheckedNormal,
+            PaletteState.CheckedTracking => ImageStates.ImageCheckedNormal,
+            _ => null
+        };
+    }
 
     #endregion
 }

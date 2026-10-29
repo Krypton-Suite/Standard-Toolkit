@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -452,6 +452,8 @@ public class VisualPopupManager : IMessageFilter
                 case PI.WM_.NCRBUTTONDOWN:
                 case PI.WM_.NCMBUTTONDOWN:
                     return ProcessNonClientMouseDown(ref m);
+                case PI.WM_.MOUSEWHEEL:
+                    return ProcessMouseWheel(ref m);
             }
         }
 
@@ -460,6 +462,40 @@ public class VisualPopupManager : IMessageFilter
     #endregion
 
     #region Implementation
+    private bool ProcessMouseWheel(ref Message m)
+    {
+        if (CurrentPopup == null || CurrentPopup.IsDisposed)
+        {
+            return false;
+        }
+
+        Point screenPt = WheelMessageToScreenPt(m);
+        if (!CurrentPopup.RectangleToScreen(CurrentPopup.ClientRectangle).Contains(screenPt))
+        {
+            return false;
+        }
+
+        return CurrentPopup.ProcessMouseWheelMessage(ref m);
+    }
+
+    private static Point WheelMessageToScreenPt(Message m)
+    {
+        var x = PI.LOWORD((int)m.LParam);
+        var y = PI.HIWORD((int)m.LParam);
+
+        if (x >= 32767)
+        {
+            x -= 65536;
+        }
+
+        if (y >= 32767)
+        {
+            y -= 65536;
+        }
+
+        return new Point(x, y);
+    }
+
     private bool ProcessKeyboard(ref Message m)
     {
         // If focus is not inside the current popup...

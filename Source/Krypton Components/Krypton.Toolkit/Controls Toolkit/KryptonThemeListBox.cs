@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 
 /// <summary>Allows the user to change themes using a <see cref="KryptonListBox"/>.</summary>
 /// <seealso cref="KryptonListBox" />
-[Designer(typeof(KryptonStubDesigner))]
+[Designer("Krypton.Toolkit.KryptonStubDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
 {
     #region Instance Fields
@@ -23,6 +23,8 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     private bool _isExternalUpdate = false;
     /// <summary> Backing var for the DefaultPalette property.</summary>
     private PaletteMode _defaultPalette = PaletteMode.Global;
+    /// <summary> Whether extra catalogued palettes appear in the list.</summary>
+    private bool _showExtraThemes = true;
     /// <summary> Local Krypton Manager instance.</summary>
     private readonly KryptonManager _manager;
     /// <summary> User defined palette.</summary>
@@ -38,30 +40,23 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
         _manager = new KryptonManager();
 
         Items.Clear();
-        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray());
+        Items.AddRange(CommonHelperThemeSelectors.GetThemesArray(_showExtraThemes));
 
-        // Sets the intial palette from either global or DefaultPalette property
-        SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
+        // Show the current global theme without recording it as a local DefaultPalette.
+        _isExternalUpdate = true;
+        try
+        {
+            SelectedIndex = CommonHelperThemeSelectors.GetInitialSelectedIndex(DefaultPalette, _manager, Items);
+        }
+        finally
+        {
+            _isExternalUpdate = false;
+        }
     }
 
     #endregion
 
     #region Public
-
-    /// <inheritdoc/>
-    [Category(@"Visuals")]
-    [Description(@"The custom assigned palette mode.")]
-    [DefaultValue(null)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    [Obsolete("Deprecated and will be removed in V110. Set a global custom palette through 'ThemeManager.ApplyTheme(...)'.")]
-    public KryptonCustomPaletteBase? KryptonCustomPalette
-    {
-        get => _kryptonCustomPalette;
-        set => _kryptonCustomPalette = value;
-    }
-
-    private void ResetKryptonCustomPalette() => _kryptonCustomPalette = null;
-    private bool ShouldSerializeKryptonCustomPalette() => _kryptonCustomPalette is not null;
 
     /// <inheritdoc/>
     [Category(@"Visuals")]
@@ -77,6 +72,28 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     private void ResetDefaultPalette() => DefaultPalette = PaletteMode.Global;
     private bool ShouldSerializeDefaultPalette() => _defaultPalette != PaletteMode.Global;
 
+    /// <summary>
+    /// Gets or sets whether extra (non-core) catalogued palettes appear in the list.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"When false, only core Toolkit palettes are listed.")]
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool ShowExtraThemes
+    {
+        get => _showExtraThemes;
+        set
+        {
+            if (_showExtraThemes == value)
+            {
+                return;
+            }
+
+            _showExtraThemes = value;
+            ReloadThemeItems();
+        }
+    }
+
     #endregion
 
     #region Implementation
@@ -89,7 +106,53 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     {
         // React to theme changes from outside this control.
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
+        ThemeManager.RegisteredThemesChanged += ThemeManagerRegisteredThemesChanged;
+        KryptonThemeCatalog.DiscoverThemes(Site);
         base.OnHandleCreated(e);
+    }
+
+    /// <inheritdoc />
+    protected override void OnHandleDestroyed(EventArgs e)
+    {
+        KryptonManager.GlobalPaletteChanged -= KryptonManagerGlobalPaletteChanged;
+        ThemeManager.RegisteredThemesChanged -= ThemeManagerRegisteredThemesChanged;
+        base.OnHandleDestroyed(e);
+    }
+
+    private void ThemeManagerRegisteredThemesChanged(object? sender, EventArgs e)
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        ReloadThemeItems();
+    }
+
+    private string GetSelectedThemeName()
+    {
+        if (SelectedIndex > -1 && SelectedItem is string { Length: > 0 } s)
+        {
+            return s;
+        }
+
+        return string.Empty;
+    }
+
+    private void ReloadThemeItems()
+    {
+        _isExternalUpdate = true;
+        try
+        {
+            string previous = GetSelectedThemeName();
+            var fallback = KryptonManager.CurrentGlobalPaletteMode;
+            int idx = CommonHelperThemeSelectors.ReloadThemeItems(Items, _showExtraThemes, previous, fallback);
+            SelectedIndex = idx;
+        }
+        finally
+        {
+            _isExternalUpdate = false;
+        }
     }
 
     /// <summary>
@@ -111,37 +174,55 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
             return;
         }
 
-        int idx = CommonHelperThemeSelectors.GetPaletteIndex(Items, mode);
-        if (idx == SelectedIndex)
+        // Refresh theme list so "Custom" shows as "Custom - [Theme Name]" when a custom palette has a name (issue #1031).
+        // Suppress SelectedIndexChanged apply for Items.Clear()/restore so an ad-hoc custom palette is not wiped.
+        _isExternalUpdate = true;
+        int idx;
+        var deferCommit = false;
+        try
         {
-            return;
-        }
+            string previous = GetSelectedThemeName();
+            idx = CommonHelperThemeSelectors.ReloadThemeItemsForGlobalChange(Items, _showExtraThemes, previous, mode);
+            if (idx == SelectedIndex)
+            {
+                return;
+            }
 
-        void Commit()
+            deferCommit = ThemeChangeCoordinator.InProgress && !IsDisposed && IsHandleCreated;
+            if (deferCommit)
+            {
+                BeginInvoke((System.Windows.Forms.MethodInvoker)(() => CommitThemeSelection(idx)));
+            }
+            else
+            {
+                // If the handle is not yet created (or disposed), update immediately to avoid InvalidOperationException
+                CommitThemeSelection(idx);
+            }
+        }
+        finally
+        {
+            if (!deferCommit)
+            {
+                _isExternalUpdate = false;
+            }
+        }
+    }
+
+    private void CommitThemeSelection(int idx)
+    {
+        try
         {
             if (IsDisposed || !IsHandleCreated)
             {
                 return;
             }
-            _isExternalUpdate = true;
-            try
-            {
-                SelectedIndex = idx;
-            }
-            finally
-            {
-                _isExternalUpdate = false;
-            }
-        }
 
-        if (ThemeChangeCoordinator.InProgress && !IsDisposed && IsHandleCreated)
-        {
-            BeginInvoke((System.Windows.Forms.MethodInvoker)Commit);
+            _isExternalUpdate = true;
+            SelectedIndex = idx;
         }
-        else
+        finally
         {
-            // If the handle is not yet created (or disposed), update immediately to avoid InvalidOperationException
-            Commit();
+            _isExternalUpdate = false;
         }
     }
 
@@ -153,7 +234,7 @@ public class KryptonThemeListBox : KryptonListBox, IKryptonThemeSelectorBase
     protected override void OnSelectedIndexChanged(EventArgs e)
     {
         // The theme listbox needs a check first since SelectedItem is of type: object?
-        string themeName = SelectedIndex > -1 && SelectedItem is string str && str.Length > 0
+        string themeName = SelectedIndex > -1 && SelectedItem is string { Length: > 0 } str
             ? str
             : string.Empty;
 

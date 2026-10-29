@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -61,8 +61,13 @@ internal class KryptonComboBoxDesigner : ControlDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents =>
+        KryptonDesignerSdkCompat.Associated(_comboBox?.ButtonSpecs, base.AssociatedComponents);
+#else
     public override ICollection AssociatedComponents =>
         _comboBox?.ButtonSpecs ?? base.AssociatedComponents;
+#endif
 
     /// <summary>
     /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -73,7 +78,11 @@ internal class KryptonComboBoxDesigner : ControlDesigner
         {
             // Start with all edges being sizeable
             var rules = base.SelectionRules;
-            rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
+            if (_comboBox?.DropDownStyle != ComboBoxStyle.Simple)
+            {
+                rules &= ~(SelectionRules.TopSizeable | SelectionRules.BottomSizeable);
+            }
+
             return rules;
         }
     }

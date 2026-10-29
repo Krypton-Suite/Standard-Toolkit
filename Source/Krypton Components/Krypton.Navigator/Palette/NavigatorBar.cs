@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -60,7 +60,7 @@ public class NavigatorBar : Storage
 
         if (navigator is null)
         {
-            throw new ArgumentNullException(nameof(navigator));
+            ThrowHelper.ThrowArgumentNullException(nameof(navigator));
         }
 
         // Remember back reference
@@ -151,7 +151,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"Orientation for positioning of the bar.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(VisualOrientation), "Top")]
+    [DefaultValue(typeof(VisualOrientation), "Top")]
     public VisualOrientation BarOrientation
     {
         get => _barOrientation;
@@ -263,7 +263,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"Multiline items in the bar.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(BarMultiline), "Singleline")]
+    [DefaultValue(typeof(BarMultiline), "Singleline")]
     public BarMultiline BarMultiline
     {
         get => _barMultiline;
@@ -290,7 +290,7 @@ public class NavigatorBar : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Check button style.")]
-    //[DefaultValue(typeof(ButtonStyle), "Standalone")]
+    [DefaultValue(typeof(ButtonStyle), "Standalone")]
     public ButtonStyle CheckButtonStyle
     {
         get => _checkButtonStyle;
@@ -312,7 +312,7 @@ public class NavigatorBar : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Tab style.")]
-    //[DefaultValue(typeof(TabStyle), "HighProfile")]
+    [DefaultValue(typeof(TabStyle), "HighProfile")]
     public TabStyle TabStyle
     {
         get => _tabStyle;
@@ -334,7 +334,7 @@ public class NavigatorBar : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Tab border style.")]
-    //[DefaultValue(typeof(TabBorderStyle), "RoundedOutsizeMedium")]
+    [DefaultValue(typeof(TabBorderStyle), "RoundedOutsizeMedium")]
     public TabBorderStyle TabBorderStyle
     {
         get => _tabBorderStyle;
@@ -357,7 +357,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"Alignment of items within the bar.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(RelativePositionAlign), "Near")]
+    [DefaultValue(typeof(RelativePositionAlign), "Near")]
     public RelativePositionAlign ItemAlignment
     {
         get => _itemAlignment;
@@ -385,7 +385,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"Minimum size of each bar item.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(Size), "20,20")]
+    [DefaultValue(typeof(Size), "20,20")]
     public Size ItemMinimumSize
     {
         get => _itemMinimumSize;
@@ -397,21 +397,21 @@ public class NavigatorBar : Storage
                 // None of the minimum values can be less than 1
                 if (value.Width < 1)
                 {
-                    throw new ArgumentException(@"Width cannot be less than 1", nameof(ItemMinimumSize));
+                    ThrowHelper.ThrowArgumentException(@"Width cannot be less than 1", nameof(ItemMinimumSize));
                 }
                 if (value.Height < 1)
                 {
-                    throw new ArgumentException(@"Height cannot be less than 1", nameof(ItemMinimumSize));
+                    ThrowHelper.ThrowArgumentException(@"Height cannot be less than 1", nameof(ItemMinimumSize));
                 }
 
                 // Minimum value must be less than or equal to the maximum
                 if (value.Width > ItemMaximumSize.Width)
                 {
-                    throw new ArgumentException(@"Width cannot be greater than the ItemMaximumSize.Width", nameof(ItemMinimumSize));
+                    ThrowHelper.ThrowArgumentException(@"Width cannot be greater than the ItemMaximumSize.Width", nameof(ItemMinimumSize));
                 }
                 if (value.Height > ItemMaximumSize.Height)
                 {
-                    throw new ArgumentException(@"Height cannot be greater than the ItemMaximumSize.Height", nameof(ItemMinimumSize));
+                    ThrowHelper.ThrowArgumentException(@"Height cannot be greater than the ItemMaximumSize.Height", nameof(ItemMinimumSize));
                 }
 
                 _itemMinimumSize = value;
@@ -433,7 +433,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"Minimum size of each bar item.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(Size), "200,200")]
+    [DefaultValue(typeof(Size), "200,200")]
     public Size ItemMaximumSize
     {
         get => _itemMaximumSize;
@@ -445,21 +445,21 @@ public class NavigatorBar : Storage
                 // None of the maximum values can be less than 1
                 if (value.Width < 1)
                 {
-                    throw new ArgumentException(@"Width cannot be less than 1", nameof(ItemMaximumSize));
+                    ThrowHelper.ThrowArgumentException(@"Width cannot be less than 1", nameof(ItemMaximumSize));
                 }
                 if (value.Height < 1)
                 {
-                    throw new ArgumentException(@"Height cannot be less than 1", nameof(ItemMaximumSize));
+                    ThrowHelper.ThrowArgumentException(@"Height cannot be less than 1", nameof(ItemMaximumSize));
                 }
 
                 // Maximum value must be greater than or equal to the minimum
                 if (value.Width < ItemMinimumSize.Width)
                 {
-                    throw new ArgumentException(@"Width cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
+                    ThrowHelper.ThrowArgumentException(@"Width cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
                 }
                 if (value.Height < ItemMinimumSize.Height)
                 {
-                    throw new ArgumentException(@"Height cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
+                    ThrowHelper.ThrowArgumentException(@"Height cannot be less than the ItemMinimumSize.Width", nameof(ItemMaximumSize));
                 }
 
                 _itemMaximumSize = value;
@@ -481,7 +481,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"Orientation for positioning items on the bar.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(ButtonOrientation), "Auto")]
+    [DefaultValue(typeof(ButtonOrientation), "Auto")]
     public ButtonOrientation ItemOrientation
     {
         get => _itemOrientation;
@@ -509,7 +509,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"How to calculate the size of each bar item.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(BarItemSizing), "All Same Height")]
+    [DefaultValue(typeof(BarItemSizing), "All Same Height")]
     public BarItemSizing ItemSizing
     {
         get => _itemSizing;
@@ -538,7 +538,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the bar item image.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageImage), "Small")]
+    [DefaultValue(typeof(MapKryptonPageImage), "Small")]
     public virtual MapKryptonPageImage BarMapImage
     {
         get => _barMapImage;
@@ -566,7 +566,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the bar item text.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
+    [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
     public MapKryptonPageText BarMapText
     {
         get => _barMapText;
@@ -594,7 +594,7 @@ public class NavigatorBar : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the bar item description.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+    [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
     public MapKryptonPageText BarMapExtraText
     {
         get => _barMapExtraText;

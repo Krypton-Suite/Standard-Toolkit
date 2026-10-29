@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -43,18 +43,14 @@ public class PaletteComboBoxRedirect : Storage
             PaletteContentStyle.ButtonListItem, 
             NeedPaint);
 
-        ComboBox = new PaletteInputControlTripleRedirect(redirect!, 
+        ComboBox = new PaletteInputControlTripleRedirect(redirect!,
             PaletteBackStyle.InputControlStandalone,
             PaletteBorderStyle.InputControlStandalone,
-            PaletteContentStyle.InputControlStandalone, 
-            NeedPaint)
-        {
-            Content =
-            {
-                // Set directly to prevent a Paint redirect
-                _shortTextH = PaletteRelativeAlign.Near
-            }
-        };
+            PaletteContentStyle.InputControlStandalone,
+            NeedPaint);
+        // Near is this control's designer default; storing it avoids a paint redirect
+        // through palette inherit on first layout.
+        ComboBox.Content.SetDefaultTextH(PaletteRelativeAlign.Near);
 
         _dropBackRedirect = new PaletteDoubleRedirect(redirect!, 
             PaletteBackStyle.ControlClient, 

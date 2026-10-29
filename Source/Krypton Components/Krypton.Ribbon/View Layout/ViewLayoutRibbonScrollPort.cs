@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -37,7 +37,7 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
         {
             Debug.Assert(ribbon is not null);
                 
-            _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+            _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
 
             // Create and add a hidden button to act as the focus target
             _hiddenFocusTarget = new Button
@@ -161,10 +161,10 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
         Debug.Assert(needPaintDelegate != null);
 
         // Remember initial settings
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _orientation = orientation;
-        _viewFiller = viewFiller ?? throw new ArgumentNullException(nameof(viewFiller));
-        _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
+        _viewFiller = viewFiller ?? ThrowHelper.ThrowArgumentNullException(viewFiller);
+        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException(needPaintDelegate);
         _scrollSpeed = scrollSpeed;
         _ribbonTabs = viewFiller as ViewLayoutRibbonTabs;
 
@@ -478,6 +478,16 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
         if (ViewLayoutControl.ChildControl is { IsDisposed: false })
         {
             using var ccc = new CorrectContextControl(context, ViewLayoutControl.ChildControl);
+
+            // Compact commands use a trailing ellipsis instead of scrolling the row.
+            if (_ribbon.CompactMode &&
+                !_ribbon.InDesignHelperMode &&
+                (_viewFiller is ViewLayoutRibbonGroups) &&
+                (Orientation == Orientation.Horizontal))
+            {
+                context.DisplayRectangle = ClientRectangle;
+            }
+
             _viewFiller.Layout(context);
         }
 
@@ -494,7 +504,7 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
             // Filler rectangle is used for clipping
             _viewClipRect = controlRect;
 
-            // Default back to left hand scroll position
+            // Default back to start-edge scroll position
             _scrollOffset = 0;
 
             // Then make the scrollers invisible and nothing more to do
@@ -506,7 +516,11 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
         }
         else
         {
-            // We only need the near scroller if we are not at the left scroll position
+            var isRtl = RibbonRtlLayout.IsRtl(_ribbon) && Orientation == Orientation.Horizontal;
+            _nearScroller.Orientation = NearOrientation;
+            _farScroller.Orientation = FarOrientation;
+
+            // We only need the near scroller if we are not at the start scroll position
             if (_scrollOffset > 0)
             {
                 _nearScroller.Visible = true;
@@ -514,14 +528,23 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
                 // Find size requirements of the near scroller
                 Size nearSize = _nearScroller.GetPreferredSize(context);
 
-                // Find layout position of the near scroller
+                // Find layout position of the near scroller (start edge)
                 if (Orientation == Orientation.Horizontal)
                 {
-                    context.DisplayRectangle = layoutRect with { Width = nearSize.Width };
-                    layoutRect.Width -= nearSize.Width;
-                    layoutRect.X += nearSize.Width;
-                    controlRect.Width -= nearSize.Width;
-                    controlRect.X += nearSize.Width;
+                    if (isRtl)
+                    {
+                        context.DisplayRectangle = layoutRect with { X = layoutRect.Right - nearSize.Width, Width = nearSize.Width };
+                        layoutRect.Width -= nearSize.Width;
+                        controlRect.Width -= nearSize.Width;
+                    }
+                    else
+                    {
+                        context.DisplayRectangle = layoutRect with { Width = nearSize.Width };
+                        layoutRect.Width -= nearSize.Width;
+                        layoutRect.X += nearSize.Width;
+                        controlRect.Width -= nearSize.Width;
+                        controlRect.X += nearSize.Width;
+                    }
                 }
                 else
                 {
@@ -544,20 +567,31 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
                 ? fillerSize.Width - layoutRect.Width
                 : fillerSize.Height - layoutRect.Height;
 
-            // We only need the far scroller if we are not at the right scroll position
+            // We only need the far scroller if we are not at the end scroll position
             if (_scrollOffset < maxOffset)
             {
                 _farScroller.Visible = true;
 
-                // Find size requirements of the near scroller
-                Size farSize = _nearScroller.GetPreferredSize(context);
+                // Find size requirements of the far scroller
+                Size farSize = _farScroller.GetPreferredSize(context);
 
-                // Find layout position of the far scroller
+                // Find layout position of the far scroller (end edge)
                 if (Orientation == Orientation.Horizontal)
                 {
-                    context.DisplayRectangle = layoutRect with { X = layoutRect.Right - farSize.Width, Width = farSize.Width };
-                    layoutRect.Width -= farSize.Width;
-                    controlRect.Width -= farSize.Width;
+                    if (isRtl)
+                    {
+                        context.DisplayRectangle = layoutRect with { Width = farSize.Width };
+                        layoutRect.Width -= farSize.Width;
+                        layoutRect.X += farSize.Width;
+                        controlRect.Width -= farSize.Width;
+                        controlRect.X += farSize.Width;
+                    }
+                    else
+                    {
+                        context.DisplayRectangle = layoutRect with { X = layoutRect.Right - farSize.Width, Width = farSize.Width };
+                        layoutRect.Width -= farSize.Width;
+                        controlRect.Width -= farSize.Width;
+                    }
                 }
                 else
                 {
@@ -589,9 +623,13 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
             // Filler rectangle is used for clipping
             _viewClipRect = controlRect;
 
-            // Apply the offset to the display of the view filler
+            // Apply the offset to the display of the view filler.
+            // RTL shows the reading-order start (right of the filler) when offset is 0.
+            var appliedOffset = isRtl && maxOffset > 0
+                ? maxOffset - _scrollOffset
+                : _scrollOffset;
             ViewLayoutControl.LayoutOffset = Orientation == Orientation.Horizontal
-                ? new Point(-_scrollOffset, 0)
+                ? new Point(-appliedOffset, 0)
                 : new Point(0, -_scrollOffset);
 
             // Position the filler in the remaining space
@@ -721,7 +759,7 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
             switch (Orientation)
             {
                 case Orientation.Horizontal:
-                    return VisualOrientation.Left;
+                    return RibbonRtlLayout.IsRtl(_ribbon) ? VisualOrientation.Right : VisualOrientation.Left;
 
                 case Orientation.Vertical:
                     return VisualOrientation.Top;
@@ -742,7 +780,7 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
             switch (Orientation)
             {
                 case Orientation.Horizontal:
-                    return VisualOrientation.Right;
+                    return RibbonRtlLayout.IsRtl(_ribbon) ? VisualOrientation.Left : VisualOrientation.Right;
 
                 case Orientation.Vertical:
                     return VisualOrientation.Bottom;

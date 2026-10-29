@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -26,6 +26,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
     private DesignerVerb _moveLastVerb;
     private DesignerVerb _addTripleVerb;
     private DesignerVerb _addLinesVerb;
+    private DesignerVerb _addStackVerb;
     private DesignerVerb _addSepVerb;
     private DesignerVerb _addGalleryVerb;
     private DesignerVerb _clearItemsVerb;
@@ -42,6 +43,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
     private ToolStripMenuItem _moveToTabMenu;
     private ToolStripMenuItem _addTripleMenu;
     private ToolStripMenuItem _addLinesMenu;
+    private ToolStripMenuItem _addStackMenu;
     private ToolStripMenuItem _addSeparatorMenu;
     private ToolStripMenuItem _addGalleryMenu;
     private ToolStripMenuItem _clearItemsMenu;
@@ -70,19 +72,20 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         Debug.Assert(component != null);
 
         // Cast to correct type
-        _ribbonGroup = component as KryptonRibbonGroup ?? throw new ArgumentNullException(nameof(component));
+        _ribbonGroup =component as KryptonRibbonGroup ?? ThrowHelper.ThrowArgumentNullException(component as KryptonRibbonGroup, nameof(component));
         if (_ribbonGroup is not null)
         {
             _ribbonGroup.DesignTimeAddTriple += OnAddTriple;
             _ribbonGroup.DesignTimeAddLines += OnAddLines;
+            _ribbonGroup.DesignTimeAddStack += OnAddStack;
             _ribbonGroup.DesignTimeAddSeparator += OnAddSep;
             _ribbonGroup.DesignTimeAddGallery += OnAddGallery;
             _ribbonGroup.DesignTimeContextMenu += OnContextMenu;
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -92,13 +95,17 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
-            var compound = new ArrayList(base.AssociatedComponents);
+            var compound = KryptonDesignerSdkCompat.ToArrayList(base.AssociatedComponents);
             compound.AddRange(_ribbonGroup.Items);
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 
@@ -129,6 +136,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 // Unhook from events
                 _ribbonGroup.DesignTimeAddTriple -= OnAddTriple;
                 _ribbonGroup.DesignTimeAddLines -= OnAddLines;
+                _ribbonGroup.DesignTimeAddStack -= OnAddStack;
                 _ribbonGroup.DesignTimeAddSeparator -= OnAddSep;
                 _ribbonGroup.DesignTimeAddGallery -= OnAddGallery;
                 _ribbonGroup.DesignTimeContextMenu -= OnContextMenu;
@@ -158,12 +166,13 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
             _moveLastVerb = new DesignerVerb(@"Move Group Last", OnMoveLast);
             _addTripleVerb = new DesignerVerb(@"Add Triple", OnAddTriple);
             _addLinesVerb = new DesignerVerb(@"Add Lines", OnAddLines);
+            _addStackVerb = new DesignerVerb(@"Add Stack", OnAddStack);
             _addSepVerb = new DesignerVerb(@"Add Separator", OnAddSep);
             _addGalleryVerb = new DesignerVerb(@"Add Gallery", OnAddGallery);
             _clearItemsVerb = new DesignerVerb(@"Clear Items", OnClearItems);
             _deleteGroupVerb = new DesignerVerb(@"Delete Group", OnDeleteGroup);
             _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
-                _addTripleVerb, _addLinesVerb, _addSepVerb, _addGalleryVerb, _clearItemsVerb, _deleteGroupVerb });
+                _addTripleVerb, _addLinesVerb, _addStackVerb, _addSepVerb, _addGalleryVerb, _clearItemsVerb, _deleteGroupVerb });
         }
 
         var moveFirst = false;
@@ -333,8 +342,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
 
     private void OnAddTriple(object? sender, EventArgs e)
     {
-        if ((_ribbonGroup.Ribbon != null) 
-            && _ribbonGroup.RibbonTab is not null
+        if (_ribbonGroup is { Ribbon: not null, RibbonTab: not null }
             && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
         {
             // Use a transaction to support undo/redo actions
@@ -392,7 +400,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Get designer to create the new lines component
-                var lines = (KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("lines"));
+                var lines =(KryptonRibbonGroupLines)_designerHost.CreateComponent(typeof(KryptonRibbonGroupLines)) ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonGroupLines>(SharedStaticFunctions.VariableCannotBeNull("lines"));
                 _ribbonGroup.Items.Add(lines);
 
                 // Get access to the Lines.Items property
@@ -415,6 +423,47 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
             finally
             {
                 // If we managed to create the transaction, then do it
+                transaction?.Commit();
+            }
+        }
+    }
+
+    private void OnAddStack(object? sender, EventArgs e)
+    {
+        if ((_ribbonGroup.Ribbon is not null)
+            && _ribbonGroup.RibbonTab is not null
+            && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+        {
+            DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup AddStack");
+
+            try
+            {
+                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonGroup)[@"Items"];
+
+                RaiseComponentChanging(propertyItems);
+
+                var stack = (KryptonRibbonGroupStack)_designerHost.CreateComponent(typeof(KryptonRibbonGroupStack)) ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonGroupStack>(SharedStaticFunctions.VariableCannotBeNull("stack"));
+                _ribbonGroup.Items.Add(stack);
+
+                MemberDescriptor? propertyStackItems = TypeDescriptor.GetProperties(stack)[@"Items"];
+
+                RaiseComponentChanging(propertyStackItems);
+
+                // Six buttons show the two-column layout immediately.
+                if (stack.Items is not null)
+                {
+                    for (var i = 0; i < 6; i++)
+                    {
+                        var button = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                        stack.Items.Add(button);
+                    }
+                }
+
+                RaiseComponentChanged(propertyStackItems, null, null);
+                RaiseComponentChanged(propertyItems, null, null);
+            }
+            finally
+            {
                 transaction?.Commit();
             }
         }
@@ -497,7 +546,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+                var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
                 // We need to remove all the items from the tab
                 for (var i = _ribbonGroup.Items.Count - 1; i >= 0; i--)
@@ -593,7 +642,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         if (e.Component == _ribbonGroup)
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+            var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all containers from the group
             for (var j = _ribbonGroup.Items.Count - 1; j >= 0; j--)
@@ -626,6 +675,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 _moveToTabMenu = new ToolStripMenuItem("Move Group To Tab");
                 _addTripleMenu = new ToolStripMenuItem("Add Triple", GenericImageResources.KryptonRibbonGroupTriple, OnAddTriple);
                 _addLinesMenu = new ToolStripMenuItem("Add Lines", GenericImageResources.KryptonRibbonGroupLines, OnAddLines);
+                _addStackMenu = new ToolStripMenuItem("Add Stack", GenericImageResources.KryptonRibbonGroupStack, OnAddStack);
                 _addSeparatorMenu = new ToolStripMenuItem("Add Separator", GenericImageResources.KryptonRibbonGroupSeparator, OnAddSep);
                 _addGalleryMenu = new ToolStripMenuItem("Add Gallery", GenericImageResources.KryptonGallery, OnAddGallery);
                 _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
@@ -634,14 +684,15 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                     _visibleMenu, _collapsableMenu, _dialogLauncherMenu, new ToolStripSeparator(),
                     _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
                     _moveToTabMenu, new ToolStripSeparator(),
-                    _addTripleMenu, _addLinesMenu, _addSeparatorMenu, _addGalleryMenu, new ToolStripSeparator(),
+                    _addTripleMenu, _addLinesMenu, _addStackMenu, _addSeparatorMenu, _addGalleryMenu, new ToolStripSeparator(),
                     _clearItemsMenu, new ToolStripSeparator(),
                     _deleteGroupMenu });
 
-                _addTripleMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-                _addLinesMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-                _addSeparatorMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-                _addGalleryMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                _addTripleMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addLinesMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addStackMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addSeparatorMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addGalleryMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             }
 
             // Update verbs to work out correct enable states
@@ -708,10 +759,10 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
             && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
         {
             // Cast to correct type
-            var tabMenuItem = sender as ToolStripMenuItem ?? throw new ArgumentNullException(nameof(sender));
+            var tabMenuItem =sender as ToolStripMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as ToolStripMenuItem, nameof(sender));
 
             // Get access to the destination tab
-            var destination = tabMenuItem.Tag as KryptonRibbonTab ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
+            var destination =tabMenuItem.Tag as KryptonRibbonTab ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonTab>(SharedStaticFunctions.VariableCannotBeNull(nameof(tabMenuItem.Tag)));
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup MoveTabTo");

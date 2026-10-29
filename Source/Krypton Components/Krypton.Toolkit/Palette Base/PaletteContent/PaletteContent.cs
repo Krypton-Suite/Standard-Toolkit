@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -41,8 +41,7 @@ public class PaletteContent : Storage,
         /// </summary>
         public bool IsDefault => (ContentDraw == InheritBool.Inherit) &&
                                  (ContentDrawFocus == InheritBool.Inherit) &&
-                                 ContentPadding.Equals(CommonHelper.InheritPadding) &&
-                                 (ContentAdjacentGap == -1);
+                                 ContentPadding.Equals(CommonHelper.InheritPadding);
     }
     #endregion
 
@@ -52,6 +51,7 @@ public class PaletteContent : Storage,
     private readonly PaletteContentText _shortText;
     private readonly PaletteContentText _longText;
     private IPaletteContent _inherit;
+    private int _factoryAdjacentGap = -1;
     #endregion
 
     #region Events
@@ -105,7 +105,17 @@ public class PaletteContent : Storage,
     public override bool IsDefault => _image.IsDefault &&
                                       _shortText.IsDefault &&
                                       _longText.IsDefault &&
+                                      (AdjacentGap == _factoryAdjacentGap) &&
                                       ((_storage == null) || _storage.IsDefault);
+
+    /// <summary>
+    /// Treats <paramref name="value"/> as the unset designer default for <see cref="AdjacentGap"/>.
+    /// </summary>
+    internal void SetDefaultAdjacentGap(int value)
+    {
+        _factoryAdjacentGap = value;
+        AdjacentGap = value;
+    }
 
     #endregion
 
@@ -307,7 +317,7 @@ public class PaletteContent : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetContentImageColorMap(PaletteState state) => _image.ImageColorMap != GlobalStaticValues.EMPTY_COLOR
+    public Color GetContentImageColorMap(PaletteState state) => _image.ImageColorMap != SharedStaticVariables.EMPTY_COLOR
         ? _image.ImageColorMap
         : _inherit.GetContentImageColorMap(state);
 
@@ -316,7 +326,7 @@ public class PaletteContent : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetContentImageColorTo(PaletteState state) => _image.ImageColorTo != GlobalStaticValues.EMPTY_COLOR
+    public Color GetContentImageColorTo(PaletteState state) => _image.ImageColorTo != SharedStaticVariables.EMPTY_COLOR
         ? _image.ImageColorTo
         : _inherit.GetContentImageColorTo(state);
 
@@ -419,7 +429,7 @@ public class PaletteContent : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetContentShortTextColor1(PaletteState state) =>
-        ShortText.Color1 != GlobalStaticValues.EMPTY_COLOR
+        ShortText.Color1 != SharedStaticVariables.EMPTY_COLOR
             ? ShortText.Color1
             : _inherit.GetContentShortTextColor1(state);
 
@@ -428,7 +438,7 @@ public class PaletteContent : Storage,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public Color GetContentShortTextColor2(PaletteState state) => ShortText.Color2 != GlobalStaticValues.EMPTY_COLOR
+    public Color GetContentShortTextColor2(PaletteState state) => ShortText.Color2 != SharedStaticVariables.EMPTY_COLOR
         ? ShortText.Color2
         : _inherit.GetContentShortTextColor2(state);
 
@@ -588,7 +598,7 @@ public class PaletteContent : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetContentLongTextColor1(PaletteState state) =>
-        LongText.Color1 != GlobalStaticValues.EMPTY_COLOR
+        LongText.Color1 != SharedStaticVariables.EMPTY_COLOR
             ? LongText.Color1
             : _inherit.GetContentLongTextColor1(state);
 
@@ -598,7 +608,7 @@ public class PaletteContent : Storage,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public Color GetContentLongTextColor2(PaletteState state) =>
-        LongText.Color2 != GlobalStaticValues.EMPTY_COLOR
+        LongText.Color2 != SharedStaticVariables.EMPTY_COLOR
             ? LongText.Color2
             : _inherit.GetContentLongTextColor2(state);
 
@@ -749,7 +759,6 @@ public class PaletteContent : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Spacing gap between adjacent content items.")]
-    [DefaultValue(-1)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual int AdjacentGap
     {
@@ -781,10 +790,12 @@ public class PaletteContent : Storage,
         }
     }
 
+    private bool ShouldSerializeAdjacentGap() => AdjacentGap != _factoryAdjacentGap;
+
     /// <summary>
     /// Reset the AdjacentGap to the default value.
     /// </summary>
-    public void ResetAdjacentGap() => AdjacentGap = -1;
+    public void ResetAdjacentGap() => AdjacentGap = _factoryAdjacentGap;
 
     /// <summary>
     /// Gets the actual padding between adjacent content items.

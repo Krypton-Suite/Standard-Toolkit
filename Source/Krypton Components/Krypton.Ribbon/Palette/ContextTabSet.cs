@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -37,10 +37,10 @@ internal class ContextTabSet
         Debug.Assert(tab is not null);
         Debug.Assert(context is not null);
 
-        FirstTab = tab ?? throw new ArgumentNullException(nameof(tab));
+        FirstTab = tab ?? ThrowHelper.ThrowArgumentNullException(tab);
         _lastTab = tab;
 
-        Context = context ?? throw new ArgumentNullException(nameof(context));
+        Context = context ?? ThrowHelper.ThrowArgumentNullException(context);
     }
     #endregion
 
@@ -78,7 +78,7 @@ internal class ContextTabSet
     public void UpdateLastTab([DisallowNull] ViewDrawRibbonTab tab)
     {
         Debug.Assert(tab is not null);
-        _lastTab = tab ?? throw new ArgumentNullException(nameof(tab));
+        _lastTab = tab ?? ThrowHelper.ThrowArgumentNullException(tab);
     }
 
     /// <summary>

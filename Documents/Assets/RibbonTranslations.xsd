@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  XML Schema for Krypton RibbonTranslations.xml files.
+  Validates the structure used by RibbonTranslationsXmlPersistence.
+  Version is structural only. Unknown leaf keys are ignored on import; missing live keys keep current values.
+  Place alongside your RibbonTranslations.xml and reference with:
+    <KryptonRibbonTranslations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                               xsi:noNamespaceSchemaLocation="RibbonTranslations.xsd" ...>
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="KryptonRibbonTranslations">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+      </xs:sequence>
+      <xs:attribute name="Version" type="xs:positiveInteger" use="required" />
+      <xs:attribute name="Culture" type="xs:string" use="optional" />
+      <xs:attribute name="Generated" type="xs:string" use="optional" />
+      <xs:attribute name="ToolkitVersion" type="xs:string" use="optional" />
+      <xs:attribute name="RibbonName" type="xs:string" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="StringEntryType">
+    <xs:attribute name="Value" type="xs:string" use="required" />
+    <xs:attribute name="IsNull" type="xs:boolean" use="optional" default="false" />
+  </xs:complexType>
+
+  <xs:complexType name="RibbonNodeType">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
+    </xs:sequence>
+    <xs:attribute name="TranslationId" type="xs:string" use="optional" />
+    <xs:attribute name="Name" type="xs:string" use="optional" />
+    <xs:attribute name="Type" type="xs:string" use="optional" />
+    <xs:attribute name="Index" type="xs:integer" use="optional" />
+    <xs:attribute name="UniqueName" type="xs:string" use="optional" />
+    <xs:attribute name="ContextName" type="xs:string" use="optional" />
+  </xs:complexType>
+
+</xs:schema>

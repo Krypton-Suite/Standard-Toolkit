@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupDateTimePicker : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupDateTimePicker = ribbonDateTimePicker ?? throw new (nameof(ribbonDateTimePicker));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupDateTimePicker = ribbonDateTimePicker ?? ThrowHelper.ThrowArgumentNullException(ribbonDateTimePicker);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupDateTimePicker.ItemSizeCurrent;
 
         // Hook into the date time picker events
@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupDateTimePicker : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the text box definition
-        GroupDateTimePicker.DateTimePickerView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupDateTimePicker.DateTimePickerView = this;
 
         // Give paint delegate to date time picker so its palette changes are redrawn
-        GroupDateTimePicker.ViewPaintDelegate = needPaint;
+            GroupDateTimePicker.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupDateTimePicker.DateTimePicker);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupDateTimePicker : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupDateTimePicker.MouseEnterControl -= OnMouseEnterControl;
                 GroupDateTimePicker.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupDateTimePicker.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupDateTimePicker.DateTimePickerView, this))
+                {
+                    GroupDateTimePicker.ViewPaintDelegate = null;
+                }
                 GroupDateTimePicker.PropertyChanged -= OnDateTimePickerPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupDateTimePicker.DateTimePickerView = null!; 
+                if (ReferenceEquals(GroupDateTimePicker.DateTimePickerView, this))
+                {
+                    GroupDateTimePicker.DateTimePickerView = null!;
+                } 
                 GroupDateTimePicker = null;
             }
         }
@@ -227,19 +236,15 @@ internal class ViewDrawRibbonGroupDateTimePicker : ViewComposite,
             Rectangle viewRect = _ribbon.KeyTipToScreen(this);
 
             // Determine the screen position of the key tip
-            var screenPt = Point.Empty;
 
             // Determine the screen position of the key tip dependant on item location/size
-            switch (_currentSize)
+            var screenPt = _currentSize switch
             {
-                case GroupItemSize.Large:
-                    screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
-                    break;
-                case GroupItemSize.Medium:
-                case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
-                    break;
-            }
+                GroupItemSize.Large => new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom),
+                GroupItemSize.Medium or GroupItemSize.Small => _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect,
+                    lineHint),
+                _ => Point.Empty
+            };
 
             keyTipList.Add(new KeyTipInfo(GroupDateTimePicker!.Enabled, 
                 GroupDateTimePicker.KeyTip,

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://krypton-suite.github.io/Standard-Toolkit/schemas/CustomTranslations.schema.json",
+  "title": "KryptonCustomTranslations",
+  "type": "object",
+  "properties": {
+    "Version": { "type": "integer", "minimum": 1 },
+    "Culture": { "type": "string" },
+    "Generated": { "type": "string" },
+    "Values": {
+      "type": "object",
+      "additionalProperties": { "type": [ "string", "null" ] }
+    },
+    "StringSets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": { "type": [ "string", "null" ] }
+      }
+    }
+  },
+  "required": [ "Version", "Values", "StringSets" ],
+  "additionalProperties": false
+}

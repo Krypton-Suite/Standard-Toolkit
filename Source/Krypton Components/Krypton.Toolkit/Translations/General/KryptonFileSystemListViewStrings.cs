@@ -1,0 +1,209 @@
+#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit;
+
+[TypeConverter(typeof(ExpandableObjectConverter))]
+public class KryptonFileSystemListViewStrings : Storage
+{
+    #region Static Strings
+
+    private const string DEFAULT_COLUMN_NAME_NAME = @"Name";
+    private const string DEFAULT_COLUMN_TYPE_NAME = @"Type";
+    private const string DEFAULT_COLUMN_SIZE_NAME = @"Size";
+    private const string DEFAULT_COLUMN_DATE_MODIFIED_NAME = @"Date Modified";
+    private const string DEFAULT_COLUMN_DATE_CREATED_NAME = @"Date Created";
+    private const string DEFAULT_COLUMN_ATTRIBUTES_NAME = @"Attributes";
+    private const string DEFAULT_DIRECTORY_NOT_FOUND_MESSAGE = @"Directory not found";
+
+    #endregion
+
+    #region Instance Fields
+
+    private bool _useOSStrings;
+    private string? _cachedColumnNameName;
+    private string? _cachedColumnTypeName;
+    private string? _cachedColumnSizeName;
+    private string? _cachedColumnDateModifiedName;
+    private string? _cachedColumnDateCreatedName;
+    private string? _cachedColumnAttributesName;
+
+    #endregion
+
+    #region Identity
+
+    public KryptonFileSystemListViewStrings()
+    {
+        Reset();
+    }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>Gets or sets a value indicating whether to use OS-defined strings from shell32.dll.</summary>
+    [Category("Visuals")]
+    [Description("Gets or sets a value indicating whether to use OS-defined strings from shell32.dll.")]
+    [DefaultValue(false)]
+    public bool UseOSStrings
+    {
+        get => _useOSStrings;
+        set
+        {
+            if (_useOSStrings != value)
+            {
+                _useOSStrings = value;
+                ClearOsStringCache();
+            }
+        }
+    }
+
+    /// <summary>Gets or sets the default name for the 'Name' column.</summary>
+    [Category("Visuals")]
+    [Description("Gets or sets the default name for the 'Name' column.")]
+    [DefaultValue(DEFAULT_COLUMN_NAME_NAME)]
+    [Localizable(true)]
+    public string ColumnNameName
+    {
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnName, DEFAULT_COLUMN_NAME_NAME, ref _cachedColumnNameName)
+            : _columnNameName;
+        set => _columnNameName = value;
+    }
+    private string _columnNameName = DEFAULT_COLUMN_NAME_NAME;
+
+    /// <summary>Gets or sets the default name for the 'Type' column.</summary>
+    [Category("Visuals")]
+    [Description("Gets or sets the default name for the 'Type' column.")]
+    [DefaultValue(DEFAULT_COLUMN_TYPE_NAME)]
+    [Localizable(true)]
+    public string ColumnTypeName
+    {
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnType, DEFAULT_COLUMN_TYPE_NAME, ref _cachedColumnTypeName)
+            : _columnTypeName;
+        set => _columnTypeName = value;
+    }
+    private string _columnTypeName = DEFAULT_COLUMN_TYPE_NAME;
+
+    /// <summary>Gets or sets the default name for the 'Size' column.</summary>
+    [Category("Visuals")]
+    [Description("Gets or sets the default name for the 'Size' column.")]
+    [DefaultValue(DEFAULT_COLUMN_SIZE_NAME)]
+    [Localizable(true)]
+    public string ColumnSizeName
+    {
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnSize, DEFAULT_COLUMN_SIZE_NAME, ref _cachedColumnSizeName)
+            : _columnSizeName;
+        set => _columnSizeName = value;
+    }
+    private string _columnSizeName = DEFAULT_COLUMN_SIZE_NAME;
+
+    /// <summary>Gets or sets the default name for the 'Date Modified' column.</summary>
+    [Category("Visuals")]
+    [Description("Gets or sets the default name for the 'Date Modified' column.")]
+    [DefaultValue(DEFAULT_COLUMN_DATE_MODIFIED_NAME)]
+    [Localizable(true)]
+    public string ColumnDateModifiedName
+    {
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnDateModified, DEFAULT_COLUMN_DATE_MODIFIED_NAME, ref _cachedColumnDateModifiedName)
+            : _columnDateModifiedName;
+        set => _columnDateModifiedName = value;
+    }
+    private string _columnDateModifiedName = DEFAULT_COLUMN_DATE_MODIFIED_NAME;
+
+    /// <summary>Gets or sets the default name for the 'Date Created' column.</summary>
+    [Category("Visuals")]
+    [Description("Gets or sets the default name for the 'Date Created' column.")]
+    [DefaultValue(DEFAULT_COLUMN_DATE_CREATED_NAME)]
+    [Localizable(true)]
+    public string ColumnDateCreatedName
+    {
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnDateCreated, DEFAULT_COLUMN_DATE_CREATED_NAME, ref _cachedColumnDateCreatedName)
+            : _columnDateCreatedName;
+        set => _columnDateCreatedName = value;
+    }
+    private string _columnDateCreatedName = DEFAULT_COLUMN_DATE_CREATED_NAME;
+
+    /// <summary>Gets or sets the default name for the 'Attributes' column.</summary>
+    [Category("Visuals")]
+    [Description("Gets or sets the default name for the 'Attributes' column.")]
+    [DefaultValue(DEFAULT_COLUMN_ATTRIBUTES_NAME)]
+    [Localizable(true)]
+    public string ColumnAttributesName
+    {
+        get => _useOSStrings
+            ? OsMuiStringLoader.Load(WindowsMuiStringId.ColumnAttributes, DEFAULT_COLUMN_ATTRIBUTES_NAME, ref _cachedColumnAttributesName)
+            : _columnAttributesName;
+        set => _columnAttributesName = value;
+    }
+    private string _columnAttributesName = DEFAULT_COLUMN_ATTRIBUTES_NAME;
+
+    /// <summary>Gets or sets the message displayed when a directory is not found.</summary>
+    [Category("Messages")]
+    [Description("Gets or sets the message displayed when a directory is not found.")]
+    [DefaultValue(DEFAULT_DIRECTORY_NOT_FOUND_MESSAGE)]
+    [Localizable(true)]
+    public string DirectoryNotFoundMessage { get; set; } = DEFAULT_DIRECTORY_NOT_FOUND_MESSAGE;
+
+    #endregion
+
+    #region IsDefault
+
+    /// <inheritdoc />
+    [Browsable(false)]
+    public override bool IsDefault => !_useOSStrings &&
+                                      _columnNameName.Equals(DEFAULT_COLUMN_NAME_NAME) &&
+                                      _columnTypeName.Equals(DEFAULT_COLUMN_TYPE_NAME) &&
+                                      _columnSizeName.Equals(DEFAULT_COLUMN_SIZE_NAME) &&
+                                      _columnDateModifiedName.Equals(DEFAULT_COLUMN_DATE_MODIFIED_NAME) &&
+                                      _columnDateCreatedName.Equals(DEFAULT_COLUMN_DATE_CREATED_NAME) &&
+                                      _columnAttributesName.Equals(DEFAULT_COLUMN_ATTRIBUTES_NAME) &&
+                                      DirectoryNotFoundMessage.Equals(DEFAULT_DIRECTORY_NOT_FOUND_MESSAGE);
+
+    #endregion
+
+    #region Implementation
+
+    /// <inheritdoc />
+    public void Reset()
+    {
+        UseOSStrings = false;
+        _columnNameName = DEFAULT_COLUMN_NAME_NAME;
+        _columnTypeName = DEFAULT_COLUMN_TYPE_NAME;
+        _columnSizeName = DEFAULT_COLUMN_SIZE_NAME;
+        _columnDateModifiedName = DEFAULT_COLUMN_DATE_MODIFIED_NAME;
+        _columnDateCreatedName = DEFAULT_COLUMN_DATE_CREATED_NAME;
+        _columnAttributesName = DEFAULT_COLUMN_ATTRIBUTES_NAME;
+        DirectoryNotFoundMessage = DEFAULT_DIRECTORY_NOT_FOUND_MESSAGE;
+        ClearOsStringCache();
+    }
+
+    private void ClearOsStringCache()
+    {
+        _cachedColumnNameName = null;
+        _cachedColumnTypeName = null;
+        _cachedColumnSizeName = null;
+        _cachedColumnDateModifiedName = null;
+        _cachedColumnDateCreatedName = null;
+        _cachedColumnAttributesName = null;
+        OsMuiStringLoader.ClearCache();
+    }
+
+    #endregion
+
+    #region Overrides
+
+    public override string ToString() => !IsDefault ? "Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
+
+    #endregion
+}

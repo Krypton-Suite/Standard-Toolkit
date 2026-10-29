@@ -1,7 +1,7 @@
 <Project>
 	<Import Project="..\..\Directory.Build.props" />
-	<Import Project="Krypton.OReleaseCandidatehestration.targets" />
-	<Import Project="Krypton.Pack.targets" />
+	<Import Project="..\Build\Krypton.Orchestration.targets" />
+	<Import Project="..\Build\Krypton.Pack.targets" />
 
 	<PropertyGroup>
 		<RootFolder>$(MSBuildProjectDirectory)</RootFolder>
@@ -56,9 +56,9 @@
 		      Condition="Exists('C:\Program Files\7-Zip\7z.exe')"
 		      WorkingDirectory="$(ReleaseCandidateBuildPath)" />
 
-		<!-- Fallback: Using PowerShell Compress-AReleaseCandidatehive if 7-Zip not available -->
-		<Exec Command="powershell.exe -Command &quot;Get-ChildItem '..\Bin\ReleaseCandidate\*' -Recurse | Where-Object {$_.Extension -notin '.json','.pdb'} | Compress-AReleaseCandidatehive -DestinationPath '$(ReleaseCandidateBuildPath)\$(ReleaseCandidateZipName)_$(StringDate).zip' -FoReleaseCandidatee&quot;"
-		      Condition="!Exists('C:\Program Files\7z.exe')" />
+		<!-- Fallback: Using PowerShell Compress-Archive if 7-Zip not available -->
+		<Exec Command="powershell.exe -Command &quot;Get-ChildItem '..\Bin\ReleaseCandidate\*' -Recurse | Where-Object {$_.Extension -notin '.json','.pdb'} | Compress-Archive -DestinationPath '$(ReleaseCandidateBuildPath)\$(ReleaseCandidateZipName)_$(StringDate).zip' -Force&quot;"
+		      Condition="!Exists('C:\Program Files\7-Zip\7z.exe')" />
 	</Target>
 
 	<Target Name="CreateReleaseCandidateTar">
@@ -89,5 +89,5 @@
 		      Condition="Exists('C:\Program Files\Git\bin\bash.exe')" />
 	</Target>
 
-	<Target Name="CreateAllReleaseCandidateAReleaseCandidatehives" DependsOnTargets="CreateReleaseCandidateZip;CreateReleaseCandidateTar" />
+	<Target Name="CreateAllReleaseCandidateArchives" DependsOnTargets="CreateReleaseCandidateZip;CreateReleaseCandidateTar" />
 </Project>

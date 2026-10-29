@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -19,8 +19,14 @@ namespace Krypton.Ribbon;
 /// </summary>
 internal class ViewDrawRibbonQATExtraButtonMini : ViewDrawRibbonQATExtraButton
 {
-    private readonly int _miniButtonHeight; // = 22;
-    private readonly int _miniButtonOffset; // = 24;
+    #region Static Fields
+
+    // 96-DPI design values. Scaled in Layout so caption placement tracks per-monitor DPI (issue #4254).
+    private const int MiniButtonHeight96 = 22;
+    private const int MiniButtonOffset96 = 24;
+
+    #endregion
+
     #region Identity
     /// <summary>
     /// Initialize a new instance of the ViewDrawRibbonQATExtraButtonMini class.
@@ -31,8 +37,6 @@ internal class ViewDrawRibbonQATExtraButtonMini : ViewDrawRibbonQATExtraButton
         NeedPaintHandler needPaint)
         : base(ribbon, needPaint)
     {
-        _miniButtonHeight = (int)(22 * FactorDpiY);
-        _miniButtonOffset = (int)(24 * FactorDpiX);
     }
 
     /// <summary>
@@ -56,9 +60,10 @@ internal class ViewDrawRibbonQATExtraButtonMini : ViewDrawRibbonQATExtraButton
 
         Rectangle clientRect = context!.DisplayRectangle;
 
-        // For the minibar we have to position ourself at bottom of available area
-        clientRect.Y = clientRect.Bottom - 1 - _miniButtonOffset;
-        clientRect.Height = _miniButtonHeight;
+        // For the minibar we have to position ourself at bottom of available area.
+        // Offset stays on the X factor to match the original 96-DPI geometry.
+        clientRect.Y = clientRect.Bottom - 1 - ScaleDpi(MiniButtonOffset96, FactorDpiX);
+        clientRect.Height = ScaleDpi(MiniButtonHeight96, FactorDpiY);
 
         // Use modified size to position base class and children
         context.DisplayRectangle = clientRect;

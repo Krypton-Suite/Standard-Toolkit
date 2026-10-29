@@ -1,8 +1,8 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -12,6 +12,7 @@ namespace Krypton.Toolkit;
 public sealed class PaletteProfessionalSystem_BaseScheme : KryptonColorSchemeBase
 {
     public override Color TextLabelControl                 { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TextListItem                     { get; set; } = Color.FromArgb(255, 0, 0);
     public override Color TextButtonNormal                 { get; set; } = Color.FromArgb(255, 0, 0);
     public override Color TextButtonChecked                { get; set; } = Color.FromArgb(255, 0, 0);
     public override Color ButtonNormalBorder               { get; set; } = Color.FromArgb(255, 0, 0);
@@ -138,6 +139,8 @@ public sealed class PaletteProfessionalSystem_BaseScheme : KryptonColorSchemeBas
     public override Color RibbonGroupFrameInside3          { get; set; } = Color.FromArgb(0, 0, 0, 0);
     public override Color RibbonGroupFrameInside4          { get; set; } = Color.FromArgb(0, 0, 0, 0);
     public override Color RibbonGroupCollapsedText         { get; set; } = SystemColors.ControlText;
+    public override Color RibbonGroupTextTracking          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ButtonTextTracking               { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color RibbonGroupButtonText            { get; set; } = SystemColors.ControlText;
     public override Color AlternatePressedBack1            { get; set; } = Color.FromArgb(255, 0, 0);
     public override Color AlternatePressedBack2            { get; set; } = Color.FromArgb(255, 0, 0);
@@ -237,17 +240,18 @@ public sealed class PaletteProfessionalSystem_BaseScheme : KryptonColorSchemeBas
     public override Color ButtonNavigatorPressed2          { get; set; } = Color.FromArgb(255, 0, 0);
     public override Color ButtonNavigatorChecked1          { get; set; } = Color.FromArgb(255, 0, 0);
     public override Color ButtonNavigatorChecked2          { get; set; } = Color.FromArgb(255, 0, 0);
-    public override Color ToolTipBottom                    { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuItemText                     { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientStart          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientMiddle         { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuMarginGradientEnd            { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color DisabledMenuItemText             { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color MenuStripText                    { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color TrackBarTickMarks                { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color TrackBarTopTrack                 { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color TrackBarBottomTrack              { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color TrackBarFillTrack                { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color TrackBarOutsidePosition          { get; set; } = GlobalStaticValues.EMPTY_COLOR;
-    public override Color TrackBarBorderPosition           { get; set; } = GlobalStaticValues.EMPTY_COLOR;
+    public override Color ToolTipBottom                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuItemText                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientStart          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientMiddle         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuMarginGradientEnd            { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color DisabledMenuItemText             { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ToolStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TrackBarTickMarks                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TrackBarTopTrack                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TrackBarBottomTrack              { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TrackBarFillTrack                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }

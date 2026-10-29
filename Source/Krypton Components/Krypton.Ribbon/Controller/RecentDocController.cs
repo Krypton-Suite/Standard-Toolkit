@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -25,7 +25,7 @@ internal class RecentDocController : GlobalId,
 {
     #region Instance Fields
     private bool _mouseOver;
-    private readonly ViewDrawRibbonAppMenuRecentDec _menuItem;
+    private readonly ViewDrawRibbonAppMenuRecentDoc _menuItem;
     private NeedPaintHandler? _needPaint;
 
     #endregion
@@ -38,16 +38,16 @@ internal class RecentDocController : GlobalId,
     /// <param name="menuItem">Target menu item view element.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
     public RecentDocController([DisallowNull] ViewContextMenuManager? viewManager,
-        [DisallowNull] ViewDrawRibbonAppMenuRecentDec? menuItem,
+        [DisallowNull] ViewDrawRibbonAppMenuRecentDoc? menuItem,
         [DisallowNull] NeedPaintHandler? needPaint)
     {
         Debug.Assert(viewManager is not null);
         Debug.Assert(menuItem is not null);
         Debug.Assert(needPaint is not null);
 
-        ViewManager = viewManager ?? throw new ArgumentNullException(nameof(viewManager));
-        _menuItem = menuItem ?? throw new ArgumentNullException(nameof(menuItem));
-        NeedPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        ViewManager = viewManager ?? ThrowHelper.ThrowArgumentNullException(viewManager);
+        _menuItem = menuItem ?? ThrowHelper.ThrowArgumentNullException(menuItem);
+        NeedPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
     }
     #endregion
 
@@ -197,14 +197,14 @@ internal class RecentDocController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
-        switch (e.KeyCode)
+        switch (RibbonRtlLayout.HorizontalKey(e.KeyCode, c.RightToLeft == RightToLeft.Yes))
         {
             case Keys.Enter:
             case Keys.Space:
@@ -247,11 +247,11 @@ internal class RecentDocController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         ViewManager.KeyMnemonic(e.KeyChar);
@@ -271,11 +271,11 @@ internal class RecentDocController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         return false;

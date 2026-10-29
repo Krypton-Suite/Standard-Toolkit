@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonGroup), "ToolboxBitmaps.KryptonGroup.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty(nameof(GroupBackStyle))]
-[Designer(typeof(KryptonGroupDesigner))]
+[Designer("Krypton.Toolkit.KryptonGroupDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables you to group collections of controls.")]
 [Docking(DockingBehavior.Ask)]
@@ -31,6 +31,8 @@ public class KryptonGroup : VisualControlContainment
     private readonly ViewLayoutFill _layoutFill;
     private bool _forcedLayout;
     private bool _layingOut;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
 
     #endregion
 
@@ -235,6 +237,38 @@ public class KryptonGroup : VisualControlContainment
     private bool ShouldSerializeStateNormal() => !StateNormal!.IsDefault;
 
     /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
+
+    /// <summary>
     /// Get the preferred size of the control based on a proposed size.
     /// </summary>
     /// <param name="proposedSize">Starting size proposed by the caller.</param>
@@ -288,7 +322,14 @@ public class KryptonGroup : VisualControlContainment
             // Ensure that the layout is calculated in order to know the remaining display space
             ForceViewLayout();
 
-            // The inside panel is the client rectangle size
+            // The fill rect from view layout is authoritative; Panel bounds are applied in OnLayout
+            // and can be stale when the designer queries DisplayRectangle before WinForms layout runs.
+            Rectangle fillRect = _layoutFill.FillRect;
+            if (!fillRect.IsEmpty)
+            {
+                return fillRect;
+            }
+
             return new Rectangle(Panel.Location, Panel.Size);
         }
     }
@@ -344,6 +385,23 @@ public class KryptonGroup : VisualControlContainment
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        // Update scrollbar manager state
+        if (UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
+
+        base.Dispose(disposing);
     }
 
     /// <summary>
@@ -443,6 +501,24 @@ public class KryptonGroup : VisualControlContainment
     #endregion
 
     #region Implementation
+
+    private void UpdateScrollbarManager()
+    {
+        if (UseKryptonScrollbars)
+        {
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the group panel follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
+            {
+                ScrollbarManager.Attach(Panel, ScrollbarManagerMode.Container);
+            }
+        }
+        else
+        {
+            _scrollbarManager?.Detach();
+        }
+    }
+
     private void OnGroupPanelPaint(object? sender, NeedLayoutEventArgs e)
     {
         // If the child panel is layout out but not because we are, then it must be

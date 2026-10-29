@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -26,11 +26,24 @@ public static class KryptonInputBox
     public static string Show(KryptonInputBoxData inputBoxData)
         =>  InternalShow(inputBoxData);
 
+    /// <summary>
+    /// Displays an input box asynchronously with provided prompt and caption and defaulted response string.
+    /// </summary>
+    /// <param name="inputBoxData">The data to feed through to <see cref="VisualInputBoxForm"/>.</param>
+    /// <returns>A task that produces the input string when the dialog is closed.</returns>
+    public static Task<string> ShowAsync(KryptonInputBoxData inputBoxData)
+        => InternalShowAsync(inputBoxData);
+
     #endregion
 
     #region Implementation
 
     internal static string InternalShow(KryptonInputBoxData inputBoxData) => inputBoxData.UseRTLLayout == KryptonUseRTLLayout.Yes ? VisualInputBoxRtlAwareForm.InternalShow(inputBoxData) : VisualInputBoxForm.InternalShow(inputBoxData);
+
+    internal static Task<string> InternalShowAsync(KryptonInputBoxData inputBoxData) =>
+        inputBoxData.UseRTLLayout == KryptonUseRTLLayout.Yes
+            ? VisualInputBoxRtlAwareForm.InternalShowAsync(inputBoxData)
+            : VisualInputBoxForm.InternalShowAsync(inputBoxData);
 
     #endregion
 }

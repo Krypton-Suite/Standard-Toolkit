@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -157,12 +157,12 @@ public class ViewDrawCanvas : ViewComposite
 
         if (paletteBack is null)
         {
-            throw new ArgumentNullException(nameof(paletteBack));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteBack));
         }
 
         if(paletteBorder is null)
         {
-            throw new ArgumentNullException(nameof(paletteBorder));
+            ThrowHelper.ThrowArgumentNullException(nameof(paletteBorder));
         }
 
         // Use newly provided palettes
@@ -329,9 +329,12 @@ public class ViewDrawCanvas : ViewComposite
     /// <returns>Path instance.</returns>
     public GraphicsPath? GetOuterBorderPath(RenderContext context)
     {
-        return (_paletteBorder is null && context.Renderer is not null)
-            ? context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State)
-            : null;  // No palette details to use
+        if (_paletteBorder is null || context?.Renderer is null)
+        {
+            return null;
+        }
+
+        return context.Renderer.RenderStandardBorder.GetOutsideBorderPath(context, ClientRectangle, _paletteBorder, Orientation, State);
     }
     #endregion
 
@@ -347,12 +350,12 @@ public class ViewDrawCanvas : ViewComposite
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Ask the renderer to evaluate the given palette
@@ -375,12 +378,12 @@ public class ViewDrawCanvas : ViewComposite
         // Validate incoming reference
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Let base class find preferred size of the children
@@ -391,7 +394,8 @@ public class ViewDrawCanvas : ViewComposite
             DrawTabBorder
                 ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, _paletteBorder!, State, Orientation,
                     TabBorderStyle)
-                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation));
+                : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation,
+                    context.DisplayRectangle.Size));
 
         // Do we have a metric source for additional padding?
         if (_paletteMetric != null)
@@ -415,12 +419,12 @@ public class ViewDrawCanvas : ViewComposite
         // Validate incoming reference
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // We take on all the available display area
@@ -440,7 +444,8 @@ public class ViewDrawCanvas : ViewComposite
         Padding padding = DrawTabBorder
             ? context.Renderer.RenderTabBorder.GetTabBorderDisplayPadding(context, _paletteBorder!, State,
                 Orientation, TabBorderStyle)
-            : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation);
+            : context.Renderer.RenderStandardBorder.GetBorderDisplayPadding(_paletteBorder!, State, Orientation,
+                ClientRectangle.Size);
 
         // Apply the padding to the client rectangle
         context.DisplayRectangle = CommonHelper.ApplyPadding(Orientation, ClientRectangle, padding);
@@ -467,12 +472,12 @@ public class ViewDrawCanvas : ViewComposite
         // Validate incoming reference
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Do we need to draw the background?
@@ -551,7 +556,7 @@ public class ViewDrawCanvas : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (DrawCanvas && (_paletteBorder != null))
@@ -584,12 +589,12 @@ public class ViewDrawCanvas : ViewComposite
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Do we need to draw the border?

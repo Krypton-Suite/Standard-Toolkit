@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -74,8 +74,8 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
         }
 
         // Get access to the services
-        _designerHost = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_designerHost)));
-        _changeService = (IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull(nameof(_changeService)));
+        _designerHost =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull(nameof(_designerHost)));
+        _changeService =(IComponentChangeService?)GetService(typeof(IComponentChangeService)) ?? ThrowHelper.ThrowNullReferenceException<IComponentChangeService>(SharedStaticFunctions.VariableCannotBeNull(nameof(_changeService)));
 
         // We need to know when we are being removed/changed
         _changeService.ComponentRemoving += OnComponentRemoving;
@@ -85,13 +85,17 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
     /// <summary>
     /// Gets the collection of components associated with the component managed by the designer.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    public override IReadOnlyCollection<IComponent> AssociatedComponents
+#else
     public override ICollection AssociatedComponents
+#endif
     {
         get
         {
-            var compound = new ArrayList(base.AssociatedComponents);
+            var compound = KryptonDesignerSdkCompat.ToArrayList(base.AssociatedComponents);
             compound.AddRange(_ribbonCluster!.Items);
-            return compound;
+            return KryptonDesignerSdkCompat.Associated(compound);
         }
     }
 
@@ -162,13 +166,12 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
 
         if (_ribbonCluster!.Ribbon != null)
         {
-            // Cast container to the correct type
-            var lines = _ribbonCluster.RibbonContainer as KryptonRibbonGroupLines;
+            var items = ParentItems;
 
-            moveFirst = lines!.Items!.IndexOf(_ribbonCluster) > 0;
-            movePrev = lines.Items!.IndexOf(_ribbonCluster) > 0;
-            moveNext = lines.Items!.IndexOf(_ribbonCluster) < (lines.Items.Count - 1);
-            moveLast = lines.Items!.IndexOf(_ribbonCluster) < (lines.Items.Count - 1);
+            moveFirst = items!.IndexOf(_ribbonCluster) > 0;
+            movePrev = items!.IndexOf(_ribbonCluster) > 0;
+            moveNext = items!.IndexOf(_ribbonCluster) < (items!.Count - 1);
+            moveLast = items!.IndexOf(_ribbonCluster) < (items!.Count - 1);
             clearItems = _ribbonCluster.Items.Count > 0;
         }
 
@@ -192,8 +195,7 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
     {
         if (_ribbonCluster!.Ribbon != null)
         {
-            // Cast container to the correct type
-            var lines = _ribbonCluster.RibbonContainer as KryptonRibbonGroupLines;
+            var items = ParentItems;
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster MoveFirst");
@@ -201,13 +203,13 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(lines!)[@"Items"];
+                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCluster!.RibbonContainer!)[@"Items"];
 
                 RaiseComponentChanging(propertyItems);
 
                 // Move position of the cluster
-                lines!.Items!.Remove(_ribbonCluster);
-                lines.Items!.Insert(0, _ribbonCluster);
+                items!.Remove(_ribbonCluster);
+                items!.Insert(0, _ribbonCluster);
                 UpdateVerbStatus();
 
                 RaiseComponentChanged(propertyItems, null, null);
@@ -224,8 +226,7 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
     {
         if (_ribbonCluster!.Ribbon != null)
         {
-            // Cast container to the correct type
-            var lines = _ribbonCluster.RibbonContainer as KryptonRibbonGroupLines;
+            var items = ParentItems;
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster MovePrevious");
@@ -233,15 +234,15 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(lines!)[@"Items"];
+                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCluster!.RibbonContainer!)[@"Items"];
 
                 RaiseComponentChanging(propertyItems);
 
                 // Move position of the cluster
-                var index = lines!.Items!.IndexOf(_ribbonCluster) - 1;
+                var index = items!.IndexOf(_ribbonCluster) - 1;
                 index = Math.Max(index, 0);
-                lines.Items!.Remove(_ribbonCluster);
-                lines.Items!.Insert(index, _ribbonCluster);
+                items!.Remove(_ribbonCluster);
+                items!.Insert(index, _ribbonCluster);
                 UpdateVerbStatus();
 
                 RaiseComponentChanged(propertyItems, null, null);
@@ -258,8 +259,7 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
     {
         if (_ribbonCluster!.Ribbon != null)
         {
-            // Cast container to the correct type
-            var lines = _ribbonCluster.RibbonContainer as KryptonRibbonGroupLines;
+            var items = ParentItems;
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster MoveNext");
@@ -267,15 +267,15 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(lines!)[@"Items"];
+                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCluster!.RibbonContainer!)[@"Items"];
 
                 RaiseComponentChanging(propertyItems);
 
                 // Move position of the cluster
-                var index = lines!.Items!.IndexOf(_ribbonCluster) + 1;
-                index = Math.Min(index, lines.Items.Count - 1);
-                lines.Items!.Remove(_ribbonCluster);
-                lines.Items!.Insert(index, _ribbonCluster);
+                var index = items!.IndexOf(_ribbonCluster) + 1;
+                index = Math.Min(index, items!.Count - 1);
+                items!.Remove(_ribbonCluster);
+                items!.Insert(index, _ribbonCluster);
                 UpdateVerbStatus();
 
                 RaiseComponentChanged(propertyItems, null, null);
@@ -292,8 +292,7 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
     {
         if (_ribbonCluster!.Ribbon != null)
         {
-            // Cast container to the correct type
-            var lines = _ribbonCluster.RibbonContainer as KryptonRibbonGroupLines;
+            var items = ParentItems;
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupCluster MoveLast");
@@ -301,13 +300,13 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(lines!)[@"Items"];
+                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCluster!.RibbonContainer!)[@"Items"];
 
                 RaiseComponentChanging(propertyItems);
 
                 // Move position of the cluster
-                lines!.Items!.Remove(_ribbonCluster);
-                lines.Items!.Insert(lines.Items!.Count, _ribbonCluster);
+                items!.Remove(_ribbonCluster);
+                items!.Insert(items!.Count, _ribbonCluster);
                 UpdateVerbStatus();
 
                 RaiseComponentChanged(propertyItems, null, null);
@@ -391,7 +390,7 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
                 RaiseComponentChanging(propertyItems);
 
                 // Need access to host in order to delete a component
-                var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+                var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
                 // We need to remove all the buttons from the cluster group
                 for (var i = _ribbonCluster.Items.Count - 1; i >= 0; i--)
@@ -415,8 +414,7 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
     {
         if (_ribbonCluster!.Ribbon != null)
         {
-            // Cast container to the correct type
-            var lines = _ribbonCluster.RibbonContainer as KryptonRibbonGroupLines;
+            var items = ParentItems;
 
             // Use a transaction to support undo/redo actions
             DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroupTriple DeleteTriple");
@@ -424,14 +422,14 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
             try
             {
                 // Get access to the Items property
-                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(lines!)[@"Items"];
+                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonCluster!.RibbonContainer!)[@"Items"];
 
                 // Remove the ribbon group from the ribbon tab
                 RaiseComponentChanging(null);
                 RaiseComponentChanging(propertyItems);
 
                 // Remove the cluster from the lines
-                lines!.Items!.Remove(_ribbonCluster);
+                items!.Remove(_ribbonCluster);
 
                 // Get designer to destroy it
                 _designerHost.DestroyComponent(_ribbonCluster);
@@ -464,7 +462,7 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
         if (e.Component == _ribbonCluster)
         {
             // Need access to host in order to delete a component
-            var host = (IDesignerHost?)GetService(typeof(IDesignerHost)) ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("host"));
+            var host =(IDesignerHost?)GetService(typeof(IDesignerHost)) ?? ThrowHelper.ThrowNullReferenceException<IDesignerHost>(SharedStaticFunctions.VariableCannotBeNull("host"));
 
             // We need to remove all items from the cluster
             for (var j = _ribbonCluster!.Items.Count - 1; j >= 0; j--)
@@ -511,8 +509,8 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
                     _deleteClusterMenu });
 
                 // Ensure add images have correct transparent background
-                _addButtonMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-                _addColorButtonMenu.ImageTransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                _addButtonMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addColorButtonMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             }
 
             // Update verbs to work out correct enable states
@@ -532,6 +530,21 @@ internal class KryptonRibbonGroupClusterDesigner : ComponentDesigner
             {
                 Point screenPt = _ribbonCluster.Ribbon.ViewRectangleToPoint(_ribbonCluster.ClusterView);
                 VisualPopupManager.Singleton.ShowContextMenuStrip(_cms, screenPt);
+            }
+        }
+    }
+    private TypedRestrictCollection<KryptonRibbonGroupItem>? ParentItems
+    {
+        get
+        {
+            switch (_ribbonCluster!.RibbonContainer)
+            {
+                case KryptonRibbonGroupLines lines:
+                    return lines.Items;
+                case KryptonRibbonGroupStack stack:
+                    return stack.Items;
+                default:
+                    return null;
             }
         }
     }

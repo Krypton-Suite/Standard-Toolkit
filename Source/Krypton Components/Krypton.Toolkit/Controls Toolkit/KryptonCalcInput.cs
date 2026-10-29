@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -17,7 +17,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(ValueChanged))]
 [DefaultProperty(nameof(Value))]
 [DefaultBindingProperty(nameof(Value))]
-[Designer(typeof(KryptonCalcInputDesigner))]
+[Designer("Krypton.Toolkit.KryptonCalcInputDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Represents a numeric input control with integrated calculator dropdown.")]
 public class KryptonCalcInput : VisualControlBase, IContainedInputControl
@@ -25,8 +25,10 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     #region Instance Fields
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ButtonSpecManagerLayout? _buttonManager;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly KryptonTextBox _textBox;
     private readonly ViewDrawDropDownButton _dropDownGlyph;
@@ -41,6 +43,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     private int _decimalPlaces;
     private bool _trailingZeroes;
     private bool _autoSize;
+    private int _cachedWidth;
     private bool _forcedLayout;
     private bool _thousandsSeparator;
     private Padding _contentPadding;
@@ -144,6 +147,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         _allowDecimals = false;
         _trailingZeroes = true;
         _autoSize = false;
+        _cachedWidth = -1;
         _contentPadding = Padding.Empty;
         _dropDownWidth = 0;
         _popupSide = VisualOrientation.Bottom;
@@ -197,8 +201,10 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -214,6 +220,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
 
         // Create the dropdown glyph view (renderer draws an arrow or custom glyph)
         _dropDownGlyph = new ViewDrawDropDownButton(StateCommon.Content)
@@ -274,6 +281,10 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 
             // Tell the buttons class to cleanup resources
             _buttonManager?.Destruct();
+            _buttonSpecAccessibilityProxyManager?.Dispose();
+            _buttonSpecAccessibilityProxyManager = null;
+
+            _pulsingBorder.Dispose();
         }
 
         base.Dispose(disposing);
@@ -314,8 +325,19 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         {
             if (_autoSize != value)
             {
+                AutoSizeDimensionCacheHelper.CacheCurrentBeforeEnable(value, Width, ref _cachedWidth);
+
                 _autoSize = value;
-                UpdateAutoSizing();
+
+                if (_autoSize)
+                {
+                    UpdateAutoSizing();
+                }
+                else if (AutoSizeDimensionCacheHelper.TryGetCachedValue(_cachedWidth, out int restoredWidth))
+                {
+                    Width = restoredWidth;
+                    PerformNeedPaint(true);
+                }
             }
         }
     }
@@ -525,7 +547,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The current value of the numeric up-down control.")]
-    [DefaultValue(0.0d)]
+    [DefaultValue(typeof(decimal), "0")]
     [Bindable(true)]
     public decimal Value
     {
@@ -605,8 +627,32 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public CalcButtonSpecCollection ButtonSpecs { get; }
+
+    /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// Default is <see cref="ButtonSpecEdgeArrange.SideBySide"/>. Set
+    /// <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> on tall hosts to stack Far/Near
+    /// ButtonSpecs vertically. Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"How multiple ButtonSpecs on the same edge are arranged.")]
+    [DefaultValue(ButtonSpecEdgeArrange.SideBySide)]
+    public ButtonSpecEdgeArrange ButtonSpecEdgeArrange
+    {
+        get => _buttonManager?.EdgeArrange ?? ButtonSpecEdgeArrange.SideBySide;
+        set
+        {
+            if (_buttonManager != null)
+            {
+                _buttonManager.EdgeArrange = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets access to the common textbox appearance entries that other states can override.
@@ -617,6 +663,16 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     public PaletteInputControlTripleRedirect StateCommon { get; }
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to optional pulsing border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn on the control.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets access to the disabled textbox appearance entries.
@@ -856,6 +912,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 
         // Update state to reflect change in enabled state
         _buttonManager?.RefreshButtons();
+        _buttonSpecAccessibilityProxyManager?.Sync();
 
         PerformNeedPaint(true);
 
@@ -959,6 +1016,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
             {
                 Rectangle fillRect = _layoutFill.FillRect;
                 _textBox?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                _buttonSpecAccessibilityProxyManager?.Sync();
 
                 // In the designer, ensure the control Width reflects the full visual width
                 // (not just the inner textbox width), so the property grid reports the true size.
@@ -981,6 +1039,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         InvalidateChildren();
         base.OnMouseEnter(e);
@@ -993,6 +1052,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         InvalidateChildren();
         base.OnMouseLeave(e);
@@ -1020,6 +1080,11 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         int width, int height,
         BoundsSpecified specified)
     {
+        if (!_autoSize)
+        {
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Width, width, ref _cachedWidth);
+        }
+
         // Get the preferred size of the entire control
         Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
 
@@ -1048,6 +1113,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         if (IsHandleCreated && !e.NeedLayout)
         {
             InvalidateChildren();
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
         else
         {
@@ -1189,6 +1255,8 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+
+        _pulsingBorder.UpdateAnimationState();
     }
 
     internal PaletteInputControlTripleStates GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
@@ -1315,9 +1383,9 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
 
     private void OnTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
-    private void OnTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
     private void OnTextBoxMouseEnter(object? sender, EventArgs e)
     {
@@ -1383,7 +1451,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
         {
             // Use a palette-derived text color that contrasts with context menu surfaces
             var c = palette.GetContentShortTextColor1(PaletteContentStyle.ContextMenuItemTextStandard, PaletteState.Normal);
-            if (c != GlobalStaticValues.EMPTY_COLOR && !c.IsEmpty)
+            if (c != SharedStaticVariables.EMPTY_COLOR && !c.IsEmpty)
             {
                 displayItem.StateDisabled.ItemTextStandard.ShortText.Color1 = c;
                 displayItem.StateDisabled.ItemTextStandard.ShortText.Color2 = c;
@@ -1610,7 +1678,7 @@ public class KryptonCalcInput : VisualControlBase, IContainedInputControl
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore

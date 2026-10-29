@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -24,6 +24,7 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
     private readonly Padding _largeImagePadding; // = new(3, 2, 3, 3);
     private readonly Padding _smallImagePadding; // = new(3);
     private readonly KryptonRibbon _ribbon;
+    private bool? _overflowCopy;
     private readonly NeedPaintHandler _needPaint;
     private ViewLayoutDocker _viewLarge;
     private ViewLayoutRibbonCenterPadding _viewLargeImage;
@@ -55,9 +56,9 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupLabel = ribbonLabel ?? throw new ArgumentNullException(nameof(ribbonLabel));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupLabel = ribbonLabel ?? ThrowHelper.ThrowArgumentNullException(ribbonLabel);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
 
         // Associate this view with the source component (required for design time selection)
         Component = GroupLabel;
@@ -105,7 +106,10 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
                 GroupLabel.PropertyChanged -= OnLabelPropertyChanged;
 
                 // Remove association with definition
-                GroupLabel.LabelView = null;
+                if (_overflowCopy == false)
+                {
+                    GroupLabel.LabelView = null;
+                }
                 GroupLabel = null;
             }
         }
@@ -203,7 +207,7 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
         // Get the preferred size of button view
         Size preferredSize = base.GetPreferredSize(context);
 
-        preferredSize.Height = _currentSize == GroupItemSize.Large
+        preferredSize.Height = _currentSize == GroupItemSize.Large && !_ribbon.CompactMode
             ? _ribbon.CalculatedValues.GroupTripleHeight
             : _ribbon.CalculatedValues.GroupLineHeight;
 
@@ -341,7 +345,10 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
         Add(view);
 
         // Provide back reference to the button definition
-        GroupLabel!.LabelView = view;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupLabel!.LabelView = view;
+        }
     }
 
     private void UpdateEnabledState()
@@ -390,6 +397,14 @@ internal class ViewDrawRibbonGroupLabel : ViewComposite,
                 DefineRootView(_viewMediumSmall);
                 break;
             case GroupItemSize.Large:
+                if (_ribbon.CompactMode)
+                {
+                    _viewMediumSmallCenter.CurrentSize = GroupItemSize.Medium;
+                    _viewMediumSmallText2.Visible = true;
+                    DefineRootView(_viewMediumSmall);
+                    break;
+                }
+
                 DefineRootView(_viewLarge);
                 break;
         }

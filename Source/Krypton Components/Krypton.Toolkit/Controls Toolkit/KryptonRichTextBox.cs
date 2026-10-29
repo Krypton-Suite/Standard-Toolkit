@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -20,11 +20,12 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(TextChanged))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonRichTextBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonRichTextBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables the user to enter text, and provides multi-line editing and password character masking.")]
 public class KryptonRichTextBox : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalRichTextBox : RichTextBox
@@ -150,9 +151,85 @@ public class KryptonRichTextBox : VisualControlBase,
             //Return last + 1 character printer
             return (int)res.ToInt64();
         }
+
+        /// <summary>
+        /// Gets and sets paragraph alignment for the current selection, including justify.
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public RichTextParagraphAlignment SelectionParagraphAlignment
+        {
+            get
+            {
+                if (!IsHandleCreated)
+                {
+                    return RichTextParagraphAlignment.Left;
+                }
+
+                var format = new PI.PARAFORMAT
+                {
+                    cbSize = (uint)Marshal.SizeOf(typeof(PI.PARAFORMAT)),
+                    rgxTabs = new int[32]
+                };
+
+                PI.SendMessage(new HandleRef(this, Handle), PI.EM_GETPARAFORMAT, 0, ref format);
+
+                if ((format.dwMask & PI.PFM_ALIGNMENT) == 0)
+                {
+                    return RichTextParagraphAlignment.Left;
+                }
+
+                switch (format.wAlignment)
+                {
+                    case PI.PFA_RIGHT:
+                        return RichTextParagraphAlignment.Right;
+                    case PI.PFA_CENTER:
+                        return RichTextParagraphAlignment.Center;
+                    case PI.PFA_JUSTIFY:
+                        return RichTextParagraphAlignment.Justify;
+                    default:
+                        return RichTextParagraphAlignment.Left;
+                }
+            }
+            set
+            {
+                // Force handle creation so RichEdit can apply paragraph format.
+                if (!IsHandleCreated)
+                {
+                    _ = Handle;
+                }
+
+                if (value == RichTextParagraphAlignment.Justify)
+                {
+                    EnableAdvancedTypography();
+                }
+
+                var format = new PI.PARAFORMAT
+                {
+                    cbSize = (uint)Marshal.SizeOf(typeof(PI.PARAFORMAT)),
+                    dwMask = PI.PFM_ALIGNMENT,
+                    wAlignment = (ushort)value,
+                    rgxTabs = new int[32]
+                };
+
+                PI.SendMessage(new HandleRef(this, Handle), PI.EM_SETPARAFORMAT, 0, ref format);
+            }
+        }
         #endregion
 
         #region Protected
+        /// <summary>
+        /// Raises the HandleCreated event.
+        /// </summary>
+        /// <param name="e">An EventArgs containing the event data.</param>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            // Justify requires advanced typography; enable once the RichEdit HWND exists.
+            EnableAdvancedTypography();
+        }
+
         protected override void OnEnabledChanged(EventArgs e)
         {
             // Do not forward, to allow the correct Background for disabled state
@@ -226,6 +303,7 @@ public class KryptonRichTextBox : VisualControlBase,
                         IntPtr hdc = m.WParam == IntPtr.Zero ? PI.BeginPaint(Handle, ref ps) : m.WParam;
                         using (Graphics g = Graphics.FromHdc(hdc))
                         {
+                            g.ResetClip();
                             // Grab the client area of the control
                             PI.GetClientRect(Handle, out PI.RECT rect);
 
@@ -279,6 +357,20 @@ public class KryptonRichTextBox : VisualControlBase,
             _kryptonRichTextBox.OnMouseMove(e);
         }
         #endregion
+
+        #region Implementation
+        private void EnableAdvancedTypography()
+        {
+            if (!IsHandleCreated)
+            {
+                return;
+            }
+
+            PI.SendMessage(Handle, PI.EM_SETTYPOGRAPHYOPTIONS,
+                (IntPtr)PI.TO_ADVANCEDTYPOGRAPHY,
+                (IntPtr)PI.TO_ADVANCEDTYPOGRAPHY);
+        }
+        #endregion
     }
     #endregion
 
@@ -287,6 +379,7 @@ public class KryptonRichTextBox : VisualControlBase,
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalRichTextBox _richTextBox;
     private InputControlStyle _inputControlStyle;
@@ -297,6 +390,10 @@ public class KryptonRichTextBox : VisualControlBase,
     private bool _alwaysActive;
     private bool _trackingMouseEnter;
     private bool _firstPaint;
+    private string? _originalRtf; // Store original RTF to restore when switching away from dark mode black themes
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+
     #endregion
 
     #region Events
@@ -442,6 +539,7 @@ public class KryptonRichTextBox : VisualControlBase,
 
         // Create the internal text box used for containing content
         _richTextBox = new InternalRichTextBox(this);
+        CueHint.AttachAnimation(ShouldAnimateCueHint, () => _richTextBox.Invalidate());
         _richTextBox.TrackMouseEnter += OnRichTextBoxMouseChange;
         _richTextBox.TrackMouseLeave += OnRichTextBoxMouseChange;
         _richTextBox.AcceptsTabChanged += OnRichTextBoxAcceptsTabChanged;
@@ -479,8 +577,8 @@ public class KryptonRichTextBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
-        // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create the manager for handling tooltips
         ToolTipManager = new ToolTipManager(ToolTipValues);
@@ -512,6 +610,17 @@ public class KryptonRichTextBox : VisualControlBase,
         {
             // Remove any showing tooltip
             OnCancelToolTip(this, EventArgs.Empty);
+
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
+
+            _pulsingBorder.Dispose();
+
+            CueHint.DisposeAnimation();
         }
 
         base.Dispose(disposing);
@@ -648,7 +757,7 @@ public class KryptonRichTextBox : VisualControlBase,
     /// <summary>
     /// Gets and sets the text associated with the control.
     /// </summary>
-    [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerMultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text
     {
@@ -754,6 +863,39 @@ public class KryptonRichTextBox : VisualControlBase,
 
         set
         {
+            // Store original RTF only when it's truly new content (not just restoration)
+            // Compare with current text to detect if content has actually changed
+            if (!string.IsNullOrEmpty(value))
+            {
+                string currentText = _richTextBox.Text;
+                bool isNewContent = _originalRtf == null;
+
+                // If we have stored original, check if this is significantly different
+                // (palette modifications won't change text content, only RTF codes)
+                if (!isNewContent && _originalRtf != null)
+                {
+                    // If RTF is very different in length or structure, it's likely new content
+                    // Small differences are likely just palette-related modifications
+                    if (value != null)
+                    {
+                        int lengthDiff = Math.Abs(value.Length - _originalRtf.Length);
+                        if (lengthDiff > 100) // Significant difference suggests new content
+                        {
+                            isNewContent = true;
+                        }
+                    }
+                }
+
+                if (isNewContent)
+                {
+                    _originalRtf = value;
+                }
+            }
+            else
+            {
+                _originalRtf = null;
+            }
+
             PerformNeedPaint(true);
             _richTextBox.Rtf = value;
         }
@@ -806,6 +948,28 @@ public class KryptonRichTextBox : VisualControlBase,
         {
             PerformNeedPaint(true);
             _richTextBox.SelectionAlignment = value;
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets paragraph alignment for the current selection, including full justify.
+    /// </summary>
+    /// <remarks>
+    /// Prefer this property over <see cref="SelectionAlignment"/> when justify is required.
+    /// WinForms <see cref="HorizontalAlignment"/> does not expose a justify value; justified
+    /// paragraphs report as <see cref="HorizontalAlignment.Left"/> via <see cref="SelectionAlignment"/>.
+    /// </remarks>
+    [Browsable(false)]
+    [DefaultValue(RichTextParagraphAlignment.Left)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public RichTextParagraphAlignment SelectionParagraphAlignment
+    {
+        get => _richTextBox.SelectionParagraphAlignment;
+
+        set
+        {
+            PerformNeedPaint(true);
+            _richTextBox.SelectionParagraphAlignment = value;
         }
     }
 
@@ -1025,17 +1189,28 @@ public class KryptonRichTextBox : VisualControlBase,
             if (_alwaysActive != value)
             {
                 _alwaysActive = value;
+                _pulsingBorder.UpdateAnimationState();
                 PerformNeedPaint(true);
             }
         }
     }
 
     /// <summary>
+    /// Gets access to the optional pulsing bottom border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing bottom border settings.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+    /// <summary>
     /// Gets or sets the lines of text in a multiline edit, as an array of String values.
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The lines of text in a multiline edit, as an array of String values.")]
-    [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringArrayEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [MergableProperty(false)]
     [Localizable(true)]
@@ -1652,6 +1827,39 @@ public class KryptonRichTextBox : VisualControlBase,
         // element that thinks it has the focus is informed it does not
         OnMouseLeave(EventArgs.Empty);
 
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars. If not explicitly set, uses the global value from KryptonManager.UseKryptonScrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
+
     #endregion
 
     #region Protected
@@ -1749,6 +1957,12 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonRichTextBox control.
+    /// </summary>
+    /// <returns>A new KryptonRichTextBoxAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonRichTextBoxAccessibleObject(this);
+
+    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -1762,6 +1976,31 @@ public class KryptonRichTextBox : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        if (UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
+    }
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
     }
 
     /// <summary>
@@ -1778,6 +2017,7 @@ public class KryptonRichTextBox : VisualControlBase,
         _drawDockerOuter.Enabled = Enabled;
 
         PerformNeedPaint(true);
+        CueHint.SyncAnimation();
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
@@ -1862,7 +2102,8 @@ public class KryptonRichTextBox : VisualControlBase,
             // to allow a relayout or if in design mode.
             if (_forcedLayout || DesignMode)
             {
-                Rectangle fillRect = _layoutFill.FillRect;
+                Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                    _layoutFill, _scrollbarManager, UseKryptonScrollbars);
                 _richTextBox.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
             }
         }
@@ -1875,6 +2116,7 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _richTextBox.Invalidate();
         base.OnMouseEnter(e);
@@ -1887,6 +2129,7 @@ public class KryptonRichTextBox : VisualControlBase,
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _richTextBox.Invalidate();
         base.OnMouseLeave(e);
@@ -1925,28 +2168,198 @@ public class KryptonRichTextBox : VisualControlBase,
 
         if (!IsDisposed && !Disposing)
         {
+            // IMPORTANT: Save RTF content BEFORE any property changes that might reset formatting
+            // Setting BackColor, ForeColor, or Font can reset RTF formatting in RichTextBox
+            string? savedRtf = null;
+            bool hasRtfFormatting = false;
+
+            if (_richTextBox.Handle != IntPtr.Zero && _richTextBox.TextLength > 0)
+            {
+                savedRtf = _richTextBox.Rtf;
+
+                // Check if the RichTextBox has RTF formatting by examining the Rtf property
+                // If Rtf contains character-level formatting codes, preserve formatting
+                if (!string.IsNullOrEmpty(savedRtf))
+                {
+                    int rtfLength = savedRtf.Length;
+                    string plainText = _richTextBox.Text;
+                    int plainTextLength = plainText?.Length ?? 0;
+
+                    // Quick length check first (fastest check - O(1))
+                    bool rtfMuchLonger = plainTextLength > 0 && rtfLength > (plainTextLength + 200);
+                    if (rtfMuchLonger)
+                    {
+                        hasRtfFormatting = true;
+                    }
+                    else
+                    {
+                        // Single-pass character scan for maximum efficiency (O(n) worst case, but exits early)
+                        // Look for backslash followed by formatting codes: \b, \i, \ul, \fs, \cf, \highlight, or \f[1-9]
+                        bool foundFormatting = false;
+                        bool foundCustomFont = false;
+                        ReadOnlySpan<char> savedRtfSpan = savedRtf;
+
+                        // Exit early once we find either formatting or custom font (either indicates RTF formatting)
+                        for (int i = 0; i < savedRtfSpan.Length - 1 && !foundFormatting && !foundCustomFont; i++)
+                        {
+                            if (savedRtfSpan[i] == '\\')
+                            {
+                                char nextChar = savedRtfSpan[i + 1];
+
+                                // Check for formatting codes: b, i, u, f, c, h, s
+                                switch (nextChar)
+                                {
+                                    case 'b': // \b (bold)
+                                    case 'i': // \i (italic)
+                                        foundFormatting = true;
+                                        break;
+                                    case 'u': // \ul (underline) - check for 'l' next
+                                        if (i + 2 < savedRtfSpan.Length && savedRtfSpan[i + 2] == 'l')
+                                        {
+                                            foundFormatting = true;
+                                        }
+                                        break;
+                                    case 'f': // \f (font) - check for non-zero digit
+                                        if (i + 2 < savedRtfSpan.Length)
+                                        {
+                                            char fontDigit = savedRtfSpan[i + 2];
+                                            if (char.IsDigit(fontDigit) && fontDigit != '0')
+                                            {
+                                                foundCustomFont = true;
+                                            }
+                                        }
+                                        break;
+                                    case 'c': // \cf (color) - check for 'f' next
+                                        if (i + 2 < savedRtfSpan.Length && savedRtfSpan[i + 2] == 'f')
+                                        {
+                                            foundFormatting = true;
+                                        }
+                                        break;
+                                    case 'h': // \highlight - check character by character to avoid Substring
+                                        if (i + 9 < savedRtfSpan.Length)
+                                        {
+                                            // Check for "highlight" without Substring allocation
+                                            if (savedRtfSpan[i + 2] == 'i' && savedRtfSpan[i + 3] == 'g' &&
+                                                savedRtfSpan[i + 4] == 'h' && savedRtfSpan[i + 5] == 'l' &&
+                                                savedRtfSpan[i + 6] == 'i' && savedRtfSpan[i + 7] == 'g' &&
+                                                savedRtfSpan[i + 8] == 'h' && savedRtfSpan[i + 9] == 't')
+                                            {
+                                                foundFormatting = true;
+                                            }
+                                        }
+                                        break;
+                                    case 's': // \fs (font size) - check for digit after 's'
+                                        if (i + 2 < savedRtfSpan.Length && char.IsDigit(savedRtfSpan[i + 2]))
+                                        {
+                                            foundFormatting = true;
+                                        }
+                                        break;
+                                }
+                            }
+                        }
+
+                        hasRtfFormatting = foundFormatting || foundCustomFont;
+                    }
+                }
+                else if (!string.IsNullOrEmpty(savedRtf))
+                {
+                    // Even if text length is 0, if RTF exists and has structure beyond minimal, preserve it
+                    // This handles edge cases where text might be empty but RTF structure exists
+                    hasRtfFormatting = savedRtf.Length > 50; // Minimal RTF is usually ~30-40 chars
+                }
+            }
+
             // Update the back/fore/font from the palette settings
             UpdateStateAndPalettes();
             IPaletteTriple triple = GetTripleState();
             PaletteState state = _drawDockerOuter.State;
 
             Color backColor = triple.PaletteBack.GetBackColor1(state);
+            if (KryptonManager.CurrentGlobalPalette is PaletteRetroBase)
+            {
+                backColor = Color.White;
+            }
+
             if (_richTextBox.BackColor != backColor)
             {
                 _richTextBox.BackColor = backColor;
             }
 
             Color foreColor = triple.PaletteContent!.GetContentShortTextColor1(state);
+            if (KryptonManager.CurrentGlobalPalette is PaletteRetroBase)
+            {
+                foreColor = Color.Black;
+            }
+
             if (_richTextBox.ForeColor != foreColor)
             {
                 _richTextBox.ForeColor = foreColor;
             }
 
             // Only set the font if the rich text box has been created
+            // IMPORTANT: Do not set Font property if RichTextBox has RTF formatting,
+            // as setting Font will reset all RTF formatting. Only set font for plain text.
             Font? font = triple.PaletteContent.GetContentShortTextFont(state);
-            if ((_richTextBox.Handle != IntPtr.Zero) && !_richTextBox.Font.Equals(font))
+            if ((_richTextBox.Handle != IntPtr.Zero) && font != null && !_richTextBox.Font.Equals(font))
             {
-                _richTextBox.Font = font!;
+                if (!hasRtfFormatting)
+                {
+                    // Only set font for plain text to avoid losing RTF formatting
+                    _richTextBox.Font = font;
+                }
+            }
+
+            // If we detected RTF formatting, restore it after property changes
+            // This ensures formatting is preserved even if BackColor/ForeColor changes reset it
+            if (hasRtfFormatting
+                && _richTextBox.Handle != IntPtr.Zero
+                && savedRtf is { Length: > 0 } rtfBeforeMutations)
+            {
+                // Always restore from the snapshot taken before palette mutations. Comparing cached
+                // RTF length to decide whether content is "new" could leave stale _originalRtf and
+                // wipe recent typing (e.g. mouse leave -> PerformNeedPaint -> small RTF delta).
+                _originalRtf = rtfBeforeMutations;
+
+                // Check if we're in a dark mode black theme that requires black text handling
+                PaletteMode currentMode = KryptonManager.CurrentGlobalPaletteMode;
+                bool isDarkModeBlackTheme = currentMode is PaletteMode.Office2007BlackDarkMode or PaletteMode.Office2010BlackDarkMode or PaletteMode.Microsoft365BlackDarkMode;
+
+                string? rtfToRestore;
+
+                if (isDarkModeBlackTheme)
+                {
+                    // In dark mode black themes, check if RTF contains black text
+                    // If so, replace black color codes with white for visibility
+                    bool hasBlackText = HasBlackTextInRtf(rtfBeforeMutations);
+                    if (hasBlackText)
+                    {
+                        rtfToRestore = RemoveBlackColorCodes(rtfBeforeMutations);
+                    }
+                    else
+                    {
+                        rtfToRestore = rtfBeforeMutations;
+                    }
+                }
+                else
+                {
+                    rtfToRestore = rtfBeforeMutations;
+                }
+
+                // Check if RTF was modified (lost formatting) and restore it
+                if (_richTextBox != null)
+                {
+                    string? currentRtf = _richTextBox.Rtf;
+                    if (currentRtf != rtfToRestore)
+                    {
+                        // Restore the RTF (either modified for dark mode or original)
+                        _richTextBox.Rtf = rtfToRestore;
+                    }
+                }
+            }
+            else if (!hasRtfFormatting)
+            {
+                // Plain text - clear stored original RTF
+                _originalRtf = null;
             }
         }
 
@@ -2012,6 +2425,32 @@ public class KryptonRichTextBox : VisualControlBase,
 
     #region Implementation
 
+    private bool ShouldAnimateCueHint() =>
+        Enabled
+        && !string.IsNullOrWhiteSpace(CueHint.CueHintText)
+        && TextLength == 0;
+
+    private void UpdateScrollbarManager()
+    {
+        if (UseKryptonScrollbars)
+        {
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the inner control follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
+            {
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
+                ScrollbarManager.Attach(_richTextBox, ScrollbarManagerMode.NativeWrapper);
+            }
+        }
+        else if (_scrollbarManager != null)
+        {
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
+        }
+    }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
+
     private void UpdateStateAndPalettes()
     {
         // Get the correct palette settings to use
@@ -2025,9 +2464,10 @@ public class KryptonRichTextBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+        _pulsingBorder.UpdateAnimationState();
     }
 
-    private IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
+    internal IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
 
     private void OnRichTextBoxMouseChange(object? sender, EventArgs e)
     {
@@ -2062,6 +2502,7 @@ public class KryptonRichTextBox : VisualControlBase,
             _richTextBox.Invalidate();
         }
 
+        CueHint.SyncAnimation();
         OnTextChanged(e);
     }
 
@@ -2105,9 +2546,9 @@ public class KryptonRichTextBox : VisualControlBase,
 
     private void OnRichTextBoxLinkClicked(object? sender, LinkClickedEventArgs e) => OnLinkClicked(e);
 
-    private void OnRichTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnRichTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnRichTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnRichTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
@@ -2156,11 +2597,328 @@ public class KryptonRichTextBox : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        VisualPopupToolTip popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        VisualPopupToolTip popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore
         _visualPopupToolTip = null;
     }
+
+    /// <summary>
+    /// Checks if RTF contains black text (color index 0, which is typically black).
+    /// </summary>
+    /// <param name="rtf">The RTF content to check.</param>
+    /// <returns>True if black text is detected, false otherwise.</returns>
+    private static bool HasBlackTextInRtf(ReadOnlySpan<char> rtf)
+    {
+        if (rtf.IsEmpty)
+        {
+            return false;
+        }
+
+        // Check for \cf0 (color index 0, which is typically black in RTF)
+        // This is the most common way black text is specified in RTF
+        // We check for \cf0 followed by space, digit, backslash, or end of string
+        for (int i = 0; i < rtf.Length - 3; i++)
+        {
+            if (rtf[i] == '\\' && rtf[i + 1] == 'c' && rtf[i + 2] == 'f' && rtf[i + 3] == '0')
+            {
+                // Verify it's a complete color code (followed by space, backslash, or end)
+                if (i + 4 >= rtf.Length ||
+                    rtf[i + 4] == ' ' ||
+                    rtf[i + 4] == '\\' ||
+                    rtf[i + 4] == '\r' ||
+                    rtf[i + 4] == '\n' ||
+                    rtf[i + 4] == '\t' ||
+                    !char.IsDigit(rtf[i + 4]))
+                {
+                    return true;
+                }
+
+                i += 3;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Replaces black color codes (\cf0) and default black color with white color in RTF for visibility on dark backgrounds.
+    /// </summary>
+    /// <param name="rtf">The RTF content to modify.</param>
+    /// <returns>RTF with black color codes replaced with white.</returns>
+    private static string RemoveBlackColorCodes(string rtf)
+    {
+        if (string.IsNullOrEmpty(rtf))
+        {
+            return rtf;
+        }
+
+        ReadOnlySpan<char> rtfSpan = rtf;
+
+        // Find or add white color to color table
+        ReadOnlySpan<char> colortblPattern = @"{\colortbl".AsSpan();
+        int colorTableStart = rtfSpan.IndexOf(colortblPattern, StringComparison.Ordinal);
+        int whiteColorIndex = -1;
+        string modifiedRtf = rtf;
+
+        if (colorTableStart >= 0)
+        {
+            // Find the end of color table
+            int braceCount = 0;
+            int colorTableEnd = colorTableStart;
+            bool inColorTable = false;
+
+            for (int i = colorTableStart; i < rtfSpan.Length; i++)
+            {
+                if (rtfSpan[i] == '{')
+                {
+                    braceCount++;
+                    inColorTable = true;
+                }
+                else if (rtfSpan[i] == '}')
+                {
+                    braceCount--;
+                    if (inColorTable && braceCount == 0)
+                    {
+                        colorTableEnd = i;
+                        break;
+                    }
+                }
+            }
+
+            if (colorTableEnd > colorTableStart)
+            {
+                ReadOnlySpan<char> colorTable = rtfSpan.Slice(colorTableStart, colorTableEnd - colorTableStart + 1);
+
+                // Check if white color already exists: \red255\green255\blue255
+                ReadOnlySpan<char> red255Green255Blue255 = @"\red255\green255\blue255".AsSpan();
+                ReadOnlySpan<char> red255Green255Blue255Spaced = @"\red255 \green255 \blue255".AsSpan();
+                bool hasWhite = colorTable.Contains(red255Green255Blue255, StringComparison.Ordinal) ||
+                               colorTable.Contains(red255Green255Blue255Spaced, StringComparison.Ordinal);
+
+                if (hasWhite)
+                {
+                    // Find the index of white color
+                    // Count colors before white (each color ends with ;)
+                    ReadOnlySpan<char> red255 = @"\red255".AsSpan();
+                    int whitePos = colorTable.IndexOf(red255);
+                    if (whitePos > 0)
+                    {
+                        ReadOnlySpan<char> beforeWhite = colorTable.Slice(0, whitePos);
+                        whiteColorIndex = CountColorTableEntries(beforeWhite);
+                    }
+                }
+                else
+                {
+                    // White color doesn't exist, add it to color table
+                    // Insert before the closing brace
+                    string whiteColorDef = @";\red255\green255\blue255";
+                    modifiedRtf = rtf.Insert(colorTableEnd, whiteColorDef);
+
+                    // Calculate white color index (count existing colors)
+                    whiteColorIndex = CountColorTableEntries(colorTable);
+                }
+
+                // IMPORTANT: Replace the default color (index 0, black) with white in the color table
+                // This makes all text without explicit color codes use white instead of black
+                // In RTF, index 0 is the first entry after the opening semicolon
+                // Pattern: {\colortbl ;\red0\green0\blue0;... or {\colortbl ;... (implicit black)
+                int firstSemicolon = colorTable.IndexOf(';');
+                if (firstSemicolon >= 0)
+                {
+                    // Find where the first color definition starts (after the semicolon)
+                    int firstColorStart = firstSemicolon + 1;
+
+                    // Check if there's an explicit color definition for index 0
+                    // Look for \red, \green, \blue patterns
+                    ReadOnlySpan<char> redPattern = @"\red".AsSpan();
+                    ReadOnlySpan<char> searchSpan = colorTable.Slice(firstColorStart);
+                    int redIndexRelative = searchSpan.IndexOf(redPattern);
+                    int redIndex = redIndexRelative >= 0 ? firstColorStart + redIndexRelative : -1;
+                    int nextSemicolonRelative = searchSpan.IndexOf(';');
+                    int nextSemicolon = nextSemicolonRelative >= 0 ? firstColorStart + nextSemicolonRelative : -1;
+                    int colorEnd = nextSemicolon > 0 ? nextSemicolon : colorTable.Length;
+                    bool hasExplicitFirstColor = redIndex >= 0 && redIndex < colorEnd;
+
+                    if (hasExplicitFirstColor)
+                    {
+                        // Find where the first explicit color ends (next semicolon or closing brace)
+                        ReadOnlySpan<char> searchSpanForEnd = colorTable.Slice(firstColorStart);
+                        int firstColorEndRelative = searchSpanForEnd.IndexOf(';');
+                        int firstColorEnd = firstColorEndRelative >= 0 ? firstColorStart + firstColorEndRelative : -1;
+                        if (firstColorEnd < 0)
+                        {
+                            int braceEndRelative = searchSpanForEnd.IndexOf('}');
+                            firstColorEnd = braceEndRelative >= 0 ? firstColorStart + braceEndRelative : -1;
+                        }
+
+                        if (firstColorEnd > firstColorStart)
+                        {
+                            // Replace the explicit first color (black) with white
+                            string newColorTable = colorTable.Slice(0, firstColorStart).ToString() +
+                                                  @"\red255\green255\blue255" +
+                                                  colorTable.Slice(firstColorEnd).ToString();
+
+                            // Replace the color table in the RTF
+                            modifiedRtf = rtf.Substring(0, colorTableStart) +
+                                         newColorTable +
+                                         rtf.Substring(colorTableEnd + 1);
+
+                            // White is now at index 0
+                            whiteColorIndex = 0;
+                        }
+                    }
+                    else
+                    {
+                        // Index 0 is implicit (no explicit color definition)
+                        // Insert white as the explicit first color
+                        string whiteColorDef = @"\red255\green255\blue255";
+                        string newColorTable = colorTable.Slice(0, firstColorStart).ToString() +
+                                              whiteColorDef +
+                                              colorTable.Slice(firstColorStart).ToString();
+
+                        // Replace the color table in the RTF
+                        modifiedRtf = rtf.Substring(0, colorTableStart) +
+                                     newColorTable +
+                                     rtf.Substring(colorTableEnd + 1);
+
+                        // White is now at index 0
+                        whiteColorIndex = 0;
+                    }
+                }
+            }
+        }
+        else
+        {
+            // No color table exists, create one with white as default
+            // Find insertion point after font table
+            ReadOnlySpan<char> newlinePattern = @"}\n".AsSpan();
+            int fontTableEnd = rtfSpan.IndexOf(newlinePattern, StringComparison.Ordinal);
+            if (fontTableEnd < 0)
+            {
+                ReadOnlySpan<char> crlfPattern = @"}\r\n".AsSpan();
+                fontTableEnd = rtfSpan.IndexOf(crlfPattern, StringComparison.Ordinal);
+            }
+            if (fontTableEnd < 0)
+            {
+                fontTableEnd = rtfSpan.IndexOf('}');
+            }
+
+            if (fontTableEnd >= 0)
+            {
+                // Create color table with white as index 0 (default color)
+                string colorTable = @"{\colortbl ;\red255\green255\blue255;}";
+                modifiedRtf = rtf.Insert(fontTableEnd + 1, colorTable);
+                whiteColorIndex = 0; // White is now the default (index 0)
+            }
+        }
+
+        // If we couldn't determine white color index, default to removing \cf0
+        if (whiteColorIndex < 0)
+        {
+            // Fallback: just remove \cf0
+            var result = new System.Text.StringBuilder(modifiedRtf);
+            ReadOnlySpan<char> resultSpan = result.ToString();
+            for (int i = resultSpan.Length - 4; i >= 0; i--)
+            {
+                if (resultSpan[i] == '\\' && resultSpan[i + 1] == 'c' && resultSpan[i + 2] == 'f' && resultSpan[i + 3] == '0')
+                {
+                    if (i + 4 >= resultSpan.Length ||
+                        resultSpan[i + 4] == ' ' ||
+                        resultSpan[i + 4] == '\\' ||
+                        resultSpan[i + 4] == '\r' ||
+                        resultSpan[i + 4] == '\n' ||
+                        resultSpan[i + 4] == '\t' ||
+                        !char.IsDigit(resultSpan[i + 4]))
+                    {
+                        result.Remove(i, 4);
+                        resultSpan = result.ToString();
+                        i -= 3;
+                    }
+                    else
+                    {
+                        i -= 3;
+                    }
+                }
+            }
+            return result.ToString();
+        }
+
+        // Replace \cf0 with \cf{whiteColorIndex} (which is now 0, but we keep the code for clarity)
+        var finalResult = new System.Text.StringBuilder(modifiedRtf);
+        string replacement = $@"\cf{whiteColorIndex}";
+        ReadOnlySpan<char> finalResultSpan = finalResult.ToString();
+
+        // Scan backwards to avoid index shifting issues
+        for (int i = finalResultSpan.Length - 4; i >= 0; i--)
+        {
+            if (finalResultSpan[i] == '\\' && finalResultSpan[i + 1] == 'c' && finalResultSpan[i + 2] == 'f' && finalResultSpan[i + 3] == '0')
+            {
+                // Verify it's a complete color code
+                if (i + 4 >= finalResultSpan.Length ||
+                    finalResultSpan[i + 4] == ' ' ||
+                    finalResultSpan[i + 4] == '\\' ||
+                    finalResultSpan[i + 4] == '\r' ||
+                    finalResultSpan[i + 4] == '\n' ||
+                    finalResultSpan[i + 4] == '\t' ||
+                    !char.IsDigit(finalResultSpan[i + 4]))
+                {
+                    // Replace \cf0 with white color code
+                    finalResult.Remove(i, 4);
+                    finalResult.Insert(i, replacement);
+                    finalResultSpan = finalResult.ToString();
+                    i -= 3;
+                }
+                else
+                {
+                    i -= 3;
+                }
+            }
+        }
+
+        return finalResult.ToString();
+    }
+
+    /// <summary>
+    /// Counts the number of color entries in a color table string.
+    /// </summary>
+    /// <param name="colorTable">The color table string to count.</param>
+    /// <returns>The number of color entries (semicolons indicate entries).</returns>
+    private static int CountColorTableEntries(ReadOnlySpan<char> colorTable)
+    {
+        if (colorTable.IsEmpty)
+        {
+            return 0;
+        }
+
+#if NET5_0_OR_GREATER
+        // Use Span.Count method available in .NET 5.0 and later
+        int count = MemoryExtensions.Count(colorTable, ';') + 1;
+#else
+        // Fallback for older frameworks without Span.Count
+        int count = 1;
+
+        // Count semicolons to determine number of colors
+        for (int i = 0; i < colorTable.Length; i++)
+        {
+            // Each semicolon indicates a color entry
+            if (colorTable[i] == ';')
+            {
+                // Increment count for each semicolon found
+                count++;
+            }
+        }
+#endif
+
+        // First semicolon is after the opening brace, so subtract 1
+        return count - 1;
+    }
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
+
+    private void UpdateForRightToLeft() => _richTextBox.RightToLeft = RightToLeft;
+
     #endregion
 }

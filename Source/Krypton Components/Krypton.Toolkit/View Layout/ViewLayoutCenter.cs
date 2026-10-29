@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -111,6 +111,18 @@ public class ViewLayoutCenter : ViewComposite
 
     #endregion
 
+    #region FillHeight
+    /// <summary>
+    /// Gets and sets whether children stretch to the full client height instead of being centred.
+    /// </summary>
+    /// <remarks>
+    /// Used by <see cref="ButtonSpecView"/> when <see cref="ButtonSpec.FillHeight"/> is set.
+    /// Preferred width and horizontal centring are unchanged.
+    /// </remarks>
+    public bool FillHeight { get; set; }
+
+    #endregion
+
     #region Layout
     /// <summary>
     /// Discover the preferred size of the element.
@@ -123,7 +135,7 @@ public class ViewLayoutCenter : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Let base class find preferred size of the children
@@ -184,7 +196,7 @@ public class ViewLayoutCenter : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
@@ -247,26 +259,68 @@ public class ViewLayoutCenter : ViewComposite
                 // Ask child for it's own preferred size
                 Size childPreferred = child.GetPreferredSize(context);
 
-                // Make sure the child is never bigger than the available space
-                if (childPreferred.Width > ClientWidth)
+                // When touchscreen support is enabled for controlbox buttons, make the button fill
+                // the entire area (including padding) to avoid transparent magenta outlines
+                bool fillEntireArea = false;
+                if (KryptonManager.UseTouchscreenSupport && 
+                    MetricPadding == PaletteMetricPadding.HeaderButtonPaddingForm &&
+                    child is ViewDrawButton)
                 {
-                    childPreferred.Width = ClientWidth;
+                    fillEntireArea = true;
                 }
 
-                if (childPreferred.Height > ClientHeight)
+                if (fillEntireArea)
                 {
-                    childPreferred.Height = ClientHeight;
+                    // Make the button fill the entire original area (before padding was applied)
+                    context.DisplayRectangle = original;
                 }
+                else
+                {
+                    // Make sure the child is never bigger than the available space
+                    if (childPreferred.Width > ClientWidth)
+                    {
+                        childPreferred.Width = ClientWidth;
+                    }
 
-                // Find vertical and horizontal offsets for centering
-                var xOffset = (ClientWidth - childPreferred.Width) / 2;
-                var yOffset = (ClientHeight - childPreferred.Height) / 2;
+                    if (childPreferred.Height > ClientHeight)
+                    {
+                        childPreferred.Height = ClientHeight;
+                    }
 
-                // Create the rectangle that centers the child in our space
-                context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,
-                    ClientRectangle.Y + yOffset,
-                    childPreferred.Width,
-                    childPreferred.Height);
+                    // FillHeight stretches to the docked allocation (tall TextBox / ComboBox ButtonSpecs).
+                    // Keep preferred width and horizontal centring (#4432).
+                    if (FillHeight)
+                    {
+                        childPreferred.Height = ClientHeight;
+                    }
+
+                    // Find vertical and horizontal offsets for centering
+                    var xOffset = (ClientWidth - childPreferred.Width) / 2;
+                    var yOffset = (ClientHeight - childPreferred.Height) / 2;
+
+                    // Form caption ButtonSpecs take a fixed inset from the top of the caption rather
+                    // than centring, so their top border can sit flush inside the form border (#4132).
+                    // A negative inset opts back into centring. Skip when FillHeight already owns the
+                    // vertical extent.
+                    if (!FillHeight
+                        && MetricPadding == PaletteMetricPadding.HeaderButtonPaddingForm
+                        && child is ViewDrawButton
+                        && ToolkitStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP >= 0)
+                    {
+                        // Maximized WinForms windows often sit with a negative screen overhang
+                        // (typically Top/Left = -8). Push the buttons below that clip so they stay
+                        // fully visible; restored windows keep the configured flush inset.
+                        var topInset = ToolkitStaticConstants.HEADER_BUTTON_EDGE_INSET_FORM_TOP
+                                       + GetMaximizedTopOverhang(context.Control);
+                        yOffset = Math.Min(topInset, Math.Max(0, ClientHeight - childPreferred.Height));
+                    }
+
+                    // Create the rectangle that centers the child in our space
+                    context.DisplayRectangle = new Rectangle(ClientRectangle.X + xOffset,
+                        ClientRectangle.Y + yOffset,
+                        childPreferred.Width,
+                        childPreferred.Height);
+                }
 
                 // Finally ask the child to layout
                 child.Layout(context);
@@ -275,6 +329,22 @@ public class ViewLayoutCenter : ViewComposite
 
         // Put back the original display value now we have finished
         context.DisplayRectangle = original;
+    }
+
+    /// <summary>
+    /// How many pixels of a maximized form sit above the monitor work area (often 8 on DWM).
+    /// </summary>
+    private static int GetMaximizedTopOverhang(Control? control)
+    {
+        if (control is not Form form
+            || form.WindowState != FormWindowState.Maximized
+            || !form.IsHandleCreated)
+        {
+            return 0;
+        }
+
+        Rectangle workingArea = Screen.FromControl(form).WorkingArea;
+        return Math.Max(0, workingArea.Top - form.Bounds.Top);
     }
     #endregion
 }

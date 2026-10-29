@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -60,9 +60,9 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupButton = ribbonButton ?? throw new ArgumentNullException(nameof(ribbonButton));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupButton = ribbonButton ?? ThrowHelper.ThrowArgumentNullException(ribbonButton);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupButton.ItemSizeCurrent;
 
         _largeImagePadding = new Padding((int)(3 * FactorDpiX), (int)(2 * FactorDpiY), (int)(3 * FactorDpiX), (int)(3 * FactorDpiY));
@@ -108,7 +108,10 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
                 GroupButton.PropertyChanged -= OnButtonPropertyChanged;
 
                 // Remove association with definition
-                GroupButton.ButtonView = null;
+                if (_overflowCopy == false)
+                {
+                    GroupButton.ButtonView = null;
+                }
                 GroupButton = null;
             }
         }
@@ -214,12 +217,20 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
             switch (_currentSize)
             {
                 case GroupItemSize.Large:
+                    if (_ribbon.CompactMode)
+                    {
+                        // The large tree is the tall image-over-text layout. Compact uses the one-line view.
+                        screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, 2);
+                        controller = _viewMediumSmall.Controller;
+                        break;
+                    }
+
                     screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
                     controller = _viewLarge.Controller;
                     break;
                 case GroupItemSize.Medium:
                 case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
+                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, _ribbon.CompactMode ? 2 : lineHint);
                     controller = _viewMediumSmall.Controller;
                     break;
             }
@@ -248,7 +259,7 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
     /// <param name="context">Layout context.</param>
     public override Size GetPreferredSize(ViewLayoutContext context)
     {
-        var drawNonTrackingAreas = _ribbon!.RibbonShape is not PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.VisualStudio;
+        var drawNonTrackingAreas = _ribbon!.RibbonShape is not (PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2010 or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365 or PaletteRibbonShape.Office2024 or PaletteRibbonShape.VisualStudio);
 
         // Update the views with the type of button being used
         _viewLarge.ButtonType = GroupButton!.ButtonType;
@@ -259,7 +270,7 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
         // Get the preferred size of button view
         Size preferredSize = base.GetPreferredSize(context);
 
-        preferredSize.Height = _currentSize == GroupItemSize.Large
+        preferredSize.Height = _currentSize == GroupItemSize.Large && !_ribbon.CompactMode
             ? _ribbon.CalculatedValues.GroupTripleHeight
             : _ribbon.CalculatedValues.GroupLineHeight;
 
@@ -442,6 +453,8 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
             _viewMediumSmall, _viewMediumSmall.MouseController);
     }
 
+    private bool? _overflowCopy;
+
     private void DefineRootView(ViewBase view)
     {
         // Remove any existing view
@@ -451,7 +464,10 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
         Add(view);
 
         // Provide back reference to the button definition
-        GroupButton!.ButtonView = view;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupButton!.ButtonView = view;
+        }
     }
 
     private void UpdateEnabledState()
@@ -531,6 +547,16 @@ internal class ViewDrawRibbonGroupButton : ViewComposite,
                 DefineRootView(_viewMediumSmall);
                 break;
             case GroupItemSize.Large:
+                if (_ribbon.CompactMode)
+                {
+                    // Icon beside the text, on the single compact row.
+                    _viewMediumSmallCenter.CurrentSize = GroupItemSize.Medium;
+                    _viewMediumSmallText1.Visible = true;
+                    _viewMediumSmallText2.Visible = true;
+                    DefineRootView(_viewMediumSmall);
+                    break;
+                }
+
                 _viewLargeCenter.CurrentSize = size;
                 DefineRootView(_viewLarge);
                 break;

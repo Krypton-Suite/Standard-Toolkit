@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -17,6 +17,10 @@ namespace Krypton.Ribbon;
 /// </summary>
 public class ButtonSpecManagerLayoutRibbon : ButtonSpecManagerLayout
 {
+    #region Instance Fields
+    private readonly KryptonRibbon _ribbon;
+    #endregion
+
     #region Identity
     /// <summary>
     /// Initialize a new instance of the ButtonSpecManagerLayoutRibbon class.
@@ -43,9 +47,9 @@ public class ButtonSpecManagerLayoutRibbon : ButtonSpecManagerLayout
         NeedPaintHandler needPaint)
         : base(ribbon, redirector, variableSpecs, fixedSpecs,
             viewDockers, viewMetrics, viewMetricInt,
-            viewMetricPaddings, getRenderer, needPaint)
-    {
-    }
+            viewMetricPaddings, getRenderer, needPaint) =>
+        _ribbon = ribbon;
+
     #endregion
 
     #region Protected
@@ -64,5 +68,42 @@ public class ButtonSpecManagerLayoutRibbon : ButtonSpecManagerLayout
         new ButtonSpecViewRibbon(redirector, viewPaletteMetric,
             viewMetricPadding, this, buttonSpec);
 
+    /// <summary>
+    /// Recolours the compact-mode chevron with the ribbon group text colour. Other ribbon buttons keep the base remap.
+    /// </summary>
+    public override PaletteRedirect CreateButtonSpecRemap(PaletteRedirect redirector, ButtonSpec buttonSpec) =>
+        buttonSpec is ButtonSpecCompactRibbon
+            ? new CompactRibbonArrowPalette(redirector, _ribbon)
+            : base.CreateButtonSpecRemap(redirector, buttonSpec);
+
     #endregion
+}
+
+/// <summary>
+/// Remaps the compact chevron's black pixels to the ribbon group text colour for the active theme.
+/// </summary>
+internal sealed class CompactRibbonArrowPalette : PaletteRedirect
+{
+    private readonly KryptonRibbon _ribbon;
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="CompactRibbonArrowPalette"/> class.
+    /// </summary>
+    /// <param name="target">Palette to redirect.</param>
+    /// <param name="ribbon">Ribbon whose group text colour replaces black.</param>
+    public CompactRibbonArrowPalette(PaletteBase target, KryptonRibbon ribbon)
+        : base(target) =>
+        _ribbon = ribbon;
+
+    /// <inheritdoc />
+    public override Color GetContentImageColorMap(PaletteContentStyle style, PaletteState state) => Color.Black;
+
+    /// <inheritdoc />
+    public override Color GetContentImageColorTo(PaletteContentStyle style, PaletteState state)
+    {
+        IPaletteRibbonText text = state == PaletteState.Disabled
+            ? _ribbon.StateDisabled.RibbonGroupButtonText
+            : _ribbon.StateNormal.RibbonGroupButtonText;
+        return text.GetRibbonTextColor(PaletteState.Normal);
+    }
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -194,7 +194,7 @@ public abstract class ViewComposite : ViewBase
         // We do not allow null references in the collection
         if (item == null)
         {
-            throw new ArgumentNullException(nameof(item), @"Cannot add a null view into a composite view.");
+            ThrowHelper.ThrowArgumentNullException(nameof(item), @"Cannot add a null view into a composite view.");
         }
 
         if (_views != null)
@@ -304,7 +304,7 @@ public abstract class ViewComposite : ViewBase
         // We do not allow null references in the collection
         if (item == null)
         {
-            throw new ArgumentNullException(nameof(item), @"Cannot insert a null view inside a composite view.");
+            ThrowHelper.ThrowArgumentNullException(nameof(item), @"Cannot insert a null view inside a composite view.");
         }
 
         if (_views != null)
@@ -350,7 +350,7 @@ public abstract class ViewComposite : ViewBase
             // We do not allow null references in the collection
             if (value == null)
             {
-                throw new ArgumentNullException(nameof(value), @"Cannot set a null view into a composite view.");
+                ThrowHelper.ThrowArgumentNullException(nameof(value), @"Cannot set a null view into a composite view.");
             }
 
             if (_views != null)

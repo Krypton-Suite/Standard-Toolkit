@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -17,11 +17,11 @@ namespace Krypton.Ribbon;
 [ToolboxBitmap(typeof(KryptonRibbon), "ToolboxBitmaps.KryptonRibbon.bmp")]
 [DefaultEvent(nameof(SelectedTabChanged))]
 [DefaultProperty(nameof(RibbonTabs))]
-[Designer(typeof(KryptonRibbonDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Ribbon control presents a tabbed set of user options.")]
 [Docking(DockingBehavior.Never)]
-public class KryptonRibbon : VisualSimple,
+public partial class KryptonRibbon : VisualSimple,
     IMessageFilter
 {
     #region Type Definitions
@@ -56,6 +56,7 @@ public class KryptonRibbon : VisualSimple,
     private bool _keyboardFocusCaret;
     private bool _designHelpers;
     private bool _invalidateOnResize;
+    private bool _forcingRefresh;
     private bool _uxthemeNotAvailable;
     private bool _altDown;
     private int _altUpCount;
@@ -73,6 +74,7 @@ public class KryptonRibbon : VisualSimple,
     private ViewDrawRibbonQATBorder _qatBelowRibbon;
     private ViewLayoutRibbonQATFromRibbon _qatBelowContents;
     private ViewDrawRibbonMinimizeBar _minimizeBar;
+    private ViewDrawRibbonNotificationBar _notificationBar;
 
     // User ButtonSpecs
 
@@ -82,7 +84,129 @@ public class KryptonRibbon : VisualSimple,
 
     // Properties
     private bool _minimizedMode;
+    private bool _compactMode;
+    private bool _animateCompactMode;
     private bool _showMinimizeButton;
+    private bool _showCompactButton;
+    private CompactButtonLocation _compactButtonLocation;
+
+    /// <summary>
+    /// Height reserved at the bottom of the groups border when the compact arrow sits inside the card.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal int CompactBelowGroupsReserve { get; set; }
+
+    private readonly HashSet<IRibbonGroupItem> _compactOverflowItems = new HashSet<IRibbonGroupItem>();
+
+    /// <summary>
+    /// True while a compact-overflow popup view is being created.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    internal bool CompactOverflowCapture { get; set; }
+
+    /// <summary>
+    /// True when the command is currently held in the compact overflow set.
+    /// </summary>
+    /// <param name="item">Command to test.</param>
+    /// <returns>True when the command did not fit on the compact row.</returns>
+    internal bool IsCompactOverflow(IRibbonGroupItem item) => _compactOverflowItems.Contains(item);
+
+    /// <summary>
+    /// Layout-only hiding. Does not change the item <see cref="IRibbonGroupItem.Visible"/> property.
+    /// </summary>
+    /// <param name="item">Command or separator to test.</param>
+    /// <param name="showOnlyOverflow">True inside the overflow popup.</param>
+    /// <returns>True when this view should skip the item.</returns>
+    internal bool CompactOverflowHides(IRibbonGroupItem item, bool showOnlyOverflow)
+    {
+        if (!CompactMode || (_compactOverflowItems.Count == 0))
+        {
+            return false;
+        }
+
+        // Containers stay in the tree. Their children are hidden one command at a time.
+        if (item is KryptonRibbonGroupLines ||
+            item is KryptonRibbonGroupTriple ||
+            item is KryptonRibbonGroupCluster)
+        {
+            return false;
+        }
+
+        if (showOnlyOverflow && item is KryptonRibbonGroupSeparator)
+        {
+            return true;
+        }
+
+        bool overflowed = _compactOverflowItems.Contains(item);
+        return showOnlyOverflow ? !overflowed : overflowed;
+    }
+
+    /// <summary>
+    /// Clears commands hidden by the compact ellipsis.
+    /// </summary>
+    internal void ClearCompactOverflow() => _compactOverflowItems.Clear();
+
+    /// <summary>
+    /// Replaces the commands hidden by the compact ellipsis.
+    /// </summary>
+    /// <param name="items">Commands that do not fit, in reading order.</param>
+    internal void SetCompactOverflow(IEnumerable<IRibbonGroupItem> items)
+    {
+        _compactOverflowItems.Clear();
+        foreach (IRibbonGroupItem item in items)
+        {
+            _compactOverflowItems.Add(item);
+        }
+    }
+
+    /// <summary>
+    /// Adds one separator or command to the compact overflow set.
+    /// </summary>
+    /// <param name="item">Item that should leave the compact row.</param>
+    internal void AddCompactOverflow(IRibbonGroupItem item) => _compactOverflowItems.Add(item);
+
+    /// <summary>
+    /// Creates a group view while <see cref="CompactOverflowCapture"/> selects popup filtering.
+    /// </summary>
+    /// <param name="showOnlyOverflow">True when the new view belongs to the overflow popup.</param>
+    /// <param name="create">Builds the view.</param>
+    /// <returns>The view returned by <paramref name="create"/>.</returns>
+    internal ViewBase CreateCompactOverflowView(bool showOnlyOverflow, Func<ViewBase> create)
+    {
+        bool previous = CompactOverflowCapture;
+        CompactOverflowCapture = showOnlyOverflow;
+        try
+        {
+            return create();
+        }
+        finally
+        {
+            CompactOverflowCapture = previous;
+        }
+    }
+
+    /// <summary>
+    /// True when this view should publish itself as the ribbon item's view.
+    /// Overflow popup copies must not replace the on-ribbon view.
+    /// </summary>
+    /// <param name="overflowCopy">Remembered creation mode. Set on the first call.</param>
+    /// <returns>True for the on-ribbon view.</returns>
+    internal bool ShouldClaimRibbonItemView(ref bool? overflowCopy)
+    {
+        if (!overflowCopy.HasValue)
+        {
+            overflowCopy = CompactOverflowCapture;
+        }
+
+        return overflowCopy == false;
+    }
+    // Field default must be true so CreateViewManager never builds a tabless ribbon by accident (#331 / #2501).
+    private bool _showTabHeaders = true;
+    private bool _scrollTabGroupArea;
     private string _selectedContext;
     private Size _hideRibbonSize;
     private QATLocation _qatLocation;
@@ -96,6 +220,35 @@ public class KryptonRibbon : VisualSimple,
     private PaletteBackStyle _backInactiveStyle;
     private KryptonRibbonTab? _minSelectedTab;
     private KryptonRibbonTab? _selectedTab;
+    private VisualBackstageOverlayForm? _backstageOverlay;
+    private KryptonRibbonTab? _backstageRestoreTab;
+    private KryptonForm? _rtlSourceForm;
+    private bool _isRightToLeftLayout;
+
+    private KryptonRibbonNotificationBarData _notificationBarData;
+
+    private Timer? _autoDismissTimer;
+    private Timer? _compactAnimationTimer;
+    private int _compactAnimationStartHeight;
+    private int _compactAnimationEndHeight;
+    private int _compactAnimationStarted;
+
+    // Detachable ribbon support
+    private VisualRibbonFloatingWindow? _floatingWindow;
+    private Control? _originalParent;
+    private Point _originalLocation;
+    private Size _originalSize;
+    private DockStyle _originalDock;
+    private bool _allowDetach;
+    private bool _allowDragReattach;
+    private bool _isMouseDownForDrag;
+    private Point _dragMouseDownPoint;
+    private string _floatingWindowText;
+    
+    // Preference persistence support
+    private Point? _savedFloatingWindowPosition;
+    private bool _savePreferencesOnStateChange = true;
+
     #endregion
 
     #region Events
@@ -142,6 +295,34 @@ public class KryptonRibbon : VisualSimple,
     public event ToolStripDropDownClosedEventHandler? AppButtonMenuClosed;
 
     /// <summary>
+    /// Occurs when the backstage view is opening.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view is opening but not displayed as yet.")]
+    public event CancelEventHandler? BackstageOpening;
+
+    /// <summary>
+    /// Occurs when the backstage view is opened.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view is fully opened for display.")]
+    public event EventHandler? BackstageOpened;
+
+    /// <summary>
+    /// Occurs when the backstage view is about to close.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view is about to close.")]
+    public event CancelEventHandler? BackstageClosing;
+
+    /// <summary>
+    /// Occurs when the backstage view has been closed.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when backstage view has been closed.")]
+    public event EventHandler? BackstageClosed;
+
+    /// <summary>
     /// Occurs when the ribbon context menu is about to be shown.
     /// </summary>
     [Category(@"Ribbon")]
@@ -163,6 +344,34 @@ public class KryptonRibbon : VisualSimple,
     public event EventHandler? MinimizedModeChanged;
 
     /// <summary>
+    /// Occurs when the <see cref="CompactMode"/> property has changed value.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the CompactMode property has changed value.")]
+    public event EventHandler? CompactModeChanged;
+
+    /// <summary>
+    /// Occurs when the ribbon is detached into a floating window.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when the ribbon is detached into a floating window.")]
+    public event EventHandler? RibbonDetached;
+
+    /// <summary>
+    /// Occurs when the ribbon is reattached to its original parent.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when the ribbon is reattached to its original parent.")]
+    public event EventHandler? RibbonReattached;
+
+    /// <summary>
+    /// Occurs when preferences should be saved (detached state and window position).
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when preferences should be saved. Handle this event to persist the detached state and window position.")]
+    public event EventHandler<DetachPreferencesEventArgs>? DetachPreferencesChanged;
+
+    /// <summary>
     /// Occurs add design time when the user requests a tab be added.
     /// </summary>
     [Category(@"Design Time Only")]
@@ -170,6 +379,13 @@ public class KryptonRibbon : VisualSimple,
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
     public event EventHandler? DesignTimeAddTab;
+
+    /// <summary>
+    /// Occurs when a notification bar button is clicked.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when a notification bar action button or close button is clicked.")]
+    public event EventHandler<RibbonNotificationBarEventArgs>? NotificationBarButtonClick;
     #endregion
 
     #region Identity
@@ -189,6 +405,9 @@ public class KryptonRibbon : VisualSimple,
         SetStyle(ControlStyles.ResizeRedraw, false);
 
         _selectedContext = string.Empty;
+        _allowDetach = false;
+
+        FloatingWindowText = KryptonManager.Strings.MiscellaneousStrings.RibbonFloatingWindowText;
 
         CreateRibbonCollections();
         CreateButtonSpecs();
@@ -210,8 +429,33 @@ public class KryptonRibbon : VisualSimple,
     {
         if (disposing)
         {
+            UnregisterTranslationAutoDiscovery();
+
             // Remember to unhook otherwise memory cannot be garbage collected
             Application.RemoveMessageFilter(this);
+
+            // Stop and dispose auto-dismiss timer
+            if (_autoDismissTimer != null)
+            {
+                _autoDismissTimer.Stop();
+                _autoDismissTimer.Dispose();
+                _autoDismissTimer = null;
+            }
+
+            if (_compactAnimationTimer != null)
+            {
+                _compactAnimationTimer.Stop();
+                _compactAnimationTimer.Tick -= OnCompactAnimationTick;
+                _compactAnimationTimer.Dispose();
+                _compactAnimationTimer = null;
+            }
+
+            // Unhook from notification bar data
+            if (_notificationBarData != null)
+            {
+                _notificationBarData.PropertyChanged -= OnNotificationBarDataPropertyChanged;
+            }
+
 
             // Prevent the removing of child controls from causing a 
             // layout that then causes the children to be added again!
@@ -237,11 +481,40 @@ public class KryptonRibbon : VisualSimple,
                 tab.Dispose();
             }
 
+            // Ensure any backstage overlay is dismissed
+            if (_backstageOverlay != null)
+            {
+                _backstageOverlay.BackRequested -= OnBackstageBackRequested;
+                _backstageOverlay.Disposed -= OnBackstageOverlayDisposed;
+                _backstageOverlay.Close();
+                _backstageOverlay.Dispose();
+                _backstageOverlay = null;
+            }
+
+            _backstageRestoreTab = null;
+
+            UnhookRtlSourceForm();
+
+            // Clean up floating window if detached
+            if (_floatingWindow is { IsDisposed: false })
+            {
+                _floatingWindow.WindowClosing -= OnFloatingWindowClosing;
+                _floatingWindow.Close();
+                _floatingWindow.Dispose();
+                _floatingWindow = null;
+            }
+
             ResumeLayout();
         }
 
         base.Dispose(disposing);
     }
+
+    /// <summary>
+    /// Creates the accessibility object for the ribbon.
+    /// </summary>
+    /// <returns>A new KryptonRibbonAccessibleObject instance.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonRibbonAccessibleObject(this);
     #endregion
 
     #region Public Hidden Properties
@@ -414,6 +687,54 @@ public class KryptonRibbon : VisualSimple,
     public bool AllowMinimizedChange { get; set; }
 
     /// <summary>
+    /// Gets or sets if the ribbon can be detached into a floating window.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Determines if the ribbon can be detached into a floating window.")]
+    [DefaultValue(false)]
+    public bool AllowDetach
+    {
+        get => _allowDetach;
+        set
+        {
+            if (_allowDetach != value)
+            {
+                _allowDetach = value;
+                
+                // If disabling detach and currently detached, reattach
+                if (!_allowDetach && IsDetached)
+                {
+                    Reattach();
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets if dragging the floating ribbon window near the parent window will automatically snap and reattach.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Determines if dragging the floating ribbon window near the parent window will automatically snap and reattach.")]
+    [DefaultValue(true)]
+    public bool AllowDragReattach
+    {
+        get => _allowDragReattach;
+        set => _allowDragReattach = value;
+    }
+
+    /// <summary>
+    /// Gets the original parent control the ribbon was detached from.
+    /// </summary>
+    internal Control? OriginalParent => _originalParent;
+
+    /// <summary>
+    /// Gets a value indicating whether the ribbon is currently detached.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool IsDetached => _floatingWindow is { IsDisposed: false };
+
+    /// <summary>
     /// Gets and sets a value indicating if tooltips should be Displayed for button specs.
     /// </summary>
     [Category(@"Visuals")]
@@ -557,6 +878,7 @@ public class KryptonRibbon : VisualSimple,
     /// </summary>
     [Category(@"Values")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public RibbonButtonSpecAnyCollection ButtonSpecs { get; private set; }
 
@@ -626,6 +948,8 @@ public class KryptonRibbon : VisualSimple,
         // Update selection to match ribbon settings
         ValidateSelectedTab();
 
+    private bool ShouldSerializeSelectedTab() => _selectedTab != null;
+
     /// <summary>
     /// Gets and sets the common separated list of selected context names.
     /// </summary>
@@ -659,6 +983,45 @@ public class KryptonRibbon : VisualSimple,
     private bool ShouldSerializeSelectedContext() => !string.IsNullOrEmpty(_selectedContext);
 
     /// <summary>
+    /// Gets or sets the text displayed in the floating window.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"Text displayed in the floating window.")]
+    [Localizable(true)]
+    [DefaultValue(@"Ribbon")]
+    public string FloatingWindowText
+    {
+        get => _floatingWindowText;
+        set
+        {
+            _floatingWindowText = value;
+            if (_floatingWindow is { IsDisposed: false })
+            {
+                _floatingWindow.Text = value ?? @"Ribbon";
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the FloatingWindowText property to its default value.
+    /// </summary>
+    public void ResetFloatingWindowText() => FloatingWindowText = KryptonManager.Strings.MiscellaneousStrings.RibbonFloatingWindowText;
+
+    private bool ShouldSerializeFloatingWindowText() => !string.Equals(FloatingWindowText, KryptonManager.Strings.MiscellaneousStrings.RibbonFloatingWindowText, StringComparison.Ordinal);
+
+    /// <summary>
+    /// Gets or sets a value indicating whether preferences are automatically saved when the detached state changes.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Indicates whether preferences are automatically saved when the detached state changes.")]
+    [DefaultValue(true)]
+    public bool SavePreferencesOnStateChange
+    {
+        get => _savePreferencesOnStateChange;
+        set => _savePreferencesOnStateChange = value;
+    }
+
+    /// <summary>
     /// Gets the collection of ribbon context definitions.
     /// </summary>
     [Category(@"Values")]
@@ -676,6 +1039,43 @@ public class KryptonRibbon : VisualSimple,
     [Editor(typeof(KryptonRibbonQATButtonCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonRibbonQATButtonCollection QATButtons { get; private set; }
+
+    /// <summary>
+    /// Inserts a standard set of quick access toolbar buttons (New, Open, Save, etc.),
+    /// similar to the WinForms MenuStrip "Insert Standard Items" option.
+    /// </summary>
+    public void InsertStandardQATItems()
+    {
+        QATButtons.Clear();
+        QATButtons.AddRange(CreateStandardQATButtons());
+    }
+
+    /// <summary>
+    /// Creates a standard set of quick access toolbar button templates.
+    /// </summary>
+    /// <returns>Array of QAT button templates.</returns>
+    internal static KryptonRibbonQATButton[] CreateStandardQATButtons()
+    {
+        var tb = KryptonManager.Strings.ToolBarStrings;
+
+        return
+        [
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.New,       Text = tb.New },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Open,      Text = tb.Open },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Save,      Text = tb.Save },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.SaveAs,    Text = tb.SaveAs },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.SaveAll,   Text = tb.SaveAll },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Cut,       Text = tb.Cut },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Copy,      Text = tb.Copy },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Paste,     Text = tb.Paste },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Undo,      Text = tb.Undo },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Redo,      Text = tb.Redo },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.PageSetup, Text = tb.PageSetup },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.PrintPreview, Text = tb.PrintPreview },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.Print,     Text = tb.Print },
+            new KryptonRibbonQATButton { Type = PaletteButtonSpecStyle.QuickPrint,Text = tb.QuickPrint }
+        ];
+    }
 
     /// <summary>
     /// Gets the set of ribbon shortcuts.
@@ -741,6 +1141,34 @@ public class KryptonRibbon : VisualSimple,
     /// Reset the HideRibbonSize to the default value.
     /// </summary>
     private void ResetHideRibbonSize() => HideRibbonSize = new Size(300, 250);
+
+    /// <summary>
+    /// Gets or sets whether ribbon chrome packs from the reading-order start edge.
+    /// </summary>
+    /// <remarks>
+    /// When hosted on a <see cref="KryptonForm"/>, this is copied from the form automatically.
+    /// Packing also requires <see cref="Control.RightToLeft"/> equal to <see cref="RightToLeft.Yes"/>.
+    /// Named to match WinForms <see cref="Form"/>; not the Toolkit <c>RightToLeftLayout</c> enum.
+    /// </remarks>
+    [Category(@"Appearance")]
+    [Localizable(true)]
+    [Description(@"Indicates whether the ribbon layout is from right to left.")]
+    [DefaultValue(false)]
+    [Browsable(true)]
+    [EditorBrowsable(EditorBrowsableState.Always)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public override bool RightToLeftLayout
+    {
+        get => _isRightToLeftLayout;
+        set
+        {
+            if (_isRightToLeftLayout != value)
+            {
+                _isRightToLeftLayout = value;
+                OnRightToLeftLayoutChanged(EventArgs.Empty);
+            }
+        }
+    }
 
     /// <summary>
     /// Gets and sets a value indicating if the ribbon is in minimized mode.
@@ -847,6 +1275,110 @@ public class KryptonRibbon : VisualSimple,
     public void ResetMinimizedMode() => MinimizedMode = false;
 
     /// <summary>
+    /// Gets and sets a value indicating if groups draw as a single command row.
+    /// </summary>
+    /// <remarks>
+    /// Compact mode keeps the same tabs and groups and lays items out in one line.
+    /// Large items use the icon-and-text presentation. <see cref="MinimizedMode"/> still hides the groups band until a tab is selected.
+    /// <see cref="ShowCompactButton"/> can add an arrow that switches this property. <see cref="CompactButtonLocation"/> chooses where that arrow sits.
+    /// <see cref="AnimateCompactMode"/> eases the groups area between the two heights.
+    /// </remarks>
+    [Localizable(true)]
+    [Category(@"Values")]
+    [Description(@"Lay groups out as a single row of commands.")]
+    [DefaultValue(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool CompactMode
+    {
+        get => _compactMode;
+
+        set
+        {
+            if (_compactMode != value)
+            {
+                bool animate = _animateCompactMode && !InDesignMode && IsHandleCreated && !RealMinimizedMode;
+                int startHeight = 0;
+                if (animate)
+                {
+                    CalculatedValues.Recalculate();
+                    startHeight = CalculatedValues.GroupsHeight;
+                    CalculatedValues.AnimatedGroupsHeight = null;
+                }
+
+                _compactMode = value;
+                GroupsArea?.RecreateButtons();
+                TabsArea?.RecreateButtons();
+
+                if (animate)
+                {
+                    CalculatedValues.Recalculate();
+                    StartCompactHeightAnimation(startHeight, CalculatedValues.GroupsHeight);
+                }
+
+                PerformNeedPaint(true);
+                OnCompactModeChanged(EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets a value indicating if changing <see cref="CompactMode"/> eases the groups area height.
+    /// </summary>
+    /// <remarks>
+    /// The commands use the target layout immediately. The groups band eases between the classic and compact heights.
+    /// Animation is skipped in the designer, before the handle exists, and while <see cref="MinimizedMode"/> hides the groups.
+    /// </remarks>
+    [Category(@"Values")]
+    [Description(@"Ease the groups area height when CompactMode changes.")]
+    [DefaultValue(true)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool AnimateCompactMode
+    {
+        get => _animateCompactMode;
+
+        set
+        {
+            if (_animateCompactMode != value)
+            {
+                _animateCompactMode = value;
+                if (!value)
+                {
+                    StopCompactHeightAnimation();
+                    PerformNeedPaint(true);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the <see cref="AnimateCompactMode"/> property to its default value.
+    /// </summary>
+    public void ResetAnimateCompactMode() => AnimateCompactMode = true;
+
+    /// <summary>
+    /// Resets the <see cref="CompactMode"/> property to its default value.
+    /// </summary>
+    public void ResetCompactMode() => CompactMode = false;
+
+    /// <summary>
+    /// Gets the notification bar data for customization.
+    /// </summary>
+    [Category(@"Appearance")]
+    [Description(@"Provides access to notification bar customization properties.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonRibbonNotificationBarData NotificationBar
+    {
+        get => _notificationBarData;
+    }
+
+    private bool ShouldSerializeNotificationBar() => !NotificationBar.IsDefault;
+
+    /// <summary>
+    /// Resets the <see cref="NotificationBar"/> property to its default value.
+    /// </summary>
+    public void ResetNotificationBar() => NotificationBar.Reset();
+
+    /// <summary>
     /// Gets and sets the display method for the quick access toolbar.
     /// </summary>
     [Localizable(true)]
@@ -869,7 +1401,7 @@ public class KryptonRibbon : VisualSimple,
                 _minimizeBar.Visible = RealMinimizedMode && (QATLocation != QATLocation.Below);
 
                 // Update the full-bar version of the QAT
-                _qatBelowRibbon.Visible = _qatLocation == QATLocation.Below;
+                _qatBelowRibbon.Visible = _qatLocation == QATLocation.Below && RibbonShape != PaletteRibbonShape.MacOS;
 
                 // Update the minibar versions of the QAT
                 CaptionArea?.UpdateQAT();
@@ -921,9 +1453,523 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
+    /// Gets and sets a value indicating whether ribbon tab headers are visible.
+    /// </summary>
+    /// <remarks>
+    /// When <c>false</c>, the ribbon keeps the selected tab's groups (toolbar style) but hides the
+    /// tab strip so users cannot switch tabs via the headers. Caption chrome, the application
+    /// button/tab, QAT, and button specs are unchanged. Prefer a single tab for this mode.
+    /// </remarks>
+    [Category(@"Values")]
+    [Description(@"Shows or hides the ribbon tab headers. When false, the ribbon acts as a toolbar for the selected tab.")]
+    [DefaultValue(true)]
+    public bool ShowTabHeaders
+    {
+        get => _showTabHeaders;
+
+        set
+        {
+            if (_showTabHeaders != value)
+            {
+                _showTabHeaders = value;
+                ApplyTabHeaderVisibility();
+
+                // Toolbar mode still needs a valid SelectedTab so GroupsArea has content.
+                if (!_showTabHeaders)
+                {
+                    ValidateSelectedTab();
+                }
+
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets a value indicating whether scrolling over the RibbonGroupArea changes the ribbon tab.
+    /// </summary>
+    [Category(@"Values")]
+    [Description(@"Does scrolling over the RibbonGroupArea change the ribbon tab.")]
+    [DefaultValue(true)]
+    public bool ScrollTabGroupArea
+    {
+        get => _scrollTabGroupArea;
+
+        set
+        {
+            if (_scrollTabGroupArea != value)
+            {
+                _scrollTabGroupArea = value;
+            }
+        }
+    }
+
+    /// <summary>
     /// Resets the ShowMinimizeButton property to its default value.
     /// </summary>
     public void ResetShowMinimizeButton() => ShowMinimizeButton = true;
+
+    /// <summary>
+    /// Gets and sets a value indicating if an arrow switches between classic and compact ribbons.
+    /// </summary>
+    /// <remarks>
+    /// The arrow is hidden unless this is set. <see cref="CompactButtonLocation"/> chooses under the groups, at the end of the groups, or on the tab row.
+    /// The up arrow turns <see cref="CompactMode"/> on. The down arrow restores the classic ribbon.
+    /// </remarks>
+    [Category(@"Values")]
+    [Description(@"Does an arrow switch between classic and compact ribbons.")]
+    [DefaultValue(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public bool ShowCompactButton
+    {
+        get => _showCompactButton;
+
+        set
+        {
+            if (_showCompactButton != value)
+            {
+                _showCompactButton = value;
+                RefreshCompactButton();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the <see cref="ShowCompactButton"/> property to its default value.
+    /// </summary>
+    public void ResetShowCompactButton() => ShowCompactButton = false;
+
+    /// <summary>
+    /// Gets and sets where the compact-mode arrow is drawn when <see cref="ShowCompactButton"/> is set.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="CompactButtonLocation.BelowGroups"/> places the arrow at the right of the groups card.
+    /// <see cref="CompactButtonLocation.GroupsTrailing"/> places it at the trailing edge of the groups area.
+    /// <see cref="CompactButtonLocation.Tabs"/> places it on the tab row, beside the window buttons.
+    /// </remarks>
+    [Category(@"Values")]
+    [Description(@"Where the compact-mode arrow is drawn.")]
+    [DefaultValue(typeof(CompactButtonLocation), nameof(CompactButtonLocation.BelowGroups))]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public CompactButtonLocation CompactButtonLocation
+    {
+        get => _compactButtonLocation;
+
+        set
+        {
+            if (_compactButtonLocation != value)
+            {
+                _compactButtonLocation = value;
+                RefreshCompactButton();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Resets the <see cref="CompactButtonLocation"/> property to its default value.
+    /// </summary>
+    public void ResetCompactButtonLocation() => CompactButtonLocation = CompactButtonLocation.BelowGroups;
+
+    private void RefreshCompactButton()
+    {
+        GroupsArea?.RecreateButtons();
+        TabsArea?.RecreateButtons();
+        PerformNeedPaint(true);
+    }
+
+    /// <summary>
+    /// Resets the ShowTabHeaders property to its default value.
+    /// </summary>
+    public void ResetShowTabHeaders() => ShowTabHeaders = true;
+
+    /// <summary>
+    /// Detaches the ribbon into a floating window.
+    /// </summary>
+    /// <returns>True if the ribbon was successfully detached; otherwise, false.</returns>
+    public bool Detach()
+    {
+        // Check if detach is allowed
+        if (!_allowDetach)
+        {
+            return false;
+        }
+
+        // Check if already detached
+        if (IsDetached)
+        {
+            return true;
+        }
+
+        // Must have a parent to detach from
+        if (Parent == null)
+        {
+            return false;
+        }
+
+        // Find the owner form
+        Form? ownerForm = FindForm();
+        if (ownerForm == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            // Store original state
+            _originalParent = Parent;
+            _originalLocation = Location;
+            _originalSize = Size;
+            _originalDock = Dock;
+
+            // Prevent form integration when detached
+            CaptionArea!.PreventIntegration = true;
+            MainPanel.Visible = true;
+            TabsArea?.CheckRibbonSize();
+
+            // Create floating window
+            _floatingWindow = new VisualRibbonFloatingWindow(ownerForm, this);
+            _floatingWindow.WindowClosing += OnFloatingWindowClosing;
+            _floatingWindow.TitleBarDoubleClick += OnFloatingWindowTitleBarDoubleClick;
+
+            // Store the ribbon's current size before removing from parent
+            var ribbonWidth = Width > 0 ? Width : 400;
+            var preferredSize = GetPreferredSize(new Size(Math.Max(400, ribbonWidth), 0));
+            var ribbonHeight = preferredSize.Height > 0 ? preferredSize.Height : (Height > 0 ? Height : 115);
+
+            // Remove from original parent and refresh original parent
+            _originalParent.Controls.Remove(this);
+            _originalParent.PerformLayout();
+            _originalParent.Invalidate(true);
+            _originalParent.Update();
+
+            Dock = DockStyle.Top;
+            Visible = true;
+
+            // Add to floating window
+            _floatingWindow.Controls.Add(this);
+            BringToFront();
+
+            // Set client size of floating window based on ribbon dimensions
+            _floatingWindow.ClientSize = new Size(Math.Max(400, ribbonWidth), ribbonHeight);
+            _floatingWindow.MinimumSize = _floatingWindow.Size;
+
+            // Force layout to ensure proper display
+            SuspendLayout();
+            _floatingWindow.SuspendLayout();
+
+            PerformLayout();
+            _floatingWindow.PerformLayout();
+
+            ResumeLayout(true);
+            _floatingWindow.ResumeLayout(true);
+
+            // Show the floating window
+            _floatingWindow.Show();
+
+            if (_floatingWindow is { IsDisposed: false })
+            {
+                _savedFloatingWindowPosition = _floatingWindow.Location;
+            }
+
+            // Force a refresh after showing
+            Invalidate(true);
+            Update();
+            _floatingWindow?.Invalidate(true);
+            _floatingWindow?.Update();
+
+            // Hook up position tracking and save initial position
+            if (_floatingWindow != null)
+            {
+                _floatingWindow.LocationChanged += OnFloatingWindowLocationChanged;
+                _savedFloatingWindowPosition = _floatingWindow.Location;
+            }
+
+            // Raise event
+            OnRibbonDetached(EventArgs.Empty);
+
+            // Save preferences if enabled
+            if (_savePreferencesOnStateChange)
+            {
+                SaveDetachPreferences();
+            }
+
+            return true;
+        }
+        catch (Exception exc)
+        {
+            Debug.WriteLine(@"KryptonRibbon.Detach() failed: {0}", exc.Message);
+            // If anything goes wrong, try to restore state
+            Reattach();
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Detaches the ribbon into a floating window and immediately begins an interactive drag operation.
+    /// </summary>
+    /// <param name="screenPoint">Initial cursor position in screen coordinates.</param>
+    /// <returns>True if the ribbon was successfully detached and drag initiated; otherwise, false.</returns>
+    public bool DetachAndDrag(Point screenPoint)
+    {
+        Capture = false;
+
+        if (!Detach())
+        {
+            return false;
+        }
+
+        if (_floatingWindow is { IsDisposed: false })
+        {
+            // Position floating window centered horizontally under cursor with title bar under mouse
+            var targetX = screenPoint.X - (_floatingWindow.Width / 2);
+            var targetY = Math.Max(0, screenPoint.Y - 15);
+            _floatingWindow.Location = new Point(targetX, targetY);
+
+            // Post message to initiate window move modal loop
+            var lParam = (IntPtr)((screenPoint.Y << 16) | (screenPoint.X & 0xFFFF));
+            PI.SendMessage(_floatingWindow.Handle, (int)PI.WM_.NCLBUTTONDOWN, (IntPtr)PI.HT.CAPTION, lParam);
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Reattaches the ribbon to its original parent.
+    /// </summary>
+    /// <returns>True if the ribbon was successfully reattached; otherwise, false.</returns>
+    public bool Reattach()
+    {
+        // Check if actually detached
+        if (!IsDetached || _floatingWindow == null || _originalParent == null)
+        {
+            return false;
+        }
+
+        try
+        {
+            var floatingWindow = _floatingWindow;
+            Control targetParent = _originalParent;
+
+            // Save position before closing
+            if (floatingWindow is { IsDisposed: false })
+            {
+                _savedFloatingWindowPosition = floatingWindow.Location;
+            }
+
+            // Remove from floating window
+            floatingWindow.Controls.Remove(this);
+            floatingWindow.WindowClosing -= OnFloatingWindowClosing;
+            floatingWindow.TitleBarDoubleClick -= OnFloatingWindowTitleBarDoubleClick;
+            floatingWindow.LocationChanged -= OnFloatingWindowLocationChanged;
+
+            _floatingWindow = null;
+
+            // Close and dispose floating window
+            if (!floatingWindow.IsDisposed)
+            {
+                floatingWindow.Close();
+                floatingWindow.Dispose();
+            }
+
+            // Restore original state
+            Dock = _originalDock;
+            Location = _originalLocation;
+            Size = _originalSize;
+
+            // Add back to original parent FIRST so Parent is valid when updating PreventIntegration
+            targetParent.Controls.Add(this);
+            targetParent.Controls.SetChildIndex(this, 0); // Bring to front of z-order for docking
+
+            // Re-enable form integration
+            CaptionArea!.PreventIntegration = false;
+            MainPanel.Visible = true;
+            TabsArea?.CheckRibbonSize();
+
+            // Clear stored state
+            _originalParent = null;
+
+            // Perform layout and invalidate parent and ribbon
+            targetParent.PerformLayout();
+            targetParent.Invalidate(true);
+            targetParent.Update();
+
+            PerformLayout();
+            Invalidate(true);
+            Update();
+
+            // If the target parent form is a KryptonForm, refresh custom chrome
+            if (targetParent.FindForm() is KryptonForm kForm)
+            {
+                kForm.RecreateMinMaxCloseButtons();
+                kForm.PerformNeedPaint(true);
+            }
+
+            // Raise event
+            OnRibbonReattached(EventArgs.Empty);
+
+            // Save preferences if enabled
+            if (_savePreferencesOnStateChange)
+            {
+                SaveDetachPreferences();
+            }
+
+            return true;
+        }
+        catch (Exception exc)
+        {
+            Debug.WriteLine(@"KryptonRibbon.Reattach() failed: {0}", exc.Message);
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Raises the RibbonDetached event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnRibbonDetached(EventArgs e) => RibbonDetached?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the RibbonReattached event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected virtual void OnRibbonReattached(EventArgs e) => RibbonReattached?.Invoke(this, e);
+
+    /// <summary>
+    /// Handles the floating window closing event.
+    /// </summary>
+    private void OnFloatingWindowClosing(object? sender, EventArgs e) => Reattach();
+
+    /// <summary>
+    /// Handles the floating window title bar double-click event.
+    /// </summary>
+    private void OnFloatingWindowTitleBarDoubleClick(object? sender, EventArgs e) => Reattach();
+
+    /// <summary>
+    /// Handles the floating window location changed event to track position for persistence.
+    /// </summary>
+    private void OnFloatingWindowLocationChanged(object? sender, EventArgs e)
+    {
+        if (_floatingWindow is { IsDisposed: false })
+        {
+            _savedFloatingWindowPosition = _floatingWindow.Location;
+            
+            // Save preferences if enabled
+            if (_savePreferencesOnStateChange)
+            {
+                SaveDetachPreferences();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Saves the current detach preferences (detached state and window position).
+    /// </summary>
+    /// <remarks>
+    /// This method raises the <see cref="DetachPreferencesChanged"/> event, allowing
+    /// applications to persist the preferences using their preferred storage mechanism
+    /// (Settings, Registry, file, etc.).
+    /// </remarks>
+    public void SaveDetachPreferences()
+    {
+        var args = new DetachPreferencesEventArgs
+        {
+            IsDetached = IsDetached,
+            FloatingWindowPosition = _savedFloatingWindowPosition
+        };
+        
+        OnDetachPreferencesChanged(args);
+    }
+
+    /// <summary>
+    /// Loads and restores the detach preferences (detached state and window position).
+    /// </summary>
+    /// <param name="isDetached">The saved detached state.</param>
+    /// <param name="floatingWindowPosition">The saved floating window position, or null if not saved.</param>
+    /// <returns>True if preferences were successfully loaded; otherwise false.</returns>
+    /// <remarks>
+    /// Call this method during form initialization to restore the previous state.
+    /// If <paramref name="isDetached"/> is true, the ribbon will be detached after the form is loaded.
+    /// If <paramref name="floatingWindowPosition"/> is provided, the floating window will be positioned at that location.
+    /// </remarks>
+    public bool LoadDetachPreferences(bool isDetached, Point? floatingWindowPosition = null)
+    {
+        if (!AllowDetach)
+        {
+            return false;
+        }
+
+        _savedFloatingWindowPosition = floatingWindowPosition;
+
+        if (isDetached)
+        {
+            // Detach after form is loaded (use BeginInvoke to ensure form is fully initialized)
+            if (Parent != null && Parent.FindForm() != null)
+            {
+                var form = Parent.FindForm();
+                if (form != null)
+                {
+                    form.Load += (s, e) =>
+                    {
+                        // Use BeginInvoke to ensure form is fully laid out
+                        BeginInvoke(new Action(() =>
+                        {
+                            if (Detach())
+                            {
+                                // Restore position if available
+                                if (_savedFloatingWindowPosition.HasValue && _floatingWindow != null)
+                                {
+                                    RestoreFloatingWindowPosition(_savedFloatingWindowPosition.Value);
+                                }
+                            }
+                        }));
+                    };
+                }
+            }
+            else
+            {
+                // If parent form is not available yet, try to detach immediately
+                // This might not work if called too early
+                if (Detach() && _savedFloatingWindowPosition.HasValue && _floatingWindow != null)
+                {
+                    RestoreFloatingWindowPosition(_savedFloatingWindowPosition.Value);
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Restores the floating window position, ensuring it's on a visible screen.
+    /// </summary>
+    /// <param name="position">The position to restore.</param>
+    private void RestoreFloatingWindowPosition(Point position)
+    {
+        if (_floatingWindow == null || _floatingWindow.IsDisposed)
+        {
+            return;
+        }
+
+        // Ensure the position is on a visible screen
+        var screen = Screen.FromPoint(position);
+        var workingArea = screen.WorkingArea;
+
+        // Clamp position to screen bounds
+        var x = Math.Max(workingArea.Left, Math.Min(position.X, workingArea.Right - _floatingWindow.Width));
+        var y = Math.Max(workingArea.Top, Math.Min(position.Y, workingArea.Bottom - _floatingWindow.Height));
+
+        _floatingWindow.Location = new Point(x, y);
+        _savedFloatingWindowPosition = _floatingWindow.Location;
+    }
+
+    /// <summary>
+    /// Raises the DetachPreferencesChanged event.
+    /// </summary>
+    /// <param name="e">A DetachPreferencesEventArgs that contains the event data.</param>
+    protected virtual void OnDetachPreferencesChanged(DetachPreferencesEventArgs e) => DetachPreferencesChanged?.Invoke(this, e);
 
     /// <summary>
     /// Gets access to the ToolTipManager used for displaying tool tips.
@@ -942,7 +1988,7 @@ public class KryptonRibbon : VisualSimple,
     /// Internal design time method.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public new bool InDesignMode => 
+    public new bool InDesignMode =>
         // Removed warning CS0108: "IndesignMode hides inherited member VisualControl.InDesignMode".
         // By marking the property as new.
         DesignMode;
@@ -1058,6 +2104,14 @@ public class KryptonRibbon : VisualSimple,
                     // Pressing the mouse in keyboard mode always kills keyboard mode
                     KillKeyboardMode();
                     break;
+                case PI.WM_.LBUTTONUP:
+                case PI.WM_.NCLBUTTONUP:
+                    // FullClient backstage covers the File button, so the second release never reaches it.
+                    if (NoteBackstageAppButtonMouseUp())
+                    {
+                        return true;
+                    }
+                    break;
                 case PI.WM_.SYSKEYUP:
                     CheckForAltUp();
                     break;
@@ -1090,13 +2144,13 @@ public class KryptonRibbon : VisualSimple,
                     break;
 
                 case PI.WM_.MOUSEWHEEL:
-                    // Only interested if we are usable and not a control on the tab has focus and not in minimized mode or keyboard mode
-                    if (Visible && Enabled && !RealMinimizedMode && !KeyboardMode && !InDesignMode)
+                    // Only interested if we are usable and not a control on the tab has focus and not in minimized mode or keyboard mode.
+                    // Tab-header scrolling is disabled when ShowTabHeaders is false (toolbar mode).
+                    if (Visible && Enabled && !RealMinimizedMode && !KeyboardMode && !InDesignMode && ShowTabHeaders)
                     {
                         // Only interested is the owning form is usable and has the focus
                         if (TabsArea is not null
-                            && FindForm() is Form ownerForm 
-                            && ownerForm is { Visible: true, Enabled: true, ContainsFocus: true })
+                            && FindForm() is Form { Visible: true, Enabled: true, ContainsFocus: true })
                         {
                             // Extract the x and y mouse position from message
                             var pt = new Point
@@ -1106,11 +2160,29 @@ public class KryptonRibbon : VisualSimple,
                             };
 
                             // Only interested if over the tabs area
-                            if (TabsArea.ClientRectangle.Contains(PointToClient(pt)))
+                            if (TabsArea.ClientRectangle.Contains(PointToClient(pt)) || (_scrollTabGroupArea && GroupsArea.ClientRectangle.Contains(PointToClient(pt))))
                             {
-                                var delta = (short)PI.HIWORD((int)m.WParam.ToInt64());
-                                TabsArea.LayoutTabs.ProcessMouseWheel(delta < 0);
-                                return true;
+                                if (MouseControlFinder.ControlUnderMouse(pt) is Control { Enabled: true } control)
+                                {
+                                    if (control is ComboBox or KryptonTrackBar or KryptonDateTimePicker or VisualPopupAppMenu or VisualContextMenu || control.Parent is DomainUpDown or NumericUpDown)
+                                    {
+                                        return false;
+                                    }
+                                    else if (control is TextBox { Multiline: true, ScrollBars: ScrollBars.Both or ScrollBars.Vertical or ScrollBars.Horizontal })
+                                    {
+                                        return false;
+                                    }
+                                    else if (control is RichTextBox { Multiline: true, ScrollBars: RichTextBoxScrollBars.Vertical or RichTextBoxScrollBars.ForcedVertical or RichTextBoxScrollBars.Both or RichTextBoxScrollBars.ForcedBoth })
+                                    {
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        var delta = (short)PI.HIWORD((int)m.WParam.ToInt64());
+                                        TabsArea.LayoutTabs.ProcessMouseWheel(delta < 0);
+                                        return true;
+                                    }
+                                }
                             }
                         }
                     }
@@ -1213,6 +2285,19 @@ public class KryptonRibbon : VisualSimple,
 
         // Let base class generate event
         base.OnInitialized(e);
+
+        // Parent may already be assigned before this fires.
+        SyncRightToLeftLayoutFromParent();
+    }
+
+    /// <summary>
+    /// Raises the ParentChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        SyncRightToLeftLayoutFromParent();
     }
 
     /// <summary>
@@ -1222,6 +2307,8 @@ public class KryptonRibbon : VisualSimple,
     protected override void OnHandleCreated(EventArgs e)
     {
         base.OnHandleCreated(e);
+
+        OnHandleCreatedAutoDiscover();
 
         // Size and position of the application button and context titles will not
         // be correct in the caption area until the control handle has been created
@@ -1438,15 +2525,16 @@ public class KryptonRibbon : VisualSimple,
         }
 
         // Check each quick access toolbar button
-        foreach (IQuickAccessToolbarButton qatButton in from IQuickAccessToolbarButton qatButton in QATButtons
-                 where qatButton.GetVisible() && qatButton.GetEnabled()
-                 let shortcut = qatButton.GetShortcutKeys()
-                 where (shortcut != Keys.None) && (shortcut == keyData)
-                 select qatButton)
+        foreach (var qatButton in QATButtons.OfType<IQuickAccessToolbarButton>()
+                     .Where(static qatButton => qatButton.GetVisible() && qatButton.GetEnabled()))
         {
-            // Click the button and finish processing
-            qatButton.PerformClick();
-            return true;
+            var shortcut = qatButton.GetShortcutKeys();
+            if ((shortcut != Keys.None) && (shortcut == keyData))
+            {
+                // Click the button and finish processing
+                qatButton.PerformClick();
+                return true;
+            }
         }
 
         // If we want to intercept key pressed for use with key tips
@@ -1488,6 +2576,12 @@ public class KryptonRibbon : VisualSimple,
         // Cannot process a message for a disposed control
         if (!IsDisposed)
         {
+            if (_allowDetach && !IsDetached && e.Button == MouseButtons.Left)
+            {
+                _isMouseDownForDrag = true;
+                _dragMouseDownPoint = new Point(e.X, e.Y);
+            }
+
             // Do we have a manager for processing mouse messages?
             ViewManager?.MouseDown(e, new Point(e.X, e.Y));
         }
@@ -1496,11 +2590,36 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
+    /// Raises the MouseMove event.
+    /// </summary>
+    /// <param name="e">A MouseEventArgs that contains the event data.</param>
+    protected override void OnMouseMove(MouseEventArgs e)
+    {
+        if (!IsDisposed)
+        {
+            ViewManager?.MouseMove(e, new Point(e.X, e.Y));
+
+            if (_isMouseDownForDrag && _allowDetach && !IsDetached && e.Button == MouseButtons.Left)
+            {
+                var diffX = Math.Abs(e.X - _dragMouseDownPoint.X);
+                var diffY = Math.Abs(e.Y - _dragMouseDownPoint.Y);
+                if (diffX >= SystemInformation.DragSize.Width || diffY >= SystemInformation.DragSize.Height)
+                {
+                    _isMouseDownForDrag = false;
+                    DetachAndDrag(Cursor.Position);
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// Raises the MouseUp event.
     /// </summary>
     /// <param name="e">A MouseEventArgs that contains the event data.</param>
     protected override void OnMouseUp(MouseEventArgs e)
     {
+        _isMouseDownForDrag = false;
+
         // Cannot process a message for a disposed control
         if (!IsDisposed)
         {
@@ -1512,6 +2631,39 @@ public class KryptonRibbon : VisualSimple,
     }
 
     /// <summary>
+    /// Raises the MouseDoubleClick event.
+    /// </summary>
+    /// <param name="e">A MouseEventArgs containing event data.</param>
+    protected override void OnMouseDoubleClick(MouseEventArgs e)
+    {
+        // If detach is allowed and ribbon is attached, check if double-click is on caption area
+        if (_allowDetach && !IsDetached && e.Button == MouseButtons.Left)
+        {
+            // Check if the click is within the caption area using the view manager
+            if (ViewManager != null && CaptionArea is { Visible: true })
+            {
+                var point = new Point(e.X, e.Y);
+                var viewAtPoint = ViewManager.Root.ViewFromPoint(point);
+                
+                // Check if the view at the point is the caption area or a child of it
+                ViewBase? currentView = viewAtPoint;
+                while (currentView != null)
+                {
+                    if (currentView == CaptionArea)
+                    {
+                        // Double-click on caption area - detach the ribbon
+                        Detach();
+                        return; // Don't process further
+                    }
+                    currentView = currentView.Parent;
+                }
+            }
+        }
+
+        base.OnMouseDoubleClick(e);
+    }
+
+    /// <summary>
     /// Raises the GotFocus event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -1519,11 +2671,11 @@ public class KryptonRibbon : VisualSimple,
     {
         ViewBase? newFocus = null;
 
-        if (SelectedTab != null)
+        if (ShowTabHeaders && SelectedTab != null)
         {
             newFocus = TabsArea?.LayoutTabs.GetViewForRibbonTab(SelectedTab);
         }
-        else if (!RealMinimizedMode)
+        else if (ShowTabHeaders && !RealMinimizedMode)
         {
             newFocus = TabsArea?.LayoutTabs.GetViewForFirstRibbonTab();
         }
@@ -1540,6 +2692,12 @@ public class KryptonRibbon : VisualSimple,
             {
                 newFocus = TabsArea.LayoutAppTab.AppTab;
             }
+        }
+
+        // Toolbar mode: fall through to first focusable group item when chrome has no tab/app target.
+        if (newFocus == null && !ShowTabHeaders && !RealMinimizedMode && SelectedTab != null)
+        {
+            newFocus = GroupsArea.ViewGroups.GetFirstFocusItem();
         }
 
         // Give focus to the target view
@@ -1634,6 +2792,36 @@ public class KryptonRibbon : VisualSimple,
 
         // Let base class perform usual painting
         base.OnNeedPaint(sender, e);
+
+        // Layout-only invalidation leaves the groups child control stale until the next
+        // mouse move. Paint the ribbon and its children before the caller returns.
+        if (e.NeedLayout && IsHandleCreated && !IsDisposed && !_forcingRefresh)
+        {
+            _forcingRefresh = true;
+            try
+            {
+                Refresh();
+            }
+            finally
+            {
+                _forcingRefresh = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Raises the PaletteChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing the event data.</param>
+    protected override void OnPaletteChanged(EventArgs e)
+    {
+        base.OnPaletteChanged(e);
+
+        // RibbonShape (orb vs File tab, QAT Above, form icon, injected caption chrome)
+        // comes from the palette. Refresh immediately rather than waiting for a resize
+        // or form-chrome event (#3859, #4061).
+        TabsArea?.AppButtonVisibleChanged();
+        CaptionArea?.ApplyPaletteChanged();
     }
 
     /// <summary>
@@ -1652,6 +2840,9 @@ public class KryptonRibbon : VisualSimple,
     /// <param name="e">An EventArgs containing event data.</param>
     protected virtual void OnSelectedTabChanged(EventArgs e)
     {
+        // Request item processing from the focus lost helper
+        FocusLostMenuHelper.ProcessItems();
+
         // Need to recalculate anything relying on the palette
         DirtyPaletteCounter++;
 
@@ -1701,10 +2892,40 @@ public class KryptonRibbon : VisualSimple,
     protected internal virtual void OnAppButtonMenuClosed(ToolStripDropDownClosedEventArgs e) => AppButtonMenuClosed?.Invoke(this, e);
 
     /// <summary>
+    /// Raises the BackstageOpening event.
+    /// </summary>
+    /// <param name="e">An CancelEventArgs containing the event data.</param>
+    protected internal virtual void OnBackstageOpening(CancelEventArgs e) => BackstageOpening?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageOpened event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected internal virtual void OnBackstageOpened(EventArgs e) => BackstageOpened?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageClosing event.
+    /// </summary>
+    /// <param name="e">An CancelEventArgs containing the event data.</param>
+    protected internal virtual void OnBackstageClosing(CancelEventArgs e) => BackstageClosing?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the BackstageClosed event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected internal virtual void OnBackstageClosed(EventArgs e) => BackstageClosed?.Invoke(this, e);
+
+    /// <summary>
     /// Raises the MinimizedModeChanged event.
     /// </summary>
     /// <param name="e">An EventArgs containing event data.</param>
     protected virtual void OnMinimizedModeChanged(EventArgs e) => MinimizedModeChanged?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the <see cref="CompactModeChanged"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> containing event data.</param>
+    protected virtual void OnCompactModeChanged(EventArgs e) => CompactModeChanged?.Invoke(this, e);
 
     #endregion
 
@@ -1715,6 +2936,125 @@ public class KryptonRibbon : VisualSimple,
     internal void OnDesignTimeAddTab() => DesignTimeAddTab?.Invoke(this, EventArgs.Empty);
 
     internal bool RealMinimizedMode => MinimizedMode && !InDesignMode;
+
+    internal bool BackstageVisible => _backstageOverlay != null;
+
+    internal bool TryToggleBackstageView()
+    {
+        if (RibbonShape == PaletteRibbonShape.Office2007)
+        {
+            return false;
+        }
+
+        if (!RibbonFileAppTab.UseBackstageView)
+        {
+            return false;
+        }
+
+        if (RibbonFileAppTab.BackstageContent is null)
+        {
+            return false;
+        }
+
+        if (_backstageOverlay != null)
+        {
+            return CloseBackstageView();
+        }
+
+        // Give event handler a chance to cancel the open request
+        var cea = new CancelEventArgs();
+        OnBackstageOpening(cea);
+
+        if (cea.Cancel)
+        {
+            return false;
+        }
+
+        Form? topForm = FindForm();
+        if (topForm is null)
+        {
+            return false;
+        }
+
+        // Close any existing app menu popup before showing backstage
+        TabsArea?.DismissAppButtonMenu();
+
+        // Remove any minimized popup window from display
+        if (RealMinimizedMode)
+        {
+            KillMinimizedPopup();
+        }
+
+        // Remember the currently selected tab so we can restore it on close
+        _backstageRestoreTab = SelectedTab;
+
+        // Get overlay mode from BackstageView if available
+        BackstageOverlayMode overlayMode = BackstageOverlayMode.FullClient;
+        if (RibbonFileAppTab.BackstageView != null)
+        {
+            overlayMode = RibbonFileAppTab.BackstageView.OverlayMode;
+        }
+
+        _backstageOverlay = new VisualBackstageOverlayForm(topForm, overlayMode, this);
+        _backstageOverlay.SetContent(RibbonFileAppTab.BackstageContent);
+        _backstageOverlay.BackRequested += OnBackstageBackRequested;
+        _backstageOverlay.Disposed += OnBackstageOverlayDisposed;
+        _backstageOverlay.UpdateOwnerBounds();
+
+        // Indicate the backstage view is fully constructed and displayed
+        OnBackstageOpened(EventArgs.Empty);
+
+        return true;
+    }
+
+    public bool CloseBackstageView()
+    {
+        if (_backstageOverlay is null)
+        {
+            return false;
+        }
+
+        // Give event handler a chance to cancel the close request
+        var cea = new CancelEventArgs();
+        OnBackstageClosing(cea);
+
+        if (cea.Cancel)
+        {
+            return false;
+        }
+
+        // Close triggers disposal and centralized cleanup
+        _backstageOverlay.Close();
+        return true;
+    }
+
+    private void OnBackstageBackRequested(object? sender, EventArgs e) => CloseBackstageView();
+
+    private void OnBackstageOverlayDisposed(object? sender, EventArgs e)
+    {
+        if (_backstageOverlay != null)
+        {
+            _backstageOverlay.BackRequested -= OnBackstageBackRequested;
+            _backstageOverlay.Disposed -= OnBackstageOverlayDisposed;
+            _backstageOverlay = null;
+        }
+
+        // Remove the fixed 'pressed' state from the application tab
+        TabsArea?.RemoveFixedAppTab();
+
+        // We always kill keyboard mode when backstage is removed
+        KillKeyboardMode();
+
+        // Restore previous selected tab if possible
+        if (_backstageRestoreTab != null && _backstageRestoreTab != SelectedTab)
+        {
+            SelectedTab = _backstageRestoreTab;
+        }
+
+        _backstageRestoreTab = null;
+
+        OnBackstageClosed(EventArgs.Empty);
+    }
 
     internal ViewRibbonManager? ViewRibbonManager => ViewManager as ViewRibbonManager;
 
@@ -1878,7 +3218,67 @@ public class KryptonRibbon : VisualSimple,
         }
     }
 
-    internal void TestForAppButtonDoubleClick() => TabsArea?.TestForAppButtonDoubleClick();
+    internal bool TestForAppButtonDoubleClick() => TabsArea?.TestForAppButtonDoubleClick() ?? false;
+
+    /// <summary>
+    /// Screen rectangle of the File / application button, or empty when that button is hidden.
+    /// </summary>
+    private Rectangle AppButtonScreenRectangle()
+    {
+        if (TabsArea == null)
+        {
+            return Rectangle.Empty;
+        }
+
+        // Office 2007 uses the orb. Later shapes use the File tab.
+        if (RibbonShape == PaletteRibbonShape.Office2007)
+        {
+            return TabsArea.LayoutAppButton.Visible
+                ? RectangleToScreen(TabsArea.LayoutAppButton.AppButton.ClientRectangle)
+                : Rectangle.Empty;
+        }
+
+        return TabsArea.LayoutAppTab.Visible
+            ? RectangleToScreen(TabsArea.LayoutAppTab.AppTab.ClientRectangle)
+            : Rectangle.Empty;
+    }
+
+    /// <summary>
+    /// Counts a left release on the File button while the backstage overlay is covering it.
+    /// </summary>
+    /// <returns>True when that release closes the owner form.</returns>
+    private bool NoteBackstageAppButtonMouseUp()
+    {
+        if (_backstageOverlay == null)
+        {
+            return false;
+        }
+
+        Rectangle appRect = AppButtonScreenRectangle();
+        if (appRect.IsEmpty || !appRect.Contains(Cursor.Position))
+        {
+            return false;
+        }
+
+        Control? under = MouseControlFinder.ControlUnderMouse(Cursor.Position);
+        if (under == null)
+        {
+            return false;
+        }
+
+        // BelowRibbon leaves the File button uncovered. OnAppButtonReleased already counts that release.
+        if (ReferenceEquals(under, this) || Contains(under))
+        {
+            return false;
+        }
+
+        if (!ReferenceEquals(under, _backstageOverlay) && !_backstageOverlay.Contains(under))
+        {
+            return false;
+        }
+
+        return TestForAppButtonDoubleClick();
+    }
 
     internal void HideFocus(Control? c)
     {
@@ -1929,6 +3329,59 @@ public class KryptonRibbon : VisualSimple,
         return c as KryptonForm;
     }
 
+    /// <summary>
+    /// Gets whether ribbon packing should use Office-style RTL (both RTL flags).
+    /// </summary>
+    internal bool IsRtlLayout => RibbonRtlLayout.IsRtl(this);
+
+    private void SyncRightToLeftLayoutFromParent()
+    {
+        UnhookRtlSourceForm();
+
+        var form = FindKryptonForm();
+        if (form == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm = form;
+        _rtlSourceForm.RightToLeftChanged += OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged += OnRtlSourceFormRtlChanged;
+        CopyRightToLeftLayoutFromForm(form);
+    }
+
+    private void UnhookRtlSourceForm()
+    {
+        if (_rtlSourceForm == null)
+        {
+            return;
+        }
+
+        _rtlSourceForm.RightToLeftChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm.RightToLeftLayoutChanged -= OnRtlSourceFormRtlChanged;
+        _rtlSourceForm = null;
+    }
+
+    private void OnRtlSourceFormRtlChanged(object? sender, EventArgs e)
+    {
+        if (_rtlSourceForm != null)
+        {
+            CopyRightToLeftLayoutFromForm(_rtlSourceForm);
+        }
+    }
+
+    private void CopyRightToLeftLayoutFromForm(KryptonForm form)
+    {
+        if (this.RightToLeftLayout != form.RightToLeftLayout)
+        {
+            this.RightToLeftLayout = form.RightToLeftLayout;
+        }
+        else
+        {
+            PerformNeedPaint(true);
+        }
+    }
+
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     internal ButtonStyle QATButtonStyle
     {
@@ -1967,12 +3420,11 @@ public class KryptonRibbon : VisualSimple,
         if (QATUserChange)
         {
             // Add an entry for each quick access toolbar button
-            foreach (var component in QATButtons)
+            foreach (var qatButton in QATButtons.OfType<IQuickAccessToolbarButton>())
             {
-                var qatButton = component as IQuickAccessToolbarButton;
                 var menuItem = new KryptonContextMenuItem
                 {
-                    Text = qatButton!.GetText(),
+                    Text = qatButton.GetText(),
                     Checked = qatButton.GetVisible()
                 };
                 menuItem.Click += OnQATCustomizeClick;
@@ -2142,17 +3594,12 @@ public class KryptonRibbon : VisualSimple,
 
     internal ViewBase? GetNextQATView(ViewBase qatView, bool tab)
     {
-        ViewBase? view = null;
-
-        switch (QATLocation)
+        ViewBase? view = QATLocation switch
         {
-            case QATLocation.Above:
-                view = CaptionArea?.VisibleQAT.GetNextQATView(qatView);
-                break;
-            case QATLocation.Below:
-                view = _qatBelowContents.GetNextQATView(qatView);
-                break;
-        }
+            QATLocation.Above => CaptionArea?.VisibleQAT.GetNextQATView(qatView),
+            QATLocation.Below => _qatBelowContents.GetNextQATView(qatView),
+            _ => null
+        };
 
         // Get the first near edge button (the last near button is the leftmost one!)
         view ??= TabsArea?.ButtonSpecManager?.GetLastVisibleViewButton(PaletteRelativeEdgeAlign.Near);
@@ -2197,17 +3644,12 @@ public class KryptonRibbon : VisualSimple,
 
     internal ViewBase? GetPreviousQATView(ViewBase qatView)
     {
-        ViewBase? view = null;
-
-        switch (QATLocation)
+        ViewBase? view = QATLocation switch
         {
-            case QATLocation.Above:
-                view = CaptionArea?.VisibleQAT.GetPreviousQATView(qatView);
-                break;
-            case QATLocation.Below:
-                view = _qatBelowContents.GetPreviousQATView(qatView);
-                break;
-        }
+            QATLocation.Above => CaptionArea?.VisibleQAT.GetPreviousQATView(qatView),
+            QATLocation.Below => _qatBelowContents.GetPreviousQATView(qatView),
+            _ => null
+        };
 
         // Move back to the application button/tab
         if (view == null
@@ -2383,8 +3825,11 @@ public class KryptonRibbon : VisualSimple,
             ? CaptionArea!.VisibleQAT.GetQATKeyTips()
             : _qatBelowContents.GetQATKeyTips(this.FindKryptonForm()!));
 
-        // Add the tab headers
-        keyTipList.AddRange(TabsArea.GetTabKeyTips());
+        // Add the tab headers (toolbar mode has no selectable tab strip)
+        if (ShowTabHeaders)
+        {
+            keyTipList.AddRange(TabsArea.GetTabKeyTips());
+        }
 
         return keyTipList;
     }
@@ -2525,6 +3970,7 @@ public class KryptonRibbon : VisualSimple,
         AllowButtonSpecToolTips = false;
         AllowButtonSpecToolTipPriority = false;
         AllowMinimizedChange = true;
+        _allowDragReattach = true;
         AutoSize = true;
         AutoSizeMode = AutoSizeMode.GrowAndShrink;
         Dock = DockStyle.Top;
@@ -2532,6 +3978,11 @@ public class KryptonRibbon : VisualSimple,
         MinimizedMode = false;
         ScrollerStyle = ButtonStyle.Standalone;
         ShowMinimizeButton = true;
+        ShowCompactButton = false;
+        CompactButtonLocation = CompactButtonLocation.BelowGroups;
+        AnimateCompactMode = true;
+        ShowTabHeaders = true;
+        ScrollTabGroupArea = true;
         QATLocation = QATLocation.Above;
         QATUserChange = true;
         LostFocusLosesKeyboard = true;
@@ -2589,6 +4040,10 @@ public class KryptonRibbon : VisualSimple,
     private void CreateStorageObjects()
     {
         RibbonShortcuts = new RibbonShortcuts();
+
+        _notificationBarData = new KryptonRibbonNotificationBarData();
+        
+        _notificationBarData.PropertyChanged += OnNotificationBarDataPropertyChanged;
 
         // Create direct access to the redirector for panel background
         _backPanelInherit = new PaletteBackInheritRedirect(Redirector, PaletteBackStyle.PanelClient);
@@ -2651,11 +4106,20 @@ public class KryptonRibbon : VisualSimple,
             Visible = false
         };
 
+        // Create notification bar
+        _notificationBar = new ViewDrawRibbonNotificationBar(this, NeedPaintDelegate)
+        {
+            Visible = false,
+            NotificationData = _notificationBarData
+        };
+        _notificationBar.ButtonClick += OnNotificationBarButtonClick;
+
         // Connect up the various view elements
         MainPanel.Add(_ribbonDocker);
         _ribbonDocker.Add(GroupsArea, ViewDockStyle.Fill);
         _ribbonDocker.Add(_minimizeBar, ViewDockStyle.Bottom);
         _ribbonDocker.Add(_qatBelowRibbon, ViewDockStyle.Bottom);
+        _ribbonDocker.Add(_notificationBar, ViewDockStyle.Bottom);
         _ribbonDocker.Add(TabsArea, ViewDockStyle.Top);
         _ribbonDocker.Add(CaptionArea, ViewDockStyle.Top);
 
@@ -2666,12 +4130,174 @@ public class KryptonRibbon : VisualSimple,
         CaptionArea.HookToolTipHandling();
         TabsArea.HookToolTipHandling();
 
+        // Honor ShowTabHeaders without removing CaptionArea/TabsArea from the docker (#331).
+        ApplyTabHeaderVisibility();
+
         // Create the view manager instance
         ViewManager = new ViewRibbonManager(this, GroupsArea.ViewGroups, _rootDocker, false, NeedPaintDelegate);
     }
+
+    /// <summary>
+    /// Shows or hides the tab strip inside TabsArea without disturbing caption chrome.
+    /// </summary>
+    private void ApplyTabHeaderVisibility()
+    {
+        TabsArea?.ApplyTabHeaderVisibility(_showTabHeaders);
+
+        // CaptionArea may show solely because contexts exist; keep that tied to tab headers.
+        CaptionArea?.UpdateVisible();
+
+        // Context titles are often injected into KryptonForm chrome — force that surface to refresh.
+        CaptionArea?.RedrawCustomChrome(true);
+    }
+
+    private void OnNotificationBarDataPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (_notificationBar == null)
+        {
+            return;
+        }
+
+        switch (e.PropertyName)
+        {
+            case nameof(KryptonRibbonNotificationBarData.Visible):
+                _notificationBar.Visible = _notificationBarData.Visible;
+                UpdateAutoDismissTimer();
+                PerformNeedPaint(true);
+                break;
+            case nameof(KryptonRibbonNotificationBarData.AutoDismissSeconds):
+                UpdateAutoDismissTimer();
+                break;
+            default:
+                PerformNeedPaint(true);
+                break;
+        }
+    }
+
+    private void OnNotificationBarButtonClick(object? sender, RibbonNotificationBarEventArgs e)
+    {
+        // Stop auto-dismiss timer if button was clicked
+        if (_autoDismissTimer != null)
+        {
+            _autoDismissTimer.Stop();
+            _autoDismissTimer.Dispose();
+            _autoDismissTimer = null;
+        }
+
+        // Raise the event
+        NotificationBarButtonClick?.Invoke(this, e);
+
+        // If close button was clicked, hide the notification bar
+        if (e.ActionButtonIndex == -1)
+        {
+            _notificationBarData.Visible = false;
+        }
+    }
+
+    private void UpdateAutoDismissTimer()
+    {
+        // Dispose existing timer if any
+        if (_autoDismissTimer != null)
+        {
+            _autoDismissTimer.Stop();
+            _autoDismissTimer.Dispose();
+            _autoDismissTimer = null;
+        }
+
+        // Create new timer if auto-dismiss is enabled and notification is visible
+        if (_notificationBarData is { Visible: true, AutoDismissSeconds: > 0 })
+        {
+            _autoDismissTimer = new System.Windows.Forms.Timer
+            {
+                Interval = _notificationBarData.AutoDismissSeconds * 1000
+            };
+            _autoDismissTimer.Tick += OnAutoDismissTimerTick;
+            _autoDismissTimer.Start();
+        }
+    }
+
+    private const int COMPACT_ANIMATION_DURATION_MS = 180;
+    private const int COMPACT_ANIMATION_INTERVAL_MS = 15;
+
+    /// <summary>
+    /// Ease <see cref="CalculatedValues.GroupsHeight"/> from the height before the mode change to the height after it.
+    /// </summary>
+    private void StartCompactHeightAnimation(int startHeight, int endHeight)
+    {
+        if (startHeight == endHeight)
+        {
+            StopCompactHeightAnimation();
+            return;
+        }
+
+        _compactAnimationStartHeight = startHeight;
+        _compactAnimationEndHeight = endHeight;
+        _compactAnimationStarted = Environment.TickCount;
+        CalculatedValues.AnimatedGroupsHeight = startHeight;
+
+        if (_compactAnimationTimer == null)
+        {
+            _compactAnimationTimer = new System.Windows.Forms.Timer
+            {
+                Interval = COMPACT_ANIMATION_INTERVAL_MS
+            };
+            _compactAnimationTimer.Tick += OnCompactAnimationTick;
+        }
+
+        _compactAnimationTimer.Start();
+    }
+
+    private void OnCompactAnimationTick(object? sender, EventArgs e)
+    {
+        if (IsDisposed)
+        {
+            StopCompactHeightAnimation();
+            return;
+        }
+
+        int elapsed = unchecked(Environment.TickCount - _compactAnimationStarted);
+        if (elapsed >= COMPACT_ANIMATION_DURATION_MS)
+        {
+            StopCompactHeightAnimation();
+            PerformNeedPaint(true);
+            return;
+        }
+
+        float t = elapsed / (float)COMPACT_ANIMATION_DURATION_MS;
+        float eased = 1f - ((1f - t) * (1f - t) * (1f - t));
+        int height = _compactAnimationStartHeight + (int)Math.Round((_compactAnimationEndHeight - _compactAnimationStartHeight) * eased);
+        CalculatedValues.AnimatedGroupsHeight = height;
+        PerformNeedPaint(true);
+    }
+
+    private void StopCompactHeightAnimation()
+    {
+        if (_compactAnimationTimer != null)
+        {
+            _compactAnimationTimer.Stop();
+        }
+
+        if (CalculatedValues != null)
+        {
+            CalculatedValues.AnimatedGroupsHeight = null;
+        }
+    }
+
+    private void OnAutoDismissTimerTick(object? sender, EventArgs e)
+    {
+        if (_autoDismissTimer != null)
+        {
+            _autoDismissTimer.Stop();
+            _autoDismissTimer.Dispose();
+            _autoDismissTimer = null;
+        }
+
+        _notificationBarData.Visible = false;
+    }
+
     #endregion
 
-    #region Private
+        #region Private
     private void CheckForAltUp()
     {
         if (_altDown)
@@ -3015,8 +4641,7 @@ public class KryptonRibbon : VisualSimple,
     private void OnRibbonQATButtonsClearing(object? sender, EventArgs e)
     {
         // Stop tracking changes in button properties
-        // TODO: Use typed 'where' clause
-        foreach (IQuickAccessToolbarButton component in QATButtons)
+        foreach (var component in QATButtons.OfType<IQuickAccessToolbarButton>())
         {
             component.PropertyChanged -= OnQATButtonPropertyChanged;
         }
@@ -3033,11 +4658,10 @@ public class KryptonRibbon : VisualSimple,
 
     private void OnRibbonQATButtonsInserted(object sender, TypedCollectionEventArgs<Component> e)
     {
-        var qatButton = e.Item as IQuickAccessToolbarButton;
-        Debug.Assert(qatButton != null);
+        Debug.Assert(e.Item is IQuickAccessToolbarButton);
 
         // Setup the back reference from tab to ribbon control
-        if (qatButton != null)
+        if (e.Item is IQuickAccessToolbarButton qatButton)
         {
             qatButton.SetRibbon(this);
             // Track changes in button properties
@@ -3053,11 +4677,10 @@ public class KryptonRibbon : VisualSimple,
 
     private void OnRibbonQATButtonsRemoved(object sender, TypedCollectionEventArgs<Component> e)
     {
-        var qatButton = e.Item as IQuickAccessToolbarButton;
-        Debug.Assert(qatButton != null);
+        Debug.Assert(e.Item is IQuickAccessToolbarButton);
 
         // Stop tracking changes in button properties
-        if (qatButton != null)
+        if (e.Item is IQuickAccessToolbarButton qatButton)
         {
             qatButton.PropertyChanged -= OnQATButtonPropertyChanged;
 
@@ -3163,17 +4786,15 @@ public class KryptonRibbon : VisualSimple,
         KillKeyboardMode();
 
         // Cast to correct type
-        var menuItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
+        var menuItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         // Find index of the item to toggle
         var index = (int)(menuItem.Tag ?? -1);
 
         // Double check the index is still valid
-        if ((index >= 0) && (index < QATButtons.Count))
+        if ((index >= 0) && (index < QATButtons.Count) &&
+            QATButtons[index] is IQuickAccessToolbarButton qatButton)
         {
-            // Get access to the indexed entry
-            var qatButton = (IQuickAccessToolbarButton)QATButtons[index];
-
             // Invert the visible state
             qatButton.SetVisible(!qatButton.GetVisible());
 
@@ -3207,3 +4828,4 @@ public class KryptonRibbon : VisualSimple,
     }
     #endregion
 }
+

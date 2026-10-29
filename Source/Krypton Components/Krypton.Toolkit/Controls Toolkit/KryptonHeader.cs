@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonHeader), "ToolboxBitmaps.KryptonHeader.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonHeaderDesigner))]
+[Designer("Krypton.Toolkit.KryptonHeaderDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Display a descriptive caption.")]
 public class KryptonHeader : VisualSimpleBase
@@ -170,6 +170,7 @@ public class KryptonHeader : VisualSimpleBase
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text
@@ -241,6 +242,7 @@ public class KryptonHeader : VisualSimpleBase
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public HeaderButtonSpecCollection ButtonSpecs { get; }
 
@@ -546,7 +548,7 @@ public class KryptonHeader : VisualSimpleBase
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        visualBasePopupToolTip?.Dispose();
+                        _visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object
@@ -572,7 +574,7 @@ public class KryptonHeader : VisualSimpleBase
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more

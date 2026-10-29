@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -29,7 +29,7 @@ internal class PaletteGalleryBackBorder : IPaletteBack,
     public PaletteGalleryBackBorder([DisallowNull] PaletteGalleryState? state)
     {
         Debug.Assert(state is not null);
-        _state = state ?? throw new ArgumentNullException(nameof(state));
+        _state = state ?? ThrowHelper.ThrowArgumentNullException(state);
     }
     #endregion
 
@@ -41,7 +41,7 @@ internal class PaletteGalleryBackBorder : IPaletteBack,
     public void SetState([DisallowNull] PaletteGalleryState state)
     {
         Debug.Assert(state != null);
-        _state = state ?? throw new ArgumentNullException(nameof(state));
+        _state = state ?? ThrowHelper.ThrowArgumentNullException(state);
     }
     #endregion
 
@@ -188,6 +188,9 @@ internal class PaletteGalleryBackBorder : IPaletteBack,
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Border rounding.</returns>
     public float GetBorderRounding(PaletteState state) => 0;
+
+    /// <inheritdoc />
+    public PaletteCornerRounding GetBorderCornerRounding(PaletteState state) => PaletteCornerRounding.Uniform(0f);
 
     /// <summary>
     /// Gets a border image.

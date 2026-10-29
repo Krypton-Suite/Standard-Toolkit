@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -30,6 +30,7 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     private readonly KryptonRibbonGroupCluster _ribbonCluster;
+    private readonly bool _showOnlyOverflow;
     private ViewDrawRibbonDesignCluster _viewAddItem;
     private readonly ViewDrawRibbonGroupClusterSeparator _startSep;
     private readonly ViewDrawRibbonGroupClusterSeparator _endSep;
@@ -61,9 +62,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Cache references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        _ribbonCluster = ribbonCluster ?? throw new ArgumentNullException(nameof(ribbonCluster));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        _ribbonCluster = ribbonCluster ?? ThrowHelper.ThrowArgumentNullException(ribbonCluster);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyOverflow = _ribbon.CompactOverflowCapture;
         _currentSize = GroupItemSize.Medium;
 
         // Associate the component with this view element for design time selection
@@ -88,7 +90,11 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
 
         // Hook into changes in the ribbon cluster definition
         _ribbonCluster.PropertyChanged += OnClusterPropertyChanged;
-        _ribbonCluster.ClusterView = this;
+        // Only the on-ribbon view owns the design-time back reference.
+        if (!_showOnlyOverflow)
+        {
+            _ribbonCluster.ClusterView = this;
+        }
 
         // At design time we want to track the mouse and show feedback
         if (_ribbon.InDesignMode)
@@ -117,7 +123,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         {
             // Must unhook to prevent memory leaks
             _ribbonCluster.PropertyChanged -= OnClusterPropertyChanged;
-            _ribbonCluster.ClusterView = null;
+            if (ReferenceEquals(_ribbonCluster.ClusterView, this))
+            {
+                _ribbonCluster.ClusterView = null;
+            }
         }
 
         base.Dispose(disposing);
@@ -400,8 +409,8 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         ClientRectangle = context!.DisplayRectangle;
 
         // Define visible state of the separators
-        _startSep.Visible = _startSepVisible && (_lastShape == PaletteRibbonShape.Office2010);
-        _endSep.Visible = _endSepVisible && (_lastShape == PaletteRibbonShape.Office2010);
+        _startSep.Visible = _startSepVisible && (_lastShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        _endSep.Visible = _endSepVisible && (_lastShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
 
         // Are there any children to layout?
         if (Count > 0)
@@ -410,16 +419,17 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
 
             viewToSize = _currentSize == GroupItemSize.Small ? _viewToSizeSmall : _viewToSizeMedium;
 
-            var x = ClientLocation.X;
+            var isRtl = RibbonRtlLayout.IsRtl(_ribbon);
+            var x = RibbonRtlLayout.StartX(ClientRectangle, isRtl);
             var y = ClientLocation.Y;
 
             // At design time we reserve space at the left side for the selection flap
             if (_ribbon.InDesignHelperMode)
             {
-                x += DesignTimeDraw.FlapWidth;
+                x = isRtl ? x : x + DesignTimeDraw.FlapWidth;
             }
 
-            // Position each item from left/top to right/bottom 
+            // Position each item along the reading direction
             for (var i = 0; i < Count; i++)
             {
                 ViewBase? child = this[i];
@@ -431,13 +441,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
                     Size childSize = viewToSize[child];
 
                     // Define display rectangle for the group
-                    context.DisplayRectangle = new Rectangle(x, y, childSize.Width, ClientHeight);
+                    context.DisplayRectangle = RibbonRtlLayout.NextItem(ref x, y, childSize.Width, ClientHeight, isRtl);
 
                     // Position the element
                     this[i]?.Layout(context);
-
-                    // Move across to next position
-                    x += childSize.Width;
                 }
             }
         }
@@ -490,10 +497,10 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         // Grab the shape of the ribbon
         _lastShape = _ribbon.RibbonShape;
 
-        var itemEdgeVisible = _lastShape != PaletteRibbonShape.Office2010;
-        var itemEdgeIgnoreNormal = _lastShape == PaletteRibbonShape.Office2010;
-        var itemConstantBorder = _lastShape != PaletteRibbonShape.Office2010;
-        var itemDrawNonTrackingAreas = _lastShape != PaletteRibbonShape.Office2010;
+        var itemEdgeVisible = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2024);
+        var itemEdgeIgnoreNormal = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2024);
+        var itemConstantBorder = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2024);
+        var itemDrawNonTrackingAreas = _lastShape is not (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS or PaletteRibbonShape.Office2024);
 
         // Remove all child elements
         Clear();
@@ -512,6 +519,12 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         // Add a view element for each group item
         foreach (IRibbonGroupItem item in _ribbonCluster.Items)
         {
+            // The popup builds views only for commands that did not fit.
+            if (_showOnlyOverflow && _ribbon.CompactOverflowHides(item, true))
+            {
+                continue;
+            }
+
             ViewBase? itemView;
             ViewDrawRibbonGroupClusterEdge? itemEdge;
 
@@ -528,15 +541,19 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
             else
             {
                 // Ask the item definition to return an appropriate view
-                itemView = item.CreateView(_ribbon, _needPaint!);
+                itemView = _ribbon.CreateCompactOverflowView(_showOnlyOverflow, () => item.CreateView(_ribbon, _needPaint!));
 
                 // Create a border edge to go with the item view
                 itemEdge = new ViewDrawRibbonGroupClusterEdge(_ribbon, _paletteBorderEdge);
             }
 
             // Update the visible state
-            itemView.Visible = _ribbon.InDesignHelperMode || item.Visible;
-            itemEdge.Visible = itemEdgeVisible && (_ribbon.InDesignHelperMode || item.Visible);
+            // Update the visible state of the item.
+            // Overflow hiding is layout-only and does not change the item Visible property.
+            bool showItem = (_ribbon.InDesignHelperMode || item.Visible) &&
+                            !_ribbon.CompactOverflowHides(item, _showOnlyOverflow);
+            itemView.Visible = showItem;
+            itemEdge.Visible = itemEdgeVisible && showItem;
 
             // We need to remember associations
             regenView.Add(item, itemView);
@@ -586,6 +603,9 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
                             }
                             break;
                         case PaletteRibbonShape.Office2010:
+                        case PaletteRibbonShape.OSXAqua:
+                        case PaletteRibbonShape.MacOS:
+                        case PaletteRibbonShape.Office2024:
                             maxBorders = PaletteDrawBorders.All;
                             break;
                     }
@@ -630,8 +650,8 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
         Add(_endSep);
 
         // Define visible state of the separators
-        _startSep.Visible = _lastShape == PaletteRibbonShape.Office2010;
-        _endSep.Visible = _lastShape == PaletteRibbonShape.Office2010;
+        _startSep.Visible = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
+        _endSep.Visible = _lastShape is (PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS);
 
         // When in design time help mode
         if (_ribbon.InDesignHelperMode)
@@ -652,14 +672,11 @@ internal class ViewLayoutRibbonGroupCluster : ViewComposite,
 
     private void OnClusterPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        var updateLayout = false;
-
-        switch (e.PropertyName)
+        var updateLayout = e.PropertyName switch
         {
-            case nameof(Visible):
-                updateLayout = true;
-                break;
-        }
+            nameof(Visible) => true,
+            _ => false
+        };
 
         if (updateLayout)
         {

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -335,7 +335,11 @@ public class KryptonDockingManager : DockingElementOpenCollection
     {
         InitializeManager();
     }
-    #endregion    
+    #endregion
+
+    #region Instance Fields
+    private bool _allowPageToolTips = true;
+    #endregion
 
     #region Public
     /// <summary>
@@ -496,13 +500,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot resolve a null reference
         if (path == null)
         {
-            throw new ArgumentNullException(nameof(path));
+            ThrowHelper.ThrowArgumentNullException(nameof(path));
+            throw null!;
         }
 
         // Path names cannot be zero length
         if (path.Length == 0)
         {
-            throw new ArgumentException(@"Needs Comma separated list of names to resolve.", nameof(path));
+            ThrowHelper.ThrowArgumentException(@"Needs Comma separated list of names to resolve.", nameof(path));
+            throw null!;
         }
 
         // Give each child a chance to resolve the entire path
@@ -518,7 +524,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot show a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
+            throw null!;
         }
 
         ShowPages(new[] { page.UniqueName });
@@ -533,7 +540,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot show a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         ShowPages(new[] { uniqueName });
@@ -548,7 +556,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot show a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         if (pages.Length > 0)
@@ -559,7 +568,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    throw null!;
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -578,7 +588,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot show a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
+            throw null!;
         }
 
         if (uniqueNames.Length > 0)
@@ -588,12 +599,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    throw null!;
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    throw null!;
                 }
             }
 
@@ -620,7 +633,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot hide a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
+            throw null!;
         }
 
         HidePages(new[] { page.UniqueName });
@@ -635,7 +649,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot hide a null reference
         if (string.IsNullOrWhiteSpace(uniqueName))
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         if (uniqueName.Length > 0)
@@ -653,7 +668,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot hide a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         if (pages.Length > 0)
@@ -665,7 +681,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    throw null!;
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -684,7 +701,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot hide a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
+            throw null!;
         }
 
         if (uniqueNames.Length > 0)
@@ -694,12 +712,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    throw null!;
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    throw null!;
                 }
             }
 
@@ -727,7 +747,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot search for a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
+            throw null!;
         }
 
         return IsPageShowing(page.UniqueName);
@@ -743,13 +764,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot search for a null reference
         if (string.IsNullOrWhiteSpace(uniqueName))
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // Search docking hierarchy for the requested information
@@ -769,7 +792,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot remove a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
+            throw null!;
         }
 
         RemovePages(new[] { page.UniqueName }, disposePage);
@@ -785,13 +809,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot remove a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         RemovePages(new[] { uniqueName }, disposePage);
@@ -807,7 +833,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot remove a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         if (pages.Length > 0)
@@ -819,7 +846,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    throw null!;
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -839,7 +867,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot remove a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
+            throw null!;
         }
 
         if (uniqueNames.Length > 0)
@@ -849,12 +878,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    throw null!;
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    throw null!;
                 }
             }
 
@@ -885,7 +916,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot find a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
+            throw null!;
         }
 
         return ContainsPage(page.UniqueName);
@@ -901,13 +933,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot find a null reference
         if (string.IsNullOrWhiteSpace(uniqueName))
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // Search docking hierarchy for the requested information
@@ -927,13 +961,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot find a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // Search docking hierarchy for the requested page
@@ -949,7 +985,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot replace a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
+            throw null!;
         }
 
         StorePages(new[] { page.UniqueName });
@@ -964,13 +1001,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot replace a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         StorePages(new[] { uniqueName });
@@ -985,7 +1024,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot replace a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         if (pages.Length > 0)
@@ -997,7 +1037,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    throw null!;
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -1016,7 +1057,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot replace a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
+            throw null!;
         }
 
         if (uniqueNames.Length > 0)
@@ -1026,12 +1068,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
             {
                 if (uniqueName == null)
                 {
-                    throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                    throw null!;
                 }
 
                 if (uniqueName.Length == 0)
                 {
-                    throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                    throw null!;
                 }
             }
 
@@ -1058,7 +1102,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot show a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         if (pages.Length > 0)
@@ -1069,7 +1114,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 // Cannot show a null page reference
                 if (pages[i] == null)
                 {
-                    throw new ArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    ThrowHelper.ThrowArgumentException(@"pages array contains a null page reference", nameof(pages));
+                    throw null!;
                 }
 
                 uniqueNames[i] = pages[i].UniqueName;
@@ -1088,13 +1134,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot clear a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
+            throw null!;
         }
 
         // Cannot clear an empty array
         if (uniqueNames.Length == 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
         }
 
         // Cannot clear a null or zero length unique name
@@ -1102,12 +1149,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         {
             if (uniqueName == null)
             {
-                throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                throw null!;
             }
 
             if (uniqueName.Length == 0)
             {
-                throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                throw null!;
             }
         }
 
@@ -1132,9 +1181,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public DockingLocation FindPageLocation([DisallowNull] KryptonPage? page)
     {
         // Cannot find a null reference
-        return page == null
-            ? throw new ArgumentNullException(nameof(page))
-            : FindPageLocation(page.UniqueName);
+        ThrowHelper.ThrowIfNull(page);
+        return FindPageLocation(page.UniqueName);
     }
 
     /// <summary>
@@ -1147,13 +1195,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot replace a null reference
         if (string.IsNullOrWhiteSpace(uniqueName))
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // Search docking hierarchy for the requested page location
@@ -1168,9 +1218,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public IDockingElement? FindPageElement([DisallowNull] KryptonPage page)
     {
         // Cannot find a null reference
-        return page == null
-            ? throw new ArgumentNullException(nameof(page))
-            : FindPageElement(page.UniqueName);
+        ThrowHelper.ThrowIfNull(page);
+        return FindPageElement(page.UniqueName);
     }
 
     /// <summary>
@@ -1183,13 +1232,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot replace a null reference
         if (string.IsNullOrWhiteSpace(uniqueName))
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // Search docking hierarchy for the docking element containing the page
@@ -1205,9 +1256,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public IDockingElement? FindStorePageElement(DockingLocation location, [DisallowNull] KryptonPage page)
     {
         // Cannot find a null reference
-        return page == null
-            ? throw new ArgumentNullException(nameof(page))
-            : FindStorePageElement(location, page.UniqueName);
+        ThrowHelper.ThrowIfNull(page);
+        return FindStorePageElement(location, page.UniqueName);
     }
 
     /// <summary>
@@ -1221,13 +1271,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot replace a null reference
         if (string.IsNullOrWhiteSpace(uniqueName))
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         return base.FindStorePageElement(location, uniqueName);
@@ -1394,6 +1446,26 @@ public class KryptonDockingManager : DockingElementOpenCollection
     public DockingCloseRequest DefaultCloseRequest { get; set; }
 
     /// <summary>
+    /// Gets and sets a value indicating if tooltips should be displayed for docking tab headers.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Should tooltips be displayed for docking tab headers.")]
+    [DefaultValue(true)]
+    public bool AllowPageToolTips
+    {
+        get => _allowPageToolTips;
+
+        set
+        {
+            if (_allowPageToolTips != value)
+            {
+                _allowPageToolTips = value;
+                PropogateAction(DockingPropogateAction.StringChanged, null as string[]);
+            }
+        }
+    }
+
+    /// <summary>
     /// Perform the close request for a set of named pages.
     /// </summary>
     /// <param name="uniqueNames">Array of unique names that need action performed.</param>
@@ -1402,13 +1474,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot action a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
+            throw null!;
         }
 
         // Cannot action an empty array
         if (uniqueNames.Count == 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
         }
 
         // Cannot action a null or zero length unique name
@@ -1416,12 +1489,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         {
             if (uniqueName == null)
             {
-                throw new ArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"uniqueNames array contains a null string reference");
+                throw null!;
             }
 
             if (uniqueName.Length == 0)
             {
-                throw new ArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                ThrowHelper.ThrowArgumentException(@"uniqueNames array contains a zero length string", nameof(uniqueNames));
+                throw null!;
             }
         }
 
@@ -1462,13 +1537,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot process a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // If the named page exists and is not already auto hidden
@@ -1527,13 +1604,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot process a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // If the named page exists and is not already docked
@@ -1600,13 +1679,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot process a null reference
         if (string.IsNullOrWhiteSpace(uniqueName))
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // If the named page exists and is not already floating
@@ -1675,13 +1756,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot process a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // If the named page exists and is not already workspace tabbed
@@ -1744,13 +1827,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot process a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // If the named page exists and is not already navigator tabbed
@@ -1819,12 +1904,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot action a null reference
         if (page == null)
         {
-            throw new ArgumentNullException(nameof(page));
+            ThrowHelper.ThrowArgumentNullException(nameof(page));
+            throw null!;
         }
 
         if (kcm == null)
         {
-            throw new ArgumentNullException(nameof(kcm));
+            ThrowHelper.ThrowArgumentNullException(nameof(kcm));
+            throw null!;
         }
 
         // By default, there is nothing to display
@@ -1941,13 +2028,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot switch a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // Does the provided unique name exist and is in the required 'docked' state
@@ -2032,13 +2121,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot action a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
+            throw null!;
         }
 
         // Cannot action an empty array
         if (uniqueNames.Count == 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
         }
 
         // Cannot action a null or zero length unique name
@@ -2046,12 +2136,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         {
             if (uniqueName == null)
             {
-                throw new ArgumentNullException(nameof(uniqueNames), @"array contains a null string reference");
+                ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"array contains a null string reference");
+                throw null!;
             }
 
             if (uniqueName.Length == 0)
             {
-                throw new ArgumentException(@"array contains a zero length string", nameof(uniqueNames));
+                ThrowHelper.ThrowArgumentException(@"array contains a zero length string", nameof(uniqueNames));
+                throw null!;
             }
         }
 
@@ -2159,13 +2251,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot action a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
+            throw null!;
         }
 
         // Cannot action an empty array
         if (uniqueNames.Length == 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
         }
 
         // Cannot action a null or zero length unique name
@@ -2173,12 +2266,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         {
             if (uniqueName == null)
             {
-                throw new ArgumentNullException(nameof(uniqueNames), @"array contains a null string reference");
+                ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"array contains a null string reference");
+                throw null!;
             }
 
             if (uniqueName.Length == 0)
             {
-                throw new ArgumentException(@"array contains a zero length string", nameof(uniqueNames));
+                ThrowHelper.ThrowArgumentException(@"array contains a zero length string", nameof(uniqueNames));
+                throw null!;
             }
         }
 
@@ -2301,13 +2396,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot action a null reference
         if (uniqueNames == null)
         {
-            throw new ArgumentNullException(nameof(uniqueNames));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames));
+            throw null!;
         }
 
         // Cannot action an empty array
         if (uniqueNames.Count == 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(uniqueNames), @"array cannot be empty");
         }
 
         // Cannot action a null or zero length unique name
@@ -2315,12 +2411,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         {
             if (uniqueName == null)
             {
-                throw new ArgumentNullException(nameof(uniqueNames), @"array contains a null string reference");
+                ThrowHelper.ThrowArgumentNullException(nameof(uniqueNames), @"array contains a null string reference");
+                throw null!;
             }
 
             if (uniqueName.Length == 0)
             {
-                throw new ArgumentException(@"array contains a zero length string", nameof(uniqueNames));
+                ThrowHelper.ThrowArgumentException(@"array contains a zero length string", nameof(uniqueNames));
+                throw null!;
             }
         }
 
@@ -2405,13 +2503,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot switch a null reference
         if (uniqueName == null)
         {
-            throw new ArgumentNullException(nameof(uniqueName));
+            ThrowHelper.ThrowArgumentNullException(nameof(uniqueName));
+            throw null!;
         }
 
         // Unique names cannot be zero length
         if (uniqueName.Length == 0)
         {
-            throw new ArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            ThrowHelper.ThrowArgumentException(@"uniqueName cannot be zero length", nameof(uniqueName));
+            throw null!;
         }
 
         // Does the provided unique name exist and is in the required 'auto-hidden' state
@@ -2529,37 +2629,43 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot add a null array
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         // Array must contain some values
         if (pages.Length == 0)
         {
-            throw new ArgumentException(@"pages cannot be zero length", nameof(pages));
+            ThrowHelper.ThrowArgumentException(@"pages cannot be zero length", nameof(pages));
+            throw null!;
         }
 
         // Cannot action a null page reference
         if (pages.Any(static page => page == null))
         {
-            throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            ThrowHelper.ThrowArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            throw null!;
         }
 
         // Resolve the given path to the expected docking control element
         if (ResolvePath(path) is not KryptonDockingControl dockControl)
         {
-            throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
+            ThrowHelper.ThrowArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
+            throw null!;
         }
 
         // Find the requested target edge
         if (dockControl[edge.ToString()] is not KryptonDockingEdge edgeElement)
         {
-            throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
+            ThrowHelper.ThrowArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
+            throw null!;
         }
 
         // Find the docked edge
         if (edgeElement[@"Docked"] is not KryptonDockingEdgeDocked edgeDocked)
         {
-            throw new ArgumentException(@"KryptonDockingControl edge does not have a docked element.", nameof(edge));
+            ThrowHelper.ThrowArgumentException(@"KryptonDockingControl edge does not have a docked element.", nameof(edge));
+            throw null!;
         }
 
         using var update = new DockingMultiUpdate(this);
@@ -2605,17 +2711,12 @@ public class KryptonDockingManager : DockingElementOpenCollection
             }
 
             // Set the correct direction for the stacking of cells at the root
-            switch (edge)
+            dockspace.DockspaceControl.Root.Orientation = edge switch
             {
-                case DockingEdge.Left:
-                case DockingEdge.Right:
-                    dockspace.DockspaceControl.Root.Orientation = Orientation.Vertical;
-                    break;
-                case DockingEdge.Top:
-                case DockingEdge.Bottom:
-                    dockspace.DockspaceControl.Root.Orientation = Orientation.Horizontal;
-                    break;
-            }
+                DockingEdge.Left or DockingEdge.Right => Orientation.Vertical,
+                DockingEdge.Top or DockingEdge.Bottom => Orientation.Horizontal,
+                _ => dockspace.DockspaceControl.Root.Orientation
+            };
         }
 
         return dockspace;
@@ -2637,37 +2738,43 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot add a null array
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         // Array must contain some values
         if (pages.Length == 0)
         {
-            throw new ArgumentException(@"pages cannot be zero length", nameof(pages));
+            ThrowHelper.ThrowArgumentException(@"pages cannot be zero length", nameof(pages));
+            throw null!;
         }
 
         // Cannot action a null page reference
         if (pages.Any(static page => page == null))
         {
-            throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            ThrowHelper.ThrowArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            throw null!;
         }
 
         // Resolve the given path to the expected docking control element
         if (ResolvePath(path) is not KryptonDockingControl control)
         {
-            throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
+            ThrowHelper.ThrowArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
+            throw null!;
         }
 
         // Find the requested target edge
         if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
         {
-            throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
+            ThrowHelper.ThrowArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
+            throw null!;
         }
 
         // Find the auto hidden edge
         if (edgeElement[@"AutoHidden"] is not KryptonDockingEdgeAutoHidden edgeAutoHidden)
         {
-            throw new ArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.", nameof(edge));
+            ThrowHelper.ThrowArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.", nameof(edge));
+            throw null!;
         }
 
         using var update = new DockingMultiUpdate(this);
@@ -2741,25 +2848,29 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot add a null array
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         // Array must contain some values
         if (pages.Length == 0)
         {
-            throw new ArgumentException(@"pages cannot be zero length", nameof(pages));
+            ThrowHelper.ThrowArgumentException(@"pages cannot be zero length", nameof(pages));
+            throw null!;
         }
 
         // Cannot action a null page reference
         if (pages.Any(static page => page == null))
         {
-            throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            ThrowHelper.ThrowArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            throw null!;
         }
 
         // Resolve the given path to the expected docking floating element
         if (ResolvePath(path) is not KryptonDockingFloating floating)
         {
-            throw new ArgumentException(@"Path does not resolve to a KryptonDockingFloating", nameof(path));
+            ThrowHelper.ThrowArgumentException(@"Path does not resolve to a KryptonDockingFloating", nameof(path));
+            throw null!;
         }
 
         // Create a new floating window and add the provided array of pages
@@ -2798,25 +2909,29 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot add a null array
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         // Array must contain some values
         if (pages.Length == 0)
         {
-            throw new ArgumentException(@"pages cannot be zero length", nameof(pages));
+            ThrowHelper.ThrowArgumentException(@"pages cannot be zero length", nameof(pages));
+            throw null!;
         }
 
         // Cannot action a null page reference
         if (pages.Any(static page => page == null))
         {
-            throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            ThrowHelper.ThrowArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            throw null!;
         }
 
         // Resolve the given path to the expected docking workspace element
         if (ResolvePath(path) is not KryptonDockingWorkspace workspace)
         {
-            throw new ArgumentException(@"Path does not resolve to a KryptonDockingWorkspace", nameof(path));
+            ThrowHelper.ThrowArgumentException(@"Path does not resolve to a KryptonDockingWorkspace", nameof(path));
+            throw null!;
         }
 
         // Append pages to the workspace
@@ -2835,25 +2950,29 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot add a null array
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         // Array must contain some values
         if (pages.Length == 0)
         {
-            throw new ArgumentException(@"pages cannot be zero length", nameof(pages));
+            ThrowHelper.ThrowArgumentException(@"pages cannot be zero length", nameof(pages));
+            throw null!;
         }
 
         // Cannot action a null page reference
         if (pages.Any(static page => page == null))
         {
-            throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            ThrowHelper.ThrowArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            throw null!;
         }
 
         // Resolve the given path to the expected docking navigator element
         if (ResolvePath(path) is not KryptonDockingNavigator navigator)
         {
-            throw new ArgumentException(@"Path does not resolve to a KryptonDockingNavigator", nameof(path));
+            ThrowHelper.ThrowArgumentException(@"Path does not resolve to a KryptonDockingNavigator", nameof(path));
+            throw null!;
         }
 
         // Append pages to the navigator
@@ -2879,37 +2998,43 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot add a null array
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         // Array must contain some values
         if (pages.Length == 0)
         {
-            throw new ArgumentException(@"pages cannot be zero length", nameof(pages));
+            ThrowHelper.ThrowArgumentException(@"pages cannot be zero length", nameof(pages));
+            throw null!;
         }
 
         // Cannot action a null page reference
         if (pages.Any(static page => page == null))
         {
-            throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            ThrowHelper.ThrowArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            throw null!;
         }
 
         // Resolve the given path to the expected docking control element
         if (ResolvePath(path) is not KryptonDockingControl control)
         {
-            throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
+            ThrowHelper.ThrowArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
+            throw null!;
         }
 
         // Find the requested target edge
         if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
         {
-            throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
+            ThrowHelper.ThrowArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
+            throw null!;
         }
 
         // Find the docked edge
         if (edgeElement["Docked"] is not KryptonDockingEdgeDocked edgeDocked)
         {
-            throw new ArgumentException(@"KryptonDockingControl edge does not have a docked element.", nameof(edge));
+            ThrowHelper.ThrowArgumentException(@"KryptonDockingControl edge does not have a docked element.", nameof(edge));
+            throw null!;
         }
 
         using var update = new DockingMultiUpdate(this);
@@ -2935,17 +3060,12 @@ public class KryptonDockingManager : DockingElementOpenCollection
             }
 
             // Set the correct direction for the stacking of cells at the root
-            switch (edge)
+            dockspace.DockspaceControl.Root.Orientation = edge switch
             {
-                case DockingEdge.Left:
-                case DockingEdge.Right:
-                    dockspace.DockspaceControl.Root.Orientation = Orientation.Vertical;
-                    break;
-                case DockingEdge.Top:
-                case DockingEdge.Bottom:
-                    dockspace.DockspaceControl.Root.Orientation = Orientation.Horizontal;
-                    break;
-            }
+                DockingEdge.Left or DockingEdge.Right => Orientation.Vertical,
+                DockingEdge.Top or DockingEdge.Bottom => Orientation.Horizontal,
+                _ => dockspace.DockspaceControl.Root.Orientation
+            };
         }
 
         return dockspace;
@@ -2969,37 +3089,43 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot add a null array
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         // Array must contain some values
         if (pages.Length == 0)
         {
-            throw new ArgumentException(@"pages cannot be zero length", nameof(pages));
+            ThrowHelper.ThrowArgumentException(@"pages cannot be zero length", nameof(pages));
+            throw null!;
         }
 
         // Cannot action a null page reference
         if (pages.Any(static page => page == null))
         {
-            throw new ArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            ThrowHelper.ThrowArgumentNullException(nameof(pages), @"pages array contains a null page reference");
+            throw null!;
         }
 
         // Resolve the given path to the expected docking control element
         if (ResolvePath(path) is not KryptonDockingControl control)
         {
-            throw new ArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
+            ThrowHelper.ThrowArgumentException(@"Path does not resolve to a KryptonDockingControl", nameof(path));
+            throw null!;
         }
 
         // Find the requested target edge
         if (control[edge.ToString()] is not KryptonDockingEdge edgeElement)
         {
-            throw new ArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
+            ThrowHelper.ThrowArgumentException(@"KryptonDockingControl does not have the requested edge.", nameof(edge));
+            throw null!;
         }
 
         // Find the auto hidden edge
         if (edgeElement[@"AutoHidden"] is not KryptonDockingEdgeAutoHidden edgeAutoHidden)
         {
-            throw new ArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.", nameof(edge));
+            ThrowHelper.ThrowArgumentException(@"KryptonDockingControl edge does not have an auto hidden element.", nameof(edge));
+            throw null!;
         }
 
         using var update = new DockingMultiUpdate(this);
@@ -3038,13 +3164,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot drag a null reference
         if (pages == null)
         {
-            throw new ArgumentNullException(nameof(pages));
+            ThrowHelper.ThrowArgumentNullException(nameof(pages));
+            throw null!;
         }
 
         // Cannot drag an empty collection
         if (!pages.Any())
         {
-            throw new ArgumentOutOfRangeException(nameof(pages), @"collection cannot be empty");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(pages), @"collection cannot be empty");
         }
 
         // Create docking specific drag manager for moving the pages around
@@ -3060,7 +3187,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
             // Cannot drag a null page reference
             if (page == null)
             {
-                throw new ArgumentNullException(nameof(pages), @"pages collection contains a null page reference");
+                ThrowHelper.ThrowArgumentNullException(nameof(pages), @"pages collection contains a null page reference");
+                throw null!;
             }
 
             // Remember the first page that is allowed to be made floating
@@ -3182,7 +3310,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
         // Cannot drag a null reference
         if (window == null)
         {
-            throw new ArgumentNullException(nameof(window));
+            ThrowHelper.ThrowArgumentNullException(nameof(window));
+            throw null!;
         }
 
         // Create a list of all the visible pages inside the floating window
@@ -3404,7 +3533,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
             // Double check this has the correct element name
             if (xmlReader.Name != @"KD")
             {
-                throw new ArgumentException(@"Root element must be named 'KD'", nameof(xmlReader));
+                ThrowHelper.ThrowArgumentException(@"Root element must be named 'KD'", nameof(xmlReader));
+                throw null!;
             }
 
             // Load the format version number
@@ -3416,7 +3546,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
             // We can only load 1 upward version formats
             if (formatVersion < 1)
             {
-                throw new ArgumentException(@"Can only load Version 1 and upwards of KryptonDockingManager persisted data.");
+                ThrowHelper.ThrowArgumentException(@"Can only load Version 1 and upwards of KryptonDockingManager persisted data.");
+                throw null!;
             }
 
             using var update = new DockingMultiUpdate(this);
@@ -3430,12 +3561,14 @@ public class KryptonDockingManager : DockingElementOpenCollection
             // Read to custom data element
             if (!xmlReader.Read())
             {
-                throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                throw null!;
             }
 
             if (xmlReader.Name != @"DGD")
             {
-                throw new ArgumentException(@"Expected 'DGD' element was not found.", nameof(xmlReader));
+                ThrowHelper.ThrowArgumentException(@"Expected 'DGD' element was not found.", nameof(xmlReader));
+                throw null!;
             }
 
             var finished = xmlReader.IsEmptyElement;
@@ -3456,7 +3589,8 @@ public class KryptonDockingManager : DockingElementOpenCollection
                 {
                     if (!xmlReader.Read())
                     {
-                        throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                        ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                        throw null!;
                     }
                 }
             }
@@ -3464,13 +3598,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
             // Read the next well known element
             if (!xmlReader.Read())
             {
-                throw new ArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                ThrowHelper.ThrowArgumentException(@"An element was expected but could not be read in.", nameof(xmlReader));
+                throw null!;
             }
 
             // Is it the expected element?
             if (xmlReader.Name != @"DM")
             {
-                throw new ArgumentException(@"Element 'DM' was expected but not found.", nameof(xmlReader));
+                ThrowHelper.ThrowArgumentException(@"Element 'DM' was expected but not found.", nameof(xmlReader));
+                throw null!;
             }
 
             // Reload the root sequence
@@ -3479,13 +3615,15 @@ public class KryptonDockingManager : DockingElementOpenCollection
             // Move past the end element
             if (!xmlReader.Read())
             {
-                throw new ArgumentException(@"Could not read in next expected node.", nameof(xmlReader));
+                ThrowHelper.ThrowArgumentException(@"Could not read in next expected node.", nameof(xmlReader));
+                throw null!;
             }
 
             // Check it has the expected name
             if (xmlReader.NodeType != XmlNodeType.EndElement)
             {
-                throw new ArgumentException(@"EndElement expected but not found.", nameof(xmlReader));
+                ThrowHelper.ThrowArgumentException(@"EndElement expected but not found.", nameof(xmlReader));
+                throw null!;
             }
 
             // Did we have any starting pages?
@@ -4099,7 +4237,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownWorkspaceClicked(object? sender, EventArgs e)
     {
-        var workspaceItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
+        var workspaceItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         // Action depends on the current location
         if (workspaceItem.Tag is string uniqueName)
@@ -4122,7 +4260,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownNavigatorClicked(object? sender, EventArgs e)
     {
-        var workspaceItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
+        var workspaceItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         if (workspaceItem.Tag is string uniqueName)
         {
@@ -4145,7 +4283,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownAutoHiddenClicked(object? sender, EventArgs e)
     {
-        var autoHiddenItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
+        var autoHiddenItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         if (autoHiddenItem.Tag is string uniqueName)
         {
@@ -4168,7 +4306,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownDockedClicked(object? sender, EventArgs e)
     {
-        var dockedItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
+        var dockedItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         if (dockedItem.Tag is string uniqueName)
         {
@@ -4192,7 +4330,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
     private void OnDropDownFloatingClicked(object? sender, EventArgs e)
     {
         // Get the unique name of the page that needs to be converted to floating
-        var floatingItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
+        var floatingItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
 
         if (floatingItem.Tag is string uniqueName)
         {
@@ -4215,7 +4353,7 @@ public class KryptonDockingManager : DockingElementOpenCollection
 
     private void OnDropDownCloseClicked(object? sender, EventArgs e)
     {
-        var closeItem = sender as KryptonContextMenuItem ?? throw new ArgumentNullException(nameof(sender));
+        var closeItem =sender as KryptonContextMenuItem ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenuItem, nameof(sender));
         CloseRequest(new[] { (closeItem.Tag as string) ?? string.Empty });
     }
 

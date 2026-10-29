@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ internal class KryptonSplitContainerDesigner : ParentControlDesigner
     private IDesignerHost? _designerHost;
     private ISelectionService? _selectionService;
     private BehaviorService? _behaviorService;
-    private Adorner _adorner;
+    private Adorner? _adorner;
     #endregion
 
     #region Public Overrides
@@ -47,16 +47,25 @@ internal class KryptonSplitContainerDesigner : ParentControlDesigner
         // Remember the actual control being designed
         _splitContainer = component as KryptonSplitContainer;
 
-        // Create a new adorner and add our splitter glyph
-        _adorner = new Adorner();
-        _adorner.Glyphs.Add(new KryptonSplitContainerGlyph(_selectionService!, _behaviorService!, _adorner, this));
-        _behaviorService?.Adorners.Add(_adorner);
-
-        // Let the two panels in the container be designable
+        // Site the panels before the splitter glyph. A missing BehaviorService must not
+        // skip EnableDesignMode, or children vanish from the design surface and Document Outline.
         if (_splitContainer != null)
         {
             EnableDesignMode(_splitContainer.Panel1, "Panel1");
             EnableDesignMode(_splitContainer.Panel2, "Panel2");
+
+            // Panel bounds must exist before the designer queries drop targets.
+            _splitContainer.PerformLayout();
+        }
+
+        // The glyph covers the whole control for hit-testing. Attach it only when the
+        // behavior service exists, and only while this container is the primary selection.
+        if (_behaviorService != null && _selectionService != null)
+        {
+            _adorner = new Adorner();
+            _adorner.Glyphs.Add(new KryptonSplitContainerGlyph(_selectionService, _behaviorService, _adorner, this));
+            _adorner.Enabled = ReferenceEquals(_selectionService.PrimarySelection, _splitContainer);
+            _behaviorService.Adorners.Add(_adorner);
         }
     }
 
@@ -68,7 +77,7 @@ internal class KryptonSplitContainerDesigner : ParentControlDesigner
     {
         try
         {
-            if (disposing)
+            if (disposing && _adorner != null)
             {
                 // Remove adorners
                 _behaviorService?.Adorners.Remove(_adorner);

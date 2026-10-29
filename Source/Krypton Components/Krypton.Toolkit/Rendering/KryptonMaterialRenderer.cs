@@ -1,8 +1,8 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -13,7 +13,7 @@ namespace Krypton.Toolkit;
 /// Minimal Material renderer for ToolStrip/ContextMenu: flat dark/light backgrounds, subtle item highlight, thin borders.
 /// Does not alter ColorTable classes; reads fonts and text colors from provided ColorTable.
 /// </summary>
-public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
+public class KryptonMaterialRenderer : KryptonProfessionalRenderer
 {
     public KryptonMaterialRenderer([DisallowNull] KryptonColorTable kct)
         : base(kct)
@@ -22,13 +22,10 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
 
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
     {
+        SyncToolStripFont(e.ToolStrip);
+
         if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
         {
-            if (e.ToolStrip.Font != KCT.MenuStripFont)
-            {
-                e.ToolStrip.Font = KCT.MenuStripFont;
-            }
-
             using var borderPath = CreateBorderPath(e.AffectedBounds, 0f);
             using var clipPath = CreateClipBorderPath(e.AffectedBounds, 0f);
             using var clipping = new Clipping(e.Graphics, clipPath);
@@ -46,24 +43,24 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
             {
                 var style = kss.StateCommon.GetBackColorStyle(PaletteState.Normal);
                 var c1 = kss.StateCommon.GetBackColor1(PaletteState.Normal);
-                if (style == PaletteColorStyle.Solid && c1 != GlobalStaticValues.EMPTY_COLOR && !c1.IsEmpty)
+                if (style == PaletteColorStyle.Solid && c1 != SharedStaticVariables.EMPTY_COLOR && !c1.IsEmpty)
                 {
                     back = c1;
                 }
                 else
                 {
-                    back = (KCT.StatusStripGradientEnd != GlobalStaticValues.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
+                    back = (KCT.StatusStripGradientEnd != SharedStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
                         ? KCT.StatusStripGradientEnd
-                        : ((KCT.StatusStripGradientBegin != GlobalStaticValues.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
+                        : ((KCT.StatusStripGradientBegin != SharedStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
                             ? KCT.StatusStripGradientBegin
                             : ss.BackColor);
                 }
             }
             else
             {
-                back = (KCT.StatusStripGradientEnd != GlobalStaticValues.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
+                back = (KCT.StatusStripGradientEnd != SharedStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientEnd.IsEmpty)
                     ? KCT.StatusStripGradientEnd
-                    : ((KCT.StatusStripGradientBegin != GlobalStaticValues.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
+                    : ((KCT.StatusStripGradientBegin != SharedStaticVariables.EMPTY_COLOR && !KCT.StatusStripGradientBegin.IsEmpty)
                         ? KCT.StatusStripGradientBegin
                         : ss.BackColor);
             }
@@ -118,6 +115,11 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
 
     protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
     {
+        if (TryRenderMenuItemOverride(e))
+        {
+            return;
+        }
+
         if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
         {
             if (e.Item.Selected)
@@ -146,21 +148,8 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
         base.OnRenderMenuItemBackground(e);
     }
 
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
-        {
-            // Flat margin matching palette image column color
-            var rect = e.AffectedBounds;
-            rect.Inflate(-2, -2);
-            var marginBack = KCT.Palette.GetBackColor1(PaletteBackStyle.ContextMenuItemImageColumn, PaletteState.Normal);
-            using var b = new SolidBrush(marginBack);
-            e.Graphics.FillRectangle(b, rect);
-            return;
-        }
-
-        base.OnRenderImageMargin(e);
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, 2);
 
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
@@ -168,7 +157,7 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
         {
             var state = !e.Item.Enabled ? PaletteState.Disabled : (e.Item.Selected ? PaletteState.Tracking : PaletteState.Normal);
             var textColor = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.ContextMenuItemTextStandard, state);
-            if (textColor == GlobalStaticValues.EMPTY_COLOR || textColor.IsEmpty)
+            if (textColor == SharedStaticVariables.EMPTY_COLOR || textColor.IsEmpty)
             {
                 // Deterministic fallback based on state
                 textColor = KCT.MenuItemText;
@@ -180,7 +169,7 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
             var state = e.Item.Selected || e.Item.Pressed ? PaletteState.Tracking : PaletteState.Normal;
             // Prefer on-surface label color for top-level menu items under Material
             var c = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, state);
-            if (c == GlobalStaticValues.EMPTY_COLOR || c.IsEmpty)
+            if (c == SharedStaticVariables.EMPTY_COLOR || c.IsEmpty)
             {
                 c = KCT.MenuStripText;
             }
@@ -195,7 +184,7 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
             // Menu items hosted on a ToolStrip (not MenuStrip/ContextMenu): use on-surface label color
             var state = !e.Item.Enabled ? PaletteState.Disabled : (e.Item.Selected || e.Item.Pressed ? PaletteState.Tracking : PaletteState.Normal);
             var c = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, state);
-            if (c == GlobalStaticValues.EMPTY_COLOR || c.IsEmpty)
+            if (c == SharedStaticVariables.EMPTY_COLOR || c.IsEmpty)
             {
                 c = KCT.MenuItemText;
             }
@@ -206,7 +195,7 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
             // Generic ToolStrip items: use on-surface label color from palette for Material dark
             var state = !e.Item.Enabled ? PaletteState.Disabled : (e.Item.Selected ? PaletteState.Tracking : PaletteState.Normal);
             var c = KCT.Palette.GetContentShortTextColor1(PaletteContentStyle.LabelNormalPanel, state);
-            if (c == GlobalStaticValues.EMPTY_COLOR || c.IsEmpty)
+            if (c == SharedStaticVariables.EMPTY_COLOR || c.IsEmpty)
             {
                 c = KCT.ToolStripText;
             }
@@ -232,7 +221,7 @@ public sealed class KryptonMaterialRenderer : KryptonProfessionalRenderer
         // Slightly inset to keep fills inside drawn border
         Rectangle r = new Rectangle(rect.X + 1, rect.Y + 1, Math.Max(0, rect.Width - 2), Math.Max(0, rect.Height - 2));
         var path = new GraphicsPath();
-        if (r.Width > 0 && r.Height > 0)
+        if (r is { Width: > 0, Height: > 0 })
         {
             path.AddRectangle(r);
         }

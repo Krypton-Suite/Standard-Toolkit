@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -169,6 +169,19 @@ internal class ViewDrawMenuRadioButton: ViewComposite
 
     #endregion
 
+    #region ResolveText
+    private string ResolveText => _cachedCommand != null
+        && !string.IsNullOrEmpty(_cachedCommand.Text)
+            ? _cachedCommand.Text
+            : KryptonContextMenuRadioButton.Text;
+
+    private string ResolveExtraText => _cachedCommand != null
+        && !string.IsNullOrEmpty(_cachedCommand.ExtraText)
+            ? _cachedCommand.ExtraText
+            : KryptonContextMenuRadioButton.ExtraText ?? string.Empty;
+
+    #endregion
+
     #region CanCloseMenu
     /// <summary>
     /// Gets a value indicating if the menu is capable of being closed.
@@ -209,7 +222,7 @@ internal class ViewDrawMenuRadioButton: ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
@@ -238,6 +251,10 @@ internal class ViewDrawMenuRadioButton: ViewComposite
         {
             case @"Text":
             case @"ExtraText":
+                _contentValues.ShortText = ResolveText;
+                _contentValues.LongText = ResolveExtraText;
+                _provider.ProviderNeedPaintDelegate(this, new NeedLayoutEventArgs(true));
+                break;
             case @"ImageSmall":
             case @"ImageLarge":
             case @"ImageTransparentColor":

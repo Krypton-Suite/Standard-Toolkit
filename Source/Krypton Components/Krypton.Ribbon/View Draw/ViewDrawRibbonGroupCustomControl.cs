@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupCustomControl : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupCustomControl = ribbonCustom ?? throw new ArgumentNullException(nameof(ribbonCustom));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupCustomControl = ribbonCustom ?? ThrowHelper.ThrowArgumentNullException(ribbonCustom);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupCustomControl.ItemSizeCurrent;
 
         // Hook into the custom control events
@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupCustomControl : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Provide back reference to the custom control definition
-        GroupCustomControl.CustomControlView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupCustomControl.CustomControlView = this;
 
         // Give paint delegate to label so its palette changes are redrawn
-        GroupCustomControl.ViewPaintDelegate = needPaint;
+            GroupCustomControl.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupCustomControl.CustomControl);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupCustomControl : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupCustomControl.MouseEnterControl -= OnMouseEnterControl;
                 GroupCustomControl.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupCustomControl.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupCustomControl.CustomControlView, this))
+                {
+                    GroupCustomControl.ViewPaintDelegate = null;
+                }
                 GroupCustomControl.PropertyChanged -= OnCustomPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupCustomControl.CustomControlView = null!;
+                if (ReferenceEquals(GroupCustomControl.CustomControlView, this))
+                {
+                    GroupCustomControl.CustomControlView = null!;
+                }
                 GroupCustomControl = null;
             }
         }
@@ -227,19 +236,15 @@ internal class ViewDrawRibbonGroupCustomControl : ViewComposite,
             Rectangle viewRect = _ribbon.KeyTipToScreen(this);
 
             // Determine the screen position of the key tip
-            var screenPt = Point.Empty;
 
             // Determine the screen position of the key tip dependant on item location/size
-            switch (_currentSize)
+            var screenPt = _currentSize switch
             {
-                case GroupItemSize.Large:
-                    screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
-                    break;
-                case GroupItemSize.Medium:
-                case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
-                    break;
-            }
+                GroupItemSize.Large => new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom),
+                GroupItemSize.Medium or GroupItemSize.Small => _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect,
+                    lineHint),
+                _ => Point.Empty
+            };
 
             keyTipList.Add(new KeyTipInfo(GroupCustomControl!.Enabled, 
                 GroupCustomControl.KeyTip,
