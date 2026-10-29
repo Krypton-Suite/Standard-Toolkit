@@ -48,6 +48,8 @@
 
 - Implemented [#4379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4379), Support for animated GIFs on `KryptonToolTip`
   - `KryptonToolTip` and other themed tooltips play multi-frame GIF images while the tip is open.
+- Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.
+  - `System.Resources.Extensions` is referenced only for .NET Framework builds, which removes `NU1510` on the modern Design projects. Framework builds still use the package for preserialized resources.
 - Added support for .NET 12
 - Removed support for .NET 8 and 9
 - Version bump `115.xx.xx.xxx` to `120.xx.xx.xxx`
