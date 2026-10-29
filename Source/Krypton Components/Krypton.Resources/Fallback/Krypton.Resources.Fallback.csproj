@@ -13,7 +13,7 @@
 		<DelaySign>false</DelaySign>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Nullable>disable</Nullable>
-		<NoWarn>$(NoWarn);CS1591;CA1812;NU1510</NoWarn>
+		<NoWarn>$(NoWarn);CS1591;CA1812</NoWarn>
 		<Description>Placeholder Krypton.Resources used only when the full resource DLL is missing. Not shipped as its own file.</Description>
 		<!-- Keep this out of Bin so it cannot overwrite the real Krypton.Resources.dll. -->
 		<KryptonOverrideOutputPath>$(MSBuildProjectDirectory)\obj\fallback-bin\$(Configuration)\$(TargetFramework)\</KryptonOverrideOutputPath>

@@ -47,6 +47,8 @@
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
 - Implemented [#4648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4648), `KryptonButton.ElevatedClick` runs before `Click` and starts `ElevatedProcessPath` with the RunAs verb when the process is not already an administrator. While a handler is attached, the UAC shield stays visible and cannot be turned off or replaced. Dismissing the UAC prompt raises neither event.
+- Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.
+  - `System.Resources.Extensions` is referenced only for .NET Framework builds, which removes `NU1510` on the modern Design projects. Framework builds still use the package for preserialized resources.
 - Added support for .NET 12
 - Removed support for .NET 8 and 9
 - Version bump `115.xx.xx.xxx` to `120.xx.xx.xxx`
@@ -56,40 +58,40 @@
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
 - Resolved [#4627](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4627), Release Candidates won't build
-   - Fixed release-candidate builds by correcting their project paths and imports, removing the unsupported batch-file BOM, and surfacing MSBuild failures.
+  - Fixed release-candidate builds by correcting their project paths and imports, removing the unsupported batch-file BOM, and surfacing MSBuild failures.
 - Resolved [#4591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4591), Events button is missing in `KryptonPropertyGrid`
 - Implemented, Themeable `KryptonPropertyGrid` toolbar icons (alphabetical, categorized, property pages, and events) via palette `Images.PropertyGrid` / `GetPropertyGridImage`, and app-wide via `KryptonManager.Images.PropertyGridImages`. Builtin themes read `PropertyGridImageResources` (currently null) through `GetBuiltinPropertyGridImage`. Resolve order is control palette, then manager images, then stock WinForms.
 - Resolved, `KryptonPropertyGrid` no longer asserts in `PaletteRedirectGrids` when a custom palette is applied (grid styles were queried with `FocusOverride`).
 - Resolved [#4584](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4584), Flickering when displaying a `KryptonForm` in Windows Forms
-   - Bordered `KryptonForm` dialogs no longer flash the Windows 11 system title bar when opened with `ShowDialog`.
+  - Bordered `KryptonForm` dialogs no longer flash the Windows 11 system title bar when opened with `ShowDialog`.
 - Resolved [#4582](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4582), Cannot add `KryptonHeader` or `KryptonHeaderGroup` in the .NET 10 WinForms designer (`displayName` cannot be null).
 - Resolved [#4580](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4580), Improve `KryptonSearchBox` suggestion performance for typing, dropdown updates, and item selection.
-   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
-   - Suggestion filtering is debounced via `SearchBoxValues.SuggestionUpdateDelay` (default 75 ms; set to `0` for immediate updates).
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
+  - Suggestion filtering is debounced via `SearchBoxValues.SuggestionUpdateDelay` (default 75 ms; set to `0` for immediate updates).
 - Implemented [#4550](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4550), `KryptonTextBox` & `KryptonSearchBox` in form titlebar
-   - Use `KryptonCaptionForm` when the caption hosts controls. Ordinary `KryptonForm` keeps the previous designer surface.
-   - Each control has its own left, centre, or right edge. Configure `KryptonCaptionForm.CaptionItems` (including a `KryptonSearchBox`, which derives from `KryptonTextBox`).
-   - Visual Studio item template **Krypton Caption Form** and project template **Krypton Caption WinForms App** are included in the Krypton Templates VSIX.
+  - Use `KryptonCaptionForm` when the caption hosts controls. Ordinary `KryptonForm` keeps the previous designer surface.
+  - Each control has its own left, centre, or right edge. Configure `KryptonCaptionForm.CaptionItems` (including a `KryptonSearchBox`, which derives from `KryptonTextBox`).
+  - Visual Studio item template **Krypton Caption Form** and project template **Krypton Caption WinForms App** are included in the Krypton Templates VSIX.
 - Implemented [#4559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4559), Use different designer 'Modified' types
-   - Fresh toolbox controls stay blank in the property grid until a value changes.
-   - Expandable palette and navigator values no longer show Modified on a new drop. Empty colours, factory text, and stock colours such as the progress-bar green are not written into the designer file until you change them.
+  - Fresh toolbox controls stay blank in the property grid until a value changes.
+  - Expandable palette and navigator values no longer show Modified on a new drop. Empty colours, factory text, and stock colours such as the progress-bar green are not written into the designer file until you change them.
 - Implemented [#4560](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4560), Add a further ribbon group item that allows a bigger number of buttons
-   - `KryptonRibbonGroupStack` holds any number of ribbon group items inside the three-line group height. `StackLayout.Columns` fills columns of three. 
-   - `StackLayout.Adaptive` shows large items in one row and wraps medium and small items into columns of three. 
-   - `KryptonRibbonGroupTriple` stays limited to three items.
-- Implemented [#4533](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4533), Compact ribbon mode lays the existing groups out as a single command row. Set `KryptonRibbon.CompactMode`. Large items use an icon and text. The row shrinks to icons when the ribbon is narrow.    
-   - When the commands still do not fit, a trailing ellipsis hides the rest and opens them in a popup, still grouped on one row. Group captions are hidden, and a dialog launcher stays at the end of its group. `MinimizedMode` still hides the groups until a tab is selected. 
-   - An optional arrow under the groups area switches between classic and compact. Set `ShowCompactButton` to show it. 
-   - `CompactButtonLocation` places that arrow at the right of the groups card, at the end of the groups row, or on the tab row. Switching eases the groups area between the two heights. Set `AnimateCompactMode` to turn that off. 
-   - The arrow and the ellipsis use the ribbon group text colour. Opening and closing the overflow popup eases its height. 
-   - `AnimateCompactMode` turns off the groups-band ease and that popup ease. 
-   - Compact mode applies to every ribbon shape: group boxes hide and a short rule separates groups, while each shape keeps its own tabs.
+  - `KryptonRibbonGroupStack` holds any number of ribbon group items inside the three-line group height. `StackLayout.Columns` fills columns of three.
+  - `StackLayout.Adaptive` shows large items in one row and wraps medium and small items into columns of three.
+  - `KryptonRibbonGroupTriple` stays limited to three items.
+- Implemented [#4533](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4533), Compact ribbon mode lays the existing groups out as a single command row. Set `KryptonRibbon.CompactMode`. Large items use an icon and text. The row shrinks to icons when the ribbon is narrow.
+  - When the commands still do not fit, a trailing ellipsis hides the rest and opens them in a popup, still grouped on one row. Group captions are hidden, and a dialog launcher stays at the end of its group. `MinimizedMode` still hides the groups until a tab is selected.
+  - An optional arrow under the groups area switches between classic and compact. Set `ShowCompactButton` to show it.
+  - `CompactButtonLocation` places that arrow at the right of the groups card, at the end of the groups row, or on the tab row. Switching eases the groups area between the two heights. Set `AnimateCompactMode` to turn that off.
+  - The arrow and the ellipsis use the ribbon group text colour. Opening and closing the overflow popup eases its height.
+  - `AnimateCompactMode` turns off the groups-band ease and that popup ease.
+  - Compact mode applies to every ribbon shape: group boxes hide and a short rule separates groups, while each shape keeps its own tabs.
 - Resolved [#4564](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4564), WFO 2xxx/3xxx issues (.NET 11 RC2)
-   - Designer editor forms build cleanly on .NET 11 (WinForms WFO3004/WFO3010/WFO3005 and related WFO2000 diagnostics).
+  - Designer editor forms build cleanly on .NET 11 (WinForms WFO3004/WFO3010/WFO3005 and related WFO2000 diagnostics).
 - Resolved [#4547](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4547), Krypton collection editor dialogs no longer appear on the taskbar.
 - Resolved [#4552](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4552), Double-clicking the File button closes the form without opening the backstage, including Office 2010. A single click still opens the backstage, once the double-click interval has passed. OS X Aqua and macOS stay unchanged.
 - Resolved [#4557](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4557), Ribbon notification bar shows as modified
-   - A new ribbon notification bar stays blank in the property grid until a value changes, then shows Modified.
+  - A new ribbon notification bar stays blank in the property grid until a value changes, then shows Modified.
 - Implemented [#4496](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4496), Office 2024 ribbon chrome: underline tabs, flat borderless groups, and a text File tab. Extra themes are Blue, Silver, White, Light Gray, Dark Gray, and Black, plus Blue, Silver, and Black dark and light mode variants (`PaletteMode.Office2024Blue`, `Office2024BlueDarkMode`, `Office2024BlueLightMode`, `Office2024Silver`, `Office2024SilverDarkMode`, `Office2024SilverLightMode`, `Office2024White`, `Office2024LightGray`, `Office2024DarkGray`, `Office2024Black`, `Office2024BlackDarkMode`, `Office2024BlackDarkModeAlternate`). Microsoft 365 ribbon chrome is unchanged.
   - Office 2024 group area can draw an optional bevel. Set `StateCommon.RibbonGeneral.GroupAreaBevelEdges`. Leave `GroupAreaBevelLight` and `GroupAreaBevelDark` empty to derive the edges from the group area, or set those colours yourself.
     - Group-area bevel width is configurable. Set `StateCommon.RibbonGeneral.GroupAreaBevelSize` to the visible width in pixels at 96 DPI. The default is 2.
@@ -106,16 +108,16 @@
 - Resolved [#4413](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4413), Disabled caption-button glyphs on Office 2010, Office 2013, and Microsoft 365 use a theme grey (light 205, dark 196, Microsoft 365 Black ghost white). The close-button fill stays transparent.
 - Resolved [#4483](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4483), Dark mode themes no longer leave light Office chrome on dark surfaces. Office glass buttons and silver group captions stay. Disabled text, separators, grid rows, tabs, and checkbox/radio glyphs are darkened so they stay readable.
 - Implemented [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405), **[Breaking Change]** Builtin palette family bases now take only a `KryptonColorSchemeBase` constructor (legacy `Color[] schemeColors` overloads removed).
- - Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
- - `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
+- Pass a `*_BaseScheme` (or other `KryptonColorSchemeBase`) instead of a raw colour array when subclassing `PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, or the VS 2022 Light/Dark bases.
+- `BaseColors` on those family bases is non-nullable; `_ribbonColors` remains a snapshot via `scheme.ToArray()` for paint/ColorTable paths.
 - Implemented [#4486](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4486), Extra themes appear in the form designer when the project references `Krypton.Themes`.
   - The `PaletteMode` drop-down and theme selectors ask Visual Studio for `Krypton.Themes.dll` after the startup probe, which runs before the designer sites the component.
   - Toolkit-only projects still list the 14 core palettes. The missing-theme warning dialog stays off inside the designer.
 - Resolved [#4466](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4466), Some strings/values are not being serialised
- - Fresh controls no longer write factory message-box strings or empty progress-bar text colours into the designer as if they were modified.
- - `MessageBoxStrings.MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
- - `KryptonProgressBar.TextShadowColor` and `TextBackdropColor` stay empty (automatic) without a designer line. `Values.DropDownArrowColor` already stays unset; existing `Color.Empty` lines drop the next time the designer saves the form.
- - Print-preview string defaults are `Zoom &In` / `Zoom &Out` and `Page` / `of` again, so those values are no longer stored as edits.
+- Fresh controls no longer write factory message-box strings or empty progress-bar text colours into the designer as if they were modified.
+- `MessageBoxStrings.MoreDetails` and `LessDetails` stay at their built-in captions unless you change them.
+- `KryptonProgressBar.TextShadowColor` and `TextBackdropColor` stay empty (automatic) without a designer line. `Values.DropDownArrowColor` already stays unset; existing `Color.Empty` lines drop the next time the designer saves the form.
+- Print-preview string defaults are `Zoom &In` / `Zoom &Out` and `Page` / `of` again, so those values are no longer stored as edits.
 - Resolved [#4463](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4463), `KryptonSplitContainer` children stay visible on the .NET WinForms design surface and in Document Outline ([#4468](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4468)).
   - Panel1 and Panel2 are sited before the splitter glyph is created, so a missing behavior service cannot hide the panels. The splitter panel designer accepts a `KryptonSplitContainer` parent.
 - Resolved [#4536](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4536), `ButtonSpec` Collection Editor uses unique name instead of the text
