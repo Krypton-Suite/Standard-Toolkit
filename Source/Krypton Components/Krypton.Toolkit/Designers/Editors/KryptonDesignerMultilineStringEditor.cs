@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -37,16 +37,10 @@ public class KryptonDesignerMultilineStringEditor : UITypeEditor
             return value;
         }
 
-        var useRichTextBox = context.Instance is KryptonRichTextBox;
+        using var form = VisualMultilineStringEditorForm.CreateTextEditor(
+            KryptonDesignerEditorPalette.NormalizeDesignerPlaceholderText(context, (string?)value ?? string.Empty),
+            context.Instance is KryptonRichTextBox);
 
-        using var form = new VisualMultilineStringEditorForm(
-            null,
-            null,
-            useRichTextBox,
-            @"Enter text:",
-            @"Text Editor");
-
-        form.SetEditText(KryptonDesignerEditorPalette.NormalizeDesignerPlaceholderText(context, (string?)value ?? string.Empty));
         KryptonDesignerEditorPalette.ApplyDesignerPalette(form, context);
 
         if (editorService.ShowDialog(form) == DialogResult.OK)
