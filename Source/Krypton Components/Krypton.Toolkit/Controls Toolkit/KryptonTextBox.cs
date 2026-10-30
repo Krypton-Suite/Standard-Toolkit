@@ -2248,8 +2248,17 @@ public class KryptonTextBox : VisualControlBase,
     private bool IsMouseReallyOverControl() =>
         IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
 
-    // ToDo V120 LTS: Replace MultilineStringEditor1 inline popup with KryptonDesignerMultilineStringEditor.
-    private void OnEditorButtonClicked(object? sender, EventArgs e) => new VisualMultilineStringEditorAlternateForm(this).ShowEditor();
+    private void OnEditorButtonClicked(object? sender, EventArgs e)
+    {
+        // Plain text canvas: KryptonRichTextBox does not derive from KryptonTextBox.
+        using var form = VisualMultilineStringEditorForm.CreateTextEditor(Text ?? string.Empty, false);
+        form.ApplyOwnerPalette(PaletteMode, LocalCustomPalette);
+
+        if (form.ShowDialog(FindForm()) == DialogResult.OK)
+        {
+            Text = form.GetEditedText();
+        }
+    }
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 

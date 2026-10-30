@@ -58,8 +58,18 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
     /// <inheritdoc />
     protected override void OnLoad(EventArgs e)
     {
+        // Capture the designer client size before the DPI scale mode change. That change can
+        // shrink the window to the footer, and the clamp then locks the smaller minimum.
+        var designClient = ClientSize;
         KryptonDesignerEditorDpi.Configure(this);
         base.OnLoad(e);
+        if (ClientSize.Width < designClient.Width || ClientSize.Height < designClient.Height)
+        {
+            MinimumSize = Size.Empty;
+            ClientSize = designClient;
+        }
+
+        KryptonDialogLayout.EnableResizable(this);
     }
 
     /// <inheritdoc />
@@ -87,8 +97,8 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
     {
         ControlBox = false;
         StartPosition = FormStartPosition.CenterScreen;
-        ClientSize = KryptonDesignerEditorDpi.Scale(this, new Size(584, 361));
-        MinimumSize = ClientSize;
+        // Leave the designer client size (584×361) for WinForms to scale once.
+        // Assigning that client size to MinimumSize lets the load-time scale pass collapse the form.
         KryptonDialogLayout.EnableResizable(this);
     }
 
@@ -152,6 +162,37 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
         {
             ktxtStringCollection.Text = text;
         }
+    }
+
+    /// <summary>
+    /// Creates the modal text editor shared by <see cref="KryptonDesignerMultilineStringEditor"/>
+    /// and the <see cref="KryptonTextBox.MultilineStringEditor"/> button.
+    /// </summary>
+    /// <param name="text">Initial editor text.</param>
+    /// <param name="useRichTextBox"><see langword="true"/> to edit in the rich-text canvas.</param>
+    /// <returns>A form ready to show. The caller owns disposal.</returns>
+    /// <remarks>
+    /// Title and heading are applied after construction. <see cref="SetupControlsText"/> always
+    /// loads the localized string-collection captions, and collection editors must keep those.
+    /// </remarks>
+    internal static VisualMultilineStringEditorForm CreateTextEditor(string text, bool useRichTextBox)
+    {
+        var form = new VisualMultilineStringEditorForm(null, null, useRichTextBox, null, null);
+        form.Text = @"Text Editor";
+        form.kgrpbxContainer.Values.Heading = @"Enter text:";
+        form.SetEditText(text);
+        return form;
+    }
+
+    /// <summary>
+    /// Applies the owning control palette, then rewires the footer theme selector to that palette.
+    /// </summary>
+    /// <param name="paletteMode">Palette mode of the control being edited.</param>
+    /// <param name="customPalette">Custom palette when <paramref name="paletteMode"/> is <see cref="PaletteMode.Custom"/>.</param>
+    internal void ApplyOwnerPalette(PaletteMode paletteMode, KryptonCustomPaletteBase? customPalette)
+    {
+        KryptonDesignerEditorTheme.ApplyToForm(this, paletteMode, customPalette);
+        kpnlButtonBar.WireThemeToForm(this);
     }
 
     internal void SetupInputCanvas()
