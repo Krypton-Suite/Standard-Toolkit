@@ -47,6 +47,7 @@
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
 - Implemented [#4418](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4418), `KryptonTextBox.MultilineStringEditor` opens the themed text editor. OK writes the text back; Cancel and Escape leave it unchanged.
+  - The `Lines` property in the designer now uses the same themed string-collection editor as `KryptonRichTextBox.Lines`.
 - Resolved [#4649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4649), Fix `TestForm` application
   - Restored missing demos and test forms to the `TestForm` application. The `TestForm` project now builds and runs correctly, showcasing the various features and controls of the Krypton Toolkit.
 - Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.

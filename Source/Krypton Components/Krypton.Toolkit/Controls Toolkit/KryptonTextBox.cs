@@ -930,8 +930,7 @@ public class KryptonTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The lines of text in a multiline edit, as an array of String values.")]
-    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerStringArrayEditor (replaces System.Windows.Forms.Design.StringArrayEditor).
-    [Editor(@"System.Windows.Forms.Design.StringArrayEditor", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerStringArrayEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [MergableProperty(false)]
     [Localizable(true)]
