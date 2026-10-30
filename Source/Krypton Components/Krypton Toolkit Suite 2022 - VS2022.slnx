@@ -211,23 +211,55 @@
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
   </Folder>
-  <Project Path="../TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj">
-    <BuildType Solution="Canary|*" Project="Release" />
-    <BuildType Solution="Installer|*" Project="Debug" />
-    <BuildType Solution="Nightly|*" Project="Release" />
-    <BuildType Solution="ReleaseCandidate|*" Project="Release" />
-  </Project>
-  <Project Path="../Utilities/MacOSPaletteExporter/MacOSPaletteExporter.csproj" Id="f5db6397-1df9-4df1-9451-de313466cc88">
-    <BuildType Solution="Canary|*" Project="Release" />
-    <BuildType Solution="Installer|*" Project="Debug" />
-    <BuildType Solution="Nightly|*" Project="Release" />
-    <BuildType Solution="ReleaseCandidate|*" Project="Release" />
-  </Project>
-  <Project Path="TestForm/TestForm.csproj">
-    <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
-    <BuildType Solution="Canary|*" Project="Debug" />
-    <BuildType Solution="Installer|*" Project="Debug" />
-    <BuildType Solution="Nightly|*" Project="Debug" />
-    <BuildType Solution="ReleaseCandidate|*" Project="Debug" />
-  </Project>
+  <Folder Name="/Testing/">
+    <Project Path="../TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/MenuItemThemeSettingsRepro/MenuItemThemeSettingsRepro.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/NavigatorTabGroupLayoutSmoke/NavigatorTabGroupLayoutSmoke.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/RibbonAccessibilityProbe/RibbonAccessibilityProbe.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/ThemeProviderSample/ThemeProviderSample.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Utilities/MacOSPaletteExporter/MacOSPaletteExporter.csproj" Id="f5db6397-1df9-4df1-9451-de313466cc88">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="TestForm/TestForm.csproj">
+      <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
+      <BuildType Solution="Canary|*" Project="Debug" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Debug" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Debug" />
+    </Project>
+  </Folder>
 </Solution>

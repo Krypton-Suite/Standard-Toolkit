@@ -1,0 +1,63 @@
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+
+namespace AccessibilityAudit;
+
+/// <summary>
+/// Sorted failure keys for the DPI and touchscreen suites.
+/// </summary>
+internal sealed class KeyBaseline
+{
+    private static readonly JsonSerializerOptions JsonOptions = new JsonSerializerOptions
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = true,
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
+
+    public List<string> Failures { get; set; } = new List<string>();
+
+    public static KeyBaseline Load(string path)
+    {
+        string json = File.ReadAllText(path);
+        KeyBaseline? baseline = JsonSerializer.Deserialize<KeyBaseline>(json, JsonOptions);
+        if (baseline == null)
+        {
+            throw new InvalidOperationException($"Baseline file '{path}' did not contain a JSON object.");
+        }
+
+        baseline.Failures ??= new List<string>();
+        return baseline;
+    }
+
+    public void Save(string path)
+    {
+        Failures.Sort(StringComparer.Ordinal);
+        string? directory = Path.GetDirectoryName(path);
+        if (!string.IsNullOrEmpty(directory))
+        {
+            Directory.CreateDirectory(directory);
+        }
+
+        string json = JsonSerializer.Serialize(this, JsonOptions).Replace("\r\n", "\n").Replace("\n", "\r\n");
+        if (!json.EndsWith("\r\n", StringComparison.Ordinal))
+        {
+            json += "\r\n";
+        }
+
+        File.WriteAllText(path, json, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+    }
+}
