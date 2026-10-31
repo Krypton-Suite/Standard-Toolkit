@@ -20,5 +20,6 @@ global using System.Linq;
 global using System.Text;
 global using System.Windows.Forms;
 
+global using Krypton.Charting;
 global using Krypton.Interop;
 global using Krypton.Toolkit;

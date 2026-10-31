@@ -136,6 +136,7 @@ function Get-DesignerSdkExpectedRelativePaths {
             [void]$server.Add('Krypton.Workspace.Design.dll')
             [void]$server.Add('Krypton.Toolkit.Utilities.Design.dll')
             [void]$server.Add('Krypton.Navigator.Utilities.Design.dll')
+            [void]$server.Add('Krypton.Charting.Design.dll')
             [void]$server.Add('Krypton.Toolkit.Design.Protocol.dll')
         }
         default {

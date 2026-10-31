@@ -46,6 +46,12 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4218](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4218), Step timeline (`KryptonTimeline`) and date timeline (`KryptonDateTimeline`) in the `Krypton.Charting` assembly.
+  - `Style` is `Chart` (row bars and milestone diamonds) or `Vis` (stacked boxes above a bottom axis, in the style of vis.js Timeline). A single date in `Vis` is a box with a stem to the axis. Overlapping items stack. `Row` applies to `Chart` only.
+  - Drag a step to reorder it. Drag a date item to move its dates; Chart style also changes the row. Dragging a date item turns auto range off, the same as panning. Set `AllowMove` to false to keep items fixed.
+  - Each item has a `Style`: `Normal`, `Hatched`, `Completed`, `Delayed`, or `Cancelled`. The palette still supplies the base colours. The style adds a hatch, a status stripe, a check, or a strike.
+  - `ItemStyles` expands in the property grid. Each of Hatched, Completed, Delayed, and Cancelled has `Stripe`, `Hatch`, and `Mark`. Leave a colour empty to keep the built-in colour for that part.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as these controls are part of the `Krypton.Charting` assembly.
 - Resolved [#4649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4649), Fix `TestForm` application
   - Restored missing demos and test forms to the `TestForm` application. The `TestForm` project now builds and runs correctly, showcasing the various features and controls of the Krypton Toolkit.
 - Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.
