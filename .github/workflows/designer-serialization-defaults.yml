@@ -99,7 +99,8 @@ jobs:
               'Krypton.Navigator.dll',
               'Krypton.Workspace.dll',
               'Krypton.Docking.dll',
-              'Krypton.Toolkit.Utilities.dll'
+              'Krypton.Toolkit.Utilities.dll',
+              'Krypton.Gauges.dll'
             )) {
             $path = Join-Path $bin $name
             if (-not (Test-Path -LiteralPath $path)) {
