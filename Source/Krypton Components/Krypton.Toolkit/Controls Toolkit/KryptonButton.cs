@@ -26,6 +26,13 @@ namespace Krypton.Toolkit;
 [Designer("Krypton.Toolkit.KryptonButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonButton : KryptonDropButton
 {
+    #region Instance Fields
+    private const string RunAsVerb = "runas";
+
+    private EventHandler? _elevatedClick;
+    private string _elevatedProcessPath = string.Empty;
+    #endregion
+
     #region Identity
     /// <summary>
     /// Initialize a new instance of the KryptonButton class.
@@ -88,9 +95,161 @@ public class KryptonButton : KryptonDropButton
         get => base.Splitter;
         set => base.Splitter = value;
     }
+
+    /// <summary>
+    /// Occurs when the button is clicked and the action is expected to require elevation.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// While at least one handler is attached, the UAC shield is shown and cannot be turned off.
+    /// A content image stays in <see cref="ButtonValues.Image"/> and the shield is drawn on
+    /// <see cref="ButtonValues.OverlayImage"/> (bottom-right, half size). With no content image the shield
+    /// stays in <see cref="ButtonValues.Image"/>. <see cref="ButtonValues.OverlayImage"/> cannot replace that shield.
+    /// Clearing <see cref="ButtonValues.Image"/> moves the shield back onto the image so it stays visible.
+    /// </para>
+    /// <para>
+    /// When the process is not already an administrator, the button starts <see cref="ElevatedProcessPath"/>
+    /// with <see cref="ProcessStartInfo.UseShellExecute"/> and the RunAs verb (<c>runas</c>).
+    /// An empty path uses <see cref="Application.ExecutablePath"/>.
+    /// The handler does not need to start that process.
+    /// </para>
+    /// <para>
+    /// <see cref="Control.Click"/> still follows this event, including dialog result and <see cref="KryptonCommand"/>,
+    /// when the process is already elevated or the RunAs launch succeeds.
+    /// Dismissing the UAC prompt raises neither event.
+    /// Removing the last handler clears the lock. The shield image remains until
+    /// <see cref="ButtonValues.UseAsUACElevationButton"/> is set to <c>false</c>.
+    /// </para>
+    /// </remarks>
+    [Category(@"Action")]
+    [Description(@"Occurs when the button is clicked. While a handler is attached, the UAC shield stays visible and overlays a content image.")]
+    public event EventHandler? ElevatedClick
+    {
+        add
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            bool firstSubscriber = _elevatedClick == null;
+            _elevatedClick += value;
+            if (firstSubscriber)
+            {
+                Values.LockUacShieldForElevation();
+            }
+        }
+        remove
+        {
+            _elevatedClick -= value;
+            if (_elevatedClick == null)
+            {
+                Values.UnlockUacShieldForElevation();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the executable started with the RunAs verb when <see cref="ElevatedClick"/> runs
+    /// and the process is not already an administrator.
+    /// </summary>
+    /// <value>The executable path. An empty string uses <see cref="Application.ExecutablePath"/>.</value>
+    /// <remarks>
+    /// <see cref="ProcessStartInfo.UseShellExecute"/> is set so the <c>runas</c> verb is honored on modern target frameworks.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [DefaultValue("")]
+    [Description(@"Executable started with RunAs when ElevatedClick runs and the process is not already an administrator. Empty uses the current application.")]
+    public string ElevatedProcessPath
+    {
+        get => _elevatedProcessPath;
+
+        set => _elevatedProcessPath = value ?? string.Empty;
+    }
+
+    private bool ShouldSerializeElevatedProcessPath() => !string.IsNullOrEmpty(_elevatedProcessPath);
+
+    private void ResetElevatedProcessPath() => _elevatedProcessPath = string.Empty;
+    #endregion
+
+    #region Protected
+    /// <summary>
+    /// Raises the <see cref="ElevatedClick"/> event.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
+    protected virtual void OnElevatedClick(EventArgs e) => _elevatedClick?.Invoke(this, e);
     #endregion
 
     #region Protected Overrides
+    /// <summary>
+    /// Starts the RunAs process when needed, then raises <see cref="ElevatedClick"/> and the standard <see cref="Control.Click"/> path.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
+    /// <remarks>
+    /// A <see cref="Win32Exception"/> from the RunAs launch, including the user dismissing the UAC prompt (native error 1223),
+    /// skips both events.
+    /// </remarks>
+    protected override void OnClick(EventArgs e)
+    {
+        if (_elevatedClick != null)
+        {
+            if (!TryStartRunAsProcess())
+            {
+                return;
+            }
+
+            OnElevatedClick(e);
+        }
+
+        base.OnClick(e);
+    }
+
+    /// <summary>
+    /// Starts <see cref="ElevatedProcessPath"/> with the RunAs verb when the process is not already an administrator.
+    /// </summary>
+    /// <returns>
+    /// <c>true</c> when <see cref="ElevatedClick"/> and <see cref="Control.Click"/> should run;
+    /// <c>false</c> when the RunAs launch failed or the user dismissed the prompt.
+    /// </returns>
+    private bool TryStartRunAsProcess()
+    {
+        if (IsCurrentProcessAdministrator())
+        {
+            return true;
+        }
+
+        string path = string.IsNullOrWhiteSpace(_elevatedProcessPath)
+            ? Application.ExecutablePath
+            : _elevatedProcessPath;
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = path,
+            UseShellExecute = true,
+            Verb = RunAsVerb
+        };
+
+        try
+        {
+            Process.Start(startInfo);
+            return true;
+        }
+        catch (Win32Exception)
+        {
+            // Includes the user dismissing the UAC prompt (native error 1223).
+            return false;
+        }
+    }
+
+    private static bool IsCurrentProcessAdministrator()
+    {
+        using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+        {
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+    }
+
     /// <inheritdoc />
     protected override bool OpensDropDownOnNonSplitterClick => false;
 

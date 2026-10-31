@@ -23,6 +23,9 @@ public partial class ButtonsTest : KryptonForm
             MinimumWidth = 200,
             Value = 42
         });
+
+        // Content image so ElevatedClick draws the shield as a bottom-right overlay.
+        kbtnElevatedClick.Values.Image = SystemIcons.Application.ToBitmap();
     }
 
     private void kcbtnDropDown_SelectedColorChanged(object sender, ColorEventArgs e)
@@ -72,6 +75,38 @@ public partial class ButtonsTest : KryptonForm
         kcbtnDropDown.SchemeThemes = scheme;
         kcbSortMode.Enabled = scheme == Krypton.Toolkit.ColorScheme.PaletteColors;
     }
+
+    private void kbtnElevatedClick_ElevatedClick(object sender, EventArgs e)
+    {
+        using (System.Security.Principal.WindowsIdentity identity = System.Security.Principal.WindowsIdentity.GetCurrent())
+        {
+            bool alreadyAdmin = new System.Security.Principal.WindowsPrincipal(identity)
+                .IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+            AppendElevatedLog(alreadyAdmin
+                ? "ElevatedClick (already Administrator)"
+                : "ElevatedClick (RunAs launch requested)");
+        }
+    }
+
+    private void kbtnElevatedClick_Click(object sender, EventArgs e) =>
+        AppendElevatedLog("Click");
+
+    private void kbtnTryHideShield_Click(object sender, EventArgs e)
+    {
+        kbtnElevatedClick.Values.UseAsUACElevationButton = false;
+        kbtnElevatedClick.Values.Image = null;
+        kbtnElevatedClick.Values.ResetImage();
+
+        bool shieldStillShown = kbtnElevatedClick.Values.UseAsUACElevationButton
+                                && (kbtnElevatedClick.Values.Image != null
+                                    || kbtnElevatedClick.Values.OverlayImage.Image != null);
+        AppendElevatedLog(shieldStillShown
+            ? "Hide ignored: shield still shown."
+            : "Hide changed the shield.");
+    }
+
+    private void AppendElevatedLog(string line) =>
+        ktxtElevatedLog.AppendText(line + Environment.NewLine);
 
     private void KryptonCalcInput1_ButtonSpecClicked(object sender, ButtonSpecEventArgs e)
     {

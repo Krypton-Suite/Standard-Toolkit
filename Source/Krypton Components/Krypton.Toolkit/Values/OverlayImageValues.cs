@@ -80,6 +80,11 @@ public class OverlayImageValues : Storage
 
         set
         {
+            if (RejectImageChange != null && RejectImageChange(value))
+            {
+                return;
+            }
+
             if (_image != value)
             {
                 _image = value;
@@ -87,6 +92,15 @@ public class OverlayImageValues : Storage
             }
         }
     }
+
+    /// <summary>
+    /// When this returns <c>true</c>, <see cref="Image"/> assignment is ignored.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="ButtonValues"/> sets this while the UAC shield owns the overlay so the shield cannot be cleared or replaced.
+    /// Internal shield updates run with the check disabled.
+    /// </remarks>
+    internal Func<Image?, bool>? RejectImageChange { get; set; }
 
     private bool ShouldSerializeImage() => Image != null;
 
@@ -312,6 +326,11 @@ public class OverlayImageValues : Storage
     /// </summary>
     public void Reset()
     {
+        if (RejectImageChange != null && RejectImageChange(null))
+        {
+            return;
+        }
+
         // Set initial values
         _image = null;
         _transparent = SharedStaticVariables.EMPTY_COLOR;
