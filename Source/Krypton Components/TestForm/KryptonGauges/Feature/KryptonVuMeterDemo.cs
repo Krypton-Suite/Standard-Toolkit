@@ -18,30 +18,34 @@ public partial class KryptonVuMeterDemo : KryptonForm
 {
     private bool _sync;
 
+    private KryptonGenericMusic _kgm;
+
     /// <summary>
     /// Initialize a new instance of the <see cref="KryptonVuMeterDemo"/> class.
     /// </summary>
     public KryptonVuMeterDemo()
     {
         InitializeComponent();
+        _kgm = new KryptonGenericMusic(_sync, kvumAnalog, kvumSegments, klblLevel, kchkStereo);
     }
 
     private void KryptonVuMeterDemo_Load(object? sender, EventArgs e)
     {
+
         Icon = SystemIcons.Application;
         ktrkLevel.Minimum = -20;
         ktrkLevel.Maximum = 3;
         ktrkLevel.Value = -20;
 
         kcmbChannel.Items.AddRange(Enum.GetNames(typeof(VuMeterChannel)));
-        kcmbChannel.SelectedItem = VuMeterChannel.Left.ToString();
+        kcmbChannel.SelectedItem = nameof(VuMeterChannel.Left);
         kcmbOrientation.Items.AddRange(Enum.GetNames(typeof(VisualOrientation)));
-        kcmbOrientation.SelectedItem = VisualOrientation.Left.ToString();
+        kcmbOrientation.SelectedItem = nameof(VisualOrientation.Left);
 
         kvumDisabled.Value = 0d;
         kvumDisabled.Values.PeakHold = true;
         kpgMeter.SelectedObject = kvumAnalog;
-        UpdateLevelLabel();
+        _kgm.UpdateLevelLabel();
     }
 
     private void ktrkLevel_ValueChanged(object? sender, EventArgs e)
@@ -54,7 +58,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
         _sync = true;
         kvumAnalog.Value = ktrkLevel.Value;
         kvumSegments.Value = ktrkLevel.Value;
-        UpdateLevelLabel();
+        _kgm.UpdateLevelLabel();
         _sync = false;
     }
 
@@ -77,7 +81,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
             ktrkLevel.Value = stepped;
         }
 
-        UpdateLevelLabel();
+        _kgm.UpdateLevelLabel();
         _sync = false;
     }
 
@@ -130,7 +134,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
             }
 
             SetStereoCaptions(false);
-            if (!StartMusic())
+            if (!_kgm.StartMusic())
             {
                 _sync = true;
                 kchkMusic.Checked = false;
@@ -139,7 +143,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
         }
         else
         {
-            StopMusic();
+            _kgm.StopMusic();
             RestoreSliderLevel();
         }
 
@@ -170,7 +174,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
             }
 
             kvumAnalog.Values.InputMode = VuMeterInputMode.Manual;
-            if (!StartStereo())
+            if (!_kgm.StartStereo())
             {
                 _sync = true;
                 kchkStereo.Checked = false;
@@ -184,7 +188,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
         }
         else
         {
-            StopMusic();
+            _kgm.StopMusic();
             SetStereoCaptions(false);
             RestoreSliderLevel();
         }
@@ -236,7 +240,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
     /// <param name="e">Form closed arguments.</param>
     protected override void OnFormClosed(FormClosedEventArgs e)
     {
-        StopMusic();
+        _kgm.StopMusic();
         base.OnFormClosed(e);
     }
 
@@ -260,7 +264,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
         _sync = true;
         kvumAnalog.Value = ktrkLevel.Value;
         kvumSegments.Value = ktrkLevel.Value;
-        UpdateLevelLabel();
+        _kgm.UpdateLevelLabel();
         _sync = false;
     }
 
@@ -268,17 +272,5 @@ public partial class KryptonVuMeterDemo : KryptonForm
     {
         klblAnalog.Values.Text = stereo ? "Left channel" : "Analog";
         klblSegments.Values.Text = stereo ? "Right channel" : "Segments";
-    }
-
-    private void UpdateLevelLabel()
-    {
-        if (kchkStereo.Checked)
-        {
-            klblLevel.Values.Text = "Left " + kvumAnalog.Value.ToString("0.0", CultureInfo.CurrentCulture)
-                + " / Right " + kvumSegments.Value.ToString("0.0", CultureInfo.CurrentCulture) + " VU";
-            return;
-        }
-
-        klblLevel.Values.Text = "Target " + kvumAnalog.Value.ToString("0.0", CultureInfo.CurrentCulture) + " VU";
     }
 }

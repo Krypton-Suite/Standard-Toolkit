@@ -20,6 +20,8 @@ global using System.Runtime.InteropServices;
 global using System.Threading;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
+global using System.IO;
+global using System.Media;
 
 global using Krypton.Toolkit;
 
