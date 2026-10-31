@@ -541,18 +541,14 @@ public class KryptonGenericMusic
     /// </summary>
     private static int[] Bars(params int[][] bars)
     {
-        int count = 0;
-        for (int bar = 0; bar < bars.Length; bar++)
-        {
-            count += bars[bar].Length;
-        }
+        int count = bars.Sum(t => t.Length);
 
         var score = new int[count];
         int offset = 0;
-        for (int bar = 0; bar < bars.Length; bar++)
+        foreach (var t in bars)
         {
-            Array.Copy(bars[bar], 0, score, offset, bars[bar].Length);
-            offset += bars[bar].Length;
+            Array.Copy(t, 0, score, offset, t.Length);
+            offset += t.Length;
         }
 
         return score;
@@ -580,7 +576,7 @@ public class KryptonGenericMusic
     /// </summary>
     private static int PhraseShift(int cycle)
     {
-        int[] shifts = { 0, 2, -2, 5, 3, -3, 7, 4, -5, 9, 1, -1, 6, -4, 8, -6, 10, 3, 5 };
+        int[] shifts = [0, 2, -2, 5, 3, -3, 7, 4, -5, 9, 1, -1, 6, -4, 8, -6, 10, 3, 5];
         int index = cycle % shifts.Length;
         return index < 0 ? shifts[index + shifts.Length] : shifts[index];
     }
