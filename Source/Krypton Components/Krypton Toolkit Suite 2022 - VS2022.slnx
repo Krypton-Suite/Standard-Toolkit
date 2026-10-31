@@ -1,4 +1,4 @@
-<Solution>
+﻿<Solution>
   <Configurations>
     <BuildType Name="Canary" />
     <BuildType Name="Debug" />
@@ -156,6 +156,9 @@
     <Project Path="Krypton.Toolkit.Design/Krypton.Toolkit.Design.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
+    <Project Path="Krypton.Gauges.Design/Krypton.Gauges.Design.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
     <Project Path="Krypton.Toolkit.Utilities.Design/Krypton.Toolkit.Utilities.Design.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
@@ -203,6 +206,12 @@
     </Project>
     <Project Path="Krypton.Toolkit.JumpList/Krypton.Toolkit.JumpList.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Krypton.Gauges/Krypton.Gauges.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
     <Project Path="Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj" Id="e4c9fef0-c69a-4fe6-9784-c8f93250434e">
       <BuildType Solution="Canary|*" Project="Release" />

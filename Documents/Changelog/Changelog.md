@@ -46,6 +46,8 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4655](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4655), VU meter with an analog needle face and a segmented bar. Set the level yourself, or let the control read the default recording device. Colours follow the palette through `StateCommon`, `StateNormal`, and `StateDisabled`.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.
 - Resolved [#4649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4649), Fix `TestForm` application
   - Restored missing demos and test forms to the `TestForm` application. The `TestForm` project now builds and runs correctly, showcasing the various features and controls of the Krypton Toolkit.
 - Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.

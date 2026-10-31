@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Gauges</RootNamespace>
+		<AssemblyName>Krypton.Gauges</AssemblyName>
+		<IsPackable>false</IsPackable>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>..\Krypton.Toolkit.Utilities\StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<NeutralLanguage>en</NeutralLanguage>
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Nullable>enable</Nullable>
+		<WarningLevel>8</WarningLevel>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<NoWarn>1701;1702</NoWarn>
+		<Description>Krypton gauge controls, including the VU meter. This assembly is not a separate NuGet package; Krypton.Gauges.dll is included in the Krypton.Standard.Toolkit package.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="'$(TargetFramework)' == 'net472' Or '$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481'">
+			<SpecificVersion>True</SpecificVersion>
+			<Version>4.0.0.0</Version>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+		<Compile Remove="Components\**\Designers\Designers\**\*.cs" />
+		<Compile Remove="Components\**\Designers\Action Lists\**\*.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Components\Krypton VU Meter\ToolboxBitmaps\KryptonVuMeter.bmp">
+			<LogicalName>Krypton.Gauges.ToolboxBitmaps.KryptonVuMeter.bmp</LogicalName>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>

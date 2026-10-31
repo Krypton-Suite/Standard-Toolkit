@@ -17,6 +17,7 @@
 		<KryptonToolkitJumpListProject>$(KryptonComponentsRoot)\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj</KryptonToolkitJumpListProject>
 		<KryptonNavigatorUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj</KryptonNavigatorUtilitiesProject>
 		<KryptonToolkitUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj</KryptonToolkitUtilitiesProject>
+		<KryptonGaugesProject>$(KryptonComponentsRoot)\Krypton.Gauges\Krypton.Gauges.csproj</KryptonGaugesProject>
 		<KryptonStandardToolkitProject>$(KryptonComponentsRoot)\Krypton.Standard.Toolkit\Krypton.Standard.Toolkit.csproj</KryptonStandardToolkitProject>
 		<KryptonToolkitDesignProtocolProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Design.Protocol\Krypton.Toolkit.Design.Protocol.csproj</KryptonToolkitDesignProtocolProject>
 		<KryptonToolkitDesignClientProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Design.Client\Krypton.Toolkit.Design.Client.csproj</KryptonToolkitDesignClientProject>
@@ -25,6 +26,7 @@
 		<KryptonNavigatorDesignProject>$(KryptonComponentsRoot)\Krypton.Navigator.Design\Krypton.Navigator.Design.csproj</KryptonNavigatorDesignProject>
 		<KryptonWorkspaceDesignProject>$(KryptonComponentsRoot)\Krypton.Workspace.Design\Krypton.Workspace.Design.csproj</KryptonWorkspaceDesignProject>
 		<KryptonToolkitUtilitiesDesignProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities.Design\Krypton.Toolkit.Utilities.Design.csproj</KryptonToolkitUtilitiesDesignProject>
+		<KryptonGaugesDesignProject>$(KryptonComponentsRoot)\Krypton.Gauges.Design\Krypton.Gauges.Design.csproj</KryptonGaugesDesignProject>
 		<KryptonNavigatorUtilitiesDesignProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities.Design\Krypton.Navigator.Utilities.Design.csproj</KryptonNavigatorUtilitiesDesignProject>
 		<KryptonWinFormsDesignerSdkBuild Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">false</KryptonWinFormsDesignerSdkBuild>
 		<KryptonWinFormsDesignerSdkBuild Condition="'$(KryptonWinFormsDesignerSdkBuild)' == ''">true</KryptonWinFormsDesignerSdkBuild>
@@ -42,6 +44,7 @@
 		<KryptonParallelDesignAfterToolkit Include="$(KryptonNavigatorDesignProject)" />
 		<KryptonParallelDesignUtilities Include="$(KryptonToolkitUtilitiesDesignProject)" />
 		<KryptonParallelDesignUtilities Include="$(KryptonNavigatorUtilitiesDesignProject)" />
+		<KryptonParallelDesignUtilities Include="$(KryptonGaugesDesignProject)" />
 	</ItemGroup>
 
 	<Target Name="KryptonCleanNuGetRestoreState" BeforeTargets="Restore">
@@ -88,6 +91,9 @@
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
 		<MSBuild Projects="$(KryptonToolkitUtilitiesProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+		<MSBuild Projects="$(KryptonGaugesProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
 

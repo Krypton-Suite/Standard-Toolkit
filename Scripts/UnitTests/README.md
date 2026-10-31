@@ -226,6 +226,15 @@ dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f 
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BugReportEmailBody.ps1
 ```
 
+## Typical usage (#4655 VU meter)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-VuMeterScreenshot.ps1
+```
+
+Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR assets; do not commit).
+
 ## Typical usage (#1100 scheme strip text)
 
 ```powershell

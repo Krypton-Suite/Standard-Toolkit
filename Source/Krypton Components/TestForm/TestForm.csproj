@@ -36,6 +36,7 @@
     <ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
     <!--<ProjectReference Include="..\..\TestHarnesses\ThemeProviderSample\ThemeProviderSample.csproj" />-->
     <ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
+    <ProjectReference Include="..\Krypton.Gauges\Krypton.Gauges.csproj" />
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
   </ItemGroup>
 
@@ -84,6 +85,12 @@
     </Compile>
     <Compile Update="KryptonToolkit\Feature\KryptonTagInputDemo.Designer.cs">
       <DependentUpon>KryptonTagInputDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.Designer.cs">
+      <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.cs">
       <SubType>Form</SubType>
