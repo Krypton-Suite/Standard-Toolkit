@@ -17,6 +17,7 @@ namespace TestForm;
 public partial class KryptonVuMeterDemo : KryptonForm
 {
     private bool _sync;
+    private int _bassApplied = 50;
 
     private KryptonGenericMusic _kgm;
 
@@ -26,7 +27,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
     public KryptonVuMeterDemo()
     {
         InitializeComponent();
-        _kgm = new KryptonGenericMusic(_sync, kvumAnalog, kvumSegments, klblLevel, kchkStereo);
+        _kgm = new KryptonGenericMusic(_sync, kvumAnalog, kvumSegments, kvumLeft, kvumRight, klblLevel, kchkStereo);
     }
 
     private void KryptonVuMeterDemo_Load(object? sender, EventArgs e)
@@ -41,9 +42,13 @@ public partial class KryptonVuMeterDemo : KryptonForm
         kcmbChannel.SelectedItem = nameof(VuMeterChannel.Left);
         kcmbOrientation.Items.AddRange(Enum.GetNames(typeof(VisualOrientation)));
         kcmbOrientation.SelectedItem = nameof(VisualOrientation.Left);
+        kcmbLength.Items.AddRange(new object[] { "30 seconds", "1 minute", "2 minutes", "4 minutes", "10 minutes" });
+        kcmbLength.SelectedIndex = 4;
 
         kvumDisabled.Value = 0d;
         kvumDisabled.Values.PeakHold = true;
+        kvumLeft.Value = -20d;
+        kvumRight.Value = -20d;
         kpgMeter.SelectedObject = kvumAnalog;
         _kgm.UpdateLevelLabel();
     }
@@ -58,6 +63,8 @@ public partial class KryptonVuMeterDemo : KryptonForm
         _sync = true;
         kvumAnalog.Value = ktrkLevel.Value;
         kvumSegments.Value = ktrkLevel.Value;
+        kvumLeft.Value = ktrkLevel.Value;
+        kvumRight.Value = ktrkLevel.Value;
         _kgm.UpdateLevelLabel();
         _sync = false;
     }
@@ -89,6 +96,8 @@ public partial class KryptonVuMeterDemo : KryptonForm
     {
         kvumAnalog.Values.PeakHold = kchkPeak.Checked;
         kvumSegments.Values.PeakHold = kchkPeak.Checked;
+        kvumLeft.Values.PeakHold = kchkPeak.Checked;
+        kvumRight.Values.PeakHold = kchkPeak.Checked;
     }
 
     private void kchkCapture_CheckedChanged(object? sender, EventArgs e)
@@ -133,8 +142,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
                 _sync = false;
             }
 
-            SetStereoCaptions(false);
-            if (!_kgm.StartMusic())
+            if (!_kgm.StartMusic(SelectedSeconds(), SelectedBass()))
             {
                 _sync = true;
                 kchkMusic.Checked = false;
@@ -174,22 +182,16 @@ public partial class KryptonVuMeterDemo : KryptonForm
             }
 
             kvumAnalog.Values.InputMode = VuMeterInputMode.Manual;
-            if (!_kgm.StartStereo())
+            if (!_kgm.StartStereo(SelectedSeconds(), SelectedBass()))
             {
                 _sync = true;
                 kchkStereo.Checked = false;
                 _sync = false;
-                SetStereoCaptions(false);
-            }
-            else
-            {
-                SetStereoCaptions(true);
             }
         }
         else
         {
             _kgm.StopMusic();
-            SetStereoCaptions(false);
             RestoreSliderLevel();
         }
 
@@ -244,6 +246,84 @@ public partial class KryptonVuMeterDemo : KryptonForm
         base.OnFormClosed(e);
     }
 
+    private void kcmbLength_SelectedIndexChanged(object? sender, EventArgs e) => RestartPlayback();
+
+    private void ktrkBass_ValueChanged(object? sender, EventArgs e)
+    {
+        klblBass.Values.Text = "Bass " + ktrkBass.Value.ToString();
+        if (MouseButtons == MouseButtons.Left)
+        {
+            return;
+        }
+
+        CommitBass();
+    }
+
+    private void ktrkBass_MouseUp(object? sender, MouseEventArgs e) => CommitBass();
+
+    /// <summary>
+    /// Rebuilds the loop when the bass slider has moved, so a drag applies once on release.
+    /// </summary>
+    private void CommitBass()
+    {
+        if (ktrkBass.Value == _bassApplied)
+        {
+            return;
+        }
+
+        _bassApplied = ktrkBass.Value;
+        RestartPlayback();
+    }
+
+    /// <summary>
+    /// Starts the active loop again after length or bass changes.
+    /// </summary>
+    private void RestartPlayback()
+    {
+        if (_sync || !Playing)
+        {
+            return;
+        }
+
+        bool started = kchkMusic.Checked
+            ? _kgm.StartMusic(SelectedSeconds(), SelectedBass())
+            : _kgm.StartStereo(SelectedSeconds(), SelectedBass());
+        if (started)
+        {
+            return;
+        }
+
+        _sync = true;
+        kchkMusic.Checked = false;
+        kchkStereo.Checked = false;
+        _sync = false;
+    }
+
+    /// <summary>
+    /// Length chosen on the demo, in seconds. Ten minutes is the default.
+    /// </summary>
+    private int SelectedSeconds()
+    {
+        switch (kcmbLength.SelectedIndex)
+        {
+            case 0:
+                return 30;
+            case 1:
+                return 60;
+            case 2:
+                return 120;
+            case 3:
+                return 240;
+            default:
+                return 600;
+        }
+    }
+
+    /// <summary>
+    /// Bass slider position. 0 removes the bass, 50 is the normal line, and 100 is twice that.
+    /// </summary>
+    private int SelectedBass() => ktrkBass.Value;
+
     private bool Playing => kchkMusic.Checked || kchkStereo.Checked;
 
     private void ApplyTransport()
@@ -264,13 +344,9 @@ public partial class KryptonVuMeterDemo : KryptonForm
         _sync = true;
         kvumAnalog.Value = ktrkLevel.Value;
         kvumSegments.Value = ktrkLevel.Value;
+        kvumLeft.Value = ktrkLevel.Value;
+        kvumRight.Value = ktrkLevel.Value;
         _kgm.UpdateLevelLabel();
         _sync = false;
-    }
-
-    private void SetStereoCaptions(bool stereo)
-    {
-        klblAnalog.Values.Text = stereo ? "Left channel" : "Analog";
-        klblSegments.Values.Text = stereo ? "Right channel" : "Segments";
     }
 }

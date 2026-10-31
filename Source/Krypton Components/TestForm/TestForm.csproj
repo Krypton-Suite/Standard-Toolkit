@@ -227,6 +227,10 @@
     <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Update="KryptonGauges\Feature\KryptonVuMeterDemo.resx">
+      <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
+      <LogicalName>TestForm.KryptonVuMeterDemo.resources</LogicalName>
+    </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
     </EmbeddedResource>

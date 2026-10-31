@@ -14,7 +14,7 @@ namespace Krypton.Gauges;
 /// </summary>
 internal enum VuMeterPaletteColor
 {
-    /// <summary>Dial fill. <see cref="PaletteElementColor.Color2"/> is the dial border.</summary>
+    /// <summary>Dial fill. <see cref="PaletteElementColor.Color2"/> is the dial border. Inherits the meter panel style.</summary>
     Face,
 
     /// <summary>Scale ticks and labels.</summary>
@@ -42,6 +42,7 @@ internal enum VuMeterPaletteColor
 internal sealed class PaletteVuMeterColorInheritRedirect : PaletteElementColorInherit
 {
     private readonly VuMeterPaletteColor _color;
+    private readonly PaletteDoubleRedirect? _chrome;
     private PaletteRedirect _redirect;
 
     /// <summary>
@@ -49,10 +50,12 @@ internal sealed class PaletteVuMeterColorInheritRedirect : PaletteElementColorIn
     /// </summary>
     /// <param name="redirect">Source for inheriting values.</param>
     /// <param name="color">Meter colour this instance supplies.</param>
-    public PaletteVuMeterColorInheritRedirect(PaletteRedirect redirect, VuMeterPaletteColor color)
+    /// <param name="chrome">Panel style used for <see cref="VuMeterPaletteColor.Face"/>. Other colours ignore it.</param>
+    public PaletteVuMeterColorInheritRedirect(PaletteRedirect redirect, VuMeterPaletteColor color, PaletteDoubleRedirect? chrome)
     {
         _redirect = redirect;
         _color = color;
+        _chrome = chrome;
     }
 
     /// <summary>
@@ -73,7 +76,8 @@ internal sealed class PaletteVuMeterColorInheritRedirect : PaletteElementColorIn
         switch (_color)
         {
             case VuMeterPaletteColor.Face:
-                return _redirect.GetBackColor1(PaletteBackStyle.InputControlStandalone, state);
+                // The dial is the panel behind the scale, the same style as PanelBackStyle.
+                return _redirect.GetBackColor1(_chrome?.BackStyle ?? PaletteBackStyle.PanelClient, state);
             case VuMeterPaletteColor.Tick:
             case VuMeterPaletteColor.Needle:
             case VuMeterPaletteColor.SegmentLow:
@@ -93,7 +97,7 @@ internal sealed class PaletteVuMeterColorInheritRedirect : PaletteElementColorIn
     /// <inheritdoc />
     public override Color GetElementColor2(PaletteState state) =>
         _color == VuMeterPaletteColor.Face
-            ? _redirect.GetBorderColor1(PaletteBorderStyle.InputControlStandalone, state)
+            ? _redirect.GetBorderColor1(_chrome?.BorderStyle ?? PaletteBorderStyle.ControlClient, state)
             : GetElementColor1(state);
 
     /// <inheritdoc />
@@ -119,10 +123,11 @@ public class PaletteVuMeterColorRedirect : PaletteElementColor
     /// <param name="redirect">Source for inheriting values.</param>
     /// <param name="color">Meter colour this storage supplies.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    internal PaletteVuMeterColorRedirect(PaletteRedirect redirect, VuMeterPaletteColor color, NeedPaintHandler? needPaint)
+    /// <param name="chrome">Panel style used when <paramref name="color"/> is the dial.</param>
+    internal PaletteVuMeterColorRedirect(PaletteRedirect redirect, VuMeterPaletteColor color, NeedPaintHandler? needPaint, PaletteDoubleRedirect? chrome)
         : base(null, needPaint)
     {
-        _inherit = new PaletteVuMeterColorInheritRedirect(redirect, color);
+        _inherit = new PaletteVuMeterColorInheritRedirect(redirect, color, chrome);
         SetInherit(_inherit);
     }
 

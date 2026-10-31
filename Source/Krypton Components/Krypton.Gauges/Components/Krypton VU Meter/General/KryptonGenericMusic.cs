@@ -19,7 +19,6 @@ public class KryptonGenericMusic
 
     private const int MusicRate = 22050;
     private const int MusicWindow = 1102;
-    private const int MusicEighths = 32;
     private const int MusicEighth = 5510;
 
     #endregion
@@ -32,15 +31,22 @@ public class KryptonGenericMusic
     private Timer? _musicTimer;
     private byte[]? _musicWav;
     private double[]? _musicLevels;
+    private int _musicSeconds;
+    private int _musicBass = -1;
     private byte[]? _stereoWav;
     private double[]? _stereoLeft;
     private double[]? _stereoRight;
+    private int _stereoSeconds;
+    private int _stereoBass = -1;
     private double[]? _playLeft;
     private double[]? _playRight;
     private int _musicStarted;
 
     private readonly KryptonVuMeter _analogMeter;
     private readonly KryptonVuMeter _segmentsMeter;
+    private readonly KryptonVuMeter _leftMeter;
+    private readonly KryptonVuMeter _rightMeter;
+    private bool _stereoPair;
 
     private readonly KryptonLabel _leveLabel;
     private readonly KryptonCheckBox _stereoCheckBox;
@@ -55,13 +61,17 @@ public class KryptonGenericMusic
     /// <param name="sync">Indicates whether meter updates are synchronized.</param>
     /// <param name="analogMeter">The analog VU meter.</param>
     /// <param name="segmentsMeter">The segmented VU meter.</param>
+    /// <param name="leftMeter">The left-channel analog meter.</param>
+    /// <param name="rightMeter">The right-channel analog meter.</param>
     /// <param name="levelLabel">The label that displays the audio level.</param>
     /// <param name="stereoCheckBox">The check box that indicates stereo mode.</param>
-    public KryptonGenericMusic(bool sync, KryptonVuMeter analogMeter, KryptonVuMeter segmentsMeter, KryptonLabel levelLabel, KryptonCheckBox stereoCheckBox)
+    public KryptonGenericMusic(bool sync, KryptonVuMeter analogMeter, KryptonVuMeter segmentsMeter, KryptonVuMeter leftMeter, KryptonVuMeter rightMeter, KryptonLabel levelLabel, KryptonCheckBox stereoCheckBox)
     {
         _sync = sync;
         _analogMeter = analogMeter;
         _segmentsMeter = segmentsMeter;
+        _leftMeter = leftMeter;
+        _rightMeter = rightMeter;
         _leveLabel = levelLabel;
         _stereoCheckBox = stereoCheckBox;
     }
@@ -74,20 +84,39 @@ public class KryptonGenericMusic
     /// Play the generated loop and move both meters from its level.
     /// </summary>
     /// <returns><see langword="true"/> when playback started.</returns>
-    public bool StartMusic()
+    public bool StartMusic() => StartMusic(600);
+
+    /// <summary>
+    /// Play the generated loop for <paramref name="seconds"/> and move both meters from its level.
+    /// </summary>
+    /// <param name="seconds">Length of one pass before the loop repeats.</param>
+    /// <returns><see langword="true"/> when playback started.</returns>
+    public bool StartMusic(int seconds) => StartMusic(seconds, 50);
+
+    /// <summary>
+    /// Play the generated loop for <paramref name="seconds"/> at the given bass amount.
+    /// </summary>
+    /// <param name="seconds">Length of one pass before the loop repeats.</param>
+    /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
+    /// <returns><see langword="true"/> when playback started.</returns>
+    public bool StartMusic(int seconds, int bass)
     {
         StopMusic();
+        bass = ClampBass(bass);
         try
         {
-            if (_musicWav == null || _musicLevels == null)
+            if (_musicWav == null || _musicLevels == null || _musicSeconds != seconds || _musicBass != bass)
             {
-                BuildMusic(out byte[] wav, out double[] levels);
+                BuildMusic(seconds, bass, out byte[] wav, out double[] levels);
                 _musicWav = wav;
                 _musicLevels = levels;
+                _musicSeconds = seconds;
+                _musicBass = bass;
             }
 
             _playLeft = _musicLevels;
             _playRight = _musicLevels;
+            _stereoPair = false;
             PlayWav(_musicWav);
             return true;
         }
@@ -100,24 +129,43 @@ public class KryptonGenericMusic
     }
 
     /// <summary>
-    /// Play the stereo file. The analog meter follows the left channel and the segments follow the right.
+    /// Play the stereo file. The left meter follows the left channel and the right meter follows the right.
     /// </summary>
     /// <returns><see langword="true"/> when playback started.</returns>
-    public bool StartStereo()
+    public bool StartStereo() => StartStereo(600);
+
+    /// <summary>
+    /// Play the stereo file for <paramref name="seconds"/>. The left meter follows the left channel and the right meter follows the right.
+    /// </summary>
+    /// <param name="seconds">Length of one pass before the loop repeats.</param>
+    /// <returns><see langword="true"/> when playback started.</returns>
+    public bool StartStereo(int seconds) => StartStereo(seconds, 50);
+
+    /// <summary>
+    /// Play the stereo file for <paramref name="seconds"/> at the given bass amount.
+    /// </summary>
+    /// <param name="seconds">Length of one pass before the loop repeats.</param>
+    /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
+    /// <returns><see langword="true"/> when playback started.</returns>
+    public bool StartStereo(int seconds, int bass)
     {
         StopMusic();
+        bass = ClampBass(bass);
         try
         {
-            if (_stereoWav == null || _stereoLeft == null || _stereoRight == null)
+            if (_stereoWav == null || _stereoLeft == null || _stereoRight == null || _stereoSeconds != seconds || _stereoBass != bass)
             {
-                BuildStereo(out byte[] wav, out double[] left, out double[] right);
+                BuildStereo(seconds, bass, out byte[] wav, out double[] left, out double[] right);
                 _stereoWav = wav;
                 _stereoLeft = left;
                 _stereoRight = right;
+                _stereoSeconds = seconds;
+                _stereoBass = bass;
             }
 
             _playLeft = _stereoLeft;
             _playRight = _stereoRight;
+            _stereoPair = true;
             PlayWav(_stereoWav);
             return true;
         }
@@ -193,58 +241,109 @@ public class KryptonGenericMusic
         }
 
         int window = elapsed / 50;
+        double left = _playLeft[window % _playLeft.Length];
+        double right = _playRight[window % _playRight.Length];
         _sync = true;
-        _analogMeter.Value = _playLeft[window % _playLeft.Length];
-        _segmentsMeter.Value = _playRight[window % _playRight.Length];
+        _leftMeter.Value = left;
+        _rightMeter.Value = right;
+        if (!_stereoPair)
+        {
+            _analogMeter.Value = left;
+            _segmentsMeter.Value = right;
+        }
+
         UpdateLevelLabel();
         _sync = false;
     }
 
     /// <summary>
-    /// Build an eight-second tune in memory. Playback is loud enough to hear, and the meter
-    /// levels keep that tune's dynamics with the loudest moment near +1 VU.
+    /// Build a thirty-two second tune in memory. A verse, a chorus, and a cadence sit over a bass line.
+    /// Playback is loud enough to hear, and the meter levels keep that tune's dynamics with the loudest moment near +1 VU.
     /// </summary>
-    public static void BuildMusic(out byte[] wav, out double[] levels)
+    public static void BuildMusic(out byte[] wav, out double[] levels) => BuildMusic(32, 50, out wav, out levels);
+
+    /// <summary>
+    /// Build the tune repeated out to <paramref name="seconds"/>. A bass line and a lower octave sit under the melody.
+    /// The loudest moment is placed near +1 VU.
+    /// </summary>
+    /// <param name="seconds">Length of the generated loop.</param>
+    /// <param name="wav">PCM wave for <see cref="System.Media.SoundPlayer"/>.</param>
+    /// <param name="levels">One VU reading per playback window.</param>
+    public static void BuildMusic(int seconds, out byte[] wav, out double[] levels) =>
+        BuildMusic(seconds, 50, out wav, out levels);
+
+    /// <summary>
+    /// Build the tune repeated out to <paramref name="seconds"/> with the given bass amount.
+    /// The loudest moment is placed near +1 VU.
+    /// </summary>
+    /// <param name="seconds">Length of the generated loop.</param>
+    /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
+    /// <param name="wav">PCM wave for <see cref="System.Media.SoundPlayer"/>.</param>
+    /// <param name="levels">One VU reading per playback window.</param>
+    public static void BuildMusic(int seconds, int bass, out byte[] wav, out double[] levels)
     {
-        int[] melody =
-        [
-            64, 0, 67, 0, 72, 0, 0, 0,
-            67, 0, 64, 0, 60, 0, 0, 0,
-            60, 64, 67, 72, 76, 72, 67, 64,
-            72, 0, 67, 0, 64, 0, 60, 0
-        ];
-        double[] velocity =
-        [
-            0.35, 0, 0.40, 0, 0.55, 0, 0, 0,
-            0.40, 0, 0.45, 0, 0.30, 0, 0, 0,
-            0.50, 0.60, 0.75, 0.90, 1.00, 0.85, 0.70, 0.55,
-            1.00, 0, 0.60, 0, 0.40, 0, 0.25, 0
-        ];
+        int[] melody = Bars(
+            [64, 0, 67, 0, 72, 0, 67, 64],
+            [67, 0, 64, 0, 60, 62, 64, 0],
+            [64, 67, 72, 76, 79, 76, 72, 67],
+            [72, 0, 67, 0, 64, 0, 60, 0],
+            [69, 72, 76, 72, 69, 0, 67, 69],
+            [65, 69, 72, 69, 65, 0, 64, 65],
+            [67, 71, 74, 79, 74, 71, 67, 62],
+            [64, 0, 62, 0, 60, 0, 0, 0],
+            [72, 76, 79, 76, 72, 67, 64, 67],
+            [69, 72, 76, 72, 69, 64, 60, 64],
+            [65, 69, 72, 77, 72, 69, 65, 60],
+            [67, 71, 74, 79, 77, 76, 74, 72],
+            [76, 74, 72, 67, 64, 0, 67, 0],
+            [69, 67, 64, 62, 60, 0, 62, 64],
+            [67, 64, 62, 60, 0, 0, 0, 0],
+            [60, 0, 0, 0, 0, 0, 0, 0]);
+        int[] bassLine = Bars(
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 0, 0, 0, 0]);
+        double[] gain = Envelope(melody.Length,
+            0.55, 0.6, 1.0, 0.65,
+            0.7, 0.7, 0.9, 0.45,
+            0.85, 0.8, 0.75, 0.8,
+            0.6, 0.5, 0.4, 0.3);
 
-        var samples = new double[MusicEighths * MusicEighth];
-        for (int note = 0; note < MusicEighths; note++)
+        var samples = new double[SamplesForSeconds(seconds)];
+        int phrase = melody.Length * MusicEighth;
+        double bassAmount = ClampBass(bass) / 50d;
+        for (int origin = 0, cycle = 0; origin < samples.Length; origin += phrase, cycle++)
         {
-            if (melody[note] == 0)
+            int shift = PhraseShift(cycle);
+            int[] cycleMelody = shift == 0 ? melody : Transpose(melody, shift);
+            int[] cycleBass = shift == 0 ? bassLine : Transpose(bassLine, shift);
+            RenderVoice(samples, cycleMelody, gain, 0.5, 1, origin);
+            RenderVoice(samples, Transpose(cycleMelody, -12), gain, 0.16, 1, origin);
+            RenderVoice(samples, IntervalBetween(cycleMelody, 7, 8, 12), gain, 0.18, 1, origin);
+            if (bassAmount > 0d)
             {
-                continue;
-            }
-
-            int start = note * MusicEighth;
-            int gate = (int)(MusicEighth * 0.82);
-            double amp = 0.22 + (0.55 * velocity[note]);
-            AddTone(samples, start, gate, Midi(melody[note]), amp);
-            AddTone(samples, start, gate, Midi(melody[note] - 12), amp * 0.35);
-            if (note == 24)
-            {
-                AddTone(samples, start, MusicEighth * 2, Midi(60), 0.28);
-                AddTone(samples, start, MusicEighth * 2, Midi(64), 0.22);
-                AddTone(samples, start, MusicEighth * 2, Midi(67), 0.22);
+                double bassLevel = (cycle % 2 == 0 ? 0.62 : 0.78) * bassAmount;
+                RenderVoice(samples, cycleBass, gain, bassLevel, 2, origin);
+                RenderVoice(samples, Transpose(cycleBass, -12), gain, bassLevel * 0.55, 4, origin);
             }
         }
 
         double peak = samples.Select(t => Math.Abs(t)).Prepend(0d).Max();
 
-        double gain = peak > 1e-6 ? 0.45 / peak : 0d;
+        double playbackGain = peak > 1e-6 ? 0.45 / peak : 0d;
         int windows = samples.Length / MusicWindow;
         var rms = new double[windows];
         double loudest = 0d;
@@ -255,7 +354,7 @@ public class KryptonGenericMusic
             int origin = window * MusicWindow;
             for (int i = 0; i < MusicWindow; i++)
             {
-                double sample = samples[origin + i] * gain;
+                double sample = samples[origin + i] * playbackGain;
                 sample = sample switch
                 {
                     > 1d => 1d,
@@ -294,30 +393,115 @@ public class KryptonGenericMusic
     }
 
     /// <summary>
-    /// Build an eight-second stereo file. The left channel plays alone, then the right channel,
-    /// then the two parts answer each other. Both meters share one loudness scale.
+    /// Build a thirty-two second stereo file. Each channel has its own verse, then the two answer
+    /// and finally play together. Both meters share one loudness scale.
     /// </summary>
-    public static void BuildStereo(out byte[] wav, out double[] leftLevels, out double[] rightLevels)
-    {
-        int[] leftNotes =
-        [
-            64, 67, 72, 76, 72, 67, 64, 60,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            60, 64, 67, 72, 0, 67, 0, 64,
-            72, 0, 67, 0, 64, 0, 60, 0
-        ];
-        int[] rightNotes =
-        [
-            0, 0, 0, 0, 0, 0, 0, 0,
-            67, 71, 74, 79, 74, 71, 67, 62,
-            67, 71, 74, 79, 74, 0, 71, 0,
-            0, 76, 0, 71, 0, 67, 0, 64
-        ];
+    public static void BuildStereo(out byte[] wav, out double[] leftLevels, out double[] rightLevels) =>
+        BuildStereo(32, 50, out wav, out leftLevels, out rightLevels);
 
-        var left = new double[MusicEighths * MusicEighth];
+    /// <summary>
+    /// Build the stereo tune repeated out to <paramref name="seconds"/>. Bass follows whichever channel is playing.
+    /// Both meters share one loudness scale.
+    /// </summary>
+    /// <param name="seconds">Length of the generated loop.</param>
+    /// <param name="wav">Interleaved stereo PCM wave.</param>
+    /// <param name="leftLevels">Left-channel VU readings, one per playback window.</param>
+    /// <param name="rightLevels">Right-channel VU readings, one per playback window.</param>
+    public static void BuildStereo(int seconds, out byte[] wav, out double[] leftLevels, out double[] rightLevels) =>
+        BuildStereo(seconds, 50, out wav, out leftLevels, out rightLevels);
+
+    /// <summary>
+    /// Build the stereo tune repeated out to <paramref name="seconds"/> with the given bass amount.
+    /// Bass follows whichever channel is playing. Both meters share one loudness scale.
+    /// </summary>
+    /// <param name="seconds">Length of the generated loop.</param>
+    /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
+    /// <param name="wav">Interleaved stereo PCM wave.</param>
+    /// <param name="leftLevels">Left-channel VU readings, one per playback window.</param>
+    /// <param name="rightLevels">Right-channel VU readings, one per playback window.</param>
+    public static void BuildStereo(int seconds, int bass, out byte[] wav, out double[] leftLevels, out double[] rightLevels)
+    {
+        int[] leftNotes = Bars(
+            [64, 67, 72, 76, 79, 76, 72, 67],
+            [72, 0, 67, 64, 60, 64, 67, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [69, 72, 76, 72, 69, 67, 64, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [64, 0, 67, 0, 72, 0, 76, 0],
+            [0, 67, 0, 72, 0, 67, 0, 64],
+            [72, 76, 79, 76, 72, 67, 64, 67],
+            [69, 72, 76, 72, 69, 64, 60, 64],
+            [65, 69, 72, 77, 72, 69, 65, 60],
+            [67, 71, 74, 79, 74, 71, 67, 64],
+            [0, 76, 0, 72, 0, 67, 0, 64],
+            [0, 69, 0, 65, 0, 64, 0, 60],
+            [64, 67, 72, 67, 64, 60, 0, 0],
+            [60, 0, 0, 0, 0, 0, 0, 0]);
+        int[] rightNotes = Bars(
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [67, 71, 74, 79, 76, 74, 71, 67],
+            [74, 0, 71, 67, 62, 67, 71, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [65, 69, 72, 69, 65, 64, 60, 0],
+            [0, 60, 0, 64, 0, 67, 0, 72],
+            [71, 0, 74, 0, 71, 0, 67, 0],
+            [67, 71, 74, 71, 67, 64, 60, 64],
+            [64, 67, 72, 67, 64, 60, 57, 60],
+            [60, 64, 67, 72, 67, 64, 60, 57],
+            [62, 67, 71, 74, 71, 67, 62, 59],
+            [76, 0, 79, 0, 76, 0, 74, 0],
+            [72, 0, 69, 0, 67, 0, 65, 0],
+            [67, 64, 60, 64, 67, 72, 0, 0],
+            [67, 0, 0, 0, 0, 0, 0, 0]);
+        double[] solo = Envelope(leftNotes.Length,
+            1.0, 0.95, 1.0, 0.95,
+            0.85, 0.85, 0.7, 0.7,
+            0.72, 0.7, 0.68, 0.72,
+            0.6, 0.55, 0.5, 0.35);
+
+        int[] bassLine = Bars(
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 43, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [43, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [36, 0, 0, 0, 43, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 0, 0, 0, 0]);
+        int[] leftBass = NotesUnder(leftNotes, bassLine);
+        int[] rightBass = NotesUnder(rightNotes, bassLine);
+        var left = new double[SamplesForSeconds(seconds)];
         var right = new double[left.Length];
-        RenderNotes(left, leftNotes);
-        RenderNotes(right, rightNotes);
+        int phrase = leftNotes.Length * MusicEighth;
+        double bassAmount = ClampBass(bass) / 50d;
+        for (int origin = 0, cycle = 0; origin < left.Length; origin += phrase, cycle++)
+        {
+            int shift = PhraseShift(cycle);
+            int[] cycleLeft = shift == 0 ? leftNotes : Transpose(leftNotes, shift);
+            int[] cycleRight = shift == 0 ? rightNotes : Transpose(rightNotes, shift);
+            int[] cycleLeftBass = shift == 0 ? leftBass : Transpose(leftBass, shift);
+            int[] cycleRightBass = shift == 0 ? rightBass : Transpose(rightBass, shift);
+            RenderVoice(left, cycleLeft, solo, 0.62, 1, origin);
+            RenderVoice(right, cycleRight, solo, 0.62, 1, origin);
+            if (bassAmount > 0d)
+            {
+                double bassLevel = (cycle % 2 == 0 ? 0.5 : 0.66) * bassAmount;
+                RenderVoice(left, cycleLeftBass, solo, bassLevel, 2, origin);
+                RenderVoice(right, cycleRightBass, solo, bassLevel, 2, origin);
+                RenderVoice(left, Transpose(cycleLeftBass, -12), solo, bassLevel * 0.5, 4, origin);
+                RenderVoice(right, Transpose(cycleRightBass, -12), solo, bassLevel * 0.5, 4, origin);
+            }
+        }
         double peak = Math.Max(PeakAbs(left), PeakAbs(right));
         double gain = peak > 1e-6 ? 0.45 / peak : 0d;
         Measure(left, gain, out short[] leftPcm, out double[] leftRms, out double leftPeak);
@@ -343,16 +527,198 @@ public class KryptonGenericMusic
     /// <param name="notes">The note values to render; zero entries are skipped.</param>
     public static void RenderNotes(double[] samples, int[] notes)
     {
+        var gain = new double[notes.Length];
         for (int note = 0; note < notes.Length; note++)
         {
-            if (notes[note] == 0)
+            gain[note] = 1d;
+        }
+
+        RenderVoice(samples, notes, gain, 0.7, 1);
+    }
+
+    /// <summary>
+    /// Joins one-bar groups of eighth notes into a single score.
+    /// </summary>
+    private static int[] Bars(params int[][] bars)
+    {
+        int count = 0;
+        for (int bar = 0; bar < bars.Length; bar++)
+        {
+            count += bars[bar].Length;
+        }
+
+        var score = new int[count];
+        int offset = 0;
+        for (int bar = 0; bar < bars.Length; bar++)
+        {
+            Array.Copy(bars[bar], 0, score, offset, bars[bar].Length);
+            offset += bars[bar].Length;
+        }
+
+        return score;
+    }
+
+    /// <summary>
+    /// Builds a per-eighth gain from one level per bar. Each bar uses the same eight-note contour.
+    /// </summary>
+    private static double[] Envelope(int count, params double[] barGain)
+    {
+        double[] contour = [0.72, 0.45, 0.9, 0.5, 1d, 0.55, 0.8, 0.4];
+        var gain = new double[count];
+        for (int note = 0; note < count; note++)
+        {
+            int bar = note / 8;
+            double level = bar < barGain.Length ? barGain[bar] : barGain[barGain.Length - 1];
+            gain[note] = contour[note % 8] * level;
+        }
+
+        return gain;
+    }
+
+    /// <summary>
+    /// Semitone offset for one phrase. Nineteen phrases is just over ten minutes, and this list does not repeat inside that span.
+    /// </summary>
+    private static int PhraseShift(int cycle)
+    {
+        int[] shifts = { 0, 2, -2, 5, 3, -3, 7, 4, -5, 9, 1, -1, 6, -4, 8, -6, 10, 3, 5 };
+        int index = cycle % shifts.Length;
+        return index < 0 ? shifts[index + shifts.Length] : shifts[index];
+    }
+
+    /// <summary>
+    /// Shifts every sounding note by <paramref name="semitones"/>.
+    /// </summary>
+    private static int[] Transpose(int[] notes, int semitones)
+    {
+        var shifted = new int[notes.Length];
+        for (int note = 0; note < notes.Length; note++)
+        {
+            shifted[note] = notes[note] == 0 ? 0 : notes[note] + semitones;
+        }
+
+        return shifted;
+    }
+
+    /// <summary>
+    /// Copies notes inside a bar range and shifts them by <paramref name="semitones"/>. Bars outside the range stay silent.
+    /// </summary>
+    private static int[] IntervalBetween(int[] notes, int semitones, int firstBar, int lastBar)
+    {
+        var shifted = new int[notes.Length];
+        for (int note = 0; note < notes.Length; note++)
+        {
+            int bar = note / 8;
+            shifted[note] = notes[note] != 0 && bar >= firstBar && bar < lastBar ? notes[note] + semitones : 0;
+        }
+
+        return shifted;
+    }
+
+    /// <summary>
+    /// Keeps a bass slider value inside 0 (none) to 100 (twice the normal line).
+    /// </summary>
+    private static int ClampBass(int bass)
+    {
+        if (bass < 0)
+        {
+            return 0;
+        }
+
+        return bass > 100 ? 100 : bass;
+    }
+
+    /// <summary>
+    /// Number of samples covering at least <paramref name="seconds"/>, rounded up to a whole meter window.
+    /// Ten minutes is the longest length.
+    /// </summary>
+    private static int SamplesForSeconds(int seconds)
+    {
+        if (seconds < 1)
+        {
+            seconds = 1;
+        }
+        else if (seconds > 600)
+        {
+            seconds = 600;
+        }
+
+        long needed = (long)seconds * MusicRate;
+        int windows = (int)((needed + MusicWindow - 1) / MusicWindow);
+        return windows < 1 ? MusicWindow : windows * MusicWindow;
+    }
+
+    /// <summary>
+    /// Keeps <paramref name="source"/> only in bars where <paramref name="mask"/> has a note, so bass follows the active channel.
+    /// </summary>
+    private static int[] NotesUnder(int[] mask, int[] source)
+    {
+        var notes = new int[mask.Length];
+        for (int bar = 0; bar < mask.Length; bar += 8)
+        {
+            bool sounding = false;
+            int end = Math.Min(mask.Length, bar + 8);
+            for (int note = bar; note < end; note++)
+            {
+                if (mask[note] != 0)
+                {
+                    sounding = true;
+                    break;
+                }
+            }
+
+            if (!sounding)
             {
                 continue;
             }
 
-            int start = note * MusicEighth;
-            int gate = (int)(MusicEighth * 0.82);
-            AddTone(samples, start, gate, Midi(notes[note]), 0.7);
+            for (int note = bar; note < end && note < source.Length; note++)
+            {
+                notes[note] = source[note];
+            }
+        }
+
+        return notes;
+    }
+
+    /// <summary>
+    /// Renders a voice. Repeated notes sustain, and each attack is scaled by <paramref name="gain"/>.
+    /// </summary>
+    private static void RenderVoice(double[] samples, int[] notes, double[] gain, double amplitude, int holdEighths) =>
+        RenderVoice(samples, notes, gain, amplitude, holdEighths, 0);
+
+    /// <summary>
+    /// Renders a voice starting at <paramref name="origin"/> so a phrase can be repeated through a longer buffer.
+    /// </summary>
+    private static void RenderVoice(double[] samples, int[] notes, double[] gain, double amplitude, int holdEighths, int origin)
+    {
+        int hold = holdEighths < 1 ? 1 : holdEighths;
+        for (int note = 0; note < notes.Length; note++)
+        {
+            if (notes[note] == 0 || note > 0 && notes[note] == notes[note - 1])
+            {
+                continue;
+            }
+
+            int length = 1;
+            while (note + length < notes.Length && notes[note + length] == notes[note])
+            {
+                length++;
+            }
+
+            if (length < hold)
+            {
+                length = hold;
+            }
+
+            int start = origin + (note * MusicEighth);
+            if (start >= samples.Length)
+            {
+                return;
+            }
+
+            int gate = (int)(MusicEighth * length * 0.88);
+            double level = note < gain.Length ? gain[note] : 1d;
+            AddTone(samples, start, gate, Midi(notes[note]), amplitude * level);
         }
     }
 
@@ -558,7 +924,7 @@ public class KryptonGenericMusic
     {
         if (_stereoCheckBox.Checked)
         {
-            _leveLabel.Values.Text = $@"Left {_analogMeter.Value.ToString("0.0", CultureInfo.CurrentCulture)} / Right {_segmentsMeter.Value.ToString("0.0", CultureInfo.CurrentCulture)} VU";
+            _leveLabel.Values.Text = $@"Left {_leftMeter.Value.ToString("0.0", CultureInfo.CurrentCulture)} / Right {_rightMeter.Value.ToString("0.0", CultureInfo.CurrentCulture)} VU";
             return;
         }
 

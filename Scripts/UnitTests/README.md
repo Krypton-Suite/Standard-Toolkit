@@ -239,7 +239,7 @@ Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR asse
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-VuMeterMusic.ps1
 ```
 
-Turns on Play music, then the stereo file. The stereo pass checks that the analog meter and the segments follow different channels, then stops the loop.
+Selects a 30-second length, then turns on Play music and the stereo file. The stereo pass checks that the Left and Right analog meters follow different channels, then stops the loop.
 
 ## Typical usage (#1100 scheme strip text)
 

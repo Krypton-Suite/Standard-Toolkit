@@ -50,6 +50,8 @@ try {
     $form.Show()
     [System.Windows.Forms.Application]::DoEvents()
 
+    $length = $formType.GetField('kcmbLength', $flags).GetValue($form)
+    $length.SelectedIndex = 0
     $music = $formType.GetField('kchkMusic', $flags).GetValue($form)
     $analog = $formType.GetField('kvumAnalog', $flags).GetValue($form)
     $label = $formType.GetField('klblLevel', $flags).GetValue($form)
@@ -79,22 +81,23 @@ try {
     [System.Windows.Forms.Application]::DoEvents()
 
     $stereo = $formType.GetField('kchkStereo', $flags).GetValue($form)
-    $segments = $formType.GetField('kvumSegments', $flags).GetValue($form)
+    $leftMeter = $formType.GetField('kvumLeft', $flags).GetValue($form)
+    $rightMeter = $formType.GetField('kvumRight', $flags).GetValue($form)
     $stereo.Checked = $true
     [System.Windows.Forms.Application]::DoEvents()
     if (-not $stereo.Checked) {
         throw "Stereo file did not stay on. $($label.Values.Text)"
     }
 
-    $leftPeak = [double]$analog.Value
-    $rightPeak = [double]$segments.Value
+    $leftPeak = [double]$leftMeter.Value
+    $rightPeak = [double]$rightMeter.Value
     $maxGap = 0.0
     $deadline = [DateTime]::UtcNow.AddSeconds(7)
     while ([DateTime]::UtcNow -lt $deadline) {
         [System.Windows.Forms.Application]::DoEvents()
         Start-Sleep -Milliseconds 40
-        $left = [double]$analog.Value
-        $right = [double]$segments.Value
+        $left = [double]$leftMeter.Value
+        $right = [double]$rightMeter.Value
         if ($left -gt $leftPeak) {
             $leftPeak = $left
         }

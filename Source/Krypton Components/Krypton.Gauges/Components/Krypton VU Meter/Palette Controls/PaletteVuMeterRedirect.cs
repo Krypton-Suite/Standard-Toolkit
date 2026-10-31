@@ -26,13 +26,13 @@ public class PaletteVuMeterRedirect : Storage
         Debug.Assert(redirect != null);
         NeedPaint = needPaint;
         _chrome = new PaletteDoubleRedirect(redirect!, PaletteBackStyle.PanelClient, PaletteBorderStyle.ControlClient, needPaint);
-        Face = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.Face, needPaint);
-        Tick = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.Tick, needPaint);
-        Needle = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.Needle, needPaint);
-        Peak = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.Peak, needPaint);
-        SegmentLow = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.SegmentLow, needPaint);
-        SegmentHigh = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.SegmentHigh, needPaint);
-        SegmentOff = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.SegmentOff, needPaint);
+        Face = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.Face, needPaint, _chrome);
+        Tick = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.Tick, needPaint, null);
+        Needle = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.Needle, needPaint, null);
+        Peak = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.Peak, needPaint, null);
+        SegmentLow = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.SegmentLow, needPaint, null);
+        SegmentHigh = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.SegmentHigh, needPaint, null);
+        SegmentOff = new PaletteVuMeterColorRedirect(redirect!, VuMeterPaletteColor.SegmentOff, needPaint, null);
     }
 
     /// <inheritdoc />
@@ -96,11 +96,11 @@ public class PaletteVuMeterRedirect : Storage
 
     /// <summary>
     /// Gets the dial fill (<see cref="PaletteElementColor.Color1"/>) and border (<see cref="PaletteElementColor.Color2"/>).
-    /// Defaults to the palette input-control back and border.
+    /// Defaults to the panel background selected by <see cref="BackStyle"/>.
     /// </summary>
     [KryptonPersist]
     [Category(@"Visuals")]
-    [Description(@"Dial fill (Color1) and border (Color2). Defaults to the palette input-control back and border.")]
+    [Description(@"Dial fill (Color1) and border (Color2). Defaults to the panel background.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public PaletteVuMeterColorRedirect Face { get; }
 
