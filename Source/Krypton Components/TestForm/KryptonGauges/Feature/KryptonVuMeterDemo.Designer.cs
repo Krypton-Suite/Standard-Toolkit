@@ -48,6 +48,8 @@ partial class KryptonVuMeterDemo
         this.ktheme = new Krypton.Toolkit.KryptonThemeComboBox();
         this.kbtnSilence = new Krypton.Toolkit.KryptonButton();
         this.kbtnZero = new Krypton.Toolkit.KryptonButton();
+        this.kchkMusic = new Krypton.Toolkit.KryptonCheckBox();
+        this.kchkStereo = new Krypton.Toolkit.KryptonCheckBox();
         this.kpgMeter = new Krypton.Toolkit.KryptonPropertyGrid();
         ((System.ComponentModel.ISupportInitialize)this.kcmbChannel).BeginInit();
         ((System.ComponentModel.ISupportInitialize)this.kcmbOrientation).BeginInit();
@@ -60,13 +62,13 @@ partial class KryptonVuMeterDemo
         this.klblInstructions.Name = "klblInstructions";
         this.klblInstructions.Size = new System.Drawing.Size(1040, 52);
         this.klblInstructions.TabIndex = 0;
-        this.klblInstructions.Values.Text = "Drag the level to move both meters. Colours follow the theme. StateCommon, StateNormal, and StateDisabled override them. The disabled meter uses the disabled palette state.";
+        this.klblInstructions.Values.Text = "Drag the level or Play music. Stereo file plays a two-channel loop: the analog meter follows the left channel and the segments follow the right. Colours follow the theme. The disabled meter uses the disabled palette state.";
         // 
         // klblAnalog
         // 
         this.klblAnalog.Location = new System.Drawing.Point(16, 72);
         this.klblAnalog.Name = "klblAnalog";
-        this.klblAnalog.Size = new System.Drawing.Size(120, 20);
+        this.klblAnalog.Size = new System.Drawing.Size(160, 20);
         this.klblAnalog.TabIndex = 1;
         this.klblAnalog.Values.Text = "Analog";
         // 
@@ -83,7 +85,7 @@ partial class KryptonVuMeterDemo
         // 
         this.klblSegments.Location = new System.Drawing.Point(364, 72);
         this.klblSegments.Name = "klblSegments";
-        this.klblSegments.Size = new System.Drawing.Size(140, 20);
+        this.klblSegments.Size = new System.Drawing.Size(160, 20);
         this.klblSegments.TabIndex = 3;
         this.klblSegments.Values.Text = "Segments";
         // 
@@ -115,7 +117,7 @@ partial class KryptonVuMeterDemo
         // 
         this.klblLevel.Location = new System.Drawing.Point(16, 288);
         this.klblLevel.Name = "klblLevel";
-        this.klblLevel.Size = new System.Drawing.Size(160, 20);
+        this.klblLevel.Size = new System.Drawing.Size(480, 20);
         this.klblLevel.TabIndex = 7;
         this.klblLevel.Values.Text = "Target -20.0 VU";
         // 
@@ -220,6 +222,24 @@ partial class KryptonVuMeterDemo
         this.kbtnZero.Values.Text = "0 VU";
         this.kbtnZero.Click += new System.EventHandler(this.kbtnZero_Click);
         // 
+        // kchkMusic
+        // 
+        this.kchkMusic.Location = new System.Drawing.Point(548, 378);
+        this.kchkMusic.Name = "kchkMusic";
+        this.kchkMusic.Size = new System.Drawing.Size(140, 24);
+        this.kchkMusic.TabIndex = 20;
+        this.kchkMusic.Values.Text = "Play music";
+        this.kchkMusic.CheckedChanged += new System.EventHandler(this.kchkMusic_CheckedChanged);
+        // 
+        // kchkStereo
+        // 
+        this.kchkStereo.Location = new System.Drawing.Point(708, 378);
+        this.kchkStereo.Name = "kchkStereo";
+        this.kchkStereo.Size = new System.Drawing.Size(160, 24);
+        this.kchkStereo.TabIndex = 21;
+        this.kchkStereo.Values.Text = "Stereo file";
+        this.kchkStereo.CheckedChanged += new System.EventHandler(this.kchkStereo_CheckedChanged);
+        // 
         // kpgMeter
         // 
         this.kpgMeter.Location = new System.Drawing.Point(16, 420);
@@ -232,6 +252,8 @@ partial class KryptonVuMeterDemo
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         this.ClientSize = new System.Drawing.Size(1064, 736);
         this.Controls.Add(this.kpgMeter);
+        this.Controls.Add(this.kchkStereo);
+        this.Controls.Add(this.kchkMusic);
         this.Controls.Add(this.kbtnZero);
         this.Controls.Add(this.kbtnSilence);
         this.Controls.Add(this.ktheme);
@@ -281,5 +303,7 @@ partial class KryptonVuMeterDemo
     private Krypton.Toolkit.KryptonThemeComboBox ktheme;
     private Krypton.Toolkit.KryptonButton kbtnSilence;
     private Krypton.Toolkit.KryptonButton kbtnZero;
+    private Krypton.Toolkit.KryptonCheckBox kchkMusic;
+    private Krypton.Toolkit.KryptonCheckBox kchkStereo;
     private Krypton.Toolkit.KryptonPropertyGrid kpgMeter;
 }
