@@ -101,10 +101,11 @@ public class KryptonButton : KryptonDropButton
     /// </summary>
     /// <remarks>
     /// <para>
-    /// While at least one handler is attached, the UAC shield is shown and cannot be turned off or replaced
-    /// through <see cref="KryptonDropButton.Values"/> (<see cref="ButtonValues.UseAsUACElevationButton"/>,
-    /// <see cref="ButtonValues.Image"/>, or <see cref="ButtonValues.ResetImage"/>).
-    /// The previous image is not kept.
+    /// While at least one handler is attached, the UAC shield is shown and cannot be turned off.
+    /// A content image stays in <see cref="ButtonValues.Image"/> and the shield is drawn on
+    /// <see cref="ButtonValues.OverlayImage"/> (bottom-right, half size). With no content image the shield
+    /// stays in <see cref="ButtonValues.Image"/>. <see cref="ButtonValues.OverlayImage"/> cannot replace that shield.
+    /// Clearing <see cref="ButtonValues.Image"/> moves the shield back onto the image so it stays visible.
     /// </para>
     /// <para>
     /// When the process is not already an administrator, the button starts <see cref="ElevatedProcessPath"/>
@@ -121,7 +122,7 @@ public class KryptonButton : KryptonDropButton
     /// </para>
     /// </remarks>
     [Category(@"Action")]
-    [Description(@"Occurs when the button is clicked. While a handler is attached, the UAC shield is shown and cannot be turned off or replaced.")]
+    [Description(@"Occurs when the button is clicked. While a handler is attached, the UAC shield stays visible and overlays a content image.")]
     public event EventHandler? ElevatedClick
     {
         add

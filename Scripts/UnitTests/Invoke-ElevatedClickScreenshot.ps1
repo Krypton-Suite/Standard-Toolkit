@@ -40,27 +40,27 @@ Initialize-UnitTestNativeInput
 
 $form = New-Object Krypton.Toolkit.KryptonForm
 $form.Text = 'Buttons Test - ElevatedClick'
-$form.ClientSize = New-Object System.Drawing.Size 540, 220
+$form.ClientSize = New-Object System.Drawing.Size 540, 240
 $form.FormBorderStyle = [System.Windows.Forms.FormBorderStyle]::Fixed3D
 $form.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
 $form.Location = New-Object System.Drawing.Point 80, 80
 
 $hint = New-Object Krypton.Toolkit.KryptonLabel
 $hint.Location = New-Object System.Drawing.Point 16, 16
-$hint.Values.Text = 'ElevatedClick shows the UAC shield. A click uses RunAs.'
+$hint.Values.Text = 'The shield overlays the button image. A click uses RunAs.'
 
 $elevated = New-Object Krypton.Toolkit.KryptonButton
 $elevated.Location = New-Object System.Drawing.Point 16, 48
-$elevated.Size = New-Object System.Drawing.Size 240, 28
+$elevated.Size = New-Object System.Drawing.Size 240, 48
 $elevated.Values.Text = 'Elevated Click'
 
 $hide = New-Object Krypton.Toolkit.KryptonButton
 $hide.Location = New-Object System.Drawing.Point 272, 48
-$hide.Size = New-Object System.Drawing.Size 240, 28
+$hide.Size = New-Object System.Drawing.Size 240, 48
 $hide.Values.Text = 'Try to hide shield'
 
 $logBox = New-Object Krypton.Toolkit.KryptonTextBox
-$logBox.Location = New-Object System.Drawing.Point 16, 88
+$logBox.Location = New-Object System.Drawing.Point 16, 108
 $logBox.Size = New-Object System.Drawing.Size 496, 112
 $logBox.Multiline = $true
 $logBox.ReadOnly = $true
@@ -69,7 +69,8 @@ function Add-Log([string]$line) {
     $logBox.AppendText($line + [Environment]::NewLine)
 }
 
-# Subscribing forces the shield and locks UseAsUACElevationButton / Image.
+# A content image is already set, so subscribing places the shield on the overlay.
+$elevated.Values.Image = [System.Drawing.SystemIcons]::Application.ToBitmap()
 $elevated.add_ElevatedClick({ Add-Log 'ElevatedClick' })
 $elevated.add_Click({ Add-Log 'Click' })
 $hide.add_Click({

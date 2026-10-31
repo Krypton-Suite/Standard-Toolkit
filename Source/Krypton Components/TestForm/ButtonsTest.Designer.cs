@@ -107,7 +107,7 @@ namespace TestForm
             this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(562, 470);
+            this.kryptonPanel1.Size = new System.Drawing.Size(562, 486);
             this.kryptonPanel1.TabIndex = 0;
             // 
             // KryptonCalcInput1
@@ -375,9 +375,9 @@ namespace TestForm
             // 
             this.klblElevatedClick.Location = new System.Drawing.Point(18, 308);
             this.klblElevatedClick.Name = "klblElevatedClick";
-            this.klblElevatedClick.Size = new System.Drawing.Size(318, 20);
+            this.klblElevatedClick.Size = new System.Drawing.Size(420, 20);
             this.klblElevatedClick.TabIndex = 18;
-            this.klblElevatedClick.Values.Text = "ElevatedClick keeps the UAC shield visible.";
+            this.klblElevatedClick.Values.Text = "A content image keeps the UAC shield as an overlay.";
             // 
             // klblElevatedHint
             // 
@@ -391,7 +391,7 @@ namespace TestForm
             // 
             this.kbtnElevatedClick.Location = new System.Drawing.Point(18, 354);
             this.kbtnElevatedClick.Name = "kbtnElevatedClick";
-            this.kbtnElevatedClick.Size = new System.Drawing.Size(243, 25);
+            this.kbtnElevatedClick.Size = new System.Drawing.Size(243, 40);
             this.kbtnElevatedClick.TabIndex = 20;
             this.kbtnElevatedClick.Values.Text = "Elevated Click";
             this.kbtnElevatedClick.ElevatedClick += new System.EventHandler(this.kbtnElevatedClick_ElevatedClick);
@@ -401,14 +401,14 @@ namespace TestForm
             // 
             this.kbtnTryHideShield.Location = new System.Drawing.Point(278, 354);
             this.kbtnTryHideShield.Name = "kbtnTryHideShield";
-            this.kbtnTryHideShield.Size = new System.Drawing.Size(243, 25);
+            this.kbtnTryHideShield.Size = new System.Drawing.Size(243, 40);
             this.kbtnTryHideShield.TabIndex = 21;
             this.kbtnTryHideShield.Values.Text = "Try to hide shield";
             this.kbtnTryHideShield.Click += new System.EventHandler(this.kbtnTryHideShield_Click);
             // 
             // ktxtElevatedLog
             // 
-            this.ktxtElevatedLog.Location = new System.Drawing.Point(18, 386);
+            this.ktxtElevatedLog.Location = new System.Drawing.Point(18, 402);
             this.ktxtElevatedLog.Multiline = true;
             this.ktxtElevatedLog.Name = "ktxtElevatedLog";
             this.ktxtElevatedLog.ReadOnly = true;
@@ -429,7 +429,7 @@ namespace TestForm
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ButtonSpecs.Add(this.buttonSpecAny1);
-            this.ClientSize = new System.Drawing.Size(562, 470);
+            this.ClientSize = new System.Drawing.Size(562, 486);
             this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

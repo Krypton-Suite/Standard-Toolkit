@@ -29,6 +29,8 @@ public class ButtonValues : Storage,
     private bool _useAsUACElevationButton;
     private bool _uacShieldLocked;
     private bool _applyingUacShield;
+    private bool _uacShieldOwnsImage;
+    private bool _uacShieldOwnsOverlay;
     private bool _showSplitOption;
     private IconSize? _iconSize;
     private IconSelectionStrategy _iconSelectionStrategy;
@@ -79,6 +81,7 @@ public class ButtonValues : Storage,
         ImageStates = CreateImageStates();
         ImageStates.NeedPaint = needPaint;
         _overlayImage = CreateOverlayImageValues(needPaint);
+        _overlayImage.RejectImageChange = RejectUacShieldOverlayChange;
     }
     #endregion
 
@@ -125,7 +128,8 @@ public class ButtonValues : Storage,
     /// Gets and sets the button image.
     /// </summary>
     /// <remarks>
-    /// Ignored while <see cref="KryptonButton.ElevatedClick"/> has a handler. The UAC shield stays in place.
+    /// When the UAC shield is showing and this image is set, the shield moves to <see cref="OverlayImage"/>.
+    /// Clearing it while <see cref="KryptonButton.ElevatedClick"/> has a handler moves the shield back here so it stays visible.
     /// </remarks>
     [Localizable(true)]
     [Category(@"Visuals")]
@@ -138,17 +142,30 @@ public class ButtonValues : Storage,
 
         set
         {
-            // ElevatedClick keeps the shield. Internal shield assignment sets _applyingUacShield.
-            if (_uacShieldLocked && !_applyingUacShield)
+            if (_applyingUacShield)
             {
+                SetImageCore(value);
                 return;
             }
 
-            if (_image != value)
+            if (value == null && _useAsUACElevationButton)
+            {
+                MoveUacShieldToImage();
+                return;
+            }
+
+            bool changed = _image != value;
+            if (changed)
             {
                 _image = value;
                 _imageIsDefault = false;
+                _uacShieldOwnsImage = false;
                 PerformNeedPaint(true);
+            }
+
+            if (changed && value != null && _useAsUACElevationButton)
+            {
+                ShowUACShieldImage(true, _iconSize ?? IconSize.ExtraSmall);
             }
         }
     }
@@ -159,17 +176,25 @@ public class ButtonValues : Storage,
     /// Resets the Image property to its default value.
     /// </summary>
     /// <remarks>
-    /// Ignored while <see cref="KryptonButton.ElevatedClick"/> has a handler.
+    /// When the UAC shield is showing, a factory image stays the content image and the shield moves to <see cref="OverlayImage"/>.
+    /// A null factory image moves the shield back onto <see cref="Image"/>.
     /// </remarks>
     public void ResetImage()
     {
-        if (_uacShieldLocked)
+        if (_useAsUACElevationButton)
         {
+            Image = _factoryImage;
+            if (_factoryImage != null && _uacShieldOwnsOverlay)
+            {
+                _imageIsDefault = true;
+            }
+
             return;
         }
 
         _image = _factoryImage;
         _imageIsDefault = true;
+        _uacShieldOwnsImage = false;
         PerformNeedPaint(true);
     }
     #endregion
@@ -591,11 +616,12 @@ public class ButtonValues : Storage,
     #region UAC Stuff
 
     /// <summary>
-    /// Shows the UAC shield and ignores later attempts to hide it or replace <see cref="Image"/>.
+    /// Shows the UAC shield and ignores later attempts to hide it or replace the shield slot.
     /// </summary>
     /// <remarks>
     /// Called when the first <see cref="KryptonButton.ElevatedClick"/> handler is attached.
-    /// The previous image is not kept.
+    /// A content image stays in <see cref="Image"/> and the shield is drawn as <see cref="OverlayImage"/>.
+    /// With no content image, the shield stays in <see cref="Image"/>.
     /// </remarks>
     internal void LockUacShieldForElevation()
     {
@@ -609,7 +635,7 @@ public class ButtonValues : Storage,
     internal void UnlockUacShieldForElevation() => _uacShieldLocked = false;
 
     /// <summary>
-    /// Assigns the shield image while the elevation lock would otherwise reject <see cref="Image"/> changes.
+    /// Places the shield on <see cref="OverlayImage"/> when a content image is already set, otherwise on <see cref="Image"/>.
     /// </summary>
     /// <param name="image">Shield bitmap to show.</param>
     private void AssignUacShieldImage(Image? image)
@@ -619,15 +645,127 @@ public class ButtonValues : Storage,
             return;
         }
 
+        if (HasContentImage())
+        {
+            PlaceShieldOnOverlay(image);
+            return;
+        }
+
+        PlaceShieldOnImage(image);
+    }
+
+    private bool HasContentImage() => _image != null && !_uacShieldOwnsImage;
+
+    private void PlaceShieldOnOverlay(Image image)
+    {
         _applyingUacShield = true;
         try
         {
-            Image = image;
+            _overlayImage.Image = image;
+            _overlayImage.Position = OverlayImagePosition.BottomRight;
+            _overlayImage.ScaleMode = OverlayImageScaleMode.Percentage;
+            _uacShieldOwnsOverlay = true;
+            _uacShieldOwnsImage = false;
         }
         finally
         {
             _applyingUacShield = false;
         }
+    }
+
+    private void PlaceShieldOnImage(Image image)
+    {
+        _applyingUacShield = true;
+        try
+        {
+            ClearOwnedShieldOverlay();
+            SetImageCore(image);
+            _uacShieldOwnsImage = true;
+        }
+        finally
+        {
+            _applyingUacShield = false;
+        }
+    }
+
+    private void SetImageCore(Image? value)
+    {
+        if (_image != value)
+        {
+            _image = value;
+            _imageIsDefault = false;
+            PerformNeedPaint(true);
+        }
+    }
+
+    /// <summary>
+    /// Moves the shield onto <see cref="Image"/> so it remains visible when there is no content image for an overlay.
+    /// </summary>
+    private void MoveUacShieldToImage()
+    {
+        Image? shield = _uacShieldOwnsOverlay ? _overlayImage.Image : null;
+        ClearOwnedShieldOverlay();
+
+        if (shield != null)
+        {
+            _applyingUacShield = true;
+            try
+            {
+                SetImageCore(shield);
+                _uacShieldOwnsImage = true;
+            }
+            finally
+            {
+                _applyingUacShield = false;
+            }
+
+            return;
+        }
+
+        if (_uacShieldOwnsImage && _image != null)
+        {
+            return;
+        }
+
+        _uacShieldOwnsImage = false;
+        ShowUACShieldImage(true, _iconSize ?? IconSize.ExtraSmall);
+    }
+
+    private void ClearOwnedShieldOverlay()
+    {
+        if (!_uacShieldOwnsOverlay)
+        {
+            return;
+        }
+
+        _applyingUacShield = true;
+        try
+        {
+            _overlayImage.Image = null;
+            _overlayImage.Position = OverlayImagePosition.TopRight;
+            _overlayImage.ScaleMode = OverlayImageScaleMode.None;
+            _uacShieldOwnsOverlay = false;
+        }
+        finally
+        {
+            _applyingUacShield = false;
+        }
+    }
+
+    private bool RejectUacShieldOverlayChange(Image? replacement)
+    {
+        if (!_uacShieldLocked || !_uacShieldOwnsOverlay || _applyingUacShield)
+        {
+            if (!_applyingUacShield && _uacShieldOwnsOverlay && (replacement == null || replacement != _overlayImage.Image))
+            {
+                _uacShieldOwnsOverlay = false;
+            }
+
+            return false;
+        }
+
+        // External replace or clear is ignored while the shield owns the overlay.
+        return replacement == null || replacement != _overlayImage.Image;
     }
 
     /// <summary>Shows the uac shield.</summary>
@@ -637,78 +775,81 @@ public class ButtonValues : Storage,
     /// <param name="height">The height.</param>
     private void ShowUACShieldImage(bool showUACShield, IconSize? iconSize = null, int? width = null, int? height = null)
     {
-        if (showUACShield)
+        if (!showUACShield)
         {
-            // Check if custom size is specified
-            if (_customIconSize.HasValue)
+            ClearOwnedShieldOverlay();
+            return;
+        }
+
+        // Check if custom size is specified
+        if (_customIconSize.HasValue)
+        {
+            var customSize = _customIconSize.Value;
+
+            // Use our new theme-aware icon extraction system
+            var icon = GraphicsExtensions.ExtractIconFromImageres(
+                (int)ImageresIconID.Shield,
+                GetIconSizeFromSize(customSize),
+                _iconSelectionStrategy
+            );
+
+            if (icon != null)
             {
-                var customSize = _customIconSize.Value;
-
-                // Use our new theme-aware icon extraction system
-                var icon = GraphicsExtensions.ExtractIconFromImageres(
-                    (int)ImageresIconID.Shield,
-                    GetIconSizeFromSize(customSize),
-                    _iconSelectionStrategy
-                );
-
-                if (icon != null)
-                {
-                    AssignUacShieldImage(new Bitmap(icon.ToBitmap(), customSize));
-                    icon.Dispose();
-                }
-                else
-                {
-                    // Fallback to scaled version
-                    Image shieldFallback = GetOSSpecificShieldIcon();
-                    AssignUacShieldImage(GraphicsExtensions.ScaleImage(shieldFallback, customSize.Width, customSize.Height));
-                }
-            }
-            else if (width.HasValue && height.HasValue)
-            {
-                // Custom width/height specified
-                var customSize = new Size(width.Value, height.Value);
-
-                // Use our new theme-aware icon extraction system
-                var icon = GraphicsExtensions.ExtractIconFromImageres(
-                    (int)ImageresIconID.Shield,
-                    GetIconSizeFromSize(customSize),
-                    _iconSelectionStrategy
-                );
-
-                if (icon != null)
-                {
-                    AssignUacShieldImage(new Bitmap(icon.ToBitmap(), customSize));
-                    icon.Dispose();
-                }
-                else
-                {
-                    // Fallback to scaled version
-                    Image shieldFallback = GetOSSpecificShieldIcon();
-                    AssignUacShieldImage(GraphicsExtensions.ScaleImage(shieldFallback, width.Value, height.Value));
-                }
+                AssignUacShieldImage(new Bitmap(icon.ToBitmap(), customSize));
+                icon.Dispose();
             }
             else
             {
-                // Use predefined sizes with theme-aware selection
-                var icon = GraphicsExtensions.ExtractIconFromImageres(
-                    (int)ImageresIconID.Shield,
-                    iconSize ?? IconSize.ExtraSmall,
-                    _iconSelectionStrategy
-                );
+                // Fallback to scaled version
+                Image shieldFallback = GetOSSpecificShieldIcon();
+                AssignUacShieldImage(GraphicsExtensions.ScaleImage(shieldFallback, customSize.Width, customSize.Height));
+            }
+        }
+        else if (width.HasValue && height.HasValue)
+        {
+            // Custom width/height specified
+            var customSize = new Size(width.Value, height.Value);
 
-                if (icon != null)
-                {
-                    var targetSize = GetSizeFromIconSize(iconSize ?? IconSize.ExtraSmall);
-                    AssignUacShieldImage(new Bitmap(icon.ToBitmap(), targetSize));
-                    icon.Dispose();
-                }
-                else
-                {
-                    // Fallback to old method for backward compatibility
-                    Image shield = GetOSSpecificShieldIcon();
-                    var targetSize = GetSizeFromIconSize(iconSize ?? IconSize.ExtraSmall);
-                    AssignUacShieldImage(GraphicsExtensions.ScaleImage(shield, targetSize));
-                }
+            // Use our new theme-aware icon extraction system
+            var icon = GraphicsExtensions.ExtractIconFromImageres(
+                (int)ImageresIconID.Shield,
+                GetIconSizeFromSize(customSize),
+                _iconSelectionStrategy
+            );
+
+            if (icon != null)
+            {
+                AssignUacShieldImage(new Bitmap(icon.ToBitmap(), customSize));
+                icon.Dispose();
+            }
+            else
+            {
+                // Fallback to scaled version
+                Image shieldFallback = GetOSSpecificShieldIcon();
+                AssignUacShieldImage(GraphicsExtensions.ScaleImage(shieldFallback, width.Value, height.Value));
+            }
+        }
+        else
+        {
+            // Use predefined sizes with theme-aware selection
+            var icon = GraphicsExtensions.ExtractIconFromImageres(
+                (int)ImageresIconID.Shield,
+                iconSize ?? IconSize.ExtraSmall,
+                _iconSelectionStrategy
+            );
+
+            if (icon != null)
+            {
+                var targetSize = GetSizeFromIconSize(iconSize ?? IconSize.ExtraSmall);
+                AssignUacShieldImage(new Bitmap(icon.ToBitmap(), targetSize));
+                icon.Dispose();
+            }
+            else
+            {
+                // Fallback to old method for backward compatibility
+                Image shield = GetOSSpecificShieldIcon();
+                var targetSize = GetSizeFromIconSize(iconSize ?? IconSize.ExtraSmall);
+                AssignUacShieldImage(GraphicsExtensions.ScaleImage(shield, targetSize));
             }
         }
     }

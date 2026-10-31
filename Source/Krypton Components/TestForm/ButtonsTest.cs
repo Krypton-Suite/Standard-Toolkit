@@ -23,6 +23,9 @@ public partial class ButtonsTest : KryptonForm
             MinimumWidth = 200,
             Value = 42
         });
+
+        // Content image so ElevatedClick draws the shield as a bottom-right overlay.
+        kbtnElevatedClick.Values.Image = SystemIcons.Application.ToBitmap();
     }
 
     private void kcbtnDropDown_SelectedColorChanged(object sender, ColorEventArgs e)
@@ -95,7 +98,8 @@ public partial class ButtonsTest : KryptonForm
         kbtnElevatedClick.Values.ResetImage();
 
         bool shieldStillShown = kbtnElevatedClick.Values.UseAsUACElevationButton
-                                && kbtnElevatedClick.Values.Image != null;
+                                && (kbtnElevatedClick.Values.Image != null
+                                    || kbtnElevatedClick.Values.OverlayImage.Image != null);
         AppendElevatedLog(shieldStillShown
             ? "Hide ignored: shield still shown."
             : "Hide changed the shield.");

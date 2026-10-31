@@ -46,7 +46,7 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
-- Implemented [#4648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4648), `KryptonButton.ElevatedClick` runs before `Click` and starts `ElevatedProcessPath` with the RunAs verb when the process is not already an administrator. While a handler is attached, the UAC shield stays visible and cannot be turned off or replaced. Dismissing the UAC prompt raises neither event.
+- Implemented [#4648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4648), `KryptonButton.ElevatedClick` runs before `Click` and starts `ElevatedProcessPath` with the RunAs verb when the process is not already an administrator. While a handler is attached, the UAC shield stays visible. A content image keeps the shield as a bottom-right overlay; with no image the shield is the button image. Dismissing the UAC prompt raises neither event.
 - Resolved [#4649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4649), Fix `TestForm` application
   - Restored missing demos and test forms to the `TestForm` application. The `TestForm` project now builds and runs correctly, showcasing the various features and controls of the Krypton Toolkit.
 - Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.
