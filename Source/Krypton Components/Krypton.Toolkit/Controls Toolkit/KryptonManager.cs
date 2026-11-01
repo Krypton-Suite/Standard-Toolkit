@@ -268,6 +268,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeGlobalScrollbarCornerStyle() ||
                                ShouldSerializeGlobalDropDownArrowRenderMode() ||
                                ShouldSerializeGlobalDropDownArrowGlyphStyle() ||
+                               ShouldSerializeSnapLayout() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
                                ShouldSerializePaletteSpecificValues() ||
@@ -290,6 +291,7 @@ public sealed class KryptonManager : Component
         ResetGlobalScrollbarCornerStyle();
         ResetGlobalDropDownArrowRenderMode();
         ResetGlobalDropDownArrowGlyphStyle();
+        ResetSnapLayout();
         ResetBaseFont();
         ResetGlobalPaletteMode();
         ResetPaletteSpecificValues();
@@ -488,6 +490,23 @@ public sealed class KryptonManager : Component
     }
     private bool ShouldSerializeGlobalDropDownArrowGlyphStyle() => GlobalDropDownArrowGlyphStyle != DropDownArrowGlyphStyle.Bevel;
     private void ResetGlobalDropDownArrowGlyphStyle() => GlobalDropDownArrowGlyphStyle = DropDownArrowGlyphStyle.Bevel;
+
+    /// <summary>
+    /// Gets the toolkit snap-layout menu settings.
+    /// </summary>
+    /// <remarks>
+    /// Expand this in the property grid to set the mode, card size, preview, shadow, and custom cards.
+    /// The same object as <see cref="SnapLayoutValues"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Toolkit snap-layout menu: mode, cards, preview, and shadow.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public SnapLayoutValues SnapLayout => SnapLayoutValues;
+
+    private bool ShouldSerializeSnapLayout() => !SnapLayout.IsDefault;
+
+    private void ResetSnapLayout() => SnapLayout.Reset();
 
     /// <summary>
     /// Gets or sets a value indicating if KryptonForm instances are allowed to UseThemeFormChromeBorderWidth.
@@ -953,6 +972,12 @@ public sealed class KryptonManager : Component
         get => _globalDialogButtonColors;
         set => _globalDialogButtonColors = value;
     }
+
+    /// <summary>
+    /// Gets the toolkit snap-layout menu settings.
+    /// </summary>
+    /// <remarks>The same object as the <see cref="SnapLayout"/> property on a <see cref="KryptonManager"/> component.</remarks>
+    public static SnapLayoutValues SnapLayoutValues { get; } = new SnapLayoutValues();
 
     /// <summary>Gets the touchscreen support settings.</summary>
     /// <value>The touchscreen support settings.</value>

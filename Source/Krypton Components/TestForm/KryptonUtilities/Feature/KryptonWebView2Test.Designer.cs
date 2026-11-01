@@ -12,9 +12,9 @@
 
 namespace TestForm
 {
-#if WEBVIEW2_AVAILABLE
     partial class KryptonWebView2Test
     {
+#if WEBVIEW2_AVAILABLE
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -193,6 +193,6 @@ namespace TestForm
         private Krypton.Toolkit.KryptonButton kbtnNavigate;
         private Krypton.Toolkit.KryptonTextBox kryptonTextBox1;
         private Krypton.Toolkit.KryptonLabel kryptonLabel2;
-    }
 #endif
+    }
 }
