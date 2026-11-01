@@ -26,6 +26,8 @@ public class CommandLinkTextValues : CaptionValues
     private PaletteRelativeAlign _descriptionTextVAlignment;
     private PaletteRelativeAlign _headingTextHAlignment;
     private PaletteRelativeAlign _headingTextVAlignment;
+    private Image? _elevationOverlay;
+    private bool _elevationOverlayPlaced;
     #endregion
 
     #region Identity
@@ -86,6 +88,14 @@ public class CommandLinkTextValues : CaptionValues
     }
     public bool ShouldSerializeUseDefaultImage() => !UseDefaultImage;
     public void ResetUseDefaultImage() => UseDefaultImage = true;
+
+    /// <summary>
+    /// Notifies the owning button when the command-link image changes so the elevation shield can move.
+    /// </summary>
+    internal Action? ElevationImageChanged { get; set; }
+
+    /// <inheritdoc />
+    protected override void OnImageChanged() => ElevationImageChanged?.Invoke();
 
     /// <summary>
     /// Applies the default command-link arrow, mirrored when <paramref name="rightToLeft"/> is true.
@@ -261,5 +271,48 @@ public class CommandLinkTextValues : CaptionValues
     }
     public bool ShouldSerializeHeadingTextVAlignment() => HeadingTextVAlignment != PaletteRelativeAlign.Center;
     public void ResetHeadingTextVAlignment() => HeadingTextVAlignment = PaletteRelativeAlign.Center;
+
+    /// <inheritdoc />
+    public override Image? GetOverlayImage(PaletteState state) =>
+        _elevationOverlayPlaced ? _elevationOverlay : base.GetOverlayImage(state);
+
+    /// <inheritdoc />
+    public override OverlayImagePosition GetOverlayImagePosition(PaletteState state) =>
+        _elevationOverlayPlaced ? OverlayImagePosition.BottomRight : base.GetOverlayImagePosition(state);
+
+    /// <inheritdoc />
+    public override OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) =>
+        _elevationOverlayPlaced ? OverlayImageScaleMode.Percentage : base.GetOverlayImageScaleMode(state);
+
+    /// <summary>
+    /// Draws a half-size UAC shield on the bottom-right of the command-link image.
+    /// </summary>
+    /// <remarks>
+    /// The existing image stays. With no image the overlay does not paint.
+    /// </remarks>
+    internal void ShowElevationShieldOverlay()
+    {
+        _elevationOverlay?.Dispose();
+        // The renderer draws this at half the 32px arrow, so supply that size directly.
+        _elevationOverlay = CommandLinkImageValues.CreateShieldBitmap(16);
+        _elevationOverlayPlaced = _elevationOverlay != null;
+        PerformNeedPaint(true);
+    }
+
+    /// <summary>
+    /// Removes the elevation shield overlay when this type placed it.
+    /// </summary>
+    internal void ClearElevationShieldOverlay()
+    {
+        if (!_elevationOverlayPlaced)
+        {
+            return;
+        }
+
+        _elevationOverlay?.Dispose();
+        _elevationOverlay = null;
+        _elevationOverlayPlaced = false;
+        PerformNeedPaint(true);
+    }
     #endregion
 }

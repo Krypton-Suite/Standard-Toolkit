@@ -44,6 +44,7 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     #region Static Fields
 
     private const int BCM_SETSHIELD = 0x0000160C;
+    private const string RunAsVerb = "runas";
 
     #endregion
 
@@ -62,6 +63,8 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     private readonly PaletteTripleOverride _overrideTracking;
     private readonly ViewDrawCommandLinkButton _drawCommandLinkButton;
     private VisualOrientation _orientation;
+    private EventHandler? _elevatedClick;
+    private string _elevatedProcessPath = string.Empty;
 
     #endregion
 
@@ -73,6 +76,79 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     [Category("Property Changed")]
     [Description("Occurs when the value of the KryptonCommand property changes.")]
     public event EventHandler KryptonCommandChanged;
+
+    /// <summary>
+    /// Occurs when the button is clicked and the action is expected to require elevation.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// While at least one handler is attached, one UAC shield is shown and cannot be turned off.
+    /// A command-link image keeps that shield on its bottom-right. The left-hand slot stays empty.
+    /// Clearing the image moves the shield into the left-hand slot, because an overlay is not painted without an image.
+    /// </para>
+    /// <para>
+    /// When the process is not already an administrator, the button starts <see cref="ElevatedProcessPath"/>
+    /// with <see cref="ProcessStartInfo.UseShellExecute"/> and the RunAs verb (<c>runas</c>).
+    /// An empty path uses <see cref="Application.ExecutablePath"/>.
+    /// The handler does not need to start that process.
+    /// </para>
+    /// <para>
+    /// <see cref="Control.Click"/> still follows this event, including dialog result and <see cref="KryptonCommand"/>,
+    /// when the process is already elevated or the RunAs launch succeeds.
+    /// Dismissing the UAC prompt raises neither event.
+    /// Removing the last handler clears the lock. The shield remains until
+    /// <see cref="CommandLinkImageValues.DisplayUACShield"/> is set to <c>false</c>.
+    /// </para>
+    /// </remarks>
+    [Category("Action")]
+    [Description("Occurs when the button is clicked. While a handler is attached, the UAC shield stays on the image, or in the left slot when there is no image.")]
+    public event EventHandler? ElevatedClick
+    {
+        add
+        {
+            if (value == null)
+            {
+                return;
+            }
+
+            bool firstSubscriber = _elevatedClick == null;
+            _elevatedClick += value;
+            if (firstSubscriber)
+            {
+                PlaceElevationShield();
+            }
+        }
+        remove
+        {
+            _elevatedClick -= value;
+            if (_elevatedClick == null)
+            {
+                UACShieldIcon.UnlockUacShieldForElevation();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the executable started with the RunAs verb when <see cref="ElevatedClick"/> runs
+    /// and the process is not already an administrator.
+    /// </summary>
+    /// <value>The executable path. An empty string uses <see cref="Application.ExecutablePath"/>.</value>
+    /// <remarks>
+    /// <see cref="ProcessStartInfo.UseShellExecute"/> is set so the <c>runas</c> verb is honored on modern target frameworks.
+    /// </remarks>
+    [Category("Behavior")]
+    [DefaultValue("")]
+    [Description("Executable started with RunAs when ElevatedClick runs and the process is not already an administrator. Empty uses the current application.")]
+    public string ElevatedProcessPath
+    {
+        get => _elevatedProcessPath;
+
+        set => _elevatedProcessPath = value ?? string.Empty;
+    }
+
+    private bool ShouldSerializeElevatedProcessPath() => !string.IsNullOrEmpty(_elevatedProcessPath);
+
+    private void ResetElevatedProcessPath() => _elevatedProcessPath = string.Empty;
 
     #endregion
 
@@ -96,6 +172,9 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
         // Create content storage
         UACShieldIcon = new CommandLinkImageValues(NeedPaintDelegate);
         CommandLinkTextValues = new CommandLinkTextValues(NeedPaintDelegate, GetDpiFactor);
+        UACShieldIcon.UacShieldHidden = CommandLinkTextValues.ClearElevationShieldOverlay;
+        UACShieldIcon.UacShieldShown = CommandLinkTextValues.ClearElevationShieldOverlay;
+        CommandLinkTextValues.ElevationImageChanged = PlaceElevationShield;
 
         // Create the palette storage
         StateCommon = new PaletteTripleRedirect(Redirector, PaletteBackStyle.ButtonCommand, PaletteBorderStyle.ButtonCommand, PaletteContentStyle.ButtonCommand, NeedPaintDelegate);
@@ -580,11 +659,31 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     }
 
     /// <summary>
-    /// Raises the Click event.
+    /// Raises the <see cref="ElevatedClick"/> event.
     /// </summary>
-    /// <param name="e">An EventArgs that contains the event data.</param>
+    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
+    protected virtual void OnElevatedClick(EventArgs e) => _elevatedClick?.Invoke(this, e);
+
+    /// <summary>
+    /// Starts the RunAs process when needed, then raises <see cref="ElevatedClick"/> and the standard <see cref="Control.Click"/> path.
+    /// </summary>
+    /// <param name="e">An <see cref="EventArgs"/> that contains the event data.</param>
+    /// <remarks>
+    /// A <see cref="Win32Exception"/> from the RunAs launch, including the user dismissing the UAC prompt (native error 1223),
+    /// skips both events.
+    /// </remarks>
     protected override void OnClick(EventArgs e)
     {
+        if (_elevatedClick != null)
+        {
+            if (!TryStartRunAsProcess())
+            {
+                return;
+            }
+
+            OnElevatedClick(e);
+        }
+
         // Find the form this button is on
         Form? owner = FindForm();
 
@@ -732,6 +831,73 @@ public class KryptonCommandLinkButton : VisualSimpleBase, IButtonControl
     #endregion
 
     #region Implementation
+
+    /// <summary>
+    /// Shows the elevation shield on the command-link image, or in the left slot when that image is absent.
+    /// </summary>
+    private void PlaceElevationShield()
+    {
+        if (_elevatedClick == null)
+        {
+            return;
+        }
+
+        bool hasImage = CommandLinkTextValues.Image != null;
+        UACShieldIcon.ApplyElevationPlacement(hasImage);
+        if (hasImage)
+        {
+            CommandLinkTextValues.ShowElevationShieldOverlay();
+            return;
+        }
+
+        CommandLinkTextValues.ClearElevationShieldOverlay();
+    }
+
+    /// <summary>
+    /// Starts <see cref="ElevatedProcessPath"/> with the RunAs verb when the process is not already an administrator.
+    /// </summary>
+    /// <returns>
+    /// <c>true</c> when <see cref="ElevatedClick"/> and <see cref="Control.Click"/> should run;
+    /// <c>false</c> when the RunAs launch failed or the user dismissed the prompt.
+    /// </returns>
+    private bool TryStartRunAsProcess()
+    {
+        if (IsCurrentProcessAdministrator())
+        {
+            return true;
+        }
+
+        string path = string.IsNullOrWhiteSpace(_elevatedProcessPath)
+            ? Application.ExecutablePath
+            : _elevatedProcessPath;
+
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = path,
+            UseShellExecute = true,
+            Verb = RunAsVerb
+        };
+
+        try
+        {
+            Process.Start(startInfo);
+            return true;
+        }
+        catch (Win32Exception)
+        {
+            // Includes the user dismissing the UAC prompt (native error 1223).
+            return false;
+        }
+    }
+
+    private static bool IsCurrentProcessAdministrator()
+    {
+        using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
+        {
+            var principal = new WindowsPrincipal(identity);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+    }
 
     private void OnButtonTextChanged(object sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
 
