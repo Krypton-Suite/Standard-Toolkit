@@ -436,7 +436,7 @@ Get-PersonInfo -Name ""John"" -Age 30"
         };
 
         // Load sample code if available
-        if (_sampleCode.ContainsKey(selected))
+        if (selected != null && _sampleCode.ContainsKey(selected))
         {
             kceEditor.Text = _sampleCode[selected];
         }
