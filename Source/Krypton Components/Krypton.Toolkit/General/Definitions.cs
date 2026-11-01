@@ -5041,7 +5041,10 @@ public enum KryptonThemeChromeKind
     MacOS,
 
     /// <summary>RetroUI chrome.</summary>
-    Retro
+    Retro,
+
+    /// <summary>Windows XP visual-style chrome (Luna, Royale, Zune, Embedded).</summary>
+    WindowsXP
 }
 
 #endregion
