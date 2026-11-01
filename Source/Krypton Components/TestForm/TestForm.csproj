@@ -208,6 +208,12 @@
     <Compile Update="KryptonToolkit\Feature\TextBoxInputModeDemo.Designer.cs">
       <DependentUpon>TextBoxInputModeDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\SnapLayoutOverlayDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\SnapLayoutOverlayDemo.Designer.cs">
+      <DependentUpon>SnapLayoutOverlayDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\WinFormsDesignerSdkDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -228,6 +234,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\TextBoxInputModeDemo.resx">
       <DependentUpon>TextBoxInputModeDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\SnapLayoutOverlayDemo.resx">
+      <DependentUpon>SnapLayoutOverlayDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\ToolkitRtlGalleryDemo.resx">
       <DependentUpon>ToolkitRtlGalleryDemo.cs</DependentUpon>

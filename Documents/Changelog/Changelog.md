@@ -46,6 +46,20 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4579](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4579), `KryptonForm` can show a palette snap-layout menu when the pointer rests on the maximize button.
+  - `KryptonManager.SnapLayoutValues.Mode` chooses the menu for every form that inherits. `System` (the default) keeps the Windows 11 menu. `Toolkit` draws the palette menu and snaps that form. `None` is maximize and restore only. Drop a `KryptonManager` and expand `SnapLayout` to edit the same settings.
+  - `KryptonForm.SnapLayouts` defaults to `Inherit`. Set it on one form to override the manager.
+  - The toolkit menu snaps this form only. Win+Z still opens the shell menu.
+  - The toolkit menu uses the `PanelAlternate` background. `SnapLayout.CardSize` (`Empty` by default) sizes and wraps the cards to the work area. `SnapLayout.CornerRounding` (default 8) sets the corner radius; zero is square. Rounded corners no longer leave a dark fringe. Each zone shows this form's icon, or another taskbar application's icon, when `SnapLayout.ShowIcon` is true (the default).
+  - Hovering a zone previews where this form will snap. `SnapLayout.ShowPreview` (default true) turns that preview off. `SnapLayout.PreviewOpacity` (default 0.45) sets how transparent it is. The fill and border use the palette highlight colours. `SnapLayout.ShowPreviewGhost` (default false) stretches a capture of this window into the zone instead of the colour fill and icon.
+  - The toolkit menu draws a drop shadow. `SnapLayout.ShowShadow` (default true) turns it off. `ShadowColor` (empty uses black), `ShadowOpacity` (default 0.18), `ShadowOffset` (default 3), and `ShadowBlur` (default 0) set the colour, strength, drop, and halo.
+  - Implemented, Custom snap-layout cards can be added to the palette maximize menu.
+    - `KryptonManager.SnapLayoutValues.CustomLayouts` accepts cards made of work-area fractions. Builtin cards stay in the menu unless `IncludeBuiltinLayouts` is set to false. Cards you add are labelled Custom.
+    - On a `KryptonManager`, expand `SnapLayout` and edit `CustomLayouts`. Each card has a `Zones` collection of work-area fractions. `IncludeBuiltinLayouts` keeps the standard cards.
+    - `ExportCustomLayouts` / `ImportCustomLayouts` and `SaveCustomLayoutsToFile` / `LoadCustomLayoutsFromFile` persist those cards and `IncludeBuiltinLayouts` as versioned XML (for app settings or a file).
+  - Implemented, Own-app Snap Groups and Assist for the toolkit maximize menu.
+    - When two or more live `KryptonForm` windows in this process share a card, the menu shows a `Group | …` caption and restores every member when you click a group zone. `SnapLayout.RememberGroups` (default true) turns that off.
+    - After this form snaps into one zone of a multi-zone card, Assist offers other open `KryptonForm` windows for the remaining zones. `SnapLayout.ShowAssist` (default true) turns that off. Other applications are never moved.
 - Resolved [#4649](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4649), Fix `TestForm` application
   - Restored missing demos and test forms to the `TestForm` application. The `TestForm` project now builds and runs correctly, showcasing the various features and controls of the Krypton Toolkit.
 - Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.
