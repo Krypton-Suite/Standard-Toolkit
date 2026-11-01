@@ -46,6 +46,7 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4648), `KryptonButton.ElevatedClick` runs before `Click` and starts `ElevatedProcessPath` with the RunAs verb when the process is not already an administrator. While a handler is attached, the UAC shield stays visible. A content image keeps the shield as a bottom-right overlay; with no image the shield is the button image. Dismissing the UAC prompt raises neither event.
 - Implemented [#4579](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4579), `KryptonForm` can show a palette snap-layout menu when the pointer rests on the maximize button.
   - `KryptonManager.SnapLayoutValues.Mode` chooses the menu for every form that inherits. `System` (the default) keeps the Windows 11 menu. `Toolkit` draws the palette menu and snaps that form. `None` is maximize and restore only. Drop a `KryptonManager` and expand `SnapLayout` to edit the same settings.
   - `KryptonForm.SnapLayouts` defaults to `Inherit`. Set it on one form to override the manager.
