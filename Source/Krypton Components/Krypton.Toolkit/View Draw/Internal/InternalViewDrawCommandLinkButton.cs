@@ -104,7 +104,11 @@ public class InternalViewDrawCommandLinkButton : ViewComposite
         AllowUncheck = true;
 
         // Create the drop-down view
-        _drawImageContent = new ViewDrawContent(_paletteNormal.PaletteContent, imageValues, orientation);
+        _drawImageContent = new ViewDrawContent(_paletteNormal.PaletteContent, imageValues, orientation)
+        {
+            // The text content draws the button focus rectangle. This view would outline only the shield.
+            AllowFocusRectangle = false
+        };
         _drawImage = new ViewLayoutCenter(paletteMetric, PaletteMetricPadding.BarPaddingOnly,
             orientation, _drawImageContent);
 
