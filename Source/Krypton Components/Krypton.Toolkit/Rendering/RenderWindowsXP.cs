@@ -249,6 +249,19 @@ public class RenderWindowsXPSprite : RenderWindowsXP
     }
 
     /// <inheritdoc />
+    public override bool EvalTransparentPaint(IPaletteBack paletteBack, PaletteState state)
+    {
+        // The push-button sheet is rounded. The square padding is not drawn, so the parent must show in the corners.
+        if (WindowsXPLunaArt.TryGet(paletteBack.GetBackImage(state), out WindowsXPLunaSprite sprite) &&
+            sprite.Part == WindowsXPLunaPart.Button)
+        {
+            return true;
+        }
+
+        return base.EvalTransparentPaint(paletteBack, state);
+    }
+
+    /// <inheritdoc />
     public override void DrawDropDownButton([DisallowNull] RenderContext context,
         Rectangle displayRect,
         [DisallowNull] IPaletteContent palette,

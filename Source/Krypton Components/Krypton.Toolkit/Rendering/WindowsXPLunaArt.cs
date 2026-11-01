@@ -7,31 +7,6 @@
 
 namespace Krypton.Toolkit;
 
-/// <summary>Luna sprite sheet used by a Krypton background or border.</summary>
-internal enum WindowsXPLunaPart
-{
-    Button,
-    ComboButton,
-    ComboGlyph,
-    Caption,
-    FrameLeft,
-    FrameRight,
-    FrameBottom,
-    CaptionButton,
-    CloseButton,
-    ProgressChunk,
-    ProgressChunkVertical,
-    ProgressTrack,
-    ProgressTrackVertical,
-    Checkbox,
-    Radio,
-    MinimizeGlyph,
-    MaximizeGlyph,
-    RestoreGlyph,
-    CloseGlyph,
-    HelpGlyph
-}
-
 /// <summary>
 /// Cached Luna.msstyles sheets and the 9-slice / chroma-key drawing used to paint them.
 /// Margins are measured from the Blue sheets (Olive and Silver use the same layout).
@@ -39,7 +14,10 @@ internal enum WindowsXPLunaPart
 internal static class WindowsXPLunaArt
 {
     private static readonly Color MagentaKey = Color.FromArgb(255, 0, 255);
-    private static readonly Padding ButtonMargins = new Padding(3);
+    // Four pixels keeps the rounded corner, and the hot or default accent line, out of the stretched middle.
+    private static readonly Padding ButtonMargins = new Padding(4);
+    private const int ButtonMatteDistance = 32 * 32;
+    private static readonly Color ButtonMatte = Color.FromArgb(255, 1, 2, 3);
     // The rounded caption corner is about six pixels. A smaller inset stretches that curve across the title bar.
     private static readonly Padding CaptionMargins = new Padding(6, 10, 6, 8);
     private static readonly Padding CaptionButtonMargins = new Padding(5);
@@ -68,6 +46,7 @@ internal static class WindowsXPLunaArt
     private static readonly WindowsXPLunaPart[] Parts = (WindowsXPLunaPart[])Enum.GetValues(typeof(WindowsXPLunaPart));
 
     private static Bitmap?[,] _sheets;
+    private static Bitmap[]? _defaultButtons;
     private static int _frameThickness = 5;
 
     /// <summary>Gets the Luna frame thickness in pixels (the side-frame bitmap width).</summary>
@@ -195,6 +174,17 @@ internal static class WindowsXPLunaArt
     {
         EnsureSheets();
         return _sheets[(int)theme, (int)part]!;
+    }
+
+    /// <summary>The default-button row (orange or theme accent border), already punched to its rounded shape.</summary>
+    internal static Bitmap DefaultButton(WindowsXPLunaScheme scheme) =>
+        DefaultButton((WindowsXPSpriteTheme)(int)scheme);
+
+    /// <summary>The default-button row (orange or theme accent border), already punched to its rounded shape.</summary>
+    internal static Bitmap DefaultButton(WindowsXPSpriteTheme theme)
+    {
+        EnsureSheets();
+        return _defaultButtons![(int)theme];
     }
 
     internal static bool TryGet(Image? image, out WindowsXPLunaSprite sprite)
@@ -519,8 +509,9 @@ internal static class WindowsXPLunaArt
         {
             row = 1;
         }
-        else if (states >= 5 && state == PaletteState.CheckedNormal)
+        else if (states >= 5 && (state == PaletteState.CheckedNormal || state == PaletteState.NormalDefaultOverride))
         {
+            // Row 4 is the default-button face (orange on Luna Blue, the theme accent on the others).
             row = 4;
         }
         else
@@ -696,10 +687,188 @@ internal static class WindowsXPLunaArt
             return;
         }
 
+        // The control buffer keeps the RGB of a transparent pixel, so the matte is a sentinel
+        // that is never drawn. The parent colour stays in the rounded corner.
+        if (RectHasMatte(bitmap, sourceX, sourceY, sourceWidth, sourceHeight))
+        {
+            DrawOpaqueRuns(graphics, bitmap, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+            return;
+        }
+
         graphics.DrawImage(bitmap,
             new Rectangle(destX, destY, destWidth, destHeight),
             sourceX, sourceY, sourceWidth, sourceHeight,
             GraphicsUnit.Pixel, attributes);
+    }
+
+    private static bool IsButtonMatte(Color color) => color.R == 1 && color.G == 2 && color.B == 3;
+
+    private static bool RectHasMatte(Bitmap bitmap, int x, int y, int width, int height)
+    {
+        for (int sy = 0; sy < height; sy++)
+        {
+            for (int sx = 0; sx < width; sx++)
+            {
+                if (IsButtonMatte(bitmap.GetPixel(x + sx, y + sy)))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static void DrawOpaqueRuns(Graphics graphics, Bitmap bitmap,
+        int sourceX, int sourceY, int sourceWidth, int sourceHeight,
+        int destX, int destY, int destWidth, int destHeight)
+    {
+        using (var brush = new SolidBrush(Color.Black))
+        {
+            for (int sy = 0; sy < sourceHeight; sy++)
+            {
+                int rowTop = MapTexel(sy, sourceHeight, destHeight, destY);
+                int rowBottom = MapTexel(sy + 1, sourceHeight, destHeight, destY);
+                if (rowBottom <= rowTop)
+                {
+                    continue;
+                }
+
+                int runStart = -1;
+                Color runColor = Color.Empty;
+                for (int sx = 0; sx <= sourceWidth; sx++)
+                {
+                    Color color = sx < sourceWidth
+                        ? bitmap.GetPixel(sourceX + sx, sourceY + sy)
+                        : Color.Transparent;
+                    bool opaque = !IsButtonMatte(color);
+                    bool sameRun = opaque && runStart >= 0 && color.ToArgb() == runColor.ToArgb();
+                    if (sameRun)
+                    {
+                        continue;
+                    }
+
+                    if (runStart >= 0)
+                    {
+                        int runLeft = MapTexel(runStart, sourceWidth, destWidth, destX);
+                        int runRight = MapTexel(sx, sourceWidth, destWidth, destX);
+                        if (runRight > runLeft)
+                        {
+                            brush.Color = Color.FromArgb(255, runColor);
+                            graphics.FillRectangle(brush, runLeft, rowTop, runRight - runLeft, rowBottom - rowTop);
+                        }
+                    }
+
+                    runStart = opaque ? sx : -1;
+                    runColor = color;
+                }
+            }
+        }
+    }
+
+    private static int MapTexel(int index, int source, int dest, int origin) =>
+        index >= source ? origin + dest : origin + (int)((index * (long)dest) / source);
+
+    // The sheet's outer pixels are the cell background, not the button. They form a square
+    // around a corner that is only a pixel or two. Clearing the edge-connected matte leaves the rounded face.
+    private static Bitmap PunchButtonMatte(Bitmap source)
+    {
+        int width = source.Width;
+        int height = source.Height;
+        int states = height % 5 == 0 ? 5 : 1;
+        int rowHeight = height / states;
+        var prepared = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+        for (int state = 0; state < states; state++)
+        {
+            int top = state * rowHeight;
+            var corners = new[]
+            {
+                source.GetPixel(0, top),
+                source.GetPixel(width - 1, top),
+                source.GetPixel(0, top + rowHeight - 1),
+                source.GetPixel(width - 1, top + rowHeight - 1)
+            };
+            var matte = new bool[width, rowHeight];
+            var queue = new Queue<Point>();
+            for (int x = 0; x < width; x++)
+            {
+                queue.Enqueue(new Point(x, 0));
+                queue.Enqueue(new Point(x, rowHeight - 1));
+            }
+
+            for (int y = 0; y < rowHeight; y++)
+            {
+                queue.Enqueue(new Point(0, y));
+                queue.Enqueue(new Point(width - 1, y));
+            }
+
+            while (queue.Count > 0)
+            {
+                Point point = queue.Dequeue();
+                if (point.X < 0 || point.Y < 0 || point.X >= width || point.Y >= rowHeight || matte[point.X, point.Y])
+                {
+                    continue;
+                }
+
+                Color color = source.GetPixel(point.X, top + point.Y);
+                if (!NearButtonCorner(color, corners))
+                {
+                    continue;
+                }
+
+                matte[point.X, point.Y] = true;
+                queue.Enqueue(new Point(point.X - 1, point.Y));
+                queue.Enqueue(new Point(point.X + 1, point.Y));
+                queue.Enqueue(new Point(point.X, point.Y - 1));
+                queue.Enqueue(new Point(point.X, point.Y + 1));
+            }
+
+            for (int y = 0; y < rowHeight; y++)
+            {
+                for (int x = 0; x < width; x++)
+                {
+                    Color color = source.GetPixel(x, top + y);
+                    prepared.SetPixel(x, top + y, matte[x, y] ? ButtonMatte : Color.FromArgb(255, color));
+                }
+            }
+        }
+
+        return prepared;
+    }
+
+    private static bool NearButtonCorner(Color color, Color[] corners)
+    {
+        for (int i = 0; i < corners.Length; i++)
+        {
+            int dr = color.R - corners[i].R;
+            int dg = color.G - corners[i].G;
+            int db = color.B - corners[i].B;
+            if ((dr * dr) + (dg * dg) + (db * db) <= ButtonMatteDistance)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static Bitmap RegisterDefaultButton(WindowsXPSpriteTheme theme, WindowsXPLunaSprite sprite)
+    {
+        Bitmap punched = sprite.Bitmap;
+        int states = Math.Max(1, sprite.States);
+        int row = states >= 5 ? 4 : 0;
+        int rowHeight = Math.Max(1, punched.Height / states);
+        var cell = new Bitmap(punched.Width, rowHeight, PixelFormat.Format32bppArgb);
+        for (int y = 0; y < rowHeight; y++)
+        {
+            for (int x = 0; x < punched.Width; x++)
+            {
+                cell.SetPixel(x, y, punched.GetPixel(x, (row * rowHeight) + y));
+            }
+        }
+
+        Sprites[cell] = new WindowsXPLunaSprite(cell, theme, WindowsXPLunaPart.Button, 1, ButtonMargins, Color.Empty);
+        return cell;
     }
 
     private static void EnsureSheets()
@@ -710,6 +879,7 @@ internal static class WindowsXPLunaArt
         }
 
         _sheets = new Bitmap[Themes.Length, Parts.Length];
+        _defaultButtons = new Bitmap[Themes.Length];
         for (int themeIndex = 0; themeIndex < Themes.Length; themeIndex++)
         {
             WindowsXPSpriteTheme theme = Themes[themeIndex];
@@ -718,7 +888,12 @@ internal static class WindowsXPLunaArt
                 WindowsXPLunaPart part = Parts[partIndex];
                 Bitmap bitmap = Load(theme, part);
                 _sheets[themeIndex, partIndex] = bitmap;
-                Sprites[bitmap] = Define(part, theme, bitmap);
+                WindowsXPLunaSprite sprite = Define(part, theme, bitmap);
+                Sprites[bitmap] = sprite;
+                if (part == WindowsXPLunaPart.Button)
+                {
+                    _defaultButtons[themeIndex] = RegisterDefaultButton(theme, sprite);
+                }
             }
         }
 
@@ -733,7 +908,8 @@ internal static class WindowsXPLunaArt
         switch (part)
         {
             case WindowsXPLunaPart.Button:
-                return new WindowsXPLunaSprite(bitmap, theme, part, Rows(bitmap, 5), ButtonMargins, Color.Empty);
+                // The cell padding is an opaque square. Punching it lets the rounded face show the parent.
+                return new WindowsXPLunaSprite(PunchButtonMatte(bitmap), theme, part, Rows(bitmap, 5), ButtonMargins, Color.Empty);
             case WindowsXPLunaPart.ComboButton:
                 return new WindowsXPLunaSprite(bitmap, theme, part, Rows(bitmap, 4), ComboMargins, Color.Empty);
             case WindowsXPLunaPart.Caption:

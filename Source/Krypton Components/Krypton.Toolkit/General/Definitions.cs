@@ -5205,3 +5205,32 @@ public enum KryptonSnapLayoutMode
 }
 
 #endregion
+
+#region Enum WindowsXPLunaPart
+
+/// <summary>Luna sprite sheet used by a Krypton background or border.</summary>
+internal enum WindowsXPLunaPart
+{
+    Button,
+    ComboButton,
+    ComboGlyph,
+    Caption,
+    FrameLeft,
+    FrameRight,
+    FrameBottom,
+    CaptionButton,
+    CloseButton,
+    ProgressChunk,
+    ProgressChunkVertical,
+    ProgressTrack,
+    ProgressTrackVertical,
+    Checkbox,
+    Radio,
+    MinimizeGlyph,
+    MaximizeGlyph,
+    RestoreGlyph,
+    CloseGlyph,
+    HelpGlyph
+}
+
+#endregion

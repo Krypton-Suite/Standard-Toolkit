@@ -228,20 +228,23 @@ public abstract class PaletteWindowsXPRoyaleBase : PaletteProfessionalSystem
     /// <inheritdoc />
     public override Image? GetBackImage(PaletteBackStyle style, PaletteState state)
     {
-        if (CommonHelper.IsOverrideState(state))
-        {
-            return base.GetBackImage(style, state);
-        }
-
         if (!TryGetSpriteTheme(out WindowsXPSpriteTheme theme))
         {
             return base.GetBackImage(style, state);
         }
 
         WindowsXPLunaPart? part = BackPart(style);
-        return part.HasValue
-            ? WindowsXPLunaArt.Sheet(theme, part.Value)
-            : base.GetBackImage(style, state);
+
+        if (!part.HasValue)
+        {
+            return base.GetBackImage(style, state);
+        }
+
+        // Focus and default are override states. Falling through here painted a flat rectangle
+        // instead of the rounded sheet. The default row is the accent border.
+        return state == PaletteState.NormalDefaultOverride && part.Value == WindowsXPLunaPart.Button
+            ? WindowsXPLunaArt.DefaultButton(theme)
+            : WindowsXPLunaArt.Sheet(theme, part.Value);
     }
 
     /// <inheritdoc />
