@@ -99,6 +99,12 @@
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.Designer.cs">
       <DependentUpon>LoadingCircleDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonUtilities\Feature\CommandLinkButtons.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\CommandLinkButtons.Designer.cs">
+      <DependentUpon>CommandLinkButtons.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.Designer.cs">
       <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>
     </Compile>
@@ -223,6 +229,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="KryptonUtilities\Feature\CommandLinkButtons.resx">
+      <DependentUpon>CommandLinkButtons.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
     </EmbeddedResource>
@@ -290,5 +299,19 @@
     <Folder Include="KryptonUtilities\Bugs\" />
     <Folder Include="KryptonWorkspace\Bugs\" />
   </ItemGroup>
+
+  <!-- Forms stay in namespace TestForm while the files live in subfolders.
+       ComponentResourceManager looks up TestForm.<FormName>. A path-derived manifest name
+       throws MissingManifestResourceException in InitializeComponent.
+       Strongly typed resources have no sibling .cs, so they keep their path-derived names. -->
+  <Target Name="UseTestFormNamespaceForSubdirectoryFormResources" BeforeTargets="CreateManifestResourceNames">
+    <ItemGroup>
+      <!-- AssignTargetPath rewrites Directory to a drive-relative path, so pair it with RootDir. -->
+      <EmbeddedResource Condition="'%(Extension)' == '.resx' and Exists('%(RootDir)%(Directory)%(Filename).cs')">
+        <ManifestResourceName>TestForm.%(Filename)</ManifestResourceName>
+        <LogicalName>TestForm.%(Filename).resources</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
 
 </Project>
