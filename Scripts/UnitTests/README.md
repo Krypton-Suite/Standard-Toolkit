@@ -1,4 +1,4 @@
-﻿# Unit Test Scripts
+# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
 plus CI assert scripts named `UnitTest-*.ps1`.

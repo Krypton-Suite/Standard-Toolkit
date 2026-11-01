@@ -33,11 +33,15 @@ public class KryptonGenericMusic
     private double[]? _musicLevels;
     private int _musicSeconds;
     private int _musicBass = -1;
+    private int _musicVerses = -1;
+    private int _musicBars = -1;
     private byte[]? _stereoWav;
     private double[]? _stereoLeft;
     private double[]? _stereoRight;
     private int _stereoSeconds;
     private int _stereoBass = -1;
+    private int _stereoVerses = -1;
+    private int _stereoBars = -1;
     private double[]? _playLeft;
     private double[]? _playRight;
     private int _musicStarted;
@@ -99,19 +103,33 @@ public class KryptonGenericMusic
     /// <param name="seconds">Length of one pass before the loop repeats.</param>
     /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
     /// <returns><see langword="true"/> when playback started.</returns>
-    public bool StartMusic(int seconds, int bass)
+    public bool StartMusic(int seconds, int bass) => StartMusic(seconds, bass, 10, 8);
+
+    /// <summary>
+    /// Play the generated loop for <paramref name="seconds"/> at the given bass amount and score size.
+    /// </summary>
+    /// <param name="seconds">Length of one pass before the loop repeats.</param>
+    /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
+    /// <param name="verses">How many verses to take from the written score. Extra verses repeat in a new key.</param>
+    /// <param name="barsPerVerse">How many bars to keep from each verse.</param>
+    /// <returns><see langword="true"/> when playback started.</returns>
+    public bool StartMusic(int seconds, int bass, int verses, int barsPerVerse)
     {
         StopMusic();
         bass = ClampBass(bass);
+        verses = ClampCount(verses, 1, 24);
+        barsPerVerse = ClampCount(barsPerVerse, 1, 32);
         try
         {
-            if (_musicWav == null || _musicLevels == null || _musicSeconds != seconds || _musicBass != bass)
+            if (_musicWav == null || _musicLevels == null || _musicSeconds != seconds || _musicBass != bass || _musicVerses != verses || _musicBars != barsPerVerse)
             {
-                BuildMusic(seconds, bass, out byte[] wav, out double[] levels);
+                BuildMusic(seconds, bass, verses, barsPerVerse, out byte[] wav, out double[] levels);
                 _musicWav = wav;
                 _musicLevels = levels;
                 _musicSeconds = seconds;
                 _musicBass = bass;
+                _musicVerses = verses;
+                _musicBars = barsPerVerse;
             }
 
             _playLeft = _musicLevels;
@@ -147,20 +165,34 @@ public class KryptonGenericMusic
     /// <param name="seconds">Length of one pass before the loop repeats.</param>
     /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
     /// <returns><see langword="true"/> when playback started.</returns>
-    public bool StartStereo(int seconds, int bass)
+    public bool StartStereo(int seconds, int bass) => StartStereo(seconds, bass, 10, 8);
+
+    /// <summary>
+    /// Play the stereo file for <paramref name="seconds"/> at the given bass amount and score size.
+    /// </summary>
+    /// <param name="seconds">Length of one pass before the loop repeats.</param>
+    /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
+    /// <param name="verses">How many verses to take from the written score. Extra verses repeat in a new key.</param>
+    /// <param name="barsPerVerse">How many bars to keep from each verse.</param>
+    /// <returns><see langword="true"/> when playback started.</returns>
+    public bool StartStereo(int seconds, int bass, int verses, int barsPerVerse)
     {
         StopMusic();
         bass = ClampBass(bass);
+        verses = ClampCount(verses, 1, 24);
+        barsPerVerse = ClampCount(barsPerVerse, 1, 32);
         try
         {
-            if (_stereoWav == null || _stereoLeft == null || _stereoRight == null || _stereoSeconds != seconds || _stereoBass != bass)
+            if (_stereoWav == null || _stereoLeft == null || _stereoRight == null || _stereoSeconds != seconds || _stereoBass != bass || _stereoVerses != verses || _stereoBars != barsPerVerse)
             {
-                BuildStereo(seconds, bass, out byte[] wav, out double[] left, out double[] right);
+                BuildStereo(seconds, bass, verses, barsPerVerse, out byte[] wav, out double[] left, out double[] right);
                 _stereoWav = wav;
                 _stereoLeft = left;
                 _stereoRight = right;
                 _stereoSeconds = seconds;
                 _stereoBass = bass;
+                _stereoVerses = verses;
+                _stereoBars = barsPerVerse;
             }
 
             _playLeft = _stereoLeft;
@@ -280,7 +312,20 @@ public class KryptonGenericMusic
     /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
     /// <param name="wav">PCM wave for <see cref="System.Media.SoundPlayer"/>.</param>
     /// <param name="levels">One VU reading per playback window.</param>
-    public static void BuildMusic(int seconds, int bass, out byte[] wav, out double[] levels)
+    public static void BuildMusic(int seconds, int bass, out byte[] wav, out double[] levels) =>
+        BuildMusic(seconds, bass, 10, 8, out wav, out levels);
+
+    /// <summary>
+    /// Build the tune for <paramref name="verses"/> of <paramref name="barsPerVerse"/>, repeated out to <paramref name="seconds"/>.
+    /// The loudest moment is placed near +1 VU.
+    /// </summary>
+    /// <param name="seconds">Length of the generated loop.</param>
+    /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
+    /// <param name="verses">How many verses to take from the written score. Extra verses repeat in a new key.</param>
+    /// <param name="barsPerVerse">How many bars to keep from each verse.</param>
+    /// <param name="wav">PCM wave for <see cref="System.Media.SoundPlayer"/>.</param>
+    /// <param name="levels">One VU reading per playback window.</param>
+    public static void BuildMusic(int seconds, int bass, int verses, int barsPerVerse, out byte[] wav, out double[] levels)
     {
         int[] melody = Bars(
             [64, 0, 67, 0, 72, 0, 67, 64],
@@ -298,6 +343,70 @@ public class KryptonGenericMusic
             [76, 74, 72, 67, 64, 0, 67, 0],
             [69, 67, 64, 62, 60, 0, 62, 64],
             [67, 64, 62, 60, 0, 0, 0, 0],
+            [60, 0, 0, 0, 0, 0, 0, 0],
+            [64, 67, 72, 67, 64, 67, 72, 0],
+            [74, 72, 69, 67, 64, 67, 69, 72],
+            [65, 69, 72, 69, 65, 64, 65, 67],
+            [64, 0, 67, 0, 72, 0, 64, 0],
+            [69, 72, 76, 79, 76, 72, 69, 67],
+            [65, 69, 72, 77, 72, 69, 65, 60],
+            [67, 71, 74, 79, 74, 71, 67, 62],
+            [64, 62, 60, 62, 64, 0, 0, 0],
+            [72, 76, 79, 81, 79, 76, 72, 76],
+            [77, 76, 74, 72, 69, 72, 74, 77],
+            [79, 77, 76, 74, 72, 71, 69, 67],
+            [72, 0, 67, 0, 64, 0, 67, 72],
+            [69, 0, 72, 0, 76, 0, 79, 76],
+            [65, 64, 62, 60, 62, 64, 65, 67],
+            [71, 67, 64, 67, 71, 74, 71, 67],
+            [64, 0, 60, 0, 0, 0, 0, 0],
+            [72, 0, 76, 0, 79, 0, 76, 72],
+            [74, 0, 72, 0, 69, 71, 72, 0],
+            [72, 76, 79, 81, 84, 81, 79, 76],
+            [79, 0, 76, 0, 72, 0, 69, 0],
+            [76, 79, 81, 79, 76, 0, 74, 76],
+            [74, 77, 81, 77, 74, 0, 72, 74],
+            [74, 79, 83, 86, 83, 79, 74, 71],
+            [72, 0, 71, 0, 69, 0, 0, 0],
+            [67, 0, 72, 0, 76, 0, 72, 67],
+            [69, 0, 67, 0, 64, 65, 67, 0],
+            [64, 67, 72, 76, 79, 76, 72, 67],
+            [72, 0, 69, 0, 67, 0, 64, 0],
+            [69, 72, 76, 72, 69, 0, 67, 69],
+            [65, 69, 72, 69, 65, 0, 64, 65],
+            [67, 71, 74, 79, 74, 71, 67, 64],
+            [60, 0, 62, 0, 64, 0, 0, 0],
+            [76, 0, 79, 0, 81, 0, 79, 76],
+            [77, 0, 76, 0, 74, 72, 74, 0],
+            [72, 74, 76, 79, 81, 79, 76, 74],
+            [81, 0, 79, 0, 76, 0, 72, 0],
+            [74, 76, 79, 76, 74, 0, 72, 74],
+            [72, 76, 79, 76, 72, 0, 69, 72],
+            [71, 74, 79, 83, 79, 74, 71, 67],
+            [69, 0, 67, 0, 64, 0, 0, 0],
+            [64, 67, 69, 71, 72, 71, 69, 67],
+            [65, 0, 64, 0, 62, 64, 65, 0],
+            [67, 69, 71, 72, 74, 72, 71, 69],
+            [72, 0, 71, 0, 69, 0, 67, 0],
+            [69, 71, 72, 74, 72, 0, 71, 69],
+            [67, 69, 71, 69, 67, 0, 65, 67],
+            [64, 67, 71, 74, 71, 67, 64, 62],
+            [60, 0, 64, 0, 67, 0, 0, 0],
+            [79, 76, 74, 72, 74, 76, 79, 81],
+            [81, 0, 79, 0, 77, 76, 74, 0],
+            [76, 79, 81, 84, 81, 79, 76, 74],
+            [84, 0, 81, 0, 79, 0, 76, 0],
+            [77, 81, 84, 81, 77, 0, 76, 77],
+            [74, 77, 81, 77, 74, 0, 72, 74],
+            [72, 76, 79, 84, 79, 76, 72, 69],
+            [67, 0, 64, 0, 60, 0, 0, 0],
+            [72, 0, 67, 0, 64, 0, 67, 72],
+            [74, 0, 72, 0, 69, 67, 69, 0],
+            [67, 72, 76, 79, 76, 72, 67, 64],
+            [76, 0, 72, 0, 69, 0, 67, 0],
+            [69, 67, 65, 64, 65, 0, 67, 69],
+            [65, 64, 62, 60, 62, 0, 64, 65],
+            [64, 67, 72, 67, 64, 60, 64, 67],
             [60, 0, 0, 0, 0, 0, 0, 0]);
         int[] bassLine = Bars(
             [36, 0, 0, 0, 36, 0, 0, 0],
@@ -315,12 +424,95 @@ public class KryptonGenericMusic
             [36, 0, 0, 0, 45, 0, 0, 0],
             [41, 0, 0, 0, 43, 0, 0, 0],
             [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 0, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 0, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
             [36, 0, 0, 0, 0, 0, 0, 0]);
         double[] gain = Envelope(melody.Length,
             0.55, 0.6, 1.0, 0.65,
             0.7, 0.7, 0.9, 0.45,
             0.85, 0.8, 0.75, 0.8,
-            0.6, 0.5, 0.4, 0.3);
+            0.6, 0.5, 0.4, 0.3,
+            0.65, 0.7, 0.8, 0.55,
+            0.85, 0.8, 0.9, 0.5,
+            0.95, 0.85, 0.75, 0.7,
+            0.55, 0.45, 0.35, 0.25,
+            0.7, 0.75, 0.9, 0.6,
+            0.85, 0.8, 0.95, 0.5,
+            0.65, 0.7, 0.85, 0.55,
+            0.8, 0.75, 0.9, 0.45,
+            0.75, 0.7, 0.85, 0.6,
+            0.8, 0.75, 0.9, 0.5,
+            0.6, 0.65, 0.8, 0.55,
+            0.75, 0.7, 0.85, 0.4,
+            0.8, 0.75, 0.95, 0.6,
+            0.85, 0.8, 0.9, 0.45,
+            0.7, 0.65, 0.8, 0.55,
+            0.6, 0.5, 0.4, 0.25);
+        melody = TakeScore(melody, verses, barsPerVerse);
+        bassLine = TakeScore(bassLine, verses, barsPerVerse);
+        gain = TakeLevels(gain, verses, barsPerVerse);
 
         var samples = new double[SamplesForSeconds(seconds)];
         int phrase = melody.Length * MusicEighth;
@@ -419,7 +611,21 @@ public class KryptonGenericMusic
     /// <param name="wav">Interleaved stereo PCM wave.</param>
     /// <param name="leftLevels">Left-channel VU readings, one per playback window.</param>
     /// <param name="rightLevels">Right-channel VU readings, one per playback window.</param>
-    public static void BuildStereo(int seconds, int bass, out byte[] wav, out double[] leftLevels, out double[] rightLevels)
+    public static void BuildStereo(int seconds, int bass, out byte[] wav, out double[] leftLevels, out double[] rightLevels) =>
+        BuildStereo(seconds, bass, 10, 8, out wav, out leftLevels, out rightLevels);
+
+    /// <summary>
+    /// Build the stereo tune for <paramref name="verses"/> of <paramref name="barsPerVerse"/>, repeated out to <paramref name="seconds"/>.
+    /// Bass follows whichever channel is playing. Both meters share one loudness scale.
+    /// </summary>
+    /// <param name="seconds">Length of the generated loop.</param>
+    /// <param name="bass">Bass amount from 0 (none) to 100 (twice the normal line). 50 is the normal mix.</param>
+    /// <param name="verses">How many verses to take from the written score. Extra verses repeat in a new key.</param>
+    /// <param name="barsPerVerse">How many bars to keep from each verse.</param>
+    /// <param name="wav">Interleaved stereo PCM wave.</param>
+    /// <param name="leftLevels">Left-channel VU readings, one per playback window.</param>
+    /// <param name="rightLevels">Right-channel VU readings, one per playback window.</param>
+    public static void BuildStereo(int seconds, int bass, int verses, int barsPerVerse, out byte[] wav, out double[] leftLevels, out double[] rightLevels)
     {
         int[] leftNotes = Bars(
             [64, 67, 72, 76, 79, 76, 72, 67],
@@ -437,6 +643,70 @@ public class KryptonGenericMusic
             [0, 76, 0, 72, 0, 67, 0, 64],
             [0, 69, 0, 65, 0, 64, 0, 60],
             [64, 67, 72, 67, 64, 60, 0, 0],
+            [60, 0, 0, 0, 0, 0, 0, 0],
+            [72, 76, 79, 76, 72, 69, 67, 64],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [67, 0, 72, 0, 76, 0, 79, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [76, 74, 72, 69, 67, 64, 67, 72],
+            [69, 72, 76, 72, 69, 65, 64, 60],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [64, 67, 72, 76, 72, 67, 64, 0],
+            [79, 76, 74, 72, 74, 76, 79, 81],
+            [76, 0, 72, 0, 67, 0, 64, 0],
+            [72, 71, 69, 67, 65, 64, 62, 60],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [67, 72, 76, 79, 76, 72, 67, 64],
+            [64, 0, 67, 0, 72, 0, 0, 0],
+            [60, 64, 67, 72, 67, 64, 60, 0],
+            [60, 0, 0, 0, 0, 0, 0, 0],
+            [72, 0, 76, 0, 79, 0, 76, 72],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [72, 76, 79, 81, 84, 81, 79, 76],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [76, 79, 81, 79, 76, 0, 74, 76],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [74, 79, 83, 86, 83, 79, 74, 71],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [67, 0, 72, 0, 76, 0, 72, 67],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [64, 67, 72, 76, 79, 76, 72, 67],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [69, 72, 76, 72, 69, 0, 67, 69],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [67, 71, 74, 79, 74, 71, 67, 64],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [76, 0, 79, 0, 81, 0, 79, 76],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [72, 74, 76, 79, 81, 79, 76, 74],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [74, 76, 79, 76, 74, 0, 72, 74],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [71, 74, 79, 83, 79, 74, 71, 67],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [64, 67, 69, 71, 72, 71, 69, 67],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [67, 69, 71, 72, 74, 72, 71, 69],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [69, 71, 72, 74, 72, 0, 71, 69],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [64, 67, 71, 74, 71, 67, 64, 62],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [79, 76, 74, 72, 74, 76, 79, 81],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [76, 79, 81, 84, 81, 79, 76, 74],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [77, 81, 84, 81, 77, 0, 76, 77],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [72, 76, 79, 84, 79, 76, 72, 69],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [72, 0, 67, 0, 64, 0, 67, 72],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [67, 72, 76, 79, 76, 72, 67, 64],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [69, 67, 65, 64, 65, 0, 67, 69],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [64, 67, 72, 67, 64, 60, 64, 67],
             [60, 0, 0, 0, 0, 0, 0, 0]);
         int[] rightNotes = Bars(
             [0, 0, 0, 0, 0, 0, 0, 0],
@@ -454,12 +724,92 @@ public class KryptonGenericMusic
             [76, 0, 79, 0, 76, 0, 74, 0],
             [72, 0, 69, 0, 67, 0, 65, 0],
             [67, 64, 60, 64, 67, 72, 0, 0],
-            [67, 0, 0, 0, 0, 0, 0, 0]);
+            [67, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [74, 71, 67, 71, 74, 76, 74, 71],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [65, 69, 72, 69, 65, 64, 62, 60],
+            [71, 74, 77, 74, 71, 67, 64, 67],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [62, 65, 69, 72, 69, 65, 62, 60],
+            [67, 0, 71, 0, 74, 0, 71, 67],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [74, 76, 79, 76, 74, 71, 67, 71],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [72, 69, 67, 65, 64, 62, 60, 62],
+            [64, 67, 71, 74, 71, 67, 64, 60],
+            [67, 64, 60, 64, 67, 72, 67, 64],
+            [62, 64, 65, 67, 65, 64, 62, 60],
+            [60, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [74, 0, 72, 0, 69, 71, 72, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [79, 0, 76, 0, 72, 0, 69, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [74, 77, 81, 77, 74, 0, 72, 74],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [72, 0, 71, 0, 69, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [69, 0, 67, 0, 64, 65, 67, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [72, 0, 69, 0, 67, 0, 64, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [65, 69, 72, 69, 65, 0, 64, 65],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [60, 0, 62, 0, 64, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [77, 0, 76, 0, 74, 72, 74, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [81, 0, 79, 0, 76, 0, 72, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [72, 76, 79, 76, 72, 0, 69, 72],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [69, 0, 67, 0, 64, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [65, 0, 64, 0, 62, 64, 65, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [72, 0, 71, 0, 69, 0, 67, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [67, 69, 71, 69, 67, 0, 65, 67],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [60, 0, 64, 0, 67, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [81, 0, 79, 0, 77, 76, 74, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [84, 0, 81, 0, 79, 0, 76, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [74, 77, 81, 77, 74, 0, 72, 74],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [67, 0, 64, 0, 60, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [74, 0, 72, 0, 69, 67, 69, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [76, 0, 72, 0, 69, 0, 67, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [65, 64, 62, 60, 62, 0, 64, 65],
+            [0, 0, 0, 0, 0, 0, 0, 0],
+            [60, 0, 0, 0, 0, 0, 0, 0]);
         double[] solo = Envelope(leftNotes.Length,
             1.0, 0.95, 1.0, 0.95,
             0.85, 0.85, 0.7, 0.7,
             0.72, 0.7, 0.68, 0.72,
-            0.6, 0.55, 0.5, 0.35);
+            0.6, 0.55, 0.5, 0.35,
+            1.0, 0.95, 0.9, 0.85,
+            0.8, 0.75, 0.7, 0.75,
+            0.85, 0.9, 0.7, 0.65,
+            0.6, 0.5, 0.4, 0.3,
+            0.9, 0.85, 0.95, 0.7,
+            0.85, 0.8, 0.9, 0.55,
+            0.8, 0.75, 0.9, 0.6,
+            0.85, 0.8, 0.95, 0.5,
+            0.85, 0.8, 0.9, 0.65,
+            0.8, 0.75, 0.9, 0.55,
+            0.75, 0.7, 0.85, 0.5,
+            0.8, 0.75, 0.9, 0.45,
+            0.9, 0.85, 0.95, 0.65,
+            0.85, 0.8, 0.9, 0.5,
+            0.75, 0.7, 0.85, 0.55,
+            0.7, 0.6, 0.5, 0.3);
 
         int[] bassLine = Bars(
             [36, 0, 0, 0, 36, 0, 0, 0],
@@ -477,7 +827,75 @@ public class KryptonGenericMusic
             [36, 0, 0, 0, 45, 0, 0, 0],
             [41, 0, 0, 0, 43, 0, 0, 0],
             [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 0, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 0, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
+            [36, 0, 0, 0, 36, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [45, 0, 0, 0, 45, 0, 0, 0],
+            [41, 0, 0, 0, 41, 0, 0, 0],
+            [43, 0, 0, 0, 43, 0, 0, 0],
             [36, 0, 0, 0, 0, 0, 0, 0]);
+        leftNotes = TakeScore(leftNotes, verses, barsPerVerse);
+        rightNotes = TakeScore(rightNotes, verses, barsPerVerse);
+        bassLine = TakeScore(bassLine, verses, barsPerVerse);
+        solo = TakeLevels(solo, verses, barsPerVerse);
         int[] leftBass = NotesUnder(leftNotes, bassLine);
         int[] rightBass = NotesUnder(rightNotes, bassLine);
         var left = new double[SamplesForSeconds(seconds)];
@@ -572,7 +990,128 @@ public class KryptonGenericMusic
     }
 
     /// <summary>
-    /// Semitone offset for one phrase. Nineteen phrases is just over ten minutes, and this list does not repeat inside that span.
+    /// Keeps a structure count inside the range the score builder accepts.
+    /// </summary>
+    private static int ClampCount(int value, int minimum, int maximum)
+    {
+        if (value < minimum)
+        {
+            return minimum;
+        }
+
+        return value > maximum ? maximum : value;
+    }
+
+    /// <summary>
+    /// Builds <paramref name="verses"/> of <paramref name="barsPerVerse"/> from an eight-bar library.
+    /// Verses past the library repeat it in a new key. Bars past eight repeat the verse.
+    /// </summary>
+    private static int[] TakeScore(int[] notes, int verses, int barsPerVerse)
+    {
+        verses = ClampCount(verses, 1, 24);
+        barsPerVerse = ClampCount(barsPerVerse, 1, 32);
+        const int writtenVerse = 8;
+        const int eighths = 8;
+        int sourceBars = notes.Length / eighths;
+        if (sourceBars < 1)
+        {
+            return notes;
+        }
+
+        int sourceVerses = sourceBars / writtenVerse;
+        if (sourceVerses < 1)
+        {
+            sourceVerses = 1;
+        }
+
+        var score = new int[verses * barsPerVerse * eighths];
+        for (int verse = 0; verse < verses; verse++)
+        {
+            int sourceVerse = verse % sourceVerses;
+            int shift = PhraseShift(verse / sourceVerses);
+            int origin = verse * barsPerVerse * eighths;
+            for (int bar = 0; bar < barsPerVerse; bar++)
+            {
+                int sourceBar = (sourceVerse * writtenVerse) + (bar % writtenVerse);
+                if (sourceBar >= sourceBars)
+                {
+                    sourceBar %= sourceBars;
+                }
+
+                int barShift = shift;
+                if (bar >= writtenVerse)
+                {
+                    barShift += PhraseShift(bar / writtenVerse);
+                }
+
+                CopyBar(notes, sourceBar, score, origin + (bar * eighths), barShift);
+            }
+        }
+
+        return score;
+    }
+
+    /// <summary>
+    /// Copies per-note levels with the same verse and bar selection as <see cref="TakeScore"/>.
+    /// </summary>
+    private static double[] TakeLevels(double[] levels, int verses, int barsPerVerse)
+    {
+        const int writtenVerse = 8;
+        const int eighths = 8;
+        int sourceBars = levels.Length / eighths;
+        if (sourceBars < 1)
+        {
+            return levels;
+        }
+
+        int sourceVerses = sourceBars / writtenVerse;
+        if (sourceVerses < 1)
+        {
+            sourceVerses = 1;
+        }
+
+        verses = ClampCount(verses, 1, 24);
+        barsPerVerse = ClampCount(barsPerVerse, 1, 32);
+        var result = new double[verses * barsPerVerse * eighths];
+        for (int verse = 0; verse < verses; verse++)
+        {
+            int sourceVerse = verse % sourceVerses;
+            int origin = verse * barsPerVerse * eighths;
+            for (int bar = 0; bar < barsPerVerse; bar++)
+            {
+                int sourceBar = (sourceVerse * writtenVerse) + (bar % writtenVerse);
+                if (sourceBar >= sourceBars)
+                {
+                    sourceBar %= sourceBars;
+                }
+
+                int from = sourceBar * eighths;
+                int to = origin + (bar * eighths);
+                for (int i = 0; i < eighths; i++)
+                {
+                    result[to + i] = levels[from + i];
+                }
+            }
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Copies one bar of eighth notes, shifting sounding notes by <paramref name="shift"/>.
+    /// </summary>
+    private static void CopyBar(int[] source, int sourceBar, int[] target, int targetNote, int shift)
+    {
+        int from = sourceBar * 8;
+        for (int i = 0; i < 8; i++)
+        {
+            int note = source[from + i];
+            target[targetNote + i] = note == 0 || shift == 0 ? note : note + shift;
+        }
+    }
+
+    /// <summary>
+    /// Semitone offset for one pass of the score. The list is longer than the passes that fit in ten minutes, so a full-length loop does not repeat a key.
     /// </summary>
     private static int PhraseShift(int cycle)
     {

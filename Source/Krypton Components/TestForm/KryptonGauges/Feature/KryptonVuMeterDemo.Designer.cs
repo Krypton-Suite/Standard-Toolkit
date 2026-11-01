@@ -59,11 +59,17 @@ partial class KryptonVuMeterDemo
             this.kchkStereo = new Krypton.Toolkit.KryptonCheckBox();
             this.klblLength = new Krypton.Toolkit.KryptonLabel();
             this.kcmbLength = new Krypton.Toolkit.KryptonComboBox();
+            this.klblVerses = new Krypton.Toolkit.KryptonLabel();
+            this.kcmbVerses = new Krypton.Toolkit.KryptonComboBox();
+            this.klblBars = new Krypton.Toolkit.KryptonLabel();
+            this.kcmbBars = new Krypton.Toolkit.KryptonComboBox();
             this.kpgMeter = new Krypton.Toolkit.KryptonPropertyGrid();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbChannel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbOrientation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ktheme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbLength)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbVerses)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbBars)).BeginInit();
             this.SuspendLayout();
             // 
             // klblInstructions
@@ -322,12 +328,48 @@ partial class KryptonVuMeterDemo
             this.kcmbLength.TabIndex = 27;
             this.kcmbLength.SelectedIndexChanged += new System.EventHandler(this.kcmbLength_SelectedIndexChanged);
             // 
+            // klblVerses
+            // 
+            this.klblVerses.Location = new System.Drawing.Point(16, 612);
+            this.klblVerses.Name = "klblVerses";
+            this.klblVerses.Size = new System.Drawing.Size(48, 20);
+            this.klblVerses.TabIndex = 30;
+            this.klblVerses.Values.Text = "Verses";
+            // 
+            // kcmbVerses
+            // 
+            this.kcmbVerses.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kcmbVerses.DropDownWidth = 80;
+            this.kcmbVerses.Location = new System.Drawing.Point(16, 632);
+            this.kcmbVerses.Name = "kcmbVerses";
+            this.kcmbVerses.Size = new System.Drawing.Size(80, 22);
+            this.kcmbVerses.TabIndex = 31;
+            this.kcmbVerses.SelectedIndexChanged += new System.EventHandler(this.kcmbStructure_SelectedIndexChanged);
+            // 
+            // klblBars
+            // 
+            this.klblBars.Location = new System.Drawing.Point(112, 612);
+            this.klblBars.Name = "klblBars";
+            this.klblBars.Size = new System.Drawing.Size(88, 20);
+            this.klblBars.TabIndex = 32;
+            this.klblBars.Values.Text = "Bars / verse";
+            // 
+            // kcmbBars
+            // 
+            this.kcmbBars.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.kcmbBars.DropDownWidth = 80;
+            this.kcmbBars.Location = new System.Drawing.Point(112, 632);
+            this.kcmbBars.Name = "kcmbBars";
+            this.kcmbBars.Size = new System.Drawing.Size(80, 22);
+            this.kcmbBars.TabIndex = 33;
+            this.kcmbBars.SelectedIndexChanged += new System.EventHandler(this.kcmbStructure_SelectedIndexChanged);
+            // 
             // kpgMeter
             // 
-            this.kpgMeter.Location = new System.Drawing.Point(16, 620);
+            this.kpgMeter.Location = new System.Drawing.Point(16, 664);
             this.kpgMeter.Name = "kpgMeter";
             this.kpgMeter.Padding = new System.Windows.Forms.Padding(1);
-            this.kpgMeter.Size = new System.Drawing.Size(1026, 250);
+            this.kpgMeter.Size = new System.Drawing.Size(1026, 206);
             this.kpgMeter.TabIndex = 19;
             // 
             // KryptonVuMeterDemo
@@ -335,6 +377,10 @@ partial class KryptonVuMeterDemo
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1064, 890);
+            this.Controls.Add(this.kcmbBars);
+            this.Controls.Add(this.klblBars);
+            this.Controls.Add(this.kcmbVerses);
+            this.Controls.Add(this.klblVerses);
             this.Controls.Add(this.kpgMeter);
             this.Controls.Add(this.kcmbLength);
             this.Controls.Add(this.klblLength);
@@ -373,6 +419,8 @@ partial class KryptonVuMeterDemo
             ((System.ComponentModel.ISupportInitialize)(this.kcmbOrientation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ktheme)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbLength)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbVerses)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbBars)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -407,5 +455,9 @@ partial class KryptonVuMeterDemo
     private Krypton.Toolkit.KryptonCheckBox kchkStereo;
     private Krypton.Toolkit.KryptonLabel klblLength;
     private Krypton.Toolkit.KryptonComboBox kcmbLength;
+    private Krypton.Toolkit.KryptonLabel klblVerses;
+    private Krypton.Toolkit.KryptonComboBox kcmbVerses;
+    private Krypton.Toolkit.KryptonLabel klblBars;
+    private Krypton.Toolkit.KryptonComboBox kcmbBars;
     private Krypton.Toolkit.KryptonPropertyGrid kpgMeter;
 }

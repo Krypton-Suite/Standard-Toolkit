@@ -44,6 +44,10 @@ public partial class KryptonVuMeterDemo : KryptonForm
         kcmbOrientation.SelectedItem = nameof(VisualOrientation.Left);
         kcmbLength.Items.AddRange(new object[] { "30 seconds", "1 minute", "2 minutes", "4 minutes", "10 minutes" });
         kcmbLength.SelectedIndex = 4;
+        kcmbVerses.Items.AddRange(new object[] { "1", "2", "4", "6", "8", "10", "12" });
+        kcmbVerses.SelectedIndex = 5;
+        kcmbBars.Items.AddRange(new object[] { "4", "8", "12", "16" });
+        kcmbBars.SelectedIndex = 1;
 
         kvumDisabled.Value = 0d;
         kvumDisabled.Values.PeakHold = true;
@@ -142,7 +146,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
                 _sync = false;
             }
 
-            if (!_kgm.StartMusic(SelectedSeconds(), SelectedBass()))
+            if (!_kgm.StartMusic(SelectedSeconds(), SelectedBass(), SelectedVerses(), SelectedBars()))
             {
                 _sync = true;
                 kchkMusic.Checked = false;
@@ -182,7 +186,7 @@ public partial class KryptonVuMeterDemo : KryptonForm
             }
 
             kvumAnalog.Values.InputMode = VuMeterInputMode.Manual;
-            if (!_kgm.StartStereo(SelectedSeconds(), SelectedBass()))
+            if (!_kgm.StartStereo(SelectedSeconds(), SelectedBass(), SelectedVerses(), SelectedBars()))
             {
                 _sync = true;
                 kchkStereo.Checked = false;
@@ -248,6 +252,8 @@ public partial class KryptonVuMeterDemo : KryptonForm
 
     private void kcmbLength_SelectedIndexChanged(object? sender, EventArgs e) => RestartPlayback();
 
+    private void kcmbStructure_SelectedIndexChanged(object? sender, EventArgs e) => RestartPlayback();
+
     private void ktrkBass_ValueChanged(object? sender, EventArgs e)
     {
         klblBass.Values.Text = "Bass " + ktrkBass.Value.ToString();
@@ -286,8 +292,8 @@ public partial class KryptonVuMeterDemo : KryptonForm
         }
 
         bool started = kchkMusic.Checked
-            ? _kgm.StartMusic(SelectedSeconds(), SelectedBass())
-            : _kgm.StartStereo(SelectedSeconds(), SelectedBass());
+            ? _kgm.StartMusic(SelectedSeconds(), SelectedBass(), SelectedVerses(), SelectedBars())
+            : _kgm.StartStereo(SelectedSeconds(), SelectedBass(), SelectedVerses(), SelectedBars());
         if (started)
         {
             return;
@@ -323,6 +329,48 @@ public partial class KryptonVuMeterDemo : KryptonForm
     /// Bass slider position. 0 removes the bass, 50 is the normal line, and 100 is twice that.
     /// </summary>
     private int SelectedBass() => ktrkBass.Value;
+
+    /// <summary>
+    /// How many verses to build. Ten uses the whole written score.
+    /// </summary>
+    private int SelectedVerses()
+    {
+        switch (kcmbVerses.SelectedIndex)
+        {
+            case 0:
+                return 1;
+            case 1:
+                return 2;
+            case 2:
+                return 4;
+            case 3:
+                return 6;
+            case 4:
+                return 8;
+            case 6:
+                return 12;
+            default:
+                return 10;
+        }
+    }
+
+    /// <summary>
+    /// Bars kept from each verse. Eight is the written verse length.
+    /// </summary>
+    private int SelectedBars()
+    {
+        switch (kcmbBars.SelectedIndex)
+        {
+            case 0:
+                return 4;
+            case 2:
+                return 12;
+            case 3:
+                return 16;
+            default:
+                return 8;
+        }
+    }
 
     private bool Playing => kchkMusic.Checked || kchkStereo.Checked;
 
