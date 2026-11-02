@@ -403,8 +403,8 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
-          if (-not $env:DISCORD_WEBHOOK_MASTER) {
-            Write-Warning "DISCORD_WEBHOOK_MASTER not set - skipping Discord notification"
+          if (-not $env:DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK) {
+            Write-Warning "DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK not set - skipping Discord notification"
             exit 0
           }
 
@@ -463,9 +463,9 @@ jobs:
             )
           } | ConvertTo-Json -Depth 10
 
-          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_MASTER }}" -Method Post -Body $payload -ContentType "application/json"
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK }}" -Method Post -Body $payload -ContentType "application/json"
         env:
-          DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
+          DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK: ${{ secrets.DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK }}
 
   publish-templates-marketplace:
     needs: release-master
@@ -813,8 +813,8 @@ jobs:
         if: steps.release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
-          if (-not $env:DISCORD_WEBHOOK_MASTER) {
-            Write-Warning "DISCORD_WEBHOOK_MASTER not set - skipping Discord notification"
+          if (-not $env:DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK) {
+            Write-Warning "DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK not set - skipping Discord notification"
             exit 0
           }
 
@@ -864,9 +864,9 @@ jobs:
             )
           } | ConvertTo-Json -Depth 10
 
-          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_MASTER }}" -Method Post -Body $payload -ContentType "application/json"
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK }}" -Method Post -Body $payload -ContentType "application/json"
         env:
-          DISCORD_WEBHOOK_MASTER: ${{ secrets.DISCORD_WEBHOOK_MASTER }}
+          DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK: ${{ secrets.DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK }}
 
   release-canary:
     runs-on: windows-2025-vs2026
@@ -1235,8 +1235,8 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
-          if (-not $env:DISCORD_WEBHOOK_CANARY) {
-            Write-Warning "DISCORD_WEBHOOK_CANARY not set - skipping Discord notification"
+          if (-not $env:DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK) {
+            Write-Warning "DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK not set - skipping Discord notification"
             exit 0
           }
 
@@ -1295,9 +1295,9 @@ jobs:
             )
           } | ConvertTo-Json -Depth 10
 
-          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_CANARY }}" -Method Post -Body $payload -ContentType "application/json"
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK }}" -Method Post -Body $payload -ContentType "application/json"
         env:
-          DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
+          DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK: ${{ secrets.DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK }}
 
   release-alpha:
     runs-on: windows-2025-vs2026

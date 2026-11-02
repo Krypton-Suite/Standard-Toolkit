@@ -661,8 +661,8 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
-          if (-not $env:DISCORD_WEBHOOK_NIGHTLY) {
-            Write-Warning "DISCORD_WEBHOOK_NIGHTLY not set - skipping Discord notification"
+          if (-not $env:DISCORD_NIGHTLY_ANNOUNCEMENT_WEBHOOK) {
+            Write-Warning "DISCORD_NIGHTLY_ANNOUNCEMENT_WEBHOOK not set - skipping Discord notification"
             exit 0
           }
 
@@ -721,6 +721,6 @@ jobs:
             )
           } | ConvertTo-Json -Depth 10
 
-          Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_NIGHTLY -Method Post -Body $payload -ContentType "application/json"
+          Invoke-RestMethod -Uri $env:DISCORD_NIGHTLY_ANNOUNCEMENT_WEBHOOK -Method Post -Body $payload -ContentType "application/json"
         env:
-          DISCORD_WEBHOOK_NIGHTLY: ${{ secrets.DISCORD_WEBHOOK_NIGHTLY }}
+          DISCORD_NIGHTLY_ANNOUNCEMENT_WEBHOOK: ${{ secrets.DISCORD_NIGHTLY_ANNOUNCEMENT_WEBHOOK }}
