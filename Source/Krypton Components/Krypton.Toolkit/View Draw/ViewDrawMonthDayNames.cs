@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -98,33 +98,42 @@ public class ViewDrawMonthDayNames : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
+        // Check if RTL layout is enabled
+        bool isRtl = context.IsRightToLeftLayout;
+
         // Content palette depends on enabled state of the control
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        // Layout the 7 day names
-        var layoutRect = new Rectangle(ClientLocation, _months.SizeDays);
-        for (int i = 0, day=(int)_months.DisplayDayOfWeek; i < 7; i++, day++)
+        // Pack from the start edge only. Do not also reverse the day index — that cancelled
+        // RTL and left Mon–Sun looking like LTR.
+        int startX = isRtl
+            ? ClientRectangle.Right - _months.SizeDays.Width
+            : ClientLocation.X;
+
+        var layoutRect = new Rectangle(startX, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
+        for (int i = 0; i < 7; i++)
         {
+            int day = ((int)_months.DisplayDayOfWeek + i) % 7;
+
             // Define text to be drawn
-            _drawText = _months.DayNames![day % 7];
+            _drawText = _months.DayNames![day];
 
             _dayMementos[i]?.Dispose();
 
-            _dayMementos[i] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this, 
+            _dayMementos[i] = context.Renderer.RenderStandardContent.LayoutContent(context, layoutRect, _calendar.StateNormal.DayOfWeek.Content, this,
                 VisualOrientation.Top, state);
 
-            // Move across to next day
-            layoutRect.X += _months.SizeDays.Width;
+            layoutRect.X += CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
         }
 
         // Put back the original display value now we have finished
@@ -143,31 +152,54 @@ public class ViewDrawMonthDayNames : ViewLeaf,
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
+
+        // Check if RTL layout is enabled (from control context)
+        bool isRtl = CommonHelper.IsRightToLeftLayout(_calendar.CalendarControl);
 
         // Content palette depends on enabled state of the control
         PaletteState state = Enabled ? PaletteState.Normal : PaletteState.Disabled;
 
-        // Draw the 7 day names
-        var drawRect = new Rectangle(ClientLocation, _months.SizeDays);
-        for(int i=0, day=(int)_months.DisplayDayOfWeek; i<7; i++, day++)
+        // Draw the day-of-week row background so custom calendar back color shows (Issue #1827)
+        IPaletteBack paletteBack = _calendar.StateNormal.DayOfWeek.Back;
+
+        if (paletteBack.GetBackDraw(state) == InheritBool.True)
         {
-            // Draw using memento cached from the layout call
-            if (_dayMementos[day % 7] != null)
+            using (GraphicsPath path = context.Renderer!.RenderStandardBorder.GetBackPath(context, ClientRectangle,
+                       _calendar.StateNormal.DayOfWeek.Border!,
+                       VisualOrientation.Top, state)!)
+            {
+                using (new GraphicsHint(context.Graphics,
+                           _calendar.StateNormal.DayOfWeek.Border!.GetBorderGraphicsHint(state)))
+                {
+                    context.Renderer.RenderStandardBack.DrawBack(context, ClientRectangle, path, paletteBack,
+                        VisualOrientation.Top, state, null);
+                }
+            }
+        }
+
+        // Calculate starting X position based on RTL
+        int startX = isRtl
+            ? ClientRectangle.Right - _months.SizeDays.Width
+            : ClientLocation.X;
+
+        var drawRect = new Rectangle(startX, ClientLocation.Y, _months.SizeDays.Width, _months.SizeDays.Height);
+        for (int i = 0; i < 7; i++)
+        {
+            if (_dayMementos[i] != null)
             {
                 context?.Renderer.RenderStandardContent.DrawContent(context, drawRect,
-                    _calendar.StateNormal.DayOfWeek.Content, _dayMementos[day % 7]!,
+                    _calendar.StateNormal.DayOfWeek.Content, _dayMementos[i]!,
                     VisualOrientation.Top, state, true);
             }
 
-            // Move across to next day
-            drawRect.X += _months.SizeDays.Width;
+            drawRect.X += CommonHelper.GetRtlAwareStep(_months.SizeDays.Width, isRtl);
         }
     }
     #endregion
@@ -185,7 +217,7 @@ public class ViewDrawMonthDayNames : ViewLeaf,
     /// </summary>
     /// <param name="state">The state for which the image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content short text.
@@ -198,6 +230,48 @@ public class ViewDrawMonthDayNames : ViewLeaf,
     /// </summary>
     /// <returns>String value.</returns>
     public string GetLongText() => string.Empty;
+
+    /// <summary>
+    /// Gets the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+    public Image? GetOverlayImage(PaletteState state) => null;
+
+    /// <summary>
+    /// Gets the overlay image color that should be transparent.
+    /// </summary>
+    /// <param name="state">The state for which the overlay image is needed.</param>
+    /// <returns>Color value.</returns>
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
+
+    /// <summary>
+    /// Gets the position of the overlay image relative to the main image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay position is needed.</param>
+    /// <returns>Overlay image position.</returns>
+    public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+    /// <summary>
+    /// Gets the scaling mode for the overlay image.
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale mode is needed.</param>
+    /// <returns>Overlay image scale mode.</returns>
+    public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+    /// <summary>
+    /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+    /// </summary>
+    /// <param name="state">The state for which the overlay scale factor is needed.</param>
+    /// <returns>Scale factor (0.0 to 2.0).</returns>
+    public float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+    /// <summary>
+    /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+    /// </summary>
+    /// <param name="state">The state for which the overlay fixed size is needed.</param>
+    /// <returns>Fixed size.</returns>
+    public Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
 
     #endregion
 }

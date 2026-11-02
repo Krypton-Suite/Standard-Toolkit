@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -43,8 +43,8 @@ internal class ViewLayoutRibbonQATFromOverflow : ViewLayoutRibbonQATContents
         Debug.Assert(parentControl is not null);
         Debug.Assert(contents is not null);
             
-        _contents = contents ?? throw new ArgumentNullException(nameof(contents));
-        ParentControl = parentControl ?? throw new ArgumentNullException(nameof(parentControl));
+        _contents = contents ?? ThrowHelper.ThrowArgumentNullException(contents);
+        ParentControl = parentControl ?? ThrowHelper.ThrowArgumentNullException(parentControl);
     }
     #endregion
 
@@ -59,7 +59,7 @@ internal class ViewLayoutRibbonQATFromOverflow : ViewLayoutRibbonQATContents
             var qatOverflow = new List<IQuickAccessToolbarButton>();
 
             // Scan all the defined buttons for ones to show as overflowing
-            foreach (IQuickAccessToolbarButton qatButton in Ribbon.QATButtons)
+            foreach (var qatButton in Ribbon.QATButtons.OfType<IQuickAccessToolbarButton>())
             {
                 // If the button requests to be shown...
                 if (qatButton.GetVisible())

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -46,7 +46,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     public KryptonDockingEdgeDocked(string name, Control control, DockingEdge edge)
         : base(name)
     {
-        Control = control ?? throw new ArgumentNullException(nameof(control));
+        Control = control ?? ThrowHelper.ThrowArgumentNullException(control);
         Edge = edge;
         _lookupSeparator = new SeparatorToDockspace();
         _lookupDockspace = new DockspaceToSeparator();
@@ -217,7 +217,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockingDockspaceHasNoVisibleCells(object? sender, EventArgs e)
     {
         // Cast to correct type and grab associated separator control
-        var dockspaceElement = sender as KryptonDockingDockspace ?? throw new ArgumentNullException(nameof(sender));
+        var dockspaceElement =sender as KryptonDockingDockspace ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingDockspace, nameof(sender));
         KryptonDockspaceSeparator separatorControl = _lookupDockspace[dockspaceElement];
 
         // No more visible cells so we hide the controls
@@ -228,7 +228,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockspaceSeparatorMoveRect(object? sender, SplitterMoveRectMenuArgs e)
     {
         // Cast to correct type and grab associated dockspace element
-        var separatorControl = sender as KryptonDockspaceSeparator ?? throw new ArgumentNullException(nameof(sender));
+        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockspaceSeparator, nameof(sender));
         KryptonDockingDockspace dockspaceElement = _lookupSeparator[separatorControl];
 
         // Events are generated from the parent docking manager
@@ -253,7 +253,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockspaceSeparatorMoved(object? sender, SplitterEventArgs e)
     {
         // Cast to correct type and grab associated dockspace element
-        var separatorControl = sender as KryptonDockspaceSeparator ?? throw new ArgumentNullException(nameof(sender));
+        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockspaceSeparator, nameof(sender));
         KryptonDockingDockspace dockspaceElement = _lookupSeparator[separatorControl];
 
         // Update with delta change
@@ -296,7 +296,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockingDockspaceHasVisibleCells(object? sender, EventArgs e)
     {
         // Cast to correct type and grab associated separator control
-        var dockspaceElement = sender as KryptonDockingDockspace ?? throw new ArgumentNullException(nameof(sender));
+        var dockspaceElement =sender as KryptonDockingDockspace ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingDockspace, nameof(sender));
         KryptonDockspaceSeparator separatorControl = _lookupDockspace[dockspaceElement];
 
         // Now have a visible cell so we show the controls
@@ -307,7 +307,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockingDockspaceDisposed(object? sender, EventArgs e)
     {
         // Cast to correct type and unhook event handlers so garbage collection can occur
-        var dockspaceElement = sender as KryptonDockingDockspace ?? throw new ArgumentNullException(nameof(sender));
+        var dockspaceElement =sender as KryptonDockingDockspace ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockingDockspace, nameof(sender));
         dockspaceElement.HasVisibleCells -= OnDockingDockspaceHasVisibleCells;
         dockspaceElement.HasNoVisibleCells -= OnDockingDockspaceHasNoVisibleCells;
         dockspaceElement.Disposed -= OnDockingDockspaceDisposed;
@@ -329,7 +329,7 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
     private void OnDockspaceSeparatorDisposed(object? sender, EventArgs e)
     {
         // Unhook from events so the control can be garbage collected
-        var separatorControl = sender as KryptonDockspaceSeparator ?? throw new ArgumentNullException(nameof(sender));
+        var separatorControl =sender as KryptonDockspaceSeparator ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonDockspaceSeparator, nameof(sender));
         separatorControl.SplitterMoveRect -= OnDockspaceSeparatorMoveRect;
         separatorControl.SplitterMoved -= OnDockspaceSeparatorMoved;
         separatorControl.SplitterNotMoved -= OnDockspaceSeparatorNotMoved;
@@ -382,22 +382,18 @@ public class KryptonDockingEdgeDocked : DockingElementClosedCollection
         }
 
         // Allow movement rectangle to extend inwards according to inner rectangle and outwards according to dockspace size
-        var retRect = Rectangle.Empty;
-        switch (Edge)
+        var retRect = Edge switch
         {
-            case DockingEdge.Left:
-                retRect = new Rectangle(moveRect.X - reduceWidth, moveRect.Y, moveRect.Width + reduceWidth + expandWidth, moveRect.Height);
-                break;
-            case DockingEdge.Right:
-                retRect = new Rectangle(moveRect.X - expandWidth, moveRect.Y, moveRect.Width + reduceWidth + expandWidth, moveRect.Height);
-                break;
-            case DockingEdge.Top:
-                retRect = new Rectangle(moveRect.X, moveRect.Y - reduceHeight, moveRect.Width, moveRect.Height + reduceHeight + expandHeight);
-                break;
-            case DockingEdge.Bottom:
-                retRect = new Rectangle(moveRect.X, moveRect.Y - expandHeight, moveRect.Width, moveRect.Height + reduceHeight + expandHeight);
-                break;
-        }
+            DockingEdge.Left => new Rectangle(moveRect.X - reduceWidth, moveRect.Y,
+                moveRect.Width + reduceWidth + expandWidth, moveRect.Height),
+            DockingEdge.Right => new Rectangle(moveRect.X - expandWidth, moveRect.Y,
+                moveRect.Width + reduceWidth + expandWidth, moveRect.Height),
+            DockingEdge.Top => new Rectangle(moveRect.X, moveRect.Y - reduceHeight, moveRect.Width,
+                moveRect.Height + reduceHeight + expandHeight),
+            DockingEdge.Bottom => new Rectangle(moveRect.X, moveRect.Y - expandHeight, moveRect.Width,
+                moveRect.Height + reduceHeight + expandHeight),
+            _ => Rectangle.Empty
+        };
 
         // We do not allow negative width/height
         retRect.Width = Math.Max(retRect.Width, 0);

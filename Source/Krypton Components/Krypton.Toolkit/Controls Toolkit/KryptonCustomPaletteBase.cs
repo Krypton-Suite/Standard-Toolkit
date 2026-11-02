@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -23,8 +23,9 @@ namespace Krypton.Toolkit;
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(KryptonCustomPaletteBase), "ToolboxBitmaps.KryptonPalette.bmp")]
 [DefaultEvent(nameof(PalettePaint))]
+[DefaultProperty(nameof(BasePaletteMode))]
 [DesignerCategory(@"code")]
-[Designer(typeof(KryptonCustomPaletteBaseDesigner))]
+[Designer("Krypton.Toolkit.KryptonCustomPaletteBaseDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description(@"A customisable palette component.")]
 public class KryptonCustomPaletteBase : PaletteBase
 {
@@ -42,6 +43,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     private IRenderer? _baseRenderer;
     private RendererMode _baseRenderMode;
     private PaletteBase? _basePalette;
+    private PaletteMode _basePaletteMode;
     private readonly PaletteRedirect _redirector;
     private readonly NeedPaintHandler _needPaintDelegate;
 
@@ -58,6 +60,7 @@ public class KryptonCustomPaletteBase : PaletteBase
 
         // Set the default palette/palette mode
         _basePalette = KryptonManager.GetPaletteForMode(ThemeManager.DefaultGlobalPalette);
+        _basePaletteMode = ThemeManager.DefaultGlobalPalette;
 
         // Set the default renderer
         _baseRenderer = null;
@@ -119,7 +122,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Validate reference parameter
         if (container == null)
         {
-            throw new ArgumentNullException(nameof(container));
+            ThrowHelper.ThrowArgumentNullException(nameof(container));
         }
 
         container.Add(this);
@@ -536,7 +539,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <returns>Color value.</returns>
     public override Color GetBackColor1(PaletteBackStyle style, PaletteState state) =>
         // Find the correct destination in the palette and pass on request
-        GetPaletteBack(style, state)?.GetBackColor1(state) ?? GlobalStaticValues.EMPTY_COLOR;
+        GetPaletteBack(style, state)?.GetBackColor1(state) ?? SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the second back color.
@@ -546,7 +549,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <returns>Color value.</returns>
     public override Color GetBackColor2(PaletteBackStyle style, PaletteState state) =>
         // Find the correct destination in the palette and pass on request
-        GetPaletteBack(style, state)?.GetBackColor2(state) ?? GlobalStaticValues.EMPTY_COLOR;
+        GetPaletteBack(style, state)?.GetBackColor2(state) ?? SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color background drawing style.
@@ -696,6 +699,10 @@ public class KryptonCustomPaletteBase : PaletteBase
     public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state)
         => GetPaletteBorder(style, state).GetBorderRounding(state);
 
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state)
+        => GetPaletteBorder(style, state).GetBorderCornerRounding(state);
+
     /// <summary>
     /// Gets a border image.
     /// </summary>
@@ -789,7 +796,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         => GetPaletteContent(style, state).GetContentImageColorTo(state);
 
     /// <inheritdoc />
-    public override Color GetContentImageColorTransparent(PaletteContentStyle style, PaletteState state) => throw new NotImplementedException();
+    public override Color GetContentImageColorTransparent(PaletteContentStyle style, PaletteState state) => ThrowHelper.ThrowNotImplementedException<Color>();
 
     /// <summary>
     /// Gets the font for the short text.
@@ -1130,12 +1137,13 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <inheritdoc />
     public override int GetMetricInt(KryptonForm? owningForm, PaletteState state, PaletteMetricInt metric) => metric switch
     {
-        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.BarButtonEdgeInside or PaletteMetricInt.BarButtonEdgeOutside or PaletteMetricInt.CheckButtonGap or PaletteMetricInt.RibbonTabGap or PaletteMetricInt.DropDownArrowBaseSize => Navigator.StateCommon.Bar.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetPrimary => HeaderStyles.HeaderPrimary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetSecondary => HeaderStyles.HeaderSecondary.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockInactive => HeaderStyles.HeaderDockInactive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetDockActive => HeaderStyles.HeaderDockActive.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetForm => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
+        PaletteMetricInt.HeaderButtonEdgeInsetFormRight => HeaderStyles.HeaderForm.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom1 => HeaderStyles.HeaderCustom1.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom2 => HeaderStyles.HeaderCustom2.StateCommon.GetMetricInt(owningForm, state, metric),
         PaletteMetricInt.HeaderButtonEdgeInsetCustom3 => HeaderStyles.HeaderCustom3.StateCommon.GetMetricInt(owningForm, state, metric),
@@ -1282,6 +1290,33 @@ public class KryptonCustomPaletteBase : PaletteBase
     public override Image? GetTreeViewImage(bool expanded) =>
         // Not found, then inherit from target
         (expanded ? Images.TreeView.Minus : Images.TreeView.Plus) ?? _redirector.GetTreeViewImage(expanded);
+
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image)
+    {
+        Image? local = null;
+        switch (image)
+        {
+            case PropertyGridToolImage.Alphabetical:
+                local = Images.PropertyGrid.Alphabetical;
+                break;
+            case PropertyGridToolImage.Categorized:
+                local = Images.PropertyGrid.Categorized;
+                break;
+            case PropertyGridToolImage.PropertyPages:
+                local = Images.PropertyGrid.PropertyPages;
+                break;
+            case PropertyGridToolImage.Events:
+                local = Images.PropertyGrid.Events;
+                break;
+        }
+
+        return local ?? _redirector.GetPropertyGridImage(image);
+    }
 
     /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.
@@ -1563,7 +1598,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         => GetPaletteButtonSpec(style).GetButtonSpecColorMap(style);
 
     /// <inheritdoc />
-    public override Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style) => throw new NotImplementedException();
+    public override Color GetButtonSpecColorTransparent(PaletteButtonSpecStyle style) => ThrowHelper.ThrowNotImplementedException<Color>();
 
     /// <summary>
     /// Gets the button style used for drawing the button.
@@ -1966,6 +2001,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             {
                 ResetOperation(null);
             }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                ResetOperation(null);
+
+                KryptonMessageBox.Show("Reset of palette is completed.",
+                    "Palette Reset",
+                    KryptonMessageBoxButtons.OK);
+            }
             else
             {
                 // Perform the reset operation on a separate worker thread
@@ -2008,6 +2053,16 @@ public class KryptonCustomPaletteBase : PaletteBase
             {
                 PopulateFromBaseOperation(null);
             }
+            else if (this.InDesignMode())
+            {
+                // In design mode (e.g. VS designer), run synchronously to avoid PerformOperation
+                // deadlock/freeze with ModalWaitDialog and worker thread (see issue #2927)
+                PopulateFromBaseOperation(null);
+
+                KryptonMessageBox.Show("Relevant values have been populated.",
+                    "Populate Values",
+                    KryptonMessageBoxButtons.OK);
+            }
             else
             {
                 // Perform the reset operation on a separate worker thread
@@ -2036,19 +2091,21 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Import palette settings from an xml file.
+    /// Import palette settings from a palette file (<c>.kthemex</c> XML, <c>.xml</c>, or a KPLT container).
     /// </summary>
     /// <returns>Full path of imported filename; otherwise empty string.</returns>
+    // ToDo V120 LTS: Drop .xml from Import remarks and dialogs. Keep sniffing XML content for .kthemex.
     public string Import(bool silent = false)
     {
+        KryptonPaletteFile.EnsureShellAssociations();
         var paletteFileName = string.Empty;
         if (KryptonManager._globalUseKryptonFileDialogs)
         {
             using var kofd = new KryptonOpenFileDialog();
             kofd.CheckFileExists = true;
             kofd.CheckPathExists = true;
-            kofd.DefaultExt = @"xml";
-            kofd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            kofd.DefaultExt = KryptonPaletteFile.Extension;
+            kofd.Filter = KryptonPaletteFile.DialogFilter;
             kofd.Title = @"Load Custom Palette";
 
             if (kofd.ShowDialog() == DialogResult.OK)
@@ -2056,17 +2113,16 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = kofd.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                //PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         else
         {
             using var dialog = new OpenFileDialog();
-            // Palette files are just XML documents
             dialog.CheckFileExists = true;
             dialog.CheckPathExists = true;
-            dialog.DefaultExt = @"xml";
-            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            dialog.DefaultExt = KryptonPaletteFile.Extension;
+            dialog.Filter = KryptonPaletteFile.DialogFilter;
             dialog.Title = @"Load Palette";
 
             // Get the actual file selected by the user
@@ -2075,7 +2131,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 paletteFileName = dialog.FileName;
 
                 // Set the theme name to the file name
-                PaletteName = paletteFileName;
+                //PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
             }
         }
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2086,18 +2142,18 @@ public class KryptonCustomPaletteBase : PaletteBase
         return paletteFileName;
     }
 
-    /// <summary>Import palette settings from a xml file. For use with action list.</summary>
+    /// <summary>Import palette settings from a palette file. For use with action list.</summary>
     /// <returns>Full path of imported filename; otherwise empty string.</returns>
     internal string ActionListImport(bool silent = false)
     {
+        KryptonPaletteFile.EnsureShellAssociations();
         var paletteFileName = string.Empty;
 
         using var dialog = new OpenFileDialog();
-        // Palette files are just XML documents
         dialog.CheckFileExists = true;
         dialog.CheckPathExists = true;
-        dialog.DefaultExt = @"xml";
-        dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+        dialog.DefaultExt = KryptonPaletteFile.Extension;
+        dialog.Filter = KryptonPaletteFile.DialogFilter;
         dialog.Title = @"Load Palette";
 
         // Get the actual file selected by the user
@@ -2106,7 +2162,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             paletteFileName = dialog.FileName;
 
             // Set the theme name to the file name
-            PaletteName = paletteFileName;
+            //PaletteName = Path.GetFileNameWithoutExtension(paletteFileName);
         }
 
         if (!string.IsNullOrWhiteSpace(paletteFileName))
@@ -2119,14 +2175,14 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Silent Import of palette settings from the specified xml file.
+    /// Silent Import of palette settings from the specified file (<c>.kthemex</c> XML, <c>.xml</c>, or a KPLT container).
     /// </summary>
     /// <param name="filename">Filename to load.</param>
     /// <returns>Full path of imported filename; otherwise empty string.</returns>
     public string Import(string filename) => Import(filename, true);
 
     /// <summary>
-    /// Import palette settings from the specified xml file.
+    /// Import palette settings from the specified file (<c>.kthemex</c> XML, <c>.xml</c>, or a KPLT container).
     /// </summary>
     /// <param name="filename">Filename to load.</param>
     /// <param name="silent">True, silent mode provides user interface feedback from the palette import process. No messages when false.</param>
@@ -2134,6 +2190,14 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <exception>Thrown if failure to import</exception>
     public string Import(string filename, bool silent)
     {
+        var resolved = KryptonPaletteFile.PromptLegacyXmlUpgrade(filename, silent);
+        if (resolved == null)
+        {
+            return string.Empty;
+        }
+
+        filename = resolved;
+
         string? ret;
 
         try
@@ -2177,29 +2241,156 @@ public class KryptonCustomPaletteBase : PaletteBase
         ret ??= string.Empty;
 
         // Set the file path
-        SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
+        //SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ret));
 
-        // Set the palette name
-        // TODO: Get paletteName from the paletteBase
-
-        SetPaletteName(Path.GetFileName(ret));
+        // Use bundled name from file if present, otherwise fall back to filename
+        //if (string.IsNullOrWhiteSpace(GetPaletteName()))
+        //{
+        //    // Set the theme name to the file name
+        //    SetPaletteName(Path.GetFileName(ret));
+        //}
 
         return ret;
     }
 
     /// <summary>
+    /// Import one named theme from a <c>.ktheme</c> pack (or a single-theme file whose name matches).
+    /// </summary>
+    /// <param name="filename">Filename to load.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    /// <returns>Full path of imported filename; otherwise empty string.</returns>
+    public string Import(string filename, string themeName) => Import(filename, themeName, true);
+
+    /// <summary>
+    /// Import one named theme from a <c>.ktheme</c> pack (or a single-theme file whose name matches).
+    /// </summary>
+    /// <param name="filename">Filename to load.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    /// <param name="silent">True, silent mode provides user interface feedback from the palette import process. No messages when false.</param>
+    /// <returns>Full path of imported filename; otherwise empty string.</returns>
+    public string Import(string filename, string themeName, bool silent)
+    {
+        if (string.IsNullOrWhiteSpace(themeName))
+        {
+            return Import(filename, silent);
+        }
+
+        var resolved = KryptonPaletteFile.PromptLegacyXmlUpgrade(filename, silent);
+        if (resolved == null)
+        {
+            return string.Empty;
+        }
+
+        filename = resolved;
+
+        string? ret;
+
+        try
+        {
+            SuspendUpdates();
+
+            if (silent)
+            {
+                ret = ImportFromFile(new object[] { filename, themeName }) as string;
+            }
+            else
+            {
+                ret = CommonHelper.PerformOperation(ImportFromFile!,
+                    new object[] { filename, themeName }) as string;
+
+                KryptonMessageBox.Show($"Import from file '{filename}' ({themeName}) completed.",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            if (!silent)
+            {
+                KryptonMessageBox.Show($"Import from file '{filename}' failed.\n\n Error:{ex.Message}",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK,
+                    KryptonMessageBoxIcon.Error);
+            }
+
+            throw;
+        }
+        finally
+        {
+            ResumeUpdates();
+        }
+
+        return ret ?? string.Empty;
+    }
+
+    /// <summary>
     /// Import palette settings from the specified stream.
     /// </summary>
-    /// <param name="stream">Stream that contains an XmlDocument.</param>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
     public void Import(Stream stream) =>
         // By default, the import is silent
         Import(stream, true);
 
     /// <summary>
-    /// Import xml palette - with auto upgrade - from the specified stream.
+    /// Import one named theme from a KPLT pack stream.
     /// </summary>
-    /// <param name="stream">Stream that contains an XmlDocument. Needs to have settable `Position`</param>
-    /// <exception>Will be thrown if the Palette Xml cannot be transformed, or is incorrect</exception>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    public void Import(Stream stream, string themeName) => Import(stream, themeName, true);
+
+    /// <summary>
+    /// Import one named theme from a KPLT pack stream.
+    /// </summary>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
+    /// <param name="themeName">Theme name in the collection. Comparison is case-insensitive.</param>
+    /// <param name="silent">Silent mode provides no user interface feedback.</param>
+    public void Import(Stream stream, string themeName, bool silent)
+    {
+        if (string.IsNullOrWhiteSpace(themeName))
+        {
+            Import(stream, silent);
+            return;
+        }
+
+        try
+        {
+            SuspendUpdates();
+
+            KryptonPaletteBinaryPersistence.Import(this, stream, themeName);
+
+            if (!silent)
+            {
+                KryptonMessageBox.Show(@"Import from stream completed.",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+            }
+        }
+        catch (Exception ex)
+        {
+            if (!silent)
+            {
+                KryptonMessageBox.Show($"Import from stream failed.\n\n Error:{ex.Message}",
+                    @"Palette Import",
+                    KryptonMessageBoxButtons.OK,
+                    KryptonMessageBoxIcon.Error);
+            }
+
+            throw;
+        }
+        finally
+        {
+            ResumeUpdates();
+        }
+    }
+
+    /// <summary>
+    /// Import a palette - with auto upgrade - from the specified stream.
+    /// Older XML (and compressed-XML <c>.ktheme</c>) is raised to
+    /// <see cref="SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION"/> before import.
+    /// Native <c>.ktheme</c> must already be the current schema.
+    /// </summary>
+    /// <param name="stream">Stream that contains XML or a KPLT container. Needs to have settable <c>Position</c>.</param>
+    /// <exception>Will be thrown if the palette cannot be transformed, or is incorrect</exception>
     public void ImportWithUpgrade(Stream stream)
     {
         try
@@ -2207,20 +2398,25 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Prevent lots of redraw events until all loading completes
             SuspendUpdates();
 
-            ImportFromStream(stream);
-        }
-        catch (ArgumentException aex)
-        {
-            // Probably due to a version conflict:
-            // throw new ArgumentException($"Version '{version}' number is incompatible, only version {CURRENT_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
-            CommonHelper.LogOutput(aex.Message);
-            if (!aex.Message.Contains(@"number is incompatible"))
+            // Raise older XML (and compressed-XML .ktheme) to the current schema before import.
+            // Do not wait for ImportFromXmlDocument to throw: that path used to show the
+            // version-mismatch dialog and swallow the exception, so Convert wrote an empty palette.
+            if (KryptonPaletteBinaryPersistence.TryGetSchemaVersion(stream, out var schemaVersion)
+                && schemaVersion < SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION)
             {
-                throw;
+                ImportUpgradedXml(stream, schemaVersion);
+                return;
             }
 
-            stream.Position = 0;
-            PerformUpgrade(stream);
+            try
+            {
+                ImportFromStream(stream);
+            }
+            catch (ArgumentException aex) when (IsPaletteSchemaVersionException(aex))
+            {
+                CommonHelper.LogOutput(aex.Message);
+                ImportUpgradedXml(stream, schemaVersion: 0);
+            }
         }
         finally
         {
@@ -2233,11 +2429,17 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="themeFilePath">The theme file path.</param>
     public void ImportWithUpgrade(string themeFilePath)
     {
+        var resolved = KryptonPaletteFile.PromptLegacyXmlUpgrade(themeFilePath, silent: false);
+        if (resolved == null)
+        {
+            return;
+        }
+
         FileStream? stream = null;
 
         try
         {
-            stream = new FileStream(path: themeFilePath, mode: FileMode.Open);
+            stream = new FileStream(path: resolved, mode: FileMode.Open);
 
             ImportWithUpgrade(stream);
         }
@@ -2254,45 +2456,90 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
     }
 
+    private void ImportUpgradedXml(Stream stream, int schemaVersion)
+    {
+        if (stream.CanSeek)
+        {
+            stream.Position = 0;
+        }
+
+        if (!KryptonPaletteBinaryPersistence.TryCopyXmlForUpgrade(stream, out var xmlStream))
+        {
+            var versionText = schemaVersion > 0 ? schemaVersion.ToString() : @"unknown";
+            ThrowHelper.ThrowArgumentException(
+                $"Version '{versionText}' number is incompatible, only version {SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+        }
+
+        using (xmlStream)
+        {
+            PerformUpgrade(xmlStream);
+        }
+    }
+
+    private static bool IsPaletteSchemaVersionException(Exception ex) =>
+        ex.Message.IndexOf(@"number is incompatible", StringComparison.Ordinal) >= 0;
+
     private void PerformUpgrade(Stream stream)
     {
-        try
+        var doc = new XmlDocument();
+        doc.Load(stream);
+
+        var root = doc.SelectSingleNode(@"KryptonPalette") as XmlElement;
+        if (root == null)
         {
-            using var reader = new StreamReader(stream);
-
-            var end = reader.ReadToEnd();
-            reader.Close();
-
-            using (var currentSupportedPaletteSchemaReader =
-                   new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
-            {
-                using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
-                {
-                    var xslToXmlTransformer = new XmlTransformer();
-
-                    xslToXmlTransformer.Load(xslTextReader);
-
-                    end = TransformXml(xslToXmlTransformer, end);
-                }
-            }
-
-            using var ms = new MemoryStream();
-            using (var writer = new StreamWriter(ms,
-                       /*StreamWriter.UTF8NoBOM*/ new UTF8Encoding(false, true),
-                       1024, true))
-            {
-                writer.WriteLine("<?xml version=\"1.0\"?>");
-                writer.Write(end);
-                writer.Flush();
-                writer.Close();
-            }
-            ms.Position = 0;
-            // If this goes boom, then something more needs to be done !
-            ImportFromStream(ms);
+            ThrowHelper.ThrowArgumentException(@"Root element must be called 'KryptonPalette'.");
         }
-        catch (Exception e)
+
+        var paletteName = root.HasAttribute(@"Name") ? root.GetAttribute(@"Name") : string.Empty;
+        var version = 0;
+        if (root.HasAttribute(nameof(Version)))
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            int.TryParse(root.GetAttribute(nameof(Version)), NumberStyles.Integer, CultureInfo.InvariantCulture,
+                out version);
+        }
+
+        // CurrentSupportedPaletteSchema is the historical 19→20 map (PaletteMode aliases, Prefix type).
+        // Schema 20 and 21 only need the Version attribute raised to the current persist version.
+        if (version < 20)
+        {
+            var transformed = TransformWithCurrentPaletteSchema(doc.OuterXml);
+            doc = new XmlDocument();
+            using (var reader = new StringReader(transformed))
+            {
+                doc.Load(reader);
+            }
+            root = doc.SelectSingleNode(@"KryptonPalette") as XmlElement;
+            if (root == null)
+            {
+                ThrowHelper.ThrowArgumentException(@"Root element must be called 'KryptonPalette'.");
+            }
+
+            if (!string.IsNullOrEmpty(paletteName) && !root.HasAttribute(@"Name"))
+            {
+                root.SetAttribute(@"Name", paletteName);
+            }
+        }
+
+        root.SetAttribute(nameof(Version),
+            SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
+
+        using var upgraded = new MemoryStream();
+        doc.Save(upgraded);
+        upgraded.Position = 0;
+        ImportFromStream(upgraded);
+    }
+
+    private string TransformWithCurrentPaletteSchema(string xml)
+    {
+        using (var currentSupportedPaletteSchemaReader =
+               new StreamReader(PaletteSchemaResources.CurrentSupportedPaletteSchema))
+        {
+            using (var xslTextReader = XmlReader.Create(currentSupportedPaletteSchemaReader))
+            {
+                var xslToXmlTransformer = new XmlTransformer();
+                xslToXmlTransformer.Load(xslTextReader);
+                return TransformXml(xslToXmlTransformer, xml);
+            }
         }
     }
 
@@ -2319,7 +2566,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <summary>
     /// Import palette settings from the specified stream.
     /// </summary>
-    /// <param name="stream">Stream that contains an XmlDocument.</param>
+    /// <param name="stream">Stream that contains XML or a KPLT container.</param>
     /// <param name="silent">Silent mode provides no user interface feedback.</param>
     public void Import(Stream stream, bool silent)
     {
@@ -2417,17 +2664,18 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Export palette settings to a user specified xml file.
+    /// Export palette settings to a user specified palette file.
     /// </summary>
     /// <returns>Full path of exported filename; otherwise empty string.</returns>
     public string? Export()
     {
+        KryptonPaletteFile.EnsureShellAssociations();
         if (KryptonManager._globalUseKryptonFileDialogs)
         {
             using var ksfd = new KryptonSaveFileDialog();
             ksfd.OverwritePrompt = true;
-            ksfd.DefaultExt = @"xml";
-            ksfd.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            ksfd.DefaultExt = KryptonPaletteFile.Extension;
+            ksfd.Filter = KryptonPaletteFile.DialogFilter;
             ksfd.Title = @"Save Palette As";
 
             if (ksfd.ShowDialog() == DialogResult.OK)
@@ -2435,7 +2683,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(ksfd.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = ksfd.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(ksfd.FileName);
 
                 return Export(ksfd.FileName, true, false);
             }
@@ -2443,10 +2691,9 @@ public class KryptonCustomPaletteBase : PaletteBase
         else
         {
             using var dialog = new SaveFileDialog();
-            // Palette files are just xml documents
             dialog.OverwritePrompt = true;
-            dialog.DefaultExt = @"xml";
-            dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+            dialog.DefaultExt = KryptonPaletteFile.Extension;
+            dialog.Filter = KryptonPaletteFile.DialogFilter;
             dialog.Title = @"Save Palette As";
 
             // Get the actual file selected by the user
@@ -2455,7 +2702,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
                 // Set the theme name to the file name
-                PaletteName = dialog.FileName;
+                PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
                 // Use the existing export overload that takes the target name
                 return Export(dialog.FileName, true, false);
@@ -2465,15 +2712,15 @@ public class KryptonCustomPaletteBase : PaletteBase
         return string.Empty;
     }
 
-    /// <summary>Export palette settings to a user specified xml file. For use with action list.</summary>
+    /// <summary>Export palette settings to a user specified palette file. For use with action list.</summary>
     /// <returns>Full path of exported filename; otherwise empty string.</returns>
     internal string? ActionListExport()
     {
+        KryptonPaletteFile.EnsureShellAssociations();
         using var dialog = new SaveFileDialog();
-        // Palette files are just xml documents
         dialog.OverwritePrompt = true;
-        dialog.DefaultExt = @"xml";
-        dialog.Filter = @"Palette files (*.xml)|*.xml|All files (*.*)|(*.*)";
+        dialog.DefaultExt = KryptonPaletteFile.Extension;
+        dialog.Filter = KryptonPaletteFile.DialogFilter;
         dialog.Title = @"Save Palette As";
 
         // Get the actual file selected by the user
@@ -2482,7 +2729,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             SetCustomisedKryptonPaletteFilePath(Path.GetFullPath(dialog.FileName));
 
             // Set the theme name to the file name
-            PaletteName = dialog.FileName;
+            PaletteName = Path.GetFileNameWithoutExtension(dialog.FileName);
 
             // Use the existing export overload that takes the target name
             return Export(dialog.FileName, true, false);
@@ -2492,22 +2739,236 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Export palette settings to the specified xml file.
+    /// Designer verb: convert an on-disk palette (legacy XML, <c>.kthemex</c>, or KPLT <c>.ktheme</c>)
+    /// to a new file, then import the result into this instance.
+    /// </summary>
+    internal string ActionListConvert() => ConvertFile(silent: false);
+
+    /// <summary>
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kthemex</c> in the same folder and imports the result.
+    /// The source file is left in place.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full path of the written <c>.kthemex</c> file.</returns>
+    /// <seealso cref="KryptonPaletteFile.UpgradeXmlToKthemex(string)"/>
+    public string UpgradeXmlToKthemex(string sourcePath, bool silent = true)
+    {
+        var destination = KryptonPaletteFile.UpgradeXmlToKthemex(sourcePath);
+        Import(destination, silent);
+        return destination;
+    }
+
+    /// <summary>
+    /// Rewrites a legacy <c>.xml</c> palette as <c>.kthemex</c> and imports the result.
+    /// The source file is left in place.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c> palette file.</param>
+    /// <param name="destinationPath">File to create or overwrite. Must be <c>.kthemex</c>.</param>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full path of the written <c>.kthemex</c> file.</returns>
+    /// <seealso cref="KryptonPaletteFile.UpgradeXmlToKthemex(string, string)"/>
+    public string UpgradeXmlToKthemex(string sourcePath, string destinationPath, bool silent = true)
+    {
+        var destination = KryptonPaletteFile.UpgradeXmlToKthemex(sourcePath, destinationPath);
+        Import(destination, silent);
+        return destination;
+    }
+
+    /// <summary>
+    /// Designer/runtime dialog: pick a legacy <c>.xml</c> palette, rewrite it as <c>.kthemex</c>
+    /// beside the source, and import the result into this instance.
+    /// </summary>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full path of the written <c>.kthemex</c> file; otherwise an empty string.</returns>
+    // ToDo V120 LTS: Remove this .xml picker once XmlExtension is retired.
+    public string UpgradeXmlToKthemex(bool silent = false)
+    {
+        KryptonPaletteFile.EnsureShellAssociations();
+
+        using var open = new OpenFileDialog();
+        open.CheckFileExists = true;
+        open.CheckPathExists = true;
+        open.DefaultExt = KryptonPaletteFile.XmlExtension;
+        open.Filter = @"XML palette files (*.xml)|*.xml|All files (*.*)|*.*";
+        open.Title = @"Upgrade XML Palette To .kthemex";
+
+        if (open.ShowDialog() != DialogResult.OK)
+        {
+            return string.Empty;
+        }
+
+        var destination = UpgradeXmlToKthemex(open.FileName, silent: true);
+        if (!silent)
+        {
+            KryptonMessageBox.Show($"Upgraded to file '{destination}'. The source .xml was left in place.",
+                @"Palette Upgrade",
+                KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        }
+
+        return destination;
+    }
+
+    /// <summary>
+    /// Designer verb: pick a legacy <c>.xml</c> palette, rewrite it as <c>.kthemex</c>, and import it.
+    /// </summary>
+    internal string ActionListUpgradeXml() => UpgradeXmlToKthemex(silent: false);
+
+    /// <summary>
+    /// Rewrites every Krypton palette <c>.xml</c> under <paramref name="directory"/> as <c>.kthemex</c>
+    /// beside the source. Does not import into this instance.
+    /// </summary>
+    /// <param name="directory">Folder to scan.</param>
+    /// <param name="searchSubdirectories">When <see langword="true"/>, include nested folders.</param>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>Converted paths, skipped non-palette XML, and per-file errors.</returns>
+    /// <seealso cref="KryptonPaletteFile.UpgradeXmlToKthemexFromDirectory(string, bool)"/>
+    // ToDo V120 LTS: Remove with XmlExtension.
+    public KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKthemexFromDirectory(string directory,
+        bool searchSubdirectories = true,
+        bool silent = true)
+    {
+        var result = KryptonPaletteFile.UpgradeXmlToKthemexFromDirectory(directory, searchSubdirectories);
+        if (!silent)
+        {
+            ShowDirectoryUpgradeSummary(result);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Designer/runtime dialog: pick a folder of legacy <c>.xml</c> palettes and rewrite each as
+    /// <c>.kthemex</c> beside the source (nested folders included). Does not import into this instance.
+    /// </summary>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The batch result, or <see cref="KryptonPaletteDirectoryUpgradeResult.Empty"/> when cancelled.</returns>
+    // ToDo V120 LTS: Remove with XmlExtension.
+    public KryptonPaletteDirectoryUpgradeResult UpgradeXmlToKthemexFromDirectory(bool silent = false)
+    {
+        using var folder = new KryptonFolderBrowserDialog();
+        folder.Title = @"Upgrade folder .xml to .kthemex";
+
+        if (folder.ShowDialog() != DialogResult.OK || string.IsNullOrWhiteSpace(folder.SelectedPath))
+        {
+            return KryptonPaletteDirectoryUpgradeResult.Empty;
+        }
+
+        return UpgradeXmlToKthemexFromDirectory(folder.SelectedPath, searchSubdirectories: true, silent);
+    }
+
+    /// <summary>
+    /// Designer verb: pick a folder of legacy <c>.xml</c> palettes and rewrite each as <c>.kthemex</c>.
+    /// </summary>
+    internal KryptonPaletteDirectoryUpgradeResult ActionListUpgradeXmlDirectory() =>
+        UpgradeXmlToKthemexFromDirectory(silent: false);
+
+    private static void ShowDirectoryUpgradeSummary(KryptonPaletteDirectoryUpgradeResult result)
+    {
+        var icon = result.ErrorCount > 0 ? KryptonMessageBoxIcon.Warning : KryptonMessageBoxIcon.Information;
+        KryptonMessageBox.Show(result.ToSummaryString(), @"Upgrade folder .xml to .kthemex",
+            KryptonMessageBoxButtons.OK, icon);
+    }
+
+    /// <summary>
+    /// Loads a palette file, applies the XML schema upgrade when needed, writes
+    /// <paramref name="destinationPath"/>, and imports the result into this instance.
+    /// Legacy <c>.xml</c> sources destined for <c>.kthemex</c> use
+    /// <see cref="KryptonPaletteFile.UpgradeXmlToKthemex(string, string)"/>.
+    /// </summary>
+    /// <param name="sourcePath">Existing <c>.xml</c>, <c>.kthemex</c>, or KPLT <c>.ktheme</c> file.</param>
+    /// <param name="destinationPath">File to create or overwrite.</param>
+    /// <param name="silent"><see langword="true"/> to omit the import completion message box.</param>
+    /// <returns>The full destination path.</returns>
+    public string ConvertFile(string sourcePath, string destinationPath, bool silent = true)
+    {
+        var destIsKthemex = string.Equals(Path.GetExtension(destinationPath),
+            @"." + KryptonPaletteFile.Extension,
+            StringComparison.OrdinalIgnoreCase);
+        var destination = KryptonPaletteFile.IsLegacyXmlExtension(sourcePath) && destIsKthemex
+            ? KryptonPaletteFile.UpgradeXmlToKthemex(sourcePath, destinationPath)
+            : KryptonPaletteFile.Convert(sourcePath, destinationPath);
+
+        Import(destination, silent);
+        return destination;
+    }
+
+    /// <summary>
+    /// Designer/runtime dialog: convert an on-disk palette to a new file, then import the result.
+    /// </summary>
+    /// <param name="silent"><see langword="true"/> to omit the completion message box.</param>
+    /// <returns>The full destination path; otherwise an empty string.</returns>
+    public string ConvertFile(bool silent = false)
+    {
+        KryptonPaletteFile.EnsureShellAssociations();
+
+        using var open = new OpenFileDialog();
+        open.CheckFileExists = true;
+        open.CheckPathExists = true;
+        // ToDo V120 LTS: Default this open dialog to Extension (.kthemex) once .xml is retired.
+        open.DefaultExt = KryptonPaletteFile.XmlExtension;
+        open.Filter = KryptonPaletteFile.DialogFilter;
+        open.Title = @"Convert Palette From";
+
+        if (open.ShowDialog() != DialogResult.OK)
+        {
+            return string.Empty;
+        }
+
+        using var save = new SaveFileDialog();
+        save.OverwritePrompt = true;
+        save.DefaultExt = KryptonPaletteFile.Extension;
+        save.Filter = KryptonPaletteFile.DialogFilter;
+        save.Title = @"Convert Palette To";
+        save.FileName = Path.GetFileNameWithoutExtension(open.FileName) + @"." + KryptonPaletteFile.Extension;
+
+        if (save.ShowDialog() != DialogResult.OK)
+        {
+            return string.Empty;
+        }
+
+        var destination = ConvertFile(open.FileName, save.FileName, silent: true);
+        if (!silent)
+        {
+            KryptonMessageBox.Show($"Converted to file '{destination}'.",
+                @"Palette Convert",
+                KryptonMessageBoxButtons.OK, KryptonMessageBoxIcon.Information);
+        }
+
+        return destination;
+    }
+
+    /// <summary>
+    /// Export palette settings to the specified file. <c>.kthemex</c> and <c>.xml</c> write XML;
+    /// <c>.ktheme</c> writes the optional native persist stream.
     /// </summary>
     /// <param name="filename">Filename to create or overwrite.</param>
     /// <param name="ignoreDefaults">Should default values be exported.</param>
     /// <returns>Full path of exported filename; otherwise empty string.</returns>
+    // ToDo V120 LTS: Stop writing .xml from path Export; FormatFromPath should not map .xml. Prefer .kthemex.
     public string? Export(string filename, bool ignoreDefaults)
         => Export(filename, ignoreDefaults, true);
 
     /// <summary>
-    /// Export palette settings to the specified xml file.
+    /// Export palette settings to the specified file. <c>.kthemex</c> and <c>.xml</c> write XML;
+    /// <c>.ktheme</c> writes the optional native persist stream.
     /// </summary>
     /// <param name="filename">Filename to create or overwrite.</param>
     /// <param name="ignoreDefaults">Should default values be exported.</param>
     /// <param name="silent">Silent mode provides no user interface feedback.</param>
     /// <returns>Full path of exported filename; otherwise empty string.</returns>
     public string? Export(string filename, bool ignoreDefaults, bool silent)
+        => Export(filename, ignoreDefaults, silent, KryptonPaletteFile.FormatFromPath(filename));
+
+    /// <summary>
+    /// Export palette settings to the specified file using an explicit persist format.
+    /// </summary>
+    /// <param name="filename">Filename to create or overwrite.</param>
+    /// <param name="ignoreDefaults">Should default values be exported.</param>
+    /// <param name="silent">Silent mode provides no user interface feedback.</param>
+    /// <param name="format">XML, compressed-XML container, or native binary container.</param>
+    /// <returns>Full path of exported filename; otherwise empty string.</returns>
+    public string? Export(string filename, bool ignoreDefaults, bool silent, KryptonPaletteFileFormat format)
     {
         string? ret;
 
@@ -2518,13 +2979,13 @@ public class KryptonCustomPaletteBase : PaletteBase
 
             if (silent)
             {
-                ret = ExportToFile(new object[] { filename, ignoreDefaults }) as string;
+                ret = ExportToFile(new object[] { filename, ignoreDefaults, format }) as string;
             }
             else
             {
                 // Perform the import operation on a separate worker thread
                 ret = CommonHelper.PerformOperation(ExportToFile!,
-                    new object[] { filename, ignoreDefaults }) as string;
+                    new object[] { filename, ignoreDefaults, format }) as string;
 
                 KryptonMessageBox.Show($"Export to file '{filename}' completed.",
                     @"Palette Export",
@@ -2554,10 +3015,14 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
 
     /// <summary>
-    /// Export palette settings into a stream object.
+    /// Export palette settings into a stream object as XML.
     /// </summary>
     /// <param name="stream">Destination stream for exporting.</param>
     /// <param name="ignoreDefaults">Should default values be exported.</param>
+    /// <remarks>
+    /// This overload always writes XML so existing callers keep their current bytes.
+    /// Use <see cref="ExportPalette(Stream, KryptonPaletteFileFormat, bool)"/> for an optional KPLT container.
+    /// </remarks>
     public void Export(Stream stream, bool ignoreDefaults) =>
         // By default, the export is silent
         Export(stream, ignoreDefaults, true);
@@ -2609,6 +3074,32 @@ public class KryptonCustomPaletteBase : PaletteBase
             ResumeUpdates();
         }
     }
+
+    /// <summary>
+    /// Export palette settings into a stream using an explicit persist format.
+    /// </summary>
+    /// <param name="stream">Destination stream for exporting.</param>
+    /// <param name="format">XML, compressed-XML container, or native binary container.</param>
+    /// <param name="ignoreDefaults">Should default values be exported.</param>
+    public void ExportPalette(Stream stream, KryptonPaletteFileFormat format, bool ignoreDefaults)
+    {
+        ThrowHelper.ThrowIfNull(stream);
+        try
+        {
+            SuspendUpdates();
+            KryptonPaletteBinaryPersistence.Export(this, stream, format, ignoreDefaults);
+        }
+        finally
+        {
+            ResumeUpdates();
+        }
+    }
+
+    /// <summary>
+    /// Import palette settings from a stream, sniffing XML versus a KPLT container.
+    /// </summary>
+    /// <param name="stream">Source stream. Prefer a seekable stream.</param>
+    public void ImportPalette(Stream stream) => Import(stream, true);
 
     /// <summary>
     /// Export palette settings into an array of bytes.
@@ -2678,6 +3169,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public bool IsDefault => !(ShouldSerializeCustomisedKryptonPaletteFilePath()
                                || ShouldSerializePaletteName()
+                               || ShouldSerializeBasePaletteMode()
                                || ShouldSerializeBasePalette()
                                || ShouldSerializeBaseRendererMode()
                                || ShouldSerializeBaseRenderer()
@@ -2690,6 +3182,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     {
         ResetCustomisedKryptonPaletteFilePath();
         ResetPaletteName();
+        ResetBasePaletteMode();
         ResetBasePalette();
         ResetBaseRendererMode();
         ResetBaseRenderer();
@@ -2718,11 +3211,99 @@ public class KryptonCustomPaletteBase : PaletteBase
     private void ResetPaletteName() => PaletteName = string.Empty;
 
     /// <summary>
+    /// Gets or sets an optional preview image for this palette (recommended
+    /// <see cref="KryptonPaletteFile.RecommendedThumbnailSize"/> square PNG).
+    /// </summary>
+    /// <remarks>
+    /// Persists in <c>.kthemex</c> / XML as a base64 PNG in the image cache, and in native <c>.ktheme</c>.
+    /// Older toolkits skip the property. Collection files also store a trailing thumbnail catalog for fast
+    /// listing without a full import. Selectors, <see cref="KryptonThemeListView"/>, the collection editor, and file-system icons
+    /// show the preview with the Stable Kr tile as a corner overlay; files without a preview use the Kr tile alone.
+    /// </remarks>
+    [KryptonPersist(false, false)]
+    [Category(@"Visuals")]
+    [Description(@"Optional preview image shown by palette file selectors.")]
+    [DefaultValue(null)]
+    public Image? Thumbnail { get; set; }
+
+    private bool ShouldSerializeThumbnail() => Thumbnail != null;
+
+    private void ResetThumbnail() => Thumbnail = null;
+
+    /// <summary>
+    /// Gets or sets the builtin palette used to inherit unset colours and styles from.
+    /// </summary>
+    /// <remarks>
+    /// Changing this value updates <see cref="BasePalette"/> and the inherited
+    /// <see cref="ColorTable"/>. To inherit from another <see cref="KryptonCustomPaletteBase"/>,
+    /// assign that instance to <see cref="BasePalette"/> instead.
+    /// </remarks>
+    [KryptonPersist(false, false)]
+    [Category(@"Visuals")]
+    [Description(@"Base palette used to inherit from.")]
+    [DefaultValue(ToolkitStaticConstants.GLOBAL_DEFAULT_PALETTE_MODE)]
+    [RefreshProperties(RefreshProperties.All)]
+    public PaletteMode BasePaletteMode
+    {
+        get => _basePaletteMode;
+
+        set
+        {
+            if (_basePaletteMode != value)
+            {
+                // Action depends on new value
+                if (value == PaletteMode.Custom)
+                {
+                    // Do nothing, you must assign a palette to the
+                    // 'BasePalette' property in order to get the custom mode
+                    return;
+                }
+
+                // Cache the original values
+                PaletteMode tempMode = _basePaletteMode;
+                PaletteBase? tempPalette = _basePalette;
+
+                // Use the new value
+                _basePaletteMode = value;
+                _basePalette = KryptonManager.GetPaletteForMode(_basePaletteMode);
+
+                // If the new value creates a circular reference
+                if (HasCircularReference())
+                {
+                    // Restore the original values
+                    _basePaletteMode = tempMode;
+                    _basePalette = tempPalette;
+
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                }
+
+                // Restore the original base palette as 'SetPalette' will not
+                // work correctly unless it still has the old value in place
+                _basePalette = tempPalette;
+
+                // Get a reference to the standard palette from its name
+                SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
+
+                // Fire events to indicate a change in palette values
+                OnBasePaletteChanged(this, EventArgs.Empty);
+                OnBaseRendererChanged(this, EventArgs.Empty);
+                OnButtonSpecChanged(this, EventArgs.Empty);
+                OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+            }
+        }
+    }
+
+    private bool ShouldSerializeBasePaletteMode() => BasePaletteMode != ThemeManager.DefaultGlobalPalette;
+
+    private void ResetBasePaletteMode() => BasePaletteMode = ThemeManager.DefaultGlobalPalette;
+
+    /// <summary>
     /// Gets and sets the KryptonPalette used to inherit from.
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"KryptonPalette used to inherit from.")]
     [DefaultValue(null)]
+    [RefreshProperties(RefreshProperties.All)]
     public PaletteBase? BasePalette
     {
         get => _basePalette;
@@ -2732,11 +3313,37 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Only interested in changes of value
             if (_basePalette != value)
             {
+                // Store the original values
+                PaletteMode tempMode = _basePaletteMode;
+                PaletteBase? tempPalette = _basePalette;
+
+                // Builtin instances keep their catalog mode so the designer persists BasePaletteMode
+                // instead of Custom. Another KryptonCustomPaletteBase still maps to Custom.
+                _basePaletteMode = value == null
+                    ? ThemeManager.DefaultGlobalPalette
+                    : KryptonManager.GetModeForPalette(value);
+                _basePalette = value;
+
+                if (HasCircularReference())
+                {
+                    // Put back the original palette details
+                    _basePaletteMode = tempMode;
+                    _basePalette = tempPalette;
+
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Cannot use palette that would create a circular reference");
+                }
+                else
+                {
+                    // Restore the original base palette as 'SetPalette' will not
+                    // work correctly unless it still has the old value in place
+                    _basePalette = tempPalette;
+                }
+
                 // If no custom palette is required
                 if (value == null)
                 {
                     // Get the appropriate palette for the global mode
-                    SetPalette(KryptonManager.GetPaletteForMode(ThemeManager.DefaultGlobalPalette));
+                    SetPalette(KryptonManager.GetPaletteForMode(_basePaletteMode));
                 }
                 else
                 {
@@ -2754,7 +3361,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         }
     }
 
-    private bool ShouldSerializeBasePalette() => BasePalette != null;
+    private bool ShouldSerializeBasePalette() => BasePaletteMode == PaletteMode.Custom && BasePalette != null;
     private void ResetBasePalette() => BasePalette = null;
 
     /// <summary>
@@ -2835,8 +3442,14 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <summary>
     /// Gets access to the color table instance.
     /// </summary>
-    [Browsable(false)]
-    [EditorBrowsable(EditorBrowsableState.Never)]
+    /// <remarks>
+    /// Resolved colours inherit from the current <see cref="BasePalette"/>. Override
+    /// individual entries through <see cref="ToolMenuStatus"/>; this property is not serialized.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Inherited tool, menu and status strip colours from the base palette. Override individual colours via ToolMenuStatus.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
     public override KryptonColorTable ColorTable => ToolMenuStatus.InternalKCT;
 
     /// <inheritdoc />
@@ -2948,6 +3561,52 @@ public class KryptonCustomPaletteBase : PaletteBase
     }
     #endregion
 
+        #region Internal
+        internal bool HasCircularReference()
+        {
+            // Use a dictionary as a set to check for existence
+            var paletteSet = new Dictionary<PaletteBase, bool>();
+
+            // Start processing from ourself upwards
+            PaletteBase? palette = this;
+
+            // Keep searching until no more palettes found
+            while (palette != null)
+            {
+                // If the palette has already been encountered then it is a circular reference
+                if (paletteSet.ContainsKey(palette))
+                {
+                    return true;
+                }
+                else
+                {
+                    // Otherwise, add to the set
+                    paletteSet.Add(palette, true);
+                    // Cast to correct type
+
+                    // If this is a KryptonPalette instance
+                    if (palette is KryptonCustomPaletteBase owner)
+                    {
+                        // Get the next palette up in hierarchy
+                        palette = owner.BasePaletteMode switch
+                        {
+                            PaletteMode.Custom => owner.BasePalette,
+                            PaletteMode.Global => KryptonManager.CurrentGlobalPalette,
+                            _ => null
+                        };
+                    }
+                    else
+                    {
+                        palette = null;
+                    }
+                }
+            }
+
+            // No circular reference encountered
+            return false;
+        }
+        #endregion
+
     #region Implementation Persistence, Used by threading
     private object? ResetOperation(object? parameter)
     {
@@ -2989,26 +3648,36 @@ public class KryptonCustomPaletteBase : PaletteBase
 
     private object? ImportFromFile([DisallowNull] object? parameter)
     {
-        // Cast to correct type
-        if (parameter is not string filename)
+        string? filename = null;
+        string? themeName = null;
+
+        switch (parameter)
+        {
+            case string path:
+                filename = path;
+                break;
+            case object[] { Length: > 0 } args:
+                filename = args[0] as string;
+                if (args.Length > 1)
+                {
+                    themeName = args[1] as string;
+                }
+
+                break;
+        }
+
+        if (string.IsNullOrWhiteSpace(filename))
         {
             return null;
         }
 
-        // Check the target file actually exists
         if (!File.Exists(filename))
         {
-            throw new ArgumentException(@"Provided file does not exist.", nameof(parameter));
+            ThrowHelper.ThrowArgumentException(@"Provided file does not exist.", nameof(parameter));
         }
 
-        // Create a new xml document for storing the palette settings
-        var doc = new XmlDocument();
-
-        // Attempt to load as a valid xml document
-        doc.Load(filename);
-
-        // Perform actual import using the XmlDocument we just loaded
-        ImportFromXmlDocument(doc);
+        using var stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+        KryptonPaletteBinaryPersistence.Import(this, stream, themeName);
 
         return filename;
     }
@@ -3021,14 +3690,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             return null;
         }
 
-        // Create a new xml document for storing the palette settings
-        var doc = new XmlDocument();
-
-        // Attempt to load from the provided stream
-        doc.Load(stream);
-
-        // Perform actual import using the XmlDocument we just loaded
-        ImportFromXmlDocument(doc);
+        KryptonPaletteBinaryPersistence.Import(this, stream);
 
         return stream;
     }
@@ -3053,7 +3715,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         return null;
     }
 
-    private void ImportFromXmlDocument([DisallowNull] XmlDocument doc)
+    internal void ImportFromXmlDocument([DisallowNull] XmlDocument doc)
     {
         // Remember the current culture setting
         var culture = Thread.CurrentThread.CurrentCulture;
@@ -3066,7 +3728,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             // We insist on a root element
             if (!doc.HasChildNodes)
             {
-                throw new ArgumentException("Xml document does not have a root element.");
+                ThrowHelper.ThrowArgumentException("Xml document does not have a root element.");
             }
 
             // Try and grab the root element
@@ -3075,23 +3737,42 @@ public class KryptonCustomPaletteBase : PaletteBase
             // We insist the root is always present
             if (root == null)
             {
-                throw new ArgumentException("Root element must be called 'KryptonPalette'.");
+                ThrowHelper.ThrowArgumentException("Root element must be called 'KryptonPalette'.");
             }
 
             // We insist the version number is always present
             if (!root.HasAttribute(nameof(Version)))
             {
-                throw new ArgumentException("Root element must have an attribute called 'Version'.");
+                ThrowHelper.ThrowArgumentException("Root element must have an attribute called 'Version'.");
             }
 
             // Grab the version number of the format being loaded
             var version = int.Parse(root.GetAttribute(nameof(Version)));
 
-            if (version < GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION)
+            if (version < SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION)
             {
-                throw new ArgumentException(
-                    $"Version '{version}' number is incompatible, only version {GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
+                ThrowHelper.ThrowArgumentException($"Version '{version}' number is incompatible, only version {SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION} or above can be imported.\nUse the PaletteUpgradeTool from the Application tab of the KryptonExplorer to upgrade.");
             }
+
+            // Restore bundled palette name so external themes display correctly (e.g. in KryptonManager)
+            if (root.HasAttribute("Name"))
+            {
+                SetPaletteName(root.GetAttribute("Name"));
+            }
+
+            // Import order: establish a full baseline from BasePalette, then apply the XML theme on top.
+            //
+            // PopulateFromBaseOperation resets the palette hierarchy and copies values from the current
+            // BasePalette (via each storage type's PopulateFromBase). That ensures every property that the
+            // theme file does NOT serialize still reflects inheritance from the base theme instead of
+            // leftover C# defaults or stale state from a previous load—avoiding gaps in metrics, button
+            // specs, header chrome, etc. (e.g. stray rendering next to caption buttons).
+            //
+            // The steps below (ImportImagesFromElement / ImportObjectFromElement) then overwrite only what
+            // the XML actually defines. Theme wins for anything present in the file; anything omitted keeps
+            // the values we just populated from BasePalette. Doing populate after import would fight the
+            // file and could reset explicit theme settings, so populate must run first.
+            //PopulateFromBaseOperation(null);
 
             // Grab the properties and images elements
             var props = root.SelectSingleNode(nameof(Properties)) as XmlElement;
@@ -3100,12 +3781,12 @@ public class KryptonCustomPaletteBase : PaletteBase
             // There must be both properties and images elements present
             if (props == null)
             {
-                throw new ArgumentException("Element 'Properties' missing from the 'KryptonPalette'.");
+                ThrowHelper.ThrowArgumentException("Element 'Properties' missing from the 'KryptonPalette'.");
             }
 
             if (images == null)
             {
-                throw new ArgumentException("Element 'Images' missing from the 'KryptonPalette'.");
+                ThrowHelper.ThrowArgumentException("Element 'Images' missing from the 'KryptonPalette'.");
             }
 
             // Cache the images from the images element
@@ -3114,14 +3795,17 @@ public class KryptonCustomPaletteBase : PaletteBase
             // Use reflection to import the palette hierarchy
             ImportImagesFromElement(images, imageCache);
             ImportObjectFromElement(props, imageCache, this);
-
-            // Set the palette name
-            // TODO: Get paletteName from the paletteBase
-            //SetPaletteName(root.SelectSingleNode(Name));
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            // Version mismatches are recovered by ImportWithUpgrade / Convert; do not show
+            // the exception dialog or swallow the error (that left Convert with an empty palette).
+            if (IsPaletteSchemaVersionException(e))
+            {
+                throw;
+            }
+
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
         finally
         {
@@ -3138,23 +3822,23 @@ public class KryptonCustomPaletteBase : PaletteBase
             return null;
         }
 
-        // Extract the two provided parameters
+        // Extract the provided parameters
         var filename = (string)parameters[0];
         var ignoreDefaults = (bool)parameters[1];
+        var format = parameters.Length > 2
+            ? (KryptonPaletteFileFormat)parameters[2]
+            : KryptonPaletteFile.FormatFromPath(filename);
 
         var info = new FileInfo(filename);
 
         // Check the target directory actually exists
         if (info.Directory is { Exists: false })
         {
-            throw new ArgumentException("Provided directory does not exist.");
+            ThrowHelper.ThrowArgumentException("Provided directory does not exist.");
         }
 
-        // Create an XmlDocument containing the saved palette details
-        var doc = ExportToXmlDocument(ignoreDefaults);
-
-        // Save to the provided filename
-        doc.Save(filename);
+        using var stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None);
+        KryptonPaletteBinaryPersistence.Export(this, stream, format, ignoreDefaults);
 
         return filename;
     }
@@ -3208,11 +3892,13 @@ public class KryptonCustomPaletteBase : PaletteBase
         return ms.GetBuffer();
     }
 
-    private XmlDocument ExportToXmlDocument(bool ignoreDefaults)
+    internal XmlDocument ExportToXmlDocument(bool ignoreDefaults)
     {
         // Remember the current culture setting
         var culture = Thread.CurrentThread.CurrentCulture;
 
+        // Let export failures propagate. Public Export uses silent to decide whether to show UI.
+        // Catching here used to show a modal exception dialog and return an empty document.
         try
         {
             // Use the invariant culture for persistence
@@ -3232,16 +3918,23 @@ public class KryptonCustomPaletteBase : PaletteBase
             doc.AppendChild(doc.CreateComment(
                 "New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)"));
             doc.AppendChild(doc.CreateComment(
-                $"Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
+                $"Modifications by Peter Wagner (aka Wagnerp) & Simon Coghlan (aka Smurf-IV), Giduac, tobitege, Lesandro, KamaniAR, et al. 2017 - {DateTime.Now.Year}. All rights reserved."));
             doc.AppendChild(doc.CreateComment("WARNING: Modifying this file may render it invalid for importing."));
             doc.AppendChild(doc.CreateComment($@"Date created: {DateTime.Now.ToLongDateString()}"));
 
             // Create a root node with version and the date information, by
             // having a version number the loading of older version is easier
             var root = doc.CreateElement("KryptonPalette");
-            root.SetAttribute(nameof(Version), GlobalStaticValues.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
+            root.SetAttribute(nameof(Version), SharedStaticConstants.CURRENT_SUPPORTED_PALETTE_VERSION.ToString());
             root.SetAttribute("Generated",
                 $"{DateTime.Now.ToLongDateString()}, @{DateTime.Now.ToShortTimeString()}");
+
+            // Bundle the palette display name so it can be shown correctly when loaded (e.g. in KryptonManager)
+            if (!string.IsNullOrWhiteSpace(PaletteName))
+            {
+                root.SetAttribute("Name", PaletteName);
+            }
+
             doc.AppendChild(root);
 
             // Add two children, one for storing actual palette values the other for cached images
@@ -3258,12 +3951,6 @@ public class KryptonCustomPaletteBase : PaletteBase
             ExportImagesToElement(doc, images, imageCache);
 
             return doc;
-        }
-        catch (Exception e)
-        {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
-
-            return new XmlDocument();
         }
         finally
         {
@@ -3288,80 +3975,94 @@ public class KryptonCustomPaletteBase : PaletteBase
                 // Search each of the attributes applied to the property
                 foreach (var attrib in prop.GetCustomAttributes(false))
                 {
-                    // Is it marked with the special krypton persist marker?
-                    if (attrib is KryptonPersistAttribute persistAttribute)
+                    //The addition was suppressed, which caused CS0272
+                    if (prop.Name != "PaletteName" && prop.Name != "CustomisedKryptonPaletteFilePath")
                     {
-                        // Cast attribute to the correct type
-
-                        // Check if there is an element matching the property
-
-                        // Can only import if a matching XML element is found
-                        if (element?.SelectSingleNode(prop.Name) is XmlElement childElement)
+                        // Is it marked with the special krypton persist marker?
+                        if (attrib is KryptonPersistAttribute persistAttribute)
                         {
-                            // Should we navigate down inside the property?
-                            if (persistAttribute.Navigate)
-                            {
-                                // If we can read the property value
-                                if (prop.CanRead)
-                                {
-                                    // Grab the property object and recurse into it
-                                    var childObj = prop.GetValue(obj, null);
-                                    ImportObjectFromElement(childElement, imageCache, childObj);
-                                }
-                            }
-                            else
-                            {
-                                // The xml element must have a type and value in order to recreate it
-                                if (childElement.HasAttribute(nameof(Type)) &&
-                                    childElement.HasAttribute(@"Value"))
-                                {
-                                    // Get the type/value attributes
-                                    var valueType = childElement.GetAttribute(nameof(Type));
-                                    var valueValue = childElement.GetAttribute(@"Value");
+                            // Cast attribute to the correct type
 
-                                    // We special case the loading of images
-                                    if (prop.PropertyType == typeof(Image))
+                            // Check if there is an element matching the property
+
+                            // Can only import if a matching XML element is found
+                            if (element?.SelectSingleNode(prop.Name) is XmlElement childElement)
+                            {
+                                // Should we navigate down inside the property?
+                                if (persistAttribute.Navigate)
+                                {
+                                    // If we can read the property value
+                                    if (prop.CanRead)
                                     {
-                                        if (valueValue.Length == 0)
+                                        // Grab the property object and recurse into it
+                                        var childObj = prop.GetValue(obj, null);
+                                        ImportObjectFromElement(childElement, imageCache, childObj);
+                                    }
+                                }
+                                else
+                                {
+                                    // The xml element must have a type and value in order to recreate it
+                                    if (childElement.HasAttribute(nameof(Type)) &&
+                                        childElement.HasAttribute(@"Value"))
+                                    {
+                                        // Get the type/value attributes
+                                        var valueType = childElement.GetAttribute(nameof(Type));
+                                        var valueValue = childElement.GetAttribute(@"Value");
+
+                                        // We special case the loading of images
+                                        if (prop.PropertyType == typeof(Image))
                                         {
-                                            // An empty string represents a null image value
-                                            prop.SetValue(obj, null, null);
+                                            if (valueValue.Length == 0)
+                                            {
+                                                // An empty string represents a null image value
+                                                prop.SetValue(obj, null, null);
+                                            }
+                                            else
+                                            {
+                                                /*// Have we already encountered the image?
+                                                        if (imageCache.ContainsKey(valueValue))
+                                                        {
+                                                            // Push the image from the cache into the property
+                                                            prop.SetValue(obj, valueValue, null);
+                                                        }
+                                                        else
+                                                        {
+                                                            // Cannot find image to set to empty
+                                                            prop.SetValue(obj, null, null);
+                                                        }*/
+
+                                                // If image exists in dictionary, push the image from the cache into the property, else null.
+                                                prop.SetValue(obj, imageCache.TryGetValue(valueValue, out var imageValue) ? imageValue : null, null);
+                                            }
                                         }
                                         else
                                         {
-                                            /*// Have we already encountered the image?
-                                                    if (imageCache.ContainsKey(valueValue))
-                                                    {
-                                                        // Push the image from the cache into the property
-                                                        prop.SetValue(obj, valueValue, null);
-                                                    }
-                                                    else
-                                                    {
-                                                        // Cannot find image to set to empty
-                                                        prop.SetValue(obj, null, null);
-                                                    }*/
+                                            object? setValue = null;
 
-                                            // If image exists in dictionary, push the image from the cache into the property, else null.
-                                            prop.SetValue(obj, imageCache.TryGetValue(valueValue, out var imageValue) ? imageValue : null, null);
+                                            // Resolve the CLR type from the serialized Type attribute
+                                            Type resolvedType = StringToType(valueType);
+
+                                            // -----------------------------------------------------------------
+                                            // We intentionally skip conversion when importing a Font with
+                                            // Value="(none)".
+                                            //
+                                            // Reason:
+                                            // - "(none)" represents an explicitly unset Font (Font == null)
+                                            // - Converting "(none)" using FontConverter would return
+                                            //   a default Font instance instead of null
+                                            //
+                                            // By skipping the conversion, the property is correctly restored
+                                            // as null.
+                                            // -----------------------------------------------------------------
+                                            if (resolvedType != typeof(Font) || valueValue != "(none)")
+                                            {
+                                                var converter = TypeDescriptor.GetConverter(resolvedType);
+                                                setValue = converter.ConvertFromInvariantString(valueValue);
+                                            }
+
+                                            // Assign the restored value (null for "(none)" Font cases)
+                                            prop.SetValue(obj, setValue, null);
                                         }
-                                    }
-                                    else
-                                    {
-                                        object? setValue = null;
-
-                                        // We ignore conversion of a Font of value (none) because instead
-                                        // of providing null it returns a default font value
-                                        if (valueType != nameof(Font) || valueValue != @"(none)")
-                                        {
-                                            // We need the type converter to create a string representation
-                                            var converter = TypeDescriptor.GetConverter(StringToType(valueType));
-
-                                            // Recreate the value using the converter
-                                            setValue = converter.ConvertFromInvariantString(valueValue);
-                                        }
-
-                                        // Push the value into the actual property
-                                        prop.SetValue(obj, setValue, null);
                                     }
                                 }
                             }
@@ -3371,7 +4072,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             }
         }
     }
-
+    
     private void ImportImagesFromElement(XmlElement element, ImageReverseDictionary imageCache)
     {
         // Get all nodes storing images
@@ -3504,10 +4205,29 @@ public class KryptonCustomPaletteBase : PaletteBase
                         // Should we test if the property value is the default?
                         if (ignoreDefaults)
                         {
+                            // First prefer the component-model pattern used across the palette hierarchy.
+                            // If a ShouldSerialize<PropertyName>() method exists and returns false, treat
+                            // the property as default and do not export it.
+                            var shouldSerializeMethod = t.GetMethod($"ShouldSerialize{prop.Name}",
+                                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                                binder: null,
+                                types: Type.EmptyTypes,
+                                modifiers: null);
+
+                            if (shouldSerializeMethod != null &&
+                                shouldSerializeMethod.ReturnType == typeof(bool))
+                            {
+                                if (!(bool)shouldSerializeMethod.Invoke(obj, null)!)
+                                {
+                                    ignore = true;
+                                }
+                            }
+
                             var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
                             // Does this property have a default value attribute?
-                            if (defaultAttribs.Length == 1)
+                            // Use the first one found (KryptonDefaultColor is a DefaultValueAttribute subclass)
+                            if (!ignore && defaultAttribs.Length >= 1)
                             {
                                 // Cast to correct type
                                 var defaultAttrib = defaultAttribs[0] as DefaultValueAttribute;
@@ -3574,11 +4294,71 @@ public class KryptonCustomPaletteBase : PaletteBase
                             }
                             else
                             {
-                                // We need the type converter to create a string representation
+                              // -----------------------------------------------------------------------------
+                              // Special handling for Font properties
+                              // -----------------------------------------------------------------------------
+                              if (prop.PropertyType == typeof(Font))
+                              {
+                                // -------------------------------------------------------------------------
+                                // A Font property may legitimately be NULL when the user has not explicitly
+                                // assigned a font value.
+                                //
+                                // In this case, NULL does NOT indicate an error. It simply means:
+                                //   - No explicit Font value was provided by the user
+                                //
+                                // However, NULL cannot be represented directly in XML. If no value is
+                                // written, the persisted state becomes ambiguous.
+                                //
+                                // To make this state explicit and deterministic, we serialize a sentinel
+                                // value.
+                                //
+                                // Convention:
+                                //   "(none)" => no Font explicitly assigned (Font == null)
+                                // -------------------------------------------------------------------------
+                                if (childObj == null)
+                                {
+                                  childElement.SetAttribute("Value", "(none)");
+                                }
+                                else
+                                {
+                                  // ---------------------------------------------------------------------
+                                  // When a Font value is present, we preserve the existing serialization
+                                  // behavior and use the standard TypeConverter.
+                                  //
+                                  // This is intentional:
+                                  // - It preserves backward compatibility with previously exported XML
+                                  // - It avoids changing the established serialization format
+                                  //
+                                  // Note:
+                                  // While a CultureInfo is provided, this does not guarantee complete
+                                  // invariance for all internal conversions performed by the converter.
+                                  // The behavior is kept as-is for compatibility reasons.
+                                  // ---------------------------------------------------------------------
+                                  var cultureInfo = new CultureInfo("en-US");
+
+                                  var converter = TypeDescriptor.GetConverter(prop.PropertyType);
+
+                                  var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj, destinationType: typeof(string));
+
+                                  childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+                                }
+                              }
+                              else
+                              {
+                                // -------------------------------------------------------------------------
+                                // Default serialization path for all non-Font property types.
+                                //
+                                // The existing TypeConverter-based logic is preserved without changes
+                                // to avoid unintended behavioral differences.
+                                // -------------------------------------------------------------------------
+                                var cultureInfo = new CultureInfo("en-US");
+
                                 var converter = TypeDescriptor.GetConverter(prop.PropertyType);
 
-                                // Save to an invariant string so that load is not affected by culture
-                                childElement.SetAttribute(@"Value", converter.ConvertToInvariantString(childObj!));
+                                var converted = converter.ConvertTo(context: null, culture: cultureInfo, value: childObj!, destinationType: typeof(string));
+
+                                childElement.SetAttribute("Value", converted?.ToString() ?? string.Empty);
+                              }
                             }
                         }
                     }
@@ -3670,8 +4450,8 @@ public class KryptonCustomPaletteBase : PaletteBase
                             {
                                 var defaultAttribs = prop.GetCustomAttributes(typeof(DefaultValueAttribute), false);
 
-                                // Does this property have a default value attribute?
-                                if (defaultAttribs.Length == 1)
+                                // Does this property have at least one default value attribute?
+                                if (defaultAttribs.Length >= 1)
                                 {
                                     // Cast to correct type
                                     var defaultAttrib = (DefaultValueAttribute)defaultAttribs[0];
@@ -3730,14 +4510,17 @@ public class KryptonCustomPaletteBase : PaletteBase
         [typeof(PaletteButtonStyle)] = nameof(PaletteButtonStyle),
         [typeof(PaletteButtonOrientation)] = nameof(PaletteButtonOrientation),
         [typeof(PaletteRelativeEdgeAlign)] = nameof(PaletteRelativeEdgeAlign),
+        [typeof(PaletteMode)] = nameof(PaletteMode),
         [typeof(RendererMode)] = nameof(RendererMode),
         [typeof(PaletteDrawBorders)] = nameof(PaletteDrawBorders),
         [typeof(PaletteContentText)] = nameof(PaletteContentText),
         [typeof(PaletteContentImage)] = nameof(PaletteContentImage),
         [typeof(PaletteDragFeedback)] = nameof(PaletteDragFeedback),
-        [typeof(PaletteRibbonShape)] = nameof(PaletteRibbonShape)
+        [typeof(PaletteRibbonShape)] = nameof(PaletteRibbonShape),
+        [typeof(PaletteRibbonTabMarker)] = nameof(PaletteRibbonTabMarker),
+        [typeof(PaletteCornerRounding)] = nameof(PaletteCornerRounding)
     };
-    private static string TypeToString(Type t)
+    internal static string TypeToString(Type t)
     {
         if (_typeTests.TryGetValue(t, out var str))
         {
@@ -3749,7 +4532,7 @@ public class KryptonCustomPaletteBase : PaletteBase
 
     private static readonly Dictionary<string, Type> _stringTests = _typeTests.ToDictionary((i) => i.Value, (i) => i.Key);
 
-    private static Type StringToType(string s)
+    internal static Type StringToType(string s)
     {
         if (_stringTests.TryGetValue(s, out var t))
         {
@@ -4248,10 +5031,33 @@ public class KryptonCustomPaletteBase : PaletteBase
                 return ButtonSpecs.RibbonMinimize;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return ButtonSpecs.RibbonExpand;
+            case PaletteButtonSpecStyle.Undo:
+                return ButtonSpecs.Previous;
+            case PaletteButtonSpecStyle.New:
+            case PaletteButtonSpecStyle.Open:
+            case PaletteButtonSpecStyle.Save:
+            case PaletteButtonSpecStyle.SaveAs:
+            case PaletteButtonSpecStyle.SaveAll:
+            case PaletteButtonSpecStyle.Cut:
+            case PaletteButtonSpecStyle.Copy:
+            case PaletteButtonSpecStyle.Paste:
+            case PaletteButtonSpecStyle.Redo:
+            case PaletteButtonSpecStyle.PageSetup:
+            case PaletteButtonSpecStyle.PrintPreview:
+            case PaletteButtonSpecStyle.Print:
+            case PaletteButtonSpecStyle.QuickPrint:
+            case PaletteButtonSpecStyle.SelectAll:
+            case PaletteButtonSpecStyle.SelectNone:
+            case PaletteButtonSpecStyle.Search:
+                return ButtonSpecs.Generic;
             default:
-                // Should never happen!
-                Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                // Unknown or out-of-range values (e.g. newer enum, bad serialization) — avoid crashing the UI.
+                Debug.Assert(false, $"Unhandled {nameof(PaletteButtonSpecStyle)}: {(int)style}");
+                if (Debugger.IsAttached)
+                {
+                    throw DebugTools.NotImplemented(style.ToString());
+                }
+                return ButtonSpecs.Generic;
         }
     }
 
@@ -4464,180 +5270,112 @@ public class KryptonCustomPaletteBase : PaletteBase
         // Must update the redirector values used if the palette source is used
         Common.StateCommon.BorderStyle = style;
 
-        switch (style)
+        return style switch
         {
-            case PaletteBorderStyle.ButtonStandalone:
-                return GetPaletteBorderButton(ButtonStyles.ButtonStandalone, state);
-            case PaletteBorderStyle.ButtonAlternate:
-                return GetPaletteBorderButton(ButtonStyles.ButtonAlternate, state);
-            case PaletteBorderStyle.ButtonLowProfile:
-                return GetPaletteBorderButton(ButtonStyles.ButtonLowProfile, state);
-            case PaletteBorderStyle.ButtonButtonSpec:
-                return GetPaletteBorderButton(ButtonStyles.ButtonButtonSpec, state);
-            case PaletteBorderStyle.ButtonBreadCrumb:
-                return GetPaletteBorderButton(ButtonStyles.ButtonBreadCrumb, state);
-            case PaletteBorderStyle.ButtonCalendarDay:
-                return GetPaletteBorderCalendarDay(CalendarDay, state);
-            case PaletteBorderStyle.ButtonCluster:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCluster, state);
-            case PaletteBorderStyle.ButtonGallery:
-                return GetPaletteBorderButton(ButtonStyles.ButtonGallery, state);
-            case PaletteBorderStyle.ButtonNavigatorStack:
-                return GetPaletteBorderButton(ButtonStyles.ButtonNavigatorStack, state);
-            case PaletteBorderStyle.ButtonNavigatorOverflow:
-                return GetPaletteBorderButton(ButtonStyles.ButtonNavigatorOverflow, state);
-            case PaletteBorderStyle.ButtonNavigatorMini:
-                return GetPaletteBorderButton(ButtonStyles.ButtonNavigatorMini, state);
-            case PaletteBorderStyle.ButtonInputControl:
-                return GetPaletteBorderButton(ButtonStyles.ButtonInputControl, state);
-            case PaletteBorderStyle.ButtonListItem:
-                return GetPaletteBorderButton(ButtonStyles.ButtonListItem, state);
-            case PaletteBorderStyle.ButtonForm:
-                return GetPaletteBorderButton(ButtonStyles.ButtonForm, state);
-            case PaletteBorderStyle.ButtonFormClose:
-                return GetPaletteBorderButton(ButtonStyles.ButtonFormClose, state);
-            case PaletteBorderStyle.ButtonCommand:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCommand, state);
-            case PaletteBorderStyle.ButtonCustom1:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCustom1, state);
-            case PaletteBorderStyle.ButtonCustom2:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCustom2, state);
-            case PaletteBorderStyle.ButtonCustom3:
-                return GetPaletteBorderButton(ButtonStyles.ButtonCustom3, state);
-            case PaletteBorderStyle.ControlClient:
-                return GetPaletteBorderControl(ControlStyles.ControlClient, state);
-            case PaletteBorderStyle.ControlAlternate:
-                return GetPaletteBorderControl(ControlStyles.ControlAlternate, state);
-            case PaletteBorderStyle.ControlGroupBox:
-                return GetPaletteBorderControl(ControlStyles.ControlGroupBox, state);
-            case PaletteBorderStyle.ControlToolTip:
-                return GetPaletteBorderControl(ControlStyles.ControlToolTip, state);
-            case PaletteBorderStyle.ControlRibbon:
-                return GetPaletteBorderControl(ControlStyles.ControlRibbon, state);
-            case PaletteBorderStyle.ControlRibbonAppMenu:
-                return GetPaletteBorderControl(ControlStyles.ControlRibbonAppMenu, state);
-            case PaletteBorderStyle.ControlCustom1:
-                return GetPaletteBorderControl(ControlStyles.ControlCustom1, state);
-            case PaletteBorderStyle.ControlCustom2:
-                return GetPaletteBorderControl(ControlStyles.ControlCustom2, state);
-            case PaletteBorderStyle.ControlCustom3:
-                return GetPaletteBorderControl(ControlStyles.ControlCustom3, state);
-            case PaletteBorderStyle.InputControlStandalone:
-                return GetPaletteInputControl(InputControlStyles.InputControlStandalone, state).Border;
-            case PaletteBorderStyle.InputControlRibbon:
-                return GetPaletteInputControl(InputControlStyles.InputControlRibbon, state).Border;
-            case PaletteBorderStyle.InputControlCustom1:
-                return GetPaletteInputControl(InputControlStyles.InputControlCustom1, state).Border;
-            case PaletteBorderStyle.InputControlCustom2:
-                return GetPaletteInputControl(InputControlStyles.InputControlCustom2, state).Border;
-            case PaletteBorderStyle.InputControlCustom3:
-                return GetPaletteInputControl(InputControlStyles.InputControlCustom3, state).Border;
-            case PaletteBorderStyle.FormMain:
-                return GetPaletteBorderForm(FormStyles.FormMain, state);
-            case PaletteBorderStyle.FormCustom1:
-                return GetPaletteBorderForm(FormStyles.FormCustom1, state);
-            case PaletteBorderStyle.FormCustom2:
-                return GetPaletteBorderForm(FormStyles.FormCustom2, state);
-            case PaletteBorderStyle.FormCustom3:
-                return GetPaletteBorderForm(FormStyles.FormCustom3, state);
-            case PaletteBorderStyle.GridHeaderColumnList:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridList, state);
-            case PaletteBorderStyle.GridHeaderColumnSheet:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridSheet, state);
-            case PaletteBorderStyle.GridHeaderColumnCustom1:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom1, state);
-            case PaletteBorderStyle.GridHeaderColumnCustom2:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom2, state);
-            case PaletteBorderStyle.GridHeaderColumnCustom3:
-                return GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom3, state);
-            case PaletteBorderStyle.GridHeaderRowList:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridList, state);
-            case PaletteBorderStyle.GridHeaderRowSheet:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridSheet, state);
-            case PaletteBorderStyle.GridHeaderRowCustom1:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridCustom1, state);
-            case PaletteBorderStyle.GridHeaderRowCustom2:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridCustom2, state);
-            case PaletteBorderStyle.GridHeaderRowCustom3:
-                return GetPaletteBorderGridHeaderRow(GridStyles.GridCustom3, state);
-            case PaletteBorderStyle.GridDataCellList:
-                return GetPaletteBorderGridDataCell(GridStyles.GridList, state);
-            case PaletteBorderStyle.GridDataCellSheet:
-                return GetPaletteBorderGridDataCell(GridStyles.GridSheet, state);
-            case PaletteBorderStyle.GridDataCellCustom1:
-                return GetPaletteBorderGridDataCell(GridStyles.GridCustom1, state);
-            case PaletteBorderStyle.GridDataCellCustom2:
-                return GetPaletteBorderGridDataCell(GridStyles.GridCustom2, state);
-            case PaletteBorderStyle.GridDataCellCustom3:
-                return GetPaletteBorderGridDataCell(GridStyles.GridCustom3, state);
-            case PaletteBorderStyle.HeaderPrimary:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderPrimary, state);
-            case PaletteBorderStyle.HeaderSecondary:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderSecondary, state);
-            case PaletteBorderStyle.HeaderDockInactive:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderDockInactive, state);
-            case PaletteBorderStyle.HeaderDockActive:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderDockActive, state);
-            case PaletteBorderStyle.HeaderCalendar:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCalendar, state);
-            case PaletteBorderStyle.HeaderForm:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderForm, state);
-            case PaletteBorderStyle.HeaderCustom1:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCustom1, state);
-            case PaletteBorderStyle.HeaderCustom2:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCustom2, state);
-            case PaletteBorderStyle.HeaderCustom3:
-                return GetPaletteBorderHeader(HeaderStyles.HeaderCustom3, state);
-            case PaletteBorderStyle.SeparatorLowProfile:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorLowProfile, state);
-            case PaletteBorderStyle.SeparatorHighProfile:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorHighProfile, state);
-            case PaletteBorderStyle.SeparatorHighInternalProfile:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorHighInternalProfile, state);
-            case PaletteBorderStyle.SeparatorCustom1:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom1, state);
-            case PaletteBorderStyle.SeparatorCustom2:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom2, state);
-            case PaletteBorderStyle.SeparatorCustom3:
-                return GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom3, state);
-            case PaletteBorderStyle.TabHighProfile:
-                return GetPaletteBorderTab(TabStyles.TabHighProfile, state);
-            case PaletteBorderStyle.TabStandardProfile:
-                return GetPaletteBorderTab(TabStyles.TabStandardProfile, state);
-            case PaletteBorderStyle.TabLowProfile:
-                return GetPaletteBorderTab(TabStyles.TabLowProfile, state);
-            case PaletteBorderStyle.TabDock:
-                return GetPaletteBorderTab(TabStyles.TabDock, state);
-            case PaletteBorderStyle.TabDockAutoHidden:
-                return GetPaletteBorderTab(TabStyles.TabDockAutoHidden, state);
-            case PaletteBorderStyle.TabOneNote:
-                return GetPaletteBorderTab(TabStyles.TabOneNote, state);
-            case PaletteBorderStyle.TabCustom1:
-                return GetPaletteBorderTab(TabStyles.TabCustom1, state);
-            case PaletteBorderStyle.TabCustom2:
-                return GetPaletteBorderTab(TabStyles.TabCustom2, state);
-            case PaletteBorderStyle.TabCustom3:
-                return GetPaletteBorderTab(TabStyles.TabCustom3, state);
-            case PaletteBorderStyle.ContextMenuOuter:
-                return ContextMenu.StateCommon.ControlOuter.Border;
-            case PaletteBorderStyle.ContextMenuInner:
-                return ContextMenu.StateCommon.ControlInner.Border;
-            case PaletteBorderStyle.ContextMenuHeading:
-                return ContextMenu.StateCommon.Heading.Border;
-            case PaletteBorderStyle.ContextMenuItemHighlight:
-                return GetPaletteBorderContextMenuItemHighlight(state);
-            case PaletteBorderStyle.ContextMenuItemImage:
-                return GetPaletteBorderContextMenuItemImage(state);
-            case PaletteBorderStyle.ContextMenuItemSplit:
-                return GetPaletteBorderContextMenuItemSplit(state);
-            case PaletteBorderStyle.ContextMenuItemImageColumn:
-                return ContextMenu.StateCommon.ItemImageColumn.Border;
-            case PaletteBorderStyle.ContextMenuSeparator:
-                return ContextMenu.StateCommon.Separator.Border;
-            default:
-                // Should never happen!
-                throw DebugTools.NotImplemented(style.ToString());
-        }
+            PaletteBorderStyle.ButtonStandalone => GetPaletteBorderButton(ButtonStyles.ButtonStandalone, state),
+            PaletteBorderStyle.ButtonAlternate => GetPaletteBorderButton(ButtonStyles.ButtonAlternate, state),
+            PaletteBorderStyle.ButtonLowProfile => GetPaletteBorderButton(ButtonStyles.ButtonLowProfile, state),
+            PaletteBorderStyle.ButtonButtonSpec => GetPaletteBorderButton(ButtonStyles.ButtonButtonSpec, state),
+            PaletteBorderStyle.ButtonBreadCrumb => GetPaletteBorderButton(ButtonStyles.ButtonBreadCrumb, state),
+            PaletteBorderStyle.ButtonCalendarDay => GetPaletteBorderCalendarDay(CalendarDay, state),
+            PaletteBorderStyle.ButtonCluster => GetPaletteBorderButton(ButtonStyles.ButtonCluster, state),
+            PaletteBorderStyle.ButtonGallery => GetPaletteBorderButton(ButtonStyles.ButtonGallery, state),
+            PaletteBorderStyle.ButtonNavigatorStack => GetPaletteBorderButton(ButtonStyles.ButtonNavigatorStack, state),
+            PaletteBorderStyle.ButtonNavigatorOverflow => GetPaletteBorderButton(ButtonStyles.ButtonNavigatorOverflow,
+                state),
+            PaletteBorderStyle.ButtonNavigatorMini => GetPaletteBorderButton(ButtonStyles.ButtonNavigatorMini, state),
+            PaletteBorderStyle.ButtonInputControl => GetPaletteBorderButton(ButtonStyles.ButtonInputControl, state),
+            PaletteBorderStyle.ButtonListItem => GetPaletteBorderButton(ButtonStyles.ButtonListItem, state),
+            PaletteBorderStyle.ButtonForm => GetPaletteBorderButton(ButtonStyles.ButtonForm, state),
+            PaletteBorderStyle.ButtonFormClose => GetPaletteBorderButton(ButtonStyles.ButtonFormClose, state),
+            PaletteBorderStyle.ButtonCommand => GetPaletteBorderButton(ButtonStyles.ButtonCommand, state),
+            PaletteBorderStyle.ButtonCustom1 => GetPaletteBorderButton(ButtonStyles.ButtonCustom1, state),
+            PaletteBorderStyle.ButtonCustom2 => GetPaletteBorderButton(ButtonStyles.ButtonCustom2, state),
+            PaletteBorderStyle.ButtonCustom3 => GetPaletteBorderButton(ButtonStyles.ButtonCustom3, state),
+            PaletteBorderStyle.ControlClient => GetPaletteBorderControl(ControlStyles.ControlClient, state),
+            PaletteBorderStyle.ControlAlternate => GetPaletteBorderControl(ControlStyles.ControlAlternate, state),
+            PaletteBorderStyle.ControlGroupBox => GetPaletteBorderControl(ControlStyles.ControlGroupBox, state),
+            PaletteBorderStyle.ControlToolTip => GetPaletteBorderControl(ControlStyles.ControlToolTip, state),
+            PaletteBorderStyle.ControlRibbon => GetPaletteBorderControl(ControlStyles.ControlRibbon, state),
+            PaletteBorderStyle.ControlRibbonAppMenu => GetPaletteBorderControl(ControlStyles.ControlRibbonAppMenu,
+                state),
+            PaletteBorderStyle.ControlCustom1 => GetPaletteBorderControl(ControlStyles.ControlCustom1, state),
+            PaletteBorderStyle.ControlCustom2 => GetPaletteBorderControl(ControlStyles.ControlCustom2, state),
+            PaletteBorderStyle.ControlCustom3 => GetPaletteBorderControl(ControlStyles.ControlCustom3, state),
+            PaletteBorderStyle.InputControlStandalone => GetPaletteInputControl(
+                    InputControlStyles.InputControlStandalone, state)
+                .Border,
+            PaletteBorderStyle.InputControlRibbon => GetPaletteInputControl(InputControlStyles.InputControlRibbon,
+                    state)
+                .Border,
+            PaletteBorderStyle.InputControlCustom1 => GetPaletteInputControl(InputControlStyles.InputControlCustom1,
+                    state)
+                .Border,
+            PaletteBorderStyle.InputControlCustom2 => GetPaletteInputControl(InputControlStyles.InputControlCustom2,
+                    state)
+                .Border,
+            PaletteBorderStyle.InputControlCustom3 => GetPaletteInputControl(InputControlStyles.InputControlCustom3,
+                    state)
+                .Border,
+            PaletteBorderStyle.FormMain => GetPaletteBorderForm(FormStyles.FormMain, state),
+            PaletteBorderStyle.FormCustom1 => GetPaletteBorderForm(FormStyles.FormCustom1, state),
+            PaletteBorderStyle.FormCustom2 => GetPaletteBorderForm(FormStyles.FormCustom2, state),
+            PaletteBorderStyle.FormCustom3 => GetPaletteBorderForm(FormStyles.FormCustom3, state),
+            PaletteBorderStyle.GridHeaderColumnList => GetPaletteBorderGridHeaderColumn(GridStyles.GridList, state),
+            PaletteBorderStyle.GridHeaderColumnSheet => GetPaletteBorderGridHeaderColumn(GridStyles.GridSheet, state),
+            PaletteBorderStyle.GridHeaderColumnCustom1 => GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom1,
+                state),
+            PaletteBorderStyle.GridHeaderColumnCustom2 => GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom2,
+                state),
+            PaletteBorderStyle.GridHeaderColumnCustom3 => GetPaletteBorderGridHeaderColumn(GridStyles.GridCustom3,
+                state),
+            PaletteBorderStyle.GridHeaderRowList => GetPaletteBorderGridHeaderRow(GridStyles.GridList, state),
+            PaletteBorderStyle.GridHeaderRowSheet => GetPaletteBorderGridHeaderRow(GridStyles.GridSheet, state),
+            PaletteBorderStyle.GridHeaderRowCustom1 => GetPaletteBorderGridHeaderRow(GridStyles.GridCustom1, state),
+            PaletteBorderStyle.GridHeaderRowCustom2 => GetPaletteBorderGridHeaderRow(GridStyles.GridCustom2, state),
+            PaletteBorderStyle.GridHeaderRowCustom3 => GetPaletteBorderGridHeaderRow(GridStyles.GridCustom3, state),
+            PaletteBorderStyle.GridDataCellList => GetPaletteBorderGridDataCell(GridStyles.GridList, state),
+            PaletteBorderStyle.GridDataCellSheet => GetPaletteBorderGridDataCell(GridStyles.GridSheet, state),
+            PaletteBorderStyle.GridDataCellCustom1 => GetPaletteBorderGridDataCell(GridStyles.GridCustom1, state),
+            PaletteBorderStyle.GridDataCellCustom2 => GetPaletteBorderGridDataCell(GridStyles.GridCustom2, state),
+            PaletteBorderStyle.GridDataCellCustom3 => GetPaletteBorderGridDataCell(GridStyles.GridCustom3, state),
+            PaletteBorderStyle.HeaderPrimary => GetPaletteBorderHeader(HeaderStyles.HeaderPrimary, state),
+            PaletteBorderStyle.HeaderSecondary => GetPaletteBorderHeader(HeaderStyles.HeaderSecondary, state),
+            PaletteBorderStyle.HeaderDockInactive => GetPaletteBorderHeader(HeaderStyles.HeaderDockInactive, state),
+            PaletteBorderStyle.HeaderDockActive => GetPaletteBorderHeader(HeaderStyles.HeaderDockActive, state),
+            PaletteBorderStyle.HeaderCalendar => GetPaletteBorderHeader(HeaderStyles.HeaderCalendar, state),
+            PaletteBorderStyle.HeaderForm => GetPaletteBorderHeader(HeaderStyles.HeaderForm, state),
+            PaletteBorderStyle.HeaderCustom1 => GetPaletteBorderHeader(HeaderStyles.HeaderCustom1, state),
+            PaletteBorderStyle.HeaderCustom2 => GetPaletteBorderHeader(HeaderStyles.HeaderCustom2, state),
+            PaletteBorderStyle.HeaderCustom3 => GetPaletteBorderHeader(HeaderStyles.HeaderCustom3, state),
+            PaletteBorderStyle.SeparatorLowProfile => GetPaletteBorderSeparator(SeparatorStyles.SeparatorLowProfile,
+                state),
+            PaletteBorderStyle.SeparatorHighProfile => GetPaletteBorderSeparator(SeparatorStyles.SeparatorHighProfile,
+                state),
+            PaletteBorderStyle.SeparatorHighInternalProfile => GetPaletteBorderSeparator(
+                SeparatorStyles.SeparatorHighInternalProfile, state),
+            PaletteBorderStyle.SeparatorCustom1 => GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom1, state),
+            PaletteBorderStyle.SeparatorCustom2 => GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom2, state),
+            PaletteBorderStyle.SeparatorCustom3 => GetPaletteBorderSeparator(SeparatorStyles.SeparatorCustom3, state),
+            PaletteBorderStyle.TabHighProfile => GetPaletteBorderTab(TabStyles.TabHighProfile, state),
+            PaletteBorderStyle.TabStandardProfile => GetPaletteBorderTab(TabStyles.TabStandardProfile, state),
+            PaletteBorderStyle.TabLowProfile => GetPaletteBorderTab(TabStyles.TabLowProfile, state),
+            PaletteBorderStyle.TabDock => GetPaletteBorderTab(TabStyles.TabDock, state),
+            PaletteBorderStyle.TabDockAutoHidden => GetPaletteBorderTab(TabStyles.TabDockAutoHidden, state),
+            PaletteBorderStyle.TabOneNote => GetPaletteBorderTab(TabStyles.TabOneNote, state),
+            PaletteBorderStyle.TabCustom1 => GetPaletteBorderTab(TabStyles.TabCustom1, state),
+            PaletteBorderStyle.TabCustom2 => GetPaletteBorderTab(TabStyles.TabCustom2, state),
+            PaletteBorderStyle.TabCustom3 => GetPaletteBorderTab(TabStyles.TabCustom3, state),
+            PaletteBorderStyle.ContextMenuOuter => ContextMenu.StateCommon.ControlOuter.Border,
+            PaletteBorderStyle.ContextMenuInner => ContextMenu.StateCommon.ControlInner.Border,
+            PaletteBorderStyle.ContextMenuHeading => ContextMenu.StateCommon.Heading.Border,
+            PaletteBorderStyle.ContextMenuItemHighlight => GetPaletteBorderContextMenuItemHighlight(state),
+            PaletteBorderStyle.ContextMenuItemImage => GetPaletteBorderContextMenuItemImage(state),
+            PaletteBorderStyle.ContextMenuItemSplit => GetPaletteBorderContextMenuItemSplit(state),
+            PaletteBorderStyle.ContextMenuItemImageColumn => ContextMenu.StateCommon.ItemImageColumn.Border,
+            PaletteBorderStyle.ContextMenuSeparator => ContextMenu.StateCommon.Separator.Border,
+            _ => throw DebugTools.NotImplemented(style.ToString())
+        };
     }
 
     private IPaletteContent GetPaletteContent(PaletteContentStyle style, PaletteState state)
@@ -5245,6 +5983,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.Background;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:    // Occurs from the TreeGrid
+            case PaletteState.Tracking:         // Grid background has no tracking state
                 return grid.StateNormal.Background;
             default:
                 // Should never happen!
@@ -5304,6 +6044,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.DataCell.Back;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:
+            case PaletteState.FocusOverride:
                 return grid.StateNormal.DataCell.Back;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.DataCell.Back;
@@ -5363,6 +6105,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.DataCell.Border;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:
+            case PaletteState.FocusOverride:
                 return grid.StateNormal.DataCell.Border;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.DataCell.Border;
@@ -5423,6 +6167,8 @@ public class KryptonCustomPaletteBase : PaletteBase
             case PaletteState.Disabled:
                 return grid.StateDisabled.DataCell.Content;
             case PaletteState.Normal:
+            case PaletteState.ContextNormal:
+            case PaletteState.FocusOverride:
                 return grid.StateNormal.DataCell.Content;
             case PaletteState.CheckedNormal:
                 return grid.StateSelected.DataCell.Content;
@@ -5759,6 +6505,9 @@ public class KryptonCustomPaletteBase : PaletteBase
                 _basePalette.BasePaletteChanged += OnBasePaletteChanged;
                 _basePalette.BaseRendererChanged += OnBaseRendererChanged;
             }
+
+            // Re-read ColorTable / BasePalette in the designer property grid
+            TypeDescriptor.Refresh(this);
         }
     }
 
@@ -5795,7 +6544,7 @@ public class KryptonCustomPaletteBase : PaletteBase
     {
         if (colors == null)
         {
-            throw new ArgumentNullException(nameof(colors));
+            ThrowHelper.ThrowArgumentNullException(nameof(colors));
         }
 
         if (_basePalette == null)

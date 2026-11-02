@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -243,12 +243,12 @@ internal class MenuItemController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         switch (e.KeyCode)
@@ -285,25 +285,27 @@ internal class MenuItemController : GlobalId,
                 ViewManager.KeyDown();
                 break;
             case Keys.Left:
-                // We wrap if are the first context menu shown, rather than a sub menu showing
-                if (ViewManager.KeyLeft(!_menuItem.HasParentMenu))
-                {
-                    // User tried to fall off the left edge, so dismiss ourself and let the
-                    // keyboard access take us back to the owning context menu instance
-                    _menuItem.DisposeContextMenu();
-                }
-                break;
             case Keys.Right:
-                // If enabled and with a sub menu, then show the sub menu
-                if (_menuItem is { ItemEnabled: true, HasSubMenu: true })
                 {
-                    _menuItem.ShowSubMenu(true);
+                    bool rtl = ToolkitRtlLayout.IsRtl(_menuItem.OwningControl);
+                    bool openSubMenu = rtl ? e.KeyCode == Keys.Left : e.KeyCode == Keys.Right;
+                    if (openSubMenu)
+                    {
+                        if (_menuItem is { ItemEnabled: true, HasSubMenu: true })
+                        {
+                            _menuItem.ShowSubMenu(true);
+                        }
+                        else
+                        {
+                            ViewManager.KeyRight();
+                        }
+                    }
+                    else if (ViewManager.KeyLeft(!_menuItem.HasParentMenu))
+                    {
+                        // User tried to fall off the close edge, so dismiss ourself.
+                        _menuItem.DisposeContextMenu();
+                    }
                 }
-                else
-                {
-                    ViewManager.KeyRight();
-                }
-
                 break;
         }
     }
@@ -322,12 +324,12 @@ internal class MenuItemController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         ViewManager.KeyMnemonic(e.KeyChar);
@@ -348,10 +350,11 @@ internal class MenuItemController : GlobalId,
         // Validate incoming references
         if (c == null)
         {
-            throw new ArgumentNullException(nameof(c));
+            ThrowHelper.ThrowArgumentNullException(nameof(c));
         }
 
-        return e == null ? throw new ArgumentNullException(nameof(e)) : false;
+        ThrowHelper.ThrowIfNull(e);
+        return false;
     }
     #endregion
 

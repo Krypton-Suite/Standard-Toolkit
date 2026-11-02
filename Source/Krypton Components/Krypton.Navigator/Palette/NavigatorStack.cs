@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -42,7 +42,7 @@ public class NavigatorStack : Storage
         Debug.Assert(navigator is not null);
 
         // Remember back reference
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
@@ -84,7 +84,7 @@ public class NavigatorStack : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Check button style.")]
-    //[DefaultValue(typeof(ButtonStyle), "NavigatorStack")]
+    [DefaultValue(typeof(ButtonStyle), "NavigatorStack")]
     public ButtonStyle CheckButtonStyle
     {
         get => _checkButtonStyle;
@@ -106,7 +106,7 @@ public class NavigatorStack : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Check button style.")]
-    //[DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
+    [DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
     public PaletteBorderStyle BorderEdgeStyle
     {
         get => _borderEdgeStyle;
@@ -157,7 +157,7 @@ public class NavigatorStack : Storage
     [Category(@"Visuals")]
     [Description(@"Orientation for positioning stack items.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(Orientation), "Vertical")]
+    [DefaultValue(typeof(Orientation), "Vertical")]
     public Orientation StackOrientation
     {
         get => _stackOrientation;
@@ -185,7 +185,7 @@ public class NavigatorStack : Storage
     [Category(@"Visuals")]
     [Description(@"Alignment of the stack relative to the Displayed page.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(RelativePositionAlign), "Center")]
+    [DefaultValue(typeof(RelativePositionAlign), "Center")]
     public RelativePositionAlign StackAlignment
     {
         get => _stackAlignment;
@@ -213,7 +213,7 @@ public class NavigatorStack : Storage
     [Category(@"Visuals")]
     [Description(@"Orientation for positioning items in the stack.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(ButtonOrientation), "Auto")]
+    [DefaultValue(typeof(ButtonOrientation), "Auto")]
     public ButtonOrientation ItemOrientation
     {
         get => _itemOrientation;
@@ -242,7 +242,7 @@ public class NavigatorStack : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the stack item image.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageImage), "Small")]
+    [DefaultValue(typeof(MapKryptonPageImage), "Small")]
     public virtual MapKryptonPageImage StackMapImage
     {
         get => _stackMapImage;
@@ -270,7 +270,7 @@ public class NavigatorStack : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the stack item text.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
+    [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
     public MapKryptonPageText StackMapText
     {
         get => _stackMapText;
@@ -298,7 +298,7 @@ public class NavigatorStack : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the stack item description.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+    [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
     public MapKryptonPageText StackMapExtraText
     {
         get => _stackMapExtraText;

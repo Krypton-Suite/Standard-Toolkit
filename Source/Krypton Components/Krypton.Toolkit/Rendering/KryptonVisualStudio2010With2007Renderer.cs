@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2023 - 2025. All rights reserved. *
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2023 - 2026. All rights reserved. *
  */
 #endregion
 
@@ -355,13 +355,13 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
         // Create border path for the check box
         using GraphicsPath borderPath = CreateBorderPath(checkBox, 0 /*CUT_MENU_ITEM_BACK*/);
         // Fill the background in a solid color
-        using (var fillBrush = new SolidBrush(KCT.CheckBackground))
+        using (var fillBrush = new SolidBrush(KCT.ContextMenuItemImageBack))
         {
             e.Graphics.FillPath(fillBrush, borderPath);
         }
 
         // Draw the border around the check box
-        using (var borderPen = new Pen(CommonHelper.WhitenColor(KCT.CheckBackground, 1.05f, 1.52f, 2.75f)))
+        using (var borderPen = new Pen(KCT.ContextMenuItemImageBorder))
         {
             e.Graphics.DrawPath(borderPen, borderPath);
         }
@@ -386,7 +386,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
                     {
                         // Draw the tick with a thickish brush
                         using (var tickPen =
-                               new Pen(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f),
+                               new Pen(KCT.ContextMenuItemImageText,
                                    CONTEXT_CHECK_TICK_THICKNESS))
                         {
                             e.Graphics.DrawPath(tickPen, tickPath);
@@ -399,7 +399,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
                     {
                         // Draw the tick with a thickish brush
                         using (var tickBrush =
-                               new SolidBrush(CommonHelper.WhitenColor(KCT.CheckBackground, 3.86f, 3.02f, 1.07f)))
+                               new SolidBrush(KCT.ContextMenuItemImageText))
                         {
                             e.Graphics.FillPath(tickBrush, tickPath);
                         }
@@ -664,9 +664,9 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
             case ToolStripDropDownMenu _:
                 // Create the light and dark line pens
                 using (Pen lightPen =
-                       new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.02f, 1.02f, 1.02f)),
+                       new Pen(CommonHelper.WhitenColor(KCT.ContextMenuBack, 1.02f, 1.02f, 1.02f)),
                        darkPen = new Pen(
-                           CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.26f, 1.26f, 1.26f)))
+                           CommonHelper.WhitenColor(KCT.ContextMenuBack, 1.26f, 1.26f, 1.26f)))
                 {
                     DrawSeparator(e.Graphics, e.Vertical, e.Item.Bounds,
                         lightPen, darkPen, SEPARATOR_INSET,
@@ -700,8 +700,6 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
         {
             case ContextMenuStrip _:
             case ToolStripDropDownMenu _:
-                // Make sure the font is current
-                e.ToolStrip.Font = KCT.MenuStripFont;
 
                 // Create border and clipping paths
                 using (GraphicsPath borderPath = CreateBorderPath(e.AffectedBounds, CUT_CONTEXT_MENU),
@@ -711,7 +709,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
                     using (var clipping = new Clipping(e.Graphics, clipPath))
                     {
                         // Create the background brush
-                        using (var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
+                        using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
                         {
                             e.Graphics.FillPath(backBrush, borderPath);
                         }
@@ -724,8 +722,6 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
                 {
                     break;
                 }
-                // Make sure the font is current
-                e.ToolStrip.Font = KCT.StatusStripFont;
 
                 // We do not paint the top two pixel lines, so are drawn by the status strip border render method
                 var backRect = new RectangleF(0, 1.5f, e.ToolStrip.Width, e.ToolStrip.Height - 2);
@@ -757,23 +753,6 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
             }
                 break;
             default:
-                if (e.ToolStrip is MenuStrip)
-                {
-                    // Make sure the font is current
-                    if (e.ToolStrip.Font != KCT.MenuStripFont)
-                    {
-                        e.ToolStrip.Font = KCT.MenuStripFont;
-                    }
-                }
-                else
-                {
-                    // Make sure the font is current
-                    if (e.ToolStrip.Font != KCT.ToolStripFont)
-                    {
-                        e.ToolStrip.Font = KCT.ToolStripFont;
-                    }
-                }
-
                 base.OnRenderToolStripBackground(e);
                 break;
         }
@@ -785,58 +764,8 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
     /// Raises the RenderImageMargin event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if (e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu)
-        {
-            // Start with the total margin area
-            Rectangle marginRect = e.AffectedBounds;
-
-            // Do we need to draw with separator on the opposite edge?
-            var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
-
-            marginRect.Y += MARGIN_INSET;
-            marginRect.Height -= MARGIN_INSET * 2;
-
-            // Reduce so it is inside the border
-            if (!rtl)
-            {
-                marginRect.X += MARGIN_INSET;
-            }
-            else
-            {
-                marginRect.X += MARGIN_INSET / 2;
-            }
-
-            // Draw the entire margin area in a solid color
-            using (var backBrush = new SolidBrush(KCT.ImageMarginGradientBegin))
-            {
-                e.Graphics.FillRectangle(backBrush, marginRect);
-            }
-
-            // Create the light and dark line pens from the color table to match ToolStripDropDownMenu
-            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
-                   darkPen  = new Pen(KCT.ImageMarginGradientMiddle))
-            {
-                if (!rtl)
-                {
-                    // Draw the light and dark lines on the right hand side
-                    e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen, marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
-                }
-                else
-                {
-                    // Draw the light and dark lines on the left hand side
-                    e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen, marginRect.Left, marginRect.Top, marginRect.Left, marginRect.Bottom);
-                }
-            }
-        }
-        else
-        {
-            base.OnRenderImageMargin(e);
-        }
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, MARGIN_INSET);
     #endregion
 
     #region OnRenderToolStripBorder
@@ -854,7 +783,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
                 // If there is a connected area to be drawn
                 if (!e.ConnectedArea.IsEmpty)
                 {
-                    using var excludeBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
+                    using var excludeBrush = new SolidBrush(KCT.ContextMenuBack);
                     e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
                 }
 
@@ -865,8 +794,8 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
                        clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU))
                 {
                     // Create the different pen colors we need
-                    using (Pen borderPen = new Pen(KCT.MenuBorder),
-                           insidePen = new Pen(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.02f,
+                    using (Pen borderPen = new Pen(KCT.ContextMenuBorder),
+                           insidePen = new Pen(CommonHelper.WhitenColor(KCT.ContextMenuBack, 1.02f,
                                1.02f,
                                1.02f)))
                     {
@@ -914,7 +843,7 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
         // Only need to create the cache objects first time around
         if (_gradientItem == null)
         {
-            _gradientItem = new GradientItemColorsItem(KCT.CheckBackground,
+            _gradientItem = new GradientItemColorsItem(KCT.ContextMenuItemImageBack,
                 KCT.ButtonSelectedGradientBegin,
                 KCT.ButtonSelectedGradientEnd);
 
@@ -1106,13 +1035,13 @@ public class KryptonVisualStudio2010With2007Renderer : KryptonProfessionalRender
             using var clipping = new Clipping(g, clipPath);
             // Draw the entire background area first
             using (var backBrush =
-                   new SolidBrush(CommonHelper.WhitenColor(KCT.ToolStripDropDownBackground, 1.02f, 1.02f, 1.02f)))
+                   new SolidBrush(CommonHelper.WhitenColor(KCT.ContextMenuBack, 1.02f, 1.02f, 1.02f)))
             {
                 g.FillPath(backBrush, borderPath);
             }
 
             // Draw the border
-            using (var borderPen = new Pen(KCT.MenuBorder))
+            using (var borderPen = new Pen(KCT.ContextMenuBorder))
             {
                 g.DrawPath(borderPen, borderPath);
             }

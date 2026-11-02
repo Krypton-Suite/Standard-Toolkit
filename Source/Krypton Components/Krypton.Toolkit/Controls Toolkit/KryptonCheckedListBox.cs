@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(SelectedIndexChanged))]
 [DefaultProperty(nameof(Items))]
 [DefaultBindingProperty(nameof(SelectedValue))]
-[Designer(typeof(KryptonCheckedListBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonCheckedListBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Represents a checked list box control that allows single or multiple item selection.")]
 public class KryptonCheckedListBox : VisualControlBase,
@@ -127,20 +127,20 @@ public class KryptonCheckedListBox : VisualControlBase,
                 return InnerArrayIndexOfIdentifier(entryObject, 0);
             }
 
-            set => throw new NotSupportedException(@"Read Only Collection");
+            set => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
         }
         #endregion
 
         #region Private
-        int IList.Add(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        int IList.Add(object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Clear() => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Insert(int index, object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Insert(int index, object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Remove(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Remove(object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.RemoveAt(int index) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.RemoveAt(int index) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
         bool ICollection.IsSynchronized => false;
 
@@ -255,7 +255,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         public object? this[int index]
         {
             get => InnerArrayGetItem(index, _anyItemMask);
-            set => throw new NotSupportedException(@"Read Only Collection");
+            set => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
         }
         #endregion
 
@@ -295,15 +295,15 @@ public class KryptonCheckedListBox : VisualControlBase,
         #endregion
 
         #region Private
-        int IList.Add(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        int IList.Add(object? value) => ThrowHelper.ThrowNotSupportedException<int>(@"Read Only Collection");
 
-        void IList.Clear() => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Clear() => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
-        void IList.Insert(int index, object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Insert(int index, object? value) => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
-        void IList.Remove(object? value) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.Remove(object? value) => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
-        void IList.RemoveAt(int index) => throw new NotSupportedException(@"Read Only Collection");
+        void IList.RemoveAt(int index) => ThrowHelper.ThrowNotSupportedException<object>(@"Read Only Collection");
 
         bool ICollection.IsSynchronized => false;
 
@@ -820,6 +820,7 @@ public class KryptonCheckedListBox : VisualControlBase,
 
             return (IEnumerator)_miGetEnumerator?.Invoke(InnerArray, [stateMask, anyBit])!;
         }
+
         #endregion
 
         #region Private
@@ -937,12 +938,52 @@ public class KryptonCheckedListBox : VisualControlBase,
             var selectedIndex = SelectedIndex;
             if ((selectedIndex >= 0) && (selectedIndex < Items.Count))
             {
-                if (!_killNextSelect && ((selectedIndex == _lastSelected) || _kryptonCheckedListBox.CheckOnClick))
+                switch (_kryptonCheckedListBox.SelectionMode)
                 {
-                    CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
-                    CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
-                    var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
-                    _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
+                    // Handle different selection modes
+                    case CheckedSelectionMode.MultiSimple:
+                    case CheckedSelectionMode.MultiExtended:
+                        // In multi-selection mode, toggle check state for clicked item
+                        if (!_killNextSelect)
+                        {
+                            CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
+                            CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
+                            var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
+                            _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
+                        }
+                        break;
+                    case CheckedSelectionMode.Radio:
+                        // Radio mode - only one item can be checked at a time
+                        if (!_killNextSelect)
+                        {
+                            // Uncheck all other items first
+                            for (int i = 0; i < _kryptonCheckedListBox.Items.Count; i++)
+                            {
+                                if (i != selectedIndex && _kryptonCheckedListBox.GetItemCheckState(i) != CheckState.Unchecked)
+                                {
+                                    _kryptonCheckedListBox.SetItemCheckState(i, CheckState.Unchecked);
+                                }
+                            }
+                        
+                            // In radio mode, always check the clicked item (don't toggle)
+                            CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
+                            if (checkedState == CheckState.Unchecked)
+                            {
+                                var ice = new ItemCheckEventArgs(selectedIndex, CheckState.Checked, checkedState);
+                                _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
+                            }
+                        }
+                        break;
+                    default:
+                        // Single selection mode - original behavior
+                        if (!_killNextSelect && ((selectedIndex == _lastSelected) || _kryptonCheckedListBox.CheckOnClick))
+                        {
+                            CheckState checkedState = _kryptonCheckedListBox.GetItemCheckState(selectedIndex);
+                            CheckState newCheckValue = (checkedState != CheckState.Unchecked) ? CheckState.Unchecked : CheckState.Checked;
+                            var ice = new ItemCheckEventArgs(selectedIndex, newCheckValue, checkedState);
+                            _kryptonCheckedListBox.SetItemCheckState(selectedIndex, ice.NewValue);
+                        }
+                        break;
                 }
                 _lastSelected = selectedIndex;
                 Invalidate();
@@ -976,6 +1017,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     private ButtonStyle _style;
     private readonly IntPtr _screenDC;
     private int _lastSelectedIndex;
+    private CheckedSelectionMode _currentSelectionMode = CheckedSelectionMode.One;
     private bool _mouseOver;
     private bool _alwaysActive;
     private bool _forcedLayout;
@@ -1471,17 +1513,33 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// Gets or sets the selection mode of the KryptonCheckedListBox control.
     /// </summary>
     [Category(@"Behavior")]
-    [Description(@"Indicates if the checked list box is to be single-select or not selectable. (Multi## not supported)")]
+    [Description(@"Indicates if the checked list box is to be single-select, multi-select or not selectable.")]
     [DefaultValue(CheckedSelectionMode.One)]
     public virtual CheckedSelectionMode SelectionMode
     {
-        get => _listBox.SelectionMode == System.Windows.Forms.SelectionMode.One
-            ? CheckedSelectionMode.One
-            : CheckedSelectionMode.None;
+        get => _listBox.SelectionMode switch
+        {
+            System.Windows.Forms.SelectionMode.One => _currentSelectionMode == CheckedSelectionMode.Radio ? CheckedSelectionMode.Radio : CheckedSelectionMode.One,
+            System.Windows.Forms.SelectionMode.MultiSimple => CheckedSelectionMode.MultiSimple,
+            System.Windows.Forms.SelectionMode.MultiExtended => CheckedSelectionMode.MultiExtended,
+            _ => CheckedSelectionMode.None
+        };
 
-        set => _listBox.SelectionMode = (value == CheckedSelectionMode.One)
-            ? System.Windows.Forms.SelectionMode.One
-            : System.Windows.Forms.SelectionMode.None;
+        set
+        {
+            // Store the current selection mode
+            _currentSelectionMode = value;
+            
+            // For Radio mode, we use One selection mode but handle the radio behavior in the click logic
+            _listBox.SelectionMode = value switch
+            {
+                CheckedSelectionMode.One => System.Windows.Forms.SelectionMode.One,
+                CheckedSelectionMode.MultiSimple => System.Windows.Forms.SelectionMode.MultiSimple,
+                CheckedSelectionMode.MultiExtended => System.Windows.Forms.SelectionMode.MultiExtended,
+                CheckedSelectionMode.Radio => System.Windows.Forms.SelectionMode.One, // Use One for Radio mode
+                _ => System.Windows.Forms.SelectionMode.None
+            };
+        }
     }
 
     /// <summary>
@@ -1501,7 +1559,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// </summary>
     [Category(@"Data")]
     [Description(@"The items in the KryptonCheckedListBox.")]
-    [Editor("System.Windows.Forms.Design.ListControlStringCollectionEditor, System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", typeof(UITypeEditor))]
+    [Editor(typeof(KryptonDesignerListControlStringCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [MergableProperty(false)]
     [Localizable(true)]
@@ -1526,6 +1584,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// Gets or sets the format specifier characters that indicate how a value is to be Displayed.
     /// </summary>
     [Description(@"The format specifier characters that indicate how a value is to be Displayed.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.FormatStringEditor).
     [Editor(@"System.Windows.Forms.Design.FormatStringEditor", typeof(UITypeEditor))]
     [MergableProperty(false)]
     [DefaultValue(@"")]
@@ -1730,6 +1789,17 @@ public class KryptonCheckedListBox : VisualControlBase,
     public void ClearSelected() => _listBox.ClearSelected();
 
     /// <summary>
+    /// Unchecks all items in the KryptonCheckedListBox.
+    /// </summary>
+    public void ClearChecked()
+    {
+        for (int i = 0; i < Items.Count; i++)
+        {
+            SetItemChecked(i, false);
+        }
+    }
+
+    /// <summary>
     /// Returns a value indicating whether the specified item is checked.
     /// </summary>
     /// <param name="index">The index of the item.</param>
@@ -1745,7 +1815,7 @@ public class KryptonCheckedListBox : VisualControlBase,
     public CheckState GetItemCheckState(int index) =>
         // Check index actually exists
         (index < 0) || (index >= Items.Count)
-            ? throw new ArgumentOutOfRangeException(nameof(index), @"index out of range")
+            ? ThrowHelper.ThrowArgumentOutOfRangeException<CheckState>(nameof(index), @"index out of range")
             : CheckedItems.GetCheckedState(index);
 
     /// <summary>
@@ -1766,7 +1836,7 @@ public class KryptonCheckedListBox : VisualControlBase,
         // Check index actually exists
         if ((index < 0) || (index >= Items.Count))
         {
-            throw new ArgumentOutOfRangeException(nameof(index), @"index out of range");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(index), @"index out of range");
         }
 
         // Is the new state different from the current checked state?
@@ -1925,11 +1995,12 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <value>The display member.</value>
     [Category("Data")]
     [Description("Indicates the property to display for the items in the control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string DisplayMember
     {
-        get => _displayMember ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        get => _displayMember ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
         set
         {
             if (_displayMember != value)
@@ -1944,11 +2015,12 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <value>The value member.</value>
     [Category("Data")]
     [Description("Indicates the property to use as the actual value of items in the control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.DataMemberFieldEditor).
     [Editor("System.Windows.Forms.Design.DataMemberFieldEditor, System.Design", typeof(UITypeEditor))]
     [DefaultValue("")]
     public string ValueMember
     {
-        get => _valueMember ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        get => _valueMember ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
         set => _valueMember = value;
     }
 
@@ -2057,6 +2129,12 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <returns>A new instance of Control.ControlCollection assigned to the control.</returns>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
+
+    /// <summary>
+    /// Creates the accessibility object for the KryptonCheckedListBox control.
+    /// </summary>
+    /// <returns>A new KryptonCheckedListBoxAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonCheckedListBoxAccessibleObject(this);
 
     /// <summary>
     /// Raises the PaletteChanged event.
@@ -2189,6 +2267,26 @@ public class KryptonCheckedListBox : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+    }
+
+    /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
     }
 
     /// <summary>
@@ -2441,7 +2539,7 @@ public class KryptonCheckedListBox : VisualControlBase,
             _contentValues!.ShortText = _listBox.GetItemText(Items[index]);
             _contentValues.LongText = null;
             _contentValues.Image = null;
-            _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+            _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -2496,9 +2594,9 @@ public class KryptonCheckedListBox : VisualControlBase,
 
     private void OnListBoxKeyDown(object? sender, KeyEventArgs e) => OnKeyDown(e);
 
-    private void OnListBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnListBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnListBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnListBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnListBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
@@ -2571,6 +2669,8 @@ public class KryptonCheckedListBox : VisualControlBase,
     /// <summary>Refreshes the bound items.</summary>
     /// <returns></returns>
     public void RefreshBoundItems() => RefreshItems();
+
+    private void UpdateForRightToLeft() => _listBox.RightToLeft = RightToLeft;
 
     #endregion
 }

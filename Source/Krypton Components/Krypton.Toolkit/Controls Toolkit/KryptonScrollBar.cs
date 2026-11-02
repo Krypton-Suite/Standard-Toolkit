@@ -5,24 +5,28 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
-using Timer = System.Windows.Forms.Timer;
+using Timer = System.Windows.Forms.Timer; 
 
 namespace Krypton.Toolkit;
 
 /// <summary>
 /// A custom scrollbar control.
 /// </summary>
-[Designer(typeof(KryptonScrollBarDesigner))]
+[Designer("Krypton.Toolkit.KryptonScrollBarDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DefaultEvent(nameof(Scroll))]
 [DefaultProperty(nameof(Value))]
 [ToolboxBitmap(typeof(VScrollBar), "ToolboxBitmaps.KryptonScrollBar.bmp")]
 [DesignerCategory(@"code")]
+[EditorBrowsable(EditorBrowsableState.Never)]
+[Browsable(false)]
+[ToolboxItem(false)]
+[Obsolete(@"Please use either KryptonHScrollBar or KryptonVScrollBar. This control will be removed in version 120 LTS.")]
 public class KryptonScrollBar : Control
 {
     #region Instance Fields
@@ -446,11 +450,11 @@ public class KryptonScrollBar : Control
     }
 
     /// <summary>
-    /// Gets or sets the opacity of the context menu (from 0 - 1).
+    /// Gets or sets the opacity of the context menu (from 0 - 1.0).
     /// </summary>
     [Category(@"Appearance")]
-    [Description(@"Gets or sets the opacity of the context menu (from 0 - 1).")]
-    [DefaultValue(1)]
+    [Description(@"Gets or sets the opacity of the context menu (from 0 - 1.0).")]
+    [DefaultValue(1.0)]
     public double Opacity
     {
         get => _contextMenu.Opacity;
@@ -463,7 +467,7 @@ public class KryptonScrollBar : Control
                 return;
             }
 
-            _contextMenu.AllowTransparency = value != 1;
+            _contextMenu.AllowTransparency = value != 1.0;
 
             _contextMenu.Opacity = value;
         }

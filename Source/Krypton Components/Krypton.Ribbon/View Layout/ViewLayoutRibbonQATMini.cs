@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -41,11 +41,11 @@ internal class ViewLayoutRibbonQATMini : ViewLayoutDocker
     {
         Debug.Assert(ribbon is not null);
             
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
 
         if (needPaintDelegate is null)
         {
-            throw new ArgumentNullException(nameof(needPaintDelegate));
+            ThrowHelper.ThrowArgumentNullException(nameof(needPaintDelegate));
         }
 
         SEP_GAP = (int)(2 * FactorDpiX);
@@ -237,7 +237,8 @@ internal class ViewLayoutRibbonQATMini : ViewLayoutDocker
         Debug.Assert(context != null);
 
         // Scan to see if there are any visible quick access toolbar buttons
-        var visibleQATButtons = _ribbon.QATButtons.Cast<IQuickAccessToolbarButton>().Any(static qatButton => qatButton.GetVisible());
+        var visibleQATButtons = _ribbon.QATButtons.OfType<IQuickAccessToolbarButton>()
+            .Any(static qatButton => qatButton.GetVisible());
             
         // Only show the border if there are some visible contents
         _border.Visible = visibleQATButtons;

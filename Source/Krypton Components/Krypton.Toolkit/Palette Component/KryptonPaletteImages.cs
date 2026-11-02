@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -35,6 +35,7 @@ public class KryptonPaletteImages : Storage
         GalleryButtons = new KryptonPaletteImagesGalleryButtons(redirector, needPaint);
         RadioButton = new KryptonPaletteImagesRadioButton(redirector, needPaint);
         TreeView = new KryptonPaletteImagesTreeView(redirector, needPaint);
+        PropertyGrid = new KryptonPaletteImagesPropertyGrid(redirector, needPaint);
         IntegratedToolBar = new KryptonPaletteImagesIntegratedToolBar(redirector, needPaint);
     }
     #endregion
@@ -49,7 +50,8 @@ public class KryptonPaletteImages : Storage
                                       ContextMenu.IsDefault &&
                                       GalleryButtons.IsDefault &&
                                       RadioButton.IsDefault &&
-                                      TreeView.IsDefault;
+                                      TreeView.IsDefault &&
+                                      PropertyGrid.IsDefault;
 
     #endregion
 
@@ -65,6 +67,7 @@ public class KryptonPaletteImages : Storage
         GalleryButtons.PopulateFromBase();
         RadioButton.PopulateFromBase();
         TreeView.PopulateFromBase();
+        PropertyGrid.PopulateFromBase();
     }
     #endregion
 
@@ -135,6 +138,20 @@ public class KryptonPaletteImages : Storage
     public KryptonPaletteImagesTreeView TreeView { get; }
 
     private bool ShouldSerializeTreeView() => !TreeView.IsDefault;
+
+    #endregion
+
+    #region PropertyGrid
+    /// <summary>
+    /// Gets access to the property grid toolbar set of images.
+    /// </summary>
+    [KryptonPersist]
+    [Category(@"Visuals")]
+    [Description(@"Overrides for defining property grid toolbar images.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonPaletteImagesPropertyGrid PropertyGrid { get; }
+
+    private bool ShouldSerializePropertyGrid() => !PropertyGrid.IsDefault;
 
     #endregion
 

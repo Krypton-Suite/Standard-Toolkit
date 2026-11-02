@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -23,6 +23,7 @@ internal class ViewDrawRibbonGroupClusterColorButton : ViewComposite,
     #region Instance Fields
     private readonly Padding _smallImagePadding; // = new(3);
     private readonly KryptonRibbon _ribbon;
+    private bool? _overflowCopy;
     private readonly NeedPaintHandler _needPaint;
     private PaletteBackInheritForced _backForced;
     private PaletteBorderInheritForced _borderForced;
@@ -52,9 +53,9 @@ internal class ViewDrawRibbonGroupClusterColorButton : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon ));
-        GroupClusterColorButton = ribbonButton ?? throw new ArgumentNullException(nameof(ribbonButton));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupClusterColorButton = ribbonButton ?? ThrowHelper.ThrowArgumentNullException(ribbonButton);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupClusterColorButton.ItemSizeCurrent;
 
         // Associate this view with the source component (required for design time selection)
@@ -96,7 +97,10 @@ internal class ViewDrawRibbonGroupClusterColorButton : ViewComposite,
                 GroupClusterColorButton.PropertyChanged -= OnButtonPropertyChanged;
 
                 // Remove association with definition
-                GroupClusterColorButton.ClusterColorButtonView = null;
+                if (_overflowCopy == false)
+                {
+                    GroupClusterColorButton.ClusterColorButtonView = null;
+                }
                 GroupClusterColorButton = null;
             }
         }
@@ -285,6 +289,9 @@ internal class ViewDrawRibbonGroupClusterColorButton : ViewComposite,
     {
         Debug.Assert(context is not null);
 
+        // Update palette inheritance because Retro themes use non-shadow ribbon button chrome for cluster buttons.
+        UpdateForcedPalettes();
+
         // Update our enabled and checked state
         UpdateEnabledState();
         UpdateCheckedState();
@@ -340,8 +347,8 @@ internal class ViewDrawRibbonGroupClusterColorButton : ViewComposite,
     private void CreateView()
     {
         // Override the palette provided values
-        _backForced = new PaletteBackInheritForced(_ribbon.StateCommon.RibbonGroupClusterButton.PaletteBack);
-        _borderForced = new PaletteBorderInheritForced(_ribbon.StateCommon.RibbonGroupClusterButton.PaletteBorder);
+        _backForced = new PaletteBackInheritForced(GetRibbonGroupClusterButtonBack());
+        _borderForced = new PaletteBorderInheritForced(GetRibbonGroupClusterButtonBorder());
 
         // Create the background and border view
         _viewMediumSmall = new ViewDrawRibbonGroupButtonBackBorder(_ribbon, GroupClusterColorButton!, _backForced, _borderForced, true, _needPaint)
@@ -394,11 +401,30 @@ internal class ViewDrawRibbonGroupClusterColorButton : ViewComposite,
             _viewMediumSmall, _viewMediumSmall.MouseController);
 
         // Provide back reference to the button definition
-        GroupClusterColorButton!.ClusterColorButtonView = _viewMediumSmall;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupClusterColorButton!.ClusterColorButtonView = _viewMediumSmall;
+        }
 
         // Define the actual view
         Add(_viewMediumSmall);
     }
+
+    private void UpdateForcedPalettes()
+    {
+        _backForced.SetInherit(GetRibbonGroupClusterButtonBack());
+        _borderForced.SetInherit(GetRibbonGroupClusterButtonBorder());
+    }
+
+    private IPaletteBack GetRibbonGroupClusterButtonBack() =>
+        KryptonManager.CurrentGlobalPalette is PaletteRetroBase
+            ? _ribbon.StateCommon.RibbonGroupButton.PaletteBack
+            : _ribbon.StateCommon.RibbonGroupClusterButton.PaletteBack;
+
+    private IPaletteBorder GetRibbonGroupClusterButtonBorder() =>
+        KryptonManager.CurrentGlobalPalette is PaletteRetroBase
+            ? _ribbon.StateCommon.RibbonGroupButton.PaletteBorder!
+            : _ribbon.StateCommon.RibbonGroupClusterButton.PaletteBorder!;
 
     private void UpdateItemSizeState() => UpdateItemSizeState(GroupClusterColorButton!.ItemSizeCurrent);
 

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -138,6 +138,9 @@ internal class KryptonWorkspaceActionList : DesignerActionList
             actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
             actions.Add(new DesignerActionPropertyItem(nameof(ContainerBackStyle), "BackStyle", nameof(Appearance), "Container background style"));
             actions.Add(new DesignerActionPropertyItem(nameof(SeparatorStyle), nameof(SeparatorStyle), nameof(Appearance), "Separator style"));
+            actions.Add(new DesignerActionHeaderItem(@"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add Cell", OnAddCell), @"Actions"));
+            actions.Add(new KryptonDesignerActionItem(new DesignerVerb(@"Add Sequence", OnAddSequence), @"Actions"));
             actions.Add(new DesignerActionHeaderItem(nameof(Operation)));
             actions.Add(new DesignerActionPropertyItem(nameof(AllowResizing), nameof(AllowResizing), nameof(Operation), "Allow user to resize"));
             actions.Add(new DesignerActionPropertyItem(nameof(CompactFlags), nameof(CompactFlags), nameof(Operation), "Compacting flags"));
@@ -147,5 +150,24 @@ internal class KryptonWorkspaceActionList : DesignerActionList
             
         return actions;
     }
+    #endregion
+
+    #region Implementation
+
+    private void OnAddCell(object? sender, EventArgs e) =>
+        KryptonWorkspaceDesignerActions.AddCell(
+            _workspace,
+            _workspace.Root.Children,
+            GetService(typeof(IDesignerHost)) as IDesignerHost,
+            _service);
+
+    private void OnAddSequence(object? sender, EventArgs e) =>
+        KryptonWorkspaceDesignerActions.AddSequence(
+            _workspace,
+            _workspace.Root,
+            _workspace.Root.Children,
+            GetService(typeof(IDesignerHost)) as IDesignerHost,
+            _service);
+
     #endregion
 }

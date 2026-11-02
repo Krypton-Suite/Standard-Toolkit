@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -214,7 +214,7 @@ public class ButtonSpecCollection<T> : ButtonSpecCollectionBase,
     {
         get => _specs[index];
 
-        set => throw new NotImplementedException(@"Cannot set a collection index with a new value");
+        set => ThrowHelper.ThrowNotImplementedException<object>(@"Cannot set a collection index with a new value");
     }
     #endregion
 
@@ -243,13 +243,13 @@ public class ButtonSpecCollection<T> : ButtonSpecCollectionBase,
         // We do not allow an empty button spec to be added
         if (item == null)
         {
-            throw new ArgumentNullException(nameof(item));
+            ThrowHelper.ThrowArgumentNullException(nameof(item));
         }
 
         // Not allow to add the same button spec more than once
         if (_specs.Contains(item))
         {
-            throw new ArgumentOutOfRangeException(nameof(item), @"T already in collection");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(item), @"T already in collection");
         }
 
         // Generate before insert event
@@ -290,7 +290,7 @@ public class ButtonSpecCollection<T> : ButtonSpecCollectionBase,
     {
         get => _specs[index];
 
-        set => throw new NotImplementedException(@"Cannot set a collection index with a new value");
+        set => ThrowHelper.ThrowNotImplementedException<T>(@"Cannot set a collection index with a new value");
     }
 
     /// <summary>
@@ -330,13 +330,13 @@ public class ButtonSpecCollection<T> : ButtonSpecCollectionBase,
         // We do not allow an empty button spec to be added
         if (item == null)
         {
-            throw new ArgumentNullException(nameof(item));
+            ThrowHelper.ThrowArgumentNullException(nameof(item));
         }
 
         // Not allow to add the same button spec more than once
         if (_specs.Contains(item))
         {
-            throw new ArgumentOutOfRangeException(nameof(item), @"T already in collection");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(item), @"T already in collection");
         }
 
         // Generate inserting event
@@ -421,7 +421,7 @@ public class ButtonSpecCollection<T> : ButtonSpecCollectionBase,
         // Cannot pass a null target array
         if (array == null)
         {
-            throw new ArgumentNullException(nameof(array));
+            ThrowHelper.ThrowArgumentNullException(nameof(array));
         }
 
         // Try and copy each button spec to the destination array

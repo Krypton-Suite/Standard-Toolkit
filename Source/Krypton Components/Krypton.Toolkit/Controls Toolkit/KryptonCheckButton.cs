@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonCheckButton), "ToolboxBitmaps.KryptonCheckButton.bmp")]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonCheckButtonDesigner))]
+[Designer("Krypton.Toolkit.KryptonCheckButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Toggles checked state when user clicks button.")]
 public class KryptonCheckButton : KryptonButton
@@ -183,6 +183,11 @@ public class KryptonCheckButton : KryptonButton
     #endregion
 
     #region Protected Overrides
+    /// <summary>
+    /// Creates the accessibility object for the control.
+    /// </summary>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonCheckButtonAccessibleObject(this);
+
     /// <summary>
     /// Raises the GotFocus event.
     /// </summary>

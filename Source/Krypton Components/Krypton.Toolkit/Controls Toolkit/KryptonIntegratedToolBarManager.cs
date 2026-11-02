@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -12,7 +12,7 @@ namespace Krypton.Toolkit;
 /// <summary>Handles all the integrated toolbar functionality.</summary>
 [Category(@"code")]
 [Description(@"Handles all the integrated toolbar functionality.")]
-[ToolboxBitmap(typeof(ToolStrip))]
+[ToolboxBitmap(typeof(ToolStrip), "ToolboxBitmaps.KryptonMenuBar.bmp")]
 public class KryptonIntegratedToolBarManager : Component
 {
     #region Static Fields
@@ -118,15 +118,15 @@ public class KryptonIntegratedToolBarManager : Component
 
     public void ResetToolBarButtonValues() => IntegratedToolBarButtonValues.Reset();*/
 
-    /*[Category(@"Data")]
-    [Description(@"Handles the toolbar buttons.")]
+    [Category(@"Data")]
+    [Description(@"Commands for integrated toolbar buttons.")]
     [MergableProperty(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public IntegratedToolBarCommandValues ToolBarCommands => IntegratedToolBarCommandValues;
 
     private bool ShouldSerializeToolBarCommands() => !IntegratedToolBarCommandValues.IsDefault;
 
-    private void ResetToolBarCommands() => IntegratedToolBarCommandValues.Reset();*/
+    private void ResetToolBarCommands() => IntegratedToolBarCommandValues.Reset();
 
     #region Tool Bar Buttons
 
@@ -206,9 +206,10 @@ public class KryptonIntegratedToolBarManager : Component
 
     #region Static Properties
 
-    public static IntegratedToolBarButtonValues IntegratedToolBarButtonValues { get; } = new IntegratedToolBarButtonValues();
-
+    // Command values must initialize before button values (button values ctor creates a manager instance).
     public static IntegratedToolBarCommandValues IntegratedToolBarCommandValues { get; } = new IntegratedToolBarCommandValues();
+
+    public static IntegratedToolBarButtonValues IntegratedToolBarButtonValues { get; } = new IntegratedToolBarButtonValues();
 
     #endregion
 
@@ -354,6 +355,15 @@ public class KryptonIntegratedToolBarManager : Component
         _integratedToolBarButtons[13] = quickPrintToolbarButton;
     }
 
+    /// <summary>Re-applies <see cref="IntegratedToolBarCommandValues"/> to the toolbar buttons.</summary>
+    public void RefreshToolBarCommands()
+    {
+        if (_integratedToolBarButtons != null)
+        {
+            IntegratedToolBarCommandValues.ApplyTo(_integratedToolBarButtons);
+        }
+    }
+
     /// <summary>Shows the tool bar into parent form.</summary>
     /// <param name="showIntegratedToolBar">if set to <c>true</c> [show integrated tool bar].</param>
     /// <param name="parentForm">The parent form.</param>
@@ -378,7 +388,7 @@ public class KryptonIntegratedToolBarManager : Component
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -399,12 +409,12 @@ public class KryptonIntegratedToolBarManager : Component
             }
             else
             {
-                throw new ArgumentNullException();
+                ThrowHelper.ThrowArgumentNullException();
             }
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -426,12 +436,12 @@ public class KryptonIntegratedToolBarManager : Component
             }
             else
             {
-                throw new ArgumentNullException();
+                ThrowHelper.ThrowArgumentNullException();
             }
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -483,13 +493,14 @@ public class KryptonIntegratedToolBarManager : Component
                         }
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(buttonOrientation), buttonOrientation, null);
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(buttonOrientation), buttonOrientation, null);
+                        return;
                 }
             }
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 
@@ -523,13 +534,14 @@ public class KryptonIntegratedToolBarManager : Component
                         }
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(buttonAlignment), buttonAlignment, null);
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(buttonAlignment), buttonAlignment, null);
+                        return;
                 }
             }
         }
         catch (Exception e)
         {
-            KryptonExceptionHandler.CaptureException(e, showStackTrace: GlobalStaticValues.DEFAULT_USE_STACK_TRACE);
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
         }
     }
 

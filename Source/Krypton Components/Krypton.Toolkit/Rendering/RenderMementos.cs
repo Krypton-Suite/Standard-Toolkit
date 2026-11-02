@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -1838,6 +1838,11 @@ public class MementoRibbonQATMinibar : MementoRectFiveColor
     /// <summary>For internal use only.</summary>
     public LinearGradientBrush? InnerBrush;
 
+    /// <summary>
+    /// True when cached paths were horizontally mirrored for RTL.
+    /// </summary>
+    public bool Rtl;
+
     /// <summary>For internal use only.</summary>
     public MementoRibbonQATMinibar(Rectangle r,
         Color color1, Color color2,
@@ -1845,6 +1850,21 @@ public class MementoRibbonQATMinibar : MementoRectFiveColor
         Color color5)
         : base(r, color1, color2, color3, color4, color5)
     {
+    }
+
+    /// <summary>For internal use only.</summary>
+    public bool UseCachedValues(Rectangle r,
+        Color color1, Color color2,
+        Color color3, Color color4,
+        Color color5,
+        bool rtl)
+    {
+        var ret = base.UseCachedValues(r, color1, color2, color3, color4, color5) &&
+                  (Rtl == rtl);
+
+        Rtl = rtl;
+
+        return ret;
     }
 
     /// <summary>For internal use only.</summary>

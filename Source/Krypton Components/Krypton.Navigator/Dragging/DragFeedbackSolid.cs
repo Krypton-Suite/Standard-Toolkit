@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -55,9 +55,10 @@ public class DragFeedbackSolid : DragFeedback
 
         if (_solid == null)
         {
-            // Create and show a window without it taking focus
+            // Create and show a window without it taking focus.
+            // Position off-screen initially to avoid a visible 1x1 artifact at top-left (0,0).
             _solid = new DropSolidWindow(PaletteDragDrop, Renderer);
-            _solid.SetBounds(0, 0, 1, 1, BoundsSpecified.All);
+            _solid.SetBounds(SharedStaticConstants.OFF_SCREEN_POSITION, SharedStaticConstants.OFF_SCREEN_POSITION, 1, 1, BoundsSpecified.All);
             _solid.ShowWithoutActivate();
             _solid.Refresh();
         }
@@ -105,11 +106,15 @@ public class DragFeedbackSolid : DragFeedback
 
     #region Implementation
     /// <summary>
-    /// Find the target the first matches the provided screen point.
+    /// Find the first target that matches the provided screen point.
     /// </summary>
     /// <param name="screenPt">Point in screen coordinates.</param>
     /// <param name="dragEndData">Data to be dropped at destination.</param>
     /// <returns>First target that matches; otherwise null.</returns>
+    /// <remarks>
+    /// List order is generation order: control-edge targets are added before cell targets
+    /// and therefore take priority when hot rectangles overlap.
+    /// </remarks>
     protected virtual DragTarget? FindTarget(Point screenPt, PageDragEndData? dragEndData) =>
         // Ask each target in turn if they are a match for the given screen point
         DragTargets?.FirstOrDefault(target => target.IsMatch(screenPt, dragEndData));

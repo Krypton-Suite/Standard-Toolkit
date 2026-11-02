@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -175,6 +175,7 @@ internal class KryptonDropButtonActionList : DesignerActionList
     /// <summary>
     /// Gets and sets the button image.
     /// </summary>
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _dropButton.Values.Image;
@@ -240,6 +241,23 @@ internal class KryptonDropButtonActionList : DesignerActionList
         }
     }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether the button can receive focus when clicked.
+    /// </summary>
+    public bool IsSelectable
+    {
+        get => _dropButton.IsSelectable;
+
+        set
+        {
+            if (_dropButton.IsSelectable != value)
+            {
+                _service?.OnComponentChanged(_dropButton, null, _dropButton.IsSelectable, value);
+                _dropButton.IsSelectable = value;
+            }
+        }
+    }
+
     #endregion
 
     #region Public Override
@@ -257,7 +275,10 @@ internal class KryptonDropButtonActionList : DesignerActionList
         {
             // Add the list of button specific actions
             actions.Add(new DesignerActionHeaderItem(nameof(Appearance)));
-            actions.Add(new DesignerActionPropertyItem(nameof(Splitter), nameof(Splitter), nameof(Appearance), @"Splitter of DropDown"));
+            if (_dropButton is not KryptonSplitButton)
+            {
+                actions.Add(new DesignerActionPropertyItem(nameof(Splitter), nameof(Splitter), nameof(Appearance), @"Splitter of DropDown"));
+            }
             actions.Add(new DesignerActionPropertyItem(nameof(ButtonStyle), nameof(ButtonStyle), nameof(Appearance), @"Button style"));
             actions.Add(new DesignerActionPropertyItem(nameof(ButtonOrientation), nameof(ButtonOrientation), nameof(Appearance), @"Button orientation"));
             actions.Add(new DesignerActionPropertyItem(nameof(KryptonContextMenu), @"Krypton Context Menu", nameof(Appearance), @"The Krypton Context Menu for the control."));
@@ -269,6 +290,8 @@ internal class KryptonDropButtonActionList : DesignerActionList
             actions.Add(new DesignerActionPropertyItem(nameof(Text), nameof(Text), @"Values", @"Button text"));
             actions.Add(new DesignerActionPropertyItem(nameof(ExtraText), nameof(ExtraText), @"Values", @"Button extra text"));
             actions.Add(new DesignerActionPropertyItem(nameof(Image), nameof(Image), @"Values", @"Button image"));
+            actions.Add(new DesignerActionHeaderItem(@"Behavior"));
+            actions.Add(new DesignerActionPropertyItem(nameof(IsSelectable), nameof(IsSelectable), @"Behavior", @"When false, the button does not receive focus when clicked. Useful for on-screen keyboards so that input goes to the currently focused control."));
             actions.Add(new DesignerActionHeaderItem(@"Visuals"));
             actions.Add(new DesignerActionPropertyItem(nameof(PaletteMode), @"Palette", @"Visuals", @"Palette applied to drawing"));
         }

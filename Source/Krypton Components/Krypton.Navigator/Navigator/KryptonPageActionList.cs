@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -211,6 +211,27 @@ internal class KryptonPageActionList : DesignerActionList
             }
         }
     }
+    /// <summary>
+    /// Gets and sets whether the page appears as an individual Windows taskbar thumbnail.
+    /// </summary>
+    public bool AllowTaskbarThumbnail
+    {
+        get => _page.AreFlagsSet(KryptonPageFlags.AllowTaskbarThumbnail);
+
+        set
+        {
+            _serviceComponentChange?.OnComponentChanged(_page, null, _page.AreFlagsSet(KryptonPageFlags.AllowTaskbarThumbnail), value);
+
+            if (value)
+            {
+                _page.SetFlags(KryptonPageFlags.AllowTaskbarThumbnail);
+            }
+            else
+            {
+                _page.ClearFlags(KryptonPageFlags.AllowTaskbarThumbnail);
+            }
+        }
+    }
     #endregion
 
     #region Public Override
@@ -234,7 +255,8 @@ internal class KryptonPageActionList : DesignerActionList
             new DesignerActionPropertyItem(nameof(ToolTipBody), "Tooltip Body", nameof(Appearance), "The tooltip body text for the page."),
             new DesignerActionPropertyItem(nameof(ToolTipImage), "Tooltip Image", nameof(Appearance), "The tooltip image that represents the page."),
             new DesignerActionHeaderItem("Flags"),
-            new DesignerActionPropertyItem(nameof(PageInOverflowBarForOutlookMode), "Page in Overflow Bar for Outlook mode", "Flags", "Should the page be shown on the overflow bar for the Outlook mode.")
+            new DesignerActionPropertyItem(nameof(PageInOverflowBarForOutlookMode), "Page in Overflow Bar for Outlook mode", "Flags", "Should the page be shown on the overflow bar for the Outlook mode."),
+            new DesignerActionPropertyItem(nameof(AllowTaskbarThumbnail), "Allow Taskbar Thumbnail", "Flags", "Should the page appear as an individual Windows taskbar thumbnail.")
         };
 
         return _actions;

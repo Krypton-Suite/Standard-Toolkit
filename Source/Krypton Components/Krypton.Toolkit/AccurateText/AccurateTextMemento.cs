@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -40,13 +40,14 @@ public class AccurateTextMemento : GlobalId,
         [DisallowNull] Font? font,
         SizeF sizeF,
         StringFormat format,
-        TextRenderingHint hint, // TODO: What was this supposed to be used for ?
+        TextRenderingHint hint,
         bool disposeFont)
     {
         Text = text;
         Size = new Size((int)sizeF.Width + 1, (int)sizeF.Height + 1);
         Font = font;
         Format = format;
+        TextRenderingHint = hint;
         _disposeFont = disposeFont;
     }
 
@@ -84,6 +85,11 @@ public class AccurateTextMemento : GlobalId,
     /// Gets the StringFormat of the text area.
     /// </summary>
     public StringFormat Format { get; }
+
+    /// <summary>
+    /// Gets the text rendering hint used when measuring and drawing the text.
+    /// </summary>
+    public TextRenderingHint TextRenderingHint { get; }
 
     /// <summary>
     /// Gets a value indicating if the memento represents nothing that can be drawn.

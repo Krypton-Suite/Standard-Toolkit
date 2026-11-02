@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -16,7 +16,7 @@ namespace Krypton.Toolkit;
 /// Defines the editing control for the DataGridViewTextBoxCell custom cell type.
 /// </summary>
 [ToolboxItem(false)]
-[Designer(typeof(KryptonTextBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonTextBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonDataGridViewTextBoxEditingControl : KryptonTextBox,
     IDataGridViewEditingControl, IKryptonDataGridViewEditingControl
 {
@@ -82,7 +82,7 @@ public class KryptonDataGridViewTextBoxEditingControl : KryptonTextBox,
         // will be converted to String.Empty.
 
         get => GetEditingControlFormattedValue(DataGridViewDataErrorContexts.Formatting);
-        set => Text = value is string str && str is not null
+        set => Text = value is string str
             ? str
             : string.Empty;
     }

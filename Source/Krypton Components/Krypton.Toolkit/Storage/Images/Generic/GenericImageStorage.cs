@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -14,8 +14,7 @@ public class GenericImageStorage : Storage
 {
     #region Static Fields
 
-    // ToDo: Use the standard WinForms app icon
-    private readonly Image _defaultApplicationImage = GenericImageResources.AppButtonDefault;
+    private readonly Image _defaultApplicationImage = SystemIcons.Application.ToBitmap();
 
     #endregion
 
@@ -53,8 +52,11 @@ public class GenericImageStorage : Storage
     [Category(@"Values")]
     [Description(@"Application button image.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(typeof(Image), "Resources.AppButtonDefault.png")]
     public Image ApplicationIcon { get; set; }
+
+    private bool ShouldSerializeApplicationIcon() => !_defaultApplicationImage.Equals(ApplicationIcon);
+
+    private void ResetApplicationIcon() => ApplicationIcon = _defaultApplicationImage;
 
     #endregion
 

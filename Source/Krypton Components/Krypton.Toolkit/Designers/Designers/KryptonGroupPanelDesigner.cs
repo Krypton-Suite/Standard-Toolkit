@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -56,7 +56,7 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
     /// <returns>true if the control managed by the specified designer can parent the control managed by this designer; otherwise, false.</returns>
     public override bool CanBeParentedTo(IDesigner parentDesigner) =>
         // We should only ever exist inside a Krypton group container
-        (parentDesigner is KryptonGroup or KryptonHeaderGroup);
+        parentDesigner.Component is KryptonGroup or KryptonGroupBox or KryptonHeaderGroup;
 
     /// <summary>
     /// Gets the selection rules that indicate the movement capabilities of a component.
@@ -68,6 +68,7 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
             ? SelectionRules.None | SelectionRules.Locked
             : SelectionRules.None;
 
+#if !KRYPTON_WINFORMS_DESIGNER_SDK
     /// <summary>
     /// Gets a list of SnapLine objects representing significant alignment points for this control.
     /// </summary>
@@ -85,6 +86,7 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
             return snapLines;
         }
     }
+#endif
 
     /// <summary>
     ///  Gets the design-time action lists supported by the component associated with the designer.
@@ -164,21 +166,27 @@ internal class KryptonGroupPanelDesigner : KryptonPanelDesigner,
     /// <summary>
     /// Gets an attribute that indicates the type of inheritance of the associated component.
     /// </summary>
+#if KRYPTON_WINFORMS_DESIGNER_SDK
+    protected override InheritanceAttribute InheritanceAttribute
+#else
     protected override InheritanceAttribute? InheritanceAttribute
+#endif
     {
         get
         {
-            // If we have a valid Krypton splitter panel instance
+            // If we have a valid Krypton group panel instance
             if (_panel?.Parent != null)
             {
                 // Then get the attribute associated with the parent of the panel
-                return TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)] as
+                var inherited = TypeDescriptor.GetAttributes(_panel.Parent)[typeof(InheritanceAttribute)] as
                     InheritanceAttribute;
+                if (inherited != null)
+                {
+                    return inherited;
+                }
             }
-            else
-            {
-                return base.InheritanceAttribute;
-            }
+
+            return base.InheritanceAttribute;
         }
     }
     #endregion

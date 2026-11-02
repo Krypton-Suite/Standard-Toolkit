@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2023 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -15,12 +15,18 @@ namespace Krypton.Toolkit;
 ///  Displays a dialog window from which the user can select a file.
 /// </summary>
 [DesignerCategory(@"code")]
+[Designer("Krypton.Toolkit.KryptonOpenFileDialogDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [Description("Displays a Kryptonised version of the standard 'OpenFile dialog window' from which the user can select a file.")]
 [ToolboxBitmap(typeof(OpenFileDialog), @"ToolboxBitmaps.KryptonOpenFileDialog.bmp")]
 [ToolboxItem(true)]
 public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
 {
-    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();// { AutoUpgradeEnabled = true };
+    private readonly OpenFileDialog _internalOpenFileDialog = new OpenFileDialog();
+
+    public KryptonOpenFileDialog()
+    {
+        _internalOpenFileDialog.FileOk += OnInternalFileOk;
+    }
 
     /// <inheritdoc />
     protected override DialogResult ShowActualDialog(IWin32Window? owner) => _internalOpenFileDialog.ShowDialog(owner);
@@ -175,12 +181,6 @@ public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
     }
 
     /// <inheritdoc />
-    public override event CancelEventHandler? FileOk
-    {
-        add => _internalOpenFileDialog.FileOk += value;
-        remove => _internalOpenFileDialog.FileOk -= value;
-    }
-
     /// <summary>Resets all properties to their default values.</summary>
     public override void Reset() => _internalOpenFileDialog.Reset();
 
@@ -204,5 +204,33 @@ public class KryptonOpenFileDialog : FileDialogWrapper, IDisposable
 
     /// <inheritdoc />
     public void Dispose() => _internalOpenFileDialog.Dispose();
+
+    internal override void PopulateDialogOptions(KryptonDialogOptions options)
+    {
+        options.Kind = KryptonDialogKind.OpenFile;
+        options.Multiselect = Multiselect;
+        options.ReadOnlyChecked = ReadOnlyChecked;
+    }
+
+    protected override bool GetReadOnlyChecked() => ReadOnlyChecked;
+
+    protected override void ApplyReadOnlyChecked(bool readOnlyChecked) => ReadOnlyChecked = readOnlyChecked;
+
+    internal override void ApplyDialogResult(KryptonDialogResult result)
+    {
+        base.ApplyDialogResult(result);
+        if (result.FileNames.Length > 0)
+        {
+            FileName = result.FileNames[0];
+        }
+    }
+
+    private void OnInternalFileOk(object? sender, CancelEventArgs e)
+    {
+        if (!RaiseFileOk())
+        {
+            e.Cancel = true;
+        }
+    }
 
 }

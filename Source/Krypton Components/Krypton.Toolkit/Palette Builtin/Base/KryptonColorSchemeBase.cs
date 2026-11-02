@@ -1,8 +1,8 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -14,8 +14,10 @@ public abstract class KryptonColorSchemeBase
     #region Variables
 
     public abstract Color TextLabelControl                 { get; set; }
+    public abstract Color TextListItem                     { get; set; }
     public abstract Color TextButtonNormal                 { get; set; }
     public abstract Color TextButtonChecked                { get; set; }
+    public abstract Color ButtonTextTracking               { get; set; }
     public abstract Color ButtonNormalBorder               { get; set; }
     public abstract Color ButtonNormalDefaultBorder        { get; set; }
     public abstract Color ButtonNormalBack1                { get; set; }
@@ -140,6 +142,7 @@ public abstract class KryptonColorSchemeBase
     public abstract Color RibbonGroupFrameInside3          { get; set; }
     public abstract Color RibbonGroupFrameInside4          { get; set; }
     public abstract Color RibbonGroupCollapsedText         { get; set; }
+    public abstract Color RibbonGroupTextTracking          { get; set; }
     public abstract Color RibbonGroupButtonText            { get; set; }
     public abstract Color AlternatePressedBack1            { get; set; }
     public abstract Color AlternatePressedBack2            { get; set; }
@@ -246,6 +249,7 @@ public abstract class KryptonColorSchemeBase
     public abstract Color MenuMarginGradientEnd            { get; set; }
     public abstract Color DisabledMenuItemText             { get; set; }
     public abstract Color MenuStripText                    { get; set; }
+    public abstract Color ToolStripText                    { get; set; }
     public abstract Color TrackBarTickMarks                { get; set; }
     public abstract Color TrackBarTopTrack                 { get; set; }
     public abstract Color TrackBarBottomTrack              { get; set; }

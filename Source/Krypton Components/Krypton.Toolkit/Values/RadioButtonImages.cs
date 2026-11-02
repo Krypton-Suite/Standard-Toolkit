@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -87,6 +87,7 @@ public class RadioButtonImages : Storage
     [Description(@"Common image that other radio button images inherit from.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Common
     {
         get => _common;
@@ -116,6 +117,7 @@ public class RadioButtonImages : Storage
     [Description(@"Image for use when the radio button is not checked and disabled.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? UncheckedDisabled
     {
         get => _uncheckedDisabled;
@@ -145,6 +147,7 @@ public class RadioButtonImages : Storage
     [Description(@"Image for use when the radio button is unchecked.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? UncheckedNormal
     {
         get => _uncheckedNormal;
@@ -174,6 +177,7 @@ public class RadioButtonImages : Storage
     [Description(@"Image for use when the radio button is unchecked and hot tracking.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? UncheckedTracking
     {
         get => _uncheckedTracking;
@@ -203,6 +207,7 @@ public class RadioButtonImages : Storage
     [Description(@"Image for use when the radio button is unchecked and pressed.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? UncheckedPressed
     {
         get => _uncheckedPressed;
@@ -232,6 +237,7 @@ public class RadioButtonImages : Storage
     [Description(@"Image for use when the radio button is checked but disabled.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? CheckedDisabled
     {
         get => _checkedDisabled;
@@ -261,6 +267,7 @@ public class RadioButtonImages : Storage
     [Description(@"Image for use when the radio button is checked.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? CheckedNormal
     {
         get => _checkedNormal;
@@ -290,6 +297,7 @@ public class RadioButtonImages : Storage
     [Description(@"Image for use when the radio button is checked and hot tracking.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? CheckedTracking
     {
         get => _checkedTracking;
@@ -319,6 +327,7 @@ public class RadioButtonImages : Storage
     [Description(@"Image for use when the radio button is checked and pressed.")]
     [DefaultValue(null)]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? CheckedPressed
     {
         get => _checkedPressed;

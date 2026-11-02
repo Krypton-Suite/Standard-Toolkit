@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -17,12 +17,12 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroup), "ToolboxBitmaps.KryptonRibbonGroup.bmp")]
-[Designer(typeof(KryptonRibbonGroupDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DefaultEvent(nameof(DialogBoxLauncherClick))]
 [DefaultProperty(nameof(TextLine1))]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
-public class KryptonRibbonGroup : Component
+public class KryptonRibbonGroup : Component, IRibbonTranslationIdentity
 {
     #region Static Fields
     private static readonly Image _defaultGroupImage = GenericImageResources.GroupImageDefault;
@@ -30,6 +30,7 @@ public class KryptonRibbonGroup : Component
 
     #region Instance Fields
     private object? _tag;
+    private string _translationId = string.Empty;
     private bool _visible;
     private bool _allowCollapsed;
     private Image? _image;
@@ -73,6 +74,13 @@ public class KryptonRibbonGroup : Component
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
     public event EventHandler? DesignTimeAddLines;
+
+    /// <summary>
+    /// Occurs when the design time wants to add a stack.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Browsable(false)]
+    public event EventHandler? DesignTimeAddStack;
 
     /// <summary>
     /// Occurs when the design time wants to add a separator.
@@ -295,6 +303,7 @@ public class KryptonRibbonGroup : Component
     [Category(@"Appearance")]
     [Description(@"Group image when collapsed.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -437,6 +446,23 @@ public class KryptonRibbonGroup : Component
     public KryptonRibbonGroupContainerCollection Items { get; }
 
     /// <summary>
+    /// Gets or sets a stable, non-localized identity used when saving or loading ribbon translations.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Stable identity for RibbonTranslations.xml. Prefer this over collection index when groups can be reordered.")]
+    [DefaultValue("")]
+    [Localizable(false)]
+    public string TranslationId
+    {
+        get => _translationId ?? string.Empty;
+        set => _translationId = value ?? string.Empty;
+    }
+
+    private bool ShouldSerializeTranslationId() => !string.IsNullOrEmpty(TranslationId);
+
+    private void ResetTranslationId() => TranslationId = string.Empty;
+
+    /// <summary>
     /// Gets and sets user-defined data associated with the object.
     /// </summary>
     [Category(@"Data")]
@@ -504,6 +530,8 @@ public class KryptonRibbonGroup : Component
     internal void OnDesignTimeAddTriple() => DesignTimeAddTriple?.Invoke(this, EventArgs.Empty);
 
     internal void OnDesignTimeAddLines() => DesignTimeAddLines?.Invoke(this, EventArgs.Empty);
+
+    internal void OnDesignTimeAddStack() => DesignTimeAddStack?.Invoke(this, EventArgs.Empty);
 
     internal void OnDesignTimeAddSeparator() => DesignTimeAddSeparator?.Invoke(this, EventArgs.Empty);
 

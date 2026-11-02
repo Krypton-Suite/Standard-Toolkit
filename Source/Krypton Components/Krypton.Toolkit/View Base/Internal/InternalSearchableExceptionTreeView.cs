@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2025 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -14,6 +14,8 @@ public partial class InternalSearchableExceptionTreeView : UserControl
     #region Instance Fields
 
     private bool _showSearchFeatures;
+
+    private Color? _highlightColor;
 
     private readonly List<KryptonTreeNode> _originalNodes = new List<KryptonTreeNode>();
 
@@ -31,6 +33,18 @@ public partial class InternalSearchableExceptionTreeView : UserControl
 
             Invalidate();
         }
+    }
+
+    /// <summary>
+    /// Gets or sets the color used to highlight selected elements in the control.
+    /// </summary>
+    /// <remarks>If no color is explicitly set, the default highlight color is <see cref="Color.LightYellow"/>. This property is not persisted by designers due to its serialization visibility setting.</remarks>
+    [DefaultValue(null)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Color HighlightColor
+    {
+        get => _highlightColor ?? Color.LightYellow;
+        set => _highlightColor = value;
     }
 
     public Exception? SelectedException => kietvException.SelectedException;
@@ -59,7 +73,7 @@ public partial class InternalSearchableExceptionTreeView : UserControl
 
         kwlblSearchResults.Text = KryptonManager.Strings.ExceptionDialogStrings.TypeToSearch;
 
-        bsaClearSearch.ToolTipTitle = KryptonManager.Strings.SearchBoxStrings.ClearSearchBoxToolTip;
+        bsaClearSearch.ToolTipTitle = KryptonManager.Strings.SearchBoxStrings.ClearButtonToolTipTitle;
 
         bsaClearSearch.ToolTipBody = KryptonManager.Strings.SearchBoxStrings.ClearSearchBoxToolTipDescription;
     }
@@ -73,9 +87,10 @@ public partial class InternalSearchableExceptionTreeView : UserControl
         kietvException.Populate(exception);
         _originalNodes.Clear();
 
-        foreach (KryptonTreeNode node in kietvException.Nodes)
+        // TreeNode.Clone() returns TreeNode, not KryptonTreeNode — copy explicitly.
+        foreach (TreeNode node in kietvException.Nodes)
         {
-            _originalNodes.Add((KryptonTreeNode)node.Clone());
+            _originalNodes.Add(CloneAsKryptonNode(node));
         }
     }
 
@@ -93,7 +108,7 @@ public partial class InternalSearchableExceptionTreeView : UserControl
             // Reset: restore all original nodes
             foreach (KryptonTreeNode original in _originalNodes)
             {
-                kietvException.Nodes.Add((KryptonTreeNode)original.Clone());
+                kietvException.Nodes.Add(CloneAsKryptonNode(original));
             }
 
             // Reset label and styling
@@ -143,9 +158,10 @@ public partial class InternalSearchableExceptionTreeView : UserControl
 
         // Auto-select match or fallback
         var firstMatch = kietvException.Nodes
-            .Cast<KryptonTreeNode>()
+            .Cast<TreeNode>()
+            .OfType<KryptonTreeNode>()
             .SelectMany(FlattenTree)
-            .FirstOrDefault(n => n.BackColor == Color.LightYellow);
+            .FirstOrDefault(n => n.BackColor == _highlightColor);
 
         kietvException.SelectedNode = firstMatch ??
                                       (kietvException.Nodes.Count > 0 ? kietvException.Nodes[0] : null);
@@ -157,11 +173,14 @@ public partial class InternalSearchableExceptionTreeView : UserControl
     {
         yield return root;
 
-        foreach (KryptonTreeNode child in root.Nodes)
+        foreach (TreeNode child in root.Nodes)
         {
-            foreach (var descendant in FlattenTree(child))
+            if (child is KryptonTreeNode kryptonChild)
             {
-                yield return descendant;
+                foreach (var descendant in FlattenTree(kryptonChild))
+                {
+                    yield return descendant;
+                }
             }
         }
     }
@@ -169,12 +188,17 @@ public partial class InternalSearchableExceptionTreeView : UserControl
     private KryptonTreeNode? FilterAndCloneNode(KryptonTreeNode node, string searchQuery, ref int matchCount)
     {
         bool isMatch = node.Text.ToLowerInvariant().Contains(searchQuery);
-        KryptonTreeNode clone = (KryptonTreeNode)node.Clone();
+        KryptonTreeNode clone = CloneAsKryptonNode(node);
         clone.Nodes.Clear();
 
-        foreach (KryptonTreeNode child in node.Nodes)
+        foreach (TreeNode child in node.Nodes)
         {
-            KryptonTreeNode? filteredChild = FilterAndCloneNode(child, searchQuery, ref matchCount);
+            if (child is not KryptonTreeNode kryptonChild)
+            {
+                continue;
+            }
+
+            KryptonTreeNode? filteredChild = FilterAndCloneNode(kryptonChild, searchQuery, ref matchCount);
             if (filteredChild != null)
             {
                 clone.Nodes.Add(filteredChild);
@@ -186,7 +210,7 @@ public partial class InternalSearchableExceptionTreeView : UserControl
             if (isMatch)
             {
                 matchCount++;
-                clone.BackColor = Color.LightYellow;
+                clone.BackColor = _highlightColor ?? Color.LightYellow;
                 clone.ForeColor = Color.Black;
                 clone.NodeFont = new Font(kietvException.Font, FontStyle.Bold);
             }
@@ -201,6 +225,36 @@ public partial class InternalSearchableExceptionTreeView : UserControl
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// <see cref="TreeNode.Clone"/> always returns a <see cref="TreeNode"/>, even when the source is a
+    /// <see cref="KryptonTreeNode"/>. Copy properties and children into a real <see cref="KryptonTreeNode"/>.
+    /// </summary>
+    private static KryptonTreeNode CloneAsKryptonNode(TreeNode source)
+    {
+        if (source is KryptonTreeNode krypton)
+        {
+            return (KryptonTreeNode)krypton.Clone();
+        }
+
+        var clone = new KryptonTreeNode(source.Text)
+        {
+            Tag = source.Tag,
+            ToolTipText = source.ToolTipText,
+            BackColor = source.BackColor,
+            ForeColor = source.ForeColor,
+            NodeFont = source.NodeFont,
+            ImageIndex = source.ImageIndex,
+            SelectedImageIndex = source.SelectedImageIndex
+        };
+
+        foreach (TreeNode child in source.Nodes)
+        {
+            clone.Nodes.Add(CloneAsKryptonNode(child));
+        }
+
+        return clone;
     }
 
     protected override void OnPaint(PaintEventArgs e)

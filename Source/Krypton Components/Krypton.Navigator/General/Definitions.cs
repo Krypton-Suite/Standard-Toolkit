@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -110,6 +110,13 @@ public enum KryptonPageFlags
 
     /// <summary>Specifies that the page is allowed to be dragged from the navigator.</summary>
     AllowPageDrag = 0x0400,
+
+    /// <summary>
+    /// Specifies that the page may appear as an individual taskbar thumbnail when a
+    /// <c>Krypton.Navigator.Utilities.KryptonNavigatorTaskbarThumbnails</c> component is attached and enabled.
+    /// Clear this flag for wizard steps or other pages that should not get a thumbnail.
+    /// </summary>
+    AllowTaskbarThumbnail = 0x0800,
 
     /// <summary>Specifies that all flags are set.</summary>
     All = 0xFFFF

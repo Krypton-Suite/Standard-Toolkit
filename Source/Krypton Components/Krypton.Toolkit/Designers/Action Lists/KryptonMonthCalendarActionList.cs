@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -83,6 +83,23 @@ internal class KryptonMonthCalendarActionList : DesignerActionList
             {
                 _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.MaxSelectionCount, value);
                 _monthCalendar.MaxSelectionCount = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets the calendar view used to choose a date.
+    /// </summary>
+    public MonthCalendarView CalendarView
+    {
+        get => _monthCalendar.CalendarView;
+
+        set
+        {
+            if (_monthCalendar.CalendarView != value)
+            {
+                _service?.OnComponentChanged(_monthCalendar, null, _monthCalendar.CalendarView, value);
+                _monthCalendar.CalendarView = value;
             }
         }
     }
@@ -194,6 +211,7 @@ internal class KryptonMonthCalendarActionList : DesignerActionList
             actions.Add(new DesignerActionPropertyItem(nameof(DayStateCommonLongTextFont), @"Day State Common State Common Long Text Font", nameof(Appearance), @"The State Common State Common Long Text Font."));
             actions.Add(new DesignerActionHeaderItem(nameof(Behavior)));
             actions.Add(new DesignerActionPropertyItem(nameof(MaxSelectionCount), nameof(MaxSelectionCount), nameof(Behavior), @"Maximum number of selected days"));
+            actions.Add(new DesignerActionPropertyItem(nameof(CalendarView), nameof(CalendarView), nameof(Behavior), @"Show days, months, or years"));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowToday), nameof(ShowToday), nameof(Behavior), @"Show the today button"));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowTodayCircle), nameof(ShowTodayCircle), nameof(Behavior), @"Show a circle around the today entry"));
             actions.Add(new DesignerActionPropertyItem(nameof(ShowWeekNumbers), nameof(ShowWeekNumbers), nameof(Behavior), @"Show the week numbers"));

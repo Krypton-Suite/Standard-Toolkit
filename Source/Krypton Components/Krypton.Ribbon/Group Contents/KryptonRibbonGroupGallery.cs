@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -19,7 +19,7 @@ namespace Krypton.Ribbon;
 /// </summary>
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonRibbonGroupGallery), "ToolboxBitmaps.KryptonGallery.bmp")]
-[Designer(typeof(KryptonRibbonGroupGalleryDesigner))]
+[Designer("Krypton.Ribbon.KryptonRibbonGroupGalleryDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 [DefaultProperty(nameof(Visible))]
@@ -393,6 +393,7 @@ public class KryptonRibbonGroupGallery : KryptonRibbonGroupContainer
     [Category(@"Appearance")]
     [Description(@"Large gallery button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ImageLarge
     {
         get => _imageLarge;
@@ -607,15 +608,12 @@ public class KryptonRibbonGroupGallery : KryptonRibbonGroupContainer
         {
             _itemSizeCurrent = value;
 
-            switch (value)
+            Gallery.InternalPreferredItemSize = value switch
             {
-                case GroupItemSize.Large:
-                    Gallery.InternalPreferredItemSize = new Size(InternalItemCount, 1);
-                    break;
-                case GroupItemSize.Medium:
-                    Gallery.InternalPreferredItemSize = new Size(MediumItemCount, 1);
-                    break;
-            }
+                GroupItemSize.Large => new Size(InternalItemCount, 1),
+                GroupItemSize.Medium => new Size(MediumItemCount, 1),
+                _ => Gallery.InternalPreferredItemSize
+            };
 
             OnPropertyChanged(nameof(ItemSizeCurrent));
         }

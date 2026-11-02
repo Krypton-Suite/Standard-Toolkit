@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -49,7 +49,7 @@ public class NavigatorOutlook : Storage
         Debug.Assert(navigator is not null);
 
         // Remember back reference
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
@@ -125,7 +125,7 @@ public class NavigatorOutlook : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Check button style.")]
-    //[DefaultValue(typeof(ButtonStyle), "NavigatorStack")]
+    [DefaultValue(typeof(ButtonStyle), "NavigatorStack")]
     public ButtonStyle CheckButtonStyle
     {
         get => _checkButtonStyle;
@@ -147,7 +147,7 @@ public class NavigatorOutlook : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Outlook overflow button style.")]
-    //[DefaultValue(typeof(ButtonStyle), "NavigatorOverflow")]
+    [DefaultValue(typeof(ButtonStyle), "NavigatorOverflow")]
     public ButtonStyle OverflowButtonStyle
     {
         get => _overflowButtonStyle;
@@ -169,7 +169,7 @@ public class NavigatorOutlook : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Check button style.")]
-    //[DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
+    [DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
     public PaletteBorderStyle BorderEdgeStyle
     {
         get => _borderEdgeStyle;
@@ -192,7 +192,7 @@ public class NavigatorOutlook : Storage
     [Category(@"Visuals")]
     [Description(@"Orientation for positioning stack and overflow items.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(Orientation), "Vertical")]
+    [DefaultValue(typeof(Orientation), "Vertical")]
     public Orientation Orientation
     {
         get => _orientation;
@@ -220,7 +220,7 @@ public class NavigatorOutlook : Storage
     [Category(@"Visuals")]
     [Description(@"Orientation for positioning items in the stack.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(ButtonOrientation), "Auto")]
+    [DefaultValue(typeof(ButtonOrientation), "Auto")]
     public ButtonOrientation ItemOrientation
     {
         get => _itemOrientation;
@@ -248,7 +248,7 @@ public class NavigatorOutlook : Storage
     [Category(@"Visuals")]
     [Description(@"Secondary header visiblity when in Outlook mode.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(InheritBool), "False")]
+    [DefaultValue(typeof(InheritBool), "False")]
     public InheritBool HeaderSecondaryVisible
     {
         get => _headerSecondaryVisible;

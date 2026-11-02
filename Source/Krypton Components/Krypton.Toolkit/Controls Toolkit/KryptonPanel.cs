@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonPanel), "ToolboxBitmaps.KryptonPanel.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty("PanelStyle")]
-[Designer(typeof(KryptonPanelDesigner))]
+[Designer("Krypton.Toolkit.KryptonPanelDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables you to group collections of controls.")]
 [Docking(DockingBehavior.Ask)]
@@ -30,6 +30,9 @@ public class KryptonPanel : VisualPanel
     private readonly PaletteDoubleRedirect _stateCommon;
     private readonly PaletteDouble? _stateDisabled;
     private readonly PaletteDouble? _stateNormal;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+
     #endregion
 
     #region Identity
@@ -76,6 +79,39 @@ public class KryptonPanel : VisualPanel
     #endregion
 
     #region Public
+
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
+
     /// <summary>
     /// Gets and sets the panel style.
     /// </summary>
@@ -136,9 +172,11 @@ public class KryptonPanel : VisualPanel
     public virtual void SetFixedState(PaletteState state) =>
         // Request fixed state from the view
         ViewDrawPanel.FixedState = state;
+
     #endregion
 
     #region Protected
+
     /// <summary>
     /// Gets access to the view element used to draw the KryptonPanel.
     /// </summary>
@@ -162,9 +200,38 @@ public class KryptonPanel : VisualPanel
         // Let base class fire standard event
         base.OnEnabledChanged(e);
     }
+
+    /// <summary>
+    /// Releases the unmanaged resources used by the <see cref="KryptonPanel"/> and optionally releases the managed resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
+        }
+        base.Dispose(disposing);
+    }
+
+    /// <summary>
+    /// Raises the HandleCreated event.
+    /// </summary>
+    /// <param name="e">An EventArgs that contains the event data.</param>
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        if (UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
+    }
+
     #endregion
 
     #region Implementation
+
     private void Construct()
     {
         // Our view contains just a simple canvas that covers entire client area
@@ -173,5 +240,23 @@ public class KryptonPanel : VisualPanel
         // Create the view manager instance
         ViewManager = new ViewManager(this, ViewDrawPanel);
     }
+
+    private void UpdateScrollbarManager()
+    {
+        if (UseKryptonScrollbars)
+        {
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the panel follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
+            {
+                ScrollbarManager.Attach(this, ScrollbarManagerMode.Container);
+            }
+        }
+        else
+        {
+            _scrollbarManager?.Detach();
+        }
+    }
+
     #endregion
 }

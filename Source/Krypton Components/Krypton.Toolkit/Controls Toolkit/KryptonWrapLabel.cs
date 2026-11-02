@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobiteg 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobiteg 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -21,7 +21,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonWrapLabelDesigner))]
+[Designer("Krypton.Toolkit.KryptonWrapLabelDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Displays descriptive information.")]
 public class KryptonWrapLabel : Label
@@ -470,10 +470,10 @@ public class KryptonWrapLabel : Label
         font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
         // Recover text color from state common or as last resort the inherited palette
-        if (textColor == GlobalStaticValues.EMPTY_COLOR)
+        if (textColor == SharedStaticVariables.EMPTY_COLOR)
         {
             textColor = StateCommon.TextColor;
-            if (textColor == GlobalStaticValues.EMPTY_COLOR)
+            if (textColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 textColor = _redirector.GetContentShortTextColor1(_labelContentStyle, ps);
             }
@@ -489,11 +489,8 @@ public class KryptonWrapLabel : Label
             }
         }
 
-        // Only update the font when the control is created
-        if (Handle != IntPtr.Zero)
-        {
-            Font = font;
-        }
+        // Clone: Control.Font disposes the previous font, which must not be a palette instance.
+        CommonHelper.SetControlFontFromPalette(this, font);
     }
 
     /// <summary>
@@ -571,10 +568,10 @@ public class KryptonWrapLabel : Label
         font ??= StateCommon.Font ?? _redirector.GetContentShortTextFont(_labelContentStyle, ps);
 
         // Recover text color from state common or as last resort the inherited palette
-        if (textColor == GlobalStaticValues.EMPTY_COLOR)
+        if (textColor == SharedStaticVariables.EMPTY_COLOR)
         {
             textColor = StateCommon.TextColor;
-            if (textColor == GlobalStaticValues.EMPTY_COLOR)
+            if (textColor == SharedStaticVariables.EMPTY_COLOR)
             {
                 textColor = _redirector.GetContentShortTextColor1(_labelContentStyle, ps);
             }
@@ -590,16 +587,29 @@ public class KryptonWrapLabel : Label
             }
         }
 
-        // Only update the font when the control is created
-        if (Handle != IntPtr.Zero)
+        CommonHelper.SetControlFontFromPalette(this, font);
+
+        if (textColor.IsEmpty)
         {
-            Font = font;
+            textColor = SystemColors.ControlText;
         }
 
         ForeColor = textColor;
-        e.Graphics.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(hint);
 
-        base.OnPaint(e);
+        // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+        using (new GraphicsTextHint(e.Graphics, CommonHelper.PaletteTextHintToRenderingHint(hint)))
+        {
+            try
+            {
+                base.OnPaint(e);
+            }
+            catch (ArgumentException)
+            {
+                // Palette fonts can be disposed mid-paint during a theme swap.
+                CommonHelper.SetControlFontFromPalette(this, SystemFonts.DefaultFont);
+                base.OnPaint(e);
+            }
+        }
     }
 
     /// <summary>
@@ -646,7 +656,11 @@ public class KryptonWrapLabel : Label
     /// Update the view elements based on the requested label style.
     /// </summary>
     /// <param name="style">New label style.</param>
-    private void SetLabelStyle(LabelStyle style) => _labelContentStyle = CommonHelper.ContentStyleFromLabelStyle(style);
+    private void SetLabelStyle(LabelStyle style)
+    {
+        _labelStyle = style;
+        _labelContentStyle = CommonHelper.ContentStyleFromLabelStyle(style);
+    }
 
     /// <summary>
     /// Update global event attachments.

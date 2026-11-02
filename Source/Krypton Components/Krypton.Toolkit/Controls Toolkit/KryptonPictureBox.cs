@@ -1,13 +1,16 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), tobitege et al. 2023 - 2026. All rights reserved.
  */
 #endregion
 
 namespace Krypton.Toolkit;
 
-[Category(@"code"), ToolboxBitmap(typeof(PictureBox)), Description(@""), ToolboxItem(true)]
+[Category(@"code")]
+[ToolboxBitmap(typeof(PictureBox), "ToolboxBitmaps.KryptonPictureBox.bmp")]
+[Description(@"")]
+[ToolboxItem(true)]
 public class KryptonPictureBox : PictureBox
 {
     #region Instance Fields

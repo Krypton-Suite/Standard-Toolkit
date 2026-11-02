@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(MaskInputRejected))]
 [DefaultProperty(nameof(Mask))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonMaskedTextBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonMaskedTextBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Uses a mask to distinguish between proper and improper user input.")]
 public class KryptonMaskedTextBox : VisualControlBase,
@@ -137,8 +137,13 @@ public class KryptonMaskedTextBox : VisualControlBase,
                 case PI.WM_.MOUSELEAVE:
                     // Mouse is not over the control
                     MouseOver = false;
-                    _kryptonMaskedTextBox.PerformNeedPaint(true);
-                    Invalidate();
+                    // Button specs are drawn outside the internal masked text box; avoid repaint churn when the
+                    // pointer is still over the owning KryptonMaskedTextBox (for example on a ButtonSpec).
+                    if (!_kryptonMaskedTextBox.IsMouseReallyOverControl())
+                    {
+                        _kryptonMaskedTextBox.PerformNeedPaint(true);
+                        Invalidate();
+                    }
                     base.WndProc(ref m);
                     break;
                 case PI.WM_.MOUSEMOVE:
@@ -192,50 +197,52 @@ public class KryptonMaskedTextBox : VisualControlBase,
                         }
                         else
                         {
-                            // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
-                            // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
-                            // it from the device context. Resulting in blurred text.
-                            g.TextRenderingHint = CommonHelper.PaletteTextHintToRenderingHint(_kryptonMaskedTextBox.StateDisabled.PaletteContent!.GetContentShortTextHint(PaletteState.Disabled));
+                                // Set the correct text rendering hint for the text drawing. We only draw if the edit text is disabled so we
+                                // just always grab the disable state value. Without this line the wrong hint can occur because it inherits
+                                // it from the device context. Resulting in blurred text.
+                                // Use GraphicsTextHint to properly save/restore TextRenderingHint to prevent affecting other controls
+                                using (new GraphicsTextHint(g, CommonHelper.PaletteTextHintToRenderingHint(_kryptonMaskedTextBox.StateDisabled.PaletteContent!.GetContentShortTextHint(PaletteState.Disabled))))
+                                {
+                                    // Define the string formatting requirements
+                                    var stringFormat = new StringFormat
+                                    {
+                                        LineAlignment = StringAlignment.Center,
+                                        FormatFlags = StringFormatFlags.NoWrap,
+                                        Trimming = StringTrimming.None
+                                    };
 
-                            // Define the string formatting requirements
-                            var stringFormat = new StringFormat
-                            {
-                                LineAlignment = StringAlignment.Center,
-                                FormatFlags = StringFormatFlags.NoWrap,
-                                Trimming = StringTrimming.None
-                            };
+                                    stringFormat.Alignment = _kryptonMaskedTextBox.TextAlign switch
+                                    {
+                                        HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Far
+                                            : StringAlignment.Near,
+                                        HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
+                                            ? StringAlignment.Near
+                                            : StringAlignment.Far,
+                                        HorizontalAlignment.Center => StringAlignment.Center,
+                                        _ => stringFormat.Alignment
+                                    };
 
-                            stringFormat.Alignment = _kryptonMaskedTextBox.TextAlign switch
-                            {
-                                HorizontalAlignment.Left => RightToLeft == RightToLeft.Yes
-                                    ? StringAlignment.Far
-                                    : StringAlignment.Near,
-                                HorizontalAlignment.Right => RightToLeft == RightToLeft.Yes
-                                    ? StringAlignment.Near
-                                    : StringAlignment.Far,
-                                HorizontalAlignment.Center => StringAlignment.Center,
-                                _ => stringFormat.Alignment
-                            };
+                                    // Use the correct prefix setting
+                                    stringFormat.HotkeyPrefix = HotkeyPrefix.None;
 
-                            // Use the correct prefix setting
-                            stringFormat.HotkeyPrefix = HotkeyPrefix.None;
+                                    // Draw using a solid brush
+                                    var drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
 
-                            // Draw using a solid brush
-                            var drawText = MaskedTextProvider?.ToDisplayString() ?? Text;
+                                    // Define the font to use for disabled painting – always query the palette first.
+                                    // Avoids exception - magnitudes faster than another repaint AND try/catch.
+                                    var disabledFont = _kryptonMaskedTextBox
+                                                           .GetTripleState()
+                                                           .PaletteContent?
+                                                           .GetContentShortTextFont(PaletteState.Disabled)
+                                                       ?? Font; // Fallback: current Font if palette returns null
 
-                            // Define the font to use for disabled painting – always query the palette first.
-                            // Avoids exception - magnitudes faster than another repaint AND try/catch.
-                            var disabledFont = _kryptonMaskedTextBox
-                                                   .GetTripleState()
-                                                   .PaletteContent?
-                                                   .GetContentShortTextFont(PaletteState.Disabled)
-                                               ?? Font; // Fallback: current Font if palette returns null
-
-                            using var foreBrush = new SolidBrush(ForeColor);
-                            g.DrawString(drawText, disabledFont, foreBrush,
-                                new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
-                                stringFormat);
-                        }
+                                    using var foreBrush = new SolidBrush(ForeColor);
+                                    g.DrawString(drawText, disabledFont, foreBrush,
+                                        new RectangleF(rect.left, rect.top, rect.right - rect.left, rect.bottom - rect.top),
+                                        stringFormat);
+                                }
+                            }
 
                         // Remove clipping settings
                         PI.SelectClipRgn(hdc, IntPtr.Zero);
@@ -314,8 +321,10 @@ public class KryptonMaskedTextBox : VisualControlBase,
 
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ButtonSpecManagerLayout? _buttonManager;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalMaskedTextBox _maskedTextBox;
     private InputControlStyle _inputControlStyle;
@@ -500,8 +509,10 @@ public class KryptonMaskedTextBox : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -517,6 +528,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
 
         // Add text box to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_maskedTextBox);
@@ -535,6 +547,10 @@ public class KryptonMaskedTextBox : VisualControlBase,
 
             // Remember to pull down the manager instance
             _buttonManager?.Destruct();
+            _buttonSpecAccessibilityProxyManager?.Dispose();
+            _buttonSpecAccessibilityProxyManager = null;
+
+            _pulsingBorder.Dispose();
         }
 
         base.Dispose(disposing);
@@ -684,6 +700,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
     /// <summary>
     /// Gets and sets the text associated with the control.
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.MaskedTextBoxTextEditor).
     [Editor(@"System.Windows.Forms.Design.MaskedTextBoxTextEditor", typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.All)]
     [AllowNull]
@@ -1146,8 +1163,32 @@ public class KryptonMaskedTextBox : VisualControlBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public MaskedTextBoxButtonSpecCollection ButtonSpecs { get; }
+
+    /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// Default is <see cref="ButtonSpecEdgeArrange.SideBySide"/>. Set
+    /// <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> on tall hosts to stack Far/Near
+    /// ButtonSpecs vertically. Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"How multiple ButtonSpecs on the same edge are arranged.")]
+    [DefaultValue(ButtonSpecEdgeArrange.SideBySide)]
+    public ButtonSpecEdgeArrange ButtonSpecEdgeArrange
+    {
+        get => _buttonManager?.EdgeArrange ?? ButtonSpecEdgeArrange.SideBySide;
+        set
+        {
+            if (_buttonManager != null)
+            {
+                _buttonManager.EdgeArrange = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets access to the common textbox appearance entries that other states can override.
@@ -1158,6 +1199,16 @@ public class KryptonMaskedTextBox : VisualControlBase,
     public PaletteInputControlTripleRedirect StateCommon { get; }
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to optional pulsing border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn on the control.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets access to the disabled textbox appearance entries.
@@ -1326,6 +1377,11 @@ public class KryptonMaskedTextBox : VisualControlBase,
                 retSize.Height = Math.Max(MinimumSize.Height, retSize.Height);
             }
 
+            if (MinimumControlHeight > 0)
+            {
+                retSize.Height = Math.Max(MinimumControlHeight, retSize.Height);
+            }
+
             return retSize;
         }
         else
@@ -1482,6 +1538,12 @@ public class KryptonMaskedTextBox : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonMaskedTextBox control.
+    /// </summary>
+    /// <returns>A new KryptonMaskedTextBoxAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonMaskedTextBoxAccessibleObject(this);
+
+    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -1515,6 +1577,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
 
         // Update state to reflect change in enabled state
         _buttonManager?.RefreshButtons();
+        _buttonSpecAccessibilityProxyManager?.Sync();
 
         PerformNeedPaint(true);
 
@@ -1584,6 +1647,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
         {
             Rectangle fillRect = _layoutFill.FillRect;
             _maskedTextBox.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
     }
 
@@ -1594,6 +1658,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _maskedTextBox.Invalidate();
         base.OnMouseEnter(e);
@@ -1605,7 +1670,15 @@ public class KryptonMaskedTextBox : VisualControlBase,
     /// <param name="e">An EventArgs that contains the event data.</param>
     protected override void OnMouseLeave(EventArgs e)
     {
+        // Ignore spurious leave notifications while the pointer is still over this control
+        // (for example when moving from the internal masked text box onto a ButtonSpec).
+        if (IsMouseReallyOverControl())
+        {
+            return;
+        }
+
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         _maskedTextBox.Invalidate();
         base.OnMouseLeave(e);
@@ -1636,18 +1709,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
         // Do we need to prevent the height from being altered?
         if (_autoSize)
         {
-            switch (Dock)
-            {
-                case DockStyle.Fill:
-                case DockStyle.Left:
-                case DockStyle.Right:
-                    if ((specified & ~BoundsSpecified.Height) == specified)
-                    {
-                        _cachedHeight = height;
-                    }
-
-                    break;
-            }
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Height, height, ref _cachedHeight);
 
             // Override the actual height used to the fixed height for single line
             height = PreferredHeight;
@@ -1675,6 +1737,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
         if (!e.NeedLayout)
         {
             _maskedTextBox.Invalidate();
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
         else
         {
@@ -1778,6 +1841,8 @@ public class KryptonMaskedTextBox : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+
+        _pulsingBorder.UpdateAnimationState();
     }
 
     internal IPaletteTriple GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
@@ -1843,9 +1908,9 @@ public class KryptonMaskedTextBox : VisualControlBase,
 
     private void OnMaskedTextBoxPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnMaskedTextBoxValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnMaskedTextBoxValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnMaskedTextBoxValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnMaskedTextBoxValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
@@ -1895,7 +1960,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        visualBasePopupToolTip?.Dispose();
+                        _visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object
@@ -1924,7 +1989,7 @@ public class KryptonMaskedTextBox : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page any more
@@ -1933,10 +1998,14 @@ public class KryptonMaskedTextBox : VisualControlBase,
 
     private void OnMaskedTextBoxMouseChange(object? sender, EventArgs e)
     {
+        // Button specs are parent-drawn; the internal masked text box can report leave while the pointer
+        // is still over the KryptonMaskedTextBox client area.
+        var tracking = _maskedTextBox.MouseOver || IsMouseReallyOverControl();
+
         // Change in tracking state?
-        if (_maskedTextBox.MouseOver != _trackingMouseEnter)
+        if (tracking != _trackingMouseEnter)
         {
-            _trackingMouseEnter = _maskedTextBox.MouseOver;
+            _trackingMouseEnter = tracking;
 
             // Raise appropriate event
             if (_trackingMouseEnter)
@@ -1951,5 +2020,8 @@ public class KryptonMaskedTextBox : VisualControlBase,
             }
         }
     }
+
+    private bool IsMouseReallyOverControl() =>
+        IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
     #endregion
 }

@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -38,6 +38,14 @@ public class PaletteRibbonGeneral : Storage,
     private Color _tabRowBackgroundGradientFirstColor;
     private Color _qatButtonDarkColor;
     private Color _qatButtonLightColor;
+    private bool _groupAreaBevelEdges;
+    private Color _groupAreaBevelLight;
+    private Color _groupAreaBevelDark;
+    private int _groupAreaBevelSize;
+    private int _groupAreaGap;
+    private bool _showContextTitles;
+    private PaletteRibbonTabMarker _tabMarker;
+    private bool _tabMarkerGlow;
     private Color _tabSeparatorColor;
     private Color _tabSeparatorContextColor;
     private Font? _textFont;
@@ -64,30 +72,38 @@ public class PaletteRibbonGeneral : Storage,
 
         // Set default values
         _contextTextAlign = PaletteRelativeAlign.Inherit;
-        _contextTextColor = GlobalStaticValues.EMPTY_COLOR;
+        _contextTextColor = SharedStaticVariables.EMPTY_COLOR;
         _contextTextFont = null;
-        _disabledDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _disabledLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _dialogDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _dialogLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _dropArrowLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _dropArrowDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _groupSeparatorDark = GlobalStaticValues.EMPTY_COLOR;
-        _groupSeparatorLight = GlobalStaticValues.EMPTY_COLOR;
-        _minimizeBarDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _minimizeBarLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabRowBackgroundGradientFirstColor = GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
-        _ribbonTabRowGradientRaftingAngle = GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+        _disabledDarkColor = SharedStaticVariables.EMPTY_COLOR;
+        _disabledLightColor = SharedStaticVariables.EMPTY_COLOR;
+        _dialogDarkColor = SharedStaticVariables.EMPTY_COLOR;
+        _dialogLightColor = SharedStaticVariables.EMPTY_COLOR;
+        _dropArrowLightColor = SharedStaticVariables.EMPTY_COLOR;
+        _dropArrowDarkColor = SharedStaticVariables.EMPTY_COLOR;
+        _groupSeparatorDark = SharedStaticVariables.EMPTY_COLOR;
+        _groupSeparatorLight = SharedStaticVariables.EMPTY_COLOR;
+        _minimizeBarDarkColor = SharedStaticVariables.EMPTY_COLOR;
+        _minimizeBarLightColor = SharedStaticVariables.EMPTY_COLOR;
+        _tabBackgroundGradientRaftingDarkColor = SharedStaticVariables.EMPTY_COLOR;
+        _tabBackgroundGradientRaftingLightColor = SharedStaticVariables.EMPTY_COLOR;
+        _tabRowBackgroundSolidColor = SharedStaticVariables.EMPTY_COLOR;
+        _tabRowBackgroundGradientFirstColor = SharedStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
+        _ribbonTabRowGradientRaftingAngle = SharedStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
         _ribbonShape = PaletteRibbonShape.Inherit;
-        _tabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
-        _tabSeparatorContextColor = GlobalStaticValues.EMPTY_COLOR;
+        _tabSeparatorColor = SharedStaticVariables.EMPTY_COLOR;
+        _tabSeparatorContextColor = SharedStaticVariables.EMPTY_COLOR;
         _textFont = null;
         _textHint = PaletteTextHint.Inherit;
-        _qatButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
-        _qatButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
+        _qatButtonDarkColor = SharedStaticVariables.EMPTY_COLOR;
+        _qatButtonLightColor = SharedStaticVariables.EMPTY_COLOR;
+        _groupAreaBevelEdges = false;
+        _groupAreaBevelLight = SharedStaticVariables.EMPTY_COLOR;
+        _groupAreaBevelDark = SharedStaticVariables.EMPTY_COLOR;
+        _groupAreaBevelSize = GroupAreaBevelSizeDefault;
+        _groupAreaGap = 0;
+        _showContextTitles = false;
+        _tabMarker = PaletteRibbonTabMarker.Line;
+        _tabMarkerGlow = false;
     }
     #endregion
 
@@ -121,7 +137,15 @@ public class PaletteRibbonGeneral : Storage,
                                       !ShouldSerializeTextFont() &&
                                       !ShouldSerializeTextHint() &&
                                       !ShouldSerializeQATButtonDarkColor() &&
-                                      !ShouldSerializeQATButtonLightColor();
+                                      !ShouldSerializeQATButtonLightColor() &&
+                                      !ShouldSerializeGroupAreaBevelEdges() &&
+                                      !ShouldSerializeGroupAreaBevelLight() &&
+                                      !ShouldSerializeGroupAreaBevelDark() &&
+                                      !ShouldSerializeGroupAreaBevelSize() &&
+                                      !ShouldSerializeGroupAreaGap() &&
+                                      !ShouldSerializeShowContextTitles() &&
+                                      !ShouldSerializeTabMarker() &&
+                                      !ShouldSerializeTabMarkerGlow();
     #endregion
 
     #region SetInherit
@@ -244,6 +268,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Color used for ribbon context text.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color ContextTextColor
     {
@@ -258,8 +283,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetContextTextColor() => ContextTextColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeContextTextColor() => ContextTextColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetContextTextColor() => ContextTextColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeContextTextColor() => ContextTextColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color of the ribbon caption text.
@@ -279,6 +304,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Dark disabled color for ribbon glyphs.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DisabledDark
     {
@@ -293,8 +319,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetDisabledDark() => DisabledDark = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeDisabledDark() => DisabledDark != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetDisabledDark() => DisabledDark = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeDisabledDark() => DisabledDark != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the dark disabled color used for ribbon glyphs.
@@ -313,6 +339,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Light disabled color for ribbon glyphs.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DisabledLight
     {
@@ -327,8 +354,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetDisabledLight() => DisabledLight = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeDisabledLight() => DisabledLight != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetDisabledLight() => DisabledLight = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeDisabledLight() => DisabledLight != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the light disabled color used for ribbon glyphs.
@@ -347,6 +374,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group dialog launcher button dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupDialogDark
     {
@@ -361,8 +389,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetGroupDialogDark() => GroupDialogDark = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeGroupDialogDark() => GroupDialogDark != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetGroupDialogDark() => GroupDialogDark = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeGroupDialogDark() => GroupDialogDark != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the dialog launcher dark.
@@ -382,6 +410,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group dialog launcher button light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupDialogLight
     {
@@ -396,8 +425,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetGroupDialogLight() => GroupDialogLight = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeGroupDialogLight() => GroupDialogLight != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetGroupDialogLight() => GroupDialogLight = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeGroupDialogLight() => GroupDialogLight != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the dialog launcher light.
@@ -417,6 +446,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon drop arrow dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropArrowDark
     {
@@ -431,8 +461,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetDropArrowDark() => DropArrowDark = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeDropArrowDark() => DropArrowDark != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetDropArrowDark() => DropArrowDark = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeDropArrowDark() => DropArrowDark != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the drop arrow dark color.
@@ -451,6 +481,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon drop arrow light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color DropArrowLight
     {
@@ -465,8 +496,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetDropArrowLight() => DropArrowLight = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeDropArrowLight() => DropArrowLight != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetDropArrowLight() => DropArrowLight = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeDropArrowLight() => DropArrowLight != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the drop arrow light.
@@ -486,6 +517,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group separator dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupSeparatorDark
     {
@@ -500,8 +532,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetGroupSeparatorDark() => GroupSeparatorDark = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeGroupSeparatorDark() => GroupSeparatorDark != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetGroupSeparatorDark() => GroupSeparatorDark = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeGroupSeparatorDark() => GroupSeparatorDark != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the dialog launcher dark.
@@ -521,6 +553,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon group separator light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color GroupSeparatorLight
     {
@@ -535,8 +568,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetGroupSeparatorLight() => GroupSeparatorLight = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeGroupSeparatorLight() => GroupSeparatorLight != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetGroupSeparatorLight() => GroupSeparatorLight = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeGroupSeparatorLight() => GroupSeparatorLight != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the dialog launcher light.
@@ -556,6 +589,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon minimize bar dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color MinimizeBarDarkColor
     {
@@ -570,8 +604,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetMinimizeBarDarkColor() => MinimizeBarDarkColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeMinimizeBarDarkColor() => MinimizeBarDarkColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetMinimizeBarDarkColor() => MinimizeBarDarkColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeMinimizeBarDarkColor() => MinimizeBarDarkColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the ribbon minimize bar dark.
@@ -591,6 +625,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon minimize bar light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color MinimizeBarLightColor
     {
@@ -605,8 +640,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetMinimizeBarLightColor() => MinimizeBarLightColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeMinimizeBarLightColor() => MinimizeBarLightColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetMinimizeBarLightColor() => MinimizeBarLightColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeMinimizeBarLightColor() => MinimizeBarLightColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the ribbon minimize bar light.
@@ -627,6 +662,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background solid color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundSolidColor
     {
@@ -641,8 +677,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabRowBackgroundSolidColor() => TabRowBackgroundSolidColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the solid color for the ribbon tab row.
@@ -663,6 +699,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient dark rafting color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundGradientRaftingDarkColor
     {
@@ -677,8 +714,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabRowBackgroundGradientRaftingDarkColor() => TabRowBackgroundGradientRaftingDarkColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the dark Gradient rafting color for the ribbon tab row.
@@ -699,6 +736,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient light rafting color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabRowBackgroundGradientRaftingLightColor
     {
@@ -713,8 +751,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabRowBackgroundGradientRaftingLightColor() => TabRowBackgroundGradientRaftingLightColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the light rafting color for the ribbon tab row.
@@ -749,8 +787,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor = GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
-    private bool ShouldSerializeTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor != GlobalStaticValues.TAB_ROW_GRADIENT_FIRST_COLOR;
+    private void ResetTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor = SharedStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
+    private bool ShouldSerializeTabRowBackgroundGradientFirstColor() => TabRowBackgroundGradientFirstColor != SharedStaticVariables.TAB_ROW_GRADIENT_FIRST_COLOR;
 
     /// <inheritdoc />
     public Color GetRibbonTabRowGradientColor1(PaletteState state) => ShouldSerializeTabRowBackgroundGradientFirstColor()
@@ -767,7 +805,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab row background gradient rafting angle.")]
-    [DefaultValue(GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT)]
+    [DefaultValue(SharedStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT)]
     [RefreshProperties(RefreshProperties.All)]
     public float RibbonTabRowGradientRaftingAngle
     {
@@ -783,9 +821,9 @@ public class PaletteRibbonGeneral : Storage,
         }
     }
     private void ResetRibbonTabRowGradientRaftingAngle() => RibbonTabRowGradientRaftingAngle =
-        GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+        SharedStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
     private bool ShouldSerializeRibbonTabRowGradientRaftingAngle() => RibbonTabRowGradientRaftingAngle !=
-                                                                      GlobalStaticValues.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
+                                                                      SharedStaticConstants.DEFAULT_RAFTING_RIBBON_TAB_BACKGROUND_GRADIENT;
 
     /// <summary>
     /// Gets the rafting angle for the ribbon tab row.
@@ -838,6 +876,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab separator color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabSeparatorColor
     {
@@ -852,8 +891,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabSeparatorColor() => TabSeparatorColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabSeparatorColor() => TabSeparatorColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabSeparatorColor() => TabSeparatorColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabSeparatorColor() => TabSeparatorColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the tab separator.
@@ -873,6 +912,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Ribbon tab context separator color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color TabSeparatorContextColor
     {
@@ -887,8 +927,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetTabSeparatorContextColor() => TabSeparatorContextColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeTabSeparatorContextColor() => TabSeparatorContextColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetTabSeparatorContextColor() => TabSeparatorContextColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeTabSeparatorContextColor() => TabSeparatorContextColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the tab context separator.
@@ -978,6 +1018,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Quick access toolbar extra button dark color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color QATButtonDarkColor
     {
@@ -992,8 +1033,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetQATButtonDarkColor() => QATButtonDarkColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeQATButtonDarkColor() => QATButtonDarkColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetQATButtonDarkColor() => QATButtonDarkColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeQATButtonDarkColor() => QATButtonDarkColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the extra QAT button dark content color.
@@ -1013,6 +1054,7 @@ public class PaletteRibbonGeneral : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Quick access toolbar extra button light color.")]
+    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color QATButtonLightColor
     {
@@ -1027,8 +1069,8 @@ public class PaletteRibbonGeneral : Storage,
             }
         }
     }
-    private void ResetQATButtonLightColor() => QATButtonLightColor = GlobalStaticValues.EMPTY_COLOR;
-    private bool ShouldSerializeQATButtonLightColor() => QATButtonLightColor != GlobalStaticValues.EMPTY_COLOR;
+    private void ResetQATButtonLightColor() => QATButtonLightColor = SharedStaticVariables.EMPTY_COLOR;
+    private bool ShouldSerializeQATButtonLightColor() => QATButtonLightColor != SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the color for the extra QAT button light content color.
@@ -1038,6 +1080,243 @@ public class PaletteRibbonGeneral : Storage,
     public Color GetRibbonQATButtonLight(PaletteState state) => ShouldSerializeQATButtonLightColor()
         ? QATButtonLightColor
         : _inherit.GetRibbonQATButtonLight(state);
+
+    #endregion
+
+    #region GroupAreaBevel
+    /// <summary>
+    /// Gets and sets a value indicating whether the Office 2024 group area draws a bevel on the rounded card.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Draw a light top-left and dark bottom-right edge on the Office 2024 group area.")]
+    [DefaultValue(false)]
+    [RefreshProperties(RefreshProperties.All)]
+    public bool GroupAreaBevelEdges
+    {
+        get => _groupAreaBevelEdges;
+
+        set
+        {
+            if (_groupAreaBevelEdges != value)
+            {
+                _groupAreaBevelEdges = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetGroupAreaBevelEdges() => GroupAreaBevelEdges = false;
+
+    private bool ShouldSerializeGroupAreaBevelEdges() => GroupAreaBevelEdges;
+
+    /// <summary>
+    /// Gets and sets the light edge of the Office 2024 group-area bevel.
+    /// <see cref="Color.Empty"/> derives a lighter colour from the group area.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Light edge of the Office 2024 group-area bevel. Empty uses a lighter group-area colour.")]
+    [KryptonDefaultColor]
+    [RefreshProperties(RefreshProperties.All)]
+    public Color GroupAreaBevelLight
+    {
+        get => _groupAreaBevelLight;
+
+        set
+        {
+            if (_groupAreaBevelLight != value)
+            {
+                _groupAreaBevelLight = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetGroupAreaBevelLight() => GroupAreaBevelLight = SharedStaticVariables.EMPTY_COLOR;
+
+    private bool ShouldSerializeGroupAreaBevelLight() => GroupAreaBevelLight != SharedStaticVariables.EMPTY_COLOR;
+
+    /// <summary>
+    /// Gets and sets the dark edge of the Office 2024 group-area bevel.
+    /// <see cref="Color.Empty"/> derives a darker colour from the group area.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Dark edge of the Office 2024 group-area bevel. Empty uses a darker group-area colour.")]
+    [KryptonDefaultColor]
+    [RefreshProperties(RefreshProperties.All)]
+    public Color GroupAreaBevelDark
+    {
+        get => _groupAreaBevelDark;
+
+        set
+        {
+            if (_groupAreaBevelDark != value)
+            {
+                _groupAreaBevelDark = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetGroupAreaBevelDark() => GroupAreaBevelDark = SharedStaticVariables.EMPTY_COLOR;
+
+    private bool ShouldSerializeGroupAreaBevelDark() => GroupAreaBevelDark != SharedStaticVariables.EMPTY_COLOR;
+
+    /// <summary>
+    /// Default visible width, in pixels at 96 DPI, of the Office 2024 group-area bevel.
+    /// </summary>
+    public const int GroupAreaBevelSizeDefault = 2;
+
+    /// <summary>
+    /// Gets and sets the visible width, in pixels at 96 DPI, of the Office 2024 group-area bevel.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Visible width, in pixels at 96 DPI, of the Office 2024 group-area bevel.")]
+    [DefaultValue(GroupAreaBevelSizeDefault)]
+    [RefreshProperties(RefreshProperties.All)]
+    public int GroupAreaBevelSize
+    {
+        get => _groupAreaBevelSize;
+
+        set
+        {
+            if (value < 1)
+            {
+                value = 1;
+            }
+
+            if (_groupAreaBevelSize != value)
+            {
+                _groupAreaBevelSize = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetGroupAreaBevelSize() => GroupAreaBevelSize = GroupAreaBevelSizeDefault;
+
+    private bool ShouldSerializeGroupAreaBevelSize() => GroupAreaBevelSize != GroupAreaBevelSizeDefault;
+
+    /// <summary>
+    /// Gets and sets the gap, in pixels at 96 DPI, between Office 2024 group cards.
+    /// Zero draws one continuous group area.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Gap, in pixels at 96 DPI, between Office 2024 group cards. Zero draws one continuous group area.")]
+    [DefaultValue(0)]
+    [RefreshProperties(RefreshProperties.All)]
+    public int GroupAreaGap
+    {
+        get => _groupAreaGap;
+
+        set
+        {
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (_groupAreaGap != value)
+            {
+                _groupAreaGap = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetGroupAreaGap() => GroupAreaGap = 0;
+
+    private bool ShouldSerializeGroupAreaGap() => GroupAreaGap != 0;
+
+    #endregion
+
+    #region ContextTitles
+    /// <summary>
+    /// Gets and sets a value indicating whether Office 2024 shows contextual tab titles in the title bar.
+    /// Microsoft 365 and older ribbon shapes always show those titles.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Show contextual tab titles in the title bar for the Office 2024 ribbon. Microsoft 365 and older shapes always show them.")]
+    [DefaultValue(false)]
+    [RefreshProperties(RefreshProperties.All)]
+    public bool ShowContextTitles
+    {
+        get => _showContextTitles;
+
+        set
+        {
+            if (_showContextTitles != value)
+            {
+                _showContextTitles = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetShowContextTitles() => ShowContextTitles = false;
+
+    private bool ShouldSerializeShowContextTitles() => ShowContextTitles;
+
+    #endregion
+
+    #region TabMarker
+    /// <summary>
+    /// Gets and sets whether Office 2024 selected and hover tabs use a straight line or a pill-shaped line.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Office 2024 selected and hover tabs use a straight line or a pill-shaped line under the label.")]
+    [DefaultValue(PaletteRibbonTabMarker.Line)]
+    [RefreshProperties(RefreshProperties.All)]
+    public PaletteRibbonTabMarker TabMarker
+    {
+        get => _tabMarker;
+
+        set
+        {
+            if (_tabMarker != value)
+            {
+                _tabMarker = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetTabMarker() => TabMarker = PaletteRibbonTabMarker.Line;
+
+    private bool ShouldSerializeTabMarker() => TabMarker != PaletteRibbonTabMarker.Line;
+
+    /// <summary>
+    /// Gets and sets a value indicating whether Office 2024 tab lines draw a static glow.
+    /// The mark stays crisp and close to the label, with a bloom and a bright shine along its middle.
+    /// </summary>
+    [KryptonPersist(false)]
+    [Category(@"Visuals")]
+    [Description(@"Draw a static glow and shine on Office 2024 selected and hover tab lines.")]
+    [DefaultValue(false)]
+    [RefreshProperties(RefreshProperties.All)]
+    public bool TabMarkerGlow
+    {
+        get => _tabMarkerGlow;
+
+        set
+        {
+            if (_tabMarkerGlow != value)
+            {
+                _tabMarkerGlow = value;
+                PerformNeedPaint(true);
+            }
+        }
+    }
+
+    private void ResetTabMarkerGlow() => TabMarkerGlow = false;
+
+    private bool ShouldSerializeTabMarkerGlow() => TabMarkerGlow;
 
     #endregion
 }

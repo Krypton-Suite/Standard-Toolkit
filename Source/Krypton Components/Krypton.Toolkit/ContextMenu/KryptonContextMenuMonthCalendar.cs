@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -50,6 +50,7 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
     private ButtonStyle _dayOfWeekStyle;
     private Day _firstDayOfWeek;
     private Size _dimensions;
+    private MonthCalendarView _calendarView;
     private string _todayFormat;
     private bool _autoClose;
     private bool _enabled;
@@ -105,6 +106,7 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
         _showTodayCircle = true;
         _closeOnTodayClick = false;
         _dimensions = new Size(1, 1);
+        _calendarView = MonthCalendarView.Days;
         _firstDayOfWeek = Day.Default;
         _headerStyle = HeaderStyle.Calendar;
         _dayStyle = ButtonStyle.CalendarDay;
@@ -435,12 +437,12 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
             {
                 if (value > DateTimePicker.MaximumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum culture supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum culture supported date.");
                 }
 
                 if (value < DateTimePicker.MinimumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum culture supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum culture supported date.");
                 }
             }
 
@@ -471,12 +473,12 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
             {
                 if (value > DateTimePicker.MaximumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum culture supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum culture supported date.");
                 }
 
                 if (value < DateTimePicker.MinimumDateTime)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum culture supported date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum culture supported date.");
                 }
             }
 
@@ -506,7 +508,7 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
         {
             if (value < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), @"MaxSelectionCount cannot be less than zero.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"MaxSelectionCount cannot be less than zero.");
             }
 
             if (value != _maxSelectionCount)
@@ -536,12 +538,12 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
             {
                 if (value > _maxDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum date.");
                 }
 
                 if (value < _minDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum date.");
                 }
 
                 // End date cannot be before the start date
@@ -586,12 +588,12 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
             {
                 if (value > _maxDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Date provided is greater than the maximum date.");
                 }
 
                 if (value < _minDate)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum date.");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"Date provided is less than the minimum date.");
                 }
 
                 // Start date cannot be after the end date
@@ -627,6 +629,7 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     [RefreshProperties(RefreshProperties.All)]
     [Bindable(true)]
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "Matches System.Windows.Forms.MonthCalendar.SelectionRange, which returns a new SelectionRange each get.")]
     public SelectionRange SelectionRange
     {
         get => new SelectionRange(SelectionStart, SelectionEnd);
@@ -706,16 +709,37 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
             {
                 if (value.Width < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"CalendarDimension Width must be greater than 0");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"CalendarDimension Width must be greater than 0");
                 }
 
                 if (value.Height < 1)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), @"CalendarDimension Height must be greater than 0");
+                    ThrowHelper.ThrowArgumentOutOfRangeException(nameof(value), @"CalendarDimension Height must be greater than 0");
                 }
 
                 _dimensions = value;
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(CalendarDimensions)));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the calendar view used to choose a date.
+    /// </summary>
+    [KryptonPersist]
+    [Category(@"Behavior")]
+    [Description(@"Specifies whether the calendar shows days, months, or years.")]
+    [DefaultValue(MonthCalendarView.Days)]
+    public MonthCalendarView CalendarView
+    {
+        get => _calendarView;
+
+        set
+        {
+            if (_calendarView != value)
+            {
+                _calendarView = value;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(CalendarView)));
             }
         }
     }
@@ -1163,22 +1187,22 @@ public class KryptonContextMenuMonthCalendar : KryptonContextMenuItemBase
     {
         if (start.Ticks > _maxDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(start), @"Start date provided is greater than the maximum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(start), @"Start date provided is greater than the maximum date.");
         }
 
         if (start.Ticks < _minDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(start), @"Start date provided is less than the minimum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(start), @"Start date provided is less than the minimum date.");
         }
 
         if (end.Ticks > _maxDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(end), @"End date provided is greater than the maximum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(end), @"End date provided is greater than the maximum date.");
         }
 
         if (end.Ticks < _minDate.Ticks)
         {
-            throw new ArgumentOutOfRangeException(nameof(end), @"End date provided is less than the minimum date.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(end), @"End date provided is less than the minimum date.");
         }
 
         if (start > end)

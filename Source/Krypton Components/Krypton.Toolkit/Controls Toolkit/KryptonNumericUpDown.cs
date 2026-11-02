@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -24,7 +24,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(ValueChanged))]
 [DefaultProperty(nameof(Value))]
 [DefaultBindingProperty(nameof(Value))]
-[Designer(typeof(KryptonNumericUpDownDesigner))]
+[Designer("Krypton.Toolkit.KryptonNumericUpDownDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Represents a Windows spin box (also known as an up-down control) that displays numeric values.")]
 public class KryptonNumericUpDown : VisualControlBase,
@@ -523,13 +523,56 @@ public class KryptonNumericUpDown : VisualControlBase,
         /// </summary>
         /// <param name="state">The state for which the image is needed.</param>
         /// <returns>Color value.</returns>
-        public virtual Color GetImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+        public virtual Color GetImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
         /// <summary>
         /// Gets the content long text.
         /// </summary>
         /// <returns>String value.</returns>
         public virtual string GetLongText() => string.Empty;
+
+        /// <summary>
+        /// Gets the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Overlay image value, or null if no overlay image is set.</returns>
+        public virtual Image? GetOverlayImage(PaletteState state) => null;
+
+        /// <summary>
+        /// Gets the overlay image color that should be transparent.
+        /// </summary>
+        /// <param name="state">The state for which the overlay image is needed.</param>
+        /// <returns>Color value.</returns>
+        public virtual Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
+
+        /// <summary>
+        /// Gets the position of the overlay image relative to the main image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay position is needed.</param>
+        /// <returns>Overlay image position.</returns>
+        public virtual OverlayImagePosition GetOverlayImagePosition(PaletteState state) => OverlayImagePosition.TopRight;
+
+        /// <summary>
+        /// Gets the scaling mode for the overlay image.
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale mode is needed.</param>
+        /// <returns>Overlay image scale mode.</returns>
+        public virtual OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => OverlayImageScaleMode.None;
+
+        /// <summary>
+        /// Gets the scale factor for the overlay image (used when scale mode is Percentage or ProportionalToMain).
+        /// </summary>
+        /// <param name="state">The state for which the overlay scale factor is needed.</param>
+        /// <returns>Scale factor (0.0 to 2.0).</returns>
+        public virtual float GetOverlayImageScaleFactor(PaletteState state) => 0.5f;
+
+        /// <summary>
+        /// Gets the fixed size for the overlay image (used when scale mode is FixedSize).
+        /// </summary>
+        /// <param name="state">The state for which the overlay fixed size is needed.</param>
+        /// <returns>Fixed size.</returns>
+        public virtual Size GetOverlayImageFixedSize(PaletteState state) => new Size(16, 16);
+
         #endregion
 
         #region Protected
@@ -725,8 +768,10 @@ public class KryptonNumericUpDown : VisualControlBase,
 
     private VisualPopupToolTip? _visualPopupToolTip;
     private readonly ButtonSpecManagerLayout? _buttonManager;
+    private ButtonSpecAccessibilityProxyManager? _buttonSpecAccessibilityProxyManager;
     private readonly ViewLayoutDocker _drawDockerInner;
     private readonly ViewDrawDocker _drawDockerOuter;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     private readonly ViewLayoutFill _layoutFill;
     private readonly InternalNumericUpDown _numericUpDown;
     private InputControlStyle _inputControlStyle;
@@ -739,6 +784,8 @@ public class KryptonNumericUpDown : VisualControlBase,
     private bool _alwaysActive;
     private bool _trackingMouseEnter;
     private bool _autoSize;
+    private int _cachedWidth;
+    private int _cachedHeight;
     private Graphics? _graphics;
 
     #endregion
@@ -830,6 +877,8 @@ public class KryptonNumericUpDown : VisualControlBase,
         _upDownButtonStyle = ButtonStyle.InputControl;
         _alwaysActive = true;
         _autoSize = false;
+        _cachedWidth = -1;
+        _cachedHeight = -1;
         _graphics = null;
         AllowButtonSpecToolTips = false;
         AllowButtonSpecToolTipPriority = false;
@@ -876,8 +925,10 @@ public class KryptonNumericUpDown : VisualControlBase,
             { _drawDockerInner, ViewDockStyle.Fill }
         };
 
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this, NeedPaintDelegate, () => IsActive, GetTripleState, _drawDockerOuter);
+
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawDockerOuter);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Create button specification collection manager
         _buttonManager = new ButtonSpecManagerLayout(this, Redirector, ButtonSpecs, null,
@@ -893,6 +944,7 @@ public class KryptonNumericUpDown : VisualControlBase,
         ToolTipManager.ShowToolTip += OnShowToolTip;
         ToolTipManager.CancelToolTip += OnCancelToolTip;
         _buttonManager.ToolTipManager = ToolTipManager;
+        _buttonSpecAccessibilityProxyManager = new ButtonSpecAccessibilityProxyManager(this, ButtonSpecs, () => _buttonManager);
 
         // Add text box to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_numericUpDown);
@@ -911,9 +963,13 @@ public class KryptonNumericUpDown : VisualControlBase,
 
             // Remember to pull down the manager instance
             _buttonManager?.Destruct();
+            _buttonSpecAccessibilityProxyManager?.Dispose();
+            _buttonSpecAccessibilityProxyManager = null;
 
             // Tell the buttons class to cleanup resources
             _subclassButtons?.Dispose();
+
+            _pulsingBorder.Dispose();
         }
 
         base.Dispose(disposing);
@@ -932,8 +988,19 @@ public class KryptonNumericUpDown : VisualControlBase,
         {
             if (_autoSize != value)
             {
+                AutoSizeDimensionCacheHelper.CacheCurrentBeforeEnable(value, Width, ref _cachedWidth);
+
                 _autoSize = value;
-                UpdateAutoSizing();
+
+                if (_autoSize)
+                {
+                    UpdateAutoSizing();
+                }
+                else if (AutoSizeDimensionCacheHelper.TryGetCachedValue(_cachedWidth, out int restoredWidth))
+                {
+                    Width = restoredWidth;
+                    PerformNeedPaint(true);
+                }
             }
         }
     }
@@ -1134,7 +1201,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     /// </summary>
     [Category(@"Data")]
     [Description(@"Indicates the amount to increment or decrement one each button click.")]
-    [DefaultValue(1.0d)]
+    [DefaultValue(typeof(decimal), "1")]
     public decimal Increment
     {
         get => _numericUpDown.Increment;
@@ -1147,7 +1214,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     [Category(@"Data")]
     [Description(@"Indicates the maximum value for the numeric up-down control.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(100.0d)]
+    [DefaultValue(typeof(decimal), "100")]
     public decimal Maximum
     {
         get => _numericUpDown.Maximum;
@@ -1160,7 +1227,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     [Category(@"Data")]
     [Description(@"Indicates the minimum value for the numeric up-down control.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(0.0d)]
+    [DefaultValue(typeof(decimal), "0")]
     public decimal Minimum
     {
         get => _numericUpDown.Minimum;
@@ -1185,7 +1252,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     /// </summary>
     [Category(@"Appearance")]
     [Description(@"The current value of the numeric up-down control.")]
-    [DefaultValue(0.0d)]
+    [DefaultValue(typeof(decimal), "0")]
     [Bindable(true)]
     public decimal Value
     {
@@ -1367,8 +1434,32 @@ public class KryptonNumericUpDown : VisualControlBase,
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecAnyCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public NumericUpDownButtonSpecCollection ButtonSpecs { get; }
+
+    /// <summary>
+    /// Gets and sets how multiple ButtonSpecs on the same edge are arranged.
+    /// </summary>
+    /// <remarks>
+    /// Default is <see cref="ButtonSpecEdgeArrange.SideBySide"/>. Set
+    /// <see cref="ButtonSpecEdgeArrange.StackAlongEdge"/> on tall hosts to stack Far/Near
+    /// ButtonSpecs vertically. Independent of <see cref="ButtonSpec.FillHeight"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"How multiple ButtonSpecs on the same edge are arranged.")]
+    [DefaultValue(ButtonSpecEdgeArrange.SideBySide)]
+    public ButtonSpecEdgeArrange ButtonSpecEdgeArrange
+    {
+        get => _buttonManager?.EdgeArrange ?? ButtonSpecEdgeArrange.SideBySide;
+        set
+        {
+            if (_buttonManager != null)
+            {
+                _buttonManager.EdgeArrange = value;
+            }
+        }
+    }
 
     /// <summary>
     /// Gets access to the common textbox appearance entries that other states can override.
@@ -1379,6 +1470,16 @@ public class KryptonNumericUpDown : VisualControlBase,
     public PaletteInputControlTripleRedirect StateCommon { get; }
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
+
+    /// <summary>
+    /// Gets access to optional pulsing border settings.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn on the control.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
 
     /// <summary>
     /// Gets access to the disabled textbox appearance entries.
@@ -1495,6 +1596,11 @@ public class KryptonNumericUpDown : VisualControlBase,
             if (MinimumSize.Height > 0)
             {
                 retSize.Height = Math.Max(MinimumSize.Height, retSize.Height);
+            }
+
+            if (MinimumControlHeight > 0)
+            {
+                retSize.Height = Math.Max(MinimumControlHeight, retSize.Height);
             }
 
             return retSize;
@@ -1637,6 +1743,12 @@ public class KryptonNumericUpDown : VisualControlBase,
     protected override ControlCollection CreateControlsInstance() => new KryptonReadOnlyControls(this);
 
     /// <summary>
+    /// Creates the accessibility object for the KryptonNumericUpDown control.
+    /// </summary>
+    /// <returns>A new KryptonNumericUpDownAccessibleObject instance for the control.</returns>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonNumericUpDownAccessibleObject(this);
+
+    /// <summary>
     /// Raises the HandleCreated event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -1660,6 +1772,26 @@ public class KryptonNumericUpDown : VisualControlBase,
     }
 
     /// <summary>
+    /// Raises the RightToLeftChanged event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftChanged(e);
+    }
+
+    /// <summary>
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
+    /// </summary>
+    /// <param name="e">An EventArgs containing event data.</param>
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
+    {
+        UpdateForRightToLeft();
+        base.OnRightToLeftLayoutChanged(e);
+    }
+
+    /// <summary>
     /// Raises the EnabledChanged event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
@@ -1677,6 +1809,7 @@ public class KryptonNumericUpDown : VisualControlBase,
 
         // Update state to reflect change in enabled state
         _buttonManager?.RefreshButtons();
+        _buttonSpecAccessibilityProxyManager?.Sync();
 
         PerformNeedPaint(true);
 
@@ -1766,6 +1899,7 @@ public class KryptonNumericUpDown : VisualControlBase,
             {
                 Rectangle fillRect = _layoutFill.FillRect;
                 _numericUpDown?.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
+                _buttonSpecAccessibilityProxyManager?.Sync();
             }
         }
     }
@@ -1777,6 +1911,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     protected override void OnMouseEnter(EventArgs e)
     {
         _mouseOver = true;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         InvalidateChildren();
         base.OnMouseEnter(e);
@@ -1789,6 +1924,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     protected override void OnMouseLeave(EventArgs e)
     {
         _mouseOver = false;
+        _pulsingBorder.UpdateAnimationState();
         PerformNeedPaint(true);
         InvalidateChildren();
         base.OnMouseLeave(e);
@@ -1816,22 +1952,31 @@ public class KryptonNumericUpDown : VisualControlBase,
         int width, int height,
         BoundsSpecified specified)
     {
-        // Get the preferred size of the entire control
-        Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
-
-        // If setting the actual height
-        if (specified.HasFlag(BoundsSpecified.Height))
+        if (!_autoSize)
         {
-            // Override the actual height used
-            height = preferredSize.Height;
+            AutoSizeDimensionCacheHelper.CacheIfSpecified(specified, BoundsSpecified.Width, width, ref _cachedWidth);
         }
-        // Do not do the following otherwise the designer will not allow width to be set!
+
+        // Changed from inline GetPreferredSize() to the same pattern as KryptonComboBox,
+        // KryptonDateTimePicker, and KryptonDomainUpDown: cache incoming height on first set,
+        // then always override to PreferredHeight (which honours MinimumControlHeight).
+        // See https://github.com/Krypton-Suite/Standard-Toolkit/issues/615
+        // If setting the actual height
+        if ((specified & BoundsSpecified.Height) == BoundsSpecified.Height)
+        {
+            // First time the height is set, remember it
+            if (_cachedHeight == -1)
+            {
+                _cachedHeight = height;
+            }
+
+            // Override the actual height used and cache it for later
+            height = PreferredHeight;
+            _cachedHeight = height;
+        }
+
+        // Do not override width to allow designer width to be set freely.
         // https://github.com/Krypton-Suite/Standard-Toolkit/issues/724
-        //if (specified.HasFlag(BoundsSpecified.Width))
-        //{
-        //    // Override the actual Width used
-        //    width = preferredSize.Width;
-        //}
         base.SetBoundsCore(x, y, width, height, specified);
     }
 
@@ -1850,6 +1995,7 @@ public class KryptonNumericUpDown : VisualControlBase,
         if (IsHandleCreated && !e.NeedLayout)
         {
             InvalidateChildren();
+            _buttonSpecAccessibilityProxyManager?.Sync();
         }
         else
         {
@@ -2051,6 +2197,8 @@ public class KryptonNumericUpDown : VisualControlBase,
         PaletteState state = Enabled ? (IsActive ? PaletteState.Tracking : PaletteState.Normal) : PaletteState.Disabled;
 
         _drawDockerOuter.ElementState = state;
+
+        _pulsingBorder.UpdateAnimationState();
     }
 
     internal PaletteInputControlTripleStates GetTripleState() => Enabled ? (IsActive ? StateActive : StateNormal) : StateDisabled;
@@ -2099,9 +2247,9 @@ public class KryptonNumericUpDown : VisualControlBase,
 
     private void OnNumericUpDownPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnNumericUpDownValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnNumericUpDownValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnNumericUpDownValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnNumericUpDownValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnShowToolTip(object? sender, ToolTipEventArgs e)
     {
@@ -2151,7 +2299,7 @@ public class KryptonNumericUpDown : VisualControlBase,
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        visualBasePopupToolTip?.Dispose();
+                        _visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object
@@ -2177,7 +2325,7 @@ public class KryptonNumericUpDown : VisualControlBase,
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore
@@ -2209,6 +2357,14 @@ public class KryptonNumericUpDown : VisualControlBase,
                 OnMouseLeave(e);
             }
         }
+    }
+
+    private void UpdateForRightToLeft()
+    {
+        _numericUpDown.RightToLeft = RightToLeft;
+        _numericUpDown.UpDownAlign = ToolkitRtlLayout.IsRtl(this)
+            ? LeftRightAlignment.Left
+            : LeftRightAlignment.Right;
     }
     #endregion
 }

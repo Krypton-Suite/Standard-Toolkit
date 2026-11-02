@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -34,9 +34,9 @@ internal class RibbonTabToContent : IPaletteContent
         Debug.Assert(ribbonTabText != null);
         Debug.Assert(content != null);
 
-        _ribbonGeneral = ribbonGeneral ?? throw new ArgumentNullException(nameof(ribbonGeneral));
-        PaletteRibbonText = ribbonTabText ?? throw new ArgumentNullException(nameof(ribbonTabText));
-        PaletteContent = content ?? throw new ArgumentNullException(nameof(content));
+        _ribbonGeneral = ribbonGeneral ?? ThrowHelper.ThrowArgumentNullException(ribbonGeneral);
+        PaletteRibbonText = ribbonTabText ?? ThrowHelper.ThrowArgumentNullException(ribbonTabText);
+        PaletteContent = content ?? ThrowHelper.ThrowArgumentNullException(content);
     }
     #endregion
 

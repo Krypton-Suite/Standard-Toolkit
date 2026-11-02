@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -165,8 +165,10 @@ public class DragTargetWorkspaceCellEdge : DragTargetWorkspaceEdge
                     // Put the sequence into the place where the target cell used to be
                     parent.Children.Insert(index, sequence);
 
-                    // Add new cell to the start or the end of the new sequence?
-                    if (Edge is VisualOrientation.Left or VisualOrientation.Top)
+                    // Add new cell to the start or the end of the new sequence.
+                    // Under RTL, Left/Right map to the opposite collection end so a drop on the
+                    // physical left still appears on the visual left.
+                    if (WorkspaceRtlLayout.InsertAtCollectionStart(Edge, WorkspaceRtlLayout.IsRtl(Workspace)))
                     {
                         sequence.Children.Insert(0, cell);
                     }
@@ -181,7 +183,7 @@ public class DragTargetWorkspaceCellEdge : DragTargetWorkspaceEdge
                     var index = parent.Children!.IndexOf(Cell);
 
                     // Add new cell before or after the target cell?
-                    if (Edge is VisualOrientation.Left or VisualOrientation.Top)
+                    if (WorkspaceRtlLayout.InsertAtCollectionStart(Edge, WorkspaceRtlLayout.IsRtl(Workspace)))
                     {
                         parent.Children.Insert(index, cell);
                     }

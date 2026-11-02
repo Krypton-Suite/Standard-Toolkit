@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -16,10 +16,9 @@ using Microsoft.Web.WebView2.Core;
 
 namespace TestForm;
 
-#if WEBVIEW2_AVAILABLE
 /// <summary>
 /// Test form demonstrating the KryptonWebView2 control functionality.
-/// 
+///
 /// <para>
 /// This form showcases the key features of the KryptonWebView2 control including:
 /// - Control initialization and error handling
@@ -28,7 +27,7 @@ namespace TestForm;
 /// - Integration with Krypton theming
 /// - Proper async/await patterns for WebView2 operations
 /// </para>
-/// 
+///
 /// <para>
 /// The form includes a toolbar with navigation controls and an address bar,
 /// while the main area displays the WebView2 control. Error handling is
@@ -37,6 +36,7 @@ namespace TestForm;
 /// </summary>
 public partial class KryptonWebView2Test : KryptonForm
 {
+#if WEBVIEW2_AVAILABLE
     public KryptonWebView2Test()
     {
         InitializeComponent();
@@ -180,12 +180,5 @@ public partial class KryptonWebView2Test : KryptonForm
             kryptonTextBox1.Text = kryptonWebView21.CoreWebView2.Source;
         }
     }
-}
-#else
-/// <summary>
-/// Stub for KryptonWebView2 test form when WebView2 is not available.
-/// </summary>
-public partial class KryptonWebView2Test : KryptonForm
-{
-}
 #endif
+}

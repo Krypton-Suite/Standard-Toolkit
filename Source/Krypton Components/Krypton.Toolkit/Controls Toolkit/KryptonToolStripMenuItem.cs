@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,6 +12,8 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// ToolStripMenuItem with Krypton-style per-item palette overrides for parity with KryptonContextMenuItem.
 /// </summary>
+[ToolboxItem(false)]
+[ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.MenuStrip | ToolStripItemDesignerAvailability.ContextMenuStrip)]
 public class KryptonToolStripMenuItem : ToolStripMenuItem
 {
     public KryptonToolStripMenuItem() => InitializeStates();

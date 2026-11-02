@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -42,6 +42,18 @@ public class KryptonFloatingWindow : KryptonForm
     /// <param name="floatspace">Reference to owning floatspace instance.</param>
     /// <param name="useMinimiseBox">Allow window to be minimised.</param>
     public KryptonFloatingWindow(Form owner, KryptonFloatspace? floatspace, bool useMinimiseBox = false)
+        : this(owner, floatspace, useMinimiseBox, showInTaskbar: false)
+    {
+    }
+
+    /// <summary>
+    /// Initialize a new instance of the KryptonFloatingWindow class.
+    /// </summary>
+    /// <param name="owner">Reference to form that will own all the floating window.</param>
+    /// <param name="floatspace">Reference to owning floatspace instance.</param>
+    /// <param name="useMinimiseBox">Allow window to be minimised.</param>
+    /// <param name="showInTaskbar">When true, the floating window appears on the Windows taskbar (Snap Group eligible).</param>
+    public KryptonFloatingWindow(Form owner, KryptonFloatspace? floatspace, bool useMinimiseBox, bool showInTaskbar)
     {
         SetInheritedControlOverride();
         // Set the owner of the window so that minimizing the owner will do the same to this
@@ -50,7 +62,7 @@ public class KryptonFloatingWindow : KryptonForm
         // Set correct form settings for a floating window
         TopLevel = true;
         ShowIcon = false;
-        ShowInTaskbar = false;
+        ShowInTaskbar = showInTaskbar;
         MinimizeBox = useMinimiseBox;
         StartPosition = FormStartPosition.Manual;
         ButtonSpecMin.ImageStates.ImageDisabled = EMPTY_IMAGE;

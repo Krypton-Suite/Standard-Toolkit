@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -22,11 +22,16 @@ public abstract class PaletteBase : Component
     /// Direct indexed access to the palette's backing color array.
     /// </summary>
     protected abstract Color[] SchemeColors { get; }
+    
     internal Color[] GetSchemeColors() => SchemeColors;
 
     private Padding? _inputControlPadding;
+    
     private PaletteDragFeedback _dragFeedback;
+    
     private Image[] _toolBarImages;
+
+    private readonly bool _systemEventsUserPreferenceSubscribed;
 
     private readonly Font _defaultFontStyle = new Font("Segoe UI", 9f, FontStyle.Regular);
 
@@ -51,6 +56,9 @@ public abstract class PaletteBase : Component
     public Font? CalendarFont;
     public Font? CalendarBoldFont;
     public Font? RibbonTabContextFont;
+    public Font? MenuStripFont;
+    public Font? ToolStripFont;
+    public Font? StatusStripFont;
 
     #endregion
 
@@ -92,14 +100,34 @@ public abstract class PaletteBase : Component
     /// Occurs when a single scheme color is changed.
     /// </summary>
     public event EventHandler<SchemeColorChangedEventArgs>? SchemeColorChanged;
+
+    /// <summary>
+    /// Occurs when a single scheme extra color is changed.
+    /// </summary>
+    public event EventHandler<SchemeExtraColorChangedEventArgs>? SchemeExtraColorChanged;
     #endregion
 
     #region Identity
+
     /// <summary>Initializes a new instance of the <see cref="PaletteBase" /> class.</summary>
     protected PaletteBase()
+        : this(attachUserPreferenceChanged: true)
     {
-        // We need to notice when system color settings change
-        SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+    }
+
+    /// <summary>
+    /// Initializes palette identity; optionally skips <see cref="SystemEvents.UserPreferenceChanged"/> so
+    /// <see cref="PaletteRedirect"/> (often never disposed) is not rooted by a static event (#3385).
+    /// </summary>
+    /// <param name="attachUserPreferenceChanged">When <see langword="true"/>, subscribes to user preference changes.</param>
+    protected PaletteBase(bool attachUserPreferenceChanged)
+    {
+        _systemEventsUserPreferenceSubscribed = attachUserPreferenceChanged;
+        if (attachUserPreferenceChanged)
+        {
+            // We need to notice when system color settings change
+            SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
+        }
 
         // Inherit means we need to calculate the value next time it is requested
         _dragFeedback = PaletteDragFeedback.Inherit;
@@ -107,6 +135,7 @@ public abstract class PaletteBase : Component
         BaseFont = _defaultFontStyle;
         ThemeName = @"PaletteBase"; // DisallowNull !
     }
+
     #endregion
 
     #region UseThemeFormChromeBorderWidth
@@ -333,6 +362,15 @@ public abstract class PaletteBase : Component
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Float rounding.</returns>
     public abstract float GetBorderRounding(PaletteBorderStyle style, PaletteState state);
+
+    /// <summary>
+    /// Gets the border corner rounding for each corner.
+    /// </summary>
+    /// <param name="style">Border style.</param>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Per-corner rounding radii.</returns>
+    public virtual PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state) =>
+        PaletteCornerRounding.Uniform(GetBorderRounding(style, state));
 
     /// <summary>
     /// Gets a border image.
@@ -755,6 +793,42 @@ public abstract class PaletteBase : Component
     public abstract Image? GetTreeViewImage(bool expanded);
 
     /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — builtin implementations should return theme 16×16 images when available.
+    public abstract Image? GetPropertyGridImage(PropertyGridToolImage image);
+
+    /// <summary>
+    /// Resolves the shared builtin property grid toolbar image from
+    /// <see cref="ResourceFiles.PropertyGrid.PropertyGridImageResources"/>.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>
+    /// The theme resource image when present; otherwise <see langword="null"/> so the control
+    /// can fall back to <see cref="KryptonManager.Images"/> then stock WinForms.
+    /// </returns>
+    // TODO: PropertyGrid toolbar artwork — once PropertyGridImageResources has images, dark/light
+    // family bases may still override GetPropertyGridImage with family-specific art.
+    protected static Image? GetBuiltinPropertyGridImage(PropertyGridToolImage image)
+    {
+        switch (image)
+        {
+            case PropertyGridToolImage.Alphabetical:
+                return PropertyGridImageResources.Alphabetical;
+            case PropertyGridToolImage.Categorized:
+                return PropertyGridImageResources.Categorized;
+            case PropertyGridToolImage.PropertyPages:
+                return PropertyGridImageResources.PropertyPages;
+            case PropertyGridToolImage.Events:
+                return PropertyGridImageResources.Events;
+            default:
+                return null;
+        }
+    }
+
+    /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.
     /// </summary>
     /// <param name="isRtl">If Yes, request an RTL-oriented image; otherwise LTR.</param>
@@ -883,7 +957,7 @@ public abstract class PaletteBase : Component
         switch (style)
         {
             case PaletteButtonSpecStyle.Generic:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -907,7 +981,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.WorkspaceRestore:
             case PaletteButtonSpecStyle.RibbonMinimize:
             case PaletteButtonSpecStyle.RibbonExpand:
-                return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                return SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             case PaletteButtonSpecStyle.New:
             case PaletteButtonSpecStyle.Open:
             case PaletteButtonSpecStyle.SaveAll:
@@ -922,12 +996,12 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
             default:
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticValues.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1048,13 +1122,14 @@ public abstract class PaletteBase : Component
     /// <returns>String value.</returns>
     public virtual string GetButtonSpecToolTipTitle(PaletteButtonSpecStyle style)
     {
+        var controlBox = KryptonManager.Strings.ControlBoxButtonStrings;
+
         switch (style)
         {
-            // TODO: Use LanguageManager for strings
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.PendantClose:
             case PaletteButtonSpecStyle.FormClose:
-                return "Close";
+                return controlBox.Close;
             case PaletteButtonSpecStyle.Context:
                 return "Select";
             case PaletteButtonSpecStyle.Next:
@@ -1063,16 +1138,18 @@ public abstract class PaletteBase : Component
                 return "Previous";
             case PaletteButtonSpecStyle.FormMin:
             case PaletteButtonSpecStyle.PendantMin:
-                return "Minimize";
-            case PaletteButtonSpecStyle.FormMax:
-                return "Maximize";
-            case PaletteButtonSpecStyle.PendantRestore:
-            case PaletteButtonSpecStyle.FormRestore:
-                return "Restore";
-            case PaletteButtonSpecStyle.FormHelp:
-                return nameof(Help);
             case PaletteButtonSpecStyle.RibbonMinimize:
-                return "Minimize";
+                return controlBox.Minimize;
+            case PaletteButtonSpecStyle.FormMax:
+                return controlBox.Maximize;
+            case PaletteButtonSpecStyle.FormRestore:
+                // Maximize button toggled to restore (Windows MUI: Restore Down).
+                return controlBox.Restore;
+            case PaletteButtonSpecStyle.PendantRestore:
+                // Minimize-side restore (Windows MUI: Restore Up), e.g. maximized MDI child.
+                return controlBox.RestoreUp;
+            case PaletteButtonSpecStyle.FormHelp:
+                return controlBox.Help;
             case PaletteButtonSpecStyle.RibbonExpand:
                 return "Expand";
             case PaletteButtonSpecStyle.PinVertical:
@@ -1137,7 +1214,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -1158,7 +1235,7 @@ public abstract class PaletteBase : Component
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticValues.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1186,7 +1263,7 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.PrintPreview:
             case PaletteButtonSpecStyle.Print:
             case PaletteButtonSpecStyle.QuickPrint:
-                return GlobalStaticValues.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
             case PaletteButtonSpecStyle.Close:
             case PaletteButtonSpecStyle.Context:
             case PaletteButtonSpecStyle.Next:
@@ -1210,12 +1287,12 @@ public abstract class PaletteBase : Component
             case PaletteButtonSpecStyle.WorkspaceRestore:
             case PaletteButtonSpecStyle.RibbonMinimize:
             case PaletteButtonSpecStyle.RibbonExpand:
-                return GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+                return SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             default:
                 // Should never happen!
                 Debug.Assert(false);
                 DebugTools.NotImplemented(style.ToString());
-                return GlobalStaticValues.EMPTY_COLOR;
+                return SharedStaticVariables.EMPTY_COLOR;
         }
     }
 
@@ -1898,6 +1975,9 @@ public abstract class PaletteBase : Component
         BoldFont = new Font(baseFontName, baseFontSize, FontStyle.Bold);
         ItalicFont = new Font(baseFontName, baseFontSize, FontStyle.Italic);
         RibbonTabContextFont = new Font(RibbonTabFont, FontStyle.Bold);
+        MenuStripFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+        ToolStripFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
+        StatusStripFont = new Font(baseFontName, baseFontSize, FontStyle.Regular);
     }
 
     protected virtual void DisposeFonts()
@@ -1920,6 +2000,9 @@ public abstract class PaletteBase : Component
         BoldFont?.Dispose();
         ItalicFont?.Dispose();
         RibbonTabContextFont?.Dispose();
+        MenuStripFont?.Dispose();
+        ToolStripFont?.Dispose();
+        StatusStripFont?.Dispose();
 
         Header1ShortFont = null;
         Header2ShortFont = null;
@@ -1939,6 +2022,9 @@ public abstract class PaletteBase : Component
         BoldFont = null;
         ItalicFont = null;
         RibbonTabContextFont = null;
+        MenuStripFont = null;
+        ToolStripFont = null;
+        StatusStripFont = null;
     }
 
     #endregion
@@ -2141,8 +2227,11 @@ public abstract class PaletteBase : Component
     {
         if (disposing)
         {
-            // Detach from static SystemEvents to prevent memory leaks
-            SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+            if (_systemEventsUserPreferenceSubscribed)
+            {
+                // Detach from static SystemEvents to prevent memory leaks
+                SystemEvents.UserPreferenceChanged -= OnUserPreferenceChanged;
+            }
 
             // Dispose any font resources we created
             DisposeFonts();
@@ -2154,16 +2243,28 @@ public abstract class PaletteBase : Component
 
     #region Palette Helpers
 
-    // GLOBAL lookup table that holds every colour previously kept in the old static Color[] arrays
-    // Key = (enum type that defines the slot, zero-based index)
-    private static readonly Dictionary<(Type Enum, int Index), Color> _colorLut = new Dictionary<(Type Enum, int Index), Color>();
+    // Lookup table that holds every colour previously kept in the old static Color[] arrays.
+    // Key = (palette base type, enum type that defines the slot, zero-based index)
+    private static readonly Dictionary<(Type Owner, Type Enum, int Index), Color> _colorLut = new Dictionary<(Type Owner, Type Enum, int Index), Color>();
 
     /// <summary>
     /// Called once from a family base static constructor to seed default colours for a particular enum slot.
     /// </summary>
-    protected static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
+    protected internal static void RegisterColor<TEnum>(TEnum slot, Color value) where TEnum : struct, Enum
     {
-        _colorLut[(typeof(TEnum), Convert.ToInt32(slot))] = value;
+        RegisterColor<PaletteBase, TEnum>(slot, value);
+    }
+
+    /// <summary>
+    /// Called once from a family base static constructor (or same-assembly helpers) to seed default colours
+    /// for a particular enum slot, keyed by <typeparamref name="TOwner"/> so derived palettes can override
+    /// shared family defaults without mutating the <see cref="PaletteBase"/> fallback entries.
+    /// </summary>
+    protected internal static void RegisterColor<TOwner, TEnum>(TEnum slot, Color value)
+        where TOwner : PaletteBase
+        where TEnum : struct, Enum
+    {
+        _colorLut[(typeof(TOwner), typeof(TEnum), Convert.ToInt32(slot))] = value;
     }
 
     /// <summary>
@@ -2171,7 +2272,14 @@ public abstract class PaletteBase : Component
     /// </summary>
     public Color GetArrayColor<TEnum>(TEnum slot) where TEnum : struct, Enum
     {
-        return _colorLut[(typeof(TEnum), Convert.ToInt32(slot))];
+        var key = ResolveColorLutKey(typeof(TEnum), Convert.ToInt32(slot));
+
+        if (key.HasValue)
+        {
+            return _colorLut[key.Value];
+        }
+
+        throw new KeyNotFoundException($@"No registered color for {typeof(TEnum).Name}.{slot}.");
     }
 
     /// <summary>
@@ -2179,33 +2287,66 @@ public abstract class PaletteBase : Component
     /// </summary>
     public void SetArrayColor<TEnum>(TEnum slot, Color newColor) where TEnum : struct, Enum
     {
-        _colorLut[(typeof(TEnum), Convert.ToInt32(slot))] = newColor;
+        var key = (GetType(), typeof(TEnum), Convert.ToInt32(slot));
+
+        _colorLut[key] = newColor;
         // Inform listeners that colours have changed so UI repaints.
         OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
     }
 
+    private (Type Owner, Type Enum, int Index)? ResolveColorLutKey(Type enumType, int index)
+    {
+        for (var owner = GetType(); owner != null; owner = owner.BaseType)
+        {
+            System.Runtime.CompilerServices.RuntimeHelpers.RunClassConstructor(owner.TypeHandle);
+
+            var key = (owner, enumType, index);
+
+            if (_colorLut.ContainsKey(key))
+            {
+                return key;
+            }
+        }
+
+        return null;
+    }
+
     private readonly object _colorLock = new();
+    private readonly Color[] _extraColors = new Color[36];
+    private KryptonColorSchemeBase? _backingScheme;
+    private bool _backingSchemeResolved;
 
     /// <summary>
     /// Resets <see cref="ColorTable"/> to be updated on next paint.
     /// </summary>
     protected virtual void InvalidateColorTable()
     {
-        // Default implementation uses reflection as fallback
-        var tableField = GetType().GetField("_table", BindingFlags.Instance | BindingFlags.NonPublic)
-                         ?? GetType().GetField("Table", BindingFlags.Instance | BindingFlags.NonPublic);
+        // Walk the runtime type: GetField/GetProperty do not see private/protected
+        // members declared on a base class. Office 2010/2013/365 cache the table in a
+        // `Table` auto-property (backing field `<Table>k__BackingField`), not `_table`.
+        const BindingFlags declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
 
-        if (tableField != null)
+        for (var type = GetType(); type != null && type != typeof(object); type = type.BaseType)
         {
-            tableField.SetValue(this, null);
-            return;
+            var tableProperty = type.GetProperty("Table", declared);
+            if (tableProperty != null && tableProperty.CanWrite)
+            {
+                tableProperty.SetValue(this, null);
+                return;
+            }
+
+            var tableField = type.GetField("_table", declared) ?? type.GetField("Table", declared);
+            if (tableField != null && tableField is { IsInitOnly: false, IsLiteral: false })
+            {
+                tableField.SetValue(this, null);
+                return;
+            }
         }
 
-        // Try property approach
-        var tableProp = GetType().GetProperty("ColorTable", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-        if (tableProp != null && tableProp.CanWrite)
+        var colorTableProp = GetType().GetProperty(nameof(ColorTable), BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+        if (colorTableProp != null && colorTableProp.CanWrite)
         {
-            tableProp.SetValue(this, null);
+            colorTableProp.SetValue(this, null);
         }
     }
 
@@ -2265,12 +2406,13 @@ public abstract class PaletteBase : Component
     {
         if (source == null)
         {
-            throw new ArgumentNullException(nameof(source));
+            ThrowHelper.ThrowArgumentNullException(nameof(source));
         }
 
         lock (_colorLock)
         {
             Array.Copy(source, SchemeColors, Math.Min(source.Length, SchemeColors.Length));
+            SyncBackingSchemeFromArray();
             InvalidateColorTable();
         }
 
@@ -2288,6 +2430,7 @@ public abstract class PaletteBase : Component
             }
 
             SchemeColors[(int)colorIndex] = newColor;
+            SyncBackingSchemeColor(colorIndex, newColor);
             InvalidateColorTable();
         }
         OnSchemeColorChanged(colorIndex, newColor);
@@ -2309,11 +2452,63 @@ public abstract class PaletteBase : Component
     {
         if (colorUpdates is null)
         {
-            throw new ArgumentNullException(nameof(colorUpdates));
+            ThrowHelper.ThrowArgumentNullException(nameof(colorUpdates));
         }
 
         foreach (var kv in colorUpdates)
             SetSchemeColor(kv.Key, kv.Value); // reuses events + paint
+    }
+
+    /// <summary>
+    /// Sets a scheme extra color by index.
+    /// </summary>
+    /// <param name="colorIndex">The scheme extra color index.</param>
+    /// <param name="newColor">The new color value.</param>
+    public virtual void SetSchemeExtraColor(SchemeExtraColors colorIndex, Color newColor)
+    {
+        lock (_colorLock)
+        {
+            var idx = (int)colorIndex;
+            if (idx >= _extraColors.Length || _extraColors[idx] == newColor)
+            {
+                return;
+            }
+
+            _extraColors[idx] = newColor;
+            InvalidateColorTable();
+        }
+        OnSchemeExtraColorChanged(colorIndex, newColor);
+        SchemeExtraColorChanged?.Invoke(this, new SchemeExtraColorChangedEventArgs(colorIndex, newColor));
+        OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
+    }
+
+    /// <summary>
+    /// Gets a scheme extra color by index.
+    /// </summary>
+    /// <param name="colorIndex">The scheme extra color index.</param>
+    /// <returns>The color value.</returns>
+    public virtual Color GetSchemeExtraColor(SchemeExtraColors colorIndex)
+    {
+        lock (_colorLock)
+        {
+            var idx = (int)colorIndex;
+            return idx >= 0 && idx < _extraColors.Length ? _extraColors[idx] : SharedStaticVariables.EMPTY_COLOR;
+        }
+    }
+
+    /// <summary>
+    /// Batch updates scheme extra colors.
+    /// </summary>
+    /// <param name="colorUpdates">Dictionary of scheme extra color index to new color value.</param>
+    public virtual void UpdateSchemeExtraColors(Dictionary<SchemeExtraColors, Color> colorUpdates)
+    {
+        if (colorUpdates is null)
+        {
+            ThrowHelper.ThrowArgumentNullException(nameof(colorUpdates));
+        }
+
+        foreach (var kv in colorUpdates)
+            SetSchemeExtraColor(kv.Key, kv.Value);
     }
 
     // Thread-safe full-scheme replacement
@@ -2321,12 +2516,13 @@ public abstract class PaletteBase : Component
     {
         if (newScheme is null)
         {
-            throw new ArgumentNullException(nameof(newScheme));
+            ThrowHelper.ThrowArgumentNullException(nameof(newScheme));
         }
 
         lock (_colorLock)
         {
             Array.Copy(newScheme.ToArray(), SchemeColors, SchemeColors.Length);
+            SyncBackingSchemeFromArray();
             InvalidateColorTable();
         }
         // notify each index has changed
@@ -2339,8 +2535,97 @@ public abstract class PaletteBase : Component
 
     #endregion Palette Helpers
 
+    /// <summary>
+    /// Returns the scheme colour at <paramref name="primary"/>, or <paramref name="fallback"/> when that slot is empty or missing.
+    /// </summary>
+    /// <param name="primary">Preferred scheme slot.</param>
+    /// <param name="fallback">Slot used when <paramref name="primary"/> is empty.</param>
+    /// <returns>The resolved colour.</returns>
+    protected Color GetSchemeColorOrFallback(SchemeBaseColors primary, SchemeBaseColors fallback) =>
+        SchemeColors.Resolve(primary, fallback);
+
+    private KryptonColorSchemeBase? GetBackingScheme()
+    {
+        if (_backingSchemeResolved)
+        {
+            return _backingScheme;
+        }
+
+        _backingSchemeResolved = true;
+        const BindingFlags declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+
+        for (var type = GetType(); type != null && type != typeof(object); type = type.BaseType)
+        {
+            var field = type.GetField("BaseColors", declared);
+            if (field != null)
+            {
+                _backingScheme = field.GetValue(this) as KryptonColorSchemeBase;
+                return _backingScheme;
+            }
+
+            var property = type.GetProperty("BaseColors", declared);
+            if (property != null)
+            {
+                _backingScheme = property.GetValue(this) as KryptonColorSchemeBase;
+                return _backingScheme;
+            }
+        }
+
+        return null;
+    }
+
+    private void SyncBackingSchemeColor(SchemeBaseColors index, Color newColor) =>
+        GetBackingScheme().Set(index, newColor);
+
+    private void SyncBackingSchemeFromArray()
+    {
+        var scheme = GetBackingScheme();
+        if (scheme is null)
+        {
+            return;
+        }
+
+        var colors = SchemeColors;
+        foreach (SchemeBaseColors index in Enum.GetValues(typeof(SchemeBaseColors)))
+        {
+            var i = (int)index;
+            if (i >= 0 && i < colors.Length)
+            {
+                scheme.Set(index, colors[i]);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets ribbon group text color with optional disabled and tracking handling.
+    /// </summary>
+    /// <param name="state">Palette state.</param>
+    /// <param name="trackingColor">Color when tracking; if empty, defaultColor is used.</param>
+    /// <param name="defaultColor">Color when state is normal or when tracking color is empty.</param>
+    /// <param name="disabledColor">Optional color when disabled; if null, disabled is not checked.</param>
+    /// <returns>The resolved color.</returns>
+    protected static Color GetRibbonGroupTextColor(PaletteState state, Color trackingColor, Color defaultColor, Color? disabledColor = null)
+    {
+        if (disabledColor.HasValue && state == PaletteState.Disabled)
+        {
+            return disabledColor.Value;
+        }
+
+        if (state is PaletteState.Tracking or PaletteState.CheckedTracking)
+        {
+            return trackingColor != SharedStaticVariables.EMPTY_COLOR && !trackingColor.IsEmpty
+                ? trackingColor
+                : defaultColor;
+        }
+
+        return defaultColor;
+    }
+
     /// <summary>Hook for derived families to rebuild caches when a color changes.</summary>
     protected virtual void OnSchemeColorChanged(SchemeBaseColors index, Color newColor) { }
+
+    /// <summary>Hook for derived families when a scheme extra color changes.</summary>
+    protected virtual void OnSchemeExtraColorChanged(SchemeExtraColors index, Color newColor) { }
 }
 
 /// <summary>
@@ -2352,6 +2637,21 @@ public sealed class SchemeColorChangedEventArgs : EventArgs
     public Color NewColor { get; }
 
     public SchemeColorChangedEventArgs(SchemeBaseColors index, Color newColor)
+    {
+        Index = index;
+        NewColor = newColor;
+    }
+}
+
+/// <summary>
+/// Data for when one scheme extra color changes.
+/// </summary>
+public sealed class SchemeExtraColorChangedEventArgs : EventArgs
+{
+    public SchemeExtraColors Index { get; }
+    public Color NewColor { get; }
+
+    public SchemeExtraColorChangedEventArgs(SchemeExtraColors index, Color newColor)
     {
         Index = index;
         NewColor = newColor;

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -44,7 +44,7 @@ public class NavigatorPopupPages : Storage
         Debug.Assert(needPaint is not null);
 
         // Remember back reference
-        _navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        _navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
 
         // Store the provided paint notification delegate
         NeedPaint = needPaint;
@@ -78,7 +78,7 @@ public class NavigatorPopupPages : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Determines if popup pages are Displayed.")]
-    //[DefaultValue(typeof(PopupPageAllow), "Only Outlook Mini Mode")]
+    [DefaultValue(typeof(PopupPageAllow), "Only Outlook Mini Mode")]
     public PopupPageAllow AllowPopupPages { get; set; }
 
     #endregion
@@ -100,7 +100,7 @@ public class NavigatorPopupPages : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"The relative element to use when calculating size and position of the popup page.")]
-    //[DefaultValue(typeof(PopupPageElement), "Item")]
+    [DefaultValue(typeof(PopupPageElement), "Item")]
     public PopupPageElement Element { get; set; }
 
     #endregion
@@ -122,7 +122,7 @@ public class NavigatorPopupPages : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"How to calculate the size and position of the popup page.")]
-    //[DefaultValue(typeof(PopupPagePosition), "ModeAppropriate")]
+    [DefaultValue(typeof(PopupPagePosition), "ModeAppropriate")]
     public PopupPagePosition Position { get; set; }
 
     #endregion

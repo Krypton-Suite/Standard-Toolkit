@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -24,6 +24,7 @@ public class PaletteInputControlContentStates : Storage,
     private Color _color1;
     internal Padding _padding;
     internal PaletteRelativeAlign _shortTextH;
+    private PaletteRelativeAlign _defaultTextH;
 
     #endregion
 
@@ -46,8 +47,9 @@ public class PaletteInputControlContentStates : Storage,
 
         // Default the initial values
         _font = null;
-        _color1 = GlobalStaticValues.EMPTY_COLOR;
+        _color1 = SharedStaticVariables.EMPTY_COLOR;
         _padding = CommonHelper.InheritPadding;
+        _defaultTextH = PaletteRelativeAlign.Inherit;
         _shortTextH = PaletteRelativeAlign.Inherit;
     }
     #endregion
@@ -207,9 +209,8 @@ public class PaletteInputControlContentStates : Storage,
     /// </summary>
     [KryptonPersist(false)]
     [Category(@"Visuals")]
-    [Description(@"Relative horizontal Content text alignment\nIn order to get this into the designer.cs you must also modify another value in this area!")]
+    [Description(@"Relative horizontal Content text alignment.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(PaletteRelativeAlign.Inherit)]
     public PaletteRelativeAlign TextH
     {
         get => _shortTextH;
@@ -224,16 +225,27 @@ public class PaletteInputControlContentStates : Storage,
         }
     }
 
-    private bool ShouldSerializeTextH() => _shortTextH != PaletteRelativeAlign.Inherit;
+    /// <summary>
+    /// Sets the designer default for <see cref="TextH"/> and applies it.
+    /// </summary>
+    /// <param name="value">Alignment treated as the unset/default value.</param>
+    internal void SetDefaultTextH(PaletteRelativeAlign value)
+    {
+        _defaultTextH = value;
+        _shortTextH = value;
+    }
 
-    private void ResetTextH() => _shortTextH = PaletteRelativeAlign.Inherit;
+    private bool ShouldSerializeTextH() => _shortTextH != _defaultTextH;
+
+    private void ResetTextH() => _shortTextH = _defaultTextH;
 
     /// <summary>
     /// Gets the actual content short text horizontal alignment value.
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>RelativeAlignment value.</returns>
-    public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) => ShouldSerializeTextH() ? _shortTextH : Inherit.GetContentShortTextH(state);
+    public virtual PaletteRelativeAlign GetContentShortTextH(PaletteState state) =>
+        _shortTextH != PaletteRelativeAlign.Inherit ? _shortTextH : Inherit.GetContentShortTextH(state);
 
     /// <summary>
     /// Gets the actual content short text vertical alignment value.

@@ -86,8 +86,10 @@
             this.kbtnImport.Location = new System.Drawing.Point(736, 12);
             this.kbtnImport.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnImport.Name = "kbtnImport";
+            this.kbtnImport.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.kbtnImport.Size = new System.Drawing.Size(90, 25);
             this.kbtnImport.TabIndex = 0;
+            this.kbtnImport.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnImport.Values.Text = "kryptonButton1";
             this.kbtnImport.Click += new System.EventHandler(this.kbtnImport_Click);
             // 
@@ -97,6 +99,7 @@
             this.kchkSilent.Location = new System.Drawing.Point(591, 14);
             this.kchkSilent.Margin = new System.Windows.Forms.Padding(10);
             this.kchkSilent.Name = "kchkSilent";
+            this.kchkSilent.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.kchkSilent.Size = new System.Drawing.Size(125, 20);
             this.kchkSilent.TabIndex = 1;
             this.kchkSilent.Values.Text = "kryptonCheckBox1";
@@ -108,8 +111,10 @@
             this.kbtnCancel.Location = new System.Drawing.Point(10, 12);
             this.kbtnCancel.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnCancel.Name = "kbtnCancel";
+            this.kbtnCancel.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.kbtnCancel.Size = new System.Drawing.Size(90, 25);
             this.kbtnCancel.TabIndex = 2;
+            this.kbtnCancel.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnCancel.Values.Text = "kryptonButton1";
             this.kbtnCancel.Click += new System.EventHandler(this.kbtnCancel_Click);
             // 
@@ -120,8 +125,10 @@
             this.kbtnOk.Location = new System.Drawing.Point(120, 12);
             this.kbtnOk.Margin = new System.Windows.Forms.Padding(10);
             this.kbtnOk.Name = "kbtnOk";
+            this.kbtnOk.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.kbtnOk.Size = new System.Drawing.Size(90, 25);
             this.kbtnOk.TabIndex = 3;
+            this.kbtnOk.Values.DropDownArrowColor = System.Drawing.Color.Empty;
             this.kbtnOk.Values.Text = "kryptonButton2";
             this.kbtnOk.Click += new System.EventHandler(this.kbtnOk_Click);
             // 
@@ -165,6 +172,7 @@
             this.klblHeader.Location = new System.Drawing.Point(731, 10);
             this.klblHeader.Margin = new System.Windows.Forms.Padding(10);
             this.klblHeader.Name = "klblHeader";
+            this.klblHeader.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.klblHeader.Size = new System.Drawing.Size(95, 20);
             this.klblHeader.TabIndex = 0;
             this.klblHeader.Values.Text = "kryptonLabel1";
@@ -181,7 +189,6 @@
             // 
             // kcpbCustom
             // 
-            this.kcpbCustom.BasePaletteType = Krypton.Toolkit.BasePaletteType.Custom;
             this.kcpbCustom.Ribbon.RibbonAppButton.StateNormal.BackColor1 = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(245)))), ((int)(((byte)(248)))));
             this.kcpbCustom.Ribbon.RibbonAppButton.StateNormal.BackColor2 = System.Drawing.Color.Empty;
             this.kcpbCustom.Ribbon.RibbonAppButton.StateNormal.BackColor3 = System.Drawing.Color.Empty;
@@ -341,7 +348,7 @@
             this.kcpbCustom.Ribbon.RibbonQATOverflow.BackColor3 = System.Drawing.Color.Empty;
             this.kcpbCustom.Ribbon.RibbonQATOverflow.BackColor4 = System.Drawing.Color.Empty;
             this.kcpbCustom.Ribbon.RibbonQATOverflow.BackColor5 = System.Drawing.Color.Empty;
-            this.kcpbCustom.ThemeName = null;
+            this.kcpbCustom.UseThemeFormChromeBorderWidth = Krypton.Toolkit.InheritBool.True;
             // 
             // VisualThemeBrowserFormRtlAware
             // 
@@ -357,6 +364,7 @@
             this.MinimizeBox = false;
             this.Name = "VisualThemeBrowserFormRtlAware";
             this.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.RightToLeftLayout = true;
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

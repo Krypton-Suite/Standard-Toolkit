@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -24,7 +24,8 @@ namespace Krypton.Ribbon;
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 public class KryptonRibbonQATButton : Component,
-    IQuickAccessToolbarButton
+    IQuickAccessToolbarButton,
+    IRibbonTranslationIdentity
 {
     #region Static Fields
     private static readonly Image? _defaultImage = GenericImageResources.QATButtonDefault;
@@ -32,11 +33,13 @@ public class KryptonRibbonQATButton : Component,
 
     #region Instance Fields
     private object? _tag;
+    private string _translationId = string.Empty;
     private Image? _image;
     private bool _visible;
     private bool _enabled;
     private string _text;
     private KryptonCommand? _command;
+    private PaletteButtonSpecStyle _type;
 
     #endregion
 
@@ -88,6 +91,7 @@ public class KryptonRibbonQATButton : Component,
     [Category(@"Values")]
     [Description(@"Application button image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -102,7 +106,7 @@ public class KryptonRibbonQATButton : Component,
                     // quick access toolbar. So we reject anything bigger than 16x16.
                     if ((value.Width > 16) || (value.Height > 16))
                     {
-                        throw new ArgumentOutOfRangeException(nameof(Image), @"Image must be 16x16 or smaller.");
+                        ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Image), @"Image must be 16x16 or smaller.");
                     }
                 }
 
@@ -119,6 +123,37 @@ public class KryptonRibbonQATButton : Component,
     }
 
     private bool ShouldSerializeImage() => Image != _defaultImage;
+
+    /// <summary>
+    /// Gets and sets the button specification style (e.g. New, Open, Save) for themed icons.
+    /// </summary>
+    [Localizable(true)]
+    [Category(@"Behavior")]
+    [Description(@"Button spec style for themed icons; Generic uses custom Image.")]
+    [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(PaletteButtonSpecStyle.Generic)]
+    public PaletteButtonSpecStyle Type
+    {
+        get => _type;
+
+        set
+        {
+            if (_type != value)
+            {
+                _type = value;
+                OnPropertyChanged(nameof(Type));
+
+                if (Visible)
+                {
+                    Ribbon?.PerformNeedPaint(false);
+                }
+            }
+        }
+    }
+
+    private bool ShouldSerializeType() => Type != PaletteButtonSpecStyle.Generic;
+
+    private void ResetType() => Type = PaletteButtonSpecStyle.Generic;
 
     /// <summary>
     /// Gets and sets the visible state of the ribbon quick access toolbar entry.
@@ -245,6 +280,7 @@ public class KryptonRibbonQATButton : Component,
     [Description(@"Display image associated ToolTip.")]
     [DefaultValue(null)]
     [Localizable(true)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? ToolTipImage { get; set; }
 
     /// <summary>
@@ -264,6 +300,7 @@ public class KryptonRibbonQATButton : Component,
     [Bindable(true)]
     [Category(@"Appearance")]
     [Description(@"Title text for use in associated ToolTip.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     [Localizable(true)]
@@ -275,6 +312,7 @@ public class KryptonRibbonQATButton : Component,
     [Bindable(true)]
     [Category(@"Appearance")]
     [Description(@"Body text for use in associated ToolTip.")]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [DefaultValue("")]
     [Localizable(true)]
@@ -329,6 +367,23 @@ public class KryptonRibbonQATButton : Component,
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets a stable, non-localized identity used when saving or loading ribbon translations.
+    /// </summary>
+    [Category(@"Data")]
+    [Description(@"Stable identity for RibbonTranslations.xml. Prefer this over collection index when QAT buttons can be reordered.")]
+    [DefaultValue("")]
+    [Localizable(false)]
+    public string TranslationId
+    {
+        get => _translationId ?? string.Empty;
+        set => _translationId = value ?? string.Empty;
+    }
+
+    private bool ShouldSerializeTranslationId() => !string.IsNullOrEmpty(TranslationId);
+
+    private void ResetTranslationId() => TranslationId = string.Empty;
 
     /// <summary>
     /// Gets and sets user-defined data associated with the object.
@@ -439,6 +494,12 @@ public class KryptonRibbonQATButton : Component,
     /// <summary>Gets the tool tip shadow value.</summary>
     [EditorBrowsable(EditorBrowsableState.Advanced)]
     public bool GetToolTipShadow() => ToolTipShadow;
+
+    /// <summary>
+    /// Gets the button specification style for themed icons.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Advanced)]
+    public PaletteButtonSpecStyle GetButtonSpecType() => Type; 
 
     /// <summary>
     /// Generates a Click event for a button.

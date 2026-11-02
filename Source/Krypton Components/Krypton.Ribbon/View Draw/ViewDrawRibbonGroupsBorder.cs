@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -25,11 +25,14 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     private readonly Padding _borderPadding2010; // = new(1, 1, 1, 3);
     private readonly Padding _borderPadding2013; // = new(1, 1, 1, 0);
     private readonly Padding _borderPadding365; // = new(1, 1, 1, 0);
+    private readonly Padding _borderPadding2024;
+    private readonly Padding _borderPadding2024Compact;
     private readonly Padding _borderPaddingVisualStudio2010;
     private readonly Padding _borderPaddingVisualStudio;
     private IPaletteRibbonBack _inherit;
     private IDisposable? _memento;
     private readonly bool _borderOutside;
+    private Region? _compactAnimationClip;
     #endregion
 
     #region Identity
@@ -47,14 +50,18 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         Debug.Assert(needPaintDelegate is not null);
 
         // Remember incoming references
-        Ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        NeedPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
+        Ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        NeedPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException(needPaintDelegate);
         _borderOutside = borderOutside;
         _borderPadding2007 = new Padding((int)(3 * FactorDpiX), (int)(3 * FactorDpiY), (int)(3 * FactorDpiX), (int)(2 * FactorDpiY));
         _borderPadding2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
         _borderPaddingVisualStudio2010 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), (int)(3 * FactorDpiY));
         _borderPadding2013 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
         _borderPadding365 = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
+        // Clears the rounded card inset (6) and leaves 10px inside the card above and below the items.
+        _borderPadding2024 = new Padding((int)(14 * FactorDpiX), (int)(16 * FactorDpiY), (int)(14 * FactorDpiX), (int)(16 * FactorDpiY));
+        // Single command row: keep a small card inset so the row is actually short.
+        _borderPadding2024Compact = new Padding((int)(8 * FactorDpiX), (int)(4 * FactorDpiY), (int)(8 * FactorDpiX), (int)(4 * FactorDpiY));
         _borderPaddingVisualStudio = new Padding((int)(1 * FactorDpiX), (int)(1 * FactorDpiY), (int)(1 * FactorDpiX), 0);
     }
 
@@ -80,6 +87,12 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
                 _memento.Dispose();
                 _memento = null;
             }
+
+            if (_compactAnimationClip != null)
+            {
+                _compactAnimationClip.Dispose();
+                _compactAnimationClip = null;
+            }
         }
 
         base.Dispose(disposing);
@@ -101,10 +114,13 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
 
             return Ribbon.RibbonShape switch
             {
-                PaletteRibbonShape.Office2010 => _borderPadding2010,
+                PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => _borderPadding2010,
                 PaletteRibbonShape.VisualStudio2010 => _borderPaddingVisualStudio2010,
                 PaletteRibbonShape.Office2013 => _borderPadding2013,
                 PaletteRibbonShape.Microsoft365 => _borderPadding365,
+                PaletteRibbonShape.Office2024 => _borderOutside
+                    ? _borderPadding365
+                    : (Ribbon.CompactMode ? _borderPadding2024Compact : _borderPadding2024),
                 PaletteRibbonShape.VisualStudio => _borderPaddingVisualStudio,
                 _ => _borderPadding2007
             };
@@ -147,6 +163,27 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
 
+        // During a compact switch the visible band is the eased height, but the commands
+        // lay out at the target height so they are revealed rather than squashed.
+        Rectangle layoutRect = ClientRectangle;
+        if (Ribbon.CalculatedValues.AnimatedGroupsHeight.HasValue)
+        {
+            int delta = Ribbon.CalculatedValues.NaturalGroupsHeight - ClientHeight;
+            if (delta != 0)
+            {
+                layoutRect.Height = ClientHeight + delta;
+            }
+        }
+
+        // The below-groups arrow is drawn inside the card. Keep the groups above that band
+        // so captions and commands line up with the card instead of sliding under the arrow.
+        if (Ribbon.CompactBelowGroupsReserve > 0 && !Ribbon.CalculatedValues.AnimatedGroupsHeight.HasValue)
+        {
+            layoutRect.Height = Math.Max(0, layoutRect.Height - Ribbon.CompactBelowGroupsReserve);
+        }
+
+        context.DisplayRectangle = layoutRect;
+
         // Do we need to add on our own border size
         if (!_borderOutside)
         {
@@ -171,7 +208,7 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // If there is a selected tab and it is a context tab use the context specific palette
@@ -197,17 +234,153 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
             drawRect.Width += borderPadding.Horizontal;
             drawRect.Height += borderPadding.Vertical;
         }
-        else if (Ribbon.RibbonShape == PaletteRibbonShape.Office2010)
+        else if (Ribbon.RibbonShape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
         {
             // Prevent the left and right edges from being drawn
             drawRect.X -= 1;
             drawRect.Width += 2;
         }
 
-        // Use renderer to draw the tab background
-        _memento = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, drawRect, State, this, VisualOrientation.Top, _memento);
+        // A positive Office 2024 gap paints one rounded card per group. Otherwise the area is one card.
+        PaletteRibbonGeneral general = Ribbon.StateCommon.RibbonGeneral;
+        if (Ribbon.RibbonShape == PaletteRibbonShape.Office2024 &&
+            general.GroupAreaGap > 0 &&
+            TryDrawOffice2024GroupGaps(context, drawRect, general))
+        {
+            if (_memento != null)
+            {
+                _memento.Dispose();
+                _memento = null;
+            }
+        }
+        else
+        {
+            // Use renderer to draw the tab background
+            _memento = context.Renderer.RenderRibbon.DrawRibbonBack(Ribbon.RibbonShape, context, drawRect, State, this, VisualOrientation.Top, _memento);
+
+            if (Ribbon.RibbonShape == PaletteRibbonShape.Office2024 && general.GroupAreaBevelEdges)
+            {
+                RenderStandard.DrawRibbonGroupArea2024Bevel(context, drawRect, GetRibbonBackColor1(State), general.GroupAreaBevelLight, general.GroupAreaBevelDark, general.GroupAreaBevelSize);
+            }
+        }
+
+        if (TryGetRetroPopupBorderColor(out Color popupBorderColor))
+        {
+            using var borderPen = new Pen(popupBorderColor, 1f);
+            context.Graphics.DrawRectangle(borderPen, drawRect.X, drawRect.Y, drawRect.Width - 1, drawRect.Height - 1);
+        }
+
+        if (TryGetRetroRibbonSeparatorColor(out Color separatorColor))
+        {
+            using var separatorPen = new Pen(separatorColor, 1f);
+            context.Graphics.DrawLine(separatorPen, drawRect.X, drawRect.Bottom - 1, drawRect.Right - 1, drawRect.Bottom - 1);
+        }
+
+        // Children may extend below the eased band. Clip them to the visible card.
+        if (Ribbon.CalculatedValues.AnimatedGroupsHeight.HasValue)
+        {
+            _compactAnimationClip = context.Graphics.Clip;
+            context.Graphics.SetClip(ClientRectangle, CombineMode.Intersect);
+        }
+    }
+
+    /// <summary>
+    /// Perform rendering after child elements are rendered.
+    /// </summary>
+    /// <param name="context">Rendering context.</param>
+    public override void RenderAfter(RenderContext context)
+    {
+        if (_compactAnimationClip != null)
+        {
+            context.Graphics.Clip = _compactAnimationClip;
+            _compactAnimationClip.Dispose();
+            _compactAnimationClip = null;
+        }
     }
     #endregion
+
+    private bool TryDrawOffice2024GroupGaps(RenderContext context, Rectangle drawRect, PaletteRibbonGeneral general)
+    {
+        float dpi = context.Graphics.DpiX / 96f;
+        if (!RenderStandard.TryGetRibbonGroupArea2024Card(drawRect, dpi, out Rectangle band))
+        {
+            return false;
+        }
+
+        var groups = new List<Rectangle>();
+        CollectGroupCards(groups);
+        if (groups.Count < 2)
+        {
+            return false;
+        }
+
+        groups.Sort((left, right) => left.Left.CompareTo(right.Left));
+        Color body = GetRibbonBackColor1(State);
+        bool bevel = general.GroupAreaBevelEdges;
+        for (var i = 0; i < groups.Count; i++)
+        {
+            // The card is the group bounds. Side padding lives inside the group, so the edges match.
+            int left = Math.Max(band.Left, groups[i].Left);
+            int right = Math.Min(band.Right, groups[i].Right);
+            if (right - left < 8)
+            {
+                continue;
+            }
+
+            var card = Rectangle.FromLTRB(left, band.Top, right, band.Bottom);
+            RenderStandard.DrawRibbonGroupArea2024Exact(context, card, body, bevel, general.GroupAreaBevelLight, general.GroupAreaBevelDark, general.GroupAreaBevelSize);
+        }
+
+        return true;
+    }
+
+    private void CollectGroupCards(List<Rectangle> groups)
+    {
+        foreach (ViewBase child in this)
+        {
+            if (child is not ViewLayoutRibbonScrollPort port || !port.Visible)
+            {
+                continue;
+            }
+
+            ViewBase? filler = port.ViewLayoutControl.ChildView;
+            Control? host = port.ViewLayoutControl.ChildControl;
+            if (filler == null || host == null)
+            {
+                continue;
+            }
+
+            var found = new List<Rectangle>();
+            CollectVisibleGroups(filler, found);
+            foreach (Rectangle rect in found)
+            {
+                // Group rectangles are in the scroll-port child control, which is parented to the ribbon.
+                groups.Add(new Rectangle(host.Left + rect.Left, host.Top + rect.Top, rect.Width, rect.Height));
+            }
+        }
+    }
+
+    private static void CollectVisibleGroups(ViewBase view, List<Rectangle> groups)
+    {
+        if (!view.Visible)
+        {
+            return;
+        }
+
+        if (view is ViewDrawRibbonGroup group && group.ClientRectangle.Width > 0)
+        {
+            groups.Add(group.ClientRectangle);
+            return;
+        }
+
+        if (view is ViewComposite composite)
+        {
+            foreach (ViewBase child in composite)
+            {
+                CollectVisibleGroups(child, groups);
+            }
+        }
+    }
 
     #region IPaletteRibbonBack
     /// <summary>
@@ -215,7 +388,10 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inherit.GetRibbonBackColorStyle(state);
+    public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) =>
+        _borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase
+            ? PaletteRibbonColorStyle.Solid
+            : _inherit.GetRibbonBackColorStyle(state);
 
     /// <summary>
     /// Gets the first background color for the ribbon item.
@@ -224,6 +400,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor1(PaletteState state)
     {
+        if (TryGetRetroPopupColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor1(state);
 
         // If empty then try and recover the context specific color
@@ -242,6 +423,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor2(PaletteState state)
     {
+        if (TryGetRetroPopupColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor2(state);
 
         // If empty then try and recover the context specific color
@@ -260,6 +446,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor3(PaletteState state)
     {
+        if (TryGetRetroPopupBorderColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor3(state);
 
         // If empty then try and recover the context specific color
@@ -278,6 +469,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor4(PaletteState state)
     {
+        if (TryGetRetroPopupBorderColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor4(state);
 
         // If empty then try and recover the context specific color
@@ -296,6 +492,11 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor5(PaletteState state)
     {
+        if (TryGetRetroPopupBorderColor(out Color popupColor))
+        {
+            return popupColor;
+        }
+
         Color retColor = _inherit.GetRibbonBackColor5(state);
 
         // If empty then try and recover the context specific color
@@ -343,6 +544,42 @@ internal class ViewDrawRibbonGroupsBorder : ViewComposite,
         }
 
         return Color.Empty;
+    }
+
+    private bool TryGetRetroPopupColor(out Color color)
+    {
+        if (_borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase retroPalette)
+        {
+            color = retroPalette.RetroPopupBackColor;
+            return true;
+        }
+
+        color = SharedStaticVariables.EMPTY_COLOR;
+        return false;
+    }
+
+    private bool TryGetRetroPopupBorderColor(out Color color)
+    {
+        if (_borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase retroPalette)
+        {
+            color = retroPalette.RetroPopupBorderColor;
+            return true;
+        }
+
+        color = SharedStaticVariables.EMPTY_COLOR;
+        return false;
+    }
+
+    private bool TryGetRetroRibbonSeparatorColor(out Color color)
+    {
+        if (!_borderOutside && KryptonManager.CurrentGlobalPalette is PaletteRetroBase retroPalette)
+        {
+            color = retroPalette.RetroRibbonSeparatorColor;
+            return true;
+        }
+
+        color = SharedStaticVariables.EMPTY_COLOR;
+        return false;
     }
     #endregion
 }

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -62,7 +62,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
     public override object Clone()
     {
         // Create a new instance
-        var clone = base.Clone() as KryptonDataGridViewLinkColumn ?? throw new NullReferenceException(GlobalStaticValues.VariableCannotBeNull("clone"));
+        var clone =base.Clone() as KryptonDataGridViewLinkColumn ?? ThrowHelper.ThrowNullReferenceException<KryptonDataGridViewLinkColumn>(SharedStaticFunctions.VariableCannotBeNull("clone"));
         clone.Text = Text;
         clone.LabelStyle = LabelStyle;
 
@@ -84,7 +84,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
         {
             if ((value is not null) && value is not KryptonDataGridViewLinkCell)
             {
-                throw new InvalidCastException("Can only assign a object of type KryptonDataGridViewLinkCell");
+                ThrowHelper.ThrowInvalidCastException("Can only assign a object of type KryptonDataGridViewLinkCell");
             }
 
             base.CellTemplate = value as KryptonDataGridViewLinkCell;
@@ -173,7 +173,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
     public LinkBehavior LinkBehavior
     {
         get =>
-            ((KryptonDataGridViewLinkCell)CellTemplate!)?.LinkBehavior ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
+((KryptonDataGridViewLinkCell)CellTemplate!)?.LinkBehavior ?? ThrowHelper.ThrowInvalidOperationException<LinkBehavior>("KryptonDataGridViewLinkCell cell template required");
         set
         {
             if (!LinkBehavior.Equals(value))
@@ -206,7 +206,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
     public bool TrackVisitedState
     {
         get =>
-            ((KryptonDataGridViewLinkCell)CellTemplate!)?.TrackVisitedState ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
+((KryptonDataGridViewLinkCell)CellTemplate!)?.TrackVisitedState ?? ThrowHelper.ThrowInvalidOperationException<bool>("KryptonDataGridViewLinkCell cell template required");
         set
         {
             if (TrackVisitedState != value)
@@ -237,7 +237,7 @@ public class KryptonDataGridViewLinkColumn : KryptonDataGridViewIconColumn
     public bool UseColumnTextForLinkValue
     {
         get =>
-            ((KryptonDataGridViewLinkCell)CellTemplate!)?.UseColumnTextForLinkValue ?? throw new InvalidOperationException("KryptonDataGridViewLinkCell cell template required");
+((KryptonDataGridViewLinkCell)CellTemplate!)?.UseColumnTextForLinkValue ?? ThrowHelper.ThrowInvalidOperationException<bool>("KryptonDataGridViewLinkCell cell template required");
 
         set
         {

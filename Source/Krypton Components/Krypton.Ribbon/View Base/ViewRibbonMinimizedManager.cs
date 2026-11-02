@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -47,9 +47,9 @@ internal class ViewRibbonMinimizedManager : ViewManager
         Debug.Assert(root is not null);
         Debug.Assert(needPaintDelegate is not null);
 
-        _ribbon = control ?? throw new ArgumentNullException(nameof(_ribbon));
-        _viewGroups = viewGroups ?? throw new ArgumentNullException(nameof(_viewGroups));
-        _needPaintDelegate = needPaintDelegate ?? throw new ArgumentNullException(nameof(needPaintDelegate));
+        _ribbon = control ?? ThrowHelper.ThrowArgumentNullException(control);
+        _viewGroups = viewGroups ?? ThrowHelper.ThrowArgumentNullException(viewGroups);
+        _needPaintDelegate = needPaintDelegate ?? ThrowHelper.ThrowArgumentNullException(needPaintDelegate);
         _active = true;
         _minimizedMode = minimizedMode;
     }
@@ -151,7 +151,7 @@ internal class ViewRibbonMinimizedManager : ViewManager
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Only interested if the application window we are inside is active
@@ -198,7 +198,7 @@ internal class ViewRibbonMinimizedManager : ViewManager
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Only interested if the application window we are inside is active

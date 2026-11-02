@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -45,9 +45,9 @@ internal class ViewDrawRibbonGroupDomainUpDown : ViewComposite,
         Debug.Assert(needPaint is not null);
 
         // Remember incoming references
-        _ribbon = ribbon ?? throw new ArgumentNullException(nameof(ribbon));
-        GroupDomainUpDown = ribbonDomainUpDown ?? throw new ArgumentNullException(nameof(ribbonDomainUpDown));
-        _needPaint = needPaint ?? throw new ArgumentNullException(nameof(needPaint));
+        _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
+        GroupDomainUpDown = ribbonDomainUpDown ?? ThrowHelper.ThrowArgumentNullException(ribbonDomainUpDown);
+        _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
         _currentSize = GroupDomainUpDown.ItemSizeCurrent;
 
         // Hook into the domain up-down events
@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupDomainUpDown : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the domain up-down definition
-        GroupDomainUpDown.DomainUpDownView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupDomainUpDown.DomainUpDownView = this;
 
         // Give paint delegate to domain up-down so its palette changes are redrawn
-        GroupDomainUpDown.ViewPaintDelegate = needPaint;
+            GroupDomainUpDown.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupDomainUpDown.DomainUpDown);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupDomainUpDown : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupDomainUpDown.MouseEnterControl -= OnMouseEnterControl;
                 GroupDomainUpDown.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupDomainUpDown.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupDomainUpDown.DomainUpDownView, this))
+                {
+                    GroupDomainUpDown.ViewPaintDelegate = null;
+                }
                 GroupDomainUpDown.PropertyChanged -= OnDomainUpDownPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupDomainUpDown.DomainUpDownView = null; 
+                if (ReferenceEquals(GroupDomainUpDown.DomainUpDownView, this))
+                {
+                    GroupDomainUpDown.DomainUpDownView = null;
+                } 
                 GroupDomainUpDown = null;
             }
         }
@@ -219,19 +228,15 @@ internal class ViewDrawRibbonGroupDomainUpDown : ViewComposite,
             Rectangle viewRect = _ribbon.KeyTipToScreen(this);
 
             // Determine the screen position of the key tip
-            var screenPt = Point.Empty;
 
             // Determine the screen position of the key tip dependant on item location/size
-            switch (_currentSize)
+            var screenPt = _currentSize switch
             {
-                case GroupItemSize.Large:
-                    screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
-                    break;
-                case GroupItemSize.Medium:
-                case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
-                    break;
-            }
+                GroupItemSize.Large => new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom),
+                GroupItemSize.Medium or GroupItemSize.Small => _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect,
+                    lineHint),
+                _ => Point.Empty
+            };
 
             keyTipList.Add(new KeyTipInfo(GroupDomainUpDown!.Enabled, 
                 GroupDomainUpDown.KeyTip,

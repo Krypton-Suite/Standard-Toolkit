@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -36,29 +36,29 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// </summary>
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => (InternalKCT.InternalButtonCheckedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonCheckedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonCheckedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonCheckedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonCheckedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonPressedBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonPressedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonPressedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonPressedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonPressedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonPressedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonSelectedBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonSelectedGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonSelectedGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonSelectedGradientMiddle == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonSelectedHighlight == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalButtonSelectedHighlightBorder == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalCheckBackground == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalCheckPressedBackground == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalCheckSelectedBackground == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalOverflowButtonGradientBegin == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalOverflowButtonGradientEnd == GlobalStaticValues.EMPTY_COLOR) &&
-                                      (InternalKCT.InternalOverflowButtonGradientMiddle == GlobalStaticValues.EMPTY_COLOR);
+    public override bool IsDefault => (InternalKCT.InternalButtonCheckedGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonCheckedGradientEnd == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonCheckedGradientMiddle == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonCheckedHighlight == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonCheckedHighlightBorder == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonPressedBorder == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonPressedGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonPressedGradientEnd == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonPressedGradientMiddle == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonPressedHighlight == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonPressedHighlightBorder == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonSelectedBorder == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonSelectedGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonSelectedGradientEnd == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonSelectedGradientMiddle == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonSelectedHighlight == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalButtonSelectedHighlightBorder == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalCheckBackground == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalCheckPressedBackground == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalCheckSelectedBackground == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalOverflowButtonGradientBegin == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalOverflowButtonGradientEnd == SharedStaticVariables.EMPTY_COLOR) &&
+                                      (InternalKCT.InternalOverflowButtonGradientMiddle == SharedStaticVariables.EMPTY_COLOR);
 
     #endregion
 
@@ -116,7 +116,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonCheckedGradientBegin property to its default value.
     /// </summary>
-    public void ResetButtonCheckedGradientBegin() => ButtonCheckedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonCheckedGradientBegin() => ButtonCheckedGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonCheckedGradientEnd
@@ -141,7 +141,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonCheckedGradientEnd property to its default value.
     /// </summary>
-    public void ResetButtonCheckedGradientEnd() => ButtonCheckedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonCheckedGradientEnd() => ButtonCheckedGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonCheckedGradientMiddle
@@ -166,7 +166,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonCheckedGradientMiddle property to its default value.
     /// </summary>
-    public void ResetButtonCheckedGradientMiddle() => ButtonCheckedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonCheckedGradientMiddle() => ButtonCheckedGradientMiddle = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonCheckedHighlight
@@ -191,7 +191,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonCheckedHighlight property to its default value.
     /// </summary>
-    public void ResetButtonCheckedHighlight() => ButtonCheckedHighlight = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonCheckedHighlight() => ButtonCheckedHighlight = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonCheckedHighlightBorder
@@ -216,7 +216,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonCheckedHighlightBorder property to its default value.
     /// </summary>
-    public void ResetButtonCheckedHighlightBorder() => ButtonCheckedHighlightBorder = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonCheckedHighlightBorder() => ButtonCheckedHighlightBorder = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonPressedBorder
@@ -241,7 +241,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonPressedBorder property to its default value.
     /// </summary>
-    public void ResetButtonPressedBorder() => ButtonPressedBorder = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonPressedBorder() => ButtonPressedBorder = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonPressedGradientBegin
@@ -266,7 +266,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonPressedGradientBegin property to its default value.
     /// </summary>
-    public void ResetButtonPressedGradientBegin() => ButtonPressedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonPressedGradientBegin() => ButtonPressedGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonPressedGradientEnd
@@ -291,7 +291,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonPressedGradientEnd property to its default value.
     /// </summary>
-    public void ResetButtonPressedGradientEnd() => ButtonPressedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonPressedGradientEnd() => ButtonPressedGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonPressedGradientMiddle
@@ -316,7 +316,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonPressedGradientMiddle property to its default value.
     /// </summary>
-    public void ResetButtonPressedGradientMiddle() => ButtonPressedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonPressedGradientMiddle() => ButtonPressedGradientMiddle = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonPressedHighlight
@@ -341,7 +341,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonPressedHighlight property to its default value.
     /// </summary>
-    public void ResetButtonPressedHighlight() => ButtonPressedHighlight = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonPressedHighlight() => ButtonPressedHighlight = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonPressedHighlightBorder
@@ -366,7 +366,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonPressedHighlightBorder property to its default value.
     /// </summary>
-    public void ResetButtonPressedHighlightBorder() => ButtonPressedHighlightBorder = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonPressedHighlightBorder() => ButtonPressedHighlightBorder = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonSelectedBorder
@@ -391,7 +391,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonSelectedBorder property to its default value.
     /// </summary>
-    public void ResetButtonSelectedBorder() => ButtonSelectedBorder = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonSelectedBorder() => ButtonSelectedBorder = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonSelectedGradientBegin
@@ -416,7 +416,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonSelectedGradientBegin property to its default value.
     /// </summary>
-    public void ResetButtonSelectedGradientBegin() => ButtonSelectedGradientBegin = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonSelectedGradientBegin() => ButtonSelectedGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonSelectedGradientEnd
@@ -441,7 +441,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonSelectedGradientEnd property to its default value.
     /// </summary>
-    public void ResetButtonSelectedGradientEnd() => ButtonSelectedGradientEnd = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonSelectedGradientEnd() => ButtonSelectedGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonSelectedGradientMiddle
@@ -466,7 +466,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonSelectedGradientMiddle property to its default value.
     /// </summary>
-    public void ResetButtonSelectedGradientMiddle() => ButtonSelectedGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonSelectedGradientMiddle() => ButtonSelectedGradientMiddle = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonSelectedHighlight
@@ -491,7 +491,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonSelectedHighlight property to its default value.
     /// </summary>
-    public void ResetButtonSelectedHighlight() => ButtonSelectedHighlight = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonSelectedHighlight() => ButtonSelectedHighlight = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region ButtonSelectedHighlightBorder
@@ -516,7 +516,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// Resets the ButtonSelectedHighlightBorder property to its default value.
     /// </summary>
-    public void ResetButtonSelectedHighlightBorder() => ButtonSelectedHighlightBorder = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetButtonSelectedHighlightBorder() => ButtonSelectedHighlightBorder = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region CheckBackground
@@ -541,7 +541,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// esets the CheckBackground property to its default value.
     /// </summary>
-    public void ResetCheckBackground() => CheckBackground = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetCheckBackground() => CheckBackground = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region CheckPressedBackground
@@ -566,7 +566,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// esets the CheckPressedBackground property to its default value.
     /// </summary>
-    public void ResetCheckPressedBackground() => CheckPressedBackground = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetCheckPressedBackground() => CheckPressedBackground = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region CheckSelectedBackground
@@ -591,7 +591,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// esets the CheckSelectedBackground property to its default value.
     /// </summary>
-    public void ResetCheckSelectedBackground() => CheckSelectedBackground = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetCheckSelectedBackground() => CheckSelectedBackground = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region OverflowButtonGradientBegin
@@ -616,7 +616,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// esets the OverflowButtonGradientBegin property to its default value.
     /// </summary>
-    public void ResetOverflowButtonGradientBegin() => OverflowButtonGradientBegin = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetOverflowButtonGradientBegin() => OverflowButtonGradientBegin = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region OverflowButtonGradientEnd
@@ -641,7 +641,7 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// esets the OverflowButtonGradientEnd property to its default value.
     /// </summary>
-    public void ResetOverflowButtonGradientEnd() => OverflowButtonGradientEnd = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetOverflowButtonGradientEnd() => OverflowButtonGradientEnd = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 
     #region OverflowButtonGradientMiddle
@@ -666,6 +666,6 @@ public class KryptonPaletteTMSButton : KryptonPaletteTMSBase
     /// <summary>
     /// esets the OverflowButtonGradientMiddle property to its default value.
     /// </summary>
-    public void ResetOverflowButtonGradientMiddle() => OverflowButtonGradientMiddle = GlobalStaticValues.EMPTY_COLOR;
+    public void ResetOverflowButtonGradientMiddle() => OverflowButtonGradientMiddle = SharedStaticVariables.EMPTY_COLOR;
     #endregion
 }

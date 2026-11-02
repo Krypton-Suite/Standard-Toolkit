@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -14,6 +14,7 @@ namespace Krypton.Toolkit;
 
 [ToolboxBitmap(typeof(VScrollBar))]
 [ToolboxItem(false)]
+[Obsolete("'KryptonScrollBar' is obsolete: 'Please use either KryptonHScrollBar or KryptonVScrollBar. This control will be removed in version 120 LTS.'")]
 public class VScrollSkin : Panel
 {
     #region "   Members   "
@@ -432,13 +433,13 @@ public class VScrollSkin : Panel
 
     private void VerticalScrollBar_VisibleChanged(object? sender, EventArgs e)
     {
-        var vscroll = sender as VScrollBar ?? throw new ArgumentNullException(nameof(sender));
+        var vscroll =sender as VScrollBar ?? ThrowHelper.ThrowArgumentNullException(sender as VScrollBar, nameof(sender));
         _vScrollBar1.Visible = vscroll.Visible;
     }
 
     private void HorizontalScrollBar_VisibleChanged(object? sender, EventArgs e)
     {
-        var hscroll = sender as HScrollBar ?? throw new ArgumentNullException(nameof(sender));
+        var hscroll =sender as HScrollBar ?? ThrowHelper.ThrowArgumentNullException(sender as HScrollBar, nameof(sender));
         _hScrollBar1.Visible = hscroll.Visible;
     }
 

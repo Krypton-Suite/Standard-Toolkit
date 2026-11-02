@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -23,7 +23,7 @@ namespace Krypton.Toolkit;
 [DefaultProperty(nameof(Text))]
 [DesignerCategory(@"code")]
 [Description(@"Raises an event when the user clicks it.")]
-[Designer(typeof(KryptonButtonDesigner))]
+[Designer("Krypton.Toolkit.KryptonButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 public class KryptonButton : KryptonDropButton
 {
     #region Identity
@@ -58,9 +58,12 @@ public class KryptonButton : KryptonDropButton
         set => ButtonOrientation = value;
     }
 
-    /// <summary>Gets or sets a value indicating whether [show split option].</summary>
-    /// <value><c>true</c> if [show split option]; otherwise, <c>false</c>.</value>
-
+    /// <summary>Gets or sets a value indicating whether the split/drop-down chevron is shown.</summary>
+    /// <value><c>true</c> if the chevron is shown; otherwise, <c>false</c>.</value>
+    /// <remarks>
+    /// Prefer <see cref="KryptonSplitButton"/> when the control is always a split button.
+    /// When enabled, the drop-down is aligned to the chevron (same as <see cref="KryptonDropButton"/>).
+    /// </remarks>
     [Category(@"Visuals")]
     [DefaultValue(false)]
     [Description(@"Displays the split/dropdown option.")]
@@ -85,5 +88,13 @@ public class KryptonButton : KryptonDropButton
         get => base.Splitter;
         set => base.Splitter = value;
     }
+    #endregion
+
+    #region Protected Overrides
+    /// <inheritdoc />
+    protected override bool OpensDropDownOnNonSplitterClick => false;
+
+    /// <inheritdoc />
+    protected override bool SuppressSystemContextMenu => false;
     #endregion
 }

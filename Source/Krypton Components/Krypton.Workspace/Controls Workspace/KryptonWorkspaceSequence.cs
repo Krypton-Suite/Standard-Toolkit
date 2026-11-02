@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -18,7 +18,7 @@ namespace Krypton.Workspace;
 [ToolboxItem(false)]
 [ToolboxBitmap(typeof(KryptonWorkspaceSequence), "ToolboxBitmaps.KryptonWorkspaceSequence.bmp")]
 [TypeConverter(typeof(KryptonWorkspaceSequenceConverter))]
-[Designer(typeof(KryptonWorkspaceSequenceDesigner))]
+[Designer("Krypton.Workspace.KryptonWorkspaceSequenceDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignTimeVisible(false)]
 [DesignerCategory(@"code")]
 [DefaultProperty(nameof(Children))]
@@ -539,7 +539,7 @@ public class KryptonWorkspaceSequence : Component,
                 // Read the next Element
                 if (!xmlReader.Read())
                 {
-                    throw new ArgumentException("An element was expected but could not be read in.");
+                    ThrowHelper.ThrowArgumentException("An element was expected but could not be read in.");
                 }
 
                 // Is this the end of the sequence
@@ -567,7 +567,8 @@ public class KryptonWorkspaceSequence : Component,
                     }
                         break;
                     default:
-                        throw new ArgumentException("Unknown element was encountered.");
+                        ThrowHelper.ThrowArgumentException("Unknown element was encountered.");
+                        return;
                 }
             }
             while (true);

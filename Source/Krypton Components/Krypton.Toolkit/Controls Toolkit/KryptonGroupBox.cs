@@ -1,11 +1,11 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,13 +19,14 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonGroupBox), "ToolboxBitmaps.KryptonGroupBox.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty("ValuesPrimary")]
-[Designer(typeof(KryptonGroupBoxDesigner))]
+[Designer("Krypton.Toolkit.KryptonGroupBoxDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Display frame around a group of related controls with an optional caption.")]
 [Docking(DockingBehavior.Ask)]
 public class KryptonGroupBox : VisualControlContainment
 {
     #region Instance Fields
+
     private LabelStyle _captionStyle;
     private VisualOrientation _captionEdge;
     private ButtonOrientation _captionOrientation;
@@ -38,6 +39,9 @@ public class KryptonGroupBox : VisualControlContainment
     private bool _captionVisible;
     private readonly bool _ignoreLayout;
     private bool _layingOut;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+
     #endregion
 
     #region Identity
@@ -128,6 +132,10 @@ public class KryptonGroupBox : VisualControlContainment
                     // Ignored
                 }
             }
+
+            _scrollbarManager?.Dispose();
+
+            _scrollbarManager = null;
         }
 
         base.Dispose(disposing);
@@ -135,6 +143,7 @@ public class KryptonGroupBox : VisualControlContainment
     #endregion
 
     #region Public
+
     /// <summary>
     /// Gets and sets the name of the control.
     /// </summary>
@@ -211,6 +220,7 @@ public class KryptonGroupBox : VisualControlContainment
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text
@@ -406,36 +416,21 @@ public class KryptonGroupBox : VisualControlContainment
             if (_captionOrientation != value)
             {
                 _captionOrientation = value;
-                switch (_captionOrientation)
+                _drawContent.Orientation = _captionOrientation switch
                 {
-                    case ButtonOrientation.FixedTop:
-                        _drawContent.Orientation = VisualOrientation.Top;
-                        break;
-                    case ButtonOrientation.FixedBottom:
-                        _drawContent.Orientation = VisualOrientation.Bottom;
-                        break;
-                    case ButtonOrientation.FixedLeft:
-                        _drawContent.Orientation = VisualOrientation.Left;
-                        break;
-                    case ButtonOrientation.FixedRight:
-                        _drawContent.Orientation = VisualOrientation.Right;
-                        break;
-                    case ButtonOrientation.Auto:
-                        switch (_captionEdge)
-                        {
-                            case VisualOrientation.Top:
-                            case VisualOrientation.Bottom:
-                                _drawContent.Orientation = VisualOrientation.Top;
-                                break;
-                            case VisualOrientation.Left:
-                                _drawContent.Orientation = VisualOrientation.Left;
-                                break;
-                            case VisualOrientation.Right:
-                                _drawContent.Orientation = VisualOrientation.Right;
-                                break;
-                        }
-                        break;
-                }
+                    ButtonOrientation.FixedTop => VisualOrientation.Top,
+                    ButtonOrientation.FixedBottom => VisualOrientation.Bottom,
+                    ButtonOrientation.FixedLeft => VisualOrientation.Left,
+                    ButtonOrientation.FixedRight => VisualOrientation.Right,
+                    ButtonOrientation.Auto => _captionEdge switch
+                    {
+                        VisualOrientation.Top or VisualOrientation.Bottom => VisualOrientation.Top,
+                        VisualOrientation.Left => VisualOrientation.Left,
+                        VisualOrientation.Right => VisualOrientation.Right,
+                        _ => _drawContent.Orientation
+                    },
+                    _ => _drawContent.Orientation
+                };
 
                 PerformNeedPaint(true);
             }
@@ -504,6 +499,38 @@ public class KryptonGroupBox : VisualControlContainment
     private bool ShouldSerializeValues() => !Values.IsDefault;
 
     /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
+
+    /// <summary>
     /// Get the preferred size of the control based on a proposed size.
     /// </summary>
     /// <param name="proposedSize">Starting size proposed by the caller.</param>
@@ -557,7 +584,14 @@ public class KryptonGroupBox : VisualControlContainment
             // Ensure that the layout is calculated in order to know the remaining display space
             ForceViewLayout();
 
-            // The inside panel is the client rectangle size
+            // The fill rect from view layout is authoritative; Panel bounds are applied in OnLayout
+            // and can be stale when the designer queries DisplayRectangle before WinForms layout runs.
+            Rectangle fillRect = _layoutFill.FillRect;
+            if (!fillRect.IsEmpty)
+            {
+                return fillRect;
+            }
+
             return new Rectangle(Panel.Location, Panel.Size);
         }
     }
@@ -781,6 +815,23 @@ public class KryptonGroupBox : VisualControlContainment
     private void OnRemoveObscurer(object? sender, EventArgs e) => _obscurer?.Uncover();
 
     private void OnValuesTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+
+    private void UpdateScrollbarManager()
+    {
+        if (UseKryptonScrollbars)
+        {
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the group panel follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
+            {
+                ScrollbarManager.Attach(Panel, ScrollbarManagerMode.Container);
+            }
+        }
+        else
+        {
+            _scrollbarManager?.Detach();
+        }
+    }
 
     private void OnGroupPanelPaint(object sender, NeedLayoutEventArgs e)
     {

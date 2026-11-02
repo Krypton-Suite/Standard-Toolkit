@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -19,12 +19,13 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonTreeView), "ToolboxBitmaps.KryptonTreeView.bmp")]
 [DefaultEvent(nameof(AfterSelect))]
 [DefaultProperty(nameof(Nodes))]
-[Designer(typeof(KryptonTreeViewDesigner))]
+[Designer("Krypton.Toolkit.KryptonTreeViewDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Displays a hierarchical collection of labeled items, each represented by a TreeNode")]
 [Docking(DockingBehavior.Ask)]
 public class KryptonTreeView : VisualControlBase,
-    IContainedInputControl
+    IContainedInputControl,
+    IKryptonNativeWrapperScrollbarBounds
 {
     #region Classes
     private class InternalTreeView : TreeView
@@ -59,7 +60,7 @@ public class KryptonTreeView : VisualControlBase,
         /// <param name="kryptonTreeView">Reference to owning control.</param>
         public InternalTreeView(KryptonTreeView kryptonTreeView)
         {
-            SetStyle(ControlStyles.ResizeRedraw, true);
+            SetStyle(ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer, true);
 
             _kryptonTreeView = kryptonTreeView;
 
@@ -148,9 +149,20 @@ public class KryptonTreeView : VisualControlBase,
 
         #region Protected
         /// <summary>
-        /// Raises the Layout event.
+        /// Initializes extended TreeView styles when the handle is created.
         /// </summary>
-        /// <param name="levent">A LayoutEventArgs containing the event data.</param>
+        /// <param name="e">An EventArgs that contains the event data.</param>
+        protected override void OnHandleCreated(EventArgs e)
+        {
+            base.OnHandleCreated(e);
+
+            // comctl32 double-buffering for owner-draw notifications.
+            _ = PI.SendMessage(Handle, PI.TVM_.TVM_SETEXTENDEDSTYLE, (IntPtr)PI.TVS_EX_DOUBLEBUFFER,
+                (IntPtr)PI.TVS_EX_DOUBLEBUFFER);
+
+            _kryptonTreeView.SyncTreeViewBackColor();
+        }
+
         protected override void OnLayout(LayoutEventArgs levent)
         {
             base.OnLayout(levent);
@@ -245,7 +257,6 @@ public class KryptonTreeView : VisualControlBase,
                 {
                     // Must use the screen device context for the bitmap when drawing into the
                     // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                    // Select the new bitmap into the screen DC
                     var oldBitmap = PI.SelectObject(_screenDC, hBitmap);
 
                     try
@@ -264,14 +275,6 @@ public class KryptonTreeView : VisualControlBase,
                                        _kryptonTreeView.Renderer))
                             {
                                 ViewDrawPanel.Render(context);
-                            }
-
-                            // We can only control the background color by using the built in property and not
-                            // by overriding the drawing directly, therefore we can only provide a single color.
-                            Color color1 = ViewDrawPanel.GetPalette().GetBackColor1(ViewDrawPanel.State);
-                            if (color1 != BackColor)
-                            {
-                                BackColor = color1;
                             }
 
                             // Replace given DC with the screen DC for base window proc drawing
@@ -329,14 +332,18 @@ public class KryptonTreeView : VisualControlBase,
     private readonly FixedContentValue? _contentValues;
     private bool? _fixedActive;
     private ButtonStyle _style;
-    private readonly IntPtr _screenDC;
     private bool _itemHeightDefault;
     private bool _mouseOver;
     private bool _alwaysActive;
     private bool _forcedLayout;
     private bool _trackingMouseEnter;
     private bool _isRecreating; // https://github.com/Krypton-Suite/Standard-Toolkit/issues/777
+    private int _selectUpdateCount;
+    private TreeNode? _pendingMultiSelectToggle;
     private bool _multiSelect;
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+
     #endregion
 
     #region Events
@@ -437,13 +444,6 @@ public class KryptonTreeView : VisualControlBase,
     [Category(@"Action")]
     [Description(@"Occurs when the mouse hovers over a node.")]
     public event TreeNodeMouseHoverEventHandler? NodeMouseHover;
-
-    /// <summary>
-    /// Occurs when the value of the RightToLeftLayout property changes.
-    /// </summary>
-    [Category(@"PropertyChanged")]
-    [Description(@"Occurs when the value of the RightToLeftLayout property changes.")]
-    public event EventHandler? RightToLeftLayoutChanged;
 
     /// <summary>
     /// Occurs when the value of the BackColor property changes.
@@ -663,9 +663,6 @@ public class KryptonTreeView : VisualControlBase,
         // Create the view manager instance
         ViewManager = new ViewManager(this, _drawDockerOuter);
 
-        // We need to create and cache a device context compatible with the display
-        _screenDC = PI.CreateCompatibleDC(IntPtr.Zero);
-
         // Add tree view to the controls collection
         ((KryptonReadOnlyControls)Controls).AddInternal(_treeView);
     }
@@ -678,11 +675,16 @@ public class KryptonTreeView : VisualControlBase,
     /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
     protected override void Dispose(bool disposing)
     {
-        base.Dispose(disposing);
-        if (_screenDC != IntPtr.Zero)
+        if (disposing)
         {
-            PI.DeleteDC(_screenDC);
+            if (_scrollbarManager != null)
+            {
+                _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+                _scrollbarManager.Dispose();
+                _scrollbarManager = null;
+            }
         }
+        base.Dispose(disposing);
     }
     #endregion
 
@@ -812,25 +814,35 @@ public class KryptonTreeView : VisualControlBase,
     }
 
     /// <summary>
-    /// Gets or sets a value indicating whether check boxes are Displayed next to the tree nodes in the tree view control.
+    /// Gets or sets a value indicating whether selecting a node toggles its checked state so more than one node can be marked.
     /// </summary>
+    /// <remarks>
+    /// Independent of <see cref="CheckBoxes"/>. Showing check boxes does not force this property to
+    /// <see langword="true"/>, so the designer can set it to <see langword="false"/> on a newly dropped control.
+    /// </remarks>
     [Category(@"Appearance")]
-    [Description(@"Indicates whether 'MultiSelect' is implemented on Selection")]
+    [Description(@"Indicates whether selecting a node toggles its checked state for multi-node selection.")]
     [DefaultValue(false)]
     public bool MultiSelect
     {
-        get => _multiSelect || CheckBoxes;
+        get => _multiSelect;
         set
         {
+            if (_multiSelect == value)
+            {
+                return;
+            }
+
             _multiSelect = value;
-            // Force redraw of current options
+
+            // Re-apply checked nodes so turning MultiSelect off collapses to a single check when CheckBoxes is also off.
             var checkedNodes = CheckedNodes;
             CheckedNodes = checkedNodes;
         }
     }
 
     private bool ShouldSerializeMultiSelect() => _multiSelect;
-    private void ResetMultiSelect() => _multiSelect = false;
+    private void ResetMultiSelect() => MultiSelect = false;
 
     /// <summary>
     /// Gets or sets a value indicating whether the selection highlight spans the width of the tree view control.
@@ -875,6 +887,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image index for nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(NoneExcludedImageIndexConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [RelatedImageList(nameof(ImageList))]
@@ -892,6 +905,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image key for the nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(ImageKeyConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [RelatedImageList(nameof(ImageList))]
@@ -958,6 +972,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image index for selected nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(NoneExcludedImageIndexConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RelatedImageList(nameof(ImageList))]
     [DefaultValue(-1)]
@@ -974,6 +989,7 @@ public class KryptonTreeView : VisualControlBase,
     [Description(@"The default image for selected nodes.")]
     [Localizable(true)]
     [TypeConverter(typeof(ImageKeyConverter))]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.ImageIndexEditor).
     [Editor(@"System.Windows.Forms.Design.ImageIndexEditor", typeof(UITypeEditor))]
     [RelatedImageList(nameof(ImageList))]
     [RefreshProperties(RefreshProperties.Repaint)]
@@ -1019,7 +1035,7 @@ public class KryptonTreeView : VisualControlBase,
                 node.Checked = true;
                 if (!MultiSelect)
                 {
-                    // Only do the first one !
+                    // Only do the first one!
                     break;
                 }
             }
@@ -1123,23 +1139,11 @@ public class KryptonTreeView : VisualControlBase,
     public int VisibleCount => _treeView.VisibleCount;
 
     /// <summary>
-    /// Indicates whether the control layout is right-to-left when the RightToLeft property is True.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Description(@"Indicates whether the control layout is right-to-left when the RightToLeft property is True.")]
-    [DefaultValue(false)]
-    [RefreshProperties(RefreshProperties.Repaint)]
-    public bool RightToLeftLayout
-    {
-        get => _treeView.RightToLeftLayout;
-        set => _treeView.RightToLeftLayout = value;
-    }
-
-    /// <summary>
     /// Gets the collection of tree nodes that are assigned to the tree view control.
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"The root nodes in the KryptonTreeView control.")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.TreeNodeCollectionEditor).
     [Editor(@"System.Windows.Forms.Design.TreeNodeCollectionEditor", typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     [MergableProperty(false)]
@@ -1457,6 +1461,39 @@ public class KryptonTreeView : VisualControlBase,
     /// Activates the control.
     /// </summary>
     public new void Select() => TreeView.Select();
+
+    /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
+
     #endregion
 
     #region Protected
@@ -1537,11 +1574,6 @@ public class KryptonTreeView : VisualControlBase,
     {
         if (!_isRecreating)
         {
-            if (_multiSelect && e.Node is not null)
-            {
-                e.Node.Checked = !e.Node.Checked;
-            }
-
             AfterSelect?.Invoke(this, e);
         }
     }
@@ -1664,15 +1696,16 @@ public class KryptonTreeView : VisualControlBase,
     }
 
     /// <summary>
-    /// Raises the RightToLeftLayoutChanged event.
+    /// Raises the <see cref="VisualControlBase.RightToLeftLayoutChanged"/> event.
     /// </summary>
     /// <param name="e">An EventArgs that contains the event data.</param>
     /// <remarks>If overriden directly, will fire when palette changes</remarks>
-    protected virtual void OnRightToLeftLayoutChanged(EventArgs e)
+    protected override void OnRightToLeftLayoutChanged(EventArgs e)
     {
+        _treeView.RightToLeftLayout = RightToLeftLayout;
         if (!_isRecreating)
         {
-            RightToLeftLayoutChanged?.Invoke(this, e);
+            base.OnRightToLeftLayoutChanged(e);
         }
     }
 
@@ -1828,6 +1861,11 @@ public class KryptonTreeView : VisualControlBase,
 
         // We need a layout to occur before any painting
         InvokeLayout();
+
+        if (UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
     }
 
     /// <summary>
@@ -1837,11 +1875,18 @@ public class KryptonTreeView : VisualControlBase,
     /// <param name="e">An NeedLayoutEventArgs containing event data.</param>
     protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
     {
-        if (IsHandleCreated && !e.NeedLayout)
+        if (_selectUpdateCount == 0)
         {
-            _treeView.Invalidate();
+            if (IsHandleCreated && !e.NeedLayout)
+            {
+                _treeView.Invalidate();
+            }
+            else
+            {
+                ForceControlLayout();
+            }
         }
-        else
+        else if (e.NeedLayout)
         {
             ForceControlLayout();
         }
@@ -1849,7 +1894,11 @@ public class KryptonTreeView : VisualControlBase,
         // Update palette to reflect latest state
         UpdateItemHeight();
         UpdateStateAndPalettes();
-        base.OnNeedPaint(sender, e);
+
+        if (_selectUpdateCount == 0)
+        {
+            base.OnNeedPaint(sender, e);
+        }
     }
 
     /// <summary>
@@ -1864,7 +1913,8 @@ public class KryptonTreeView : VisualControlBase,
         // to allow a relayout or if in design mode.
         if (IsHandleCreated || _forcedLayout || (DesignMode))
         {
-            Rectangle fillRect = _layoutFill.FillRect;
+            Rectangle fillRect = KryptonNativeWrapperScrollbarBoundsHelper.GetNativeChildBounds(
+                _layoutFill, _scrollbarManager, UseKryptonScrollbars);
             _treeView.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
         }
     }
@@ -1925,6 +1975,27 @@ public class KryptonTreeView : VisualControlBase,
 
     #region Implementation
 
+    private void UpdateScrollbarManager()
+    {
+        if (UseKryptonScrollbars)
+        {
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the inner control follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
+            {
+                ScrollbarManager.ScrollbarsChanged += OnManagedScrollbarsChanged;
+                ScrollbarManager.Attach(_treeView, ScrollbarManagerMode.NativeWrapper);
+            }
+        }
+        else if (_scrollbarManager != null)
+        {
+            _scrollbarManager.ScrollbarsChanged -= OnManagedScrollbarsChanged;
+            _scrollbarManager.Detach();
+        }
+    }
+
+    private void OnManagedScrollbarsChanged(object? sender, EventArgs e) => ForceControlLayout();
+
     private void UpdateItemHeight()
     {
         if (!IsDisposed && !Disposing)
@@ -1969,7 +2040,7 @@ public class KryptonTreeView : VisualControlBase,
                 _contentValues.ShortText = node.Text;
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+                _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
                 if (node is KryptonTreeNode kryptonNode)
                 {
@@ -1983,7 +2054,7 @@ public class KryptonTreeView : VisualControlBase,
                 _contentValues.ShortText = @"A";
                 _contentValues.LongText = string.Empty;
                 _contentValues.Image = null;
-                _contentValues.ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+                _contentValues.ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
             }
         }
     }
@@ -2004,6 +2075,30 @@ public class KryptonTreeView : VisualControlBase,
             _treeView.ViewDrawPanel.ElementState = state;
             _drawDockerOuter.ElementState = state;
             _treeView.Font = StateCommon.Node.Content.ShortText.Font;
+
+            SyncTreeViewBackColor();
+            SyncTreeViewNativeTextColor();
+        }
+    }
+
+    private void SyncTreeViewNativeTextColor()
+    {
+        Color text = StateCommon.Node.Content.GetContentShortTextColor1(PaletteState.Normal);
+        if (_treeView.ForeColor != text)
+        {
+            _treeView.ForeColor = text;
+        }
+    }
+
+    private void SyncTreeViewBackColor()
+    {
+        // We can only control the background color by using the built in property and not
+        // by overriding the drawing directly, therefore we can only provide a single color.
+        // Must not assign BackColor during WM_PAINT; doing so triggers a second erase/paint cycle.
+        Color color1 = _treeView.ViewDrawPanel.GetPalette().GetBackColor1(_treeView.ViewDrawPanel.State);
+        if (_treeView.BackColor != color1)
+        {
+            _treeView.BackColor = color1;
         }
     }
 
@@ -2030,13 +2125,30 @@ public class KryptonTreeView : VisualControlBase,
         return depth * _treeView.Indent;
     }
 
+    /// <summary>
+    /// When overridden, indicates whether a node should be painted as selected in addition to the native TreeView selection.
+    /// </summary>
+    /// <param name="node">The tree node to query.</param>
+    /// <returns><c>true</c> if the node should be drawn as selected; otherwise, <c>false</c>.</returns>
+    protected virtual bool IsNodeMultiSelected(TreeNode node) => false;
+
+    private bool IsNodeDrawSelected(TreeNode node, TreeNodeStates state) =>
+        (state & TreeNodeStates.Selected) == TreeNodeStates.Selected || IsNodeMultiSelected(node);
+
     private void OnTreeViewDrawNode(object? sender, DrawTreeNodeEventArgs e)
     {
+        // OwnerDrawAll: skip native item painting (CDRF_SKIPDEFAULT).
+        e.DrawDefault = false;
+
         // We cannot do anything without a valid node
         if (e.Node == null)
         {
             return;
         }
+
+        var nativeSelected = (e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected;
+        var isDrawSelected = IsNodeDrawSelected(e.Node, e.State);
+        var isMultiSelectedOnly = IsNodeMultiSelected(e.Node) && !nativeSelected;
 
         // Update our content object with values from the node
         UpdateContentFromNode(e.Node);
@@ -2109,7 +2221,7 @@ public class KryptonTreeView : VisualControlBase,
         else
         {
             // If selected then show as a checked item
-            if ((e.State & TreeNodeStates.Selected) == TreeNodeStates.Selected)
+            if (isDrawSelected)
             {
                 _drawButton.Checked = true;
 
@@ -2153,17 +2265,18 @@ public class KryptonTreeView : VisualControlBase,
 
             _overrideNormal.Apply = hasFocus;
             _overrideTracking.Apply = hasFocus;
-            _overrideMultiSelect.Apply = hasFocus;
+            _overrideMultiSelect.Apply = hasFocus || isMultiSelectedOnly;
             _overrideCheckedTracking.Apply = hasFocus;
             _overrideCheckedNormal.Apply = hasFocus;
-            _overrideCheckedMultiSelect.Apply = hasFocus;
+            _overrideCheckedMultiSelect.Apply = hasFocus || isMultiSelectedOnly;
         }
 
         // Update the view with the calculated state
         _drawButton.ElementState = buttonState;
 
-        // Grab the raw device context for the graphics instance
-        var hdc = e.Graphics.GetHdc();
+        Graphics g = e.Graphics;
+        var savedClip = g.Clip;
+        g.SetClip(e.Bounds);
 
         try
         {
@@ -2176,213 +2289,183 @@ public class KryptonTreeView : VisualControlBase,
             bounds.X += nodeIndent;
             bounds.Width -= nodeIndent;
 
-            // Create bitmap that all drawing occurs onto, then we can blit it later to remove flicker
-            var hBitmap = PI.CreateCompatibleBitmap(hdc, bounds.Right, bounds.Bottom);
-
-            // If we managed to get a compatible bitmap
-            if (hBitmap != IntPtr.Zero)
+            using (var context = new ViewLayoutContext(this, Renderer))
             {
+                context.DisplayRectangle = bounds;
+
+                // If not using full row selection, then layout using only required width
+                Size prefSize = _layoutDocker.GetPreferredSize(context);
+                if (!FullRowSelect)
+                {
+                    if (prefSize.Width < bounds.Width)
+                    {
+                        bounds.Width = prefSize.Width;
+                    }
+                }
+
+                // Always ensure we have enough space for drawing all the elements
+                if (bounds.Width < prefSize.Width)
+                {
+                    bounds.Width = prefSize.Width;
+                }
+
+                context.DisplayRectangle = bounds;
+
+                _layoutDocker.Layout(context);
+            }
+
+            // Row background is painted once in InternalTreeView.WmPaint before DefWndProc/DrawNode.
+
+            // Do we have an indent area for drawing plus/minus/lines?
+            if (indentBounds.X >= 0)
+            {
+                // Do we draw lines between nodes?
+                if (ShowLines
+                    && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
+                {
+                    // Find center points
+                    var hCenter = indentBounds.X + (indentBounds.Width / 2) - 1;
+                    var vCenter = indentBounds.Y + (indentBounds.Height / 2);
+                    vCenter -= (vCenter + 1) % 2;
+
+                    // Default to showing full line height
+                    var top = indentBounds.Y;
+                    top -= (top + 1) % 2;
+                    var bottom = indentBounds.Bottom;
+
+                    // If the first root node then do not show top half of line
+                    if ((e.Node.Parent == null) && (e.Node.PrevNode == null))
+                    {
+                        top = vCenter;
+                    }
+
+                    // If the last node in collection then do not show bottom half of line
+                    if (e.Node.NextNode == null)
+                    {
+                        bottom = vCenter;
+                    }
+
+                    // Draw the horizontal and vertical lines
+                    Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
+                    using var linePen = new Pen(lineColor);
+                    linePen.DashStyle = DashStyle.Dot;
+                    linePen.DashOffset = indent % 2;
+                    g.DrawLine(linePen, hCenter, top, hCenter, bottom);
+                    g.DrawLine(linePen, hCenter - 1, vCenter - 1, indentBounds.Right, vCenter - 1);
+                    hCenter -= indent;
+
+                    // Draw the vertical lines for previous node levels
+                    while (hCenter >= 0)
+                    {
+                        var begin = indentBounds.Y;
+                        begin -= (begin + 1) % 2;
+                        g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
+                        hCenter -= indent;
+                    }
+                }
+
+                // Do we draw any plus/minus images in indent bounds?
+                if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
+                {
+                    Image? drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
+                    if (drawImage != null)
+                    {
+                        float dpiFactor = g.DpiX / 96F;
+                        drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
+                            drawImage.Width * dpiFactor,
+                            drawImage.Height * dpiFactor, false)!;
+                        g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
+                            indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
+                            drawImage.Width, drawImage.Height));
+                    }
+                }
+            }
+
+            using (var context = new RenderContext(this, g, bounds, Renderer))
+            {
+                _layoutDocker.Render(context);
+            }
+
+            // Do we draw an image for the node?
+            if (ImageList != null)
+            {
+                Image? drawImage = null;
+                var imageCount = ImageList.Images.Count;
+
                 try
                 {
-                    // Must use the screen device context for the bitmap when drawing into the
-                    // bitmap otherwise the Opacity and RightToLeftLayout will not work correctly.
-                    PI.SelectObject(_screenDC, hBitmap);
-
-                    // Easier to draw using a graphics instance than a DC!
-                    using Graphics g = Graphics.FromHdc(_screenDC);
-                    using (var context = new ViewLayoutContext(this, Renderer))
+                    if (isDrawSelected)
                     {
-                        context.DisplayRectangle = e.Bounds;
-                        _treeView.ViewDrawPanel.Layout(context);
-                        context.DisplayRectangle = bounds;
-
-                        // If no using full row selection, then layout using only required width
-                        Size prefSize = _layoutDocker.GetPreferredSize(context);
-                        if (!FullRowSelect)
+                        // Check node values before tree level values
+                        if (!string.IsNullOrEmpty(e.Node.SelectedImageKey))
                         {
-                            if (prefSize.Width < bounds.Width)
-                            {
-                                bounds.Width = prefSize.Width;
-                            }
+                            drawImage = ImageList.Images[e.Node.SelectedImageKey];
                         }
-
-                        // Always ensure we have enough space for drawing all the elements
-                        if (bounds.Width < prefSize.Width)
+                        else if ((e.Node.SelectedImageIndex >= 0) && (e.Node.SelectedImageIndex < imageCount))
                         {
-                            bounds.Width = prefSize.Width;
+                            drawImage = ImageList.Images[e.Node.SelectedImageIndex];
                         }
-
-                        context.DisplayRectangle = bounds;
-
-                        _layoutDocker.Layout(context);
+                        else if (!string.IsNullOrEmpty(SelectedImageKey))
+                        {
+                            drawImage = ImageList.Images[SelectedImageKey];
+                        }
+                        else if ((SelectedImageIndex >= 0) && (SelectedImageIndex < imageCount))
+                        {
+                            drawImage = ImageList.Images[SelectedImageIndex];
+                        }
                     }
-
-                    using (var context = new RenderContext(this, g, e.Bounds, Renderer))
+                    else
                     {
-                        _treeView.ViewDrawPanel.Render(context);
-                    }
-
-                    // Do we have an indent area for drawing plus/minus/lines?
-                    if (indentBounds.X >= 0)
-                    {
-                        // Do we draw lines between nodes?
-                        if (ShowLines
-                            && (Redirector.GetMetricBool(PaletteState.Normal, PaletteMetricBool.TreeViewLines) != InheritBool.False))
+                        // Check node values before tree level values
+                        if (!string.IsNullOrEmpty(e.Node.ImageKey))
                         {
-                            // Find center points
-                            var hCenter = indentBounds.X + (indentBounds.Width / 2) - 1;
-                            var vCenter = indentBounds.Y + (indentBounds.Height / 2);
-                            vCenter -= (vCenter + 1) % 2;
-
-                            // Default to showing full line height
-                            var top = indentBounds.Y;
-                            top -= (top + 1) % 2;
-                            var bottom = indentBounds.Bottom;
-
-                            // If the first root node then do not show top half of line
-                            if ((e.Node.Parent == null) && (e.Node.PrevNode == null))
-                            {
-                                top = vCenter;
-                            }
-
-                            // If the last node in collection then do not show bottom half of line
-                            if (e.Node.NextNode == null)
-                            {
-                                bottom = vCenter;
-                            }
-
-                            // Draw the horizontal and vertical lines
-                            Color lineColor = Redirector.GetContentShortTextColor1(PaletteContentStyle.InputControlStandalone, PaletteState.Normal);
-                            using var linePen = new Pen(lineColor);
-                            linePen.DashStyle = DashStyle.Dot;
-                            linePen.DashOffset = indent % 2;
-                            g.DrawLine(linePen, hCenter, top, hCenter, bottom);
-                            g.DrawLine(linePen, hCenter - 1, vCenter - 1, indentBounds.Right, vCenter - 1);
-                            hCenter -= indent;
-
-                            // Draw the vertical lines for previous node levels
-                            while (hCenter >= 0)
-                            {
-                                var begin = indentBounds.Y;
-                                begin -= (begin + 1) % 2;
-                                g.DrawLine(linePen, hCenter, begin, hCenter, indentBounds.Bottom);
-                                hCenter -= indent;
-                            }
+                            drawImage = ImageList.Images[e.Node.ImageKey];
                         }
-
-                        // Do we draw any plus/minus images in indent bounds?
-                        if (ShowPlusMinus && (e.Node.Nodes.Count > 0))
+                        else if ((e.Node.ImageIndex >= 0) && (e.Node.ImageIndex < imageCount))
                         {
-                            Image? drawImage = _redirectImages!.GetTreeViewImage(e.Node.IsExpanded);
-                            if (drawImage != null)
-                            {
-                                float dpiFactor = g.DpiX / 96F;
-                                drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
-                                    drawImage.Width * dpiFactor,
-                                    drawImage.Height * dpiFactor, false)!;
-                                g.DrawImage(drawImage, new Rectangle(indentBounds.X + ((indentBounds.Width - drawImage.Width) / 2) - 1,
-                                    indentBounds.Y + ((indentBounds.Height - drawImage.Height) / 2),
-                                    drawImage.Width, drawImage.Height));
-                            }
+                            drawImage = ImageList.Images[e.Node.ImageIndex];
+                        }
+                        else if (!string.IsNullOrEmpty(ImageKey))
+                        {
+                            drawImage = ImageList.Images[ImageKey];
+                        }
+                        else if ((ImageIndex >= 0) && (ImageIndex < imageCount))
+                        {
+                            drawImage = ImageList.Images[ImageIndex];
                         }
                     }
 
-                    using (var context = new RenderContext(this, g, bounds, Renderer))
+                    if (drawImage != null)
                     {
-                        _layoutDocker.Render(context);
+                        float dpiFactor = g.DpiX / 96F;
+                        drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
+                            drawImage.Width * dpiFactor,
+                            drawImage.Height * dpiFactor, false)!;
+                        g.DrawImage(drawImage, _layoutImage.ClientRectangle);
                     }
-
-                    // Do we draw an image for the node?
-                    if (ImageList != null)
-                    {
-                        Image? drawImage = null;
-                        var imageCount = ImageList.Images.Count;
-
-                        try
-                        {
-                            if (e.Node.IsSelected)
-                            {
-                                // Check node values before tree level values
-                                if (!string.IsNullOrEmpty(e.Node.SelectedImageKey))
-                                {
-                                    drawImage = ImageList.Images[e.Node.SelectedImageKey];
-                                }
-                                else if ((e.Node.SelectedImageIndex >= 0) && (e.Node.SelectedImageIndex < imageCount))
-                                {
-                                    drawImage = ImageList.Images[e.Node.SelectedImageIndex];
-                                }
-                                else if (!string.IsNullOrEmpty(SelectedImageKey))
-                                {
-                                    drawImage = ImageList.Images[SelectedImageKey];
-                                }
-                                else if ((SelectedImageIndex >= 0) && (SelectedImageIndex < imageCount))
-                                {
-                                    drawImage = ImageList.Images[SelectedImageIndex];
-                                }
-                            }
-                            else
-                            {
-                                // Check node values before tree level values
-                                if (!string.IsNullOrEmpty(e.Node.ImageKey))
-                                {
-                                    drawImage = ImageList.Images[e.Node.ImageKey];
-                                }
-                                else if ((e.Node.ImageIndex >= 0) && (e.Node.ImageIndex < imageCount))
-                                {
-                                    drawImage = ImageList.Images[e.Node.ImageIndex];
-                                }
-                                else if (!string.IsNullOrEmpty(ImageKey))
-                                {
-                                    drawImage = ImageList.Images[ImageKey];
-                                }
-                                else if ((ImageIndex >= 0) && (ImageIndex < imageCount))
-                                {
-                                    drawImage = ImageList.Images[ImageIndex];
-                                }
-                            }
-
-                            if (drawImage != null)
-                            {
-                                float dpiFactor = g.DpiX / 96F;
-                                drawImage = CommonHelper.ScaleImageForSizedDisplay(drawImage,
-                                    drawImage.Width * dpiFactor,
-                                    drawImage.Height * dpiFactor, false)!;
-                                g.DrawImage(drawImage, _layoutImage.ClientRectangle);
-                            }
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    }
-
-                    // Draw a node state image?
-                    if (_layoutImageCenterState.Visible)
-                    {
-                        if (drawStateImage != null)
-                        {
-                            float dpiFactor = g.DpiX / 96F;
-                            drawStateImage = CommonHelper.ScaleImageForSizedDisplay(drawStateImage,
-                                drawStateImage.Width * dpiFactor,
-                                drawStateImage.Height * dpiFactor, false)!;
-                            g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
-                        }
-                    }
-
-                    // Now blit from the bitmap from the screen to the real dc
-                    PI.BitBlt(hdc, e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height, _screenDC, e.Bounds.X, e.Bounds.Y, PI.SRCCOPY);
                 }
-                finally
+                catch
                 {
-                    // Delete the temporary bitmap
-                    PI.DeleteObject(hBitmap);
+                    // ignored
+                }
+            }
+
+            // Draw a node state image?
+            if (_layoutImageCenterState.Visible)
+            {
+                if (drawStateImage != null)
+                {
+                    float dpiFactor = g.DpiX / 96F;
+                    drawStateImage = CommonHelper.ScaleImageForSizedDisplay(drawStateImage,
+                        drawStateImage.Width * dpiFactor,
+                        drawStateImage.Height * dpiFactor, false)!;
+                    g.DrawImage(drawStateImage, _layoutImageState.ClientRectangle);
                 }
             }
         }
         finally
         {
-            // Must reserve the GetHdc() call before
-            e.Graphics.ReleaseHdc();
+            g.Clip = savedClip;
         }
     }
 
@@ -2410,9 +2493,9 @@ public class KryptonTreeView : VisualControlBase,
 
     private void OnTreeViewPreviewKeyDown(object? sender, PreviewKeyDownEventArgs e) => OnPreviewKeyDown(e);
 
-    private void OnTreeViewValidated(object? sender, EventArgs e) => OnValidated(e);
+    private void OnTreeViewValidated(object? sender, EventArgs e) => ForwardValidated(e);
 
-    private void OnTreeViewValidating(object? sender, CancelEventArgs e) => OnValidating(e);
+    private void OnTreeViewValidating(object? sender, CancelEventArgs e) => ForwardValidating(e);
 
     private void OnTreeViewNodeMouseHover(object? sender, TreeNodeMouseHoverEventArgs e) => OnNodeMouseHover(e);
 
@@ -2422,7 +2505,27 @@ public class KryptonTreeView : VisualControlBase,
 
     private void OnTreeViewItemDrag(object? sender, ItemDragEventArgs e) => OnItemDrag(e);
 
-    private void OnTreeViewBeforeSelect(object? sender, TreeViewCancelEventArgs e) => OnBeforeSelect(e);
+    private void OnTreeViewBeforeSelect(object? sender, TreeViewCancelEventArgs e)
+    {
+        if (!_isRecreating)
+        {
+            _selectUpdateCount++;
+            _treeView.BeginUpdate();
+
+            if (_multiSelect && e.Node is not null)
+            {
+                _pendingMultiSelectToggle = e.Node;
+            }
+        }
+
+        OnBeforeSelect(e);
+
+        if (e.Cancel && !_isRecreating)
+        {
+            _pendingMultiSelectToggle = null;
+            EndSelectUpdateBatches();
+        }
+    }
 
     private void OnTreeViewBeforeLabelEdit(object? sender, NodeLabelEditEventArgs e) => OnBeforeLabelEdit(e);
 
@@ -2432,7 +2535,38 @@ public class KryptonTreeView : VisualControlBase,
 
     private void OnTreeViewBeforeCheck(object? sender, TreeViewCancelEventArgs e) => OnBeforeCheck(e);
 
-    private void OnTreeViewAfterSelect(object? sender, TreeViewEventArgs e) => OnAfterSelect(e);
+    private void OnTreeViewAfterSelect(object? sender, TreeViewEventArgs e)
+    {
+        try
+        {
+            if (!_isRecreating && _pendingMultiSelectToggle is not null)
+            {
+                _pendingMultiSelectToggle.Checked = !_pendingMultiSelectToggle.Checked;
+            }
+
+            OnAfterSelect(e);
+        }
+        finally
+        {
+            EndSelectUpdateBatches();
+            _pendingMultiSelectToggle = null;
+        }
+    }
+
+    /// <summary>
+    /// Pairs every outstanding <see cref="TreeView.BeginUpdate"/> from selection batching with
+    /// <see cref="TreeView.EndUpdate"/>. Programmatic deselect-to-null can leave an extra
+    /// <c>BeforeSelect</c> without a matching <c>AfterSelect</c>; draining here avoids a stuck
+    /// <c>WM_SETREDRAW(FALSE)</c> that blanks the control (#3720).
+    /// </summary>
+    private void EndSelectUpdateBatches()
+    {
+        while (!_isRecreating && _selectUpdateCount > 0)
+        {
+            _selectUpdateCount--;
+            _treeView.EndUpdate();
+        }
+    }
 
     private void OnTreeViewAfterLabelEdit(object? sender, NodeLabelEditEventArgs e) => OnAfterLabelEdit(e);
 
@@ -2466,6 +2600,9 @@ public class KryptonTreeView : VisualControlBase,
     private void OnDoubleClick(object? sender, EventArgs e) => base.OnDoubleClick(e);
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
+
+    NativeWrapperScrollbarLayout IKryptonNativeWrapperScrollbarBounds.GetNativeWrapperScrollbarLayout() =>
+        KryptonNativeWrapperScrollbarBoundsHelper.GetLayout(this, _layoutFill);
 
     #endregion
 

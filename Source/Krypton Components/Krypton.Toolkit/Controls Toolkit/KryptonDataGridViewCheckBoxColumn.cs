@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -85,7 +85,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
         {
             if ((value != null) && value is not KryptonDataGridViewCheckBoxCell)
             {
-                throw new InvalidCastException(@"Can only assign a object of type KryptonDataGridViewCheckBoxCell");
+                ThrowHelper.ThrowInvalidCastException(@"Can only assign a object of type KryptonDataGridViewCheckBoxCell");
             }
 
             base.CellTemplate = value;
@@ -102,7 +102,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
     {
         get =>
             CheckBoxCellTemplate == null
-                ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
+                ? ThrowHelper.ThrowInvalidOperationException<object>(@"KryptonDataGridViewCheckBoxColumn cell template required")
                 : CheckBoxCellTemplate.FalseValue;
         set
         {
@@ -138,7 +138,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
     {
         get =>
             CheckBoxCellTemplate == null
-                ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
+                ? ThrowHelper.ThrowInvalidOperationException<object>(@"KryptonDataGridViewCheckBoxColumn cell template required")
                 : CheckBoxCellTemplate.IndeterminateValue;
         set
         {
@@ -173,7 +173,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
     {
         get =>
             CheckBoxCellTemplate == null
-                ? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required")
+                ? ThrowHelper.ThrowInvalidOperationException<object>(@"KryptonDataGridViewCheckBoxColumn cell template required")
                 : CheckBoxCellTemplate.TrueValue;
         set
         {
@@ -206,7 +206,7 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
     public bool ThreeState
     {
         get =>
-            CheckBoxCellTemplate?.ThreeState ?? throw new InvalidOperationException(@"KryptonDataGridViewCheckBoxColumn cell template required");
+CheckBoxCellTemplate?.ThreeState ?? ThrowHelper.ThrowInvalidOperationException<bool>(@"KryptonDataGridViewCheckBoxColumn cell template required");
         set
         {
             if (ThreeState != value)
@@ -227,17 +227,12 @@ public class KryptonDataGridViewCheckBoxColumn : KryptonDataGridViewIconColumn
                     DataGridView.InvalidateColumn(Index);
                 }
 
-                switch (value)
+                DefaultCellStyle.NullValue = value switch
                 {
-                    case true 
-                        when DefaultCellStyle.NullValue is bool and false:
-                        DefaultCellStyle.NullValue = CheckState.Indeterminate;
-                        break;
-                    case false 
-                        when (DefaultCellStyle.NullValue is CheckState and CheckState.Indeterminate):
-                        DefaultCellStyle.NullValue = false;
-                        break;
-                }
+                    true when DefaultCellStyle.NullValue is bool and false => CheckState.Indeterminate,
+                    false when (DefaultCellStyle.NullValue is CheckState and CheckState.Indeterminate) => false,
+                    _ => DefaultCellStyle.NullValue
+                };
             }
         }
     }

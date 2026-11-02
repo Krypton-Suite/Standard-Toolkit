@@ -1,7 +1,7 @@
 ﻿#region BSD License
 /*
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2022 - 2025. All rights reserved. 
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2022 - 2026. All rights reserved. 
  *  
  */
 #endregion
@@ -21,12 +21,17 @@ public class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond 
 
     private readonly IDictionary<TFirst, TSecond> _firstToSecond = new Dictionary<TFirst, TSecond>();
     private readonly IDictionary<TSecond, TFirst> _secondToFirst = new Dictionary<TSecond, TFirst>();
+    private readonly IReadOnlyDictionary<TFirst, TSecond> _firstToSecondReadOnly;
+    private readonly IReadOnlyDictionary<TSecond, TFirst> _secondToFirstReadOnly;
 
     public BiDictionary(IDictionary<TFirst, TSecond> dictionary)
     {
+        _firstToSecondReadOnly = new ReadOnlyDictionary<TFirst, TSecond>(_firstToSecond);
+        _secondToFirstReadOnly = new ReadOnlyDictionary<TSecond, TFirst>(_secondToFirst);
+
         if (dictionary == null)
         {
-            throw new ArgumentNullException(nameof(dictionary));
+            ThrowHelper.ThrowArgumentNullException(nameof(dictionary));
         }
 
         foreach (KeyValuePair<TFirst, TSecond> keyValuePair in dictionary)
@@ -61,6 +66,6 @@ public class BiDictionary<TFirst, TSecond> where TFirst : notnull where TSecond 
 
     public ICollection<TFirst> GetAllFirsts() => _firstToSecond.Keys;
 
-    public IReadOnlyDictionary<TFirst, TSecond> FirstToSecond => new ReadOnlyDictionary<TFirst, TSecond>(_firstToSecond);
-    public IReadOnlyDictionary<TSecond, TFirst> SecondToFirst => new ReadOnlyDictionary<TSecond, TFirst>(_secondToFirst);
+    public IReadOnlyDictionary<TFirst, TSecond> FirstToSecond => _firstToSecondReadOnly;
+    public IReadOnlyDictionary<TSecond, TFirst> SecondToFirst => _secondToFirstReadOnly;
 }

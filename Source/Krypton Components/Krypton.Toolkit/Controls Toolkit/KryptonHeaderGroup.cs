@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonHeaderGroup), "ToolboxBitmaps.KryptonHeaderGroup.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty(nameof(ValuesPrimary))]
-[Designer(typeof(KryptonHeaderGroupDesigner))]
+[Designer("Krypton.Toolkit.KryptonHeaderGroupDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Group a collection of controls with a descriptive caption.")]
 [Docking(DockingBehavior.Ask)]
@@ -67,6 +67,10 @@ public class KryptonHeaderGroup : VisualControlContainment
     private bool _collapsed;
     private readonly bool _ignoreLayout;
     private bool _layingOut;
+
+    private KryptonScrollbarManager? _scrollbarManager;
+    private bool? _useKryptonScrollbars;
+
     #endregion
 
     #region Events
@@ -227,6 +231,9 @@ public class KryptonHeaderGroup : VisualControlContainment
 
             // Remember to pull down the manager instance
             _buttonManager.Destruct();
+
+            _scrollbarManager?.Dispose();
+            _scrollbarManager = null;
         }
 
         base.Dispose(disposing);
@@ -234,6 +241,7 @@ public class KryptonHeaderGroup : VisualControlContainment
     #endregion
 
     #region Public
+
     /// <summary>
     /// Gets and sets the name of the control.
     /// </summary>
@@ -310,6 +318,7 @@ public class KryptonHeaderGroup : VisualControlContainment
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text
@@ -429,6 +438,7 @@ public class KryptonHeaderGroup : VisualControlContainment
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Collection of button specifications.")]
+    [Editor(typeof(KryptonDesignerButtonSpecHeaderGroupCollectionEditor), typeof(UITypeEditor))]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public HeaderGroupButtonSpecCollection ButtonSpecs { get; }
 
@@ -679,6 +689,38 @@ public class KryptonHeaderGroup : VisualControlContainment
     private bool ShouldSerializeValuesSecondary() => !ValuesSecondary.IsDefault;
 
     /// <summary>
+    /// Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Gets or sets whether to use Krypton-themed scrollbars instead of native scrollbars.")]
+    [DefaultValue(false)]
+    public bool UseKryptonScrollbars
+    {
+        get => _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+        set
+        {
+            bool currentValue = _useKryptonScrollbars ?? KryptonManager.UseKryptonScrollbars;
+            if (currentValue != value)
+            {
+                _useKryptonScrollbars = value;
+                UpdateScrollbarManager();
+            }
+        }
+    }
+
+    private bool ShouldSerializeUseKryptonScrollbars() => _useKryptonScrollbars.HasValue;
+
+    private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
+
+    /// <summary>
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
+
+    /// <summary>
     /// Get the preferred size of the control based on a proposed size.
     /// </summary>
     /// <param name="proposedSize">Starting size proposed by the caller.</param>
@@ -732,7 +774,14 @@ public class KryptonHeaderGroup : VisualControlContainment
             // Ensure that the layout is calculated in order to know the remaining display space
             ForceViewLayout();
 
-            // The inside panel is the client rectangle size
+            // The fill rect from view layout is authoritative; Panel bounds are applied in OnLayout
+            // and can be stale when the designer queries DisplayRectangle before WinForms layout runs.
+            Rectangle fillRect = _layoutFill.FillRect;
+            if (!fillRect.IsEmpty)
+            {
+                return fillRect;
+            }
+
             return new Rectangle(Panel.Location, Panel.Size);
         }
     }
@@ -838,6 +887,11 @@ public class KryptonHeaderGroup : VisualControlContainment
     /// <param name="e">An EventArgs containing the event data.</param>
     protected override void OnHandleCreated(EventArgs e)
     {
+        if (UseKryptonScrollbars)
+        {
+            UpdateScrollbarManager();
+        }
+
         // Let base class do standard stuff
         base.OnHandleCreated(e);
 
@@ -1057,6 +1111,24 @@ public class KryptonHeaderGroup : VisualControlContainment
     #endregion
 
     #region Implementation
+
+    private void UpdateScrollbarManager()
+    {
+        if (UseKryptonScrollbars)
+        {
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the group panel follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
+            {
+                ScrollbarManager.Attach(Panel, ScrollbarManagerMode.Container);
+            }
+        }
+        else
+        {
+            _scrollbarManager?.Detach();
+        }
+    }
+
     private void OnRemoveObscurer(object? sender, EventArgs e) => _obscurer?.Uncover();
 
     private void OnHeaderGroupTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
@@ -1109,7 +1181,7 @@ public class KryptonHeaderGroup : VisualControlContainment
 
                     if (AllowButtonSpecToolTipPriority)
                     {
-                        visualBasePopupToolTip?.Dispose();
+                        _visualBasePopupToolTip?.Dispose();
                     }
 
                     // Create the actual tooltip popup object
@@ -1134,7 +1206,7 @@ public class KryptonHeaderGroup : VisualControlContainment
     private void OnVisualPopupToolTipDisposed(object? sender, EventArgs e)
     {
         // Unhook events from the specific instance that generated event
-        var popupToolTip = sender as VisualPopupToolTip ?? throw new ArgumentNullException(nameof(sender));
+        var popupToolTip =sender as VisualPopupToolTip ?? ThrowHelper.ThrowArgumentNullException(sender as VisualPopupToolTip, nameof(sender));
         popupToolTip.Disposed -= OnVisualPopupToolTipDisposed;
 
         // Not showing a popup page anymore

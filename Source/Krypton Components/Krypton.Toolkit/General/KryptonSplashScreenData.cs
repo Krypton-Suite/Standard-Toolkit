@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -48,7 +48,7 @@ public struct KryptonSplashScreenData
 
     /// <summary>Gets or sets the application logo.</summary>
     /// <value>The application logo.</value>
-    public Bitmap ApplicationLogo { set; get; }
+    public Bitmap? ApplicationLogo { set; get; }
 
     /// <summary>Gets or sets the timeout.</summary>
     /// <value>The timeout.</value>

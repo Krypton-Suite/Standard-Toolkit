@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -119,7 +119,7 @@ public class PaletteRedirectBorderEdge : PaletteRedirect
     {
         PaletteBorderEdge? inherit = GetInherit(state);
 
-        return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? GlobalStaticValues.EMPTY_COLOR;
+        return inherit?.GetBackColor1(state) ?? Target?.GetBorderColor1(style, state) ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>
@@ -132,7 +132,7 @@ public class PaletteRedirectBorderEdge : PaletteRedirect
     {
         PaletteBorderEdge? inherit = GetInherit(state);
 
-        return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? GlobalStaticValues.EMPTY_COLOR;
+        return inherit?.GetBackColor2(state) ?? Target?.GetBorderColor2(style, state) ?? SharedStaticVariables.EMPTY_COLOR;
     }
 
     /// <summary>
@@ -194,6 +194,10 @@ public class PaletteRedirectBorderEdge : PaletteRedirect
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Float rounding.</returns>
     public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state) => Target?.GetBorderRounding(style, state) ?? 0.0f;
+
+    /// <inheritdoc />
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state) =>
+        Target?.GetBorderCornerRounding(style, state) ?? PaletteCornerRounding.Uniform(0.0f);
 
     /// <summary>
     /// Gets a border image.

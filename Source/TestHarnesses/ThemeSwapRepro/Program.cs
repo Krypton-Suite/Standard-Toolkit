@@ -164,7 +164,7 @@ internal static class Program
         {
             foreach (var form in forms)
             {
-                if (form.IsHandleCreated && !form.IsDisposed)
+                if (form is { IsHandleCreated: true, IsDisposed: false })
                 {
                     form.BeginInvoke((MethodInvoker)(() => form.Close()));
                 }

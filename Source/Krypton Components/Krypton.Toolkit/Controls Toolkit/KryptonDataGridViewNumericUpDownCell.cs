@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -127,7 +127,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
         {
             if (value is < 0 or > 99)
             {
-                throw new ArgumentOutOfRangeException(nameof(DecimalPlaces), @"The DecimalPlaces property cannot be smaller than 0 or larger than 99.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(DecimalPlaces), @"The DecimalPlaces property cannot be smaller than 0 or larger than 99.");
             }
 
             if (_decimalPlaces != value)
@@ -166,7 +166,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
         {
             if (value < (decimal)0.0)
             {
-                throw new ArgumentOutOfRangeException(nameof(Increment), @"The Increment property cannot be smaller than 0.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Increment), @"The Increment property cannot be smaller than 0.");
             }
 
             SetIncrement(RowIndex, value);
@@ -261,7 +261,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
 
         if (dataGridView?.EditingControl is null)
         {
-            throw new InvalidOperationException("Cell is detached or its grid has no editing control.");
+            ThrowHelper.ThrowInvalidOperationException("Cell is detached or its grid has no editing control.");
         }
 
         if (dataGridView.EditingControl is KryptonNumericUpDown numericUpDown)
@@ -352,7 +352,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
             var righToLeft = DataGridView.RightToLeft == RightToLeft.Yes;
 
             // Use the same button width as the editor so renderer output matches
-            int buttonWidth = SystemInformation.VerticalScrollBarWidth - 2;
+            int buttonWidth = SystemInformation.VerticalScrollBarWidth + 1;
             int reservedStrip = buttonWidth + IndicatorGap;
 
             if (righToLeft)
@@ -411,8 +411,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
 
                 if (DataGridView is DataGridView grid
                     && grid.Rows.SharedRow(rowIndex).Index != -1
-                    && formattedValue is string str
-                    && str.Length > 0)
+                    && formattedValue is string { Length: > 0 } str)
                 {
                     text = decimal.TryParse(str, out decimal d)
                         ? d.ToString(InheritedStyle.Format)

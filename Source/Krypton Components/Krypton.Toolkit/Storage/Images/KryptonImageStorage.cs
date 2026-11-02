@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2024 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2024 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -17,6 +17,8 @@ public class KryptonImageStorage : Storage
     public static GenericImageStorage GenericImages { get; } = new GenericImageStorage();
 
     public static ToolBarImageStorage ToolbarImageStorage { get; } = new ToolBarImageStorage();
+
+    public static PropertyGridImageStorage PropertyGridImageStorage { get; } = new PropertyGridImageStorage();
 
     #endregion
 
@@ -44,6 +46,17 @@ public class KryptonImageStorage : Storage
     private bool ShouldSerializeToolbarImages() => !ToolbarImageStorage.IsDefault;
     private void ResetToolbarImages() => ToolbarImageStorage.Reset();
 
+    /// <summary>Gets the property grid toolbar images.</summary>
+    [Category(@"Visuals")]
+    [Description(@"A collection of images used for KryptonPropertyGrid toolbar buttons.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public PropertyGridImageStorage PropertyGridImages => PropertyGridImageStorage;
+
+    private bool ShouldSerializePropertyGridImages() => !PropertyGridImageStorage.IsDefault;
+    private void ResetPropertyGridImages() => PropertyGridImageStorage.Reset();
+
     #endregion
 
     #region Identity
@@ -61,8 +74,9 @@ public class KryptonImageStorage : Storage
     /// <value><c>true</c> if this instance is default; otherwise, <c>false</c>.</value>
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public override bool IsDefault => !(ShouldSerializeGenericToolkitImages() ||
-                                        ShouldSerializeGenericToolkitImages());
+    public override bool IsDefault => !ShouldSerializeGenericToolkitImages() &&
+                                      !ShouldSerializeToolbarImages() &&
+                                      !ShouldSerializePropertyGridImages();
 
     #endregion
 
@@ -73,6 +87,8 @@ public class KryptonImageStorage : Storage
         ResetGenericToolkitImages();
 
         ResetToolbarImages();
+
+        ResetPropertyGridImages();
     }
 
     #endregion

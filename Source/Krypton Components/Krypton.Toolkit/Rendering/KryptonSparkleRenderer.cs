@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2025. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -167,7 +167,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
                     }
                     else
                     {
-                        if ((e.Item.Owner is not null or StatusStrip))
+                        if (e.Item.Owner is not (null or StatusStrip))
                         {
                             if ((e.Item is ToolStripSplitButton or ToolStripDropDownButton) && e.Item.Pressed)
                             {
@@ -268,8 +268,8 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
         using var aa = new AntiAlias(e.Graphics);
         // Create border path for the check box
         using GraphicsPath borderPath = CreateBorderPath(checkBox, CUT_MENU_ITEM_BACK);
-        Color colorFill = KCT.CheckBackground;
-        Color colorBorder = CommonHelper.BlackenColor(KCT.CheckBackground, 0.89f, 0.88f, 0.98f);
+        Color colorFill = KCT.ContextMenuItemImageBack;
+        Color colorBorder = KCT.ContextMenuItemImageBorder;
         if (!e.Item.Enabled)
         {
             colorFill = CommonHelper.ColorToBlackAndWhite(colorFill);
@@ -342,7 +342,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
     /// <param name="e">A ToolStripItemTextRenderEventArgs that contains the event data.</param>
     protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
     {
-        if ((e.ToolStrip is not null or ContextMenuStrip or ToolStripDropDownMenu))
+        if (e.ToolStrip is not (null or ContextMenuStrip or ToolStripDropDownMenu))
         {
             if (!e.Item.Enabled)
             {
@@ -602,8 +602,8 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
             case ContextMenuStrip _:
             case ToolStripDropDownMenu _:
                 // Create the light and dark line pens
-                using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
-                       darkPen = new Pen(KCT.ImageMarginGradientMiddle))
+                using (Pen lightPen = new Pen(KCT.ContextMenuImageColumnBorder),
+                       darkPen = new Pen(KCT.ContextMenuImageColumnBorder))
                 {
                     DrawSeparator(e.Graphics, e.Vertical, e.Item.Bounds,
                         lightPen, darkPen, SEPARATOR_INSET,
@@ -633,11 +633,6 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
     protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)
     {
-        // Make sure the font is current
-        if (!Equals(e.ToolStrip.Font, KCT.MenuStripFont))
-        {
-            e.ToolStrip.Font = KCT.MenuStripFont;
-        }
 
         switch (e.ToolStrip)
         {
@@ -651,7 +646,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
                     using (var clipping = new Clipping(e.Graphics, clipPath))
                     {
                         // Create the background brush
-                        using (var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
+                        using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
                         {
                             e.Graphics.FillPath(backBrush, borderPath);
                         }
@@ -736,58 +731,8 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
     /// Raises the RenderImageMargin event.
     /// </summary>
     /// <param name="e">An ToolStripRenderEventArgs containing the event data.</param>
-    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e)
-    {
-        if ((e.ToolStrip is ContextMenuStrip or ToolStripDropDownMenu))
-        {
-            // Start with the total margin area
-            Rectangle marginRect = e.AffectedBounds;
-
-            // Do we need to draw with separator on the opposite edge?
-            var rtl = e.ToolStrip.RightToLeft == RightToLeft.Yes;
-
-            marginRect.Y += MARGIN_INSET;
-            marginRect.Height -= MARGIN_INSET * 2;
-
-            // Reduce so it is inside the border
-            if (!rtl)
-            {
-                marginRect.X += MARGIN_INSET;
-            }
-            else
-            {
-                marginRect.X += MARGIN_INSET / 2;
-            }
-
-            // Draw the entire margine area in a solid color
-            using (var backBrush = new SolidBrush(KCT.ImageMarginGradientBegin))
-            {
-                e.Graphics.FillRectangle(backBrush, marginRect);
-            }
-
-            // Create the light and dark line pens
-            using (Pen lightPen = new Pen(KCT.ImageMarginGradientEnd),
-                   darkPen = new Pen(KCT.ImageMarginGradientMiddle))
-            {
-                if (!rtl)
-                {
-                    // Draw the light and dark lines on the right hand side
-                    e.Graphics.DrawLine(lightPen, marginRect.Right, marginRect.Top, marginRect.Right, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen, marginRect.Right - 1, marginRect.Top, marginRect.Right - 1, marginRect.Bottom);
-                }
-                else
-                {
-                    // Draw the light and dark lines on the left hand side
-                    e.Graphics.DrawLine(lightPen, marginRect.Left - 1, marginRect.Top, marginRect.Left - 1, marginRect.Bottom);
-                    e.Graphics.DrawLine(darkPen, marginRect.Left, marginRect.Top, marginRect.Left, marginRect.Bottom);
-                }
-            }
-        }
-        else
-        {
-            base.OnRenderImageMargin(e);
-        }
-    }
+    protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) =>
+        RenderImageMarginFromColorTable(e, MARGIN_INSET);
     #endregion
 
     #region OnRenderToolStripBorder
@@ -802,7 +747,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
             // If there is a connected area to be drawn
             if (!e.ConnectedArea.IsEmpty)
             {
-                using var excludeBrush = new SolidBrush(KCT.ToolStripDropDownBackground);
+                using var excludeBrush = new SolidBrush(KCT.ContextMenuBack);
                 e.Graphics.FillRectangle(excludeBrush, e.ConnectedArea);
             }
 
@@ -811,8 +756,8 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
                 insidePath = CreateInsideBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU),
                 clipPath = CreateClipBorderPath(e.AffectedBounds, e.ConnectedArea, CUT_CONTEXT_MENU);
             // Create the different pen colors we need
-            using Pen borderPen = new Pen(KCT.MenuBorder),
-                insidePen = new Pen(KCT.ToolStripDropDownBackground);
+            using Pen borderPen = new Pen(KCT.ContextMenuBorder),
+                insidePen = new Pen(KCT.ContextMenuBack);
             // Clip all drawing to within the border path
             using var clipping = new Clipping(e.Graphics, clipPath);
             // Drawing with anti aliasing to create smoother appearance
@@ -846,7 +791,7 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
                 CommonHelper.BlackenColor(KCT.ButtonSelectedGradientMiddle, 0.91f, 0.91f, 0.91f),
                 CommonHelper.BlackenColor(KCT.ButtonSelectedGradientMiddle, 0.75f, 0.75f, 0.75f));
 
-            _gradientItem = new GradientItemColors(KCT.CheckBackground,
+            _gradientItem = new GradientItemColors(KCT.ContextMenuItemImageBack,
                 KCT.ButtonSelectedGradientBegin,
                 KCT.ButtonSelectedGradientBegin);
 
@@ -1017,13 +962,13 @@ public class KryptonSparkleRenderer : KryptonProfessionalRenderer
         // Clip all drawing to within the border path
         using var clipping = new Clipping(g, clipPath);
         // Draw the entire background area first
-        using (var backBrush = new SolidBrush(KCT.ToolStripDropDownBackground))
+        using (var backBrush = new SolidBrush(KCT.ContextMenuBack))
         {
             g?.FillPath(backBrush, borderPath);
         }
 
         // Draw the border
-        using (var borderPen = new Pen(KCT.MenuBorder))
+        using (var borderPen = new Pen(KCT.ContextMenuBorder))
         {
             g?.DrawPath(borderPen, borderPath);
         }
