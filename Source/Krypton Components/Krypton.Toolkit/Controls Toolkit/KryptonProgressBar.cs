@@ -949,6 +949,10 @@ public class KryptonProgressBar : Control, IContentValues
         var (barPaletteState, barState) = GetBarPaletteState();
         PaletteRetroBase? retroPalette = RetroRenderHelper.AsRetroPalette(_palette);
         bool drawRetroProgress = retroPalette != null;
+        WindowsXPSpriteTheme spriteTheme = default;
+        bool drawSpriteProgress = renderer is RenderWindowsXPSprite
+                                  && WindowsXPLunaArt.TryGetTheme(this, out spriteTheme);
+        bool spriteVertical = Orientation is VisualOrientation.Left or VisualOrientation.Right;
 
         // Draw the background of the entire control over the entire client area.
         using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
@@ -974,7 +978,12 @@ public class KryptonProgressBar : Control, IContentValues
         {
             // Ask renderer to draw the background
             using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder!.GetBorderGraphicsHint(barState));
-            if (drawRetroProgress)
+
+            if (drawSpriteProgress)
+            {
+                WindowsXPLunaArt.DrawProgressTrack(renderContext.Graphics, ClientRectangle, spriteTheme, spriteVertical);
+            }
+            else if (drawRetroProgress)
             {
                 DrawRetroProgressTrack(renderContext.Graphics, ClientRectangle, retroPalette!);
             }
@@ -1042,12 +1051,17 @@ public class KryptonProgressBar : Control, IContentValues
                             break;
                     }
 
-                    using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
-                               innerRect,
-                               barPaletteState.PaletteBorder!,
-                               Orientation,
-                               barState))
+                    if (drawSpriteProgress)
                     {
+                        DrawLunaProgressChunks(renderContext.Graphics, innerRect, spriteTheme, spriteVertical);
+                    }
+                    else
+                    {
+                        using GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                            innerRect,
+                            barPaletteState.PaletteBorder!,
+                            Orientation,
+                            barState);
                         DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, innerRect, valueLozengePath, drawRetroProgress, retroPalette);
                     }
                     break;
@@ -1057,6 +1071,13 @@ public class KryptonProgressBar : Control, IContentValues
                 {
                     float v = (Value - Minimum);
                     float ratio = maximumRange == 0 ? 0f : v / maximumRange;
+
+                    if (drawSpriteProgress)
+                    {
+                        DrawLunaProgressValue(renderContext.Graphics, ClientRectangle, ratio, spriteTheme, spriteVertical);
+                        break;
+                    }
+
                     int totalBlocks = GetProgressBlockCount(renderContext, barPaletteState, barState, ClientRectangle, maximumRange, drawRetroProgress);
                     float filledBlocksFloat = ratio * totalBlocks;
                     DrawProgressBlocks(renderContext, renderer, barPaletteState, barState, ClientRectangle, totalBlocks, filledBlocksFloat, drawRetroProgress, retroPalette);
@@ -1067,6 +1088,13 @@ public class KryptonProgressBar : Control, IContentValues
                 {
                     float v = (Value - Minimum);
                     float ratio = maximumRange == 0 ? 0f : v / maximumRange;
+
+                    if (drawSpriteProgress)
+                    {
+                        DrawLunaProgressValue(renderContext.Graphics, ClientRectangle, ratio, spriteTheme, spriteVertical);
+                        break;
+                    }
+
                     if (drawRetroProgress)
                     {
                         int totalBlocks = GetProgressBlockCount(renderContext, barPaletteState, barState, ClientRectangle, maximumRange, true);
@@ -1112,7 +1140,7 @@ public class KryptonProgressBar : Control, IContentValues
         {
             DrawRetroProgressBorder(renderContext.Graphics, ClientRectangle);
         }
-        else
+        else if (!drawSpriteProgress)
         {
             renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
                 Orientation, barState);
@@ -1215,6 +1243,42 @@ public class KryptonProgressBar : Control, IContentValues
     #endregion
 
     #region Implementation
+
+    private void DrawLunaProgressValue(Graphics graphics,
+        Rectangle client,
+        float ratio,
+        WindowsXPSpriteTheme scheme,
+        bool vertical)
+    {
+        Rectangle value = client;
+        if (vertical)
+        {
+            value.Height = (int)(ratio * value.Height);
+            if (RightToLeft == RightToLeft.Yes)
+            {
+                value.Y = client.Bottom - value.Height;
+            }
+        }
+        else
+        {
+            value.Width = (int)(ratio * value.Width);
+            if (RightToLeft == RightToLeft.Yes)
+            {
+                value.X = client.Right - value.Width;
+            }
+        }
+
+        DrawLunaProgressChunks(graphics, value, scheme, vertical);
+    }
+
+    private static void DrawLunaProgressChunks(Graphics graphics,
+        Rectangle value,
+        WindowsXPSpriteTheme scheme,
+        bool vertical)
+    {
+        value.Inflate(-2, -2);
+        WindowsXPLunaArt.DrawProgressChunks(graphics, value, scheme, vertical);
+    }
 
     private void DrawTextShadow(Graphics graphics,
         Brush brush,
