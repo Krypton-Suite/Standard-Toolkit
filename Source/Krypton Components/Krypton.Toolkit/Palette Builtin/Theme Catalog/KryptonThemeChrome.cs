@@ -18,23 +18,16 @@ public static class KryptonThemeChrome
     /// <summary>
     /// Default shield artwork for a chrome kind when the descriptor does not override it.
     /// </summary>
-    public static KryptonThemeShieldIconStyle DefaultShieldIconStyle(KryptonThemeChromeKind chromeKind)
-    {
-        switch (chromeKind)
+    public static KryptonThemeShieldIconStyle DefaultShieldIconStyle(KryptonThemeChromeKind chromeKind) =>
+        chromeKind switch
         {
-            case KryptonThemeChromeKind.ProfessionalSystem:
-            case KryptonThemeChromeKind.ProfessionalOffice2003:
-            case KryptonThemeChromeKind.Office2007:
-            case KryptonThemeChromeKind.Sparkle:
-                return KryptonThemeShieldIconStyle.Vista;
-            case KryptonThemeChromeKind.Office2010:
-            case KryptonThemeChromeKind.Office2013:
-            case KryptonThemeChromeKind.VisualStudio:
-                return KryptonThemeShieldIconStyle.Windows7;
-            default:
-                return KryptonThemeShieldIconStyle.Windows10;
-        }
-    }
+            KryptonThemeChromeKind.ProfessionalSystem or KryptonThemeChromeKind.ProfessionalOffice2003
+                or KryptonThemeChromeKind.Office2007 or KryptonThemeChromeKind.Sparkle
+                or KryptonThemeChromeKind.WindowsXP => KryptonThemeShieldIconStyle.Vista,
+            KryptonThemeChromeKind.Office2010 or KryptonThemeChromeKind.Office2013
+                or KryptonThemeChromeKind.VisualStudio => KryptonThemeShieldIconStyle.Windows7,
+            _ => KryptonThemeShieldIconStyle.Windows10
+        };
 
     /// <summary>
     /// Gets the chrome kind for <paramref name="mode"/>.
@@ -54,7 +47,7 @@ public static class KryptonThemeChrome
     /// </summary>
     public static KryptonThemeShieldIconStyle GetShieldIconStyle(PaletteMode mode)
     {
-        if (mode == PaletteMode.Global || mode == PaletteMode.Custom)
+        if (mode is PaletteMode.Global or PaletteMode.Custom)
         {
             return KryptonThemeShieldIconStyle.OperatingSystem;
         }
@@ -72,7 +65,7 @@ public static class KryptonThemeChrome
     /// </summary>
     internal static void ApplyToolbarImages(PaletteMode mode)
     {
-        if (mode == PaletteMode.Global || mode == PaletteMode.Custom)
+        if (mode is PaletteMode.Global or PaletteMode.Custom)
         {
             KryptonManager.Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.GenericToolBarImages);
             return;
@@ -84,6 +77,7 @@ public static class KryptonThemeChrome
                 KryptonManager.Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.SystemToolBarImages);
                 break;
             case KryptonThemeChromeKind.ProfessionalOffice2003:
+            case KryptonThemeChromeKind.WindowsXP:
                 KryptonManager.Images.ToolbarImages.SetToolBarImages(ToolkitStaticVariables.Office2003ToolBarImages);
                 break;
             case KryptonThemeChromeKind.Office2007:
@@ -147,6 +141,11 @@ public static class KryptonThemeChrome
         if (name.StartsWith(@"Retro", StringComparison.Ordinal))
         {
             return KryptonThemeChromeKind.Retro;
+        }
+
+        if (name.StartsWith(@"WindowsXP", StringComparison.Ordinal))
+        {
+            return KryptonThemeChromeKind.WindowsXP;
         }
 
         if (name.StartsWith(@"MacOS", StringComparison.Ordinal))
