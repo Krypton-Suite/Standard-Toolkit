@@ -5041,7 +5041,10 @@ public enum KryptonThemeChromeKind
     MacOS,
 
     /// <summary>RetroUI chrome.</summary>
-    Retro
+    Retro,
+
+    /// <summary>Windows XP visual-style chrome (Luna, Royale, Zune, Embedded).</summary>
+    WindowsXP
 }
 
 #endregion
@@ -5199,6 +5202,35 @@ public enum KryptonSnapLayoutMode
     /// Use <see cref="SnapLayoutValues.Mode"/>. On the manager itself this is treated as <see cref="System"/>.
     /// </summary>
     Inherit = 3
+}
+
+#endregion
+
+#region Enum WindowsXPLunaPart
+
+/// <summary>Luna sprite sheet used by a Krypton background or border.</summary>
+internal enum WindowsXPLunaPart
+{
+    Button,
+    ComboButton,
+    ComboGlyph,
+    Caption,
+    FrameLeft,
+    FrameRight,
+    FrameBottom,
+    CaptionButton,
+    CloseButton,
+    ProgressChunk,
+    ProgressChunkVertical,
+    ProgressTrack,
+    ProgressTrackVertical,
+    Checkbox,
+    Radio,
+    MinimizeGlyph,
+    MaximizeGlyph,
+    RestoreGlyph,
+    CloseGlyph,
+    HelpGlyph
 }
 
 #endregion

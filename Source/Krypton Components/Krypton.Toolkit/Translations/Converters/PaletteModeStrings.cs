@@ -174,6 +174,13 @@ public class PaletteModeStrings : GlobalId
     internal const string DEFAULT_PALETTE_MATERIAL_MATERIALIZE_LIGHT_BLUE_DARK_RIPPLE = @"Material - Materialize Light Blue - Dark Mode (Ripple)";
     internal const string DEFAULT_PALETTE_MATERIAL_SILVER_DARK_MODE_ALTERNATE = @"Material - Silver (Dark Mode - Alternate)";
     internal const string DEFAULT_PALETTE_MATERIAL_SILVER_DARK_MODE_ALTERNATE_RIPPLE = @"Material - Silver (Dark Mode - Alternate) (Ripple)";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_LUNA_BLUE = @"Windows XP - Luna Blue";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_LUNA_OLIVE = @"Windows XP - Luna Olive";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_LUNA_SILVER = @"Windows XP - Luna Silver";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_ROYALE = @"Windows XP - Royale";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_ROYALE_NOIR = @"Windows XP - Royale Noir";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_ZUNE = @"Windows XP - Zune";
+    internal const string DEFAULT_PALETTE_WINDOWS_XP_EMBEDDED = @"Windows XP - Embedded";
     internal const string DEFAULT_PALETTE_CUSTOM = @"Custom";
 
     #endregion
@@ -350,6 +357,13 @@ public class PaletteModeStrings : GlobalId
             { DEFAULT_PALETTE_HIGH_CONTRAST, PaletteMode.HighContrast },
             { DEFAULT_PALETTE_DEUTERANOPIA, PaletteMode.Deuteranopia },
             { DEFAULT_PALETTE_PROTANOPIA, PaletteMode.Protanopia },
+            { DEFAULT_PALETTE_WINDOWS_XP_LUNA_BLUE, PaletteMode.WindowsXPLunaBlue },
+            { DEFAULT_PALETTE_WINDOWS_XP_LUNA_OLIVE, PaletteMode.WindowsXPLunaOlive },
+            { DEFAULT_PALETTE_WINDOWS_XP_LUNA_SILVER, PaletteMode.WindowsXPLunaSilver },
+            { DEFAULT_PALETTE_WINDOWS_XP_ROYALE, PaletteMode.WindowsXPRoyale },
+            { DEFAULT_PALETTE_WINDOWS_XP_ROYALE_NOIR, PaletteMode.WindowsXPRoyaleNoir },
+            { DEFAULT_PALETTE_WINDOWS_XP_ZUNE, PaletteMode.WindowsXPZune },
+            { DEFAULT_PALETTE_WINDOWS_XP_EMBEDDED, PaletteMode.WindowsXPEmbedded },
             { DEFAULT_PALETTE_CUSTOM, PaletteMode.Custom }
         });
 

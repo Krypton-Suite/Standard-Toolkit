@@ -48,6 +48,9 @@
 
 - Implemented [#4418](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4418), `KryptonTextBox.MultilineStringEditor` opens the themed text editor. OK writes the text back; Cancel and Escape leave it unchanged.
   - The `Lines` property in the designer now uses the same themed string-collection editor as `KryptonRichTextBox.Lines`.
+- Implemented [#3806](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3806), Windows XP Themes
+  - Windows XP visual-style Extra themes in `Krypton.Themes`: Luna Blue / Olive / Silver, Royale, Royale Noir, Zune, and Embedded, with a dedicated XP renderer in `Krypton.Toolkit` and typed bitmaps from `Krypton.Resources`.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package (or reference `Krypton.Themes` alongside `Krypton.Toolkit`), so the Extra themes are discovered at runtime.
 - Implemented [#4648](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4648), `KryptonButton.ElevatedClick` runs before `Click` and starts `ElevatedProcessPath` with the RunAs verb when the process is not already an administrator. While a handler is attached, the UAC shield stays visible. A content image keeps the shield as a bottom-right overlay; with no image the shield is the button image. Dismissing the UAC prompt raises neither event.
   - `KryptonCommandLinkButton.ElevatedClick` runs before `Click` and starts `ElevatedProcessPath` with the RunAs verb when the process is not already an administrator. While a handler is attached, a command-link image keeps the UAC shield on that image. With no image, the shield is the left-hand slot. Dismissing the UAC prompt raises neither event.
     - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.

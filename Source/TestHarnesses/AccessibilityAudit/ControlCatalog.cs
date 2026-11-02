@@ -16,7 +16,7 @@ using Krypton.Docking;
 using Krypton.Navigator;
 using Krypton.Ribbon;
 using Krypton.Toolkit;
-using Krypton.Utilities;
+using Krypton.Toolkit.Utilities;
 using Krypton.Workspace;
 
 namespace AccessibilityAudit;
