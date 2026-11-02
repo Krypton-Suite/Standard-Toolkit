@@ -86,7 +86,7 @@ Issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593). Mode
 | Runtime (`Krypton.Toolkit`, Ribbon, Navigator, …) | net4x + modern Windows | Controls. **No** `Microsoft.WinForms.Designer.SDK` package reference. |
 | `Krypton.*.Design` (Server) | modern Windows only | Dual-compiled designers / action lists / glyphs. SDK version is only `KryptonWinFormsDesignerSdkVersion` in `Source/Krypton Components/Directory.Build.props` (currently **1.6.0**). |
 | `Krypton.Toolkit.Design.Client` | **net472 only** | VS-hosted editors (image / folder). |
-| `Krypton.Toolkit.Design.Protocol` | Directory.Build.props TFMs | Shared DTOs and editor/endpoint name constants. |
+| `Krypton.Toolkit.Design.Protocol` | Directory.Build.props TFMs, always including `net472` | Shared DTOs and editor/endpoint name constants. `Design.Client` is net472-only; lite/stable graphs omit `net472` unless `TFMs=all`, so this project must still offer it or Pack restore fails NU1201. |
 
 ### When adding a designer (or `[Designer]` / `[Editor]` on a control)
 
