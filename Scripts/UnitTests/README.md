@@ -100,12 +100,16 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-DisabledCaptionGlyph.ps1` | #4413 disabled caption glyph colours and empty close fill for Office 2010 / 2013 / Microsoft 365 | `include` |
 | `Invoke-4413DisabledCaptionScreenshot.ps1` | Hosts `Bug4413DisabledCaptionGlyphDemo` (#4413) and writes `Documents/PR/4413-disabled-caption-glyph-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-SnapLayoutOverlayScreenshot.ps1` | Compiles a net472 host beside the Debug `Krypton.Toolkit` build, shows a `KryptonForm`, opens the palette snap menu (#4579), and writes `Documents/PR/4579-snap-layout-overlay.png`. `-CustomCard` adds a 70/30 card and writes `Documents/PR/custom-snap-layouts-menu.png`. `-Ghost` enables `ShowPreviewGhost` and writes `Documents/PR/4579-snap-preview-ghost.png` | `exclude` |
+| `Invoke-SnapGroupsAssistScreenshot.ps1` | Two `KryptonForm`s: registers a half/half group and captures the menu + `Group | …` caption; then captures the Assist peer picker. Writes `Documents/PR/4579-snap-groups-assist-group.png` and `…-assist.png` | `exclude` |
 | `Invoke-SearchBoxPerformanceScreenshot.ps1` | Hosts `KryptonSearchBoxPerformanceDemo` (#4580) and writes `Documents/PR/4580-searchbox-performance-demo.png` | `exclude` || `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
 | `Invoke-CaptionTextBoxScreenshot.ps1` | Hosts CaptionTextBoxDemo and writes the caption search and text-box PNGs | `exclude` |
 | `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
 | `Invoke-TextBoxInputModeScreenshot.ps1` | Opens `TextBoxInputModeDemo` (#4417) and writes `Documents/PR/4417-textbox-input-mode-demo.png` | `exclude` |
 | `Invoke-ToastDpiScreenshot.ps1` | Shows basic toasts with/without close box and writes `Documents/PR/4419-toast-dpi-*.png` (#4419) | `exclude` |
 | `Invoke-SplitButtonScreenshot.ps1` | Hosts `KryptonSplitButtonDemo` (#4366) and writes `Documents/PR/4366-krypton-split-button-default.png` | `exclude` |
+| `Invoke-ElevatedClickScreenshot.ps1` | Hosts the #4648 ElevatedClick shield as an overlay on a content image, without clicking (no UAC prompt), and writes `Documents/PR/4648-elevated-click-demo.png` | `exclude` |
+| `Invoke-CommandLinkElevatedClickScreenshot.ps1` | Hosts the #4648 command-link ElevatedClick shield on the arrow, without clicking, and writes `Documents/PR/4648-command-link-elevated-click-demo.png` | `exclude` |
 | `Invoke-ButtonSpecFillHeightScreenshot.ps1` | Hosts `Bug4432ButtonSpecFillHeightDemo` (#4432) and writes `Documents/PR/4432-buttonspec-fillheight-default.png` | `exclude` |
 | `Probe-ButtonSpecFillHeight.ps1` | Prints TextBox ButtonSpec client rectangles for #4432 FillHeight vs centred | `exclude` |
 | `Invoke-WinFormsDesignerSdkScreenshot.ps1` | Hosts `WinFormsDesignerSdkDemo` (#593) and writes `Documents/PR/593-winforms-designer-sdk-host.png` | `exclude` |
