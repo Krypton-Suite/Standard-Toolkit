@@ -149,13 +149,21 @@ public class KryptonProfessionalRenderer : ToolStripProfessionalRenderer
             return;
         }
 
-        if (IsContextMenuToolStrip(e.ToolStrip))
+        if (!TryApplyItemTextColor(e) && IsContextMenuToolStrip(e.ToolStrip))
         {
             e.TextColor = e.Item.Enabled ? KCT.ContextMenuItemText : KCT.ContextMenuItemDisabledText;
         }
 
         base.OnRenderItemText(e);
     }
+
+    /// <summary>
+    /// Sets a theme-specific menu item text colour before the item is drawn.
+    /// </summary>
+    /// <param name="e">Text render arguments.</param>
+    /// <returns><see langword="true"/> when the text colour was applied.</returns>
+    protected virtual bool TryApplyItemTextColor(ToolStripItemTextRenderEventArgs e) => false;
+
     #endregion
 
     #region OnRenderToolStripBackground

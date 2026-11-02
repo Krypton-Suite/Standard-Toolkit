@@ -53,6 +53,7 @@ global using System.Windows.Forms.Design.Behavior;
 global using System.Windows.Forms.VisualStyles;
 global using System.Xml;
 #endregion
+
 #region Internal Resources
 global using Krypton.Toolkit.Properties;
 global using Krypton.Toolkit.ResourceFiles.Arrows;
@@ -88,6 +89,11 @@ global using Krypton.Toolkit.ResourceFiles.TreeItems;
 global using Krypton.Toolkit.ResourceFiles.UAC;
 global using Krypton.Toolkit.ResourceFiles.VisualStudio;
 global using Krypton.Toolkit.ResourceFiles.WindowsLogos;
+global using Krypton.Toolkit.ResourceFiles.WindowsXPEmbedded;
+global using Krypton.Toolkit.ResourceFiles.WindowsXPLuna;
+global using Krypton.Toolkit.ResourceFiles.WindowsXPRoyale;
+global using Krypton.Toolkit.ResourceFiles.WindowsXPRoyaleNoir;
+global using Krypton.Toolkit.ResourceFiles.WindowsXPZune;
 
 #endregion
 

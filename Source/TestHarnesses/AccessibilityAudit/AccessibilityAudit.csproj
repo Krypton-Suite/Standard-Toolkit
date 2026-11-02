@@ -1,21 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFrameworks>net481;net10.0-windows;net10.0-windows</TargetFrameworks>
-    <UseWindowsForms>true</UseWindowsForms>
-    <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <RootNamespace>AccessibilityAudit</RootNamespace>
-    <AssemblyName>AccessibilityAudit</AssemblyName>
-    <Platforms>AnyCPU</Platforms>
-    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-    <ApplicationVisualStyles>true</ApplicationVisualStyles>
-    <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+	<OutputType>WinExe</OutputType>
+	<TargetFrameworks>net481;net10.0-windows;net10.0-windows</TargetFrameworks>
+	<UseWindowsForms>true</UseWindowsForms>
+	<EnableWindowsTargeting>true</EnableWindowsTargeting>
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>disable</ImplicitUsings>
+	<RootNamespace>AccessibilityAudit</RootNamespace>
+	<AssemblyName>AccessibilityAudit</AssemblyName>
+	<Platforms>AnyCPU</Platforms>
+	<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+	<ApplicationVisualStyles>true</ApplicationVisualStyles>
+	<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+	  <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Docking\Krypton.Docking 2022.csproj" />
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
+	<ProjectReference Include="..\..\Krypton Components\Krypton.Docking\Krypton.Docking 2022.csproj" />
+	<ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
   </ItemGroup>
 </Project>

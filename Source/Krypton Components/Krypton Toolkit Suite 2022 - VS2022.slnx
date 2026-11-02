@@ -103,7 +103,9 @@
     <File Path="../../Scripts/UnitTests/Get-NavigatorTabGroupColourShot.ps1" />
     <File Path="../../Scripts/UnitTests/Invoke-AllUnitTests.ps1" />
     <File Path="../../Scripts/UnitTests/Invoke-CaptionTabDrag.ps1" />
+    <File Path="../../Scripts/UnitTests/Invoke-CustomRendererScreenshot.ps1" />
     <File Path="../../Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1" />
+    <File Path="../../Scripts/UnitTests/Invoke-WindowsXPThemesScreenshot.ps1" />
     <File Path="../../Scripts/UnitTests/README.md" />
     <File Path="../../Scripts/UnitTests/Restore-ThrowHelper-Coalesce.ps1" />
     <File Path="../../Scripts/UnitTests/Start-AsyncFormsDemoHost.ps1" />
