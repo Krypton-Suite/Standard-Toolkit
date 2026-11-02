@@ -81,6 +81,14 @@ public class ViewDrawContent : ViewLeaf
     /// </summary>
     public bool TestForFocusCues { get; set; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether this content may draw a focus rectangle.
+    /// </summary>
+    /// <remarks>
+    /// The command-link shield is a second content view. A focus rectangle on that view outlines only the shield.
+    /// </remarks>
+    internal bool AllowFocusRectangle { get; set; } = true;
+
     #endregion
 
     #region Values
@@ -383,7 +391,7 @@ public class ViewDrawContent : ViewLeaf
         // Do we need to draw the content?
         if (_paletteContent!.GetContentDraw(State) == InheritBool.True)
         {
-            var allowFocusRect = !TestForFocusCues || ShowFocusCues(context.Control!);
+            var allowFocusRect = AllowFocusRectangle && (!TestForFocusCues || ShowFocusCues(context.Control!));
 
             // Draw using memento returned from render layout
             context.Renderer.RenderStandardContent.DrawContent(context,

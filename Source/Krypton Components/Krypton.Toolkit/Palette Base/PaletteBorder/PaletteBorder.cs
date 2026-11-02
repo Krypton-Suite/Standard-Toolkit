@@ -871,7 +871,9 @@ public class PaletteBorder : Storage,
 
         if (!HasPerCornerStorage())
         {
-            return PaletteCornerRounding.Uniform(uniformRounding);
+            // A palette can describe each corner (Luna rounds only the caption). The uniform value stays the fallback.
+            PaletteCornerRounding inherited = _inherit.GetBorderCornerRounding(state);
+            return inherited.HasRounding ? inherited : PaletteCornerRounding.Uniform(uniformRounding);
         }
 
         return PaletteCornerRounding.Merge(
@@ -881,6 +883,14 @@ public class PaletteBorder : Storage,
             RoundingBottomRight,
             RoundingBottomLeft);
     }
+
+    /// <summary>
+    /// Gets the corner rounding from the inheritance parent, without this instance's form-border overrides.
+    /// </summary>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Inherited per-corner rounding.</returns>
+    protected PaletteCornerRounding InheritedBorderCornerRounding(PaletteState state) =>
+        _inherit.GetBorderCornerRounding(state);
 
     private bool HasPerCornerStorage() =>
         _storage != null

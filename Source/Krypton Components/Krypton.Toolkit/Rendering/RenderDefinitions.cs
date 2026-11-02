@@ -913,6 +913,11 @@ public enum RendererMode
     Retro,
 
     /// <summary>
+    /// Specifies the RenderWindowsXPLuna be used (Windows XP visual-style family).
+    /// </summary>
+    WindowsXP,
+
+    /// <summary>
     /// Specifies the RenderAqua be used.
     /// </summary>
     OSXAqua,

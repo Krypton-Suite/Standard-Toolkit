@@ -119,6 +119,11 @@ public sealed class KryptonManager : Component
     private static RenderOffice2024? _renderOffice2024;
     private static RenderMaterial? _renderMaterial;
     private static RenderRetro? _renderRetro;
+    private static RenderWindowsXPLuna? _renderWindowsXPLuna;
+    private static RenderWindowsXPRoyale? _renderWindowsXPRoyale;
+    private static RenderWindowsXPRoyaleNoir? _renderWindowsXPRoyaleNoir;
+    private static RenderWindowsXPZune? _renderWindowsXPZune;
+    private static RenderWindowsXPEmbedded? _renderWindowsXPEmbedded;
     private static RenderMacOSXAqua? _renderMacOSXAqua;
     private static RenderMacOS? _renderMacOS;
     private static RenderSparkle? _renderSparkle;
@@ -2482,6 +2487,8 @@ public sealed class KryptonManager : Component
                 return RenderMaterial;
             case RendererMode.Retro:
                 return RenderRetro;
+            case RendererMode.WindowsXP:
+                return RenderWindowsXPLuna;
             case RendererMode.MacOS:
                 return RenderMacOS;
             case RendererMode.OSXAqua:
@@ -2534,6 +2541,33 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the Retro renderer.
     /// </summary>
     public static RenderRetro RenderRetro => _renderRetro ??= new RenderRetro();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Luna renderer.
+    /// </summary>
+    public static RenderWindowsXPLuna RenderWindowsXPLuna => _renderWindowsXPLuna ??= new RenderWindowsXPLuna();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Royale renderer.
+    /// </summary>
+    public static RenderWindowsXPRoyale RenderWindowsXPRoyale => _renderWindowsXPRoyale ??= new RenderWindowsXPRoyale();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Royale Noir renderer.
+    /// </summary>
+    public static RenderWindowsXPRoyaleNoir RenderWindowsXPRoyaleNoir =>
+        _renderWindowsXPRoyaleNoir ??= new RenderWindowsXPRoyaleNoir();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Zune renderer.
+    /// </summary>
+    public static RenderWindowsXPZune RenderWindowsXPZune => _renderWindowsXPZune ??= new RenderWindowsXPZune();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Embedded renderer.
+    /// </summary>
+    public static RenderWindowsXPEmbedded RenderWindowsXPEmbedded =>
+        _renderWindowsXPEmbedded ??= new RenderWindowsXPEmbedded();
 
     /// <summary>
     /// Gets the single instance of the macOS-inspired renderer.
