@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -19,12 +19,13 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonDropButton), "ToolboxBitmaps.KryptonDropButton.bmp")]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonDropButtonDesigner))]
+[Designer("Krypton.Toolkit.KryptonDropButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Raises an event when the user clicks it.")]
 public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValues
 {
     #region Instance Fields
+
     protected internal readonly ViewDrawButton _drawButton;
     private ButtonStyle _style;
     protected internal readonly ButtonController _buttonController;
@@ -36,6 +37,9 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     private bool _isDefault;
     private bool _useMnemonic;
     private bool _wasEnabled;
+    private bool _isSelectable;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
+
     #endregion
 
     #region Events
@@ -70,6 +74,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         _style = ButtonStyle.Standalone;
         DialogResult = DialogResult.None;
         _useMnemonic = true;
+        _isSelectable = true;
 
         // Create content storage
         Values = CreateButtonValues(NeedPaintDelegate);
@@ -125,7 +130,14 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         _buttonController.MouseSelect += OnButtonSelect;
 
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawButton);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this,
+            NeedPaintDelegate,
+            () => IsButtonActive,
+            GetTripleState,
+            _drawButton,
+            () => _drawButton.State,
+            InputPulsingBorderCategory.Buttons);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // Set up badge values on the button
         _drawButton.SetBadgeValues(BadgeValues, this);
@@ -133,6 +145,27 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     #endregion
 
     #region Public
+
+    /// <summary>
+    /// Gets access to the optional pulsing border values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn around the button.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+    /// <summary>
+    /// Request the control repaint itself and children.
+    /// </summary>
+    /// <param name="needLayout">Does the palette change require a layout.</param>
+    public override void PerformNeedPaint(bool needLayout)
+    {
+        _pulsingBorder.UpdateAnimationState();
+        base.PerformNeedPaint(needLayout);
+    }
+
     /// <summary>
     /// Gets and sets the automatic resize of the control to fit contents.
     /// </summary>
@@ -141,6 +174,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     [EditorBrowsable(EditorBrowsableState.Always)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     [RefreshProperties(RefreshProperties.All)]
+    [DefaultValue(false)]
     public override bool AutoSize
     {
         get => base.AutoSize;
@@ -163,6 +197,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public override string Text
@@ -265,7 +300,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     [Category(@"Visuals")]
     [Description(@"Determine if button acts as a splitter or just a drop-down.")]
     [DefaultValue(true)]
-    public bool Splitter
+    public virtual bool Splitter
     {
         get => _drawButton.Splitter;
 
@@ -534,6 +569,28 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         get => base.ImeMode;
         set => base.ImeMode = value;
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the button can receive focus when clicked.
+    /// When <c>false</c>, clicking the button does not steal focus from the currently active
+    /// control — useful for on-screen keyboards where input must remain in a text field or grid cell.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"When false, the button does not receive focus when clicked. Useful for on-screen keyboards so that input goes to the currently focused control.")]
+    [DefaultValue(true)]
+    public bool IsSelectable
+    {
+        get => _isSelectable;
+        set
+        {
+            if (_isSelectable != value)
+            {
+                _isSelectable = value;
+                SetStyle(ControlStyles.Selectable, value);
+            }
+        }
+    }
+
     #endregion
 
     #region IContentValues
@@ -618,6 +675,25 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// Gets the default Input Method Editor (IME) mode supported by this control.
     /// </summary>
     protected override ImeMode DefaultImeMode => ImeMode.Disable;
+
+    /// <summary>
+    /// Creates the accessibility object for the control.
+    /// </summary>
+    protected override AccessibleObject CreateAccessibilityInstance() => new KryptonDropButtonAccessibleObject(this);
+
+    /// <summary>
+    /// Release managed and unmanaged resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _pulsingBorder.Dispose();
+        }
+
+        base.Dispose(disposing);
+    }
 
     /// <summary>
     /// Raises the EnabledChanged event.
@@ -729,7 +805,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
             // Does the button primary text contain the mnemonic?
             if (IsMnemonic(charCode, Values.Text))
             {
-                if (Splitter)
+                if (MnemonicPerformsDropDown)
                 {
                     PerformDropDown();
                 }
@@ -757,15 +833,45 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
     /// <param name="m">A Windows-based message.</param>
     protected override void WndProc(ref Message m)
     {
-        // Prevent base class from showing a context menu when right clicking it
-        if (m.Msg != PI.WM_.CONTEXTMENU)
+        // Drop buttons show KryptonContextMenu on left-click; suppress the default right-click
+        // context menu path. Push buttons keep the right-click menu.
+        if (m.Msg == PI.WM_.CONTEXTMENU && SuppressSystemContextMenu)
         {
-            base.WndProc(ref m);
+            return;
         }
+
+        base.WndProc(ref m);
     }
     #endregion
 
     #region Protected Virtual
+    /// <summary>
+    /// Gets a value indicating whether a click outside the splitter rectangle should open the drop-down.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="KryptonDropButton"/> returns <c>true</c> so a non-split drop-down opens from the whole button.
+    /// <see cref="KryptonButton"/> returns <c>false</c> so a click raises <see cref="Control.Click"/> unless the
+    /// splitter is on and the click is in the chevron rectangle.
+    /// </remarks>
+    protected virtual bool OpensDropDownOnNonSplitterClick => true;
+
+    /// <summary>
+    /// Gets a value indicating whether the system context menu (<c>WM_CONTEXTMENU</c>) is suppressed.
+    /// </summary>
+    /// <remarks>
+    /// Drop-down buttons show <see cref="KryptonContextMenu"/> on left-click. Push buttons keep the right-click path.
+    /// </remarks>
+    protected virtual bool SuppressSystemContextMenu => true;
+
+    /// <summary>
+    /// Gets a value indicating whether a mnemonic opens the drop-down instead of raising <see cref="Control.Click"/>.
+    /// </summary>
+    /// <remarks>
+    /// Matches historic <see cref="KryptonDropButton"/> behaviour: a visible splitter mnemonic opens the menu.
+    /// <see cref="KryptonSplitButton"/> overrides this so the mnemonic fires the default click action.
+    /// </remarks>
+    protected virtual bool MnemonicPerformsDropDown => Splitter;
+
     /// <summary>
     /// Raises the DropDown event.
     /// </summary>
@@ -844,6 +950,28 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
 
     #region Implementation
 
+    private bool IsButtonActive
+    {
+        get
+        {
+            if (DesignMode || ContainsFocus)
+            {
+                return true;
+            }
+
+            return ViewDrawButton.State switch
+            {
+                PaletteState.Tracking => true,
+                PaletteState.Pressed => true,
+                PaletteState.CheckedTracking => true,
+                PaletteState.CheckedPressed => true,
+                _ => false
+            };
+        }
+    }
+
+    private IPaletteTriple GetTripleState() => Enabled ? ViewDrawButton.CurrentPalette : StateDisabled;
+
     private static bool IsDialogResultValidForForm(DialogResult value)
     {
         return Enum.IsDefined(typeof(DialogResult), value);
@@ -856,7 +984,7 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         var showingContextMenu = false;
 
         // Do we need to show a drop-down menu?
-        if ((!Splitter && this is not KryptonButton)
+        if ((!Splitter && OpensDropDownOnNonSplitterClick)
             || (Splitter && _drawButton.SplitRectangle.Contains(e.Location))
            )
         {
@@ -959,25 +1087,59 @@ public class KryptonDropButton : VisualSimpleBase, IButtonControl, IContentValue
         return showingContextMenu;
     }
 
-    private KryptonContextMenuPositionH GetPositionH() => DropDownOrientation switch
+    /// <summary>
+    /// Gets the horizontal placement of the drop-down relative to the button.
+    /// </summary>
+    /// <remarks>
+    /// When the menu opens above or below, it is aligned to the chevron
+    /// (<see cref="DropDownPosition"/>) rather than the caption edge.
+    /// </remarks>
+    /// <returns>The horizontal position used when showing the menu.</returns>
+    protected virtual KryptonContextMenuPositionH GetPositionH()
     {
-        VisualOrientation.Left => KryptonContextMenuPositionH.Before,
-        VisualOrientation.Right => KryptonContextMenuPositionH.After,
-        _ => KryptonContextMenuPositionH.Left
-    };
+        switch (DropDownOrientation)
+        {
+            case VisualOrientation.Left:
+                return KryptonContextMenuPositionH.Before;
+            case VisualOrientation.Right:
+                return KryptonContextMenuPositionH.After;
+            default:
+                return DropDownPosition switch
+                {
+                    VisualOrientation.Right => KryptonContextMenuPositionH.Right,
+                    VisualOrientation.Left => KryptonContextMenuPositionH.Left,
+                    _ => KryptonContextMenuPositionH.Left
+                };
+        }
+    }
 
-    private KryptonContextMenuPositionV GetPositionV() => DropDownOrientation switch
+    /// <summary>
+    /// Gets the vertical placement of the drop-down relative to the button.
+    /// </summary>
+    /// <returns>The vertical position used when showing the menu.</returns>
+    protected virtual KryptonContextMenuPositionV GetPositionV()
     {
-        VisualOrientation.Top => KryptonContextMenuPositionV.Above,
-        VisualOrientation.Left or VisualOrientation.Right => KryptonContextMenuPositionV.Top,
-        _ => KryptonContextMenuPositionV.Below
-    };
+        switch (DropDownOrientation)
+        {
+            case VisualOrientation.Top:
+                return KryptonContextMenuPositionV.Above;
+            case VisualOrientation.Left:
+            case VisualOrientation.Right:
+                return KryptonContextMenuPositionV.Top;
+            default:
+                return DropDownPosition switch
+                {
+                    VisualOrientation.Top => KryptonContextMenuPositionV.Above,
+                    _ => KryptonContextMenuPositionV.Below
+                };
+        }
+    }
 
     private void OnContextMenuClosed(object? sender, EventArgs e) => ContextMenuClosed();
 
     private void OnKryptonContextMenuClosed(object? sender, EventArgs e)
     {
-        var kcm = sender as KryptonContextMenu ?? throw new ArgumentNullException(nameof(sender));
+        var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
         ContextMenuClosed();
     }

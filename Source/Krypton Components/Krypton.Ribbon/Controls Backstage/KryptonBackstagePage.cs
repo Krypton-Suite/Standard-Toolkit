@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & tobitege et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Ribbon;
 [ToolboxItem(false)]
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
-[Designer(typeof(KryptonBackstagePageDesigner))]
+[Designer("Krypton.Ribbon.KryptonBackstagePageDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [DesignTimeVisible(false)]
 public class KryptonBackstagePage : KryptonPanel
@@ -24,6 +24,9 @@ public class KryptonBackstagePage : KryptonPanel
     private Image? _image;
     private bool _visibleInNavigation;
     private BackstageItemSize _itemSize;
+    private int _navigationOrder;
+    private bool _placeAtBottom;
+    private bool _separatorBefore;
     #endregion
 
     #region Events
@@ -55,6 +58,7 @@ public class KryptonBackstagePage : KryptonPanel
     [Category(@"Backstage")]
     [Description(@"Image used in the backstage navigation list.")]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -106,6 +110,64 @@ public class KryptonBackstagePage : KryptonPanel
         }
     }
 
+    /// <summary>
+    /// Gets and sets the order of this page among navigation items that share the same placement.
+    /// </summary>
+    /// <remarks>Zero keeps the original pages-then-commands order.</remarks>
+    [Category(@"Backstage")]
+    [Description(@"Order of this page among navigation items that share the same placement. Zero keeps the original order.")]
+    [DefaultValue(0)]
+    public int NavigationOrder
+    {
+        get => _navigationOrder;
+        set
+        {
+            if (_navigationOrder != value)
+            {
+                _navigationOrder = value;
+                OnNavigationPropertyChanged(EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets a value indicating whether this page is pinned to the bottom of the Office 2024 rail.
+    /// </summary>
+    [Category(@"Backstage")]
+    [Description(@"Pin this page to the bottom of the Office 2024 navigation rail.")]
+    [DefaultValue(false)]
+    public bool PlaceAtBottom
+    {
+        get => _placeAtBottom;
+        set
+        {
+            if (_placeAtBottom != value)
+            {
+                _placeAtBottom = value;
+                OnNavigationPropertyChanged(EventArgs.Empty);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets and sets a value indicating whether a separator is drawn before this page.
+    /// </summary>
+    [Category(@"Backstage")]
+    [Description(@"Draw a separator before this page in the Office 2024 navigation rail.")]
+    [DefaultValue(false)]
+    public bool SeparatorBefore
+    {
+        get => _separatorBefore;
+        set
+        {
+            if (_separatorBefore != value)
+            {
+                _separatorBefore = value;
+                OnNavigationPropertyChanged(EventArgs.Empty);
+            }
+        }
+    }
+
     /// <inheritdoc />
     protected override void OnTextChanged(EventArgs e)
     {
@@ -118,4 +180,3 @@ public class KryptonBackstagePage : KryptonPanel
     private void OnNavigationPropertyChanged(EventArgs e) => NavigationPropertyChanged?.Invoke(this, e);
     #endregion
 }
-

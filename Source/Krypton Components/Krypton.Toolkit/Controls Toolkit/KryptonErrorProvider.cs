@@ -2,7 +2,7 @@
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & tobitege et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -15,7 +15,7 @@ using Timer = System.Windows.Forms.Timer;
 /// Provides a user interface for indicating that a control on a form has an error associated with it.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(ErrorProvider))]
+[ToolboxBitmap(typeof(ErrorProvider), "ToolboxBitmaps.KryptonErrorProvider.bmp")]
 [DefaultEvent(nameof(SetError))]
 [DefaultProperty(nameof(BlinkStyle))]
 [DesignerCategory(@"code")]
@@ -386,7 +386,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         }
     }
 
-    private bool ShouldSerializeToolTipValues() => _toolTipValues != null && !_toolTipValues.IsDefault;
+    private bool ShouldSerializeToolTipValues() => _toolTipValues is { IsDefault: false };
 
     private void ResetToolTipValues() => _toolTipValues?.Reset();
 
@@ -850,7 +850,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         foreach (var kvp in _errorMessages)
         {
             Control control = kvp.Key;
-            if (control != null && control.Visible && !string.IsNullOrEmpty(kvp.Value))
+            if (control is { Visible: true } && !string.IsNullOrEmpty(kvp.Value))
             {
                 Rectangle iconBounds = GetErrorIconBounds(control);
                 if (!iconBounds.IsEmpty && iconBounds.Contains(e.Location))

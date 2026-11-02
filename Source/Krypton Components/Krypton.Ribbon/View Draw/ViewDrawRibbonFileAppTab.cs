@@ -4,7 +4,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -91,6 +91,11 @@ internal class ViewDrawRibbonFileAppTab : ViewComposite,
         // Add on the fixed border extra
         preferredSize.Width += _preferredBorder.Horizontal;
         preferredSize.Height += _preferredBorder.Vertical;
+        if (_ribbon.RibbonShape == PaletteRibbonShape.Office2024)
+        {
+            int band = RenderStandard.RibbonTabMarkBand2024(FactorDpiY, _paletteGeneral.TabMarker == PaletteRibbonTabMarker.Pill, _paletteGeneral.TabMarkerGlow);
+            preferredSize.Height += Math.Max(0, band - _preferredBorder.Bottom);
+        }
 
         return preferredSize;
     }
@@ -105,7 +110,18 @@ internal class ViewDrawRibbonFileAppTab : ViewComposite,
 
         // We take on all the available display area
         ClientRectangle = context!.DisplayRectangle;
+        if (_ribbon.RibbonShape != PaletteRibbonShape.Office2024)
+        {
+            base.Layout(context);
+            return;
+        }
+
+        // Keep the label above the line and its glow.
+        int band = RenderStandard.RibbonTabMarkBand2024(FactorDpiY, _paletteGeneral.TabMarker == PaletteRibbonTabMarker.Pill, _paletteGeneral.TabMarkerGlow);
+        Rectangle display = context.DisplayRectangle;
+        context.DisplayRectangle = new Rectangle(display.X, display.Y + _preferredBorder.Top, display.Width, Math.Max(0, display.Height - _preferredBorder.Top - band));
         base.Layout(context);
+        context.DisplayRectangle = display;
     }
     #endregion
 
@@ -118,7 +134,7 @@ internal class ViewDrawRibbonFileAppTab : ViewComposite,
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         IPaletteRibbonFileAppTab palette;
@@ -149,6 +165,25 @@ internal class ViewDrawRibbonFileAppTab : ViewComposite,
                 palette = _ribbon.StateNormal.RibbonFileAppTab;
                 memento = 2;
                 break;
+        }
+
+        // Office 2024 draws its own line or pill. Older shapes use the renderer.
+        if (_ribbon.RibbonShape == PaletteRibbonShape.Office2024)
+        {
+            Color marker = Color.Empty;
+            if ((localState & PaletteState.Pressed) == PaletteState.Pressed)
+            {
+                marker = palette.GetRibbonFileAppTabTopColor(localState);
+            }
+            else if ((localState & PaletteState.Tracking) == PaletteState.Tracking)
+            {
+                marker = palette.GetRibbonFileAppTabBottomColor(localState);
+            }
+
+            RenderStandard.DrawRibbonTabMarker2024(context, ClientRectangle, marker, _paletteGeneral.TabMarker, _paletteGeneral.TabMarkerGlow);
+            _mementos[memento]?.Dispose();
+            _mementos[memento] = null;
+            return;
         }
 
         // Draw the background
@@ -200,7 +235,7 @@ internal class ViewDrawRibbonFileAppTab : ViewComposite,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

@@ -1,8 +1,8 @@
-﻿﻿#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -391,7 +391,7 @@ public class InternalViewDrawCommandLinkButton : ViewComposite
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
@@ -447,18 +447,13 @@ public class InternalViewDrawCommandLinkButton : ViewComposite
             if (AllowUncheck)
             {
                 // Show feedback on tracking and pressed
-                switch (buttonState)
+                buttonState = buttonState switch
                 {
-                    case PaletteState.Normal:
-                        buttonState = PaletteState.CheckedNormal;
-                        break;
-                    case PaletteState.Tracking:
-                        buttonState = PaletteState.CheckedTracking;
-                        break;
-                    case PaletteState.Pressed:
-                        buttonState = PaletteState.CheckedPressed;
-                        break;
-                }
+                    PaletteState.Normal => PaletteState.CheckedNormal,
+                    PaletteState.Tracking => PaletteState.CheckedTracking,
+                    PaletteState.Pressed => PaletteState.CheckedPressed,
+                    _ => buttonState
+                };
             }
             else
             {

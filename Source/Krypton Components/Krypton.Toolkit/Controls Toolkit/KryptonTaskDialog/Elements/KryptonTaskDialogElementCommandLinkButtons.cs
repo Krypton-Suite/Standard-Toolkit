@@ -2,7 +2,7 @@
 /*
  *
  * New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2025 - 2026. All rights reserved.
+ * Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2025 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -62,7 +62,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
     /// <summary>
     /// Krypton CommandLink Buttons collection.
     /// </summary>
-    [Editor(typeof(KryptonTaskDialogElementCommandLinkButtons.ButtonsCollectionEditor), typeof(UITypeEditor))]
+    [Editor(typeof(KryptonTaskDialogCommandLinkButtonsCollectionEditor), typeof(UITypeEditor))]
     public ObservableCollection<InternalKryptonCommandLinkButton> Buttons => _buttons;
 
     /// <summary>
@@ -278,7 +278,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
                     _flp.Controls.Add(Buttons[i]);
                 }
             }
-            else if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems is not null)
+            else if (e is { Action: NotifyCollectionChangedAction.Add, NewItems: not null })
             {
                 for (int i = 0; i < e.NewItems.Count; i++)
                 {

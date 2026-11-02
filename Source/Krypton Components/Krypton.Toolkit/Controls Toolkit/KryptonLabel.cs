@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -20,7 +20,7 @@ namespace Krypton.Toolkit;
 [DefaultEvent(nameof(Click))]
 [DefaultProperty(nameof(Text))]
 [DefaultBindingProperty(nameof(Text))]
-[Designer(typeof(KryptonLabelDesigner))]
+[Designer("Krypton.Toolkit.KryptonLabelDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Displays descriptive information.")]
 public class KryptonLabel : VisualSimpleBase, IContentValues
@@ -34,6 +34,7 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
     private bool _useMnemonic;
     private bool _wasEnabled;
     private Control? _target;
+    private readonly InputPulsingBorderViewIntegration _pulsingBorder;
     #endregion
 
     #region Events
@@ -82,7 +83,14 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
         };
 
         // Create the view manager instance
-        ViewManager = new ViewManager(this, _drawContent);
+        _pulsingBorder = new InputPulsingBorderViewIntegration(this,
+            NeedPaintDelegate,
+            () => ContainsFocus,
+            () => null,
+            _drawContent,
+            () => Enabled ? PaletteState.Normal : PaletteState.Disabled,
+            InputPulsingBorderCategory.Other);
+        ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
 
         // We want to be auto sized by default, but not the property default!
         AutoSize = true;
@@ -91,6 +99,26 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
     #endregion
 
     #region Public
+    /// <summary>
+    /// Gets access to the optional pulsing border values.
+    /// </summary>
+    [Category(@"Visuals")]
+    [Description(@"Optional pulsing border drawn around the label.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public InputPulsingBorderValues PulsingBorderValues => _pulsingBorder.Values;
+
+    private bool ShouldSerializePulsingBorderValues() => !PulsingBorderValues.IsDefault;
+
+    /// <summary>
+    /// Request the control repaint itself and children.
+    /// </summary>
+    /// <param name="needLayout">Does the palette change require a layout.</param>
+    public override void PerformNeedPaint(bool needLayout)
+    {
+        _pulsingBorder.UpdateAnimationState();
+        base.PerformNeedPaint(needLayout);
+    }
+
     /// <summary>
     /// Gets and sets the automatic resize of the control to fit contents.
     /// </summary>
@@ -136,6 +164,7 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
     /// <summary>
     /// Gets or sets the text associated with this control. 
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [Localizable(false)]
     [AllowNull]
@@ -521,6 +550,20 @@ public class KryptonLabel : VisualSimpleBase, IContentValues
 
         // Let base class fire standard event
         base.OnEnabledChanged(e);
+    }
+
+    /// <summary>
+    /// Release managed and unmanaged resources.
+    /// </summary>
+    /// <param name="disposing">true to release both managed and unmanaged resources.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            _pulsingBorder.Dispose();
+        }
+
+        base.Dispose(disposing);
     }
 
     /// <summary>

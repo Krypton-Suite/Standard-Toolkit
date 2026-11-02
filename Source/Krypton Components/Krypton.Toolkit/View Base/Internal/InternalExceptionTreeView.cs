@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -54,7 +54,7 @@ internal class InternalExceptionTreeView : KryptonTreeView
         // Stack trace
         if (!string.IsNullOrWhiteSpace(exception.StackTrace))
         {
-            KryptonTreeNode stackTraceNode = new KryptonTreeNode(KryptonManager.Strings.ExceptionDialogStrings.StackTrace);
+            var stackTraceNode = new KryptonTreeNode(KryptonManager.Strings.ExceptionDialogStrings.StackTrace);
             var stackTrace = new StackTrace(exception, true);
 
             var frames = stackTrace.GetFrames();
@@ -83,10 +83,8 @@ internal class InternalExceptionTreeView : KryptonTreeView
         // Inner exception
         if (exception.InnerException is not null)
         {
-            var innerNode = new KryptonTreeNode(KryptonManager.Strings.ExceptionDialogStrings.InnerException)
-            {
-                Nodes = { CreateNodeFromException(exception.InnerException) }
-            };
+            var innerNode = new KryptonTreeNode(KryptonManager.Strings.ExceptionDialogStrings.InnerException);
+            innerNode.Nodes.Add(CreateNodeFromException(exception.InnerException));
             rootNode.Nodes.Add(innerNode);
         }
 

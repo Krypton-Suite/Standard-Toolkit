@@ -1,6 +1,11 @@
-# Run with:
+# ThemeSwapRepro
 
-  dotnet run --project "Source/TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj" -c Debug
+Run from the **repository root**:
 
-It opens 3 forms with a `KryptonThemeComboBox` each and repeatedly toggles themes across forms to reproduce WM_COMMAND faults.
-Logs written to %TEMP%\ThemeSwapRepro.log
+```
+dotnet run --project "Source/TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj" -c Debug
+```
+
+It opens three forms with a `KryptonThemeComboBox` each and repeatedly toggles themes across forms to reproduce WM_COMMAND faults.
+
+Logs are written to `%TEMP%\ThemeSwapRepro.log`.

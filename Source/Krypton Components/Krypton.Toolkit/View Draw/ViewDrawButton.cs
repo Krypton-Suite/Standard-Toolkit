@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -35,6 +35,8 @@ public class ViewDrawButton : ViewComposite, IRippleHost
     private VisualOrientation _dropDownPosition;
     private readonly ViewLayoutSeparator _drawOuterSeparator;
     private ViewDrawBadge? _drawBadge;
+    private BadgeValues? _badgeValues;
+    private Control? _badgeControl;
     private Rectangle _splitRectangle;
     private Rectangle _nonSplitRectangle;
     private bool _dropDown;
@@ -452,12 +454,44 @@ public class ViewDrawButton : ViewComposite, IRippleHost
         Debug.Assert(badgeValues != null);
         Debug.Assert(control != null);
 
-        // Create badge if it doesn't exist
-        if (_drawBadge == null)
+        if (_drawBadge != null && ReferenceEquals(_badgeValues, badgeValues) && ReferenceEquals(_badgeControl, control))
         {
-            _drawBadge = new ViewDrawBadge(badgeValues!, control!);
-            Add(_drawBadge);
+            return;
         }
+
+        _badgeValues = badgeValues;
+        _badgeControl = control;
+
+        // Create or recreate badge when the source changes
+        if (_drawBadge != null)
+        {
+            Remove(_drawBadge);
+            _drawBadge.Dispose();
+            _drawBadge = null;
+        }
+
+        _drawBadge = new ViewDrawBadge(badgeValues!, control!);
+        Add(_drawBadge);
+        _drawBadge.Enabled = Enabled;
+    }
+
+    /// <summary>
+    /// Release unmanaged and optionally managed resources.
+    /// </summary>
+    /// <param name="disposing">Called from Dispose method.</param>
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            if (_drawBadge != null)
+            {
+                Remove(_drawBadge);
+                _drawBadge.Dispose();
+                _drawBadge = null;
+            }
+        }
+
+        base.Dispose(disposing);
     }
 
     #endregion
@@ -509,7 +543,7 @@ public class ViewDrawButton : ViewComposite, IRippleHost
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // We take on all the available display area
@@ -616,6 +650,8 @@ public class ViewDrawButton : ViewComposite, IRippleHost
     /// <param name="context">Reference to the view context.</param>
     protected virtual void CheckPaletteState(ViewContext context)
     {
+        UpdateDropDownShadowSpacing();
+
         // Default to using this element calculated state
         PaletteState buttonState = State;
 
@@ -703,8 +739,8 @@ public class ViewDrawButton : ViewComposite, IRippleHost
     {
         _drawDropDown.Visible = _dropDown;
         _drawSplitBorder.Visible = _splitter & _dropDown;
-        _drawOuterSeparator.Visible = !_splitter & _dropDown;
         _drawCanvas.Splitter = _splitter & _dropDown;
+        UpdateDropDownShadowSpacing();
 
         var dockStyle = ViewDockStyle.Right;
         var splitOrientation = System.Windows.Forms.Orientation.Vertical;
@@ -733,6 +769,20 @@ public class ViewDrawButton : ViewComposite, IRippleHost
         LayoutDocker.SetDock(_drawSplitBorder, dockStyle);
         LayoutDocker.SetDock(_drawDropDown, dockStyle);
         LayoutDocker.SetDock(_drawOuterSeparator, dockStyle);
+    }
+
+    private void UpdateDropDownShadowSpacing()
+    {
+        int shadow = RetroRenderHelper.ButtonShadowSize;
+        bool reserveShadow = _dropDown
+                             && shadow > 0
+                             && RetroRenderHelper.IsRetroPalette(KryptonManager.CurrentGlobalPalette)
+                             && (_dropDownPosition == VisualOrientation.Right || _dropDownPosition == VisualOrientation.Bottom);
+
+        _drawOuterSeparator.Visible = (!_splitter & _dropDown) || reserveShadow;
+        _drawOuterSeparator.SeparatorSize = _dropDownPosition == VisualOrientation.Bottom
+            ? new Size(1, reserveShadow ? shadow : 1)
+            : new Size(reserveShadow ? shadow : 1, 1);
     }
     #endregion
 }

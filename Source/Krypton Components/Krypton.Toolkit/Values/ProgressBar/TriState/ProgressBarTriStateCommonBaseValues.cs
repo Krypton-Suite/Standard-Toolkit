@@ -72,7 +72,6 @@ public class ProgressBarTriStateCommonBaseValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"First background color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color BackColor1
     {
@@ -82,7 +81,6 @@ public class ProgressBarTriStateCommonBaseValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"Second background color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color BackColor2
     {
@@ -124,6 +122,7 @@ public class ProgressBarTriStateCommonBaseValues : Storage
     [Category(@"Visuals")]
     [Description(@"Background image. Null uses default.")]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? BackImage
     {
         get => _backImage;
@@ -154,7 +153,6 @@ public class ProgressBarTriStateCommonBaseValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"First text color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color TextColor1
     {
@@ -164,7 +162,6 @@ public class ProgressBarTriStateCommonBaseValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"Second text color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color TextColor2
     {
@@ -228,7 +225,7 @@ public class ProgressBarTriStateCommonBaseValues : Storage
     #region Public Overrides
 
     /// <inheritdoc />
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 }

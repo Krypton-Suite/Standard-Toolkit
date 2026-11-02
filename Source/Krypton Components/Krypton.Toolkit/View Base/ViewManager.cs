@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -221,7 +221,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (renderer == null)
         {
-            throw new ArgumentNullException(nameof(renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(renderer));
         }
 
         // Create a layout context for calculating size and positioning
@@ -331,7 +331,7 @@ public class ViewManager : GlobalId,
             // Validate incoming references
             if (context.Renderer == null)
             {
-                throw new ArgumentNullException(nameof(context.Renderer));
+                ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
             }
 
             // If someone is interested, tell them the layout cycle to beginning
@@ -379,12 +379,12 @@ public class ViewManager : GlobalId,
         // Validate incoming references
         if (renderer == null)
         {
-            throw new ArgumentNullException(nameof(renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(renderer));
         }
 
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // Do nothing if the control is disposed or inside a layout call
@@ -410,7 +410,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (context == null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // Do nothing if the control is disposed or inside a layout call
@@ -457,7 +457,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         var pt = new Point(e.X, e.Y);
@@ -482,7 +482,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         var pt = new Point(e.X, e.Y);
@@ -513,7 +513,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         var pt = new Point(e.X, e.Y);
@@ -544,7 +544,7 @@ public class ViewManager : GlobalId,
         // Validate incoming reference
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If there is an active element
