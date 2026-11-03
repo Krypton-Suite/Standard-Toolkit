@@ -1,0 +1,92 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Drawing</RootNamespace>
+		<AssemblyName>Krypton.Drawing</AssemblyName>
+		<IsPackable>false</IsPackable>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>..\Krypton.Toolkit.Utilities\StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<ApplicationIcon>..\Krypton.Toolkit.Utilities\Krypton.ico</ApplicationIcon>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<NeutralLanguage>en</NeutralLanguage>
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Nullable>enable</Nullable>
+		<WarningLevel>8</WarningLevel>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<NoWarn>1701;1702</NoWarn>
+		<Description>SVG picture control for the Krypton suite. Windows 10 and later rasterize with Direct2D. Windows 7, 8, and 8.1 use Svg.Skia. Included in the Krypton.Standard.Toolkit NuGet package and not published on its own.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Direct Interop ref required because Krypton.Toolkit uses PrivateAssets="all" (#3908). -->
+		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+
+	<!-- Svg.Skia 5.2.3 pins SkiaSharp 4.148.0 and HarfBuzzSharp 14.2.0. Do not bump those independently.
+	     net10 and net11 draw with Direct2D and do not reference this closure. -->
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<PackageReference Include="Svg.Skia" Version="5.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="Svg.Model" Version="5.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="Svg.Custom" Version="5.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="Svg.SceneGraph" Version="5.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="Svg.Animation" Version="5.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="ShimSkiaSharp" Version="5.2.3" GeneratePathProperty="true" />
+		<PackageReference Include="SkiaSharp" Version="4.148.0" GeneratePathProperty="true" />
+		<PackageReference Include="HarfBuzzSharp" Version="14.2.0" GeneratePathProperty="true" />
+		<PackageReference Include="ExCSS" Version="4.3.1" GeneratePathProperty="true" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="4.148.0" GeneratePathProperty="true" />
+		<PackageReference Include="HarfBuzzSharp.NativeAssets.Win32" Version="14.2.0" GeneratePathProperty="true" />
+		<!-- Svg.Skia pulls macOS and Linux native assets. This package is Windows-only. -->
+		<PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="4.148.0">
+			<PrivateAssets>all</PrivateAssets>
+			<ExcludeAssets>all</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="HarfBuzzSharp.NativeAssets.macOS" Version="14.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<ExcludeAssets>all</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="14.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<ExcludeAssets>all</ExcludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<!--
+	  UseCommonOutputDirectory skips NuGet copy-local. Pack reads these assemblies from the shared net4x output.
+	-->
+	<Target Name="KryptonCopySvgRuntimeToOutput" AfterTargets="Build" Condition="'$(DesignTimeBuild)' != 'true' And $(TargetFramework.StartsWith('net4'))">
+		<PropertyGroup>
+			<_KryptonSvgManagedTfm>net461</_KryptonSvgManagedTfm>
+			<_KryptonSkiaManagedTfm>net462</_KryptonSkiaManagedTfm>
+			<_KryptonSkiaManagedTfm Condition="'$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481'">net48</_KryptonSkiaManagedTfm>
+			<_KryptonExCssManagedTfm>netstandard2.0</_KryptonExCssManagedTfm>
+			<_KryptonExCssManagedTfm Condition="'$(TargetFramework)' == 'net48' Or '$(TargetFramework)' == 'net481'">net48</_KryptonExCssManagedTfm>
+			<_KryptonSvgCustomTfm>$(_KryptonSvgManagedTfm)</_KryptonSvgCustomTfm>
+			<_KryptonSvgCustomTfm Condition="!Exists('$(PkgSvg_Custom)\lib\$(_KryptonSvgManagedTfm)\Svg.Custom.dll')">netstandard2.0</_KryptonSvgCustomTfm>
+		</PropertyGroup>
+		<ItemGroup>
+			<_KryptonSvgRuntimeDll Include="$(PkgSvg_Skia)\lib\$(_KryptonSvgManagedTfm)\Svg.Skia.dll" Condition="Exists('$(PkgSvg_Skia)\lib\$(_KryptonSvgManagedTfm)\Svg.Skia.dll')" />
+			<_KryptonSvgRuntimeDll Include="$(PkgSvg_Model)\lib\$(_KryptonSvgManagedTfm)\Svg.Model.dll" Condition="Exists('$(PkgSvg_Model)\lib\$(_KryptonSvgManagedTfm)\Svg.Model.dll')" />
+			<_KryptonSvgRuntimeDll Include="$(PkgSvg_Custom)\lib\$(_KryptonSvgCustomTfm)\Svg.Custom.dll" Condition="Exists('$(PkgSvg_Custom)\lib\$(_KryptonSvgCustomTfm)\Svg.Custom.dll')" />
+			<_KryptonSvgRuntimeDll Include="$(PkgSvg_SceneGraph)\lib\$(_KryptonSvgManagedTfm)\Svg.SceneGraph.dll" Condition="Exists('$(PkgSvg_SceneGraph)\lib\$(_KryptonSvgManagedTfm)\Svg.SceneGraph.dll')" />
+			<_KryptonSvgRuntimeDll Include="$(PkgSvg_Animation)\lib\$(_KryptonSvgManagedTfm)\Svg.Animation.dll" Condition="Exists('$(PkgSvg_Animation)\lib\$(_KryptonSvgManagedTfm)\Svg.Animation.dll')" />
+			<_KryptonSvgRuntimeDll Include="$(PkgShimSkiaSharp)\lib\$(_KryptonSvgManagedTfm)\ShimSkiaSharp.dll" Condition="Exists('$(PkgShimSkiaSharp)\lib\$(_KryptonSvgManagedTfm)\ShimSkiaSharp.dll')" />
+			<_KryptonSvgRuntimeDll Include="$(PkgSkiaSharp)\lib\$(_KryptonSkiaManagedTfm)\SkiaSharp.dll" Condition="Exists('$(PkgSkiaSharp)\lib\$(_KryptonSkiaManagedTfm)\SkiaSharp.dll')" />
+			<_KryptonSvgRuntimeDll Include="$(PkgHarfBuzzSharp)\lib\$(_KryptonSkiaManagedTfm)\HarfBuzzSharp.dll" Condition="Exists('$(PkgHarfBuzzSharp)\lib\$(_KryptonSkiaManagedTfm)\HarfBuzzSharp.dll')" />
+			<_KryptonSvgRuntimeDll Include="$(PkgExCSS)\lib\$(_KryptonExCssManagedTfm)\ExCSS.dll" Condition="Exists('$(PkgExCSS)\lib\$(_KryptonExCssManagedTfm)\ExCSS.dll')" />
+		</ItemGroup>
+		<Copy SourceFiles="@(_KryptonSvgRuntimeDll)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" Condition="'@(_KryptonSvgRuntimeDll)' != ''" />
+	</Target>
+
+</Project>

@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
 	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
 	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props')" />
 
@@ -75,6 +75,59 @@
 			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Formats.Nrbf.dll')" />
 			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Memory.dll"
 			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Memory.dll')" />
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Buffers.dll"
+			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Buffers.dll')" />
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Runtime.CompilerServices.Unsafe.dll"
+			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Runtime.CompilerServices.Unsafe.dll')" />
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Numerics.Vectors.dll"
+			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Numerics.Vectors.dll')" />
 		</ItemGroup>
+	</Target>
+
+	<!--
+	  net4x SkiaSharp loads libSkiaSharp.dll and libHarfBuzzSharp.dll from x86, x64, or arm64
+	  under the application directory. The binaries live in this package's native\ folder, not runtimes\,
+	  so modern TFMs do not copy them. The copy is skipped unless that folder exists
+	  (Krypton.Toolkit uses the same targets file and does not ship Skia).
+	-->
+	<PropertyGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'">
+		<_KryptonSkiaNativeRoot>$(MSBuildThisFileDirectory)..\native\</_KryptonSkiaNativeRoot>
+		<_KryptonSkiaProcessArch>x64</_KryptonSkiaProcessArch>
+		<_KryptonSkiaProcessArch Condition="'$(PlatformTarget)' == 'x86'">x86</_KryptonSkiaProcessArch>
+		<_KryptonSkiaProcessArch Condition="'$(PlatformTarget)' == 'ARM64'">arm64</_KryptonSkiaProcessArch>
+	</PropertyGroup>
+
+	<Target Name="KryptonCopyBundledSkiaNativesForConsumer"
+	        AfterTargets="Build"
+	        Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' And '$(DesignTimeBuild)' != 'true' And Exists('$(_KryptonSkiaNativeRoot)win-x64\libSkiaSharp.dll')">
+		<ItemGroup>
+			<_KryptonSkiaNativeCopy Include="$(_KryptonSkiaNativeRoot)win-x64\libSkiaSharp.dll">
+				<Destination>$(OutputPath)x64\libSkiaSharp.dll</Destination>
+			</_KryptonSkiaNativeCopy>
+			<_KryptonSkiaNativeCopy Include="$(_KryptonSkiaNativeRoot)win-x86\libSkiaSharp.dll">
+				<Destination>$(OutputPath)x86\libSkiaSharp.dll</Destination>
+			</_KryptonSkiaNativeCopy>
+			<_KryptonSkiaNativeCopy Include="$(_KryptonSkiaNativeRoot)win-arm64\libSkiaSharp.dll">
+				<Destination>$(OutputPath)arm64\libSkiaSharp.dll</Destination>
+			</_KryptonSkiaNativeCopy>
+			<_KryptonSkiaNativeCopy Include="$(_KryptonSkiaNativeRoot)win-x64\libHarfBuzzSharp.dll">
+				<Destination>$(OutputPath)x64\libHarfBuzzSharp.dll</Destination>
+			</_KryptonSkiaNativeCopy>
+			<_KryptonSkiaNativeCopy Include="$(_KryptonSkiaNativeRoot)win-x86\libHarfBuzzSharp.dll">
+				<Destination>$(OutputPath)x86\libHarfBuzzSharp.dll</Destination>
+			</_KryptonSkiaNativeCopy>
+			<_KryptonSkiaNativeCopy Include="$(_KryptonSkiaNativeRoot)win-arm64\libHarfBuzzSharp.dll">
+				<Destination>$(OutputPath)arm64\libHarfBuzzSharp.dll</Destination>
+			</_KryptonSkiaNativeCopy>
+			<_KryptonSkiaNativeCopy Include="$(_KryptonSkiaNativeRoot)win-$(_KryptonSkiaProcessArch)\libSkiaSharp.dll">
+				<Destination>$(OutputPath)libSkiaSharp.dll</Destination>
+			</_KryptonSkiaNativeCopy>
+			<_KryptonSkiaNativeCopy Include="$(_KryptonSkiaNativeRoot)win-$(_KryptonSkiaProcessArch)\libHarfBuzzSharp.dll">
+				<Destination>$(OutputPath)libHarfBuzzSharp.dll</Destination>
+			</_KryptonSkiaNativeCopy>
+		</ItemGroup>
+		<Copy SourceFiles="@(_KryptonSkiaNativeCopy)"
+		      DestinationFiles="@(_KryptonSkiaNativeCopy->'%(Destination)')"
+		      SkipUnchangedFiles="true" />
 	</Target>
 </Project>
