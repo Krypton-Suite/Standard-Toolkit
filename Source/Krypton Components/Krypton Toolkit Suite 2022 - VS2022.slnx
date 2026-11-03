@@ -1,4 +1,4 @@
-<Solution>
+﻿<Solution>
   <Configurations>
     <BuildType Name="Canary" />
     <BuildType Name="Debug" />
@@ -212,6 +212,12 @@
       <BuildType Solution="Nightly|*" Project="Release" />
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
+    <Project Path="Krypton.Toolkit.Utilities.UpdateHelper/Krypton.Toolkit.Utilities.UpdateHelper.csproj" Id="c4a8e6d2-1f47-4b9e-8d33-4669b7c2a1e5">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
   </Folder>
   <Folder Name="/Testing/">
     <Project Path="../TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj">
@@ -245,6 +251,12 @@
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
     <Project Path="../TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/UpdateManifestEditor/UpdateManifestEditor.csproj" Id="e3b7a1c4-5d28-4f96-8a17-4669c2d84e10">
       <BuildType Solution="Canary|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
       <BuildType Solution="Nightly|*" Project="Release" />
