@@ -47,7 +47,7 @@ internal static class KryptonSvgIntrinsicSize
                 return null;
             }
 
-            if (StartsWith(markup, start + 1, "!--"))
+            if (HasMatchAt(markup, start + 1, "!--"))
             {
                 var commentEnd = markup.IndexOf("-->", start + 4, StringComparison.Ordinal);
                 index = commentEnd < 0 ? markup.Length : commentEnd + 3;
@@ -75,7 +75,7 @@ internal static class KryptonSvgIntrinsicSize
 
     private static bool IsSvgName(string markup, int index)
     {
-        if (!StartsWith(markup, index, "svg"))
+        if (!HasMatchAt(markup, index, "svg"))
         {
             return false;
         }
@@ -237,38 +237,10 @@ internal static class KryptonSvgIntrinsicSize
             return false;
         }
 
-        if (text.Length > 2)
+        if (text.Length > 2 && TryUnit(text.Substring(text.Length - 2), out var scale))
         {
-            var suffix = text.Substring(text.Length - 2);
-            if (string.Equals(suffix, "px", StringComparison.OrdinalIgnoreCase))
-            {
-                text = text.Substring(0, text.Length - 2);
-            }
-            else if (string.Equals(suffix, "in", StringComparison.OrdinalIgnoreCase))
-            {
-                unit = 96f;
-                text = text.Substring(0, text.Length - 2);
-            }
-            else if (string.Equals(suffix, "cm", StringComparison.OrdinalIgnoreCase))
-            {
-                unit = 96f / 2.54f;
-                text = text.Substring(0, text.Length - 2);
-            }
-            else if (string.Equals(suffix, "mm", StringComparison.OrdinalIgnoreCase))
-            {
-                unit = 96f / 25.4f;
-                text = text.Substring(0, text.Length - 2);
-            }
-            else if (string.Equals(suffix, "pt", StringComparison.OrdinalIgnoreCase))
-            {
-                unit = 96f / 72f;
-                text = text.Substring(0, text.Length - 2);
-            }
-            else if (string.Equals(suffix, "pc", StringComparison.OrdinalIgnoreCase))
-            {
-                unit = 16f;
-                text = text.Substring(0, text.Length - 2);
-            }
+            unit = scale;
+            text = text.Substring(0, text.Length - 2);
         }
 
         if (!float.TryParse(text, NumberStyles.Float, CultureInfo.InvariantCulture, out var value)
@@ -283,7 +255,45 @@ internal static class KryptonSvgIntrinsicSize
         return true;
     }
 
-    private static bool StartsWith(string text, int index, string value)
+    /// <summary>
+    /// Maps a two-letter SVG length unit to a scale from user units into 96-DPI pixels.
+    /// </summary>
+    private static bool TryUnit(string suffix, out float scale)
+    {
+        if (string.Equals(suffix, "px", StringComparison.OrdinalIgnoreCase))
+        {
+            scale = 1f;
+        }
+        else if (string.Equals(suffix, "in", StringComparison.OrdinalIgnoreCase))
+        {
+            scale = 96f;
+        }
+        else if (string.Equals(suffix, "cm", StringComparison.OrdinalIgnoreCase))
+        {
+            scale = 96f / 2.54f;
+        }
+        else if (string.Equals(suffix, "mm", StringComparison.OrdinalIgnoreCase))
+        {
+            scale = 96f / 25.4f;
+        }
+        else if (string.Equals(suffix, "pt", StringComparison.OrdinalIgnoreCase))
+        {
+            scale = 96f / 72f;
+        }
+        else if (string.Equals(suffix, "pc", StringComparison.OrdinalIgnoreCase))
+        {
+            scale = 16f;
+        }
+        else
+        {
+            scale = 0f;
+            return false;
+        }
+
+        return true;
+    }
+
+    private static bool HasMatchAt(string text, int index, string value)
     {
         if (index < 0 || index + value.Length > text.Length)
         {

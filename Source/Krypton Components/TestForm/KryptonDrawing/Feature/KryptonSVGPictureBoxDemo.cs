@@ -97,6 +97,6 @@ public partial class KryptonSVGPictureBoxDemo : KryptonForm
     private void RefreshStatus()
     {
         var error = string.IsNullOrEmpty(ksvg.SvgError) ? "none" : ksvg.SvgError;
-        klblStatus.Values.Text = $"Rasterizer {ksvg.SvgRasterizer}, SizeMode {ksvg.SizeMode}, client {ksvg.ClientSize.Width}x{ksvg.ClientSize.Height}, DPI {ksvg.DeviceDpi}, error {error}";
+        klblStatus.Values.Text = $"SizeMode {ksvg.SizeMode}, client {ksvg.ClientSize.Width}x{ksvg.ClientSize.Height}, DPI {ksvg.DeviceDpi}, error {error}";
     }
 }

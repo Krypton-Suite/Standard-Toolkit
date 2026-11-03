@@ -58,7 +58,7 @@
 	<!-- NuGet Package Metadata -->
 	<PropertyGroup>
 		<PackageId>Krypton.Standard.Toolkit</PackageId>
-		<Description>All-in-one Krypton Standard Toolkit package: Krypton.Toolkit, Ribbon, Navigator, Workspace, Docking, Drawing, Themes, Interop, Toolkit.Utilities, Navigator.Utilities, and JumpList binaries (plus XML docs and symbols) for each target framework, including WinForms Design/WinForms designer assemblies where applicable. Krypton.Drawing uses Direct2D on Windows 10 and later. Svg.Skia, SkiaSharp, and their Windows native binaries are included only for the .NET Framework targets, which still run on Windows 7, 8, and 8.1.</Description>
+		<Description>All-in-one Krypton Standard Toolkit package: Krypton.Toolkit, Ribbon, Navigator, Workspace, Docking, Drawing, Themes, Interop, Toolkit.Utilities, Navigator.Utilities, and JumpList binaries (plus XML docs and symbols) for each target framework, including WinForms Design/WinForms designer assemblies where applicable. Krypton.Drawing rasterizes SVG with Direct2D on Windows 10 version 1703 and later.</Description>
 		<!-- Additional package metadata (version, authors, license, etc.) is defined in Directory.Build.props and Directory.Build.targets -->
 
 		<!--
@@ -262,34 +262,6 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Drawing.dll') And Exists('..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<!-- Svg.Skia closure, net4x only. Windows 10 and later draw with Direct2D and do not ship these assemblies. -->
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Svg.Skia.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Svg.Skia.dll')">
-				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
-			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Svg.Model.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Svg.Model.dll')">
-				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
-			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Svg.Custom.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Svg.Custom.dll')">
-				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
-			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Svg.SceneGraph.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Svg.SceneGraph.dll')">
-				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
-			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Svg.Animation.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Svg.Animation.dll')">
-				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
-			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)ShimSkiaSharp.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)ShimSkiaSharp.dll')">
-				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
-			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)SkiaSharp.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)SkiaSharp.dll')">
-				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
-			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)HarfBuzzSharp.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)HarfBuzzSharp.dll')">
-				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
-			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)ExCSS.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)ExCSS.dll')">
-				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
-			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -323,7 +295,7 @@
 			<TfmSpecificPackageFile Include="$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<!-- SkiaSharp's net4x asset needs this closure. SuppressDependenciesWhenPacking does not flow it. -->
+			<!-- Preserialized resources need this closure on net4x. SuppressDependenciesWhenPacking does not flow it. -->
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)System.Memory.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)System.Memory.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -528,34 +500,6 @@
 		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Pack="true" PackagePath="build\$(PackageId).props;buildTransitive\$(PackageId).props" Visible="false" />
 		<None Include="..\NetFramework.SystemResourcesExtensions.targets" Pack="true" PackagePath="build\$(PackageId).targets;buildTransitive\$(PackageId).targets" Visible="false" />
 		<None Include="..\..\..\Documents\License\Third-Party-Notices.md" Pack="true" PackagePath="\" Visible="false" />
-	</ItemGroup>
-
-	<!--
-	  Skia natives are for .NET Framework only (Windows 7, 8, and 8.1). They are packed under native\win-*
-	  rather than runtimes\win-*\native, so a net10 or net11 app does not copy them. Static Content is required:
-	  items added in a target before GenerateNuspec do not reach the cross-targeting nupkg.
-	  Prefer the NuGet cache, then the net4x output (Skia copies into x64\, x86\, and arm64\).
-	-->
-	<PropertyGroup>
-		<_KryptonSkiaPkgRuntimes>$(NuGetPackageRoot)skiasharp.nativeassets.win32\4.148.0\runtimes\</_KryptonSkiaPkgRuntimes>
-		<_KryptonHarfBuzzPkgRuntimes>$(NuGetPackageRoot)harfbuzzsharp.nativeassets.win32\14.2.0\runtimes\</_KryptonHarfBuzzPkgRuntimes>
-		<_KryptonNativeOut Condition="Exists('$(KryptonBuildOutputRoot)$(Configuration)\net472\x64\libSkiaSharp.dll')">$(KryptonBuildOutputRoot)$(Configuration)\net472\</_KryptonNativeOut>
-		<_KryptonNativeOut Condition="'$(_KryptonNativeOut)' == '' And Exists('$(KryptonBuildOutputRoot)$(Configuration)\net48\x64\libSkiaSharp.dll')">$(KryptonBuildOutputRoot)$(Configuration)\net48\</_KryptonNativeOut>
-		<_KryptonNativeOut Condition="'$(_KryptonNativeOut)' == '' And Exists('$(KryptonBuildOutputRoot)$(Configuration)\net481\x64\libSkiaSharp.dll')">$(KryptonBuildOutputRoot)$(Configuration)\net481\</_KryptonNativeOut>
-	</PropertyGroup>
-	<ItemGroup>
-		<Content Include="$(_KryptonSkiaPkgRuntimes)win-x64\native\libSkiaSharp.dll" Condition="Exists('$(_KryptonSkiaPkgRuntimes)win-x64\native\libSkiaSharp.dll')" Pack="true" PackagePath="native\win-x64\" />
-		<Content Include="$(_KryptonNativeOut)x64\libSkiaSharp.dll" Condition="!Exists('$(_KryptonSkiaPkgRuntimes)win-x64\native\libSkiaSharp.dll') And Exists('$(_KryptonNativeOut)x64\libSkiaSharp.dll')" Pack="true" PackagePath="native\win-x64\" />
-		<Content Include="$(_KryptonSkiaPkgRuntimes)win-x86\native\libSkiaSharp.dll" Condition="Exists('$(_KryptonSkiaPkgRuntimes)win-x86\native\libSkiaSharp.dll')" Pack="true" PackagePath="native\win-x86\" />
-		<Content Include="$(_KryptonNativeOut)x86\libSkiaSharp.dll" Condition="!Exists('$(_KryptonSkiaPkgRuntimes)win-x86\native\libSkiaSharp.dll') And Exists('$(_KryptonNativeOut)x86\libSkiaSharp.dll')" Pack="true" PackagePath="native\win-x86\" />
-		<Content Include="$(_KryptonSkiaPkgRuntimes)win-arm64\native\libSkiaSharp.dll" Condition="Exists('$(_KryptonSkiaPkgRuntimes)win-arm64\native\libSkiaSharp.dll')" Pack="true" PackagePath="native\win-arm64\" />
-		<Content Include="$(_KryptonNativeOut)arm64\libSkiaSharp.dll" Condition="!Exists('$(_KryptonSkiaPkgRuntimes)win-arm64\native\libSkiaSharp.dll') And Exists('$(_KryptonNativeOut)arm64\libSkiaSharp.dll')" Pack="true" PackagePath="native\win-arm64\" />
-		<Content Include="$(_KryptonHarfBuzzPkgRuntimes)win-x64\native\libHarfBuzzSharp.dll" Condition="Exists('$(_KryptonHarfBuzzPkgRuntimes)win-x64\native\libHarfBuzzSharp.dll')" Pack="true" PackagePath="native\win-x64\" />
-		<Content Include="$(_KryptonNativeOut)x64\libHarfBuzzSharp.dll" Condition="!Exists('$(_KryptonHarfBuzzPkgRuntimes)win-x64\native\libHarfBuzzSharp.dll') And Exists('$(_KryptonNativeOut)x64\libHarfBuzzSharp.dll')" Pack="true" PackagePath="native\win-x64\" />
-		<Content Include="$(_KryptonHarfBuzzPkgRuntimes)win-x86\native\libHarfBuzzSharp.dll" Condition="Exists('$(_KryptonHarfBuzzPkgRuntimes)win-x86\native\libHarfBuzzSharp.dll')" Pack="true" PackagePath="native\win-x86\" />
-		<Content Include="$(_KryptonNativeOut)x86\libHarfBuzzSharp.dll" Condition="!Exists('$(_KryptonHarfBuzzPkgRuntimes)win-x86\native\libHarfBuzzSharp.dll') And Exists('$(_KryptonNativeOut)x86\libHarfBuzzSharp.dll')" Pack="true" PackagePath="native\win-x86\" />
-		<Content Include="$(_KryptonHarfBuzzPkgRuntimes)win-arm64\native\libHarfBuzzSharp.dll" Condition="Exists('$(_KryptonHarfBuzzPkgRuntimes)win-arm64\native\libHarfBuzzSharp.dll')" Pack="true" PackagePath="native\win-arm64\" />
-		<Content Include="$(_KryptonNativeOut)arm64\libHarfBuzzSharp.dll" Condition="!Exists('$(_KryptonHarfBuzzPkgRuntimes)win-arm64\native\libHarfBuzzSharp.dll') And Exists('$(_KryptonNativeOut)arm64\libHarfBuzzSharp.dll')" Pack="true" PackagePath="native\win-arm64\" />
 	</ItemGroup>
 
 </Project>

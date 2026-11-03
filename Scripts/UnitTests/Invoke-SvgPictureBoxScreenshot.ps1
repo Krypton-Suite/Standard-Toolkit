@@ -1,14 +1,10 @@
 ﻿<#
 .SYNOPSIS
     Hosts KryptonSVGPictureBoxDemo and writes a PrintWindow PNG.
-    Set KRYPTON_SVG_RASTERIZER to Direct2D or Skia before the form is created when a specific path is required.
-    The net472 build can load Skia. net10 and net11 ignore Skia and use Direct2D.
-    Adds the shared output x64 folder to PATH so a forced Skia path can load libSkiaSharp.dll.
 
 .DESCRIPTION
     Loads the Debug TestForm build in-process (STA), shows the SVG picture box demo,
     and writes Documents/PR/4657-krypton-svg-picture-box.png via Save-UnitTestWindowPng.
-    Adds the shared output x64 folder to PATH so a forced Skia path can load libSkiaSharp.dll.
 
     # UnitTest-CI: exclude
 
@@ -30,11 +26,6 @@ $repoRoot = Get-UnitTestRepoRoot
 $bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -TargetFramework $TargetFramework -BinDir $BinDir
 if (-not $OutputPath) {
     $OutputPath = Join-Path $repoRoot 'Documents\PR\4657-krypton-svg-picture-box.png'
-}
-
-$nativeDir = Join-Path $bin 'x64'
-if (Test-Path -LiteralPath $nativeDir) {
-    $env:PATH = $nativeDir + [System.IO.Path]::PathSeparator + $env:PATH
 }
 
 Register-UnitTestAssemblyResolver -BinDir $bin

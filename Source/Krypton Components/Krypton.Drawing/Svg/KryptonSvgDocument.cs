@@ -26,22 +26,10 @@ internal interface IKryptonSvgDocument : IDisposable
 }
 
 /// <summary>
-/// Opens markup with the rasterizer selected for this process.
+/// Opens markup with Direct2D. Windows 7, 8, 8.1, and Windows 10 builds before 1703 fail the open.
 /// </summary>
 internal static class KryptonSvgDocuments
 {
-    internal static IKryptonSvgDocument? TryOpen(string svg, out string? error)
-    {
-        if (KryptonSvgRasterizerChoice.Active == KryptonSvgRasterizer.Direct2D)
-        {
-            return KryptonSvgDirect2DDocument.TryOpen(svg, out error);
-        }
-
-#if NETFRAMEWORK
-        return KryptonSvgSkiaDocument.TryOpen(svg, out error);
-#else
-        error = "Direct2D SVG is not available on this version of Windows.";
-        return null;
-#endif
-    }
+    internal static IKryptonSvgDocument? TryOpen(string svg, out string? error) =>
+        KryptonSvgDirect2DDocument.TryOpen(svg, out error);
 }

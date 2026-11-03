@@ -16,6 +16,8 @@ namespace Krypton.Drawing;
 /// <remarks>
 /// This type does not derive from <see cref="PictureBox"/>. A picture box serializes its
 /// raster <see cref="PictureBox.Image"/>, which would replace the SVG source in the designer.
+/// Drawing uses Direct2D on Windows 10 version 1703 and later. Earlier Windows versions
+/// set <see cref="SvgError"/> and paint nothing.
 /// </remarks>
 [Category(@"code")]
 [ToolboxBitmap(typeof(PictureBox))]
@@ -114,17 +116,6 @@ public class KryptonSVGPictureBox : Control
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public string? SvgError { get; private set; }
-
-    /// <summary>
-    /// Gets the rasterizer that draws <see cref="Svg"/> on this operating system.
-    /// </summary>
-    /// <remarks>
-    /// Windows 10 version 1703 and later use Direct2D. Earlier Windows versions use Svg.Skia.
-    /// The value is chosen once for the process and is not serialized.
-    /// </remarks>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonSvgRasterizer SvgRasterizer => KryptonSvgRasterizerChoice.Active;
 
     /// <summary>
     /// Gets access to the ToolTip values for this control.

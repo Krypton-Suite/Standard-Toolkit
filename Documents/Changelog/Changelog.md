@@ -46,7 +46,8 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
-- Implemented [#4657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4657), `KryptonSVGPictureBox` displays static SVG markup, with file and stream load, picture-box size modes, and DPI-aware rasterization. Windows 10 and later draw with Direct2D. Windows 7, 8, and 8.1 use Svg.Skia, which is packed only with the .NET Framework builds.
+- Implemented [#4657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4657), `KryptonSVGPictureBox` displays static SVG markup, with file and stream load, picture-box size modes, and DPI-aware rasterization.
+  - Supported on Windows 10 and higher only. For Windows 7, 8, and 8.1 support, see [Extended Toolkit](https://github.com/Krypton-Suite/Extended-Toolkit).
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Drawing` assembly.
 - Implemented [#3806](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3806), Windows XP Themes
   - Windows XP visual-style Extra themes in `Krypton.Themes`: Luna Blue / Olive / Silver, Royale, Royale Noir, Zune, and Embedded, with a dedicated XP renderer in `Krypton.Toolkit` and typed bitmaps from `Krypton.Resources`.
