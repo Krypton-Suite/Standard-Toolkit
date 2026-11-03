@@ -32,15 +32,17 @@ internal partial class VisualApplicationUpdatePromptForm
             this.lblNew = new Krypton.Toolkit.KryptonLabel();
             this.lblSeverity = new Krypton.Toolkit.KryptonLabel();
             this.lblMandatory = new Krypton.Toolkit.KryptonLabel();
-            this.buttonPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.btnUpdate = new Krypton.Toolkit.KryptonButton();
             this.btnNotes = new Krypton.Toolkit.KryptonButton();
             this.btnRemind = new Krypton.Toolkit.KryptonButton();
             this.btnSkip = new Krypton.Toolkit.KryptonButton();
+            this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel)).BeginInit();
             this.kryptonPanel.SuspendLayout();
             this.table.SuspendLayout();
-            this.buttonPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
+            this.kryptonPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel
@@ -50,7 +52,7 @@ internal partial class VisualApplicationUpdatePromptForm
             this.kryptonPanel.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel.Name = "kryptonPanel";
             this.kryptonPanel.Padding = new System.Windows.Forms.Padding(12);
-            this.kryptonPanel.Size = new System.Drawing.Size(560, 230);
+            this.kryptonPanel.Size = new System.Drawing.Size(650, 180);
             this.kryptonPanel.TabIndex = 0;
             // 
             // table
@@ -63,18 +65,17 @@ internal partial class VisualApplicationUpdatePromptForm
             this.table.Controls.Add(this.lblNew, 0, 2);
             this.table.Controls.Add(this.lblSeverity, 0, 3);
             this.table.Controls.Add(this.lblMandatory, 0, 4);
-            this.table.Controls.Add(this.buttonPanel, 0, 5);
             this.table.Dock = System.Windows.Forms.DockStyle.Fill;
             this.table.Location = new System.Drawing.Point(12, 12);
             this.table.Name = "table";
-            this.table.RowCount = 6;
+            this.table.RowCount = 5;
             this.table.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.table.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.table.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.table.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 52F));
-            this.table.Size = new System.Drawing.Size(536, 206);
+            this.table.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.table.Size = new System.Drawing.Size(626, 156);
             this.table.TabIndex = 0;
             // 
             // lblHeading
@@ -83,7 +84,7 @@ internal partial class VisualApplicationUpdatePromptForm
             this.lblHeading.LabelStyle = Krypton.Toolkit.LabelStyle.TitlePanel;
             this.lblHeading.Location = new System.Drawing.Point(3, 3);
             this.lblHeading.Name = "lblHeading";
-            this.lblHeading.Size = new System.Drawing.Size(530, 29);
+            this.lblHeading.Size = new System.Drawing.Size(620, 29);
             this.lblHeading.TabIndex = 0;
             this.lblHeading.Values.Text = "A new version is available.";
             // 
@@ -92,7 +93,7 @@ internal partial class VisualApplicationUpdatePromptForm
             this.lblCurrent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblCurrent.Location = new System.Drawing.Point(3, 38);
             this.lblCurrent.Name = "lblCurrent";
-            this.lblCurrent.Size = new System.Drawing.Size(530, 20);
+            this.lblCurrent.Size = new System.Drawing.Size(620, 20);
             this.lblCurrent.TabIndex = 1;
             this.lblCurrent.Values.Text = "Current version:";
             // 
@@ -101,7 +102,7 @@ internal partial class VisualApplicationUpdatePromptForm
             this.lblNew.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblNew.Location = new System.Drawing.Point(3, 64);
             this.lblNew.Name = "lblNew";
-            this.lblNew.Size = new System.Drawing.Size(530, 20);
+            this.lblNew.Size = new System.Drawing.Size(620, 20);
             this.lblNew.TabIndex = 2;
             this.lblNew.Values.Text = "New version:";
             // 
@@ -110,7 +111,7 @@ internal partial class VisualApplicationUpdatePromptForm
             this.lblSeverity.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblSeverity.Location = new System.Drawing.Point(3, 90);
             this.lblSeverity.Name = "lblSeverity";
-            this.lblSeverity.Size = new System.Drawing.Size(530, 20);
+            this.lblSeverity.Size = new System.Drawing.Size(620, 20);
             this.lblSeverity.TabIndex = 3;
             this.lblSeverity.Values.Text = "Severity:";
             // 
@@ -119,32 +120,14 @@ internal partial class VisualApplicationUpdatePromptForm
             this.lblMandatory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lblMandatory.Location = new System.Drawing.Point(3, 116);
             this.lblMandatory.Name = "lblMandatory";
-            this.lblMandatory.Size = new System.Drawing.Size(530, 20);
+            this.lblMandatory.Size = new System.Drawing.Size(620, 37);
             this.lblMandatory.TabIndex = 4;
             this.lblMandatory.Values.Text = "This update is required.";
             this.lblMandatory.Visible = false;
             // 
-            // buttonPanel
-            // 
-            this.buttonPanel.AutoSize = false;
-            this.buttonPanel.Controls.Add(this.btnUpdate);
-            this.buttonPanel.Controls.Add(this.btnNotes);
-            this.buttonPanel.Controls.Add(this.btnRemind);
-            this.buttonPanel.Controls.Add(this.btnSkip);
-            this.buttonPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonPanel.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
-            this.buttonPanel.Location = new System.Drawing.Point(0, 154);
-            this.buttonPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.buttonPanel.Name = "buttonPanel";
-            this.buttonPanel.Padding = new System.Windows.Forms.Padding(0);
-            this.buttonPanel.Size = new System.Drawing.Size(536, 52);
-            this.buttonPanel.TabIndex = 5;
-            this.buttonPanel.WrapContents = false;
-            // 
             // btnUpdate
             // 
-            this.btnUpdate.AutoSize = false;
-            this.btnUpdate.Location = new System.Drawing.Point(0, 8);
+            this.btnUpdate.Location = new System.Drawing.Point(32, 9);
             this.btnUpdate.Margin = new System.Windows.Forms.Padding(0, 8, 12, 0);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(120, 32);
@@ -153,8 +136,7 @@ internal partial class VisualApplicationUpdatePromptForm
             // 
             // btnNotes
             // 
-            this.btnNotes.AutoSize = false;
-            this.btnNotes.Location = new System.Drawing.Point(132, 8);
+            this.btnNotes.Location = new System.Drawing.Point(164, 9);
             this.btnNotes.Margin = new System.Windows.Forms.Padding(0, 8, 12, 0);
             this.btnNotes.Name = "btnNotes";
             this.btnNotes.Size = new System.Drawing.Size(140, 32);
@@ -163,8 +145,7 @@ internal partial class VisualApplicationUpdatePromptForm
             // 
             // btnRemind
             // 
-            this.btnRemind.AutoSize = false;
-            this.btnRemind.Location = new System.Drawing.Point(284, 8);
+            this.btnRemind.Location = new System.Drawing.Point(316, 9);
             this.btnRemind.Margin = new System.Windows.Forms.Padding(0, 8, 12, 0);
             this.btnRemind.Name = "btnRemind";
             this.btnRemind.Size = new System.Drawing.Size(160, 32);
@@ -173,8 +154,7 @@ internal partial class VisualApplicationUpdatePromptForm
             // 
             // btnSkip
             // 
-            this.btnSkip.AutoSize = false;
-            this.btnSkip.Location = new System.Drawing.Point(456, 8);
+            this.btnSkip.Location = new System.Drawing.Point(488, 9);
             this.btnSkip.Margin = new System.Windows.Forms.Padding(0, 8, 12, 0);
             this.btnSkip.Name = "btnSkip";
             this.btnSkip.Size = new System.Drawing.Size(150, 32);
@@ -182,12 +162,36 @@ internal partial class VisualApplicationUpdatePromptForm
             this.btnSkip.Values.Text = "Skip this version";
             this.btnSkip.Visible = false;
             // 
+            // kryptonPanel1
+            // 
+            this.kryptonPanel1.Controls.Add(this.btnUpdate);
+            this.kryptonPanel1.Controls.Add(this.kryptonBorderEdge1);
+            this.kryptonPanel1.Controls.Add(this.btnNotes);
+            this.kryptonPanel1.Controls.Add(this.btnSkip);
+            this.kryptonPanel1.Controls.Add(this.btnRemind);
+            this.kryptonPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.kryptonPanel1.Location = new System.Drawing.Point(0, 180);
+            this.kryptonPanel1.Name = "kryptonPanel1";
+            this.kryptonPanel1.PanelBackStyle = Krypton.Toolkit.PaletteBackStyle.PanelAlternate;
+            this.kryptonPanel1.Size = new System.Drawing.Size(650, 50);
+            this.kryptonPanel1.TabIndex = 2;
+            // 
+            // kryptonBorderEdge1
+            // 
+            this.kryptonBorderEdge1.BorderStyle = Krypton.Toolkit.PaletteBorderStyle.HeaderPrimary;
+            this.kryptonBorderEdge1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.kryptonBorderEdge1.Location = new System.Drawing.Point(0, 0);
+            this.kryptonBorderEdge1.Name = "kryptonBorderEdge1";
+            this.kryptonBorderEdge1.Size = new System.Drawing.Size(650, 1);
+            this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
+            // 
             // VisualApplicationUpdatePromptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 230);
+            this.ClientSize = new System.Drawing.Size(650, 230);
             this.Controls.Add(this.kryptonPanel);
+            this.Controls.Add(this.kryptonPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -199,7 +203,9 @@ internal partial class VisualApplicationUpdatePromptForm
             this.kryptonPanel.ResumeLayout(false);
             this.table.ResumeLayout(false);
             this.table.PerformLayout();
-            this.buttonPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
+            this.kryptonPanel1.ResumeLayout(false);
+            this.kryptonPanel1.PerformLayout();
             this.ResumeLayout(false);
 
     }
@@ -211,9 +217,10 @@ internal partial class VisualApplicationUpdatePromptForm
     private Krypton.Toolkit.KryptonLabel lblNew;
     private Krypton.Toolkit.KryptonLabel lblSeverity;
     private Krypton.Toolkit.KryptonLabel lblMandatory;
-    private System.Windows.Forms.FlowLayoutPanel buttonPanel;
     private Krypton.Toolkit.KryptonButton btnUpdate;
     private Krypton.Toolkit.KryptonButton btnNotes;
     private Krypton.Toolkit.KryptonButton btnRemind;
     private Krypton.Toolkit.KryptonButton btnSkip;
+    private KryptonPanel kryptonPanel1;
+    private KryptonBorderEdge kryptonBorderEdge1;
 }

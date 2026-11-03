@@ -11,7 +11,7 @@ namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
 /// Shows download progress. Cancel stays available while bytes are moving.
-/// A folded footer shows the file name, size, speed, and time remaining.
+/// The file name, size, speed, and time remaining fold out below the button footer.
 /// After the transfer stops early, the window stays open for resume, restart, or close.
 /// </summary>
 internal partial class VisualApplicationUpdateProgressForm : KryptonForm
@@ -23,6 +23,7 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
     private bool _allowClose;
     private bool _detailsExpanded;
     private int _collapsedClientHeight;
+    private int _footerHeight;
     private TaskCompletionSource<KryptonUpdateDownloadRecovery>? _recovery;
     private KryptonApplicationUpdaterStrings _strings = new KryptonApplicationUpdaterStrings();
     private string _fileName = string.Empty;
@@ -35,6 +36,7 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
     public VisualApplicationUpdateProgressForm()
     {
         InitializeComponent();
+        _footerHeight = kryptonPanel1.Height;
         _collapsedClientHeight = ClientSize.Height;
         btnDetails.Click += OnDetails;
         btnCancel.Click += OnCancel;
@@ -211,8 +213,10 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
     {
         _detailsExpanded = !_detailsExpanded;
         var height = ScaledDetailsHeight();
-        table.RowStyles[3].Height = _detailsExpanded ? height : 0;
+        // Grow the docked footer downward. The progress area above it keeps its height.
+        detailsPanel.Height = _detailsExpanded ? height : 0;
         detailsPanel.Visible = _detailsExpanded;
+        kryptonPanel1.Height = _footerHeight + (_detailsExpanded ? height : 0);
         ClientSize = new Size(ClientSize.Width, _collapsedClientHeight + (_detailsExpanded ? height : 0));
         ApplyDetailsButton();
     }
