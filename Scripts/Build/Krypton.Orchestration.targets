@@ -15,6 +15,7 @@
 		<KryptonWorkspaceProject>$(KryptonComponentsRoot)\Krypton.Workspace\Krypton.Workspace 2022.csproj</KryptonWorkspaceProject>
 		<KryptonDockingProject>$(KryptonComponentsRoot)\Krypton.Docking\Krypton.Docking 2022.csproj</KryptonDockingProject>
 		<KryptonToolkitJumpListProject>$(KryptonComponentsRoot)\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj</KryptonToolkitJumpListProject>
+		<KryptonDrawingProject>$(KryptonComponentsRoot)\Krypton.Drawing\Krypton.Drawing.csproj</KryptonDrawingProject>
 		<KryptonNavigatorUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj</KryptonNavigatorUtilitiesProject>
 		<KryptonToolkitUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj</KryptonToolkitUtilitiesProject>
 		<KryptonChartingProject>$(KryptonComponentsRoot)\Krypton.Charting\Krypton.Charting.csproj</KryptonChartingProject>
@@ -84,6 +85,9 @@
 		         Targets="Build" />
 
 		<!-- Satellite assemblies for Krypton.Standard.Toolkit; sequential to avoid shared-output races. -->
+		<MSBuild Projects="$(KryptonDrawingProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
 		<MSBuild Projects="$(KryptonToolkitJumpListProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
@@ -161,6 +165,10 @@
 
 		<!-- JumpList is bundled in the aggregate package but is not a Standard.Toolkit project reference. -->
 		<MSBuild Projects="$(KryptonToolkitJumpListProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+		<!-- Drawing is a project reference, and is built again here so pack still sees it if KryptonBuild is skipped. -->
+		<MSBuild Projects="$(KryptonDrawingProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
 

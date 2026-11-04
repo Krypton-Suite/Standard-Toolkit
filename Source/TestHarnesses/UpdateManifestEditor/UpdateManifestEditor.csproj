@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<UseWindowsForms>true</UseWindowsForms>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<RootNamespace>UpdateManifestEditor</RootNamespace>
+		<AssemblyName>UpdateManifestEditor</AssemblyName>
+		<IsPackable>false</IsPackable>
+		<LangVersion>preview</LangVersion>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<ApplicationVisualStyles>true</ApplicationVisualStyles>
+		<StartupObject>UpdateManifestEditor.Program</StartupObject>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Krypton Components\Krypton.Interop\Krypton.Interop.csproj" />
+		<ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="System.Web.Extensions" />
+	</ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
 	<Import Project="$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props"
 	        Condition="Exists('$(MSBuildThisFileDirectory)NetFramework.SystemResourcesExtensions.BindingRedirects.props')" />
 
@@ -75,6 +75,12 @@
 			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Formats.Nrbf.dll')" />
 			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Memory.dll"
 			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Memory.dll')" />
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Buffers.dll"
+			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Buffers.dll')" />
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Runtime.CompilerServices.Unsafe.dll"
+			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Runtime.CompilerServices.Unsafe.dll')" />
+			<ReferenceCopyLocalPaths Include="$(_KryptonBundledSreLibPath)System.Numerics.Vectors.dll"
+			                         Condition="Exists('$(_KryptonBundledSreLibPath)System.Numerics.Vectors.dll')" />
 		</ItemGroup>
 	</Target>
 </Project>

@@ -6,6 +6,7 @@
 	
 		This project creates a combined NuGet package that includes all the core Krypton libraries:
 		- Krypton.Docking
+		- Krypton.Drawing
 		- Krypton.Interop
 		- Krypton.Resources
 		- Krypton.Navigator
@@ -58,7 +59,7 @@
 	<!-- NuGet Package Metadata -->
 	<PropertyGroup>
 		<PackageId>Krypton.Standard.Toolkit</PackageId>
-		<Description>All-in-one Krypton Standard Toolkit package: Krypton.Toolkit, Ribbon, Navigator, Workspace, Docking, Themes, Interop, Toolkit.Utilities, Navigator.Utilities, Charting, and JumpList binaries (plus XML docs and symbols) for each target framework, including WinForms Design/WinForms designer assemblies where applicable.</Description>
+		<Description>All-in-one Krypton Standard Toolkit package: Krypton.Toolkit, Ribbon, Navigator, Workspace, Docking, Drawing, Themes, Interop, Toolkit.Utilities, Navigator.Utilities, Charting, and JumpList binaries (plus XML docs and symbols) for each target framework, including WinForms Design/WinForms designer assemblies where applicable. Krypton.Drawing rasterizes SVG with Direct2D on Windows 10 version 1703 and later.</Description>
 		<!-- Additional package metadata (version, authors, license, etc.) is defined in Directory.Build.props and Directory.Build.targets -->
 
 		<!--
@@ -118,6 +119,7 @@
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>
 		<ProjectReference Include="..\Krypton.Charting\Krypton.Charting.csproj">
+		<ProjectReference Include="..\Krypton.Drawing\Krypton.Drawing.csproj">
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>
 		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
@@ -256,6 +258,12 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Resources.dll') And Exists('..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Drawing.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Drawing.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Drawing.dll') And Exists('..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -293,6 +301,19 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Formats_Nrbf)\lib\net462\System.Formats.Nrbf.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<!-- Preserialized resources need this closure on net4x. SuppressDependenciesWhenPacking does not flow it. -->
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)System.Memory.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)System.Memory.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)System.Buffers.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)System.Buffers.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)System.Runtime.CompilerServices.Unsafe.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)System.Runtime.CompilerServices.Unsafe.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)System.Numerics.Vectors.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)System.Numerics.Vectors.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 
@@ -339,6 +360,12 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Toolkit.xml') And Exists('..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Drawing.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Drawing.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Drawing.xml') And Exists('..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Interop.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Interop.xml')">
@@ -407,6 +434,12 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Toolkit.pdb') And Exists('..\Krypton.Toolkit\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Drawing.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Drawing.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Drawing.pdb') And Exists('..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Interop.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Interop.pdb')">
@@ -489,6 +522,7 @@
 	<ItemGroup>
 		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Pack="true" PackagePath="build\$(PackageId).props;buildTransitive\$(PackageId).props" Visible="false" />
 		<None Include="..\NetFramework.SystemResourcesExtensions.targets" Pack="true" PackagePath="build\$(PackageId).targets;buildTransitive\$(PackageId).targets" Visible="false" />
+		<None Include="..\..\..\Documents\License\Third-Party-Notices.md" Pack="true" PackagePath="\" Visible="false" />
 	</ItemGroup>
 
 </Project>

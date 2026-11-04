@@ -52,6 +52,15 @@
   - Each item has a `Style`: `Normal`, `Hatched`, `Completed`, `Delayed`, or `Cancelled`. The palette still supplies the base colours. The style adds a hatch, a status stripe, a check, or a strike.
   - `ItemStyles` expands in the property grid. Each of Hatched, Completed, Delayed, and Cancelled has `Stripe`, `Hatch`, and `Mark`. Leave a colour empty to keep the built-in colour for that part.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as these controls are part of the `Krypton.Charting` assembly.
+- Implemented [#4657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4657), `KryptonSVGPictureBox` displays static SVG markup, with file and stream load, picture-box size modes, and DPI-aware rasterization.
+  - Supported on Windows 10 and higher only. For Windows 7, 8, and 8.1 support, see [Extended Toolkit](https://github.com/Krypton-Suite/Extended-Toolkit).
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Drawing` assembly.
+- Implemented [#4669](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4669), `KryptonApplicationUpdater` checks a JSON manifest or the latest GitHub release, prompts by severity, and applies a verified installer or zip.
+  - The update prompt lists every newer package's release notes, and `ShowReleaseNotesAsync` opens that view on demand.
+  - A download that drops or is cancelled stays on the progress window so it can be resumed or started again. The whole file is still checked before it is applied.
+  - Release notes open in their own window, Remind later asks for a date or skips that version, and the progress window can show file name, size, speed, and time remaining.
+  - The update manifest can limit how many days Remind later offers, and can allow or block postpone, skip, resume, and retry. A critical package blocks postpone unless `allowPostpone` is true and blocks skip unless `allowSkip` is true. `allowRetry` false hides Restart.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 - Implemented [#3806](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3806), Windows XP Themes
   - Windows XP visual-style Extra themes in `Krypton.Themes`: Luna Blue / Olive / Silver, Royale, Royale Noir, Zune, and Embedded, with a dedicated XP renderer in `Krypton.Toolkit` and typed bitmaps from `Krypton.Resources`.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package (or reference `Krypton.Themes` alongside `Krypton.Toolkit`), so the Extra themes are discovered at runtime.

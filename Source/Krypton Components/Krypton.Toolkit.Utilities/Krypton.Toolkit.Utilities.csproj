@@ -188,6 +188,64 @@
 	    <DependentUpon>Resources.resx</DependentUpon>
 	  </Compile>
 	  <Compile Update="Z:\Development\Krypton\Standard-Toolkit\Source\Krypton Components\Krypton.Shared\..\Krypton.Toolkit\Utilities\FileSystemIconHelper.cs" Link="Components\Krypton File System Tree View\Utilities\FileSystemIconHelper.cs" />
+	  <Compile Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdatePromptForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdatePromptForm.Designer.cs">
+	    <DependentUpon>VisualApplicationUpdatePromptForm.cs</DependentUpon>
+	  </Compile>
+	  <Compile Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdateProgressForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdateProgressForm.Designer.cs">
+	    <DependentUpon>VisualApplicationUpdateProgressForm.cs</DependentUpon>
+	  </Compile>
+	  <Compile Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdateNotesForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdateNotesForm.Designer.cs">
+	    <DependentUpon>VisualApplicationUpdateNotesForm.cs</DependentUpon>
+	  </Compile>
+	  <Compile Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdatePostponeForm.cs">
+	    <SubType>Form</SubType>
+	  </Compile>
+	  <Compile Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdatePostponeForm.Designer.cs">
+	    <DependentUpon>VisualApplicationUpdatePostponeForm.cs</DependentUpon>
+	  </Compile>
 	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdatePromptForm.resx">
+	    <DependentUpon>VisualApplicationUpdatePromptForm.cs</DependentUpon>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="Components\Krypton Application Updater\Controls Visuals\VisualApplicationUpdateProgressForm.resx">
+	    <DependentUpon>VisualApplicationUpdateProgressForm.cs</DependentUpon>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+	<!-- The helper is a net472 exe embedded in every utilities TFM. It is not a compile or package reference. -->
+	<ItemGroup>
+	  <ProjectReference Include="..\Krypton.Toolkit.Utilities.UpdateHelper\Krypton.Toolkit.Utilities.UpdateHelper.csproj">
+	    <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+	    <Private>false</Private>
+	    <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
+	    <GlobalPropertiesToRemove>TargetFramework</GlobalPropertiesToRemove>
+	    <AdditionalProperties>TargetFramework=net472</AdditionalProperties>
+	    <SetTargetFramework>TargetFramework=net472</SetTargetFramework>
+	  </ProjectReference>
+	</ItemGroup>
+
+	<Target Name="EmbedUpdateHelper" BeforeTargets="AssignTargetPaths" DependsOnTargets="ResolveProjectReferences" Condition="'$(DesignTimeBuild)' != 'true'">
+	  <PropertyGroup>
+	    <_UpdateHelperExe>$(KryptonBuildOutputRoot)$(Configuration)\net472\Krypton.Toolkit.Utilities.UpdateHelper.exe</_UpdateHelperExe>
+	  </PropertyGroup>
+	  <Error Condition="!Exists('$(_UpdateHelperExe)')" Text="Krypton.Toolkit.Utilities.UpdateHelper.exe was not produced at $(_UpdateHelperExe). Zip updates cannot be embedded." />
+	  <ItemGroup>
+	    <EmbeddedResource Include="$(_UpdateHelperExe)">
+	      <LogicalName>Krypton.Toolkit.Utilities.UpdateHelper.exe</LogicalName>
+	      <ManifestResourceName>Krypton.Toolkit.Utilities.UpdateHelper.exe</ManifestResourceName>
+	    </EmbeddedResource>
+	  </ItemGroup>
+	</Target>
 
 </Project>
