@@ -203,6 +203,9 @@
     <Project Path="Krypton.Themes/Krypton.Themes.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
+    <Project Path="Krypton.Drawing/Krypton.Drawing.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
     <Project Path="Krypton.Toolkit.JumpList/Krypton.Toolkit.JumpList.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
