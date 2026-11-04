@@ -99,6 +99,12 @@
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.Designer.cs">
       <DependentUpon>LoadingCircleDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.Designer.cs">
+      <DependentUpon>ApplicationUpdaterDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonUtilities\Feature\CommandLinkButtons.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -231,6 +237,9 @@
   <ItemGroup>
     <EmbeddedResource Update="KryptonUtilities\Feature\CommandLinkButtons.resx">
       <DependentUpon>CommandLinkButtons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.resx">
+      <DependentUpon>ApplicationUpdaterDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
