@@ -31,6 +31,7 @@
     <ProjectReference Include="..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
     <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Drawing\Krypton.Drawing.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
     <ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
@@ -98,6 +99,12 @@
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.cs" />
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.Designer.cs">
       <DependentUpon>LoadingCircleDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.Designer.cs">
+      <DependentUpon>ApplicationUpdaterDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonUtilities\Feature\CommandLinkButtons.cs">
       <SubType>Form</SubType>
@@ -196,6 +203,15 @@
     <Compile Update="Feature3851RenderingDpiDemo.Designer.cs">
       <DependentUpon>Feature3851RenderingDpiDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.Designer.cs">
+      <DependentUpon>KryptonSVGPictureBoxDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.resx">
+      <DependentUpon>KryptonSVGPictureBoxDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Update="KryptonToolkit\Feature\KryptonSplitButtonDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -231,6 +247,9 @@
   <ItemGroup>
     <EmbeddedResource Update="KryptonUtilities\Feature\CommandLinkButtons.resx">
       <DependentUpon>CommandLinkButtons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.resx">
+      <DependentUpon>ApplicationUpdaterDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
@@ -294,6 +313,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="KryptonDrawing\Bugs\" />
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonUtilities\Bugs\" />
