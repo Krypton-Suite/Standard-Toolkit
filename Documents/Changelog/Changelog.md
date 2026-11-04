@@ -46,6 +46,9 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4657), `KryptonSVGPictureBox` displays static SVG markup, with file and stream load, picture-box size modes, and DPI-aware rasterization.
+  - Supported on Windows 10 and higher only. For Windows 7, 8, and 8.1 support, see [Extended Toolkit](https://github.com/Krypton-Suite/Extended-Toolkit).
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Drawing` assembly.
 - Implemented [#4669](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4669), `KryptonApplicationUpdater` checks a JSON manifest or the latest GitHub release, prompts by severity, and applies a verified installer or zip.
   - The update prompt lists every newer package's release notes, and `ShowReleaseNotesAsync` opens that view on demand.
   - A download that drops or is cancelled stays on the progress window so it can be resumed or started again. The whole file is still checked before it is applied.
