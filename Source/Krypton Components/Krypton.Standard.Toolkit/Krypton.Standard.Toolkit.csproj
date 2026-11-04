@@ -118,7 +118,7 @@
 		<ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj">
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>
-		<ProjectReference Include="..\Krypton.Charting\Krypton.Charting.csproj">
+		<ProjectReference Include="..\Krypton.Charting\Krypton.Charting.csproj" />
 		<ProjectReference Include="..\Krypton.Drawing\Krypton.Drawing.csproj">
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>
