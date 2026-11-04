@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<!-- Directory.Build.props assigns the suite TFM list. This body replaces that list: the helper stays on net472. -->
+		<TargetFrameworks>net472</TargetFrameworks>
+		<RootNamespace>Krypton.Toolkit.Utilities.UpdateHelper</RootNamespace>
+		<AssemblyName>Krypton.Toolkit.Utilities.UpdateHelper</AssemblyName>
+		<IsPackable>false</IsPackable>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<LangVersion>preview</LangVersion>
+		<UseWindowsForms>false</UseWindowsForms>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
+		<StartupObject>Krypton.Toolkit.Utilities.UpdateHelper.Program</StartupObject>
+		<Description>Extracts a verified zip update after the host process exits. Embedded in Krypton.Toolkit.Utilities; not a consumer dependency.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Reference Include="System.IO.Compression" />
+		<Reference Include="System.IO.Compression.FileSystem" />
+		<Reference Include="System.Web.Extensions" />
+	</ItemGroup>
+
+</Project>

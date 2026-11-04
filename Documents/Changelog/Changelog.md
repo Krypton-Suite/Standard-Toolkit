@@ -48,6 +48,15 @@
 
 - Resolved [#4249](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4249), Startup on the default theme no longer loads every extra palette.
   - `Krypton.Themes.dll` loads on the first UI idle, after the first form can paint. An extra `PaletteMode` or a theme list still loads it immediately. The designer does not use the idle probe. Toolbar packs, checkbox, radio, and gallery strips, and Microsoft 365 button-spec images load when something draws them. Caption glyphs stay ready for the first form.
+- Implemented [#4657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4657), `KryptonSVGPictureBox` displays static SVG markup, with file and stream load, picture-box size modes, and DPI-aware rasterization.
+  - Supported on Windows 10 and higher only. For Windows 7, 8, and 8.1 support, see [Extended Toolkit](https://github.com/Krypton-Suite/Extended-Toolkit).
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Drawing` assembly.
+- Implemented [#4669](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4669), `KryptonApplicationUpdater` checks a JSON manifest or the latest GitHub release, prompts by severity, and applies a verified installer or zip.
+  - The update prompt lists every newer package's release notes, and `ShowReleaseNotesAsync` opens that view on demand.
+  - A download that drops or is cancelled stays on the progress window so it can be resumed or started again. The whole file is still checked before it is applied.
+  - Release notes open in their own window, Remind later asks for a date or skips that version, and the progress window can show file name, size, speed, and time remaining.
+  - The update manifest can limit how many days Remind later offers, and can allow or block postpone, skip, resume, and retry. A critical package blocks postpone unless `allowPostpone` is true and blocks skip unless `allowSkip` is true. `allowRetry` false hides Restart.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 - Implemented [#3806](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3806), Windows XP Themes
   - Windows XP visual-style Extra themes in `Krypton.Themes`: Luna Blue / Olive / Silver, Royale, Royale Noir, Zune, and Embedded, with a dedicated XP renderer in `Krypton.Toolkit` and typed bitmaps from `Krypton.Resources`.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package (or reference `Krypton.Themes` alongside `Krypton.Toolkit`), so the Extra themes are discovered at runtime.

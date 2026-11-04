@@ -101,6 +101,11 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-DisabledCaptionGlyph.ps1` | #4413 disabled caption glyph colours and empty close fill for Office 2010 / 2013 / Microsoft 365 | `include` |
 | `Invoke-4413DisabledCaptionScreenshot.ps1` | Hosts `Bug4413DisabledCaptionGlyphDemo` (#4413) and writes `Documents/PR/4413-disabled-caption-glyph-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-SvgPictureBoxScreenshot.ps1` | Hosts `KryptonSVGPictureBoxDemo` (#4657) and writes `Documents/PR/4657-krypton-svg-picture-box.png`. | `exclude` |
+| `Invoke-ApplicationUpdaterScreenshot.ps1` | Hosts `ApplicationUpdaterDemo` (#4669), captures the update prompt and the up-to-date notes window, and checks a local zip extract | `exclude` |
+| `Invoke-ApplicationUpdaterRecoveryScreenshot.ps1` | Shows the updater progress window after an interrupted download (#4669) and writes `Documents/PR/4669-application-updater-recovery.png` | `exclude` |
+| `Invoke-ApplicationUpdaterWindowScreenshot.ps1` | Captures the compact update prompt, release notes, remind-later dialog, and expanded progress footer (#4669) | `exclude` |
+| `Invoke-UpdateManifestEditorScreenshot.ps1` | Hosts the update manifest editor and writes `Documents/PR/4669-update-manifest-editor.png` | `exclude` |
 | `Invoke-SnapLayoutOverlayScreenshot.ps1` | Compiles a net472 host beside the Debug `Krypton.Toolkit` build, shows a `KryptonForm`, opens the palette snap menu (#4579), and writes `Documents/PR/4579-snap-layout-overlay.png`. `-CustomCard` adds a 70/30 card and writes `Documents/PR/custom-snap-layouts-menu.png`. `-Ghost` enables `ShowPreviewGhost` and writes `Documents/PR/4579-snap-preview-ghost.png` | `exclude` |
 | `Invoke-SnapGroupsAssistScreenshot.ps1` | Two `KryptonForm`s: registers a half/half group and captures the menu + `Group | …` caption; then captures the Assist peer picker. Writes `Documents/PR/4579-snap-groups-assist-group.png` and `…-assist.png` | `exclude` |
 | `Invoke-SearchBoxPerformanceScreenshot.ps1` | Hosts `KryptonSearchBoxPerformanceDemo` (#4580) and writes `Documents/PR/4580-searchbox-performance-demo.png` | `exclude` || `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
