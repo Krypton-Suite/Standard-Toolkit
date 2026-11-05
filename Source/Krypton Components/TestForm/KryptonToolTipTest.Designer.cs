@@ -30,6 +30,8 @@
             this.kbtnLinkTip = new Krypton.Toolkit.KryptonButton();
             this.kbtnInteractiveTip = new Krypton.Toolkit.KryptonButton();
             this.kbtnHtmlTip = new Krypton.Toolkit.KryptonButton();
+            this.kbtnAnimatedGif = new Krypton.Toolkit.KryptonButton();
+            this.kbtnStaticImage = new Krypton.Toolkit.KryptonButton();
             this.klblInteractiveStatus = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)this.kpnlMain).BeginInit();
             this.kpnlMain.SuspendLayout();
@@ -42,6 +44,8 @@
             this.kpnlMain.Controls.Add(this.kbtnLinkTip);
             this.kpnlMain.Controls.Add(this.kbtnInteractiveTip);
             this.kpnlMain.Controls.Add(this.kbtnHtmlTip);
+            this.kpnlMain.Controls.Add(this.kbtnAnimatedGif);
+            this.kpnlMain.Controls.Add(this.kbtnStaticImage);
             this.kpnlMain.Controls.Add(this.klblInteractiveStatus);
             this.kpnlMain.Controls.Add(this.pnlHoverRegion);
             this.kpnlMain.Controls.Add(this.btnStandardWinFormsButton);
@@ -62,7 +66,7 @@
             this.klblInstructions.Size = new System.Drawing.Size(506, 88);
             this.klblInstructions.TabIndex = 0;
             this.klblInstructions.Values.Text =
-                "Hover the controls below. SuperTip text tooltips auto-close. Link and interactive tooltips stay while the pointer is over the target or popup; click away to dismiss.";
+                "Hover the controls below. SuperTip text tooltips auto-close after about 5 seconds. Link and interactive tooltips stay while the pointer is over the target or popup; click away to dismiss. Animated GIF cycles colours; the static image does not.";
             //
             // btnStandardWinFormsButton
             //
@@ -103,6 +107,22 @@
             this.kbtnHtmlTip.TabIndex = 5;
             this.kbtnHtmlTip.Values.Text = "HTML fragment tooltip";
             //
+            // kbtnAnimatedGif
+            //
+            this.kbtnAnimatedGif.Location = new System.Drawing.Point(17, 368);
+            this.kbtnAnimatedGif.Name = "kbtnAnimatedGif";
+            this.kbtnAnimatedGif.Size = new System.Drawing.Size(240, 32);
+            this.kbtnAnimatedGif.TabIndex = 7;
+            this.kbtnAnimatedGif.Values.Text = "Animated GIF tooltip (#4379)";
+            //
+            // kbtnStaticImage
+            //
+            this.kbtnStaticImage.Location = new System.Drawing.Point(274, 368);
+            this.kbtnStaticImage.Name = "kbtnStaticImage";
+            this.kbtnStaticImage.Size = new System.Drawing.Size(240, 32);
+            this.kbtnStaticImage.TabIndex = 8;
+            this.kbtnStaticImage.Values.Text = "Static image tooltip";
+            //
             // klblInteractiveStatus
             //
             this.klblInteractiveStatus.Location = new System.Drawing.Point(17, 232);
@@ -134,11 +154,11 @@
             //
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(534, 470);
+            this.ClientSize = new System.Drawing.Size(534, 520);
             this.Controls.Add(this.kpnlMain);
             this.Name = "KryptonToolTipTest";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = @"KryptonToolTip demo (#3380 / #4192)";
+            this.Text = @"KryptonToolTip demo (#3380 / #4192 / #4379)";
             ((System.ComponentModel.ISupportInitialize)this.kpnlMain).EndInit();
             this.kpnlMain.ResumeLayout(false);
             this.kpnlMain.PerformLayout();
@@ -168,6 +188,10 @@
         private Krypton.Toolkit.KryptonButton kbtnInteractiveTip;
 
         private Krypton.Toolkit.KryptonButton kbtnHtmlTip;
+
+        private Krypton.Toolkit.KryptonButton kbtnAnimatedGif;
+
+        private Krypton.Toolkit.KryptonButton kbtnStaticImage;
 
         private Krypton.Toolkit.KryptonLabel klblInteractiveStatus;
     }
