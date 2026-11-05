@@ -46,6 +46,8 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Resolved [#4249](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4249), Startup on the default theme no longer loads every extra palette.
+  - `Krypton.Themes.dll` loads on the first UI idle, after the first form can paint. An extra `PaletteMode` or a theme list still loads it immediately. The designer does not use the idle probe. Toolbar packs, checkbox, radio, and gallery strips, and Microsoft 365 button-spec images load when something draws them. Caption glyphs stay ready for the first form.
 - Implemented [#4655](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4655), VU meter with an analog needle face and a segmented bar. Set the level yourself, or let the control read the default recording device. Colours follow the palette through `StateCommon`, `StateNormal`, and `StateDisabled`.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.
 - Implemented [#4379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4379), Support for animated GIFs on `KryptonToolTip`
