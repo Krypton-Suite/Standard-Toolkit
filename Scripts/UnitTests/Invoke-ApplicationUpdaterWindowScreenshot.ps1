@@ -48,28 +48,40 @@ $important = [Enum]::Parse($severityType, 'Important')
 $recommended = [Enum]::Parse($severityType, 'Recommended')
 $installer = [Enum]::Parse($kindType, 'Installer')
 $hash = 'a' * 64
-$ctor = $packageType.GetConstructors() | Where-Object { $_.GetParameters().Count -ge 9 } | Select-Object -First 1
+$ctor = $packageType.GetConstructors() | Sort-Object { $_.GetParameters().Count } -Descending | Select-Object -First 1
+$bannerType = $utilities.GetType('Krypton.Toolkit.Utilities.KryptonUpdateBanner')
+$pulseType = $utilities.GetType('Krypton.Toolkit.Utilities.KryptonUpdatePulse')
+$toolkit = [System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
+$pulseStyleType = $toolkit.GetType('Krypton.Toolkit.InputPulsingBorderStyle')
+$demoBanner = [System.Activator]::CreateInstance(
+    $bannerType,
+    @('Security update — install now', [System.Drawing.Color]::FromArgb(0x8B, 0, 0), [System.Drawing.Color]::White, $null, [System.Drawing.Color]::FromArgb(0xFF, 0x45, 0)))
+$demoPulse = [System.Activator]::CreateInstance(
+    $pulseType,
+    @($true, [System.Drawing.Color]::FromArgb(0xFF, 0x45, 0), [Enum]::Parse($pulseStyleType, 'All'), [float]1.5))
 
-function New-Package([string]$version, $severity, [string]$notes) {
+function New-Package([string]$version, $severity, [string]$notes, $banner = $null, $pulse = $null) {
     $released = [Nullable[datetime]]([datetime]::SpecifyKind([datetime]'2026-11-03T12:00:00', [DateTimeKind]::Utc))
-    $invokeArgs = @(
-            [version]$version,
-            $severity,
-            $installer,
-            'https://example.com/setup-9.9.9.exe',
-            $hash,
-            $null,
-            $notes,
-            $null,
-            $released)
-    while ($invokeArgs.Count -lt $ctor.GetParameters().Count) {
-        $invokeArgs += [Type]::Missing
+    $invokeArgs = [System.Collections.Generic.List[object]]::new()
+    [void]$invokeArgs.Add([version]$version)
+    [void]$invokeArgs.Add($severity)
+    [void]$invokeArgs.Add($installer)
+    [void]$invokeArgs.Add('https://example.com/setup-9.9.9.exe')
+    [void]$invokeArgs.Add($hash)
+    [void]$invokeArgs.Add($null)
+    [void]$invokeArgs.Add($notes)
+    [void]$invokeArgs.Add($null)
+    [void]$invokeArgs.Add($released)
+    while ($invokeArgs.Count -lt ($ctor.GetParameters().Count - 2)) {
+        [void]$invokeArgs.Add([Type]::Missing)
     }
 
-    return $ctor.Invoke($invokeArgs)
+    [void]$invokeArgs.Add($banner)
+    [void]$invokeArgs.Add($pulse)
+    return $ctor.Invoke($invokeArgs.ToArray())
 }
 
-$newer = New-Package '9.9.9' $important 'Newest local package. Severity is Important.'
+$newer = New-Package '9.9.9' $important 'Newest local package. Severity is Important.' $demoBanner $demoPulse
 $older = New-Package '1.5.0' $recommended 'Earlier local package. Severity is Recommended.'
 $listType = [System.Collections.Generic.List``1].MakeGenericType($packageType)
 $notes = [System.Activator]::CreateInstance($listType)
@@ -95,12 +107,12 @@ function Show-Shot($form, [string]$path) {
 
 $promptType = $utilities.GetType('Krypton.Toolkit.Utilities.VisualApplicationUpdatePromptForm')
 $prompt = [System.Activator]::CreateInstance($promptType)
-[void]$promptType.GetMethod('Bind', $flags).Invoke($prompt, @($newer, [version]'1.0.0', $notes, $strings, $true, $true, 7))
+[void]$promptType.GetMethod('Bind', $flags).Invoke($prompt, @($newer, [version]'1.0.0', $notes, $strings, $true, $true, 7, $null))
 Show-Shot $prompt (Join-Path $pr '4669-application-updater-prompt.png')
 
 $notesType = $utilities.GetType('Krypton.Toolkit.Utilities.VisualApplicationUpdateNotesForm')
 $notesForm = [System.Activator]::CreateInstance($notesType)
-[void]$notesType.GetMethod('Bind', $flags).Invoke($notesForm, @($newer, [version]'1.0.0', $notes, $strings, $true, $true, $true, 7, $null))
+[void]$notesType.GetMethod('Bind', $flags).Invoke($notesForm, @($newer, [version]'1.0.0', $notes, $strings, $true, $true, $true, 7, $null, $null))
 Show-Shot $notesForm (Join-Path $pr '4669-application-updater-notes.png')
 
 $postponeType = $utilities.GetType('Krypton.Toolkit.Utilities.VisualApplicationUpdatePostponeForm')
@@ -110,7 +122,7 @@ Show-Shot $postpone (Join-Path $pr '4669-application-updater-postpone.png')
 
 $progressType = $utilities.GetType('Krypton.Toolkit.Utilities.VisualApplicationUpdateProgressForm')
 $progress = [System.Activator]::CreateInstance($progressType)
-[void]$progressType.GetMethod('Bind', $flags).Invoke($progress, @($strings))
+[void]$progressType.GetMethod('Bind', $flags).Invoke($progress, @($strings, $demoPulse))
 [void]$progressType.GetMethod('SetFileName', $flags).Invoke($progress, @('setup-9.9.9.exe'))
 $progress.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
 $progress.Location = New-Object System.Drawing.Point 80, 80

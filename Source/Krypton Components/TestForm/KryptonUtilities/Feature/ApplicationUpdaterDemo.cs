@@ -66,6 +66,7 @@ public partial class ApplicationUpdaterDemo : KryptonForm
         cmbKind.SelectedIndexChanged += OnSelectionChanged;
         nudMaxDays.ValueChanged += OnSelectionChanged;
         chkAllowCritical.CheckedChanged += OnSelectionChanged;
+        chkBannerPulse.CheckedChanged += OnSelectionChanged;
     }
 
     private void ApplicationUpdaterDemo_Load(object? sender, EventArgs e)
@@ -216,6 +217,12 @@ public partial class ApplicationUpdaterDemo : KryptonForm
         if (severity == KryptonUpdateSeverity.Critical && chkAllowCritical.Checked)
         {
             policy += ",\"allowPostpone\":true";
+        }
+
+        if (chkBannerPulse.Checked)
+        {
+            policy += ",\"banner\":{\"text\":\"Security update — install now\",\"backColor\":\"#8B0000\",\"backColor2\":\"#FF4500\",\"foreColor\":\"#FFFFFF\"}"
+                + ",\"pulse\":{\"enable\":true,\"color\":\"#FF4500\",\"style\":\"All\",\"speed\":1.5}";
         }
 
         var json = "{\"packages\":["

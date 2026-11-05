@@ -499,7 +499,6 @@
 	<ItemGroup>
 		<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Pack="true" PackagePath="build\$(PackageId).props;buildTransitive\$(PackageId).props" Visible="false" />
 		<None Include="..\NetFramework.SystemResourcesExtensions.targets" Pack="true" PackagePath="build\$(PackageId).targets;buildTransitive\$(PackageId).targets" Visible="false" />
-		<None Include="..\..\..\Documents\License\Third-Party-Notices.md" Pack="true" PackagePath="\" Visible="false" />
 	</ItemGroup>
 
 </Project>

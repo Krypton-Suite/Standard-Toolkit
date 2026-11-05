@@ -69,6 +69,40 @@ internal static class KryptonUpdateClient
         return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
     }
 
+    /// <summary>Downloads at most <paramref name="maxBytes"/> from an https address. Throws when the response is larger.</summary>
+    /// <param name="location">HTTPS address.</param>
+    /// <param name="maxBytes">Upper bound for the body.</param>
+    /// <param name="cancellationToken">Cancels the copy.</param>
+    internal static async Task<byte[]> DownloadBytesAsync(string location, int maxBytes, CancellationToken cancellationToken)
+    {
+        if (!IsHttps(location))
+        {
+            throw new KryptonUpdateException("The banner image address must be https or a local file.");
+        }
+
+        using var response = await SendAsync(location, null, null, null, cancellationToken).ConfigureAwait(false);
+        if (response.Content.Headers.ContentLength.HasValue && response.Content.Headers.ContentLength.Value > maxBytes)
+        {
+            throw new KryptonUpdateException("The banner image is larger than " + maxBytes + " bytes.");
+        }
+
+        using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+        using var buffer = new MemoryStream(Math.Min(maxBytes, 64 * 1024));
+        var chunk = new byte[8192];
+        int read;
+        while ((read = await stream.ReadAsync(chunk, 0, chunk.Length, cancellationToken).ConfigureAwait(false)) > 0)
+        {
+            if (buffer.Length + read > maxBytes)
+            {
+                throw new KryptonUpdateException("The banner image is larger than " + maxBytes + " bytes.");
+            }
+
+            buffer.Write(chunk, 0, read);
+        }
+
+        return buffer.ToArray();
+    }
+
     internal static async Task<string> DownloadPackageAsync(string location, IProgress<KryptonUpdateDownloadProgress>? progress, CancellationToken cancellationToken)
     {
         var destination = CreateDownloadPath(location);

@@ -38,11 +38,17 @@ internal partial class VisualApplicationUpdatePromptForm
             this.btnSkip = new Krypton.Toolkit.KryptonButton();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
+            this.bannerPanel = new Krypton.Toolkit.KryptonPanel();
+            this.picBanner = new System.Windows.Forms.PictureBox();
+            this.lblBanner = new Krypton.Toolkit.KryptonLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel)).BeginInit();
             this.kryptonPanel.SuspendLayout();
             this.table.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bannerPanel)).BeginInit();
+            this.bannerPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBanner)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel
@@ -185,6 +191,39 @@ internal partial class VisualApplicationUpdatePromptForm
             this.kryptonBorderEdge1.Size = new System.Drawing.Size(650, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
+            // bannerPanel
+            // 
+            this.bannerPanel.Controls.Add(this.lblBanner);
+            this.bannerPanel.Controls.Add(this.picBanner);
+            this.bannerPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.bannerPanel.Location = new System.Drawing.Point(0, 0);
+            this.bannerPanel.Name = "bannerPanel";
+            this.bannerPanel.Padding = new System.Windows.Forms.Padding(12, 8, 12, 8);
+            this.bannerPanel.Size = new System.Drawing.Size(650, 0);
+            this.bannerPanel.TabIndex = 3;
+            this.bannerPanel.Visible = false;
+            // 
+            // picBanner
+            // 
+            this.picBanner.Dock = System.Windows.Forms.DockStyle.Left;
+            this.picBanner.Location = new System.Drawing.Point(12, 8);
+            this.picBanner.Name = "picBanner";
+            this.picBanner.Size = new System.Drawing.Size(32, 32);
+            this.picBanner.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBanner.TabIndex = 0;
+            this.picBanner.TabStop = false;
+            this.picBanner.Visible = false;
+            // 
+            // lblBanner
+            // 
+            this.lblBanner.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblBanner.LabelStyle = Krypton.Toolkit.LabelStyle.BoldPanel;
+            this.lblBanner.Location = new System.Drawing.Point(44, 8);
+            this.lblBanner.Name = "lblBanner";
+            this.lblBanner.Size = new System.Drawing.Size(594, 32);
+            this.lblBanner.TabIndex = 1;
+            this.lblBanner.Values.Text = "";
+            // 
             // VisualApplicationUpdatePromptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -192,6 +231,7 @@ internal partial class VisualApplicationUpdatePromptForm
             this.ClientSize = new System.Drawing.Size(650, 230);
             this.Controls.Add(this.kryptonPanel);
             this.Controls.Add(this.kryptonPanel1);
+            this.Controls.Add(this.bannerPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -206,6 +246,10 @@ internal partial class VisualApplicationUpdatePromptForm
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bannerPanel)).EndInit();
+            this.bannerPanel.ResumeLayout(false);
+            this.bannerPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBanner)).EndInit();
             this.ResumeLayout(false);
 
     }
@@ -223,4 +267,7 @@ internal partial class VisualApplicationUpdatePromptForm
     private Krypton.Toolkit.KryptonButton btnSkip;
     private KryptonPanel kryptonPanel1;
     private KryptonBorderEdge kryptonBorderEdge1;
+    private KryptonPanel bannerPanel;
+    private System.Windows.Forms.PictureBox picBanner;
+    private KryptonLabel lblBanner;
 }

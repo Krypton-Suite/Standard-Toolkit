@@ -75,7 +75,105 @@ internal static class KryptonUpdateManifestParser
             raw.AllowPostpone ?? feed.AllowPostpone,
             raw.AllowSkip ?? feed.AllowSkip,
             raw.AllowResume ?? feed.AllowResume,
-            raw.AllowRetry ?? feed.AllowRetry);
+            raw.AllowRetry ?? feed.AllowRetry,
+            raw.Banner ?? feed.Banner,
+            raw.Pulse ?? feed.Pulse);
+    }
+
+    private static void ValidateImageUrl(string? imageUrl)
+    {
+        if (imageUrl == null || string.IsNullOrWhiteSpace(imageUrl))
+        {
+            return;
+        }
+
+        var trimmed = imageUrl.Trim();
+        if (KryptonUpdateClient.IsHttps(trimmed))
+        {
+            return;
+        }
+
+        if (Uri.TryCreate(trimmed, UriKind.Absolute, out var uri) && uri.Scheme == Uri.UriSchemeHttp)
+        {
+            throw new KryptonUpdateException("The banner imageUrl must be https or a local file.");
+        }
+
+        if (Uri.TryCreate(trimmed, UriKind.Absolute, out uri) && uri.IsFile)
+        {
+            return;
+        }
+
+        // Local paths are accepted at parse time even when the file is not on this machine.
+        if (trimmed.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+        {
+            throw new KryptonUpdateException("The banner imageUrl is not a valid path or https address.");
+        }
+    }
+
+    private static Color ParseColor(string? text, string name)
+    {
+        if (text == null || string.IsNullOrWhiteSpace(text))
+        {
+            return Color.Empty;
+        }
+
+        var value = text.Trim();
+        if (value.StartsWith("#", StringComparison.Ordinal))
+        {
+            var hex = value.Substring(1);
+            if (hex.Length == 6)
+            {
+                if (int.TryParse(hex.Substring(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var r) &&
+                    int.TryParse(hex.Substring(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var g) &&
+                    int.TryParse(hex.Substring(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var b))
+                {
+                    return Color.FromArgb(r, g, b);
+                }
+            }
+            else if (hex.Length == 8)
+            {
+                if (int.TryParse(hex.Substring(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var a) &&
+                    int.TryParse(hex.Substring(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var r) &&
+                    int.TryParse(hex.Substring(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var g) &&
+                    int.TryParse(hex.Substring(6, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var b))
+                {
+                    return Color.FromArgb(a, r, g, b);
+                }
+            }
+
+            throw new KryptonUpdateException("The manifest " + name + " value is not a colour.");
+        }
+
+        try
+        {
+            var converted = ColorTranslator.FromHtml(value);
+            if (converted.IsEmpty && !value.Equals("Empty", StringComparison.OrdinalIgnoreCase))
+            {
+                throw new KryptonUpdateException("The manifest " + name + " value is not a colour.");
+            }
+
+            return converted;
+        }
+        catch (Exception exception) when (exception is ArgumentException || exception is FormatException || exception is KryptonUpdateException)
+        {
+            throw new KryptonUpdateException("The manifest " + name + " value is not a colour.");
+        }
+    }
+
+    private static InputPulsingBorderStyle ParsePulseStyle(string? text)
+    {
+        if (text == null || string.IsNullOrWhiteSpace(text))
+        {
+            return InputPulsingBorderStyle.All;
+        }
+
+        if (Enum.TryParse(text.Trim(), true, out InputPulsingBorderStyle style) &&
+            (style == InputPulsingBorderStyle.All || style == InputPulsingBorderStyle.Bottom))
+        {
+            return style;
+        }
+
+        throw new KryptonUpdateException("Unknown pulse style '" + text + "'.");
     }
 
     private static KryptonUpdateSeverity ParseSeverity(string? text)
@@ -168,7 +266,9 @@ internal static class KryptonUpdateManifestParser
             AllowPostpone = GetBool(element, "allowPostpone"),
             AllowSkip = GetBool(element, "allowSkip"),
             AllowResume = GetBool(element, "allowResume"),
-            AllowRetry = GetBool(element, "allowRetry")
+            AllowRetry = GetBool(element, "allowRetry"),
+            Banner = ReadBanner(element),
+            Pulse = ReadPulse(element)
         };
     }
 
@@ -179,8 +279,74 @@ internal static class KryptonUpdateManifestParser
             AllowPostpone = GetBool(element, "allowPostpone"),
             AllowSkip = GetBool(element, "allowSkip"),
             AllowResume = GetBool(element, "allowResume"),
-            AllowRetry = GetBool(element, "allowRetry")
+            AllowRetry = GetBool(element, "allowRetry"),
+            Banner = ReadBanner(element),
+            Pulse = ReadPulse(element)
         };
+
+    private static KryptonUpdateBanner? ReadBanner(JsonElement element)
+    {
+        if (!element.TryGetProperty("banner", out var banner) || banner.ValueKind == JsonValueKind.Null)
+        {
+            return null;
+        }
+
+        if (banner.ValueKind != JsonValueKind.Object)
+        {
+            throw new KryptonUpdateException("The manifest banner value must be a JSON object.");
+        }
+
+        var imageUrl = GetString(banner, "imageUrl");
+        ValidateImageUrl(imageUrl);
+        var result = new KryptonUpdateBanner(
+            GetString(banner, "text"),
+            ParseColor(GetString(banner, "backColor"), "banner.backColor"),
+            ParseColor(GetString(banner, "foreColor"), "banner.foreColor"),
+            imageUrl,
+            ParseColor(GetString(banner, "backColor2"), "banner.backColor2"));
+        return result.HasContent || !result.BackColor.IsEmpty || !result.BackColor2.IsEmpty || !result.ForeColor.IsEmpty
+            ? result
+            : null;
+    }
+
+    private static KryptonUpdatePulse? ReadPulse(JsonElement element)
+    {
+        if (!element.TryGetProperty("pulse", out var pulse) || pulse.ValueKind == JsonValueKind.Null)
+        {
+            return null;
+        }
+
+        if (pulse.ValueKind != JsonValueKind.Object)
+        {
+            throw new KryptonUpdateException("The manifest pulse value must be a JSON object.");
+        }
+
+        return new KryptonUpdatePulse(
+            GetBool(pulse, "enable") ?? false,
+            ParseColor(GetString(pulse, "color"), "pulse.color"),
+            ParsePulseStyle(GetString(pulse, "style")),
+            GetSingle(pulse, "speed") ?? 1f);
+    }
+
+    private static float? GetSingle(JsonElement element, string name)
+    {
+        if (!element.TryGetProperty(name, out var value) || value.ValueKind == JsonValueKind.Null)
+        {
+            return null;
+        }
+
+        if (value.ValueKind == JsonValueKind.Number && value.TryGetSingle(out var number))
+        {
+            return number;
+        }
+
+        if (value.ValueKind == JsonValueKind.String && float.TryParse(value.GetString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var parsed))
+        {
+            return parsed;
+        }
+
+        throw new KryptonUpdateException("The manifest " + name + " value is not a number.");
+    }
 
     private static int? GetInt32(JsonElement element, string name)
     {
@@ -279,7 +445,9 @@ internal static class KryptonUpdateManifestParser
             AllowPostpone = GetBool(element, "allowPostpone"),
             AllowSkip = GetBool(element, "allowSkip"),
             AllowResume = GetBool(element, "allowResume"),
-            AllowRetry = GetBool(element, "allowRetry")
+            AllowRetry = GetBool(element, "allowRetry"),
+            Banner = ReadBanner(element),
+            Pulse = ReadPulse(element)
         };
 
     private static FeedPolicy ReadPolicy(Dictionary<string, object> element) =>
@@ -289,8 +457,71 @@ internal static class KryptonUpdateManifestParser
             AllowPostpone = GetBool(element, "allowPostpone"),
             AllowSkip = GetBool(element, "allowSkip"),
             AllowResume = GetBool(element, "allowResume"),
-            AllowRetry = GetBool(element, "allowRetry")
+            AllowRetry = GetBool(element, "allowRetry"),
+            Banner = ReadBanner(element),
+            Pulse = ReadPulse(element)
         };
+
+    private static KryptonUpdateBanner? ReadBanner(Dictionary<string, object> element)
+    {
+        if (!element.TryGetValue("banner", out var value) || value == null)
+        {
+            return null;
+        }
+
+        if (!(value is Dictionary<string, object> banner))
+        {
+            throw new KryptonUpdateException("The manifest banner value must be a JSON object.");
+        }
+
+        var imageUrl = GetString(banner, "imageUrl");
+        ValidateImageUrl(imageUrl);
+        var result = new KryptonUpdateBanner(
+            GetString(banner, "text"),
+            ParseColor(GetString(banner, "backColor"), "banner.backColor"),
+            ParseColor(GetString(banner, "foreColor"), "banner.foreColor"),
+            imageUrl,
+            ParseColor(GetString(banner, "backColor2"), "banner.backColor2"));
+        return result.HasContent || !result.BackColor.IsEmpty || !result.BackColor2.IsEmpty || !result.ForeColor.IsEmpty
+            ? result
+            : null;
+    }
+
+    private static KryptonUpdatePulse? ReadPulse(Dictionary<string, object> element)
+    {
+        if (!element.TryGetValue("pulse", out var value) || value == null)
+        {
+            return null;
+        }
+
+        if (!(value is Dictionary<string, object> pulse))
+        {
+            throw new KryptonUpdateException("The manifest pulse value must be a JSON object.");
+        }
+
+        return new KryptonUpdatePulse(
+            GetBool(pulse, "enable") ?? false,
+            ParseColor(GetString(pulse, "color"), "pulse.color"),
+            ParsePulseStyle(GetString(pulse, "style")),
+            GetSingle(pulse, "speed") ?? 1f);
+    }
+
+    private static float? GetSingle(Dictionary<string, object> element, string name)
+    {
+        if (!element.TryGetValue(name, out var value) || value == null)
+        {
+            return null;
+        }
+
+        try
+        {
+            return Convert.ToSingle(value, CultureInfo.InvariantCulture);
+        }
+        catch (Exception exception) when (exception is FormatException || exception is InvalidCastException || exception is OverflowException)
+        {
+            throw new KryptonUpdateException("The manifest " + name + " value is not a number.");
+        }
+    }
 
     private static int? GetInt32(Dictionary<string, object> element, string name)
     {
@@ -396,6 +627,10 @@ internal static class KryptonUpdateManifestParser
         public bool? AllowResume { get; set; }
 
         public bool? AllowRetry { get; set; }
+
+        public KryptonUpdateBanner? Banner { get; set; }
+
+        public KryptonUpdatePulse? Pulse { get; set; }
     }
 
     private struct FeedPolicy
@@ -409,5 +644,9 @@ internal static class KryptonUpdateManifestParser
         public bool? AllowResume;
 
         public bool? AllowRetry;
+
+        public KryptonUpdateBanner? Banner;
+
+        public KryptonUpdatePulse? Pulse;
     }
 }

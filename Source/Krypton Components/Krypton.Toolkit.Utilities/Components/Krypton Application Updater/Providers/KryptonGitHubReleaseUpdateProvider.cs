@@ -126,7 +126,9 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
                 package.AllowPostponeSetting,
                 package.AllowSkipSetting,
                 package.AllowResumeSetting,
-                package.AllowRetrySetting));
+                package.AllowRetrySetting,
+                package.Banner,
+                package.Pulse));
         }
 
         return resolved;
