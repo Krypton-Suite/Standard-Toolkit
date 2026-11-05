@@ -168,7 +168,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblFile
             // 
             this.lblFile.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblFile.Location = new System.Drawing.Point(0, 0);
+            this.lblFile.Location = new System.Drawing.Point(15, 3);
             this.lblFile.Name = "lblFile";
             this.lblFile.Size = new System.Drawing.Size(610, 14);
             this.lblFile.TabIndex = 0;
@@ -177,7 +177,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblDownloaded
             // 
             this.lblDownloaded.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblDownloaded.Location = new System.Drawing.Point(0, 0);
+            this.lblDownloaded.Location = new System.Drawing.Point(15, 3);
             this.lblDownloaded.Name = "lblDownloaded";
             this.lblDownloaded.Size = new System.Drawing.Size(610, 14);
             this.lblDownloaded.TabIndex = 1;
@@ -186,7 +186,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblSpeed
             // 
             this.lblSpeed.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSpeed.Location = new System.Drawing.Point(0, 0);
+            this.lblSpeed.Location = new System.Drawing.Point(15, 3);
             this.lblSpeed.Name = "lblSpeed";
             this.lblSpeed.Size = new System.Drawing.Size(610, 14);
             this.lblSpeed.TabIndex = 2;
@@ -195,7 +195,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblRemaining
             // 
             this.lblRemaining.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblRemaining.Location = new System.Drawing.Point(0, 0);
+            this.lblRemaining.Location = new System.Drawing.Point(15, 3);
             this.lblRemaining.Name = "lblRemaining";
             this.lblRemaining.Size = new System.Drawing.Size(610, 14);
             this.lblRemaining.TabIndex = 3;
