@@ -206,6 +206,7 @@ foreach ($name in @(
         'Krypton.Workspace.dll',
         'Krypton.Docking.dll',
         'Krypton.Toolkit.Utilities.dll',
+        'Krypton.Gauges.dll',
         'Krypton.Navigator.Utilities.dll'
     )) {
     $path = Join-Path $bin $name

@@ -1,4 +1,4 @@
-﻿# Unit Test Scripts
+# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
 plus CI assert scripts named `UnitTest-*.ps1`.
@@ -239,6 +239,21 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BugReportEmailBody.ps1
 ```
+
+## Typical usage (#4655 VU meter)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-VuMeterScreenshot.ps1
+```
+
+Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR assets; do not commit). That capture leaves Play music off.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-VuMeterMusic.ps1
+```
+
+Selects a 30-second length, then turns on Play music and the stereo file. The stereo pass checks that the Left and Right analog meters follow different channels, then stops the loop.
 
 ## Typical usage (#1100 scheme strip text)
 

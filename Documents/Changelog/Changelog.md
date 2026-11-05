@@ -46,6 +46,8 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4655](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4655), VU meter with an analog needle face and a segmented bar. Set the level yourself, or let the control read the default recording device. Colours follow the palette through `StateCommon`, `StateNormal`, and `StateDisabled`.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.
 - Implemented [#4379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4379), Support for animated GIFs on `KryptonToolTip`
   - `KryptonToolTip` and other themed tooltips play multi-frame GIF images while the tip is open.
 - Implemented, `KryptonTableLayoutPanel` Column Styles and Row Styles open a themed Column and Row Styles dialog. Add, Insert, and Delete update the live grid and keep controls in the same visual cell. Cancel restores the styles and cell positions. The table designer glyphs stay in place.
