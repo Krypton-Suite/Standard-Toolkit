@@ -22,7 +22,27 @@ public partial class KryptonMenuBarDemo : KryptonForm
         BuildComparisonStrips();
         WireMenuBarClicks(kryptonMenuBar1.Items);
         AddShortcutDemo();
+        AddStyleEditorButton();
+        klblInstructions.Values.Text += @" Column and Row Styles edits this table; OK applies the grid, Cancel restores it.";
         Log("Demo started. Alt or F10 activates the native KryptonMenuBar; Alt+letter uses mnemonics; hover-switch while a drop-down is open.");
+    }
+
+    private void AddStyleEditorButton()
+    {
+        var stylesButton = new KryptonButton
+        {
+            Size = new Size(180, 25),
+            Values = { Text = @"Column and Row Styles" }
+        };
+        stylesButton.Location = new Point(kbtnClearLog.Right + 6, kbtnClearLog.Top);
+        stylesButton.Click += (_, _) =>
+        {
+            DialogResult result = KryptonDesignerTableLayoutStyleEditor.ShowDialog(this, tableLayoutPanel1, editColumns: true);
+            Log(result == DialogResult.OK
+                ? $"Column and Row Styles applied. Columns={tableLayoutPanel1.ColumnCount}, Rows={tableLayoutPanel1.RowCount}."
+                : "Column and Row Styles cancelled. The table was restored.");
+        };
+        panelButtons.Controls.Add(stylesButton);
     }
 
     private void BuildComparisonStrips()
