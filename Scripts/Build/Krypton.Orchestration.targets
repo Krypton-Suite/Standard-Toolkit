@@ -18,6 +18,7 @@
 		<KryptonDrawingProject>$(KryptonComponentsRoot)\Krypton.Drawing\Krypton.Drawing.csproj</KryptonDrawingProject>
 		<KryptonNavigatorUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj</KryptonNavigatorUtilitiesProject>
 		<KryptonToolkitUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj</KryptonToolkitUtilitiesProject>
+		<KryptonChartingProject>$(KryptonComponentsRoot)\Krypton.Charting\Krypton.Charting.csproj</KryptonChartingProject>
 		<KryptonGaugesProject>$(KryptonComponentsRoot)\Krypton.Gauges\Krypton.Gauges.csproj</KryptonGaugesProject>
 		<KryptonStandardToolkitProject>$(KryptonComponentsRoot)\Krypton.Standard.Toolkit\Krypton.Standard.Toolkit.csproj</KryptonStandardToolkitProject>
 		<KryptonToolkitDesignProtocolProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Design.Protocol\Krypton.Toolkit.Design.Protocol.csproj</KryptonToolkitDesignProtocolProject>
@@ -29,6 +30,7 @@
 		<KryptonToolkitUtilitiesDesignProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities.Design\Krypton.Toolkit.Utilities.Design.csproj</KryptonToolkitUtilitiesDesignProject>
 		<KryptonGaugesDesignProject>$(KryptonComponentsRoot)\Krypton.Gauges.Design\Krypton.Gauges.Design.csproj</KryptonGaugesDesignProject>
 		<KryptonNavigatorUtilitiesDesignProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities.Design\Krypton.Navigator.Utilities.Design.csproj</KryptonNavigatorUtilitiesDesignProject>
+		<KryptonChartingDesignProject>$(KryptonComponentsRoot)\Krypton.Charting.Design\Krypton.Charting.Design.csproj</KryptonChartingDesignProject>
 		<KryptonWinFormsDesignerSdkBuild Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">false</KryptonWinFormsDesignerSdkBuild>
 		<KryptonWinFormsDesignerSdkBuild Condition="'$(KryptonWinFormsDesignerSdkBuild)' == ''">true</KryptonWinFormsDesignerSdkBuild>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs);UseArtifactsOutput=$(UseArtifactsOutput)</KryptonComponentBuildProperties>
@@ -45,6 +47,7 @@
 		<KryptonParallelDesignAfterToolkit Include="$(KryptonNavigatorDesignProject)" />
 		<KryptonParallelDesignUtilities Include="$(KryptonToolkitUtilitiesDesignProject)" />
 		<KryptonParallelDesignUtilities Include="$(KryptonNavigatorUtilitiesDesignProject)" />
+		<KryptonParallelDesignUtilities Include="$(KryptonChartingDesignProject)" />
 		<KryptonParallelDesignUtilities Include="$(KryptonGaugesDesignProject)" />
 	</ItemGroup>
 
@@ -96,6 +99,9 @@
 		         Targets="Build" />
 		<MSBuild Projects="$(KryptonToolkitUtilitiesProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+		<MSBuild Projects="$(KryptonChartingProject)"
+             Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
 		<MSBuild Projects="$(KryptonGaugesProject)"
 		         Properties="$(KryptonComponentBuildProperties)"

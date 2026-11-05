@@ -102,6 +102,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-DisabledCaptionGlyph.ps1` | #4413 disabled caption glyph colours and empty close fill for Office 2010 / 2013 / Microsoft 365 | `include` |
 | `Invoke-4413DisabledCaptionScreenshot.ps1` | Hosts `Bug4413DisabledCaptionGlyphDemo` (#4413) and writes `Documents/PR/4413-disabled-caption-glyph-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-TimelineScreenshot.ps1` | Hosts `TimelineDemo` (#4218) and writes the default, custom style-colour, vertical, vis-style, and drag PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-4406MultilineEditorScreenshot.ps1` | Hosts `Feature3851RenderingDpiDemo`, opens the themed multiline text editor (#4406), and writes `Documents/PR/4406-multiline-string-editor.png` | `exclude` |
 | `Invoke-TableLayoutStyleEditorScreenshot.ps1` | Opens the themed Column and Row Styles dialog, checks insert/delete, Cancel, and OK, and writes `Documents/PR/table-layout-style-editor.png` | `exclude` |
 | `Invoke-SvgPictureBoxScreenshot.ps1` | Hosts `KryptonSVGPictureBoxDemo` (#4657) and writes `Documents/PR/4657-krypton-svg-picture-box.png`. | `exclude` |
