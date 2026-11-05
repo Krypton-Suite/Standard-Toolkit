@@ -1,4 +1,4 @@
-﻿# Unit Test Scripts
+# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
 plus CI assert scripts named `UnitTest-*.ps1`.
@@ -101,6 +101,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-4413DisabledCaptionScreenshot.ps1` | Hosts `Bug4413DisabledCaptionGlyphDemo` (#4413) and writes `Documents/PR/4413-disabled-caption-glyph-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
 | `Invoke-SvgPictureBoxScreenshot.ps1` | Hosts `KryptonSVGPictureBoxDemo` (#4657) and writes `Documents/PR/4657-krypton-svg-picture-box.png`. | `exclude` |
+| `Invoke-FileOperationDialogScreenshot.ps1` | #4672 copies, conflicts, and deletes through `KryptonFileOperation`, and writes progress, conflict, and confirmation PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-ApplicationUpdaterScreenshot.ps1` | Hosts `ApplicationUpdaterDemo` (#4669), captures the update prompt and the up-to-date notes window, and checks a local zip extract | `exclude` |
 | `Invoke-ApplicationUpdaterRecoveryScreenshot.ps1` | Shows the updater progress window after an interrupted download (#4669) and writes `Documents/PR/4669-application-updater-recovery.png` | `exclude` |
 | `Invoke-ApplicationUpdaterWindowScreenshot.ps1` | Captures the compact update prompt, release notes, remind-later dialog, and expanded progress footer (#4669) | `exclude` |

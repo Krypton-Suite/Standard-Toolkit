@@ -46,6 +46,10 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4672](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4672), `KryptonFileOperation` copies, moves, renames, and deletes through the shell and shows Krypton progress, name-conflict, recycle, and permanent-delete dialogs.
+  - The progress dialog offers More details / Fewer details, swapping the progress bar for a theme-aware `KryptonTransferSpeedGraph` transfer-rate chart from `Krypton.Toolkit.Utilities`.
+  - Dialogs show an optional Windows-style icon banner (`KryptonFileOperation.ShowBanners`, default `true`; standalone `Show` methods take `showBanner`).
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as these dialogs are part of the `Krypton.Dialogs` assembly.
 - Implemented [#4657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4657), `KryptonSVGPictureBox` displays static SVG markup, with file and stream load, picture-box size modes, and DPI-aware rasterization.
   - Supported on Windows 10 and higher only. For Windows 7, 8, and 8.1 support, see [Extended Toolkit](https://github.com/Krypton-Suite/Extended-Toolkit).
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Drawing` assembly.
