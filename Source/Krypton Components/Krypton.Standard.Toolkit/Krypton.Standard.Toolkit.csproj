@@ -282,6 +282,8 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Charting\bin\$(Configuration)\$(TargetFramework)\Krypton.Charting.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Charting.dll') And Exists('..\Krypton.Charting\bin\$(Configuration)\$(TargetFramework)\Krypton.Charting.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Gauges.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Gauges.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
