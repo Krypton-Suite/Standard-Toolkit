@@ -1,0 +1,400 @@
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, tobitege, Lesandro, KamaniAR, et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+using Krypton.Gauges;
+
+namespace TestForm;
+
+/// <summary>
+/// Exercises <see cref="KryptonVuMeter"/> analog and segmented faces, manual level, a music loop, a stereo file, peak hold, and capture (issue #4655).
+/// </summary>
+public partial class KryptonVuMeterDemo : KryptonForm
+{
+    private bool _sync;
+    private int _bassApplied = 50;
+
+    private KryptonGenericMusic _kgm;
+
+    /// <summary>
+    /// Initialize a new instance of the <see cref="KryptonVuMeterDemo"/> class.
+    /// </summary>
+    public KryptonVuMeterDemo()
+    {
+        InitializeComponent();
+        _kgm = new KryptonGenericMusic(_sync, kvumAnalog, kvumSegments, kvumLeft, kvumRight, klblLevel, kchkStereo);
+    }
+
+    private void KryptonVuMeterDemo_Load(object? sender, EventArgs e)
+    {
+
+        Icon = SystemIcons.Application;
+        ktrkLevel.Minimum = -20;
+        ktrkLevel.Maximum = 3;
+        ktrkLevel.Value = -20;
+
+        kcmbChannel.Items.AddRange(Enum.GetNames(typeof(VuMeterChannel)));
+        kcmbChannel.SelectedItem = nameof(VuMeterChannel.Left);
+        kcmbOrientation.Items.AddRange(Enum.GetNames(typeof(VisualOrientation)));
+        kcmbOrientation.SelectedItem = nameof(VisualOrientation.Left);
+        kcmbLength.Items.AddRange(new object[] { "30 seconds", "1 minute", "2 minutes", "4 minutes", "10 minutes" });
+        kcmbLength.SelectedIndex = 4;
+        kcmbVerses.Items.AddRange(new object[] { "1", "2", "4", "6", "8", "10", "12" });
+        kcmbVerses.SelectedIndex = 5;
+        kcmbBars.Items.AddRange(new object[] { "4", "8", "12", "16" });
+        kcmbBars.SelectedIndex = 1;
+
+        kvumDisabled.Value = 0d;
+        kvumDisabled.Values.PeakHold = true;
+        kvumLeft.Value = -20d;
+        kvumRight.Value = -20d;
+        kpgMeter.SelectedObject = kvumAnalog;
+        _kgm.UpdateLevelLabel();
+    }
+
+    private void ktrkLevel_ValueChanged(object? sender, EventArgs e)
+    {
+        if (_sync || kchkCapture.Checked || Playing)
+        {
+            return;
+        }
+
+        _sync = true;
+        kvumAnalog.Value = ktrkLevel.Value;
+        kvumSegments.Value = ktrkLevel.Value;
+        kvumLeft.Value = ktrkLevel.Value;
+        kvumRight.Value = ktrkLevel.Value;
+        _kgm.UpdateLevelLabel();
+        _sync = false;
+    }
+
+    private void kvumAnalog_ValueChanged(object? sender, VuMeterValueChangedEventArgs e)
+    {
+        if (_sync)
+        {
+            return;
+        }
+
+        _sync = true;
+        if (kchkCapture.Checked)
+        {
+            kvumSegments.Value = e.Value;
+        }
+
+        int stepped = (int)Math.Round(e.Value);
+        if (!kchkCapture.Checked && !Playing && stepped >= ktrkLevel.Minimum && stepped <= ktrkLevel.Maximum && ktrkLevel.Value != stepped)
+        {
+            ktrkLevel.Value = stepped;
+        }
+
+        _kgm.UpdateLevelLabel();
+        _sync = false;
+    }
+
+    private void kchkPeak_CheckedChanged(object? sender, EventArgs e)
+    {
+        kvumAnalog.Values.PeakHold = kchkPeak.Checked;
+        kvumSegments.Values.PeakHold = kchkPeak.Checked;
+        kvumLeft.Values.PeakHold = kchkPeak.Checked;
+        kvumRight.Values.PeakHold = kchkPeak.Checked;
+    }
+
+    private void kchkCapture_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (_sync)
+        {
+            return;
+        }
+
+        kcmbChannel.Enabled = kchkCapture.Checked;
+        kvumAnalog.Values.InputMode = kchkCapture.Checked ? VuMeterInputMode.Capture : VuMeterInputMode.Manual;
+        if (!kchkCapture.Checked)
+        {
+            kvumAnalog.Value = ktrkLevel.Value;
+            kvumSegments.Value = ktrkLevel.Value;
+        }
+
+        ApplyTransport();
+    }
+
+    private void kchkMusic_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (_sync)
+        {
+            return;
+        }
+
+        if (kchkMusic.Checked)
+        {
+            if (kchkCapture.Checked)
+            {
+                _sync = true;
+                kchkCapture.Checked = false;
+                _sync = false;
+            }
+
+            kvumAnalog.Values.InputMode = VuMeterInputMode.Manual;
+            if (kchkStereo.Checked)
+            {
+                _sync = true;
+                kchkStereo.Checked = false;
+                _sync = false;
+            }
+
+            if (!_kgm.StartMusic(SelectedSeconds(), SelectedBass(), SelectedVerses(), SelectedBars()))
+            {
+                _sync = true;
+                kchkMusic.Checked = false;
+                _sync = false;
+            }
+        }
+        else
+        {
+            _kgm.StopMusic();
+            RestoreSliderLevel();
+        }
+
+        ApplyTransport();
+    }
+
+    private void kchkStereo_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (_sync)
+        {
+            return;
+        }
+
+        if (kchkStereo.Checked)
+        {
+            if (kchkCapture.Checked)
+            {
+                _sync = true;
+                kchkCapture.Checked = false;
+                _sync = false;
+            }
+
+            if (kchkMusic.Checked)
+            {
+                _sync = true;
+                kchkMusic.Checked = false;
+                _sync = false;
+            }
+
+            kvumAnalog.Values.InputMode = VuMeterInputMode.Manual;
+            if (!_kgm.StartStereo(SelectedSeconds(), SelectedBass(), SelectedVerses(), SelectedBars()))
+            {
+                _sync = true;
+                kchkStereo.Checked = false;
+                _sync = false;
+            }
+        }
+        else
+        {
+            _kgm.StopMusic();
+            RestoreSliderLevel();
+        }
+
+        ApplyTransport();
+    }
+
+    private void kvumAnalog_CaptureFailed(object? sender, VuMeterCaptureFailedEventArgs e)
+    {
+        kchkCapture.Checked = false;
+        klblLevel.Values.Text = e.Message;
+    }
+
+    private void kcmbChannel_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (kcmbChannel.SelectedItem is string name && Enum.TryParse(name, out VuMeterChannel channel))
+        {
+            kvumAnalog.Values.Channel = channel;
+        }
+    }
+
+    private void kcmbOrientation_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (kcmbOrientation.SelectedItem is string name && Enum.TryParse(name, out VisualOrientation orientation))
+        {
+            kvumSegments.Values.Orientation = orientation;
+        }
+    }
+
+    private void kbtnSilence_Click(object? sender, EventArgs e)
+    {
+        kchkMusic.Checked = false;
+        kchkStereo.Checked = false;
+        kchkCapture.Checked = false;
+        ktrkLevel.Value = ktrkLevel.Minimum;
+    }
+
+    private void kbtnZero_Click(object? sender, EventArgs e)
+    {
+        kchkMusic.Checked = false;
+        kchkStereo.Checked = false;
+        kchkCapture.Checked = false;
+        ktrkLevel.Value = 0;
+    }
+
+    /// <summary>
+    /// Stop playback when the demo closes.
+    /// </summary>
+    /// <param name="e">Form closed arguments.</param>
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        _kgm.StopMusic();
+        base.OnFormClosed(e);
+    }
+
+    private void kcmbLength_SelectedIndexChanged(object? sender, EventArgs e) => RestartPlayback();
+
+    private void kcmbStructure_SelectedIndexChanged(object? sender, EventArgs e) => RestartPlayback();
+
+    private void ktrkBass_ValueChanged(object? sender, EventArgs e)
+    {
+        klblBass.Values.Text = "Bass " + ktrkBass.Value.ToString();
+        if (MouseButtons == MouseButtons.Left)
+        {
+            return;
+        }
+
+        CommitBass();
+    }
+
+    private void ktrkBass_MouseUp(object? sender, MouseEventArgs e) => CommitBass();
+
+    /// <summary>
+    /// Rebuilds the loop when the bass slider has moved, so a drag applies once on release.
+    /// </summary>
+    private void CommitBass()
+    {
+        if (ktrkBass.Value == _bassApplied)
+        {
+            return;
+        }
+
+        _bassApplied = ktrkBass.Value;
+        RestartPlayback();
+    }
+
+    /// <summary>
+    /// Starts the active loop again after length or bass changes.
+    /// </summary>
+    private void RestartPlayback()
+    {
+        if (_sync || !Playing)
+        {
+            return;
+        }
+
+        bool started = kchkMusic.Checked
+            ? _kgm.StartMusic(SelectedSeconds(), SelectedBass(), SelectedVerses(), SelectedBars())
+            : _kgm.StartStereo(SelectedSeconds(), SelectedBass(), SelectedVerses(), SelectedBars());
+        if (started)
+        {
+            return;
+        }
+
+        _sync = true;
+        kchkMusic.Checked = false;
+        kchkStereo.Checked = false;
+        _sync = false;
+    }
+
+    /// <summary>
+    /// Length chosen on the demo, in seconds. Ten minutes is the default.
+    /// </summary>
+    private int SelectedSeconds()
+    {
+        switch (kcmbLength.SelectedIndex)
+        {
+            case 0:
+                return 30;
+            case 1:
+                return 60;
+            case 2:
+                return 120;
+            case 3:
+                return 240;
+            default:
+                return 600;
+        }
+    }
+
+    /// <summary>
+    /// Bass slider position. 0 removes the bass, 50 is the normal line, and 100 is twice that.
+    /// </summary>
+    private int SelectedBass() => ktrkBass.Value;
+
+    /// <summary>
+    /// How many verses to build. Ten uses the whole written score.
+    /// </summary>
+    private int SelectedVerses()
+    {
+        switch (kcmbVerses.SelectedIndex)
+        {
+            case 0:
+                return 1;
+            case 1:
+                return 2;
+            case 2:
+                return 4;
+            case 3:
+                return 6;
+            case 4:
+                return 8;
+            case 6:
+                return 12;
+            default:
+                return 10;
+        }
+    }
+
+    /// <summary>
+    /// Bars kept from each verse. Eight is the written verse length.
+    /// </summary>
+    private int SelectedBars()
+    {
+        switch (kcmbBars.SelectedIndex)
+        {
+            case 0:
+                return 4;
+            case 2:
+                return 12;
+            case 3:
+                return 16;
+            default:
+                return 8;
+        }
+    }
+
+    private bool Playing => kchkMusic.Checked || kchkStereo.Checked;
+
+    private void ApplyTransport()
+    {
+        ktrkLevel.Enabled = !kchkCapture.Checked && !Playing;
+        kchkMusic.Enabled = !kchkCapture.Checked && !kchkStereo.Checked;
+        kchkStereo.Enabled = !kchkCapture.Checked && !kchkMusic.Checked;
+        kchkCapture.Enabled = !Playing;
+    }
+
+    private void RestoreSliderLevel()
+    {
+        if (kchkCapture.Checked)
+        {
+            return;
+        }
+
+        _sync = true;
+        kvumAnalog.Value = ktrkLevel.Value;
+        kvumSegments.Value = ktrkLevel.Value;
+        kvumLeft.Value = ktrkLevel.Value;
+        kvumRight.Value = ktrkLevel.Value;
+        _kgm.UpdateLevelLabel();
+        _sync = false;
+    }
+}

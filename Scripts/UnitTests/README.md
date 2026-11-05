@@ -1,4 +1,4 @@
-﻿# Unit Test Scripts
+# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
 plus CI assert scripts named `UnitTest-*.ps1`.
@@ -69,6 +69,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-SystemInformationApi.ps1` | #3176 `KryptonSystemInformation` type/API smoke (no UI) | `include` |
 | `UnitTest-SystemInformationUi.ps1` | #3176 host the viewer and wait for System Summary rows (WMI) | `include` |
 | `UnitTest-InteractiveToolTips.ps1` | #4192 hosted-control tooltip / HTML helper / NotifyIcon popup API surface | `include` |
+| `UnitTest-TooltipAnimatedGif.ps1` | #4379 tooltip popup plays a multi-frame GIF: two PrintWindow captures must differ | `exclude` |
 | `UnitTest-SplashScreenManager.ps1` | #4180 splash manager API: defaults, Show/SetStatus/Close, Run(steps), throwing step | `include` |
 | `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
 | `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
@@ -247,6 +248,21 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BugReportEmailBody.ps1
 ```
+
+## Typical usage (#4655 VU meter)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-VuMeterScreenshot.ps1
+```
+
+Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR assets; do not commit). That capture leaves Play music off.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-VuMeterMusic.ps1
+```
+
+Selects a 30-second length, then turns on Play music and the stereo file. The stereo pass checks that the Left and Right analog meters follow different channels, then stops the loop.
 
 ## Typical usage (#1100 scheme strip text)
 
