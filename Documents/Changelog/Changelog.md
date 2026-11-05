@@ -48,6 +48,8 @@
 
 - Implemented [#4379](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4379), Support for animated GIFs on `KryptonToolTip`
   - `KryptonToolTip` and other themed tooltips play multi-frame GIF images while the tip is open.
+- Implemented, `KryptonTableLayoutPanel` Column Styles and Row Styles open a themed Column and Row Styles dialog. Add, Insert, and Delete update the live grid and keep controls in the same visual cell. Cancel restores the styles and cell positions. The table designer glyphs stay in place.
+- Resolved [#4406](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4406), the `KryptonTextBox` multiline editor button opens the themed Text Editor at its design size. OK writes the full text back and Cancel leaves it unchanged.
 - Implemented [#4657](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4657), `KryptonSVGPictureBox` displays static SVG markup, with file and stream load, picture-box size modes, and DPI-aware rasterization.
   - Supported on Windows 10 and higher only. For Windows 7, 8, and 8.1 support, see [Extended Toolkit](https://github.com/Krypton-Suite/Extended-Toolkit).
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Drawing` assembly.
