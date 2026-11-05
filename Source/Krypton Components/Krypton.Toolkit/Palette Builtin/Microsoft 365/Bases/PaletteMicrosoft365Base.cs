@@ -114,61 +114,87 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
     #region Images
 
-    private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
-    private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
+    // A plain form paints caption glyphs from the derived palette. These strips wait until a caller asks.
+    private static Image? _treeExpandWhiteCache;
+    private static Image? _treeExpandWhite => _treeExpandWhiteCache ??= TreeItemImageResources.TreeExpandWhite;
+    private static Image? _treeCollapseBlackCache;
+    private static Image? _treeCollapseBlack => _treeCollapseBlackCache ??= TreeItemImageResources.TreeCollapseBlack;
 
-    private static readonly Image? _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton;
-    private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
-    private static readonly Image _buttonSpecContext = GenericProfessionalImageResources.ProfessionalContextButton;
-    private static readonly Image _buttonSpecNext = GenericProfessionalImageResources.ProfessionalNextButton;
-    private static readonly Image _buttonSpecPrevious = GenericProfessionalImageResources.ProfessionalPreviousButton;
-    private static readonly Image _buttonSpecArrowLeft = GenericProfessionalImageResources.ProfessionalArrowLeftButton;
-    private static readonly Image _buttonSpecArrowRight = GenericProfessionalImageResources.ProfessionalArrowRightButton;
-    private static readonly Image _buttonSpecArrowUp = GenericProfessionalImageResources.ProfessionalArrowUpButton;
-    private static readonly Image _buttonSpecArrowDown = GenericProfessionalImageResources.ProfessionalArrowDownButton;
-    private static readonly Image _buttonSpecDropDown = GenericProfessionalImageResources.ProfessionalDropDownButton;
-    private static readonly Image _buttonSpecPinVertical = ProfessionalPinImageResources.ProfessionalPinVerticalButton;
-    private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
-    private static readonly Image _buttonSpecPendantClose = Office2010MDIImageResources.Office2010ButtonMDIClose;
-    private static readonly Image _buttonSpecPendantMin = Office2010MDIImageResources.Office2010ButtonMDIMin;
-    private static readonly Image _buttonSpecPendantRestore = Office2010MDIImageResources.Office2010ButtonMDIRestore;
-    private static readonly Image _buttonSpecWorkspaceMaximize = ProfessionalControlBoxResources.ProfessionalMaximize;
-    private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
-    private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
-    private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
-    private static readonly Image? _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
-    private static readonly Image? _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
-    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
+    private static Image? _disabledDropDownCache;
+    private static Image? _disabledDropDown => _disabledDropDownCache ??= DropDownArrowImageResources.DisabledDropDownButton;
+    private static Image? _buttonSpecCloseCache;
+    private static Image _buttonSpecClose => _buttonSpecCloseCache ??= ProfessionalButtonSpecResources.ProfessionalCloseButton;
+    private static Image? _buttonSpecContextCache;
+    private static Image _buttonSpecContext => _buttonSpecContextCache ??= GenericProfessionalImageResources.ProfessionalContextButton;
+    private static Image? _buttonSpecNextCache;
+    private static Image _buttonSpecNext => _buttonSpecNextCache ??= GenericProfessionalImageResources.ProfessionalNextButton;
+    private static Image? _buttonSpecPreviousCache;
+    private static Image _buttonSpecPrevious => _buttonSpecPreviousCache ??= GenericProfessionalImageResources.ProfessionalPreviousButton;
+    private static Image? _buttonSpecArrowLeftCache;
+    private static Image _buttonSpecArrowLeft => _buttonSpecArrowLeftCache ??= GenericProfessionalImageResources.ProfessionalArrowLeftButton;
+    private static Image? _buttonSpecArrowRightCache;
+    private static Image _buttonSpecArrowRight => _buttonSpecArrowRightCache ??= GenericProfessionalImageResources.ProfessionalArrowRightButton;
+    private static Image? _buttonSpecArrowUpCache;
+    private static Image _buttonSpecArrowUp => _buttonSpecArrowUpCache ??= GenericProfessionalImageResources.ProfessionalArrowUpButton;
+    private static Image? _buttonSpecArrowDownCache;
+    private static Image _buttonSpecArrowDown => _buttonSpecArrowDownCache ??= GenericProfessionalImageResources.ProfessionalArrowDownButton;
+    private static Image? _buttonSpecDropDownCache;
+    private static Image _buttonSpecDropDown => _buttonSpecDropDownCache ??= GenericProfessionalImageResources.ProfessionalDropDownButton;
+    private static Image? _buttonSpecPinVerticalCache;
+    private static Image _buttonSpecPinVertical => _buttonSpecPinVerticalCache ??= ProfessionalPinImageResources.ProfessionalPinVerticalButton;
+    private static Image? _buttonSpecPinHorizontalCache;
+    private static Image _buttonSpecPinHorizontal => _buttonSpecPinHorizontalCache ??= ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
+    private static Image? _buttonSpecPendantCloseCache;
+    private static Image _buttonSpecPendantClose => _buttonSpecPendantCloseCache ??= Office2010MDIImageResources.Office2010ButtonMDIClose;
+    private static Image? _buttonSpecPendantMinCache;
+    private static Image _buttonSpecPendantMin => _buttonSpecPendantMinCache ??= Office2010MDIImageResources.Office2010ButtonMDIMin;
+    private static Image? _buttonSpecPendantRestoreCache;
+    private static Image _buttonSpecPendantRestore => _buttonSpecPendantRestoreCache ??= Office2010MDIImageResources.Office2010ButtonMDIRestore;
+    private static Image? _buttonSpecWorkspaceMaximizeCache;
+    private static Image _buttonSpecWorkspaceMaximize => _buttonSpecWorkspaceMaximizeCache ??= ProfessionalControlBoxResources.ProfessionalMaximize;
+    private static Image? _buttonSpecWorkspaceRestoreCache;
+    private static Image _buttonSpecWorkspaceRestore => _buttonSpecWorkspaceRestoreCache ??= GenericProfessionalImageResources.ProfessionalRestore;
+    private static Image? _buttonSpecRibbonMinimizeCache;
+    private static Image _buttonSpecRibbonMinimize => _buttonSpecRibbonMinimizeCache ??= RibbonArrowImageResources.RibbonUp2010;
+    private static Image? _buttonSpecRibbonExpandCache;
+    private static Image _buttonSpecRibbonExpand => _buttonSpecRibbonExpandCache ??= RibbonArrowImageResources.RibbonDown2010;
+    private static Image? _contextMenuCheckedCache;
+    private static Image? _contextMenuChecked => _contextMenuCheckedCache ??= GenericOffice2007ImageResources.Office2007Checked;
+    private static Image? _contextMenuIndeterminateCache;
+    private static Image? _contextMenuIndeterminate => _contextMenuIndeterminateCache ??= GenericOffice2007ImageResources.Office2007Indeterminate;
+    private static Image? _contextMenuSubMenuCache;
+    private static Image? _contextMenuSubMenu => _contextMenuSubMenuCache ??= Office2010ArrowResources.Office2010BlueContextMenuSub;
 
     #region Integrated Tool Bar Images
 
-    private static readonly Image _integratedToolbarNewNormal = Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
-
-    private static readonly Image _integratedToolbarOpenNormal = Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
-
-    private static readonly Image _integratedToolbarSaveAllNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
-
-    private static readonly Image _integratedToolbarSaveAsNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
-
-    private static readonly Image _integratedToolbarSaveNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
-
-    private static readonly Image _integratedToolbarCutNormal = Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
-
-    private static readonly Image _integratedToolbarCopyNormal = Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
-
-    private static readonly Image _integratedToolbarPasteNormal = Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
-
-    private static readonly Image _integratedToolbarUndoNormal = Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
-
-    private static readonly Image _integratedToolbarRedoNormal = Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
-
-    private static readonly Image _integratedToolbarPageSetupNormal = Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
-
-    private static readonly Image _integratedToolbarPrintPreviewNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
-
-    private static readonly Image _integratedToolbarPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
-
-    private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
+    private static Image? _integratedToolbarNewNormalCache;
+    private static Image _integratedToolbarNewNormal => _integratedToolbarNewNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
+    private static Image? _integratedToolbarOpenNormalCache;
+    private static Image _integratedToolbarOpenNormal => _integratedToolbarOpenNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
+    private static Image? _integratedToolbarSaveAllNormalCache;
+    private static Image _integratedToolbarSaveAllNormal => _integratedToolbarSaveAllNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
+    private static Image? _integratedToolbarSaveAsNormalCache;
+    private static Image _integratedToolbarSaveAsNormal => _integratedToolbarSaveAsNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
+    private static Image? _integratedToolbarSaveNormalCache;
+    private static Image _integratedToolbarSaveNormal => _integratedToolbarSaveNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
+    private static Image? _integratedToolbarCutNormalCache;
+    private static Image _integratedToolbarCutNormal => _integratedToolbarCutNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
+    private static Image? _integratedToolbarCopyNormalCache;
+    private static Image _integratedToolbarCopyNormal => _integratedToolbarCopyNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
+    private static Image? _integratedToolbarPasteNormalCache;
+    private static Image _integratedToolbarPasteNormal => _integratedToolbarPasteNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
+    private static Image? _integratedToolbarUndoNormalCache;
+    private static Image _integratedToolbarUndoNormal => _integratedToolbarUndoNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
+    private static Image? _integratedToolbarRedoNormalCache;
+    private static Image _integratedToolbarRedoNormal => _integratedToolbarRedoNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
+    private static Image? _integratedToolbarPageSetupNormalCache;
+    private static Image _integratedToolbarPageSetupNormal => _integratedToolbarPageSetupNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
+    private static Image? _integratedToolbarPrintPreviewNormalCache;
+    private static Image _integratedToolbarPrintPreviewNormal => _integratedToolbarPrintPreviewNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
+    private static Image? _integratedToolbarPrintNormalCache;
+    private static Image _integratedToolbarPrintNormal => _integratedToolbarPrintNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
+    private static Image? _integratedToolbarQuickPrintNormalCache;
+    private static Image _integratedToolbarQuickPrintNormal => _integratedToolbarQuickPrintNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
 
     #endregion
 

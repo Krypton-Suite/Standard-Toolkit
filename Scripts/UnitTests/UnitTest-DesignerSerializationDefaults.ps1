@@ -207,7 +207,8 @@ foreach ($name in @(
         'Krypton.Docking.dll',
         'Krypton.Toolkit.Utilities.dll',
         'Krypton.Navigator.Utilities.dll',
-        'Krypton.Charting.dll'
+        'Krypton.Charting.dll',
+        'Krypton.Gauges.dll',
     )) {
     $path = Join-Path $bin $name
     if (Test-Path -LiteralPath $path) {

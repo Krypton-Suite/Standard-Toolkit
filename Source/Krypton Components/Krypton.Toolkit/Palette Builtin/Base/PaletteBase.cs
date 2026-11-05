@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -2247,6 +2247,12 @@ public abstract class PaletteBase : Component
     // Key = (palette base type, enum type that defines the slot, zero-based index)
     private static readonly Dictionary<(Type Owner, Type Enum, int Index), Color> _colorLut = new Dictionary<(Type Owner, Type Enum, int Index), Color>();
 
+    // Hits from ResolveColorLutKey, keyed by the palette runtime type (Owner) so a derived override
+    // does not share a base palette's cached colour. Static: every instance of a type shares
+    // the same registration. _colorLock guards per-instance scheme arrays, not this table.
+    private static readonly Dictionary<(Type Owner, Type Enum, int Index), Color> _resolvedColors = new Dictionary<(Type Owner, Type Enum, int Index), Color>();
+    private static readonly object _resolvedColorLock = new object();
+
     /// <summary>
     /// Called once from a family base static constructor to seed default colours for a particular enum slot.
     /// </summary>
@@ -2272,14 +2278,43 @@ public abstract class PaletteBase : Component
     /// </summary>
     public Color GetArrayColor<TEnum>(TEnum slot) where TEnum : struct, Enum
     {
-        var key = ResolveColorLutKey(typeof(TEnum), Convert.ToInt32(slot));
+        var enumType = typeof(TEnum);
+        var index = Convert.ToInt32(slot);
+        var cacheKey = (GetType(), enumType, index);
 
-        if (key.HasValue)
+        lock (_resolvedColorLock)
         {
-            return _colorLut[key.Value];
+            if (_resolvedColors.TryGetValue(cacheKey, out var cached))
+            {
+                return cached;
+            }
         }
 
-        throw new KeyNotFoundException($@"No registered color for {typeof(TEnum).Name}.{slot}.");
+        var key = ResolveColorLutKey(enumType, index);
+
+        if (!key.HasValue)
+        {
+            throw new KeyNotFoundException($@"No registered color for {enumType.Name}.{slot}.");
+        }
+
+        var color = _colorLut[key.Value];
+        lock (_resolvedColorLock)
+        {
+            // SetArrayColor may have published a newer runtime override while the owner walk ran.
+            if (_resolvedColors.TryGetValue(cacheKey, out var published))
+            {
+                return published;
+            }
+
+            if (_colorLut.TryGetValue(cacheKey, out var overridden))
+            {
+                color = overridden;
+            }
+
+            _resolvedColors[cacheKey] = color;
+        }
+
+        return color;
     }
 
     /// <summary>
@@ -2287,9 +2322,28 @@ public abstract class PaletteBase : Component
     /// </summary>
     public void SetArrayColor<TEnum>(TEnum slot, Color newColor) where TEnum : struct, Enum
     {
-        var key = (GetType(), typeof(TEnum), Convert.ToInt32(slot));
+        var runtimeType = GetType();
+        var key = (runtimeType, typeof(TEnum), Convert.ToInt32(slot));
 
         _colorLut[key] = newColor;
+        lock (_resolvedColorLock)
+        {
+            // The next lookup walks owners again so this override replaces the family default.
+            var stale = new List<(Type Owner, Type Enum, int Index)>();
+            foreach (var entry in _resolvedColors)
+            {
+                if (entry.Key.Owner == runtimeType)
+                {
+                    stale.Add(entry.Key);
+                }
+            }
+
+            foreach (var staleKey in stale)
+            {
+                _resolvedColors.Remove(staleKey);
+            }
+        }
+
         // Inform listeners that colours have changed so UI repaints.
         OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
     }

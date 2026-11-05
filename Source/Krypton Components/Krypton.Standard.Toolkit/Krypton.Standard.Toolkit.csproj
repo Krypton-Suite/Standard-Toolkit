@@ -17,6 +17,7 @@
 		- Krypton.Toolkit.JumpList
 		- Krypton.Toolkit.Utilities
 		- Krypton.Charting
+		- Krypton.Gauges
 		- Krypton.Workspace
 	
 		All referenced DLLs, XML documentation files, and PDB symbol files are included in the package
@@ -59,7 +60,7 @@
 	<!-- NuGet Package Metadata -->
 	<PropertyGroup>
 		<PackageId>Krypton.Standard.Toolkit</PackageId>
-		<Description>All-in-one Krypton Standard Toolkit package: Krypton.Toolkit, Ribbon, Navigator, Workspace, Docking, Drawing, Themes, Interop, Toolkit.Utilities, Navigator.Utilities, Charting, and JumpList binaries (plus XML docs and symbols) for each target framework, including WinForms Design/WinForms designer assemblies where applicable. Krypton.Drawing rasterizes SVG with Direct2D on Windows 10 version 1703 and later.</Description>
+		<Description>All-in-one Krypton Standard Toolkit package: Krypton.Toolkit, Ribbon, Navigator, Workspace, Docking, Drawing, Themes, Interop, Toolkit.Utilities, Navigator.Utilities, Charting, Gauges, and JumpList binaries (plus XML docs and symbols) for each target framework, including WinForms Design/WinForms designer assemblies where applicable. Krypton.Drawing rasterizes SVG with Direct2D on Windows 10 version 1703 and later.</Description>
 		<!-- Additional package metadata (version, authors, license, etc.) is defined in Directory.Build.props and Directory.Build.targets -->
 
 		<!--
@@ -119,6 +120,7 @@
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>
 		<ProjectReference Include="..\Krypton.Charting\Krypton.Charting.csproj" />
+		<ProjectReference Include="..\Krypton.Gauges\Krypton.Gauges.csproj" />
 		<ProjectReference Include="..\Krypton.Drawing\Krypton.Drawing.csproj">
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>
@@ -181,7 +183,7 @@
 		============================================
 	
 		This target runs for each target framework during the Pack operation and includes:
-		1. All referenced DLL files (Krypton.Docking, Krypton.Interop, Krypton.Resources, Krypton.Navigator, Krypton.Ribbon, Krypton.Themes, Krypton.Toolkit, Krypton.Toolkit.JumpList, Krypton.Toolkit.Utilities, Krypton.Workspace)
+		1. All referenced DLL files (Krypton.Docking, Krypton.Interop, Krypton.Resources, Krypton.Navigator, Krypton.Ribbon, Krypton.Themes, Krypton.Toolkit, Krypton.Toolkit.JumpList, Krypton.Toolkit.Utilities, Krypton.Gauges, Krypton.Workspace)
 		2. XML documentation files for IntelliSense support
 		3. PDB symbol files (only when IncludeSymbols is true, for Nightly/Canary configurations)
 	
@@ -280,6 +282,10 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Charting\bin\$(Configuration)\$(TargetFramework)\Krypton.Charting.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Charting.dll') And Exists('..\Krypton.Charting\bin\$(Configuration)\$(TargetFramework)\Krypton.Charting.dll')">
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Gauges.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Gauges.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Gauges\bin\$(Configuration)\$(TargetFramework)\Krypton.Gauges.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Gauges.dll') And Exists('..\Krypton.Gauges\bin\$(Configuration)\$(TargetFramework)\Krypton.Gauges.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Workspace.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Workspace.dll')">
@@ -392,6 +398,12 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.xml') And Exists('..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Gauges.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Gauges.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Gauges\bin\$(Configuration)\$(TargetFramework)\Krypton.Gauges.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Gauges.xml') And Exists('..\Krypton.Gauges\bin\$(Configuration)\$(TargetFramework)\Krypton.Gauges.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Workspace.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Workspace.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -472,6 +484,12 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.pdb') And Exists('..\Krypton.Toolkit.Utilities\bin\$(Configuration)\$(TargetFramework)\Krypton.Toolkit.Utilities.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Gauges.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Gauges.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Gauges\bin\$(Configuration)\$(TargetFramework)\Krypton.Gauges.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Gauges.pdb') And Exists('..\Krypton.Gauges\bin\$(Configuration)\$(TargetFramework)\Krypton.Gauges.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Workspace.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Workspace.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -493,6 +511,9 @@
 				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Toolkit.Utilities.Design.dll')">
+				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Gauges.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Gauges.Design.dll')">
 				<PackagePath>lib\$(_LibFolderName)\Design\WinForms\Server\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Navigator.Utilities.Design.dll" Condition="!$(TargetFramework.StartsWith('net4')) And Exists('$(_KryptonPackLibDir)Krypton.Navigator.Utilities.Design.dll')">
