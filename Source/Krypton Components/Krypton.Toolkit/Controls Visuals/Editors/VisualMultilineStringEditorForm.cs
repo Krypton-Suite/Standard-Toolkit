@@ -47,6 +47,18 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
         SetupControlsText();
 
+        // Callers such as the designer string editor pass a heading and title.
+        // SetupControlsText always writes the string-collection defaults first.
+        if (!string.IsNullOrEmpty(headerText))
+        {
+            kgrpbxContainer.Values.Heading = headerText;
+        }
+
+        if (!string.IsNullOrEmpty(windowTitle))
+        {
+            Text = windowTitle;
+        }
+
         SetupInputCanvas();
 
         UpdateInput(_contents, _collection);
@@ -56,16 +68,12 @@ internal partial class VisualMultilineStringEditorForm : KryptonForm
 
     #region Protected
     /// <inheritdoc />
-    protected override void OnLoad(EventArgs e)
-    {
-        KryptonDesignerEditorDpi.Configure(this);
-        base.OnLoad(e);
-    }
-
-    /// <inheritdoc />
     protected override void OnShown(EventArgs e)
     {
         base.OnShown(e);
+
+        // This form is authored with font autoscaling. KryptonDesignerEditorDpi.Configure
+        // switches that to DPI mode on load and WinForms then collapses the client and footer.
         KryptonDesignerEditorDpi.ApplyOnShown(this);
     }
 
