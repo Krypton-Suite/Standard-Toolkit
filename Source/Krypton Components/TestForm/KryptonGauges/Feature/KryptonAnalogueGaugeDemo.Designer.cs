@@ -35,6 +35,9 @@ partial class KryptonAnalogueGaugeDemo
         this.klgMain = new Krypton.Gauges.KryptonLinearGauge();
         this.krgMain = new Krypton.Gauges.KryptonRectangularGauge();
         this.krgSegments = new Krypton.Gauges.KryptonRectangularGauge();
+        this.kthmMain = new Krypton.Gauges.KryptonThermometerGauge();
+        this.kamAc = new Krypton.Gauges.KryptonAmpereMeterGauge();
+        this.kamDc = new Krypton.Gauges.KryptonAmpereMeterGauge();
         this.kcgInteractive = new Krypton.Gauges.KryptonCircularGauge();
         this.kpnlControls = new Krypton.Toolkit.KryptonPanel();
         this.tlpControls = new System.Windows.Forms.TableLayoutPanel();
@@ -46,6 +49,9 @@ partial class KryptonAnalogueGaugeDemo
         this.kbtnSelectLinear = new Krypton.Toolkit.KryptonButton();
         this.kbtnSelectRectangular = new Krypton.Toolkit.KryptonButton();
         this.kbtnSelectSegments = new Krypton.Toolkit.KryptonButton();
+        this.kbtnSelectThermometer = new Krypton.Toolkit.KryptonButton();
+        this.kbtnSelectAmpereAc = new Krypton.Toolkit.KryptonButton();
+        this.kbtnSelectAmpereDc = new Krypton.Toolkit.KryptonButton();
         this.kpgGauge = new Krypton.Toolkit.KryptonPropertyGrid();
         ((System.ComponentModel.ISupportInitialize)(this.kpnlRoot)).BeginInit();
         this.kpnlRoot.SuspendLayout();
@@ -62,7 +68,7 @@ partial class KryptonAnalogueGaugeDemo
         this.kpnlRoot.Dock = System.Windows.Forms.DockStyle.Fill;
         this.kpnlRoot.Location = new System.Drawing.Point(0, 0);
         this.kpnlRoot.Name = "kpnlRoot";
-        this.kpnlRoot.Size = new System.Drawing.Size(980, 620);
+        this.kpnlRoot.Size = new System.Drawing.Size(1080, 700);
         this.kpnlRoot.TabIndex = 0;
         //
         // tlpMain
@@ -82,7 +88,7 @@ partial class KryptonAnalogueGaugeDemo
         this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 48F));
         this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
         this.tlpMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-        this.tlpMain.Size = new System.Drawing.Size(980, 620);
+        this.tlpMain.Size = new System.Drawing.Size(1080, 700);
         this.tlpMain.SetColumnSpan(this.klblInstructions, 1);
         this.tlpMain.SetRowSpan(this.kpgGauge, 3);
         this.tlpMain.TabIndex = 0;
@@ -92,9 +98,9 @@ partial class KryptonAnalogueGaugeDemo
         this.klblInstructions.Dock = System.Windows.Forms.DockStyle.Fill;
         this.klblInstructions.Location = new System.Drawing.Point(11, 11);
         this.klblInstructions.Name = "klblInstructions";
-        this.klblInstructions.Size = new System.Drawing.Size(662, 42);
+        this.klblInstructions.Size = new System.Drawing.Size(732, 42);
         this.klblInstructions.TabIndex = 0;
-        this.klblInstructions.Values.Text = "Issue #4656: circular, linear, and rectangular gauges share ranges and palette colours. Drag the trackbar, toggle animation / interactive input, or drag the dedicated interactive circular gauge.";
+        this.klblInstructions.Values.Text = "Issue #4656: circular, linear, rectangular, thermometer, and ampere-meter (AC / DC) gauges. Drag the trackbar (ammeter values are scaled), toggle animation / interactive input, or drag the dedicated interactive circular gauge.";
         //
         // flpGauges
         //
@@ -103,12 +109,15 @@ partial class KryptonAnalogueGaugeDemo
         this.flpGauges.Controls.Add(this.klgMain);
         this.flpGauges.Controls.Add(this.krgMain);
         this.flpGauges.Controls.Add(this.krgSegments);
+        this.flpGauges.Controls.Add(this.kthmMain);
+        this.flpGauges.Controls.Add(this.kamAc);
+        this.flpGauges.Controls.Add(this.kamDc);
         this.flpGauges.Controls.Add(this.kcgInteractive);
         this.flpGauges.Dock = System.Windows.Forms.DockStyle.Fill;
         this.flpGauges.Location = new System.Drawing.Point(11, 59);
         this.flpGauges.Name = "flpGauges";
         this.flpGauges.Padding = new System.Windows.Forms.Padding(4);
-        this.flpGauges.Size = new System.Drawing.Size(662, 430);
+        this.flpGauges.Size = new System.Drawing.Size(732, 510);
         this.flpGauges.TabIndex = 1;
         //
         // kcgMain
@@ -139,38 +148,66 @@ partial class KryptonAnalogueGaugeDemo
         this.krgSegments.Size = new System.Drawing.Size(200, 48);
         this.krgSegments.TabIndex = 3;
         //
+        // kthmMain
+        //
+        this.kthmMain.Location = new System.Drawing.Point(379, 193);
+        this.kthmMain.Name = "kthmMain";
+        this.kthmMain.Size = new System.Drawing.Size(64, 220);
+        this.kthmMain.TabIndex = 4;
+        //
+        // kamAc
+        //
+        this.kamAc.Location = new System.Drawing.Point(449, 193);
+        this.kamAc.Name = "kamAc";
+        this.kamAc.Size = new System.Drawing.Size(140, 140);
+        this.kamAc.TabIndex = 5;
+        //
+        // kamDc
+        //
+        this.kamDc.Location = new System.Drawing.Point(595, 193);
+        this.kamDc.Name = "kamDc";
+        this.kamDc.Size = new System.Drawing.Size(140, 140);
+        this.kamDc.TabIndex = 6;
+        //
         // kcgInteractive
         //
-        this.kcgInteractive.Location = new System.Drawing.Point(213, 193);
+        this.kcgInteractive.Location = new System.Drawing.Point(7, 419);
         this.kcgInteractive.Name = "kcgInteractive";
         this.kcgInteractive.Size = new System.Drawing.Size(160, 160);
-        this.kcgInteractive.TabIndex = 4;
+        this.kcgInteractive.TabIndex = 7;
         this.kcgInteractive.ValueChanged += new System.EventHandler<Krypton.Gauges.GaugeValueChangedEventArgs>(this.OnGaugeValueChanged);
         //
         // kpnlControls
         //
         this.kpnlControls.Controls.Add(this.tlpControls);
         this.kpnlControls.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.kpnlControls.Location = new System.Drawing.Point(11, 495);
+        this.kpnlControls.Location = new System.Drawing.Point(11, 575);
         this.kpnlControls.Name = "kpnlControls";
-        this.kpnlControls.Size = new System.Drawing.Size(662, 114);
+        this.kpnlControls.Size = new System.Drawing.Size(732, 114);
         this.kpnlControls.TabIndex = 2;
         //
         // tlpControls
         //
-        this.tlpControls.ColumnCount = 4;
-        this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+        this.tlpControls.ColumnCount = 7;
+        this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
         this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-        this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-        this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
+        this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+        this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+        this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+        this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+        this.tlpControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
         this.tlpControls.Controls.Add(this.klblValue, 0, 0);
         this.tlpControls.Controls.Add(this.ktrkValue, 1, 0);
-        this.tlpControls.Controls.Add(this.kchkAnimate, 2, 0);
-        this.tlpControls.Controls.Add(this.kchkInteractive, 3, 0);
+        this.tlpControls.SetColumnSpan(this.ktrkValue, 3);
+        this.tlpControls.Controls.Add(this.kchkAnimate, 4, 0);
+        this.tlpControls.Controls.Add(this.kchkInteractive, 5, 0);
         this.tlpControls.Controls.Add(this.kbtnSelectCircular, 0, 1);
         this.tlpControls.Controls.Add(this.kbtnSelectLinear, 1, 1);
         this.tlpControls.Controls.Add(this.kbtnSelectRectangular, 2, 1);
         this.tlpControls.Controls.Add(this.kbtnSelectSegments, 3, 1);
+        this.tlpControls.Controls.Add(this.kbtnSelectThermometer, 4, 1);
+        this.tlpControls.Controls.Add(this.kbtnSelectAmpereAc, 5, 1);
+        this.tlpControls.Controls.Add(this.kbtnSelectAmpereDc, 6, 1);
         this.tlpControls.Dock = System.Windows.Forms.DockStyle.Fill;
         this.tlpControls.Location = new System.Drawing.Point(0, 0);
         this.tlpControls.Name = "tlpControls";
@@ -178,7 +215,7 @@ partial class KryptonAnalogueGaugeDemo
         this.tlpControls.RowCount = 2;
         this.tlpControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
         this.tlpControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-        this.tlpControls.Size = new System.Drawing.Size(662, 114);
+        this.tlpControls.Size = new System.Drawing.Size(732, 114);
         this.tlpControls.TabIndex = 0;
         //
         // klblValue
@@ -203,9 +240,9 @@ partial class KryptonAnalogueGaugeDemo
         // kchkAnimate
         //
         this.kchkAnimate.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.kchkAnimate.Location = new System.Drawing.Point(421, 7);
+        this.kchkAnimate.Location = new System.Drawing.Point(489, 7);
         this.kchkAnimate.Name = "kchkAnimate";
-        this.kchkAnimate.Size = new System.Drawing.Size(114, 48);
+        this.kchkAnimate.Size = new System.Drawing.Size(74, 48);
         this.kchkAnimate.TabIndex = 2;
         this.kchkAnimate.Values.Text = "Animate";
         this.kchkAnimate.CheckedChanged += new System.EventHandler(this.kchkAnimate_CheckedChanged);
@@ -213,9 +250,9 @@ partial class KryptonAnalogueGaugeDemo
         // kchkInteractive
         //
         this.kchkInteractive.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.kchkInteractive.Location = new System.Drawing.Point(541, 7);
+        this.kchkInteractive.Location = new System.Drawing.Point(569, 7);
         this.kchkInteractive.Name = "kchkInteractive";
-        this.kchkInteractive.Size = new System.Drawing.Size(114, 48);
+        this.kchkInteractive.Size = new System.Drawing.Size(74, 48);
         this.kchkInteractive.TabIndex = 3;
         this.kchkInteractive.Values.Text = "Interactive";
         this.kchkInteractive.CheckedChanged += new System.EventHandler(this.kchkInteractive_CheckedChanged);
@@ -225,7 +262,7 @@ partial class KryptonAnalogueGaugeDemo
         this.kbtnSelectCircular.Dock = System.Windows.Forms.DockStyle.Fill;
         this.kbtnSelectCircular.Location = new System.Drawing.Point(7, 61);
         this.kbtnSelectCircular.Name = "kbtnSelectCircular";
-        this.kbtnSelectCircular.Size = new System.Drawing.Size(74, 46);
+        this.kbtnSelectCircular.Size = new System.Drawing.Size(64, 46);
         this.kbtnSelectCircular.TabIndex = 4;
         this.kbtnSelectCircular.Values.Text = "Circular";
         this.kbtnSelectCircular.Click += new System.EventHandler(this.kbtnSelectCircular_Click);
@@ -233,9 +270,9 @@ partial class KryptonAnalogueGaugeDemo
         // kbtnSelectLinear
         //
         this.kbtnSelectLinear.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.kbtnSelectLinear.Location = new System.Drawing.Point(87, 61);
+        this.kbtnSelectLinear.Location = new System.Drawing.Point(77, 61);
         this.kbtnSelectLinear.Name = "kbtnSelectLinear";
-        this.kbtnSelectLinear.Size = new System.Drawing.Size(328, 46);
+        this.kbtnSelectLinear.Size = new System.Drawing.Size(264, 46);
         this.kbtnSelectLinear.TabIndex = 5;
         this.kbtnSelectLinear.Values.Text = "Linear";
         this.kbtnSelectLinear.Click += new System.EventHandler(this.kbtnSelectLinear_Click);
@@ -243,36 +280,66 @@ partial class KryptonAnalogueGaugeDemo
         // kbtnSelectRectangular
         //
         this.kbtnSelectRectangular.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.kbtnSelectRectangular.Location = new System.Drawing.Point(421, 61);
+        this.kbtnSelectRectangular.Location = new System.Drawing.Point(347, 61);
         this.kbtnSelectRectangular.Name = "kbtnSelectRectangular";
-        this.kbtnSelectRectangular.Size = new System.Drawing.Size(114, 46);
+        this.kbtnSelectRectangular.Size = new System.Drawing.Size(64, 46);
         this.kbtnSelectRectangular.TabIndex = 6;
-        this.kbtnSelectRectangular.Values.Text = "Rectangular";
+        this.kbtnSelectRectangular.Values.Text = "Rect";
         this.kbtnSelectRectangular.Click += new System.EventHandler(this.kbtnSelectRectangular_Click);
         //
         // kbtnSelectSegments
         //
         this.kbtnSelectSegments.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.kbtnSelectSegments.Location = new System.Drawing.Point(541, 61);
+        this.kbtnSelectSegments.Location = new System.Drawing.Point(417, 61);
         this.kbtnSelectSegments.Name = "kbtnSelectSegments";
-        this.kbtnSelectSegments.Size = new System.Drawing.Size(114, 46);
+        this.kbtnSelectSegments.Size = new System.Drawing.Size(74, 46);
         this.kbtnSelectSegments.TabIndex = 7;
         this.kbtnSelectSegments.Values.Text = "Segments";
         this.kbtnSelectSegments.Click += new System.EventHandler(this.kbtnSelectSegments_Click);
         //
+        // kbtnSelectThermometer
+        //
+        this.kbtnSelectThermometer.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.kbtnSelectThermometer.Location = new System.Drawing.Point(497, 61);
+        this.kbtnSelectThermometer.Name = "kbtnSelectThermometer";
+        this.kbtnSelectThermometer.Size = new System.Drawing.Size(74, 46);
+        this.kbtnSelectThermometer.TabIndex = 8;
+        this.kbtnSelectThermometer.Values.Text = "Thermo";
+        this.kbtnSelectThermometer.Click += new System.EventHandler(this.kbtnSelectThermometer_Click);
+        //
+        // kbtnSelectAmpereAc
+        //
+        this.kbtnSelectAmpereAc.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.kbtnSelectAmpereAc.Location = new System.Drawing.Point(577, 61);
+        this.kbtnSelectAmpereAc.Name = "kbtnSelectAmpereAc";
+        this.kbtnSelectAmpereAc.Size = new System.Drawing.Size(74, 46);
+        this.kbtnSelectAmpereAc.TabIndex = 9;
+        this.kbtnSelectAmpereAc.Values.Text = "Amp AC";
+        this.kbtnSelectAmpereAc.Click += new System.EventHandler(this.kbtnSelectAmpereAc_Click);
+        //
+        // kbtnSelectAmpereDc
+        //
+        this.kbtnSelectAmpereDc.Dock = System.Windows.Forms.DockStyle.Fill;
+        this.kbtnSelectAmpereDc.Location = new System.Drawing.Point(657, 61);
+        this.kbtnSelectAmpereDc.Name = "kbtnSelectAmpereDc";
+        this.kbtnSelectAmpereDc.Size = new System.Drawing.Size(74, 46);
+        this.kbtnSelectAmpereDc.TabIndex = 10;
+        this.kbtnSelectAmpereDc.Values.Text = "Amp DC";
+        this.kbtnSelectAmpereDc.Click += new System.EventHandler(this.kbtnSelectAmpereDc_Click);
+        //
         // kpgGauge
         //
         this.kpgGauge.Dock = System.Windows.Forms.DockStyle.Fill;
-        this.kpgGauge.Location = new System.Drawing.Point(679, 11);
+        this.kpgGauge.Location = new System.Drawing.Point(749, 11);
         this.kpgGauge.Name = "kpgGauge";
-        this.kpgGauge.Size = new System.Drawing.Size(290, 598);
+        this.kpgGauge.Size = new System.Drawing.Size(320, 678);
         this.kpgGauge.TabIndex = 3;
         //
         // KryptonAnalogueGaugeDemo
         //
         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(980, 620);
+        this.ClientSize = new System.Drawing.Size(1080, 700);
         this.Controls.Add(this.kpnlRoot);
         this.Name = "KryptonAnalogueGaugeDemo";
         this.Text = "Analogue Gauges (#4656)";
@@ -299,6 +366,9 @@ partial class KryptonAnalogueGaugeDemo
     private Krypton.Gauges.KryptonLinearGauge klgMain;
     private Krypton.Gauges.KryptonRectangularGauge krgMain;
     private Krypton.Gauges.KryptonRectangularGauge krgSegments;
+    private Krypton.Gauges.KryptonThermometerGauge kthmMain;
+    private Krypton.Gauges.KryptonAmpereMeterGauge kamAc;
+    private Krypton.Gauges.KryptonAmpereMeterGauge kamDc;
     private Krypton.Gauges.KryptonCircularGauge kcgInteractive;
     private Krypton.Toolkit.KryptonPanel kpnlControls;
     private System.Windows.Forms.TableLayoutPanel tlpControls;
@@ -310,5 +380,8 @@ partial class KryptonAnalogueGaugeDemo
     private Krypton.Toolkit.KryptonButton kbtnSelectLinear;
     private Krypton.Toolkit.KryptonButton kbtnSelectRectangular;
     private Krypton.Toolkit.KryptonButton kbtnSelectSegments;
+    private Krypton.Toolkit.KryptonButton kbtnSelectThermometer;
+    private Krypton.Toolkit.KryptonButton kbtnSelectAmpereAc;
+    private Krypton.Toolkit.KryptonButton kbtnSelectAmpereDc;
     private Krypton.Toolkit.KryptonPropertyGrid kpgGauge;
 }

@@ -12,7 +12,7 @@ using Krypton.Gauges;
 namespace TestForm;
 
 /// <summary>
-/// Exercises circular, linear, and rectangular analogue gauges with shared ranges, animation, and interactive input (issue #4656).
+/// Exercises circular, linear, rectangular, thermometer, and ampere-meter analogue gauges with shared ranges, animation, and interactive input (issue #4656).
 /// </summary>
 public partial class KryptonAnalogueGaugeDemo : KryptonForm
 {
@@ -33,6 +33,7 @@ public partial class KryptonAnalogueGaugeDemo : KryptonForm
         ConfigureSharedRanges(klgMain.LinearValues);
         ConfigureSharedRanges(krgMain.RectangularValues);
         ConfigureSharedRanges(krgSegments.RectangularValues);
+        ConfigureSharedRanges(kthmMain.ThermometerValues);
 
         kcgMain.CircularValues.Caption = "RPM";
         kcgMain.CircularValues.Units = "x1000";
@@ -51,6 +52,26 @@ public partial class KryptonAnalogueGaugeDemo : KryptonForm
         krgSegments.RectangularValues.Caption = "Segments";
         krgSegments.RectangularValues.ShowValueText = false;
         krgSegments.Value = 45d;
+
+        kthmMain.ThermometerValues.Caption = "Temp";
+        kthmMain.ThermometerValues.Units = "C";
+        kthmMain.Value = 45d;
+
+        kamAc.AmpereMeterValues.Caption = "AC";
+        kamAc.AmpereMeterValues.Minimum = 0d;
+        kamAc.AmpereMeterValues.Maximum = 10d;
+        kamAc.AmpereMeterValues.Ranges.Clear();
+        kamAc.AmpereMeterValues.Ranges.Add(new GaugeRange(7d, 8.5d, GaugeRangeSeverity.Warning) { Name = "Warning" });
+        kamAc.AmpereMeterValues.Ranges.Add(new GaugeRange(8.5d, 10d, GaugeRangeSeverity.Error) { Name = "Error" });
+        kamAc.Value = 4.5d;
+
+        kamDc.AmpereMeterValues.Caption = "DC";
+        kamDc.AmpereMeterValues.Minimum = -10d;
+        kamDc.AmpereMeterValues.Maximum = 10d;
+        kamDc.AmpereMeterValues.Ranges.Clear();
+        kamDc.AmpereMeterValues.Ranges.Add(new GaugeRange(-10d, -7d, GaugeRangeSeverity.Error) { Name = "Neg" });
+        kamDc.AmpereMeterValues.Ranges.Add(new GaugeRange(7d, 10d, GaugeRangeSeverity.Error) { Name = "Pos" });
+        kamDc.Value = -1d;
 
         kcgInteractive.CircularValues.Caption = "Interactive";
         kcgInteractive.CircularValues.InputMode = GaugeInputMode.Interactive;
@@ -85,6 +106,10 @@ public partial class KryptonAnalogueGaugeDemo : KryptonForm
         klgMain.Value = value;
         krgMain.Value = value;
         krgSegments.Value = value;
+        kthmMain.Value = value;
+        // Trackbar 0..100 → AC 0..10 A and DC −10..+10 A.
+        kamAc.Value = value / 10d;
+        kamDc.Value = (value - 50d) / 5d;
         if (!kchkInteractive.Checked)
         {
             kcgInteractive.Value = value;
@@ -119,6 +144,9 @@ public partial class KryptonAnalogueGaugeDemo : KryptonForm
         klgMain.Values.Animate = animate;
         krgMain.Values.Animate = animate;
         krgSegments.Values.Animate = animate;
+        kthmMain.Values.Animate = animate;
+        kamAc.Values.Animate = animate;
+        kamDc.Values.Animate = animate;
         kcgInteractive.Values.Animate = animate;
     }
 
@@ -129,6 +157,9 @@ public partial class KryptonAnalogueGaugeDemo : KryptonForm
         klgMain.Values.InputMode = mode;
         krgMain.Values.InputMode = mode;
         krgSegments.Values.InputMode = mode;
+        kthmMain.Values.InputMode = mode;
+        kamAc.Values.InputMode = mode;
+        kamDc.Values.InputMode = mode;
         // Dedicated interactive sample stays interactive so the drag/keyboard path is always available.
         kcgInteractive.Values.InputMode = GaugeInputMode.Interactive;
     }
@@ -140,4 +171,10 @@ public partial class KryptonAnalogueGaugeDemo : KryptonForm
     private void kbtnSelectRectangular_Click(object? sender, EventArgs e) => kpgGauge.SelectedObject = krgMain;
 
     private void kbtnSelectSegments_Click(object? sender, EventArgs e) => kpgGauge.SelectedObject = krgSegments;
+
+    private void kbtnSelectThermometer_Click(object? sender, EventArgs e) => kpgGauge.SelectedObject = kthmMain;
+
+    private void kbtnSelectAmpereAc_Click(object? sender, EventArgs e) => kpgGauge.SelectedObject = kamAc;
+
+    private void kbtnSelectAmpereDc_Click(object? sender, EventArgs e) => kpgGauge.SelectedObject = kamDc;
 }

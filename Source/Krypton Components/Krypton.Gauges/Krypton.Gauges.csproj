@@ -23,7 +23,7 @@
 		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<NoWarn>1701;1702</NoWarn>
-		<Description>Krypton gauge controls, including the VU meter and circular, linear, and rectangular analogue gauges. This assembly is not a separate NuGet package; Krypton.Gauges.dll is included in the Krypton.Standard.Toolkit package.</Description>
+		<Description>Krypton gauge controls, including the VU meter and circular, linear, rectangular, thermometer, and ampere-meter analogue gauges. This assembly is not a separate NuGet package; Krypton.Gauges.dll is included in the Krypton.Standard.Toolkit package.</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -55,6 +55,12 @@
 		</EmbeddedResource>
 		<EmbeddedResource Include="Components\Krypton Rectangular Gauge\ToolboxBitmaps\KryptonRectangularGauge.bmp">
 			<LogicalName>Krypton.Gauges.ToolboxBitmaps.KryptonRectangularGauge.bmp</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Components\Krypton Thermometer Gauge\ToolboxBitmaps\KryptonThermometerGauge.bmp">
+			<LogicalName>Krypton.Gauges.ToolboxBitmaps.KryptonThermometerGauge.bmp</LogicalName>
+		</EmbeddedResource>
+		<EmbeddedResource Include="Components\Krypton Ampere Meter Gauge\ToolboxBitmaps\KryptonAmpereMeterGauge.bmp">
+			<LogicalName>Krypton.Gauges.ToolboxBitmaps.KryptonAmpereMeterGauge.bmp</LogicalName>
 		</EmbeddedResource>
 	</ItemGroup>
 
