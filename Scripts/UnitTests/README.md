@@ -75,6 +75,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
 | `UnitTest-ResourcesFallback.ps1` | Missing `Krypton.Resources.dll`: Toolkit still loads, control text is readable, palette schema strings resolve, and image accessors draw named fallback glyphs | `include` |
+| `UnitTest-StartupTiming.ps1` | #4249 prints milliseconds for the first `KryptonManager` touch, an optional `-PaletteMode` switch before the form, and a minimal `KryptonForm` until `Shown`, plus whether `Krypton.Themes.dll` loaded at init, inside `Shown`, and after one idle pump | `exclude` |
 | `UnitTest-RibbonOverflowGlyph.ps1` | #4253 overflow glyph: `GetCachedRibbonOverflowImage` 16x16; `ViewLayoutRibbonGroups.IsOverflow` / `DisplayOverflowButton` | `include` |
 | `UnitTest-RibbonTranslations.ps1` | #4369 RibbonTranslations.xml/JSON round-trip plus Auto Discover of `RibbonTranslations.de.xml` | `include` |
 | `UnitTest-ToolkitTranslationsCoverage.ps1` | #4370 stale `ToolkitTranslations.xml` coverage, Merge Missing, tolerant vs strict import, CSV report | `include` |
@@ -101,6 +102,7 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-DisabledCaptionGlyph.ps1` | #4413 disabled caption glyph colours and empty close fill for Office 2010 / 2013 / Microsoft 365 | `include` |
 | `Invoke-4413DisabledCaptionScreenshot.ps1` | Hosts `Bug4413DisabledCaptionGlyphDemo` (#4413) and writes `Documents/PR/4413-disabled-caption-glyph-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-TimelineScreenshot.ps1` | Hosts `TimelineDemo` (#4218) and writes the default, custom style-colour, vertical, vis-style, and drag PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-4406MultilineEditorScreenshot.ps1` | Hosts `Feature3851RenderingDpiDemo`, opens the themed multiline text editor (#4406), and writes `Documents/PR/4406-multiline-string-editor.png` | `exclude` |
 | `Invoke-TableLayoutStyleEditorScreenshot.ps1` | Opens the themed Column and Row Styles dialog, checks insert/delete, Cancel, and OK, and writes `Documents/PR/table-layout-style-editor.png` | `exclude` |
 | `Invoke-SvgPictureBoxScreenshot.ps1` | Hosts `KryptonSVGPictureBoxDemo` (#4657) and writes `Documents/PR/4657-krypton-svg-picture-box.png`. | `exclude` |
@@ -164,6 +166,14 @@ The invoker prints `[PASS]` / `[FAIL]` / `[SKIP]` banners and a summary table. O
 
 ```powershell
 gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -f timeout_seconds=600 -f notify_discord=true
+```
+
+## Typical usage (#4249 startup timing)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-StartupTiming.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-StartupTiming.ps1 -PaletteMode Office2007Blue
 ```
 
 ## Typical usage (#925 caption tabs)
@@ -240,6 +250,21 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BugReportEmailBody.ps1
 ```
+
+## Typical usage (#4655 VU meter)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-VuMeterScreenshot.ps1
+```
+
+Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR assets; do not commit). That capture leaves Play music off.
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-VuMeterMusic.ps1
+```
+
+Selects a 30-second length, then turns on Play music and the stereo file. The stereo pass checks that the Left and Right analog meters follow different channels, then stops the loop.
 
 ## Typical usage (#1100 scheme strip text)
 
