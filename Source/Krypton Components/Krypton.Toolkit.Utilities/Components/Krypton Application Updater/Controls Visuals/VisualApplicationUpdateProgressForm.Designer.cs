@@ -90,7 +90,7 @@ internal partial class VisualApplicationUpdateProgressForm
             this.progressDownload.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressDownload.Location = new System.Drawing.Point(3, 29);
             this.progressDownload.Name = "progressDownload";
-            this.progressDownload.Size = new System.Drawing.Size(610, 42);
+            this.progressDownload.Size = new System.Drawing.Size(610, 94);
             this.progressDownload.TabIndex = 1;
             // 
             // btnDetails
@@ -167,7 +167,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblFile
             // 
             this.lblFile.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblFile.Location = new System.Drawing.Point(3, 3);
+            this.lblFile.Location = new System.Drawing.Point(15, 3);
             this.lblFile.Name = "lblFile";
             this.lblFile.Size = new System.Drawing.Size(610, 1);
             this.lblFile.TabIndex = 0;
@@ -176,7 +176,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblDownloaded
             // 
             this.lblDownloaded.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblDownloaded.Location = new System.Drawing.Point(3, 3);
+            this.lblDownloaded.Location = new System.Drawing.Point(15, 3);
             this.lblDownloaded.Name = "lblDownloaded";
             this.lblDownloaded.Size = new System.Drawing.Size(610, 1);
             this.lblDownloaded.TabIndex = 1;
@@ -185,7 +185,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblSpeed
             // 
             this.lblSpeed.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSpeed.Location = new System.Drawing.Point(3, 3);
+            this.lblSpeed.Location = new System.Drawing.Point(15, 3);
             this.lblSpeed.Name = "lblSpeed";
             this.lblSpeed.Size = new System.Drawing.Size(610, 1);
             this.lblSpeed.TabIndex = 2;
@@ -194,7 +194,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblRemaining
             // 
             this.lblRemaining.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblRemaining.Location = new System.Drawing.Point(3, 3);
+            this.lblRemaining.Location = new System.Drawing.Point(15, 3);
             this.lblRemaining.Name = "lblRemaining";
             this.lblRemaining.Size = new System.Drawing.Size(610, 1);
             this.lblRemaining.TabIndex = 3;
