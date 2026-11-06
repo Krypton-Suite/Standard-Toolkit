@@ -312,7 +312,7 @@ public class KryptonApplicationUpdater : Component
         {
             if (!KryptonUpdateVersion.TryParse(CurrentVersion, out var parsed))
             {
-                throw new KryptonUpdateException("CurrentVersion is not a System.Version value.");
+                KryptonUpdateThrowHelper.Throw("CurrentVersion is not a System.Version value.");
             }
 
             return parsed;
@@ -495,13 +495,13 @@ public class KryptonApplicationUpdater : Component
             var finished = await Task.Run(() => process.WaitForExit(10 * 60 * 1000), cancellationToken).ConfigureAwait(true);
             if (!finished)
             {
-                throw new KryptonUpdateException("The update helper did not finish.");
+                KryptonUpdateThrowHelper.Throw("The update helper did not finish.");
             }
 
             if (process.ExitCode != 0)
             {
                 var directory = Path.GetDirectoryName(process.StartInfo.FileName) ?? string.Empty;
-                throw new KryptonUpdateException(KryptonUpdateClient.ReadHelperResult(directory));
+                KryptonUpdateThrowHelper.Throw(KryptonUpdateClient.ReadHelperResult(directory));
             }
 
             return;

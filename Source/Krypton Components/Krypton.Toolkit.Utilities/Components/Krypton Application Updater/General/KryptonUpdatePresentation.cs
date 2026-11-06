@@ -153,7 +153,9 @@ internal static class KryptonUpdatePresentation
                 }
             }
         }
-        catch (Exception exception) when (exception is IOException || exception is UnauthorizedAccessException || exception is ArgumentException || exception is OutOfMemoryException || exception is KryptonUpdateException || exception is HttpRequestException || exception is TaskCanceledException)
+        catch (Exception exception) when (exception is IOException or UnauthorizedAccessException or ArgumentException
+                                              or OutOfMemoryException or KryptonUpdateException or HttpRequestException
+                                              or TaskCanceledException)
         {
             return null;
         }

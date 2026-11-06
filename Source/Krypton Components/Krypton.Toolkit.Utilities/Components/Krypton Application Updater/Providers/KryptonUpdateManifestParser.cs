@@ -18,7 +18,7 @@ internal static class KryptonUpdateManifestParser
     {
         if (string.IsNullOrWhiteSpace(json))
         {
-            throw new KryptonUpdateException("The update manifest is empty.");
+            KryptonUpdateThrowHelper.Throw("The update manifest is empty.");
         }
 
         var raw = ReadRawPackages(json, out var feed);
@@ -35,19 +35,19 @@ internal static class KryptonUpdateManifestParser
     {
         if (!KryptonUpdateVersion.TryParse(raw.Version, out var version))
         {
-            throw new KryptonUpdateException("The manifest version is not a System.Version value.");
+            KryptonUpdateThrowHelper.Throw("The manifest version is not a System.Version value.");
         }
 
         var packageUrl = raw.PackageUrl;
         if (packageUrl == null || string.IsNullOrWhiteSpace(packageUrl))
         {
-            throw new KryptonUpdateException("The manifest is missing packageUrl.");
+            KryptonUpdateThrowHelper.Throw("The manifest is missing packageUrl.");
         }
 
         var sha256 = raw.Sha256;
         if (sha256 == null || string.IsNullOrWhiteSpace(sha256))
         {
-            throw new KryptonUpdateException("The manifest is missing sha256.");
+            KryptonUpdateThrowHelper.Throw("The manifest is missing sha256.");
         }
 
         DateTime? released = null;
@@ -55,7 +55,7 @@ internal static class KryptonUpdateManifestParser
         {
             if (!DateTime.TryParse(raw.ReleasedUtc, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind, out var parsed))
             {
-                throw new KryptonUpdateException("The manifest releasedUtc value is not a time.");
+                KryptonUpdateThrowHelper.Throw("The manifest releasedUtc value is not a time.");
             }
 
             released = parsed.ToUniversalTime();
@@ -95,7 +95,7 @@ internal static class KryptonUpdateManifestParser
 
         if (Uri.TryCreate(trimmed, UriKind.Absolute, out var uri) && uri.Scheme == Uri.UriSchemeHttp)
         {
-            throw new KryptonUpdateException("The banner imageUrl must be https or a local file.");
+            KryptonUpdateThrowHelper.Throw("The banner imageUrl must be https or a local file.");
         }
 
         if (Uri.TryCreate(trimmed, UriKind.Absolute, out uri) && uri.IsFile)
@@ -106,7 +106,7 @@ internal static class KryptonUpdateManifestParser
         // Local paths are accepted at parse time even when the file is not on this machine.
         if (trimmed.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
         {
-            throw new KryptonUpdateException("The banner imageUrl is not a valid path or https address.");
+            KryptonUpdateThrowHelper.Throw("The banner imageUrl is not a valid path or https address.");
         }
     }
 
@@ -121,27 +121,19 @@ internal static class KryptonUpdateManifestParser
         if (value.StartsWith("#", StringComparison.Ordinal))
         {
             var hex = value.Substring(1);
-            if (hex.Length == 6)
+            // uint so AARRGGBB values with the high bit set still parse; FromArgb takes the bits as Int32.
+            if (hex.Length is 6 or 8 &&
+                uint.TryParse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var argb))
             {
-                if (int.TryParse(hex.Substring(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var r) &&
-                    int.TryParse(hex.Substring(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var g) &&
-                    int.TryParse(hex.Substring(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var b))
+                if (hex.Length == 6)
                 {
-                    return Color.FromArgb(r, g, b);
+                    argb |= 0xFF000000u;
                 }
-            }
-            else if (hex.Length == 8)
-            {
-                if (int.TryParse(hex.Substring(0, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var a) &&
-                    int.TryParse(hex.Substring(2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var r) &&
-                    int.TryParse(hex.Substring(4, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var g) &&
-                    int.TryParse(hex.Substring(6, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out var b))
-                {
-                    return Color.FromArgb(a, r, g, b);
-                }
+
+                return Color.FromArgb(unchecked((int)argb));
             }
 
-            throw new KryptonUpdateException("The manifest " + name + " value is not a colour.");
+            return KryptonUpdateThrowHelper.Throw<Color>("The manifest " + name + " value is not a colour.");
         }
 
         try
@@ -149,14 +141,14 @@ internal static class KryptonUpdateManifestParser
             var converted = ColorTranslator.FromHtml(value);
             if (converted.IsEmpty && !value.Equals("Empty", StringComparison.OrdinalIgnoreCase))
             {
-                throw new KryptonUpdateException("The manifest " + name + " value is not a colour.");
+                return KryptonUpdateThrowHelper.Throw<Color>("The manifest " + name + " value is not a colour.");
             }
 
             return converted;
         }
-        catch (Exception exception) when (exception is ArgumentException || exception is FormatException || exception is KryptonUpdateException)
+        catch (Exception exception) when (exception is ArgumentException or FormatException or KryptonUpdateException)
         {
-            throw new KryptonUpdateException("The manifest " + name + " value is not a colour.");
+            return KryptonUpdateThrowHelper.Throw<Color>("The manifest " + name + " value is not a colour.");
         }
     }
 
@@ -168,12 +160,12 @@ internal static class KryptonUpdateManifestParser
         }
 
         if (Enum.TryParse(text.Trim(), true, out InputPulsingBorderStyle style) &&
-            (style == InputPulsingBorderStyle.All || style == InputPulsingBorderStyle.Bottom))
+            style is InputPulsingBorderStyle.All or InputPulsingBorderStyle.Bottom)
         {
             return style;
         }
 
-        throw new KryptonUpdateException("Unknown pulse style '" + text + "'.");
+        return KryptonUpdateThrowHelper.Throw<InputPulsingBorderStyle>("Unknown pulse style '" + text + "'.");
     }
 
     private static KryptonUpdateSeverity ParseSeverity(string? text)
@@ -188,7 +180,7 @@ internal static class KryptonUpdateManifestParser
             return severity;
         }
 
-        throw new KryptonUpdateException("Unknown update severity '" + text + "'.");
+        return KryptonUpdateThrowHelper.Throw<KryptonUpdateSeverity>("Unknown update severity '" + text + "'.");
     }
 
     private static KryptonUpdatePackageKind ParseKind(string? text, string packageUrl)
@@ -205,7 +197,7 @@ internal static class KryptonUpdateManifestParser
                 return KryptonUpdatePackageKind.Installer;
             }
 
-            throw new KryptonUpdateException("Unknown packageKind '" + text + "'.");
+            return KryptonUpdateThrowHelper.Throw<KryptonUpdatePackageKind>("Unknown packageKind '" + text + "'.");
         }
 
         return packageUrl.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)
@@ -248,7 +240,7 @@ internal static class KryptonUpdateManifestParser
     {
         if (element.ValueKind != JsonValueKind.Object)
         {
-            throw new KryptonUpdateException("The update manifest must be a JSON object.");
+            KryptonUpdateThrowHelper.Throw("The update manifest must be a JSON object.");
         }
 
         return new RawPackage
@@ -293,7 +285,7 @@ internal static class KryptonUpdateManifestParser
 
         if (banner.ValueKind != JsonValueKind.Object)
         {
-            throw new KryptonUpdateException("The manifest banner value must be a JSON object.");
+            KryptonUpdateThrowHelper.Throw("The manifest banner value must be a JSON object.");
         }
 
         var imageUrl = GetString(banner, "imageUrl");
@@ -318,7 +310,7 @@ internal static class KryptonUpdateManifestParser
 
         if (pulse.ValueKind != JsonValueKind.Object)
         {
-            throw new KryptonUpdateException("The manifest pulse value must be a JSON object.");
+            KryptonUpdateThrowHelper.Throw("The manifest pulse value must be a JSON object.");
         }
 
         return new KryptonUpdatePulse(
@@ -345,7 +337,7 @@ internal static class KryptonUpdateManifestParser
             return parsed;
         }
 
-        throw new KryptonUpdateException("The manifest " + name + " value is not a number.");
+        return KryptonUpdateThrowHelper.Throw<float?>("The manifest " + name + " value is not a number.");
     }
 
     private static int? GetInt32(JsonElement element, string name)
@@ -365,7 +357,7 @@ internal static class KryptonUpdateManifestParser
             return parsed;
         }
 
-        throw new KryptonUpdateException("The manifest " + name + " value is not a whole number.");
+        return KryptonUpdateThrowHelper.Throw<int?>("The manifest " + name + " value is not a whole number.");
     }
 
     private static bool? GetBool(JsonElement element, string name)
@@ -390,7 +382,7 @@ internal static class KryptonUpdateManifestParser
             return parsed;
         }
 
-        throw new KryptonUpdateException("The manifest " + name + " value is not true or false.");
+        return KryptonUpdateThrowHelper.Throw<bool?>("The manifest " + name + " value is not true or false.");
     }
 
     private static string? GetString(JsonElement element, string name)
@@ -426,7 +418,7 @@ internal static class KryptonUpdateManifestParser
             return list;
         }
 
-        throw new KryptonUpdateException("The update manifest must be a JSON object.");
+        return KryptonUpdateThrowHelper.Throw<List<RawPackage>>("The update manifest must be a JSON object.");
     }
 
     private static RawPackage ReadDictionary(Dictionary<string, object> element) =>
@@ -471,7 +463,7 @@ internal static class KryptonUpdateManifestParser
 
         if (!(value is Dictionary<string, object> banner))
         {
-            throw new KryptonUpdateException("The manifest banner value must be a JSON object.");
+            return KryptonUpdateThrowHelper.Throw<KryptonUpdateBanner?>("The manifest banner value must be a JSON object.");
         }
 
         var imageUrl = GetString(banner, "imageUrl");
@@ -496,7 +488,7 @@ internal static class KryptonUpdateManifestParser
 
         if (!(value is Dictionary<string, object> pulse))
         {
-            throw new KryptonUpdateException("The manifest pulse value must be a JSON object.");
+            return KryptonUpdateThrowHelper.Throw<KryptonUpdatePulse?>("The manifest pulse value must be a JSON object.");
         }
 
         return new KryptonUpdatePulse(
@@ -517,9 +509,9 @@ internal static class KryptonUpdateManifestParser
         {
             return Convert.ToSingle(value, CultureInfo.InvariantCulture);
         }
-        catch (Exception exception) when (exception is FormatException || exception is InvalidCastException || exception is OverflowException)
+        catch (Exception exception) when (exception is FormatException or InvalidCastException or OverflowException)
         {
-            throw new KryptonUpdateException("The manifest " + name + " value is not a number.");
+            return KryptonUpdateThrowHelper.Throw<float?>("The manifest " + name + " value is not a number.");
         }
     }
 
@@ -534,9 +526,9 @@ internal static class KryptonUpdateManifestParser
         {
             return Convert.ToInt32(value, CultureInfo.InvariantCulture);
         }
-        catch (Exception exception) when (exception is FormatException || exception is InvalidCastException || exception is OverflowException)
+        catch (Exception exception) when (exception is FormatException or InvalidCastException or OverflowException)
         {
-            throw new KryptonUpdateException("The manifest " + name + " value is not a whole number.");
+            return KryptonUpdateThrowHelper.Throw<int?>("The manifest " + name + " value is not a whole number.");
         }
     }
 
@@ -557,7 +549,7 @@ internal static class KryptonUpdateManifestParser
             return parsed;
         }
 
-        throw new KryptonUpdateException("The manifest " + name + " value is not true or false.");
+        return KryptonUpdateThrowHelper.Throw<bool?>("The manifest " + name + " value is not true or false.");
     }
 
     private static string? GetString(Dictionary<string, object> element, string name)

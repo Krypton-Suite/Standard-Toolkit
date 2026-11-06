@@ -58,7 +58,7 @@ public sealed class KryptonUpdatePackage
         ThrowHelper.ThrowIfNull(version);
         if (maximumPostponeDays.HasValue && maximumPostponeDays.Value < 1)
         {
-            throw new ArgumentOutOfRangeException(nameof(maximumPostponeDays), maximumPostponeDays.Value, "maximumPostponeDays must be at least 1.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(maximumPostponeDays), maximumPostponeDays.Value, "maximumPostponeDays must be at least 1.");
         }
 
         Version = version;

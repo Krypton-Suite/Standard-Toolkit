@@ -298,7 +298,7 @@ public static class KryptonCustomThemeGenerator
     }
 
     internal static bool IsDarkDonor(PaletteMode mode) =>
-        mode == PaletteMode.Office2010BlueDarkMode || mode == PaletteMode.Microsoft365BlackDarkMode;
+        mode is PaletteMode.Office2010BlueDarkMode or PaletteMode.Microsoft365BlackDarkMode;
 
     private static KryptonColorSchemeBase CopyDonorScheme(PaletteBase donor)
     {

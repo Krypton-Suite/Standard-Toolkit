@@ -423,8 +423,8 @@ public class KryptonBlinkingToolStripStatusLabel : ToolStripStatusLabel
     private void ApplyTargetColours(Color foreColour, Color backColour)
     {
         BlinkTarget target = _blinkValues.BlinkTarget;
-        bool driveForeground = target == BlinkTarget.Foreground || target == BlinkTarget.Both;
-        bool driveBackground = target == BlinkTarget.Background || target == BlinkTarget.Both;
+        bool driveForeground = target is BlinkTarget.Foreground or BlinkTarget.Both;
+        bool driveBackground = target is BlinkTarget.Background or BlinkTarget.Both;
 
         if (driveForeground)
         {

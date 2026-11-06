@@ -522,9 +522,7 @@ internal partial class VisualSplashScreenManagerForm : Form
         };
 
     private static bool IsForcedCloseReason(CloseReason closeReason) =>
-        closeReason == CloseReason.WindowsShutDown
-        || closeReason == CloseReason.TaskManagerClosing
-        || closeReason == CloseReason.ApplicationExitCall;
+        closeReason is CloseReason.WindowsShutDown or CloseReason.TaskManagerClosing or CloseReason.ApplicationExitCall;
 
     private static double ClampOpacity(double opacity)
     {
