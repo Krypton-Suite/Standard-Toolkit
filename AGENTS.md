@@ -827,9 +827,9 @@ When adding a **new** example project in [Standard-Toolkit-Demos](https://github
 
 #### What to capture
 
-- **PNG** for a static default look of the example (typical theme is enough; do not shoot every theme).
-- **GIF** when motion is the point (toggle, toast, menu open, fade, scrollbar interaction), matching neighbours such as `KryptonToggleSwitchExample.gif` or `ToastNotificationExample.gif`.
-- Prefer PrintWindow / HWND capture of the example form (same idea as Toolkit **UI Screenshots / GIFs**); verify the image shows the demo, not the IDE.
+- **PNG** for a static default look of the example in **both** a light and a dark builtin theme (same baseline as Toolkit **UI Screenshots / GIFs**: `Microsoft365Blue` and `Microsoft365BlackDarkMode`). Do not shoot every theme.
+- Prefer filenames that keep the pair obvious (`example-light.png` / `example-dark.png`, or `Example-light.png` / `Example-dark.png`). When the category README historically shows a single image, embed both (two image lines under the heading).
+- **GIF** when motion is the point (toggle, toast, menu open, fade, scrollbar interaction), matching neighbours such as `KryptonToggleSwitchExample.gif` or `ToastNotificationExample.gif`. Capture light and dark when the motion is theme-sensitive; one GIF is enough when motion is geometry-only.
 
 #### Where to save the file
 
@@ -926,31 +926,36 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 
 ### What to capture
 
-- Enough to show the change: typical default look plus the distinctive demo state (for example contrast/override, or before/after).
-- Do not capture every theme variant unless the bug or feature is family-specific; then include the affected families.
-- **PNG** for stills (colour, layout, chrome, default vs override).
-- **Short GIF** when motion is the point (drag, tear-out/remerge, animation, slide, flicker). Do not GIF a static colour or layout change, and do not substitute a single still when the defect is motion.
+- Enough to show the change: the distinctive demo state (for example contrast/override, or before/after), captured in **both a light and a dark** builtin theme.
+- Baseline pair (use these unless the bug or feature is family-specific):
+  - Light: `PaletteMode.Microsoft365Blue`
+  - Dark: `PaletteMode.Microsoft365BlackDarkMode`
+- Do **not** shoot every theme. When the defect or feature is family-specific, add the affected families **in addition to** the light/dark pair (or replace the baseline pair when that family has no light/dark equivalents and note it in the PR description).
+- **PNG** for stills (colour, layout, chrome, light vs dark, default vs override).
+- **Short GIF** when motion is the point (drag, tear-out/remerge, animation, slide, flicker). Capture the motion once per light and dark baseline when the motion is theme-sensitive (colours, chrome, contrast); one GIF is enough when motion is geometry-only. Do not GIF a static colour or layout change, and do not substitute a single still when the defect is motion.
 
 ### How
 
 1. Build Debug TestForm if binaries are stale: `dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`.
 2. Host the relevant demo with PowerShell `-STA`. Reuse a `Start-*Host.ps1`, or instantiate the form in-process (pattern: `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`). Place the form on the primary working area (`StartPosition = Manual`, e.g. `(80, 80)`); do not leave it off-screen or minimized.
-3. Before capture: `Show`, set `TopMost = $true`, `Activate`, `BringToFront`, `SetForegroundWindow` (via `Initialize-UnitTestNativeInput` / `UnitTestNative`), `Application.DoEvents()`, then a short settle sleep so paint completes.
-4. **Capture the HWND, not whatever is on top of the desktop.** Dot-source `Scripts/UnitTests/UnitTestCommon.ps1` and call `Save-UnitTestWindowPng -Form $form -Path $OutputPath`. That helper uses `PrintWindow` with `PW_RENDERFULLCONTENT`, so Cursor / Visual Studio covering the same screen region cannot appear in the PNG. Use `-InflateX` / `-InflateY` only when a popup must be included outside the form bounds (then the helper falls back to TopMost + foreground + `CopyFromScreen`). Do **not** hand-roll bare `Graphics.CopyFromScreen($form.Bounds…)` after only `Activate` — that is the usual “wrong window” failure.
-5. **Read the PNG or GIF in the session** (image Read tool) and confirm it shows the demo chrome/content, not the IDE, terminal, or another app. If it is wrong, fix foreground/`Save-UnitTestWindowPng` and recapture; do not embed a bad shot.
-6. If the capture is reusable, keep the script under `Scripts/UnitTests/` with `# UnitTest-CI: exclude` and a README row (see **Unit Test Scripts**). Prefer STA `-File` scripts that call `Save-UnitTestWindowPng` over a long `powershell -Command { … }` one-liner (see **Recent Tooling Mistakes To Avoid**).
+3. For each of the light and dark baseline modes (and any extra family-specific modes): set `KryptonManager.GlobalPaletteMode` (or a sited `KryptonManager` instance’s `GlobalPaletteMode`) **before** show, or set it and refresh/recreate the form so chrome and content pick up the palette. Pattern: `Scripts/UnitTests/Invoke-DarkModeThemeScreenshots.ps1` / `Invoke-ToolStripTextContrastScreenshot.ps1`. Load `Krypton.Themes.dll` when the mode lives in the Themes assembly.
+4. Before capture: `Show`, set `TopMost = $true`, `Activate`, `BringToFront`, `SetForegroundWindow` (via `Initialize-UnitTestNativeInput` / `UnitTestNative`), `Application.DoEvents()`, then a short settle sleep so paint completes.
+5. **Capture the HWND, not whatever is on top of the desktop.** Dot-source `Scripts/UnitTests/UnitTestCommon.ps1` and call `Save-UnitTestWindowPng -Form $form -Path $OutputPath`. That helper uses `PrintWindow` with `PW_RENDERFULLCONTENT`, so Cursor / Visual Studio covering the same screen region cannot appear in the PNG. Use `-InflateX` / `-InflateY` only when a popup must be included outside the form bounds (then the helper falls back to TopMost + foreground + `CopyFromScreen`). Do **not** hand-roll bare `Graphics.CopyFromScreen($form.Bounds…)` after only `Activate` — that is the usual “wrong window” failure.
+6. **Read each PNG or GIF in the session** (image Read tool) and confirm it shows the demo chrome/content in the intended light or dark palette, not the IDE, terminal, or another app. If it is wrong, fix foreground/`Save-UnitTestWindowPng` / palette apply and recapture; do not embed a bad shot.
+7. If the capture is reusable, keep the script under `Scripts/UnitTests/` with `# UnitTest-CI: exclude` and a README row (see **Unit Test Scripts**). Prefer STA `-File` scripts that call `Save-UnitTestWindowPng` over a long `powershell -Command { … }` one-liner (see **Recent Tooling Mistakes To Avoid**).
 
-**GIF (motion only):** same host, STA, on-screen, TopMost/foreground, and verify-the-frames rules as PNG. Prefer per-frame `Save-UnitTestWindowPng` / `PrintWindow` when only the form is needed. Use `CopyFromScreen` on a timer only when the motion leaves the HWND (drag ghost, tear-out). Encode to an animated GIF and save next to the description. Prefer `ffmpeg` or ImageMagick `magick` if on PATH; otherwise assemble frames with WPF `GifBitmapEncoder` (`Add-Type -AssemblyName PresentationCore`). Keep it to a few seconds, cropped, looping. If no encoder is available, capture labelled stills (`-before.png`, `-during.png`, `-after.png`) instead of skipping — do not invent a GIF.
+**GIF (motion only):** same host, STA, on-screen, TopMost/foreground, light/dark (when theme-sensitive), and verify-the-frames rules as PNG. Prefer per-frame `Save-UnitTestWindowPng` / `PrintWindow` when only the form is needed. Use `CopyFromScreen` on a timer only when the motion leaves the HWND (drag ghost, tear-out). Encode to an animated GIF and save next to the description. Prefer `ffmpeg` or ImageMagick `magick` if on PATH; otherwise assemble frames with WPF `GifBitmapEncoder` (`Add-Type -AssemblyName PresentationCore`). Keep it to a few seconds, cropped, looping. If no encoder is available, capture labelled stills (`-before.png`, `-during.png`, `-after.png`) instead of skipping — do not invent a GIF.
 
 ### Where
 
-- Save reviewer shots as `Documents/PR/<issue-or-branch>-<short-title>-<state>.png` or `.gif` next to the PR description (for example `1100-scheme-strip-text-default.png`, `925-caption-tab-remerge.gif`).
+- Save reviewer shots as `Documents/PR/<issue-or-branch>-<short-title>-<state>-light.png` and `…-dark.png` (or `.gif`) next to the PR description (for example `1100-scheme-strip-text-default-light.png`, `1100-scheme-strip-text-default-dark.png`, `925-caption-tab-remerge-light.gif`). Use a clear `<state>` when there are multiple scenarios; keep `-light` / `-dark` as the theme suffix.
 - These files are **local**, like the PR description file: do **not** stage, commit, or push them. Do **not** leave the only copy under `Bin/`.
-- Embed in `Documents/PR/<file>.md` with relative markdown images and a one-line caption stating the state shown:
+- Embed in `Documents/PR/<file>.md` with relative markdown images and a one-line caption stating the state and theme:
 
 ```markdown
-![Default builtin theme](./1100-scheme-strip-text-default.png)
-![Caption tab remerge](./925-caption-tab-remerge.gif)
+![Default look (Microsoft 365 Blue)](./1100-scheme-strip-text-default-light.png)
+![Default look (Microsoft 365 Black Dark Mode)](./1100-scheme-strip-text-default-dark.png)
+![Caption tab remerge (light)](./925-caption-tab-remerge-light.gif)
 ```
 
 - Do **not** upload, attach, or host these files on the GitHub pull request (no `user-attachments` URLs, no drag-and-drop onto the PR, no `gh` image attach). GitHub will not display local relative paths; that is intended.
@@ -959,8 +964,9 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 ### Do not
 
 - Skip screenshots or GIFs for UI work, or leave the template placeholder.
+- Ship only a light (or only a dark) still when both can be captured — the light/dark pair is required for UI-visible work.
 - Capture with bare `CopyFromScreen` after only `Show`/`Activate` (IDE/Cursor occlusion → wrong window).
-- Embed a PNG/GIF without reading it in-session to confirm it shows the demo.
+- Embed a PNG/GIF without reading it in-session to confirm it shows the demo in the intended palette.
 - Commit PNGs, GIFs, or `Bin/` capture output in the Standard-Toolkit pull request.
 - Upload or attach screenshot or GIF files to the GitHub pull request.
 - Invent or draw substitute images. If capture is impossible (no interactive desktop), say so in **Validation** instead of faking a shot.
