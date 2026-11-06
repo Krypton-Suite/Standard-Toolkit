@@ -37,7 +37,9 @@
     <ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
     <!--<ProjectReference Include="..\..\TestHarnesses\ThemeProviderSample\ThemeProviderSample.csproj" />-->
     <ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
+    <ProjectReference Include="..\Krypton.Gauges\Krypton.Gauges.csproj" />
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Charting\Krypton.Charting.csproj" />
   </ItemGroup>
 
   <!-- WebView2: prefer Lib/WebView2 (matches Krypton.Toolkit.Utilities), fallback to NuGet when DLLs missing -->
@@ -86,6 +88,12 @@
     <Compile Update="KryptonToolkit\Feature\KryptonTagInputDemo.Designer.cs">
       <DependentUpon>KryptonTagInputDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.Designer.cs">
+      <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +104,15 @@
     <Compile Update="KryptonUtilities\Feature\KryptonSearchBoxPerformanceDemo.Designer.cs">
       <DependentUpon>KryptonSearchBoxPerformanceDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonCharting\Feature\TimelineDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonCharting\Feature\TimelineDemo.Designer.cs">
+      <DependentUpon>TimelineDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonCharting\Feature\TimelineDemo.resx">
+      <DependentUpon>TimelineDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.cs" />
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.Designer.cs">
       <DependentUpon>LoadingCircleDemo.cs</DependentUpon>
@@ -253,6 +270,10 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonGauges\Feature\KryptonVuMeterDemo.resx">
+      <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
+      <LogicalName>TestForm.KryptonVuMeterDemo.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>

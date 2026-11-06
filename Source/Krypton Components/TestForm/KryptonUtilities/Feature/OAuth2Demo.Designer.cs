@@ -4,16 +4,6 @@
     {
         private System.ComponentModel.IContainer components;
 
-        private KryptonPanel kryptonPanel1 = null!;
-        private TableLayoutPanel tableLayoutPanel1 = null!;
-        private FlowLayoutPanel flowLayoutPanel1 = null!;
-        private KryptonLabel klblProvider = null!;
-        private KryptonLabel klblTenantId = null!;
-        private KryptonLabel klblClientId = null!;
-        private KryptonLabel klblRedirectUri = null!;
-        private KryptonLabel klblScopes = null!;
-        private KryptonLabel klblSpacer = null!;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -283,6 +273,15 @@
 
         #endregion
 
+        private KryptonPanel kryptonPanel1 = null!;
+        private TableLayoutPanel tableLayoutPanel1 = null!;
+        private FlowLayoutPanel flowLayoutPanel1 = null!;
+        private KryptonLabel klblProvider = null!;
+        private KryptonLabel klblTenantId = null!;
+        private KryptonLabel klblClientId = null!;
+        private KryptonLabel klblRedirectUri = null!;
+        private KryptonLabel klblScopes = null!;
+        private KryptonLabel klblSpacer = null!;
         private KryptonComboBox _cmbProvider;
         private KryptonPanel _panelTenant;
         private KryptonTextBox _txtTenantId;
