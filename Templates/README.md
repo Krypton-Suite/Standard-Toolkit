@@ -54,7 +54,7 @@ Output: `Templates\Vsix\Krypton.Templates.Vsix\bin\Release\net472\Krypton.Templa
 
 ## Marketplace publishing
 
-Stable (`master`) releases upload the VSIX from the Release workflow (`.github/workflows/release.yml`). The `publish-templates-marketplace` job runs after a successful stable templates release. It uses the `production` environment secret `VSMARKETPLACE_PAT`. The token needs the **Marketplace (Manage)** scope. Create it from the Microsoft account that owns the publisher.
+Stable (`master`) releases upload the VSIX from the Release (Master) workflow (`.github/workflows/release-master.yml`). The `publish-templates-marketplace` job runs after a successful stable templates release. It uses the `production` environment secret `VSMARKETPLACE_PAT`. The token needs the **Marketplace (Manage)** scope. Create it from the Microsoft account that owns the publisher.
 
 Before the first publish:
 

@@ -1,0 +1,451 @@
+﻿# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2025 - 2026. All rights reserved.
+#
+# NUGET: Trusted publishing via NuGet/login. Secret NUGET_USER is the nuget.org profile name.
+# nuget.org needs a trusted-publishing policy for THIS workflow file path
+# (.github/workflows/release-canary.yml), Krypton-Suite/Standard-Toolkit, environment production.
+# A policy that only lists the retired release.yml path will not authorize this workflow.
+
+name: Release (Canary)
+
+permissions:
+  contents: write
+  id-token: write
+
+on:
+  push:
+    branches:
+      - canary
+  workflow_dispatch:
+
+jobs:
+  release-canary:
+    runs-on: windows-2025-vs2026
+    environment: production  # Requires approval before publishing
+    if: github.ref == 'refs/heads/canary' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+
+    steps:
+      # Canary Release kill switch
+      - name: Canary Release Kill Switch Check
+        id: canary_release_kill_switch
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $disabled = '${{ vars.CANARY_DISABLED }}'
+
+          if ($disabled -eq 'true') {
+            Write-Host "::warning:: Canary Release workflow is currently DISABLED via kill switch (CANARY_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set LTS_DISABLED to 'false'."
+            echo "enabled=false" >> $env:GITHUB_OUTPUT
+          } else {
+            Write-Host "Canary Release kill switch check has passed, continuing..."
+            echo "enabled=true" >> $env:GITHUB_OUTPUT
+          }
+
+      - name: Checkout
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/checkout@v7
+
+      # .NET 10 required; .NET 11 with preview fallback (NETSDK1045 if only 10.x is selected). .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10 and 11)
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            10.0.x
+            11.0.x
+
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable_canary
+        continue-on-error: true
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
+
+      - name: Setup .NET Preview (preview fallback)
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_canary.outcome == 'failure'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
+          dotnet-quality: preview
+
+      # Preview .NET SDK. USE_DOTNET_PREVIEW=false skips next-band (.NET 12) and preview SDK; global.json uses stable SDK below.
+      - name: Setup .NET Preview
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
+          dotnet-quality: preview
+
+      # Pin sdk.version for CI; preview band vs stable follows USE_DOTNET_PREVIEW; always allow .NET 11 for net11.0-windows TFMs.
+      - name: Pin SDK via global.json
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        env:
+          DOTNET_PREVIEW_SDK_BAND: ${{ vars.DOTNET_PREVIEW_SDK_BAND }}
+          USE_DOTNET_PREVIEW: ${{ vars.USE_DOTNET_PREVIEW }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          function Get-ListedSdkVersion([string]$Pattern) {
+            $hit = dotnet --list-sdks | Select-String $Pattern | Select-Object -Last 1
+            if (-not $hit) { return $null }
+            $line = $hit.Line.TrimEnd()
+            if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
+            return (($line -split '\s+', 2)[0])
+          }
+
+          $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
+          $sdkVersion = $null
+          if (-not $usePreview) {
+            $sdkVersion = Get-ListedSdkVersion '12.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
+          } else {
+            if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
+              Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
+            }
+            $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '12.0'
+            }
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '11.0'
+            }
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '10.0'
+            }
+          }
+          if (-not $sdkVersion) {
+            Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
+          }
+          Write-Host "Using SDK $sdkVersion"
+          @"
+          {
+            "sdk": {
+              "version": "$sdkVersion",
+              "rollForward": "latestFeature"
+            }
+          }
+          "@ | Out-File -Encoding utf8 global.json
+
+      - name: Setup MSBuild
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: microsoft/setup-msbuild@v3
+        with:
+          msbuild-architecture: x64
+
+      - name: Setup NuGet
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: NuGet/setup-nuget@v4
+
+      - name: Cache NuGet
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        id: nuget_cache_restore
+        uses: actions/cache/restore@v6
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - name: Setup WebView2 SDK (Preview)
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        run: |
+          $root = $env:GITHUB_WORKSPACE
+          if (-not $root) { $root = (Get-Location).Path }
+          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
+          if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
+          if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
+          $packageId = "Microsoft.Web.WebView2"
+          Write-Host "Using prerelease=true for WebView2 SDK lookup (canary build)"
+          $latestVersion = $null
+          try {
+            $searchResponse = Invoke-RestMethod -Uri "https://azuresearch-usnc.nuget.org/query?q=$packageId&prerelease=true&semVerLevel=2.0.0&take=1" -Method Get
+            if ($searchResponse.data -and $searchResponse.data.Count -gt 0) { $latestVersion = $searchResponse.data[0].version }
+          } catch {
+            try {
+              $response = Invoke-RestMethod -Uri "https://api.nuget.org/v3-flatcontainer/$packageId/index.json" -Method Get
+              $allVersions = $response.versions | Where-Object { $_ -match '^\d+\.\d+\.\d+' }
+              if ($allVersions) { $latestVersion = $allVersions | Sort-Object { [System.Version]($_ -replace '-.*', '') } -Descending | Select-Object -First 1 }
+            } catch {}
+          }
+          if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
+          Write-Host "Using WebView2 (Preview): $latestVersion"
+          dotnet add "$utilProj" package $packageId --version $latestVersion
+          dotnet restore "$utilProj"
+          $nugetBase = Join-Path $env:USERPROFILE ".nuget\packages\microsoft.web.webview2\$latestVersion"
+          @("Microsoft.Web.WebView2.Core.dll","Microsoft.Web.WebView2.WinForms.dll","WebView2Loader.dll") | ForEach-Object {
+            $f = Get-ChildItem -Path $nugetBase -Recurse -Name $_ -ErrorAction SilentlyContinue | Select-Object -First 1
+            if ($f) { Copy-Item (Join-Path $nugetBase $f) $libDir -Force; Write-Host "Copied $_" }
+          }
+          [xml]$proj = Get-Content $utilProj
+          $nodes = $proj.SelectNodes("//PackageReference[@Include='$packageId']")
+          foreach ($node in $nodes) { $node.ParentNode.RemoveChild($node) | Out-Null }
+          $proj.Save($utilProj)
+          Write-Host "Removed temporary WebView2 PackageReference entries"
+
+      - name: Restore
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Canary -p:TFMs=all
+
+      # /m: multi-processor MSBuild (all runner CPUs). canary.proj orchestrates Krypton.* in parallel where references allow.
+      - name: Build Canary
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        run: msbuild /m "Scripts/Build/canary.proj" /t:Build /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      - name: Pack Canary
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      # Verify Krypton.Interop is present in NuGet packages (V110+ only)
+      - name: Resolve Krypton toolkit major version
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Canary
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      - name: Verify Krypton.Interop in NuGet packages
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          Test-KryptonInteropInPackages -Configuration Canary -MinimumMajorVersion 110 -SkipIfInteropProjectMissing
+
+      - name: Save NuGet cache
+        # Kill switch check
+        if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
+        uses: actions/cache/save@v6
+        continue-on-error: true
+        with:
+          path: ~/.nuget/packages
+          key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
+
+      - name: NuGet login (OIDC)
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit'
+        id: nuget_login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push NuGet Packages to nuget.org
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        id: push_nuget
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Warning "NuGet trusted publishing is only configured for Krypton-Suite/Standard-Toolkit - skipping NuGet push"
+            echo "packages_published=false" >> $env:GITHUB_OUTPUT
+            exit 0
+          }
+
+          if (-not $env:NUGET_API_KEY) {
+            Write-Error "NuGet trusted publishing did not provide an API key. Set the NUGET_USER secret to the nuget.org profile name."
+            exit 1
+          }
+
+          $packageCandidates = @(
+            "artifacts/packages/Canary/*.nupkg",
+            "Bin/Packages/Canary/*.nupkg"
+          )
+          $packages = @(Get-ChildItem -Path $packageCandidates -ErrorAction SilentlyContinue | Sort-Object FullName -Unique)
+          $publishedAny = $false
+          $repoRoot = if ($null -ne $env:GITHUB_WORKSPACE -and $env:GITHUB_WORKSPACE -ne '') { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/StandardToolkitNupkgGuard.ps1')
+          $standardToolkitNupkgSizeGateFailed = $false
+
+          if ($packages) {
+            foreach ($package in $packages) {
+              if (-not (Test-StandardToolkitNupkgPushAllowed -Package $package)) {
+                $standardToolkitNupkgSizeGateFailed = $true
+                continue
+              }
+              Write-Output "Pushing package: $($package.Name)"
+              try {
+                $output = dotnet nuget push "$($package.FullName)" --api-key $env:NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate 2>&1 | Out-String
+                Write-Output $output
+                # Check if package was actually pushed (not skipped)
+                if ($output -notmatch "already exists" -and $output -notmatch "was not pushed") {
+                  $publishedAny = $true
+                  Write-Host "Package $($package.Name) was published"
+                } else {
+                  Write-Host "Package $($package.Name) already exists - skipped"
+                }
+              } catch {
+                Write-Warning "Failed to push $($package.Name): $_"
+              }
+            }
+          } else {
+            Write-Output "No NuGet packages found to push"
+          }
+
+          if ($standardToolkitNupkgSizeGateFailed) {
+            exit 1
+          }
+
+          echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
+        env:
+          NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
+          STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
+
+      - name: Get Version
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        id: get_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = $null
+          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $msbuildConfig = 'Canary'
+
+          try {
+            $evaluated = (& dotnet msbuild "$proj" -getProperty:Version -p:Configuration=$msbuildConfig -nologo -v:q).Trim()
+            if ($evaluated) {
+              if ($evaluated -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                $version = $evaluated
+                Write-Host "Got version from MSBuild: $version"
+              } else {
+                Write-Warning "Ignoring unexpected MSBuild version '$evaluated'."
+              }
+            }
+          } catch {
+            Write-Host "Could not read version from MSBuild: $_"
+          }
+
+          if (-not $version) {
+            try {
+              $dllRelativePaths = @(
+                "artifacts/bin/$msbuildConfig/net48/Krypton.Toolkit.dll",
+                "Bin/$msbuildConfig/net48/Krypton.Toolkit.dll"
+              )
+              $dllPath = $null
+              foreach ($p in $dllRelativePaths) {
+                if (Test-Path -LiteralPath $p) { $dllPath = Get-Item -LiteralPath $p; break }
+              }
+              if (-not $dllPath) { throw "Krypton.Toolkit.dll not found under artifacts or Bin." }
+              $assemblyVersion = [System.Reflection.AssemblyName]::GetAssemblyName($dllPath.FullName).Version
+              $assemblyVersionText = $assemblyVersion.ToString()
+              if ($assemblyVersionText -match '^[1-9]\d{2,}\.\d+\.\d+\.\d+$') {
+                $version = $assemblyVersionText
+                Write-Host "Got version from assembly: $version"
+              } else {
+                Write-Warning "Ignoring unexpected assembly version '$assemblyVersionText' from $($dllPath.FullName)."
+              }
+            } catch {
+              Write-Host "Could not read version from assembly: $_"
+            }
+          }
+
+          if (-not $version) {
+            Write-Warning "Version not found, using fallback."
+            $version = vars.FALLBACK_STABLE_VERSION
+          }
+
+          Write-Host "Final determined version: $version"
+          echo "version=$version" >> $env:GITHUB_OUTPUT
+          echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
+
+      - name: Publish Visual Studio templates
+        id: publish_templates
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        uses: ./.github/actions/publish-templates
+        with:
+          channel: canary
+          source-branch: canary
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
+
+      - name: Announce Canary Release on Discord
+        # Kill switch check
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        shell: pwsh
+        run: |
+          if (-not $env:DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK) {
+            Write-Warning "DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK not set - skipping Discord notification"
+            exit 0
+          }
+
+          $sha = (git rev-parse HEAD).Trim()
+          $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+          $templatesUrl = '${{ steps.publish_templates.outputs.release_url }}'.Trim()
+          if ([string]::IsNullOrWhiteSpace($templatesUrl)) {
+            $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'canary' | Select-Object -Last 1).ToString().Trim()
+          }
+
+          $payload = @{
+            embeds = @(
+              @{
+                title = "ðŸ¤ Krypton Toolkit Canary Release"
+                url = $commitUrl
+                description = "A new canary pre-release is now available for early testing!"
+                color = 16776960
+                fields = @(
+                  @{
+                    name = "ðŸ“Œ Version"
+                    value = "``${{ steps.get_version.outputs.version }}``"
+                    inline = $true
+                  }
+                  @{
+                    name = "ðŸ”— Commit"
+                    value = "[``$shortSha``]($commitUrl)"
+                    inline = $true
+                  }
+                  @{
+                    name = "ðŸ“¦ NuGet Packages"
+                    value = "â€¢ [Krypton.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Toolkit.Canary)`nâ€¢ [Krypton.Ribbon.Canary](https://www.nuget.org/packages/Krypton.Ribbon.Canary)`nâ€¢ [Krypton.Navigator.Canary](https://www.nuget.org/packages/Krypton.Navigator.Canary)`nâ€¢ [Krypton.Workspace.Canary](https://www.nuget.org/packages/Krypton.Workspace.Canary)`nâ€¢ [Krypton.Docking.Canary](https://www.nuget.org/packages/Krypton.Docking.Canary)`nâ€¢ [Krypton.Standard.Toolkit.Canary](https://www.nuget.org/packages/Krypton.Standard.Toolkit.Canary)"
+                    inline = $false
+                  }
+                  @{
+                    name = "ðŸ§© Visual Studio Templates"
+                    value = "[Latest templates release]($templatesUrl)"
+                    inline = $false
+                  }
+                  @{
+                    name = "ðŸŽ¯ Target Frameworks"
+                    value = "â€¢ .NET Framework 4.7.2`nâ€¢ .NET Framework 4.8`nâ€¢ .NET Framework 4.8.1`nâ€¢ .NET 10.0`nâ€¢ .NET 11.0"
+                    inline = $false
+                  }
+                  @{
+                    name = "ðŸ“„ Release Notes"
+                    value = "[View Changelog](https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/Documents/Changelog/Changelog.md)"
+                    inline = $false
+                  }
+                )
+                footer = @{
+                  text = "Released"
+                }
+                timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+              }
+            )
+          } | ConvertTo-Json -Depth 10
+
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK }}" -Method Post -Body $payload -ContentType "application/json"
+        env:
+          DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK: ${{ secrets.DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK }}

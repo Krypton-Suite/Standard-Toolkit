@@ -65,6 +65,6 @@ Edit `downstreamBranches` and `syncGithubFromMasterTargets` there when adding a 
 
 ## Branch names
 
-- **`canary`** (lowercase) is used by `build.yml` and `release.yml`.
+- **`canary`** (lowercase) is used by `build.yml` and `release-canary.yml`.
 - **`Canary`** (capital C) is used by `canary.yml` only.
 - Policy treats both as downstream lines; prefer consolidating to one branch name over time.
