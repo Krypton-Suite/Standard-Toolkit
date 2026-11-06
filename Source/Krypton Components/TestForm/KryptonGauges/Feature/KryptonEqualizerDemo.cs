@@ -12,11 +12,13 @@ using Krypton.Gauges;
 namespace TestForm;
 
 /// <summary>
-/// Exercises <see cref="KryptonEqualizer"/> bars and segments, manual levels, gain thumbs, peak hold, and capture (issue #4660).
+/// Exercises <see cref="KryptonEqualizer"/> bars and segments, manual levels, generated music + FFT,
+/// gain thumbs, peak hold, and capture (issue #4660).
 /// </summary>
 public partial class KryptonEqualizerDemo : KryptonForm
 {
     private readonly System.Windows.Forms.Timer _simTimer;
+    private readonly EqualizerMusicPlayback _music = new EqualizerMusicPlayback();
     private readonly Random _random = new Random(4660);
     private bool _sync;
 
@@ -31,6 +33,8 @@ public partial class KryptonEqualizerDemo : KryptonForm
             Interval = 40
         };
         _simTimer.Tick += OnSimulateTick;
+        _music.AddTarget(keqBars);
+        _music.AddTarget(keqSegments);
     }
 
     private void KryptonEqualizerDemo_Load(object? sender, EventArgs e)
@@ -48,6 +52,7 @@ public partial class KryptonEqualizerDemo : KryptonForm
         SeedDemoLevels(keqSegments);
         SeedDemoLevels(keqDisabled);
         kpgEqualizer.SelectedObject = keqBars;
+        UpdateTransportEnabled();
         UpdateStatus();
     }
 
@@ -55,19 +60,47 @@ public partial class KryptonEqualizerDemo : KryptonForm
     {
         _simTimer.Stop();
         _simTimer.Dispose();
+        _music.Dispose();
     }
 
     private void kchkSimulate_CheckedChanged(object? sender, EventArgs e)
     {
         if (kchkSimulate.Checked)
         {
+            kchkMusic.Checked = false;
             kchkCapture.Checked = false;
+            _music.Stop();
             _simTimer.Start();
         }
         else
         {
             _simTimer.Stop();
         }
+
+        UpdateTransportEnabled();
+        UpdateStatus();
+    }
+
+    private void kchkMusic_CheckedChanged(object? sender, EventArgs e)
+    {
+        if (kchkMusic.Checked)
+        {
+            kchkSimulate.Checked = false;
+            kchkCapture.Checked = false;
+            _simTimer.Stop();
+            if (!_music.Start(60, 50))
+            {
+                kchkMusic.Checked = false;
+                klblStatus.Text = "Music could not start.";
+            }
+        }
+        else
+        {
+            _music.Stop();
+        }
+
+        UpdateTransportEnabled();
+        UpdateStatus();
     }
 
     private void kchkCapture_CheckedChanged(object? sender, EventArgs e)
@@ -75,12 +108,15 @@ public partial class KryptonEqualizerDemo : KryptonForm
         if (kchkCapture.Checked)
         {
             kchkSimulate.Checked = false;
+            kchkMusic.Checked = false;
             _simTimer.Stop();
+            _music.Stop();
         }
 
         EqualizerInputMode mode = kchkCapture.Checked ? EqualizerInputMode.Capture : EqualizerInputMode.Manual;
         keqBars.Values.InputMode = mode;
         keqSegments.Values.InputMode = mode;
+        UpdateTransportEnabled();
         UpdateStatus();
     }
 
@@ -150,9 +186,13 @@ public partial class KryptonEqualizerDemo : KryptonForm
     private void kbtnSilence_Click(object? sender, EventArgs e)
     {
         kchkSimulate.Checked = false;
+        kchkMusic.Checked = false;
         kchkCapture.Checked = false;
+        _simTimer.Stop();
+        _music.Stop();
         keqBars.SetLevels(new double[keqBars.Values.BandCount]);
         keqSegments.SetLevels(new double[keqSegments.Values.BandCount]);
+        UpdateTransportEnabled();
         UpdateStatus();
     }
 
@@ -162,11 +202,12 @@ public partial class KryptonEqualizerDemo : KryptonForm
     {
         kchkCapture.Checked = false;
         klblStatus.Text = "Capture failed: " + e.Message;
+        UpdateTransportEnabled();
     }
 
     private void OnSimulateTick(object? sender, EventArgs e)
     {
-        if (kchkCapture.Checked)
+        if (kchkCapture.Checked || kchkMusic.Checked)
         {
             return;
         }
@@ -195,6 +236,16 @@ public partial class KryptonEqualizerDemo : KryptonForm
         equalizer.SetLevels(levels);
     }
 
+    private void UpdateTransportEnabled()
+    {
+        bool playingMusic = kchkMusic.Checked;
+        bool capturing = kchkCapture.Checked;
+        bool simulating = kchkSimulate.Checked;
+        kchkSimulate.Enabled = !playingMusic && !capturing;
+        kchkMusic.Enabled = !simulating && !capturing;
+        kchkCapture.Enabled = !playingMusic && !simulating;
+    }
+
     private void UpdateStatus()
     {
         if (_sync)
@@ -208,9 +259,16 @@ public partial class KryptonEqualizerDemo : KryptonForm
         string gainText = gains.Length == 0
             ? "n/a"
             : gains[mid].ToString("0.0", System.Globalization.CultureInfo.CurrentCulture) + " dB";
-        klblStatus.Text = "Bands " + keqBars.Values.BandCount +
+        string source = kchkMusic.Checked
+            ? "Playing generated music (FFT)"
+            : kchkSimulate.Checked
+                ? "Synthetic simulate"
+                : kchkCapture.Checked
+                    ? "Capture"
+                    : "Manual";
+        klblStatus.Text = source + " | Bands " + keqBars.Values.BandCount +
                           " | Mid-band gain " + gainText +
-                          " | Drag thumbs to change gain. Capture updates spectrum only.";
+                          " | Drag thumbs to change gain.";
         _sync = false;
     }
 }
