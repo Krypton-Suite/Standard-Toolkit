@@ -59,9 +59,9 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 | Workflow | Status |
 |----------|--------|
 | Build (Master)   | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
-| Release (Master)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
+| Release (Master)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-master.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-master.yml) |
 | Build (Canary)    | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
-| Release (Canary)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release.yml) |
+| Release (Canary)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-canary.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-canary.yml) |
 | Build (Alpha)     | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
 | Release (Alpha) | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/nightly.yml) |
 
