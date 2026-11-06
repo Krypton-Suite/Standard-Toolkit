@@ -14,13 +14,12 @@ namespace Krypton.Dialogs;
 /// </summary>
 internal sealed partial class VisualFileOperationProgressForm : KryptonForm
 {
-    private const int CollapsedHeightWithBanner = 300;
-    private const int ExpandedHeightWithBanner = 380;
-    private const int BannerHeight = 56;
-    private const int ProgressTop = 88;
-    private const int DetailsCollapsedTop = 120;
-    private const int ErrorCollapsedTop = 164;
+    private const int CollapsedHeightWithBanner = 348;
+    private const int ExpandedHeightWithBanner = 440;
+    private const int BannerHeight = FileOperationBannerLayout.DefaultHeight;
+    private const int ProgressHostCollapsedHeight = 28;
     private const int GraphHeight = 110;
+    private const int ProgressHostRow = 3;
 
     private readonly FileOperationProgressState _state;
     private readonly KryptonFileOperationStrings _strings;
@@ -56,9 +55,11 @@ internal sealed partial class VisualFileOperationProgressForm : KryptonForm
         _btnMoreDetails.Click += OnMoreDetails;
     }
 
-    private int CollapsedHeight => _showBanner ? CollapsedHeightWithBanner : CollapsedHeightWithBanner - BannerHeight;
+    private int CurrentBannerHeight => _showBanner && _pnlBanner.Visible ? _pnlBanner.Height : 0;
 
-    private int ExpandedHeight => _showBanner ? ExpandedHeightWithBanner : ExpandedHeightWithBanner - BannerHeight;
+    private int CollapsedHeight => CollapsedHeightWithBanner - BannerHeight + CurrentBannerHeight;
+
+    private int ExpandedHeight => ExpandedHeightWithBanner - BannerHeight + CurrentBannerHeight;
 
     private void ApplyBanner(bool showBanner)
     {
@@ -66,6 +67,25 @@ internal sealed partial class VisualFileOperationProgressForm : KryptonForm
         if (!showBanner)
         {
             ClientSize = new Size(ClientSize.Width, CollapsedHeight);
+            return;
+        }
+
+        LayoutBanner();
+    }
+
+    private void LayoutBanner()
+    {
+        if (!_showBanner || !_pnlBanner.Visible)
+        {
+            return;
+        }
+
+        int before = _pnlBanner.Height;
+        FileOperationBannerLayout.Fit(_pnlBanner, _tlpBanner, _lblBanner, _picBanner);
+        int delta = _pnlBanner.Height - before;
+        if (delta != 0)
+        {
+            ClientSize = new Size(ClientSize.Width, (_detailsExpanded ? ExpandedHeight : CollapsedHeight));
         }
     }
 
@@ -92,23 +112,9 @@ internal sealed partial class VisualFileOperationProgressForm : KryptonForm
         _progress.Visible = !expanded;
         _speedGraph.Visible = expanded;
         _btnMoreDetails.Text = expanded ? _strings.FewerDetails : _strings.MoreDetails;
+        // Graph replaces the progress bar in the same host row; sample history is kept on collapse.
+        _tlpContent.RowStyles[ProgressHostRow].Height = expanded ? GraphHeight : ProgressHostCollapsedHeight;
         ClientSize = new Size(ClientSize.Width, expanded ? ExpandedHeight : CollapsedHeight);
-
-        // Graph takes the progress-bar slot; details/error shift down while expanded.
-        // Sample history is kept when collapsing so re-expand still shows recent data.
-        if (expanded)
-        {
-            _speedGraph.Location = new Point(12, ProgressTop);
-            _speedGraph.Size = new Size(_pnlContent.ClientSize.Width - 24, GraphHeight);
-            int detailsTop = ProgressTop + GraphHeight + 12;
-            _lblDetails.Location = new Point(_lblDetails.Left, detailsTop);
-            _lblError.Location = new Point(_lblError.Left, detailsTop + _lblDetails.Height + 4);
-        }
-        else
-        {
-            _lblDetails.Location = new Point(_lblDetails.Left, DetailsCollapsedTop);
-            _lblError.Location = new Point(_lblError.Left, ErrorCollapsedTop);
-        }
     }
 
     /// <summary>
@@ -174,6 +180,7 @@ internal sealed partial class VisualFileOperationProgressForm : KryptonForm
 
         Text = display.Caption;
         _lblBanner.Text = display.Caption;
+        LayoutBanner();
         _lblItem.Text = display.Item;
         _lblFrom.Text = display.Source.Length == 0 ? string.Empty : _strings.FromLabel + " " + display.Source;
         _lblTo.Text = display.Target.Length == 0 ? string.Empty : _strings.ToLabel + " " + display.Target;

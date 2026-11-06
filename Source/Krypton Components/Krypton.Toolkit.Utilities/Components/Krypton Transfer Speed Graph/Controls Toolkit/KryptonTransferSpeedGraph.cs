@@ -15,6 +15,7 @@ namespace Krypton.Toolkit.Utilities;
 /// <remarks>
 /// Part of <c>Krypton.Toolkit.Utilities</c>. The file-operation progress dialog in
 /// <c>Krypton.Dialogs</c> hosts an instance behind More details.
+/// Colours inherit from <see cref="PaletteElement.TransferSpeedGraph"/> via <see cref="StateCommon"/>.
 /// </remarks>
 [ToolboxItem(true)]
 [DefaultProperty(nameof(Values))]
@@ -25,9 +26,10 @@ public class KryptonTransferSpeedGraph : Control
     private int _capacity;
     private int _count;
     private int _write;
+    private double _peak;
+    private double _trough;
     private PaletteBase? _palette;
     private readonly PaletteRedirect _paletteRedirect;
-    private readonly PaletteBackInheritRedirect _seriesBack;
 
     /// <summary>
     /// Creates an empty graph with the factory capacity.
@@ -53,18 +55,9 @@ public class KryptonTransferSpeedGraph : Control
 
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
         _paletteRedirect = new PaletteRedirect(_palette);
-        StateCommon = new PaletteTripleRedirect(
-            _paletteRedirect,
-            PaletteBackStyle.PanelClient,
-            PaletteBorderStyle.ControlClient,
-            PaletteContentStyle.LabelNormalControl,
-            OnNeedPaintHandler);
-        StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
-        StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
-        _seriesBack = new PaletteBackInheritRedirect(_paletteRedirect)
-        {
-            Style = PaletteBackStyle.ButtonStandalone
-        };
+        StateCommon = new PaletteTransferSpeedGraphRedirect(_paletteRedirect, OnNeedPaintHandler);
+        StateDisabled = new PaletteTransferSpeedGraphStates(StateCommon, OnNeedPaintHandler);
+        StateNormal = new PaletteTransferSpeedGraphStates(StateCommon, OnNeedPaintHandler);
     }
 
     /// <summary>
@@ -84,14 +77,16 @@ public class KryptonTransferSpeedGraph : Control
     /// Gets access to the common appearance that other states can override.
     /// </summary>
     /// <remarks>
-    /// <see cref="IPaletteBack.GetBackColor1"/> is the plot background,
-    /// <see cref="IPaletteBack.GetBackColor2"/> is the series fill when set,
-    /// border colours draw the frame and grid, and content short-text colour draws the speed label.
+    /// <see cref="PaletteTransferSpeedGraphRedirect.Plot"/> is the plot background,
+    /// <see cref="PaletteTransferSpeedGraphRedirect.Series"/> is the series fill,
+    /// <see cref="PaletteTransferSpeedGraphRedirect.Grid"/> draws the grid,
+    /// <see cref="PaletteTransferSpeedGraphRedirect.Border"/> draws the frame,
+    /// and <see cref="PaletteTransferSpeedGraphRedirect.Label"/> draws the speed label.
     /// </remarks>
     [Category(@"Visuals")]
     [Description(@"Overrides for defining common transfer-speed graph appearance that other states can override.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteTripleRedirect StateCommon { get; }
+    public PaletteTransferSpeedGraphRedirect StateCommon { get; }
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
@@ -101,7 +96,7 @@ public class KryptonTransferSpeedGraph : Control
     [Category(@"Visuals")]
     [Description(@"Overrides for defining disabled transfer-speed graph appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteTriple StateDisabled { get; }
+    public PaletteTransferSpeedGraphStates StateDisabled { get; }
 
     private bool ShouldSerializeStateDisabled() => !StateDisabled.IsDefault;
 
@@ -111,9 +106,25 @@ public class KryptonTransferSpeedGraph : Control
     [Category(@"Visuals")]
     [Description(@"Overrides for defining normal transfer-speed graph appearance.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-    public PaletteTriple StateNormal { get; }
+    public PaletteTransferSpeedGraphStates StateNormal { get; }
 
     private bool ShouldSerializeStateNormal() => !StateNormal.IsDefault;
+
+    /// <summary>
+    /// Gets the highest sample in the current window, in bytes per second.
+    /// </summary>
+    /// <remarks>Returns <c>0</c> when the chart has no samples.</remarks>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public double Peak => _peak;
+
+    /// <summary>
+    /// Gets the lowest sample in the current window, in bytes per second.
+    /// </summary>
+    /// <remarks>Returns <c>0</c> when the chart has no samples.</remarks>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public double Trough => _trough;
 
     /// <summary>
     /// Appends one sample in bytes per second and scrolls the chart.
@@ -132,6 +143,8 @@ public class KryptonTransferSpeedGraph : Control
             bytesPerSecond = 0;
         }
 
+        bool windowFull = _count == _capacity;
+        double overwritten = windowFull ? _samples[_write] : 0;
         _samples[_write] = bytesPerSecond;
         _write = (_write + 1) % _capacity;
         if (_count < _capacity)
@@ -139,6 +152,7 @@ public class KryptonTransferSpeedGraph : Control
             _count++;
         }
 
+        UpdateExtremaAfterAdd(bytesPerSecond, windowFull, overwritten);
         Invalidate();
     }
 
@@ -160,6 +174,8 @@ public class KryptonTransferSpeedGraph : Control
         Array.Clear(_samples, 0, _samples.Length);
         _count = 0;
         _write = 0;
+        _peak = 0;
+        _trough = 0;
         Invalidate();
     }
 
@@ -188,13 +204,14 @@ public class KryptonTransferSpeedGraph : Control
         g.SmoothingMode = SmoothingMode.AntiAlias;
 
         PaletteState paletteState = Enabled ? PaletteState.Normal : PaletteState.Disabled;
-        IPaletteTriple state = Enabled ? StateNormal : StateDisabled;
+        PaletteTransferSpeedGraphStates state = Enabled ? StateNormal : StateDisabled;
 
-        Color back = ResolveColor(state.PaletteBack.GetBackColor1(paletteState), SystemColors.Window);
-        Color border = ResolveColor(state.PaletteBorder!.GetBorderColor1(paletteState), SystemColors.ControlDark);
-        Color grid = Color.FromArgb(60, border.R, border.G, border.B);
-        Color fill = EnsureSeriesContrast(ResolveFill(state.PaletteBack, paletteState), back);
-        Color text = ResolveColor(state.PaletteContent!.GetContentShortTextColor1(paletteState), SystemColors.WindowText);
+        Color back = ResolveColor(state.Plot.GetElementColor1(paletteState), SystemColors.Window);
+        Color border = ResolveColor(state.Border.GetElementColor1(paletteState), SystemColors.ControlDark);
+        Color gridSource = ResolveColor(state.Grid.GetElementColor1(paletteState), border);
+        Color grid = Color.FromArgb(60, gridSource.R, gridSource.G, gridSource.B);
+        Color fill = EnsureSeriesContrast(ResolveColor(state.Series.GetElementColor1(paletteState), Color.SeaGreen), back);
+        Color text = ResolveColor(state.Label.GetElementColor1(paletteState), SystemColors.WindowText);
 
         using (var backBrush = new SolidBrush(back))
         {
@@ -230,18 +247,8 @@ public class KryptonTransferSpeedGraph : Control
             }
         }
 
-        double peak = 0;
-        for (int i = 0; i < _count; i++)
-        {
-            double sample = SampleAt(i);
-            if (sample > peak)
-            {
-                peak = sample;
-            }
-        }
-
         // Keep the crest around two-thirds of the plot height so flat transfers are not a full-height slab.
-        double max = peak <= 0 ? 1 : peak / 0.65;
+        double max = Peak <= 0 ? 1 : Peak / 0.65;
 
         // Fixed window step: grow from the left until full, then scroll (oldest left, newest right).
         float step = chart.Width / (float)(Math.Max(_capacity, 2) - 1);
@@ -321,7 +328,9 @@ public class KryptonTransferSpeedGraph : Control
         {
             double current = _count == 0 ? 0 : SampleAt(_count - 1);
             string rate = FormatBytes(current) + "/s";
-            string label = string.Format(CultureInfo.CurrentCulture, Values.SpeedLabelFormat, rate);
+            string peakRate = FormatBytes(Peak) + "/s";
+            string troughRate = FormatBytes(Trough) + "/s";
+            string label = string.Format(CultureInfo.CurrentCulture, Values.SpeedLabelFormat, rate, peakRate, troughRate);
             using (var textBrush = new SolidBrush(text))
             {
                 SizeF size = g.MeasureString(label, Font);
@@ -346,48 +355,24 @@ public class KryptonTransferSpeedGraph : Control
         Invalidate();
     }
 
-    private Color ResolveFill(IPaletteBack back, PaletteState paletteState)
-    {
-        Color color2 = back.GetBackColor2(paletteState);
-        if (!color2.IsEmpty && color2.A >= 32)
-        {
-            return color2;
-        }
-
-        Color checkedFill = _seriesBack.GetBackColor1(PaletteState.CheckedNormal);
-        if (!checkedFill.IsEmpty && checkedFill.A >= 32)
-        {
-            return checkedFill;
-        }
-
-        Color tracking = _seriesBack.GetBackColor1(PaletteState.Tracking);
-        if (!tracking.IsEmpty && tracking.A >= 32)
-        {
-            return tracking;
-        }
-
-        Color normal = _seriesBack.GetBackColor1(PaletteState.Normal);
-        return ResolveColor(normal, Color.SeaGreen);
-    }
-
     private static Color EnsureSeriesContrast(Color fill, Color back)
     {
         if (fill.IsEmpty)
         {
-            return Color.SeaGreen;
+            fill = Color.SeaGreen;
         }
 
         float fillBrightness = fill.GetBrightness();
         float backBrightness = back.GetBrightness();
-        if (Math.Abs(fillBrightness - backBrightness) >= 0.22f)
+
+        // Light plot: keep the series clearly darker than the chart face.
+        if (backBrightness > 0.55f)
         {
-            return fill;
+            return fillBrightness > 0.5f ? ControlPaint.Dark(fill, 0.4f) : fill;
         }
 
-        // Light chart backs need a darker series; dark backs need a lighter one.
-        return backBrightness > 0.55f
-            ? ControlPaint.Dark(fill, 0.35f)
-            : ControlPaint.Light(fill, 0.35f);
+        // Dark plot: lift muted accents so the fill stays visible (CheckedNormal can be near-black).
+        return fillBrightness < 0.55f ? ControlPaint.Light(fill, 0.7f) : fill;
     }
 
     private static Color ContrastEdge(Color fill, Color text)
@@ -427,6 +412,64 @@ public class KryptonTransferSpeedGraph : Control
         return _samples[index];
     }
 
+    private void UpdateExtremaAfterAdd(double sample, bool windowFull, double overwritten)
+    {
+        if (_count == 1)
+        {
+            _peak = sample;
+            _trough = sample;
+            return;
+        }
+
+        if (sample > _peak)
+        {
+            _peak = sample;
+        }
+        else if (windowFull && overwritten >= _peak)
+        {
+            RecomputeExtrema();
+            return;
+        }
+
+        if (sample < _trough)
+        {
+            _trough = sample;
+        }
+        else if (windowFull && overwritten <= _trough)
+        {
+            RecomputeExtrema();
+        }
+    }
+
+    private void RecomputeExtrema()
+    {
+        if (_count == 0)
+        {
+            _peak = 0;
+            _trough = 0;
+            return;
+        }
+
+        double peak = SampleAt(0);
+        double trough = peak;
+        for (int i = 1; i < _count; i++)
+        {
+            double sample = SampleAt(i);
+            if (sample > peak)
+            {
+                peak = sample;
+            }
+
+            if (sample < trough)
+            {
+                trough = sample;
+            }
+        }
+
+        _peak = peak;
+        _trough = trough;
+    }
+
     private void ResizeBuffer(int capacity)
     {
         var next = new double[capacity];
@@ -440,6 +483,7 @@ public class KryptonTransferSpeedGraph : Control
         _capacity = capacity;
         _count = copy;
         _write = copy % capacity;
+        RecomputeExtrema();
         Invalidate();
     }
 
@@ -452,6 +496,7 @@ public class KryptonTransferSpeedGraph : Control
 
         _palette = KryptonManager.CurrentGlobalPalette;
         _paletteRedirect.Target = _palette;
+        StateCommon.SetRedirector(_paletteRedirect);
         if (_palette != null)
         {
             _palette.PalettePaintInternal += OnPalettePaint;

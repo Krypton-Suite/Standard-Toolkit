@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -132,12 +132,16 @@ public class SpeedGraphValues : Storage
     }
 
     /// <summary>
-    /// Gets or sets the format for the overlay label. <c>{0}</c> is the formatted rate.
+    /// Gets or sets the format for the overlay label.
     /// </summary>
+    /// <remarks>
+    /// <c>{0}</c> is the current rate, <c>{1}</c> is the window peak, and <c>{2}</c> is the window trough
+    /// (each already formatted as a rate string such as <c>1.2 MB/s</c>).
+    /// </remarks>
     [Category(@"Appearance")]
     [DefaultValue(DefaultSpeedLabelFormatValue)]
     [Localizable(true)]
-    [Description(@"Format string for the speed overlay. {0} is the formatted rate.")]
+    [Description(@"Format string for the speed overlay. {0}=current, {1}=peak, {2}=trough rate strings.")]
     public string SpeedLabelFormat
     {
         get => _speedLabelFormat;

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -1814,6 +1814,26 @@ public abstract class PaletteBase : Component
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public abstract Color GetElementColor5(PaletteElement element, PaletteState state);
+
+    /// <summary>
+    /// Resolves transfer-speed graph colours from existing panel, accent, border, and label styles.
+    /// Color1 = plot, Color2 = series, Color3 = grid, Color4 = frame, Color5 = speed label.
+    /// </summary>
+    /// <param name="colorIndex">One-based colour slot (1–5).</param>
+    /// <param name="state">Palette state.</param>
+    /// <returns>Theme colour for the graph role.</returns>
+    protected Color GetTransferSpeedGraphElementColor(int colorIndex, PaletteState state) =>
+        colorIndex switch
+        {
+            1 => GetBackColor1(PaletteBackStyle.PanelClient, state),
+            // Checked button back is a high-contrast accent on both light and dark families.
+            2 => GetBackColor1(PaletteBackStyle.ButtonStandalone,
+                state == PaletteState.Disabled ? PaletteState.Disabled : PaletteState.CheckedNormal),
+            3 => GetBorderColor1(PaletteBorderStyle.ControlClient, state),
+            4 => GetBorderColor1(PaletteBorderStyle.ControlClient, state),
+            5 => GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state),
+            _ => Color.Red
+        };
     #endregion
 
     #region DragDrop

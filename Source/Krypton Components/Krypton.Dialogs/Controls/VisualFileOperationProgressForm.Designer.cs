@@ -15,10 +15,12 @@ internal partial class VisualFileOperationProgressForm
     private void InitializeComponent()
     {
         _pnlBanner = new KryptonPanel();
+        _tlpBanner = new KryptonTableLayoutPanel();
         _picBanner = new PictureBox();
-        _lblBanner = new KryptonLabel();
+        _lblBanner = new KryptonWrapLabel();
         _borderBanner = new KryptonBorderEdge();
-        _pnlContent = new KryptonPanel();
+        _tlpContent = new KryptonTableLayoutPanel();
+        _pnlProgressHost = new KryptonPanel();
         _pnlButtons = new KryptonPanel();
         _borderButtons = new KryptonBorderEdge();
         _lblItem = new KryptonLabel();
@@ -33,108 +35,110 @@ internal partial class VisualFileOperationProgressForm
         _btnCancel = new KryptonButton();
         ((System.ComponentModel.ISupportInitialize)_pnlBanner).BeginInit();
         _pnlBanner.SuspendLayout();
+        _tlpBanner.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)_picBanner).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)_pnlContent).BeginInit();
-        _pnlContent.SuspendLayout();
+        _tlpContent.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize)_pnlProgressHost).BeginInit();
+        _pnlProgressHost.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)_pnlButtons).BeginInit();
         _pnlButtons.SuspendLayout();
         SuspendLayout();
 
-        _picBanner.BackColor = Color.Transparent;
-        _picBanner.Location = new Point(12, 12);
         _picBanner.Name = "picBanner";
-        _picBanner.Size = new Size(32, 32);
-        _picBanner.SizeMode = PictureBoxSizeMode.CenterImage;
         _picBanner.TabIndex = 0;
-        _picBanner.TabStop = false;
-
-        _lblBanner.AutoSize = false;
-        _lblBanner.Location = new Point(56, 12);
         _lblBanner.Name = "lblBanner";
-        _lblBanner.Size = new Size(492, 32);
         _lblBanner.TabIndex = 1;
         _lblBanner.Text = "Calculating...";
-        _lblBanner.StateCommon.ShortText.Font = new Font("Segoe UI", 12f, FontStyle.Bold);
-        _lblBanner.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        _lblBanner.StateCommon.Font = new Font("Segoe UI", 12f, FontStyle.Bold);
+        FileOperationBannerLayout.ConfigureTable(_tlpBanner, _picBanner, _lblBanner);
+        _tlpBanner.Name = "tlpBanner";
+        _tlpBanner.TabIndex = 0;
 
         _borderBanner.BorderStyle = PaletteBorderStyle.HeaderPrimary;
         _borderBanner.Dock = DockStyle.Bottom;
-        _borderBanner.Location = new Point(0, 55);
         _borderBanner.Name = "borderBanner";
         _borderBanner.Size = new Size(560, 1);
         _borderBanner.Text = "";
 
-        _pnlBanner.Controls.Add(_lblBanner);
-        _pnlBanner.Controls.Add(_picBanner);
+        _pnlBanner.Controls.Add(_tlpBanner);
         _pnlBanner.Controls.Add(_borderBanner);
         _pnlBanner.Dock = DockStyle.Top;
         _pnlBanner.Location = new Point(0, 0);
         _pnlBanner.Name = "pnlBanner";
-        _pnlBanner.Size = new Size(560, 56);
+        _pnlBanner.Size = new Size(560, FileOperationBannerLayout.DefaultHeight);
         _pnlBanner.TabIndex = 0;
 
         _lblItem.AutoSize = false;
-        _lblItem.Location = new Point(12, 12);
+        _lblItem.Dock = DockStyle.Fill;
+        _lblItem.Margin = new Padding(0, 0, 0, 4);
         _lblItem.Name = "lblItem";
-        _lblItem.Size = new Size(536, 20);
         _lblItem.TabIndex = 0;
-        _lblItem.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        _lblItem.StateCommon.ShortText.Trim = PaletteTextTrim.EllipsisPath;
 
         _lblFrom.AutoSize = false;
-        _lblFrom.Location = new Point(12, 36);
+        _lblFrom.Dock = DockStyle.Fill;
+        _lblFrom.Margin = new Padding(0, 0, 0, 2);
         _lblFrom.Name = "lblFrom";
-        _lblFrom.Size = new Size(536, 20);
         _lblFrom.TabIndex = 1;
-        _lblFrom.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        _lblFrom.StateCommon.ShortText.Trim = PaletteTextTrim.EllipsisPath;
 
         _lblTo.AutoSize = false;
-        _lblTo.Location = new Point(12, 60);
+        _lblTo.Dock = DockStyle.Fill;
+        _lblTo.Margin = new Padding(0, 0, 0, 8);
         _lblTo.Name = "lblTo";
-        _lblTo.Size = new Size(536, 20);
         _lblTo.TabIndex = 2;
-        _lblTo.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        _lblTo.StateCommon.ShortText.Trim = PaletteTextTrim.EllipsisPath;
 
-        _progress.Location = new Point(12, 88);
+        _progress.Dock = DockStyle.Fill;
         _progress.Name = "progress";
-        _progress.Size = new Size(536, 23);
-        _progress.TabIndex = 3;
-        _progress.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        _progress.TabIndex = 0;
+
+        _speedGraph.Dock = DockStyle.Fill;
+        _speedGraph.Name = "speedGraph";
+        _speedGraph.TabIndex = 1;
+        _speedGraph.Visible = false;
+
+        _pnlProgressHost.Controls.Add(_speedGraph);
+        _pnlProgressHost.Controls.Add(_progress);
+        _pnlProgressHost.Dock = DockStyle.Fill;
+        _pnlProgressHost.Margin = new Padding(0, 0, 0, 8);
+        _pnlProgressHost.Name = "pnlProgressHost";
+        _pnlProgressHost.TabIndex = 3;
 
         _lblDetails.AutoSize = false;
-        _lblDetails.Location = new Point(12, 120);
+        _lblDetails.Dock = DockStyle.Fill;
+        _lblDetails.Margin = new Padding(0, 0, 0, 4);
         _lblDetails.Name = "lblDetails";
-        _lblDetails.Size = new Size(536, 36);
         _lblDetails.TabIndex = 4;
-        _lblDetails.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
         _lblError.AutoSize = false;
-        _lblError.Location = new Point(12, 164);
+        _lblError.Dock = DockStyle.Fill;
+        _lblError.Margin = Padding.Empty;
         _lblError.Name = "lblError";
-        _lblError.Size = new Size(536, 20);
         _lblError.TabIndex = 5;
         _lblError.Visible = false;
-        _lblError.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
-        // Same slot as the progress bar; shown only when More details is expanded.
-        _speedGraph.Location = new Point(12, 88);
-        _speedGraph.Name = "speedGraph";
-        _speedGraph.Size = new Size(536, 110);
-        _speedGraph.TabIndex = 6;
-        _speedGraph.Visible = false;
-        _speedGraph.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-
-        _pnlContent.Controls.Add(_speedGraph);
-        _pnlContent.Controls.Add(_lblError);
-        _pnlContent.Controls.Add(_lblDetails);
-        _pnlContent.Controls.Add(_progress);
-        _pnlContent.Controls.Add(_lblTo);
-        _pnlContent.Controls.Add(_lblFrom);
-        _pnlContent.Controls.Add(_lblItem);
-        _pnlContent.Dock = DockStyle.Fill;
-        _pnlContent.Location = new Point(0, 56);
-        _pnlContent.Name = "pnlContent";
-        _pnlContent.Size = new Size(560, 194);
-        _pnlContent.TabIndex = 1;
+        _tlpContent.ColumnCount = 1;
+        _tlpContent.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+        _tlpContent.Controls.Add(_lblItem, 0, 0);
+        _tlpContent.Controls.Add(_lblFrom, 0, 1);
+        _tlpContent.Controls.Add(_lblTo, 0, 2);
+        _tlpContent.Controls.Add(_pnlProgressHost, 0, 3);
+        _tlpContent.Controls.Add(_lblDetails, 0, 4);
+        _tlpContent.Controls.Add(_lblError, 0, 5);
+        _tlpContent.Dock = DockStyle.Fill;
+        _tlpContent.Location = new Point(0, FileOperationBannerLayout.DefaultHeight);
+        _tlpContent.Name = "tlpContent";
+        _tlpContent.Padding = new Padding(16);
+        _tlpContent.RowCount = 6;
+        _tlpContent.RowStyles.Add(new RowStyle(SizeType.Absolute, 24f));
+        _tlpContent.RowStyles.Add(new RowStyle(SizeType.Absolute, 24f));
+        _tlpContent.RowStyles.Add(new RowStyle(SizeType.Absolute, 32f));
+        _tlpContent.RowStyles.Add(new RowStyle(SizeType.Absolute, 28f));
+        _tlpContent.RowStyles.Add(new RowStyle(SizeType.Absolute, 40f));
+        _tlpContent.RowStyles.Add(new RowStyle(SizeType.Absolute, 24f));
+        _tlpContent.Size = new Size(560, 194);
+        _tlpContent.TabIndex = 1;
 
         _btnMoreDetails.Location = new Point(12, 11);
         _btnMoreDetails.Name = "btnMoreDetails";
@@ -159,7 +163,6 @@ internal partial class VisualFileOperationProgressForm
 
         _borderButtons.BorderStyle = PaletteBorderStyle.HeaderPrimary;
         _borderButtons.Dock = DockStyle.Top;
-        _borderButtons.Location = new Point(0, 0);
         _borderButtons.Name = "borderButtons";
         _borderButtons.Size = new Size(560, 1);
         _borderButtons.Text = "";
@@ -169,15 +172,15 @@ internal partial class VisualFileOperationProgressForm
         _pnlButtons.Controls.Add(_btnMoreDetails);
         _pnlButtons.Controls.Add(_borderButtons);
         _pnlButtons.Dock = DockStyle.Bottom;
-        _pnlButtons.Location = new Point(0, 250);
+        _pnlButtons.Location = new Point(0, 278);
         _pnlButtons.Name = "pnlButtons";
         _pnlButtons.PanelBackStyle = PaletteBackStyle.PanelAlternate;
         _pnlButtons.Size = new Size(560, 50);
         _pnlButtons.TabIndex = 2;
 
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(560, 300);
-        Controls.Add(_pnlContent);
+        ClientSize = new Size(560, 348);
+        Controls.Add(_tlpContent);
         Controls.Add(_pnlButtons);
         Controls.Add(_pnlBanner);
         FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -189,10 +192,13 @@ internal partial class VisualFileOperationProgressForm
         Text = "Calculating...";
         CancelButton = _btnCancel;
         ((System.ComponentModel.ISupportInitialize)_picBanner).EndInit();
+        _tlpBanner.ResumeLayout(false);
+        _tlpBanner.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)_pnlBanner).EndInit();
         _pnlBanner.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)_pnlContent).EndInit();
-        _pnlContent.ResumeLayout(false);
+        ((System.ComponentModel.ISupportInitialize)_pnlProgressHost).EndInit();
+        _pnlProgressHost.ResumeLayout(false);
+        _tlpContent.ResumeLayout(false);
         ((System.ComponentModel.ISupportInitialize)_pnlButtons).EndInit();
         _pnlButtons.ResumeLayout(false);
         _pnlButtons.PerformLayout();
@@ -200,10 +206,12 @@ internal partial class VisualFileOperationProgressForm
     }
 
     private KryptonPanel _pnlBanner;
+    private KryptonTableLayoutPanel _tlpBanner;
     private PictureBox _picBanner;
-    private KryptonLabel _lblBanner;
+    private KryptonWrapLabel _lblBanner;
     private KryptonBorderEdge _borderBanner;
-    private KryptonPanel _pnlContent;
+    private KryptonTableLayoutPanel _tlpContent;
+    private KryptonPanel _pnlProgressHost;
     private KryptonPanel _pnlButtons;
     private KryptonBorderEdge _borderButtons;
     private KryptonLabel _lblItem;

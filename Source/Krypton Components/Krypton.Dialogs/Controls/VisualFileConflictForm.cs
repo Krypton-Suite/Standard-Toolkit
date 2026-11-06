@@ -82,12 +82,20 @@ internal sealed partial class VisualFileConflictForm : KryptonForm
     {
         _pnlBanner.Visible = showBanner;
         _lblIntro.Visible = !showBanner;
+        _tlpContent.RowStyles[0].Height = showBanner ? 0f : 48f;
         if (!showBanner)
         {
-            _lblSource.Location = new Point(_lblSource.Left, 56);
-            _lblDestination.Location = new Point(_lblDestination.Left, 96);
-            _chkApply.Location = new Point(_chkApply.Left, 140);
-            ClientSize = new Size(ClientSize.Width, 224);
+            FileOperationBannerLayout.Configure(_lblIntro);
+            ClientSize = new Size(ClientSize.Width, 248);
+            return;
+        }
+
+        int before = _pnlBanner.Height;
+        FileOperationBannerLayout.Fit(_pnlBanner, _tlpBanner, _lblBanner, _picBanner);
+        int delta = _pnlBanner.Height - before;
+        if (delta != 0)
+        {
+            ClientSize = new Size(ClientSize.Width, ClientSize.Height + delta);
         }
     }
 

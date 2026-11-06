@@ -15,81 +15,77 @@ internal partial class VisualFileDeleteConfirmForm
     private void InitializeComponent()
     {
         _pnlBanner = new KryptonPanel();
+        _tlpBanner = new KryptonTableLayoutPanel();
         _picBanner = new PictureBox();
-        _lblBanner = new KryptonLabel();
+        _lblBanner = new KryptonWrapLabel();
         _borderBanner = new KryptonBorderEdge();
-        _pnlContent = new KryptonPanel();
+        _tlpContent = new KryptonTableLayoutPanel();
         _pnlButtons = new KryptonPanel();
         _borderButtons = new KryptonBorderEdge();
-        _lblMessage = new KryptonLabel();
+        _lblMessage = new KryptonWrapLabel();
         _txtPaths = new KryptonTextBox();
         _btnYes = new KryptonButton();
         _btnNo = new KryptonButton();
         ((System.ComponentModel.ISupportInitialize)_pnlBanner).BeginInit();
         _pnlBanner.SuspendLayout();
+        _tlpBanner.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)_picBanner).BeginInit();
-        ((System.ComponentModel.ISupportInitialize)_pnlContent).BeginInit();
-        _pnlContent.SuspendLayout();
+        _tlpContent.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize)_pnlButtons).BeginInit();
         _pnlButtons.SuspendLayout();
         SuspendLayout();
 
-        _picBanner.BackColor = Color.Transparent;
-        _picBanner.Location = new Point(12, 12);
         _picBanner.Name = "picBanner";
-        _picBanner.Size = new Size(32, 32);
-        _picBanner.SizeMode = PictureBoxSizeMode.CenterImage;
         _picBanner.TabIndex = 0;
-        _picBanner.TabStop = false;
-
-        _lblBanner.AutoSize = false;
-        _lblBanner.Location = new Point(56, 8);
         _lblBanner.Name = "lblBanner";
-        _lblBanner.Size = new Size(412, 40);
         _lblBanner.TabIndex = 1;
-        _lblBanner.StateCommon.ShortText.Font = new Font("Segoe UI", 12f, FontStyle.Bold);
-        _lblBanner.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        _lblBanner.StateCommon.Font = new Font("Segoe UI", 12f, FontStyle.Bold);
+        FileOperationBannerLayout.ConfigureTable(_tlpBanner, _picBanner, _lblBanner);
+        _tlpBanner.Name = "tlpBanner";
+        _tlpBanner.TabIndex = 0;
 
         _borderBanner.BorderStyle = PaletteBorderStyle.HeaderPrimary;
         _borderBanner.Dock = DockStyle.Bottom;
-        _borderBanner.Location = new Point(0, 55);
         _borderBanner.Name = "borderBanner";
         _borderBanner.Size = new Size(480, 1);
         _borderBanner.Text = "";
 
-        _pnlBanner.Controls.Add(_lblBanner);
-        _pnlBanner.Controls.Add(_picBanner);
+        _pnlBanner.Controls.Add(_tlpBanner);
         _pnlBanner.Controls.Add(_borderBanner);
         _pnlBanner.Dock = DockStyle.Top;
         _pnlBanner.Location = new Point(0, 0);
         _pnlBanner.Name = "pnlBanner";
-        _pnlBanner.Size = new Size(480, 56);
+        _pnlBanner.Size = new Size(480, FileOperationBannerLayout.DefaultHeight);
         _pnlBanner.TabIndex = 0;
 
-        _lblMessage.AutoSize = false;
-        _lblMessage.Location = new Point(12, 12);
+        _lblMessage.AutoSize = true;
+        _lblMessage.Dock = DockStyle.Fill;
+        _lblMessage.Margin = new Padding(0, 0, 0, 8);
         _lblMessage.Name = "lblMessage";
-        _lblMessage.Size = new Size(456, 48);
         _lblMessage.TabIndex = 0;
         _lblMessage.Visible = false;
-        _lblMessage.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
-        _txtPaths.Location = new Point(12, 12);
+        _txtPaths.Dock = DockStyle.Fill;
+        _txtPaths.Margin = Padding.Empty;
         _txtPaths.Name = "txtPaths";
-        _txtPaths.Size = new Size(456, 162);
         _txtPaths.TabIndex = 1;
         _txtPaths.Multiline = true;
         _txtPaths.ReadOnly = true;
         _txtPaths.ScrollBars = ScrollBars.Vertical;
-        _txtPaths.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
-        _pnlContent.Controls.Add(_txtPaths);
-        _pnlContent.Controls.Add(_lblMessage);
-        _pnlContent.Dock = DockStyle.Fill;
-        _pnlContent.Location = new Point(0, 56);
-        _pnlContent.Name = "pnlContent";
-        _pnlContent.Size = new Size(480, 186);
-        _pnlContent.TabIndex = 1;
+        _tlpContent.ColumnCount = 1;
+        _tlpContent.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100f));
+        _tlpContent.Controls.Add(_lblMessage, 0, 0);
+        _tlpContent.Controls.Add(_txtPaths, 0, 1);
+        _tlpContent.Dock = DockStyle.Fill;
+        _tlpContent.Location = new Point(0, FileOperationBannerLayout.DefaultHeight);
+        _tlpContent.Name = "tlpContent";
+        _tlpContent.Padding = new Padding(16);
+        _tlpContent.RowCount = 2;
+        _tlpContent.RowStyles.Add(new RowStyle(SizeType.Absolute, 0f));
+        _tlpContent.RowStyles.Add(new RowStyle(SizeType.Percent, 100f));
+        _tlpContent.Size = new Size(480, 186);
+        _tlpContent.TabIndex = 1;
 
         _btnYes.Location = new Point(272, 11);
         _btnYes.Name = "btnYes";
@@ -109,7 +105,6 @@ internal partial class VisualFileDeleteConfirmForm
 
         _borderButtons.BorderStyle = PaletteBorderStyle.HeaderPrimary;
         _borderButtons.Dock = DockStyle.Top;
-        _borderButtons.Location = new Point(0, 0);
         _borderButtons.Name = "borderButtons";
         _borderButtons.Size = new Size(480, 1);
         _borderButtons.Text = "";
@@ -118,15 +113,15 @@ internal partial class VisualFileDeleteConfirmForm
         _pnlButtons.Controls.Add(_btnYes);
         _pnlButtons.Controls.Add(_borderButtons);
         _pnlButtons.Dock = DockStyle.Bottom;
-        _pnlButtons.Location = new Point(0, 242);
+        _pnlButtons.Location = new Point(0, 270);
         _pnlButtons.Name = "pnlButtons";
         _pnlButtons.PanelBackStyle = PaletteBackStyle.PanelAlternate;
         _pnlButtons.Size = new Size(480, 50);
         _pnlButtons.TabIndex = 2;
 
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(480, 292);
-        Controls.Add(_pnlContent);
+        ClientSize = new Size(480, 336);
+        Controls.Add(_tlpContent);
         Controls.Add(_pnlButtons);
         Controls.Add(_pnlBanner);
         FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -138,10 +133,12 @@ internal partial class VisualFileDeleteConfirmForm
         AcceptButton = _btnYes;
         CancelButton = _btnNo;
         ((System.ComponentModel.ISupportInitialize)_picBanner).EndInit();
+        _tlpBanner.ResumeLayout(false);
+        _tlpBanner.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)_pnlBanner).EndInit();
         _pnlBanner.ResumeLayout(false);
-        ((System.ComponentModel.ISupportInitialize)_pnlContent).EndInit();
-        _pnlContent.ResumeLayout(false);
+        _tlpContent.ResumeLayout(false);
+        _tlpContent.PerformLayout();
         ((System.ComponentModel.ISupportInitialize)_pnlButtons).EndInit();
         _pnlButtons.ResumeLayout(false);
         _pnlButtons.PerformLayout();
@@ -150,13 +147,14 @@ internal partial class VisualFileDeleteConfirmForm
     }
 
     private KryptonPanel _pnlBanner;
+    private KryptonTableLayoutPanel _tlpBanner;
     private PictureBox _picBanner;
-    private KryptonLabel _lblBanner;
+    private KryptonWrapLabel _lblBanner;
     private KryptonBorderEdge _borderBanner;
-    private KryptonPanel _pnlContent;
+    private KryptonTableLayoutPanel _tlpContent;
     private KryptonPanel _pnlButtons;
     private KryptonBorderEdge _borderButtons;
-    private KryptonLabel _lblMessage;
+    private KryptonWrapLabel _lblMessage;
     private KryptonTextBox _txtPaths;
     private KryptonButton _btnYes;
     private KryptonButton _btnNo;

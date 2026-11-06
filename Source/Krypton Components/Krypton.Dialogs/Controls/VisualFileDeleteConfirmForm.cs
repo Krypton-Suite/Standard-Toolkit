@@ -99,11 +99,20 @@ internal sealed partial class VisualFileDeleteConfirmForm : KryptonForm
     {
         _pnlBanner.Visible = showBanner;
         _lblMessage.Visible = !showBanner;
+        _tlpContent.RowStyles[0].Height = showBanner ? 0f : 56f;
         if (!showBanner)
         {
-            _txtPaths.Location = new Point(_txtPaths.Left, 68);
-            _txtPaths.Size = new Size(_txtPaths.Width, ClientSize.Height - _pnlButtons.Height - 80);
-            ClientSize = new Size(ClientSize.Width, 260);
+            FileOperationBannerLayout.Configure(_lblMessage);
+            ClientSize = new Size(ClientSize.Width, 280);
+            return;
+        }
+
+        int before = _pnlBanner.Height;
+        FileOperationBannerLayout.Fit(_pnlBanner, _tlpBanner, _lblBanner, _picBanner);
+        int delta = _pnlBanner.Height - before;
+        if (delta != 0)
+        {
+            ClientSize = new Size(ClientSize.Width, ClientSize.Height + delta);
         }
     }
 }

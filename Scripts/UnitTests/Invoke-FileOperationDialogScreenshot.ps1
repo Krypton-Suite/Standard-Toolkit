@@ -1,21 +1,22 @@
-<#
+﻿<#
 .SYNOPSIS
-    Exercises Krypton file-operation dialogs and writes PrintWindow PNGs.
+    Exercises Krypton file-operation dialogs and writes light/dark PrintWindow PNGs.
 
 .DESCRIPTION
     Loads the Debug Krypton.Dialogs build in-process (STA). Confirms copy, replace,
     skip, keep-both, rename, and permanent delete against a temp sandbox, then
-    captures the conflict, recycle, permanent-delete, and progress dialogs.
+    captures conflict, recycle, permanent-delete, progress, and TestForm demo
+    windows under Microsoft 365 Blue (light) and Microsoft 365 Black Dark Mode.
 
     # UnitTest-CI: exclude
 
 .EXAMPLE
-    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-FileOperationDialogScreenshot.ps1 -TargetFramework net10.0-windows
+    powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-FileOperationDialogScreenshot.ps1 -TargetFramework net472
 #>
 [CmdletBinding()]
 param(
     [string]$Configuration = 'Debug',
-    [string]$TargetFramework = 'net10.0-windows',
+    [string]$TargetFramework = 'net472',
     [string]$BinDir,
     [string]$OutputDirectory,
     [switch]$DemoOnly
@@ -29,16 +30,36 @@ $bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -Tar
 if (-not $OutputDirectory) {
     $OutputDirectory = Join-Path $repoRoot 'Documents\PR'
 }
+if (-not (Test-Path -LiteralPath $OutputDirectory)) {
+    New-Item -ItemType Directory -Path $OutputDirectory | Out-Null
+}
 
 Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 Initialize-UnitTestNativeInput
-foreach ($name in @('Krypton.Interop.dll', 'Krypton.Resources.dll', 'Krypton.Toolkit.dll', 'Krypton.Dialogs.dll')) {
-    [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin $name))
+foreach ($name in @('Krypton.Interop.dll', 'Krypton.Resources.dll', 'Krypton.Toolkit.dll', 'Krypton.Themes.dll', 'Krypton.Toolkit.Utilities.dll', 'Krypton.Dialogs.dll')) {
+    $path = Join-Path $bin $name
+    if (Test-Path -LiteralPath $path) {
+        [void][System.Reflection.Assembly]::LoadFrom($path)
+    }
 }
 
 [System.Windows.Forms.Application]::EnableVisualStyles()
+
+$themes = @(
+    @{ Suffix = 'light'; Mode = [Krypton.Toolkit.PaletteMode]::Microsoft365Blue; Caption = 'Microsoft 365 Blue' }
+    @{ Suffix = 'dark'; Mode = [Krypton.Toolkit.PaletteMode]::Microsoft365BlackDarkMode; Caption = 'Microsoft 365 Black Dark Mode' }
+)
+
+function Set-UnitTestPaletteMode {
+    param(
+        [Krypton.Toolkit.KryptonManager]$Manager,
+        [Krypton.Toolkit.PaletteMode]$Mode
+    )
+    $Manager.GlobalPaletteMode = $Mode
+    [System.Windows.Forms.Application]::DoEvents()
+}
 
 function New-Operation {
     $operation = New-Object Krypton.Dialogs.KryptonFileOperation
@@ -64,11 +85,64 @@ function Confirm-Delete {
     }
 }
 
-$demoPath = Join-Path $OutputDirectory '4672-file-operation-demo.png'
-if ($DemoOnly) {
+function Save-ModalDialog {
+    param(
+        [scriptblock]$Show,
+        [string]$Path
+    )
+    $script:modalCapturePath = $Path
+    $timer = New-Object System.Windows.Forms.Timer
+    $timer.Interval = 500
+    $timer.Add_Tick({
+        param($sender, $eventArgs)
+        try {
+            if ($null -ne $sender) {
+                $sender.Stop()
+            }
+            $dialog = $null
+            foreach ($candidate in [System.Windows.Forms.Application]::OpenForms) {
+                if ($null -eq $candidate) {
+                    continue
+                }
+                if ($candidate -is [Krypton.Toolkit.KryptonForm] -and $candidate.Visible) {
+                    $dialog = $candidate
+                }
+            }
+            if ($null -eq $dialog) {
+                throw "No dialog was visible for $($script:modalCapturePath)"
+            }
+            $dialog.TopMost = $true
+            Save-UnitTestWindowPng -Form $dialog -Path $script:modalCapturePath -SettleMs 150
+            $dialog.Close()
+        }
+        catch {
+            $script:modalCaptureError = $_
+            if ($null -ne $sender) {
+                $sender.Stop()
+            }
+        }
+    })
+    $script:modalCaptureError = $null
+    $timer.Start()
+    & $Show
+    $timer.Stop()
+    $timer.Dispose()
+    if ($null -ne $script:modalCaptureError) {
+        throw $script:modalCaptureError
+    }
+}
+
+function Save-DemoForm {
+    param([string]$Path)
     $testForm = Join-Path $bin 'TestForm.exe'
-    [void][System.Reflection.Assembly]::LoadFrom($testForm)
-    $demoType = [System.Reflection.Assembly]::LoadFrom($testForm).GetType('TestForm.FileOperationProgressDemo')
+    if (-not (Test-Path -LiteralPath $testForm)) {
+        throw "TestForm.exe was not found under $bin"
+    }
+    $demoAsm = [System.Reflection.Assembly]::LoadFrom($testForm)
+    $demoType = $demoAsm.GetType('TestForm.FileOperationProgressDemo')
+    if ($null -eq $demoType) {
+        throw 'TestForm.FileOperationProgressDemo was not found.'
+    }
     $demo = [System.Activator]::CreateInstance($demoType)
     $demo.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
     $demo.Location = New-Object System.Drawing.Point 80, 80
@@ -78,10 +152,128 @@ if ($DemoOnly) {
     [void][UnitTestNative]::SetForegroundWindow($demo.Handle)
     [System.Windows.Forms.Application]::DoEvents()
     Start-Sleep -Milliseconds 400
-    Save-UnitTestWindowPng -Form $demo -Path $demoPath -SettleMs 150
+    Save-UnitTestWindowPng -Form $demo -Path $Path -SettleMs 150
     $demo.Close()
     $demo.Dispose()
-    Write-Output "Wrote $demoPath"
+}
+
+function Save-ProgressPair {
+    param(
+        [string]$Root,
+        [string]$ProgressPath,
+        [string]$DetailsPath
+    )
+
+    $large = Join-Path $Root 'source\many'
+    if (-not (Test-Path -LiteralPath $large)) {
+        [System.IO.Directory]::CreateDirectory($large) | Out-Null
+        $payload = New-Object byte[] 4096
+        for ($i = 0; $i -lt 2500; $i++) {
+            [System.IO.File]::WriteAllBytes((Join-Path $large ('f{0:D4}.bin' -f $i)), $payload)
+        }
+    }
+
+    $destName = 'many-copy-' + [guid]::NewGuid().ToString('N').Substring(0, 8)
+    $script:progressPath = $ProgressPath
+    $script:progressDetailsPath = $DetailsPath
+    $script:progressShot = $false
+    $script:progressDetailsShot = $false
+    $script:progressSeen = $null
+    $script:progressExpandedAt = $null
+    $script:progressCaptureError = $null
+    $progressTimer = New-Object System.Windows.Forms.Timer
+    $progressTimer.Interval = 200
+    $progressTimer.Add_Tick({
+        param($sender, $eventArgs)
+        try {
+            if ($script:progressDetailsShot) {
+                if ($null -ne $sender) {
+                    $sender.Stop()
+                }
+                return
+            }
+            foreach ($candidate in @([System.Windows.Forms.Application]::OpenForms)) {
+                if ($null -eq $candidate) {
+                    continue
+                }
+                if ($candidate.GetType().Name -ne 'VisualFileOperationProgressForm' -or -not $candidate.Visible) {
+                    continue
+                }
+                if ($null -eq $script:progressSeen) {
+                    $script:progressSeen = [datetime]::UtcNow
+                    return
+                }
+                if (-not $script:progressShot) {
+                    if (([datetime]::UtcNow - $script:progressSeen).TotalMilliseconds -lt 600) {
+                        return
+                    }
+                    $script:progressShot = $true
+                    $candidate.TopMost = $true
+                    Save-UnitTestWindowPng -Form $candidate -Path $script:progressPath -SettleMs 100
+                    [void]$candidate.GetType().InvokeMember(
+                        'SetDetailsExpanded',
+                        [System.Reflection.BindingFlags]::InvokeMethod -bor
+                        [System.Reflection.BindingFlags]::Instance -bor
+                        [System.Reflection.BindingFlags]::NonPublic -bor
+                        [System.Reflection.BindingFlags]::Public,
+                        $null,
+                        $candidate,
+                        @($true))
+                    $script:progressExpandedAt = [datetime]::UtcNow
+                    return
+                }
+                if (-not $script:progressDetailsShot) {
+                    if ($null -eq $script:progressExpandedAt -or (([datetime]::UtcNow - $script:progressExpandedAt).TotalMilliseconds -lt 2500)) {
+                        return
+                    }
+                    $script:progressDetailsShot = $true
+                    $candidate.TopMost = $true
+                    Save-UnitTestWindowPng -Form $candidate -Path $script:progressDetailsPath -SettleMs 150
+                    if ($null -ne $sender) {
+                        $sender.Stop()
+                    }
+                }
+                return
+            }
+        }
+        catch {
+            $script:progressCaptureError = $_
+            if ($null -ne $sender) {
+                $sender.Stop()
+            }
+        }
+    })
+    $progressTimer.Start()
+    $largeOp = New-Operation
+    $largeOp.QueueCopy($large, (Join-Path $Root 'dest'), $destName)
+    if (-not $largeOp.Perform()) {
+        throw 'Large copy failed.'
+    }
+    $progressTimer.Stop()
+    $progressTimer.Dispose()
+    $largeOp.Dispose()
+    if ($null -ne $script:progressCaptureError) {
+        throw $script:progressCaptureError
+    }
+    if (-not $script:progressShot) {
+        throw 'The progress dialog was not shown.'
+    }
+    if (-not $script:progressDetailsShot) {
+        throw 'The expanded progress dialog was not captured.'
+    }
+}
+
+if ($DemoOnly) {
+    $demoManager = New-Object Krypton.Toolkit.KryptonManager
+    try {
+        Set-UnitTestPaletteMode -Manager $demoManager -Mode ([Krypton.Toolkit.PaletteMode]::Microsoft365Blue)
+        $demoPath = Join-Path $OutputDirectory '4672-file-operation-demo-light.png'
+        Save-DemoForm -Path $demoPath
+        Write-Output "Wrote $demoPath"
+    }
+    finally {
+        $demoManager.Dispose()
+    }
     return
 }
 
@@ -169,202 +361,60 @@ if (Test-Path -LiteralPath (Join-Path $root 'source\renamed.txt')) {
 $delete.Dispose()
 Write-Output 'File operation checks passed.'
 
-function Save-ModalDialog {
-    param(
-        [scriptblock]$Show,
-        [string]$Path
-    )
-    $script:modalCapturePath = $Path
-    $timer = New-Object System.Windows.Forms.Timer
-    $timer.Interval = 500
-    $timer.Add_Tick({
-        param($sender, $eventArgs)
-        try {
-            if ($null -ne $sender) {
-                $sender.Stop()
-            }
-            $dialog = $null
-            foreach ($candidate in [System.Windows.Forms.Application]::OpenForms) {
-                if ($null -eq $candidate) {
-                    continue
-                }
-                if ($candidate -is [Krypton.Toolkit.KryptonForm] -and $candidate.Visible) {
-                    $dialog = $candidate
-                }
-            }
-            if ($null -eq $dialog) {
-                throw "No dialog was visible for $($script:modalCapturePath)"
-            }
-            $dialog.TopMost = $true
-            Save-UnitTestWindowPng -Form $dialog -Path $script:modalCapturePath -SettleMs 150
-            $dialog.Close()
-        }
-        catch {
-            $script:modalCaptureError = $_
-            if ($null -ne $sender) {
-                $sender.Stop()
-            }
-        }
-    })
-    $script:modalCaptureError = $null
-    $timer.Start()
-    & $Show
-    $timer.Stop()
-    $timer.Dispose()
-    if ($null -ne $script:modalCaptureError) {
-        throw $script:modalCaptureError
+[System.IO.File]::WriteAllText($sourceFile, 'from-source')
+[System.IO.File]::WriteAllText($destFile, 'already-there')
+
+$manager = New-Object Krypton.Toolkit.KryptonManager
+try {
+    foreach ($theme in $themes) {
+        Write-Output ("Capturing theme {0}..." -f $theme.Caption)
+        Set-UnitTestPaletteMode -Manager $manager -Mode $theme.Mode
+
+        $suffix = $theme.Suffix
+        $conflictPath = Join-Path $OutputDirectory ("4672-file-conflict-{0}.png" -f $suffix)
+        $recyclePath = Join-Path $OutputDirectory ("4672-delete-confirmation-{0}.png" -f $suffix)
+        $permanentPath = Join-Path $OutputDirectory ("4672-permanent-delete-{0}.png" -f $suffix)
+        $progressPath = Join-Path $OutputDirectory ("4672-file-operation-progress-{0}.png" -f $suffix)
+        $progressDetailsPath = Join-Path $OutputDirectory ("4672-file-operation-progress-details-{0}.png" -f $suffix)
+        $demoPath = Join-Path $OutputDirectory ("4672-file-operation-demo-{0}.png" -f $suffix)
+
+        Save-ModalDialog -Path $conflictPath -Show {
+            $apply = $false
+            [void][Krypton.Dialogs.KryptonFileConflictDialog]::Show(
+                $null,
+                $sourceFile,
+                $destFile,
+                $null,
+                [ref]$apply)
+        }.GetNewClosure()
+
+        Save-ModalDialog -Path $recyclePath -Show {
+            $paths = New-Object 'System.Collections.Generic.List[string]'
+            [void]$paths.Add($sourceFile)
+            [void]$paths.Add($destFile)
+            [void][Krypton.Dialogs.KryptonDeleteConfirmationDialog]::Show($null, $paths, $null)
+        }.GetNewClosure()
+
+        Save-ModalDialog -Path $permanentPath -Show {
+            $paths = New-Object 'System.Collections.Generic.List[string]'
+            [void]$paths.Add($destFile)
+            [void][Krypton.Dialogs.KryptonPermanentDeleteDialog]::Show($null, $paths, $null)
+        }.GetNewClosure()
+
+        Save-ProgressPair -Root $root -ProgressPath $progressPath -DetailsPath $progressDetailsPath
+        Save-DemoForm -Path $demoPath
+
+        Write-Output "Wrote $conflictPath"
+        Write-Output "Wrote $recyclePath"
+        Write-Output "Wrote $permanentPath"
+        Write-Output "Wrote $progressPath"
+        Write-Output "Wrote $progressDetailsPath"
+        Write-Output "Wrote $demoPath"
     }
 }
-
-$conflictPath = Join-Path $OutputDirectory '4672-file-conflict.png'
-$recyclePath = Join-Path $OutputDirectory '4672-delete-confirmation.png'
-$permanentPath = Join-Path $OutputDirectory '4672-permanent-delete.png'
-$script:progressPath = Join-Path $OutputDirectory '4672-file-operation-progress.png'
-$script:progressDetailsPath = Join-Path $OutputDirectory '4672-file-operation-progress-details.png'
-$demoPath = Join-Path $OutputDirectory '4672-file-operation-demo.png'
-
-Save-ModalDialog -Path $conflictPath -Show {
-    $apply = $false
-    [void][Krypton.Dialogs.KryptonFileConflictDialog]::Show(
-        $null,
-        $sourceFile,
-        $destFile,
-        $null,
-        [ref]$apply)
-}.GetNewClosure()
-
-Save-ModalDialog -Path $recyclePath -Show {
-    $paths = New-Object 'System.Collections.Generic.List[string]'
-    [void]$paths.Add($sourceFile)
-    [void]$paths.Add($destFile)
-    [void][Krypton.Dialogs.KryptonDeleteConfirmationDialog]::Show($null, $paths, $null)
-}.GetNewClosure()
-
-Save-ModalDialog -Path $permanentPath -Show {
-    $paths = New-Object 'System.Collections.Generic.List[string]'
-    [void]$paths.Add($destFile)
-    [void][Krypton.Dialogs.KryptonPermanentDeleteDialog]::Show($null, $paths, $null)
-}.GetNewClosure()
-
-$large = Join-Path $root 'source\many'
-[System.IO.Directory]::CreateDirectory($large) | Out-Null
-$payload = New-Object byte[] 4096
-for ($i = 0; $i -lt 2500; $i++) {
-    [System.IO.File]::WriteAllBytes((Join-Path $large ('f{0:D4}.bin' -f $i)), $payload)
-}
-
-$script:progressShot = $false
-$script:progressDetailsShot = $false
-$script:progressSeen = $null
-$script:progressExpandedAt = $null
-$script:progressCaptureError = $null
-$progressTimer = New-Object System.Windows.Forms.Timer
-$progressTimer.Interval = 200
-$progressTimer.Add_Tick({
-    param($sender, $eventArgs)
-    try {
-        if ($script:progressDetailsShot) {
-            if ($null -ne $sender) {
-                $sender.Stop()
-            }
-            return
-        }
-        foreach ($candidate in @([System.Windows.Forms.Application]::OpenForms)) {
-            if ($null -eq $candidate) {
-                continue
-            }
-            if ($candidate.GetType().Name -ne 'VisualFileOperationProgressForm' -or -not $candidate.Visible) {
-                continue
-            }
-            if ($null -eq $script:progressSeen) {
-                $script:progressSeen = [datetime]::UtcNow
-                return
-            }
-            if (-not $script:progressShot) {
-                if (([datetime]::UtcNow - $script:progressSeen).TotalMilliseconds -lt 600) {
-                    return
-                }
-                $script:progressShot = $true
-                $candidate.TopMost = $true
-                Save-UnitTestWindowPng -Form $candidate -Path $script:progressPath -SettleMs 100
-                [void]$candidate.GetType().InvokeMember(
-                    'SetDetailsExpanded',
-                    [System.Reflection.BindingFlags]::InvokeMethod -bor
-                    [System.Reflection.BindingFlags]::Instance -bor
-                    [System.Reflection.BindingFlags]::NonPublic -bor
-                    [System.Reflection.BindingFlags]::Public,
-                    $null,
-                    $candidate,
-                    @($true))
-                $script:progressExpandedAt = [datetime]::UtcNow
-                return
-            }
-            if (-not $script:progressDetailsShot) {
-                # Wait long enough for a visible left-growing series after expand.
-                if ($null -eq $script:progressExpandedAt -or (([datetime]::UtcNow - $script:progressExpandedAt).TotalMilliseconds -lt 2500)) {
-                    return
-                }
-                $script:progressDetailsShot = $true
-                $candidate.TopMost = $true
-                Save-UnitTestWindowPng -Form $candidate -Path $script:progressDetailsPath -SettleMs 150
-                if ($null -ne $sender) {
-                    $sender.Stop()
-                }
-            }
-            return
-        }
-    }
-    catch {
-        $script:progressCaptureError = $_
-        if ($null -ne $sender) {
-            $sender.Stop()
-        }
-    }
-})
-$progressTimer.Start()
-$largeOp = New-Operation
-$largeOp.QueueCopy($large, (Join-Path $root 'dest'), 'many-copy')
-if (-not $largeOp.Perform()) {
-    throw 'Large copy failed.'
-}
-$progressTimer.Stop()
-$progressTimer.Dispose()
-$largeOp.Dispose()
-if ($null -ne $script:progressCaptureError) {
-    throw $script:progressCaptureError
-}
-if (-not $script:progressShot) {
-    throw 'The progress dialog was not shown.'
-}
-if (-not $script:progressDetailsShot) {
-    throw 'The expanded progress dialog was not captured.'
-}
-
-$testForm = Join-Path $bin 'TestForm.exe'
-if (Test-Path -LiteralPath $testForm) {
-    $demoAsm = [System.Reflection.Assembly]::LoadFrom($testForm)
-    $demoType = $demoAsm.GetType('TestForm.FileOperationProgressDemo')
-    if ($null -eq $demoType) {
-        throw 'TestForm.FileOperationProgressDemo was not found.'
-    }
-    $demo = [System.Activator]::CreateInstance($demoType)
-    $demo.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
-    $demo.Location = New-Object System.Drawing.Point 80, 80
-    $demo.TopMost = $true
-    $demo.Show()
-    $demo.Activate()
-    [void][UnitTestNative]::SetForegroundWindow($demo.Handle)
-    [System.Windows.Forms.Application]::DoEvents()
-    Start-Sleep -Milliseconds 400
-    Save-UnitTestWindowPng -Form $demo -Path $demoPath -SettleMs 150
-    $demo.Close()
-    $demo.Dispose()
+finally {
+    $manager.Dispose()
 }
 
 [System.IO.Directory]::Delete($root, $true)
-Write-Output "Wrote $conflictPath"
-Write-Output "Wrote $recyclePath"
-Write-Output "Wrote $permanentPath"
-Write-Output "Wrote $script:progressPath"
-Write-Output "Wrote $script:progressDetailsPath"
-Write-Output "Wrote $demoPath"
+Write-Output 'Light/dark file-operation dialog screenshots complete.'
