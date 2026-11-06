@@ -161,7 +161,7 @@ internal static class KryptonAboutBoxUtilities
 
                 stream.Seek(lfanew + 8, SeekOrigin.Begin);
                 uint stamp = reader.ReadUInt32();
-                if (stamp == 0 || stamp == uint.MaxValue)
+                if (stamp is 0 or uint.MaxValue)
                 {
                     return null;
                 }

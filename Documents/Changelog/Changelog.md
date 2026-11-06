@@ -68,6 +68,7 @@
   - A download that drops or is cancelled stays on the progress window so it can be resumed or started again. The whole file is still checked before it is applied.
   - Release notes open in their own window, Remind later asks for a date or skips that version, and the progress window can show file name, size, speed, and time remaining.
   - The update manifest can limit how many days Remind later offers, and can allow or block postpone, skip, resume, and retry. A critical package blocks postpone unless `allowPostpone` is true and blocks skip unless `allowSkip` is true. `allowRetry` false hides Restart.
+  - The update manifest can add an optional banner (text, colours or gradient, image URL) on the prompt and notes windows, and an optional pulsing form border on the prompt, notes, and progress windows.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 - Implemented [#3806](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3806), Windows XP Themes
   - Windows XP visual-style Extra themes in `Krypton.Themes`: Luna Blue / Olive / Silver, Royale, Royale Noir, Zune, and Embedded, with a dedicated XP renderer in `Krypton.Toolkit` and typed bitmaps from `Krypton.Resources`.

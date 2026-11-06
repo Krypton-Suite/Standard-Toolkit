@@ -19,11 +19,13 @@ internal partial class VisualApplicationUpdateNotesForm : KryptonForm
     private KryptonApplicationUpdaterStrings _strings = new KryptonApplicationUpdaterStrings();
     private int _defaultDays = 1;
     private bool _allowSkip;
+    private int _baseClientHeight;
 
     /// <summary>Initializes the notes window.</summary>
     public VisualApplicationUpdateNotesForm()
     {
         InitializeComponent();
+        _baseClientHeight = ClientSize.Height;
         btnUpdate.Click += OnUpdateNow;
         btnRemind.Click += OnRemind;
         btnSkip.Click += OnSkip;
@@ -46,7 +48,8 @@ internal partial class VisualApplicationUpdateNotesForm : KryptonForm
     /// <param name="allowSkip">When false, Skip this version is hidden. When postpone is hidden, Skip is shown on this window.</param>
     /// <param name="defaultDays">Initial day count for the remind-later dialog.</param>
     /// <param name="failureMessage">When set, replaces the notes and hides Update now.</param>
-    internal void Bind(KryptonUpdatePackage? offer, Version current, IReadOnlyList<KryptonUpdatePackage> notes, KryptonApplicationUpdaterStrings strings, bool allowApply, bool allowPostpone, bool allowSkip, int defaultDays, string? failureMessage)
+    /// <param name="bannerImage">Optional banner image already loaded for <see cref="KryptonUpdateBanner.ImageUrl"/>.</param>
+    internal void Bind(KryptonUpdatePackage? offer, Version current, IReadOnlyList<KryptonUpdatePackage> notes, KryptonApplicationUpdaterStrings strings, bool allowApply, bool allowPostpone, bool allowSkip, int defaultDays, string? failureMessage, Image? bannerImage = null)
     {
         _offer = offer;
         _strings = strings ?? new KryptonApplicationUpdaterStrings();
@@ -67,6 +70,9 @@ internal partial class VisualApplicationUpdateNotesForm : KryptonForm
         btnRemind.Visible = offering && allowPostpone;
         btnSkip.Visible = offering && allowSkip && !allowPostpone;
         btnClose.Visible = true;
+        var bannerHeight = KryptonUpdatePresentation.ApplyBanner(bannerPanel, lblBanner, picBanner, offer?.Banner, bannerImage);
+        ClientSize = new Size(ClientSize.Width, _baseClientHeight + bannerHeight);
+        KryptonUpdatePresentation.ApplyPulse(this, offer?.Pulse);
         AcceptButton = offering ? btnUpdate : btnClose;
         CancelButton = btnClose;
         ActiveControl = offering ? btnUpdate : btnClose;

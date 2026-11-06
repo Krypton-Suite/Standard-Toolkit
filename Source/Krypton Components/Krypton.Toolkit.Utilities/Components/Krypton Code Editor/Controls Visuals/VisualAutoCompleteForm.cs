@@ -56,7 +56,7 @@ internal class VisualAutoCompleteForm : KryptonForm
                 _editor.RichTextBox.Focus();
                 e.Handled = true;
             }
-            else if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            else if (e.KeyCode is Keys.Up or Keys.Down)
             {
                 // Let listbox handle navigation
                 e.Handled = false;

@@ -28,7 +28,7 @@ public sealed class KryptonJsonManifestUpdateProvider : IKryptonUpdateProvider
     {
         if (string.IsNullOrWhiteSpace(_feedUrl))
         {
-            throw new KryptonUpdateException("Set FeedUrl to an https manifest or a local manifest file.");
+            KryptonUpdateThrowHelper.Throw("Set FeedUrl to an https manifest or a local manifest file.");
         }
 
         var json = await KryptonUpdateClient.ReadTextAsync(_feedUrl, null, null, cancellationToken).ConfigureAwait(false);

@@ -312,7 +312,7 @@ public class KryptonApplicationUpdater : Component
         {
             if (!KryptonUpdateVersion.TryParse(CurrentVersion, out var parsed))
             {
-                throw new KryptonUpdateException("CurrentVersion is not a System.Version value.");
+                KryptonUpdateThrowHelper.Throw("CurrentVersion is not a System.Version value.");
             }
 
             return parsed;
@@ -495,13 +495,13 @@ public class KryptonApplicationUpdater : Component
             var finished = await Task.Run(() => process.WaitForExit(10 * 60 * 1000), cancellationToken).ConfigureAwait(true);
             if (!finished)
             {
-                throw new KryptonUpdateException("The update helper did not finish.");
+                KryptonUpdateThrowHelper.Throw("The update helper did not finish.");
             }
 
             if (process.ExitCode != 0)
             {
                 var directory = Path.GetDirectoryName(process.StartInfo.FileName) ?? string.Empty;
-                throw new KryptonUpdateException(KryptonUpdateClient.ReadHelperResult(directory));
+                KryptonUpdateThrowHelper.Throw(KryptonUpdateClient.ReadHelperResult(directory));
             }
 
             return;
@@ -731,7 +731,7 @@ public class KryptonApplicationUpdater : Component
         Report(() =>
         {
             progressForm = new VisualApplicationUpdateProgressForm();
-            progressForm.Bind(Strings);
+            progressForm.Bind(Strings, package.Pulse);
             progressForm.SetFileName(PackageFileName(package.PackageUrl));
             progressForm.CancelClicked += delegate { CancelDownload(); };
             var owner = TryGetOwnerForm();
@@ -886,24 +886,33 @@ public class KryptonApplicationUpdater : Component
         var choice = KryptonUpdatePromptChoice.Dismiss;
         var chosen = TimeSpan.Zero;
         var days = DefaultPostponeDays(offer.MaximumPostponeDays);
-        Report(() =>
+        var bannerImage = LoadBannerImage(offer.Banner);
+        try
         {
-            using var form = new VisualApplicationUpdatePromptForm();
-            var allowPostpone = AllowPostpone && offer.AllowsPostpone;
-            form.Bind(offer, current, notes, Strings, allowPostpone, offer.AllowsSkip, days);
-            var owner = TryGetOwnerForm();
-            if (owner != null)
+            Report(() =>
             {
-                form.ShowDialog(owner);
-            }
-            else
-            {
-                form.ShowDialog();
-            }
+                using var form = new VisualApplicationUpdatePromptForm();
+                var allowPostpone = AllowPostpone && offer.AllowsPostpone;
+                form.Bind(offer, current, notes, Strings, allowPostpone, offer.AllowsSkip, days, bannerImage);
+                var owner = TryGetOwnerForm();
+                if (owner != null)
+                {
+                    form.ShowDialog(owner);
+                }
+                else
+                {
+                    form.ShowDialog();
+                }
 
-            choice = form.Choice;
-            chosen = form.PostponeFor;
-        });
+                choice = form.Choice;
+                chosen = form.PostponeFor;
+            });
+        }
+        finally
+        {
+            bannerImage?.Dispose();
+        }
+
         postponeFor = chosen;
         return choice;
     }
@@ -915,25 +924,44 @@ public class KryptonApplicationUpdater : Component
         var days = DefaultPostponeDays(offer != null ? offer.MaximumPostponeDays : KryptonUpdatePackage.DefaultMaximumPostponeDays);
         var allowPostpone = offer != null && AllowPostpone && offer.AllowsPostpone;
         var allowSkip = offer != null && offer.AllowsSkip;
-        Report(() =>
+        var bannerImage = LoadBannerImage(offer?.Banner);
+        try
         {
-            using var form = new VisualApplicationUpdateNotesForm();
-            form.Bind(offer, current, notes, Strings, allowApply, allowPostpone, allowSkip, days, failureMessage);
-            var owner = TryGetOwnerForm();
-            if (owner != null)
+            Report(() =>
             {
-                form.ShowDialog(owner);
-            }
-            else
-            {
-                form.ShowDialog();
-            }
+                using var form = new VisualApplicationUpdateNotesForm();
+                form.Bind(offer, current, notes, Strings, allowApply, allowPostpone, allowSkip, days, failureMessage, bannerImage);
+                var owner = TryGetOwnerForm();
+                if (owner != null)
+                {
+                    form.ShowDialog(owner);
+                }
+                else
+                {
+                    form.ShowDialog();
+                }
 
-            choice = form.Choice;
-            chosen = form.PostponeFor;
-        });
+                choice = form.Choice;
+                chosen = form.PostponeFor;
+            });
+        }
+        finally
+        {
+            bannerImage?.Dispose();
+        }
+
         postponeFor = chosen;
         return choice;
+    }
+
+    private static Image? LoadBannerImage(KryptonUpdateBanner? banner)
+    {
+        if (banner == null || banner.ImageUrl == null || string.IsNullOrWhiteSpace(banner.ImageUrl))
+        {
+            return null;
+        }
+
+        return KryptonUpdatePresentation.LoadBannerImageAsync(banner.ImageUrl).ConfigureAwait(false).GetAwaiter().GetResult();
     }
 
     private int DefaultPostponeDays(int maximumDays)

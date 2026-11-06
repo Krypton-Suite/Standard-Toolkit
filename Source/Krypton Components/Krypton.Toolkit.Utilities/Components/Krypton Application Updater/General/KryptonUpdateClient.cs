@@ -62,11 +62,45 @@ internal static class KryptonUpdateClient
 
         if (!IsHttps(location))
         {
-            throw new KryptonUpdateException("The update address must be https or a local file.");
+            KryptonUpdateThrowHelper.Throw("The update address must be https or a local file.");
         }
 
         using var response = await SendAsync(location, bearerToken, accept, null, cancellationToken).ConfigureAwait(false);
         return await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>Downloads at most <paramref name="maxBytes"/> from an https address. Throws when the response is larger.</summary>
+    /// <param name="location">HTTPS address.</param>
+    /// <param name="maxBytes">Upper bound for the body.</param>
+    /// <param name="cancellationToken">Cancels the copy.</param>
+    internal static async Task<byte[]> DownloadBytesAsync(string location, int maxBytes, CancellationToken cancellationToken)
+    {
+        if (!IsHttps(location))
+        {
+            KryptonUpdateThrowHelper.Throw("The banner image address must be https or a local file.");
+        }
+
+        using var response = await SendAsync(location, null, null, null, cancellationToken).ConfigureAwait(false);
+        if (response.Content.Headers.ContentLength.HasValue && response.Content.Headers.ContentLength.Value > maxBytes)
+        {
+            KryptonUpdateThrowHelper.Throw("The banner image is larger than " + maxBytes + " bytes.");
+        }
+
+        using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+        using var buffer = new MemoryStream(Math.Min(maxBytes, 64 * 1024));
+        var chunk = new byte[8192];
+        int read;
+        while ((read = await stream.ReadAsync(chunk, 0, chunk.Length, cancellationToken).ConfigureAwait(false)) > 0)
+        {
+            if (buffer.Length + read > maxBytes)
+            {
+                KryptonUpdateThrowHelper.Throw("The banner image is larger than " + maxBytes + " bytes.");
+            }
+
+            buffer.Write(chunk, 0, read);
+        }
+
+        return buffer.ToArray();
     }
 
     internal static async Task<string> DownloadPackageAsync(string location, IProgress<KryptonUpdateDownloadProgress>? progress, CancellationToken cancellationToken)
@@ -107,7 +141,7 @@ internal static class KryptonUpdateClient
 
         if (!IsHttps(location))
         {
-            throw new KryptonUpdateException("The package address must be https or a local file.");
+            KryptonUpdateThrowHelper.Throw("The package address must be https or a local file.");
         }
 
         long existing = 0;
@@ -149,7 +183,7 @@ internal static class KryptonUpdateClient
                 if (response.StatusCode != HttpStatusCode.OK &&
                     response.StatusCode != HttpStatusCode.PartialContent)
                 {
-                    throw new KryptonUpdateException("The server returned " + (int)response.StatusCode + ".");
+                    KryptonUpdateThrowHelper.Throw("The server returned " + (int)response.StatusCode + ".");
                 }
             }
 
@@ -173,7 +207,7 @@ internal static class KryptonUpdateClient
 
         if (!FixedTimeEquals(expected, actual))
         {
-            throw new KryptonUpdateException("The downloaded file does not match the expected SHA-256 hash.");
+            KryptonUpdateThrowHelper.Throw("The downloaded file does not match the expected SHA-256 hash.");
         }
 
         if (thumbprint == null || string.IsNullOrWhiteSpace(thumbprint))
@@ -191,14 +225,14 @@ internal static class KryptonUpdateClient
         }
         catch (Exception exception)
         {
-            throw new KryptonUpdateException("The downloaded file is not Authenticode-signed.", exception);
+            certificate = KryptonUpdateThrowHelper.Throw<X509Certificate2>("The downloaded file is not Authenticode-signed.", exception);
         }
 
         var actualThumb = (certificate.Thumbprint ?? string.Empty).Replace(" ", string.Empty);
         var expectedThumb = thumbprint.Replace(" ", string.Empty);
         if (!string.Equals(actualThumb, expectedThumb, StringComparison.OrdinalIgnoreCase))
         {
-            throw new KryptonUpdateException("The Authenticode certificate thumbprint does not match the manifest.");
+            KryptonUpdateThrowHelper.Throw("The Authenticode certificate thumbprint does not match the manifest.");
         }
     }
 
@@ -226,7 +260,7 @@ internal static class KryptonUpdateClient
 
         if (Process.Start(start) == null)
         {
-            throw new KryptonUpdateException("The installer did not start.");
+            KryptonUpdateThrowHelper.Throw("The installer did not start.");
         }
     }
 
@@ -247,7 +281,7 @@ internal static class KryptonUpdateClient
         });
         if (process == null)
         {
-            throw new KryptonUpdateException("The update helper did not start.");
+            KryptonUpdateThrowHelper.Throw("The update helper did not start.");
         }
 
         return process;
@@ -310,7 +344,7 @@ internal static class KryptonUpdateClient
                 response.Dispose();
                 if (next == null)
                 {
-                    throw new KryptonUpdateException("The server redirected without a location.");
+                    return KryptonUpdateThrowHelper.Throw<HttpResponseMessage>("The server redirected without a location.");
                 }
 
                 if (!next.IsAbsoluteUri)
@@ -320,7 +354,7 @@ internal static class KryptonUpdateClient
 
                 if (!string.Equals(next.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
                 {
-                    throw new KryptonUpdateException("Refusing a redirect that leaves https.");
+                    return KryptonUpdateThrowHelper.Throw<HttpResponseMessage>("Refusing a redirect that leaves https.");
                 }
 
                 current = next;
@@ -330,13 +364,13 @@ internal static class KryptonUpdateClient
             if (!response.IsSuccessStatusCode)
             {
                 response.Dispose();
-                throw new KryptonUpdateException("The server returned " + status + ".", status);
+                return KryptonUpdateThrowHelper.Throw<HttpResponseMessage>("The server returned " + status + ".", status);
             }
 
             return response;
         }
 
-        throw new KryptonUpdateException("The server redirected too many times.");
+        return KryptonUpdateThrowHelper.Throw<HttpResponseMessage>("The server redirected too many times.");
     }
 
     internal static string CreateDownloadPath(string location)
@@ -375,7 +409,7 @@ internal static class KryptonUpdateClient
         using var stream = assembly.GetManifestResourceStream(HelperResourceName);
         if (stream == null)
         {
-            throw new KryptonUpdateException("The update helper is not embedded in Krypton.Toolkit.Utilities. Rebuild the utilities project.");
+            KryptonUpdateThrowHelper.Throw("The update helper is not embedded in Krypton.Toolkit.Utilities. Rebuild the utilities project.");
         }
 
         var directory = Path.Combine(Path.GetTempPath(), "KryptonApplicationUpdater", Guid.NewGuid().ToString("N"));
@@ -439,7 +473,7 @@ internal static class KryptonUpdateClient
 
         if (hex.Length != 64)
         {
-            throw new KryptonUpdateException("sha256 must be 64 hex characters.");
+            KryptonUpdateThrowHelper.Throw("sha256 must be 64 hex characters.");
         }
 
         var bytes = new byte[32];
