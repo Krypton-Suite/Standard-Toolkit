@@ -1,4 +1,4 @@
-# Unit Test Scripts
+﻿# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
 plus CI assert scripts named `UnitTest-*.ps1`.
@@ -106,6 +106,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-4406MultilineEditorScreenshot.ps1` | Hosts `Feature3851RenderingDpiDemo`, opens the themed multiline text editor (#4406), and writes `Documents/PR/4406-multiline-string-editor.png` | `exclude` |
 | `Invoke-TableLayoutStyleEditorScreenshot.ps1` | Opens the themed Column and Row Styles dialog, checks insert/delete, Cancel, and OK, and writes `Documents/PR/table-layout-style-editor.png` | `exclude` |
 | `Invoke-SvgPictureBoxScreenshot.ps1` | Hosts `KryptonSVGPictureBoxDemo` (#4657) and writes `Documents/PR/4657-krypton-svg-picture-box.png`. | `exclude` |
+| `Invoke-FileOperationDialogScreenshot.ps1` | #4672 copies, conflicts, and deletes through `KryptonFileOperation`, and writes light (`Microsoft365Blue`) / dark (`Microsoft365BlackDarkMode`) progress, conflict, confirmation, and demo PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-ApplicationUpdaterScreenshot.ps1` | Hosts `ApplicationUpdaterDemo` (#4669), captures the update prompt and the up-to-date notes window, and checks a local zip extract | `exclude` |
 | `Invoke-ApplicationUpdaterRecoveryScreenshot.ps1` | Shows the updater progress window after an interrupted download (#4669) and writes `Documents/PR/4669-application-updater-recovery.png` | `exclude` |
 | `Invoke-ApplicationUpdaterWindowScreenshot.ps1` | Captures the compact update prompt, release notes, remind-later dialog, and expanded progress footer (#4669) | `exclude` |

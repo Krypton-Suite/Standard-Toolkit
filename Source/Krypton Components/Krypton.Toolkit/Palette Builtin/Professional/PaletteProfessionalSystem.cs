@@ -3805,6 +3805,8 @@ public class PaletteProfessionalSystem : PaletteBase
                 return ColorTable.OverflowButtonGradientEnd;
             case PaletteElement.TrackBarPosition:
                 return Color.FromArgb(128, Color.White);
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -3843,6 +3845,8 @@ public class PaletteProfessionalSystem : PaletteBase
                     PaletteState.Pressed => ColorTable.ButtonPressedBorder,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -3881,6 +3885,8 @@ public class PaletteProfessionalSystem : PaletteBase
                     PaletteState.Pressed => ControlPaint.Light(ColorTable.ButtonPressedGradientBegin),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -3929,6 +3935,8 @@ public class PaletteProfessionalSystem : PaletteBase
                     PaletteState.Pressed => ColorTable.ButtonPressedGradientBegin,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -3977,6 +3985,8 @@ public class PaletteProfessionalSystem : PaletteBase
                     PaletteState.Pressed => ColorTable.ButtonPressedGradientEnd,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
