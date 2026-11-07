@@ -254,4 +254,10 @@ public sealed class PaletteMicrosoft365DarkGray_BaseScheme : KryptonColorSchemeB
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(206, 200, 215);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(80, 81, 82);
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(190, 187, 184);
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(222, 227, 234);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(111, 112, 116);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(111, 112, 116);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(139, 136, 134);
+
 }

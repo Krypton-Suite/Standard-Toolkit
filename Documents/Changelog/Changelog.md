@@ -49,6 +49,7 @@
 - Implemented [#4672](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4672), `KryptonFileOperation` copies, moves, renames, and deletes through the shell and shows Krypton progress, name-conflict, recycle, and permanent-delete dialogs.
   - The progress dialog offers More details / Fewer details, swapping the progress bar for a theme-aware `KryptonTransferSpeedGraph` transfer-rate chart from `Krypton.Toolkit.Utilities`.
   - `KryptonTransferSpeedGraph` colours inherit from `PaletteElement.TransferSpeedGraph` (plot, series, grid, frame, label) with `StateCommon` / `StateNormal` / `StateDisabled` element-colour overrides.
+  - Transfer-speed graph colours are also `SchemeBaseColors` slots (`TransferSpeedGraphPlot` / `Series` / `Grid` / `Border` / `Label`) so themes and `SetSchemeColor` can edit them.
   - `KryptonTransferSpeedGraph` exposes window `Peak` and `Trough` (bytes/sec); `SpeedLabelFormat` may use `{0}` current, `{1}` peak, and `{2}` trough rate strings.
   - Dialogs show an optional Windows-style icon banner (`KryptonFileOperation.ShowBanners`, default `true`; standalone `Show` methods take `showBanner`).
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as these dialogs are part of the `Krypton.Dialogs` assembly.

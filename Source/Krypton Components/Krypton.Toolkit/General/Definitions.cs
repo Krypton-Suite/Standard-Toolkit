@@ -4514,7 +4514,22 @@ public enum SchemeBaseColors
     TextListItem = 241,
 
     /// <summary>Text color for tool strips. Empty inherits the ColorTable family fallback (often StatusStripText).</summary>
-    ToolStripText = 242
+    ToolStripText = 242,
+
+    /// <summary>Plot background for the transfer-speed graph.</summary>
+    TransferSpeedGraphPlot = 243,
+
+    /// <summary>Series fill for the transfer-speed graph.</summary>
+    TransferSpeedGraphSeries = 244,
+
+    /// <summary>Grid lines for the transfer-speed graph.</summary>
+    TransferSpeedGraphGrid = 245,
+
+    /// <summary>Chart frame border for the transfer-speed graph.</summary>
+    TransferSpeedGraphBorder = 246,
+
+    /// <summary>Speed-label text for the transfer-speed graph.</summary>
+    TransferSpeedGraphLabel = 247
 }
 
 #endregion

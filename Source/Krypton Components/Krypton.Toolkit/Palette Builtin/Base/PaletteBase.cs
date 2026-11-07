@@ -1816,14 +1816,37 @@ public abstract class PaletteBase : Component
     public abstract Color GetElementColor5(PaletteElement element, PaletteState state);
 
     /// <summary>
-    /// Resolves transfer-speed graph colours from existing panel, accent, border, and label styles.
+    /// Resolves transfer-speed graph colours from <see cref="SchemeBaseColors"/> slots when set;
+    /// otherwise falls back to panel, accent, border, and label styles.
     /// Color1 = plot, Color2 = series, Color3 = grid, Color4 = frame, Color5 = speed label.
     /// </summary>
     /// <param name="colorIndex">One-based colour slot (1–5).</param>
     /// <param name="state">Palette state.</param>
     /// <returns>Theme colour for the graph role.</returns>
-    protected Color GetTransferSpeedGraphElementColor(int colorIndex, PaletteState state) =>
-        colorIndex switch
+    protected Color GetTransferSpeedGraphElementColor(int colorIndex, PaletteState state)
+    {
+        SchemeBaseColors slot = colorIndex switch
+        {
+            1 => SchemeBaseColors.TransferSpeedGraphPlot,
+            2 => SchemeBaseColors.TransferSpeedGraphSeries,
+            3 => SchemeBaseColors.TransferSpeedGraphGrid,
+            4 => SchemeBaseColors.TransferSpeedGraphBorder,
+            5 => SchemeBaseColors.TransferSpeedGraphLabel,
+            _ => (SchemeBaseColors)(-1)
+        };
+
+        if ((int)slot >= 0)
+        {
+            Color fromScheme = SchemeBaseColorsExtensions.Get(SchemeColors, slot);
+            if (!SchemeBaseColorsExtensions.IsEmptySchemeColor(fromScheme))
+            {
+                return state == PaletteState.Disabled
+                    ? ControlPaint.Light(fromScheme)
+                    : fromScheme;
+            }
+        }
+
+        return colorIndex switch
         {
             1 => GetBackColor1(PaletteBackStyle.PanelClient, state),
             // Checked button back is a high-contrast accent on both light and dark families.
@@ -1834,6 +1857,7 @@ public abstract class PaletteBase : Component
             5 => GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state),
             _ => Color.Red
         };
+    }
     #endregion
 
     #region DragDrop

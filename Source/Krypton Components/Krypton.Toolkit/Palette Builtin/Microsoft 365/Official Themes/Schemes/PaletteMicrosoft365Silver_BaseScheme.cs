@@ -254,4 +254,10 @@ public sealed class PaletteMicrosoft365Silver_BaseScheme : KryptonColorSchemeBas
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(206, 200, 215);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(80, 81, 82);
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(227, 230, 232);
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(222, 227, 234);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(161, 169, 179);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(161, 169, 179);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(59, 59, 59);
+
 }
