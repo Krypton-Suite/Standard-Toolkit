@@ -4514,7 +4514,31 @@ public enum SchemeBaseColors
     TextListItem = 241,
 
     /// <summary>Text color for tool strips. Empty inherits the ColorTable family fallback (often StatusStripText).</summary>
-    ToolStripText = 242
+    ToolStripText = 242,
+
+    /// <summary>Equalizer face / panel fill behind the bars.</summary>
+    EqualizerFace = 243,
+
+    /// <summary>Equalizer band frequency labels.</summary>
+    EqualizerLabel = 244,
+
+    /// <summary>Equalizer lit bars in the lower third of the scale.</summary>
+    EqualizerLow = 245,
+
+    /// <summary>Equalizer lit bars in the middle third of the scale.</summary>
+    EqualizerMid = 246,
+
+    /// <summary>Equalizer lit bars in the upper third / overload of the scale.</summary>
+    EqualizerHigh = 247,
+
+    /// <summary>Equalizer unlit segments.</summary>
+    EqualizerOff = 248,
+
+    /// <summary>Equalizer peak-hold marks.</summary>
+    EqualizerPeak = 249,
+
+    /// <summary>Equalizer interactive gain thumbs.</summary>
+    EqualizerThumb = 250
 }
 
 #endregion

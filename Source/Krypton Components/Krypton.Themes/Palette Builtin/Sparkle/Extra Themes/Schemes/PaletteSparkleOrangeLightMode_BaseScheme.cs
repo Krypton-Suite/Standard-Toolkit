@@ -254,4 +254,12 @@ public sealed class PaletteSparkleOrangeLightMode_BaseScheme : KryptonColorSchem
     public override Color TrackBarFillTrack                { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
     public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
     public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb( 83, 83, 83);
+    public override Color EqualizerLabel                   { get; set; } = Color.FromArgb( 92, 83, 76);
+    public override Color EqualizerLow                     { get; set; } = Color.FromArgb( 92, 83, 76);
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb( 70, 70, 70);
+    public override Color EqualizerHigh                    { get; set; } = Color.Black;
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(133, 135, 137);
+    public override Color EqualizerPeak                    { get; set; } = Color.Black;
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(223, 213, 203);
 }

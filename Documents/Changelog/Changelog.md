@@ -46,6 +46,9 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4660](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4660), `KryptonEqualizer` multi-band spectrum display with interactive gain thumbs. Set band levels yourself, or capture the default recording device (FFT). Capture updates spectrum levels only; gains stay under application or user control.
+  - Equalizer face, label, low/mid/high, off, peak, and thumb colours are scheme-driven (`SchemeBaseColors.EqualizerFace` … `EqualizerThumb`) in Standard Toolkit and Themes schemes, with the previous palette redirects as empty-slot fallbacks. Per-control `StateCommon` overrides still win.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.
 - Implemented [#4218](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4218), Step timeline (`KryptonTimeline`) and date timeline (`KryptonDateTimeline`) in the `Krypton.Charting` assembly.
   - `Style` is `Chart` (row bars and milestone diamonds) or `Vis` (stacked boxes above a bottom axis, in the style of vis.js Timeline). A single date in `Vis` is a box with a stem to the axis. Overlapping items stack. `Row` applies to `Chart` only.
   - Drag a step to reorder it. Drag a date item to move its dates; Chart style also changes the row. Dragging a date item turns auto range off, the same as panning. Set `AllowMove` to false to keep items fixed.

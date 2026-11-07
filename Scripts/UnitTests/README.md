@@ -260,6 +260,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR assets; do not commit). That capture leaves Play music off.
 
 ```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-EqualizerScreenshot.ps1
+```
+
+Writes `Documents/PR/4660-krypton-equalizer-default-light.png` and `…-dark.png` (local PR assets; do not commit).
+
+```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-VuMeterMusic.ps1
 ```
 

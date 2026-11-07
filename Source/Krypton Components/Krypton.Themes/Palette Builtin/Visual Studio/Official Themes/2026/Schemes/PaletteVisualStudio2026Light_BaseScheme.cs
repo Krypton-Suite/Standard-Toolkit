@@ -264,4 +264,12 @@ public sealed class PaletteVisualStudio2026Light_BaseScheme : KryptonColorScheme
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(86, 73, 176);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.Black);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(100, 100, 100);
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb(238, 238, 238);
+    public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color EqualizerLow                     { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color EqualizerHigh                    { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(218, 218, 218);
+    public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(230, 230, 230);
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(249, 249, 249);
 }
