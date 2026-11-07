@@ -105,5 +105,14 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         LinkVisitedOverridePanel = Color.FromArgb(255, 170, 255);
         LinkPressedOverridePanel = Color.FromArgb(255, 85, 85);
         LinkNotVisitedOverrideControl = DosYellow;
+
+        EqualizerFace = DosBlue;
+        EqualizerLabel = Color.White;
+        EqualizerLow = Color.White;
+        EqualizerMid = Color.White;
+        EqualizerHigh = DosYellow;
+        EqualizerOff = Color.FromArgb(192, 192, 192);
+        EqualizerPeak = DosYellow;
+        EqualizerThumb = DosCyan;
     }
 }

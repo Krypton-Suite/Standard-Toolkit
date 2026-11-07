@@ -246,7 +246,7 @@ public sealed class EmptySchemeBase : KryptonColorSchemeBase
     public override Color MenuMarginGradientMiddle         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color MenuMarginGradientEnd            { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color DisabledMenuItemText             { get; set; } = SharedStaticVariables.EMPTY_COLOR;
-    public override Color MenuStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color ToolStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTickMarks                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTopTrack                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
@@ -254,4 +254,12 @@ public sealed class EmptySchemeBase : KryptonColorSchemeBase
     public override Color TrackBarFillTrack                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color EqualizerFace                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color EqualizerLabel                   { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color EqualizerLow                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color EqualizerMid                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color EqualizerHigh                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color EqualizerOff                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color EqualizerPeak                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color EqualizerThumb                   { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }

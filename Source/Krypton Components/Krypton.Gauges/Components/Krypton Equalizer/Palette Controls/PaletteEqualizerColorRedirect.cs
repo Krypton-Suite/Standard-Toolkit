@@ -60,11 +60,18 @@ internal sealed class PaletteEqualizerColorInheritRedirect : PaletteElementColor
     /// <inheritdoc />
     public override Color GetElementColor1(PaletteState state)
     {
+        // Disabled lit / label / peak / thumb colours stay muted even when a scheme slot is set.
         if (state == PaletteState.Disabled &&
             _color != EqualizerPaletteColor.Face &&
             _color != EqualizerPaletteColor.Off)
         {
             return _redirect.GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state);
+        }
+
+        Color scheme = _redirect.GetSchemeColor(GetSchemeSlot());
+        if (!SchemeBaseColorsExtensions.IsEmptySchemeColor(scheme))
+        {
+            return scheme;
         }
 
         switch (_color)
@@ -100,6 +107,31 @@ internal sealed class PaletteEqualizerColorInheritRedirect : PaletteElementColor
 
     /// <inheritdoc />
     public override Color GetElementColor5(PaletteState state) => GetElementColor1(state);
+
+    private SchemeBaseColors GetSchemeSlot()
+    {
+        switch (_color)
+        {
+            case EqualizerPaletteColor.Face:
+                return SchemeBaseColors.EqualizerFace;
+            case EqualizerPaletteColor.Label:
+                return SchemeBaseColors.EqualizerLabel;
+            case EqualizerPaletteColor.Low:
+                return SchemeBaseColors.EqualizerLow;
+            case EqualizerPaletteColor.Mid:
+                return SchemeBaseColors.EqualizerMid;
+            case EqualizerPaletteColor.High:
+                return SchemeBaseColors.EqualizerHigh;
+            case EqualizerPaletteColor.Off:
+                return SchemeBaseColors.EqualizerOff;
+            case EqualizerPaletteColor.Peak:
+                return SchemeBaseColors.EqualizerPeak;
+            case EqualizerPaletteColor.Thumb:
+                return SchemeBaseColors.EqualizerThumb;
+            default:
+                return SchemeBaseColors.EqualizerOff;
+        }
+    }
 }
 
 /// <summary>

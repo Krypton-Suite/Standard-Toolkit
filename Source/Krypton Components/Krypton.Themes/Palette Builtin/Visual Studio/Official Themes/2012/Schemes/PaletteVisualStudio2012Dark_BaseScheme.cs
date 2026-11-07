@@ -254,4 +254,12 @@ public sealed class PaletteVisualStudio2012Dark_BaseScheme : KryptonColorSchemeB
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(131, 132, 132);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(35, 35, 35);
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb(45, 45, 48);
+    public override Color EqualizerLabel                   { get; set; } = Color.White;
+    public override Color EqualizerLow                     { get; set; } = Color.White;
+    public override Color EqualizerMid                     { get; set; } = Color.White;
+    public override Color EqualizerHigh                    { get; set; } = Color.White;
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(137, 135, 133);
+    public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(137, 137, 137);
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(45, 45, 48);
 }
