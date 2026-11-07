@@ -51,6 +51,7 @@
   - `KryptonTransferSpeedGraph` colours inherit from `PaletteElement.TransferSpeedGraph` (plot, series, grid, frame, label) with `StateCommon` / `StateNormal` / `StateDisabled` element-colour overrides.
   - Transfer-speed graph colours are also `SchemeBaseColors` slots (`TransferSpeedGraphPlot` / `Series` / `Grid` / `Border` / `Label`) so themes and `SetSchemeColor` can edit them.
   - `KryptonTransferSpeedGraph` exposes window `Peak` and `Trough` (bytes/sec); `SpeedLabelFormat` may use `{0}` current, `{1}` peak, and `{2}` trough rate strings.
+  - `SpeedGraphValues.ShowGrid` toggles the chart grid (default `true`).
   - Dialogs show an optional Windows-style icon banner (`KryptonFileOperation.ShowBanners`, default `true`; standalone `Show` methods take `showBanner`).
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as these dialogs are part of the `Krypton.Dialogs` assembly.
 - Implemented [#4218](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4218), Step timeline (`KryptonTimeline`) and date timeline (`KryptonDateTimeline`) in the `Krypton.Charting` assembly.

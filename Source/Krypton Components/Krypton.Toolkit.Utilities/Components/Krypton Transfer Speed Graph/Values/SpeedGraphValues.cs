@@ -27,6 +27,7 @@ public class SpeedGraphValues : Storage
     private readonly KryptonTransferSpeedGraph _owner;
     private int _capacity;
     private bool _paused;
+    private bool _showGrid;
     private bool _showSpeedLabel;
     private string _speedLabelFormat;
 
@@ -43,6 +44,7 @@ public class SpeedGraphValues : Storage
         _owner = owner ?? throw new ArgumentNullException(nameof(owner));
         _capacity = DefaultCapacityValue;
         _paused = false;
+        _showGrid = true;
         _showSpeedLabel = true;
         _speedLabelFormat = DefaultSpeedLabelFormatValue;
     }
@@ -56,6 +58,7 @@ public class SpeedGraphValues : Storage
     public override bool IsDefault =>
         Capacity == DefaultCapacityValue &&
         !Paused &&
+        ShowGrid &&
         ShowSpeedLabel &&
         SpeedLabelFormat == DefaultSpeedLabelFormatValue;
 
@@ -106,6 +109,27 @@ public class SpeedGraphValues : Storage
             }
 
             _paused = value;
+            _owner.OnSpeedGraphValuesChanged();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether the chart grid lines are drawn.
+    /// </summary>
+    [Category(@"Appearance")]
+    [DefaultValue(true)]
+    [Description(@"Shows horizontal and vertical grid lines behind the series.")]
+    public bool ShowGrid
+    {
+        get => _showGrid;
+        set
+        {
+            if (_showGrid == value)
+            {
+                return;
+            }
+
+            _showGrid = value;
             _owner.OnSpeedGraphValuesChanged();
         }
     }
@@ -169,6 +193,7 @@ public class SpeedGraphValues : Storage
     {
         Capacity = DefaultCapacityValue;
         Paused = false;
+        ShowGrid = true;
         ShowSpeedLabel = true;
         SpeedLabelFormat = DefaultSpeedLabelFormatValue;
     }

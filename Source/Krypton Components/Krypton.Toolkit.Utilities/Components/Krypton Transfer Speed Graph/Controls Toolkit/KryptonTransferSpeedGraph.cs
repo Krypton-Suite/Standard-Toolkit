@@ -208,8 +208,6 @@ public class KryptonTransferSpeedGraph : Control
 
         Color back = ResolveColor(state.Plot.GetElementColor1(paletteState), SystemColors.Window);
         Color border = ResolveColor(state.Border.GetElementColor1(paletteState), SystemColors.ControlDark);
-        Color gridSource = ResolveColor(state.Grid.GetElementColor1(paletteState), border);
-        Color grid = Color.FromArgb(60, gridSource.R, gridSource.G, gridSource.B);
         Color fill = EnsureSeriesContrast(ResolveColor(state.Series.GetElementColor1(paletteState), Color.SeaGreen), back);
         Color text = ResolveColor(state.Label.GetElementColor1(paletteState), SystemColors.WindowText);
 
@@ -225,25 +223,30 @@ public class KryptonTransferSpeedGraph : Control
             return;
         }
 
-        int midY = chart.Top + (chart.Height / 2);
-        using (var gridPen = new Pen(grid))
+        if (Values.ShowGrid)
         {
-            g.DrawLine(gridPen, chart.Left, midY, chart.Right, midY);
-            int stepX = Math.Max(12, chart.Width / 8);
-            for (int x = chart.Left + stepX; x < chart.Right; x += stepX)
+            Color gridSource = ResolveColor(state.Grid.GetElementColor1(paletteState), border);
+            Color grid = Color.FromArgb(60, gridSource.R, gridSource.G, gridSource.B);
+            int midY = chart.Top + (chart.Height / 2);
+            using (var gridPen = new Pen(grid))
             {
-                g.DrawLine(gridPen, x, chart.Top, x, chart.Bottom);
-            }
-
-            int stepY = Math.Max(12, chart.Height / 4);
-            for (int y = chart.Top + stepY; y < chart.Bottom; y += stepY)
-            {
-                if (y == midY)
+                g.DrawLine(gridPen, chart.Left, midY, chart.Right, midY);
+                int stepX = Math.Max(12, chart.Width / 8);
+                for (int x = chart.Left + stepX; x < chart.Right; x += stepX)
                 {
-                    continue;
+                    g.DrawLine(gridPen, x, chart.Top, x, chart.Bottom);
                 }
 
-                g.DrawLine(gridPen, chart.Left, y, chart.Right, y);
+                int stepY = Math.Max(12, chart.Height / 4);
+                for (int y = chart.Top + stepY; y < chart.Bottom; y += stepY)
+                {
+                    if (y == midY)
+                    {
+                        continue;
+                    }
+
+                    g.DrawLine(gridPen, chart.Left, y, chart.Right, y);
+                }
             }
         }
 
