@@ -259,5 +259,12 @@ public sealed class PaletteSparkleBlueDarkMode_BaseScheme : KryptonColorSchemeBa
     public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb( 30, 30, 30);
     public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb( 30, 30, 30);
     public override Color TransferSpeedGraphLabel          { get; set; } = Color.White;
- // missing value
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb( 83, 83, 83);
+    public override Color EqualizerLabel                   { get; set; } = Color.White;
+    public override Color EqualizerLow                     { get; set; } = Color.White;
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb( 70, 70, 70);
+    public override Color EqualizerHigh                    { get; set; } = Color.Black;
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(137, 135, 133);
+    public override Color EqualizerPeak                    { get; set; } = Color.Black;
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(203, 213, 223);
 }

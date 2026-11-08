@@ -259,5 +259,12 @@ public sealed class PaletteMicrosoft365BlueDarkMode_BaseScheme : KryptonColorSch
     public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(101, 147, 207);
     public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(101, 147, 207);
     public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(21, 66, 139);
-
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb(134, 179, 236);
+    public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(21, 66, 139);
+    public override Color EqualizerLow                     { get; set; } = Color.FromArgb(21, 66, 139);
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb(21, 66, 139);
+    public override Color EqualizerHigh                    { get; set; } = Color.Blue;
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(161, 189, 207);
+    public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(208, 226, 248);
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(210, 225, 244);
 }

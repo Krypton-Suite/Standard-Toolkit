@@ -111,5 +111,13 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         TransferSpeedGraphGrid = Color.Black;
         TransferSpeedGraphBorder = Color.Black;
         TransferSpeedGraphLabel = Color.White;
+        EqualizerFace = DosBlue;
+        EqualizerLabel = Color.White;
+        EqualizerLow = Color.White;
+        EqualizerMid = Color.White;
+        EqualizerHigh = DosYellow;
+        EqualizerOff = Color.FromArgb(192, 192, 192);
+        EqualizerPeak = DosYellow;
+        EqualizerThumb = DosCyan;
     }
 }

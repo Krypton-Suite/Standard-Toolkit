@@ -259,5 +259,12 @@ public sealed class PaletteMicrosoft365SilverLightMode_BaseScheme : KryptonColor
     public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(111, 112, 116);
     public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(111, 112, 116);
     public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(24, 24, 24);
-
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb(224, 225, 231);
+    public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(24, 24, 24);
+    public override Color EqualizerLow                     { get; set; } = Color.FromArgb(24, 24, 24);
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb(24, 24, 24);
+    public override Color EqualizerHigh                    { get; set; } = Color.FromArgb(24, 24, 24);
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(141, 148, 157);
+    public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(237, 242, 248);
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(224, 225, 231);
 }

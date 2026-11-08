@@ -4529,7 +4529,31 @@ public enum SchemeBaseColors
     TransferSpeedGraphBorder = 246,
 
     /// <summary>Speed-label text for the transfer-speed graph.</summary>
-    TransferSpeedGraphLabel = 247
+    TransferSpeedGraphLabel = 247,
+
+    /// <summary>Equalizer face / panel fill behind the bars.</summary>
+    EqualizerFace = 248,
+
+    /// <summary>Equalizer band frequency labels.</summary>
+    EqualizerLabel = 249,
+
+    /// <summary>Equalizer lit bars in the lower third of the scale.</summary>
+    EqualizerLow = 250,
+
+    /// <summary>Equalizer lit bars in the middle third of the scale.</summary>
+    EqualizerMid = 251,
+
+    /// <summary>Equalizer lit bars in the upper third / overload of the scale.</summary>
+    EqualizerHigh = 252,
+
+    /// <summary>Equalizer unlit segments.</summary>
+    EqualizerOff = 253,
+
+    /// <summary>Equalizer peak-hold marks.</summary>
+    EqualizerPeak = 254,
+
+    /// <summary>Equalizer interactive gain thumbs.</summary>
+    EqualizerThumb = 255
 }
 
 #endregion

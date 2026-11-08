@@ -46,6 +46,9 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4660](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4660), `KryptonEqualizer` multi-band spectrum display with interactive gain thumbs. Set band levels yourself, or capture the default recording device (FFT). Capture updates spectrum levels only; gains stay under application or user control.
+  - Equalizer face, label, low/mid/high, off, peak, and thumb colours are scheme-driven (`SchemeBaseColors.EqualizerFace` … `EqualizerThumb`) in Standard Toolkit and Themes schemes, with the previous palette redirects as empty-slot fallbacks. Per-control `StateCommon` overrides still win.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.
 - Implemented [#4656](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4656), Analogue gauges in `Krypton.Gauges`: circular needle, linear bar, rectangular (solid or segmented), thermometer (bulb + tube), and ampere meter (square panel, AC or DC center-zero) indicators that share value/range/palette settings, optional animation, and optional interactive input.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.
 - Implemented [#4672](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4672), `KryptonFileOperation` copies, moves, renames, and deletes through the shell and shows Krypton progress, name-conflict, recycle, and permanent-delete dialogs.

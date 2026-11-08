@@ -261,6 +261,14 @@ public abstract class KryptonColorSchemeBase
     public abstract Color TransferSpeedGraphGrid           { get; set; }
     public abstract Color TransferSpeedGraphBorder         { get; set; }
     public abstract Color TransferSpeedGraphLabel          { get; set; }
+    public abstract Color EqualizerFace                    { get; set; }
+    public abstract Color EqualizerLabel                   { get; set; }
+    public abstract Color EqualizerLow                     { get; set; }
+    public abstract Color EqualizerMid                     { get; set; }
+    public abstract Color EqualizerHigh                    { get; set; }
+    public abstract Color EqualizerOff                     { get; set; }
+    public abstract Color EqualizerPeak                    { get; set; }
+    public abstract Color EqualizerThumb                   { get; set; }
 
     #endregion
 }

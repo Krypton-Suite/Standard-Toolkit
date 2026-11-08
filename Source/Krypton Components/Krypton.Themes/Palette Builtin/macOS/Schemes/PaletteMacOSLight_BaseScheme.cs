@@ -262,5 +262,12 @@ public sealed class PaletteMacOSLight_BaseScheme : KryptonColorSchemeBase
     public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(174, 174, 178);
     public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(174, 174, 178);
     public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(29, 29, 31);
-
+    public override Color EqualizerFace { get; set; } = Color.FromArgb(245, 245, 247);
+    public override Color EqualizerLabel { get; set; } = Color.FromArgb(29, 29, 31);
+    public override Color EqualizerLow { get; set; } = Color.FromArgb(29, 29, 31);
+    public override Color EqualizerMid { get; set; } = Color.FromArgb(29, 29, 31);
+    public override Color EqualizerHigh { get; set; } = Color.FromArgb(0, 122, 255);
+    public override Color EqualizerOff { get; set; } = Color.FromArgb(209, 209, 214);
+    public override Color EqualizerPeak { get; set; } = Color.FromArgb(208, 226, 248);
+    public override Color EqualizerThumb { get; set; } = Color.FromArgb(245, 245, 247);
 }

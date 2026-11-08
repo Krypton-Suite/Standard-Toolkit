@@ -95,6 +95,12 @@
     <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.Designer.cs">
       <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonEqualizerDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonEqualizerDemo.Designer.cs">
+      <DependentUpon>KryptonEqualizerDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -290,6 +296,10 @@
     <EmbeddedResource Update="KryptonGauges\Feature\KryptonVuMeterDemo.resx">
       <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
       <LogicalName>TestForm.KryptonVuMeterDemo.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonGauges\Feature\KryptonEqualizerDemo.resx">
+      <DependentUpon>KryptonEqualizerDemo.cs</DependentUpon>
+      <LogicalName>TestForm.KryptonEqualizerDemo.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.resx">
       <DependentUpon>KryptonAnalogueGaugeDemo.cs</DependentUpon>

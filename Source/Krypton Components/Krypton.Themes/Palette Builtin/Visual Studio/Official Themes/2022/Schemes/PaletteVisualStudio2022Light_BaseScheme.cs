@@ -269,5 +269,12 @@ public sealed class PaletteVisualStudio2022Light_BaseScheme : KryptonColorScheme
     public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(204, 206, 219);
     public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(204, 206, 219);
     public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(30, 30, 30);
-
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb(238, 238, 238);
+    public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color EqualizerLow                     { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color EqualizerHigh                    { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(204, 206, 219);
+    public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(230, 230, 230);
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(245, 245, 245);
 }

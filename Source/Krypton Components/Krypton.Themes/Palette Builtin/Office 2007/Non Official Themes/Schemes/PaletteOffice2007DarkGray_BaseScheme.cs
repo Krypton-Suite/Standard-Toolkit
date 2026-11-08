@@ -259,5 +259,12 @@ public sealed class PaletteOffice2007DarkGray_BaseScheme : KryptonColorSchemeBas
     public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(111, 112, 116);
     public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(111, 112, 116);
     public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(119, 119, 119);
-
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb(212, 212, 212);
+    public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(119, 119, 119);
+    public override Color EqualizerLow                     { get; set; } = Color.FromArgb(119, 119, 119);
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb(255, 255, 255);
+    public override Color EqualizerHigh                    { get; set; } = Color.Black;
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(141, 148, 157);
+    public override Color EqualizerPeak                    { get; set; } = Color.Black;
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(212, 212, 212);
 }
