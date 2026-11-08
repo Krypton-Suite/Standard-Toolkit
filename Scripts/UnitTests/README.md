@@ -260,6 +260,15 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 
 Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR assets; do not commit). That capture leaves Play music off.
 
+### Analogue gauges (#4656)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-AnalogueGaugeScreenshot.ps1
+```
+
+Writes `Documents/PR/4656-analogue-gauges-default-light.png` and `…-dark.png` (Microsoft 365 Blue / Black Dark Mode; local PR assets; do not commit).
+
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-VuMeterMusic.ps1
 ```

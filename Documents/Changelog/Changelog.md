@@ -46,6 +46,8 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4656](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4656), Analogue gauges in `Krypton.Gauges`: circular needle, linear bar, rectangular (solid or segmented), thermometer (bulb + tube), and ampere meter (square panel, AC or DC center-zero) indicators that share value/range/palette settings, optional animation, and optional interactive input.
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.
 - Implemented [#4672](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4672), `KryptonFileOperation` copies, moves, renames, and deletes through the shell and shows Krypton progress, name-conflict, recycle, and permanent-delete dialogs.
   - The progress dialog offers More details / Fewer details, swapping the progress bar for a theme-aware `KryptonTransferSpeedGraph` transfer-rate chart from `Krypton.Toolkit.Utilities`.
   - `KryptonTransferSpeedGraph` colours inherit from `PaletteElement.TransferSpeedGraph` (plot, series, grid, frame, label) with `StateCommon` / `StateNormal` / `StateDisabled` element-colour overrides.

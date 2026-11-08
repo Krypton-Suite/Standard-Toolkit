@@ -95,6 +95,12 @@
     <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.Designer.cs">
       <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.Designer.cs">
+      <DependentUpon>KryptonAnalogueGaugeDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -284,6 +290,10 @@
     <EmbeddedResource Update="KryptonGauges\Feature\KryptonVuMeterDemo.resx">
       <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
       <LogicalName>TestForm.KryptonVuMeterDemo.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.resx">
+      <DependentUpon>KryptonAnalogueGaugeDemo.cs</DependentUpon>
+      <LogicalName>TestForm.KryptonAnalogueGaugeDemo.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
