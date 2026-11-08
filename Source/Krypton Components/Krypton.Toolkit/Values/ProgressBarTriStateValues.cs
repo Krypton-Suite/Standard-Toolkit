@@ -47,6 +47,7 @@ public class ProgressBarTriStateValues : Storage
         _high = new ProgressBarTriStateRegionAppearanceValues(this, Color.Green);
 
         Reset();
+        RefreshSchemeDefaults();
     }
 
     /// <summary>
@@ -56,6 +57,16 @@ public class ProgressBarTriStateValues : Storage
     {
         _owner.UpdateThresholdColor();
         PerformNeedPaint(true);
+    }
+
+    /// <summary>
+    /// Restamps Low/Medium/High factory fills from the owner's current scheme slots.
+    /// </summary>
+    internal void RefreshSchemeDefaults()
+    {
+        _low.ApplySchemeFactoryColor(_owner.ResolveProgressBarLowColor());
+        _medium.ApplySchemeFactoryColor(_owner.ResolveProgressBarMediumColor());
+        _high.ApplySchemeFactoryColor(_owner.ResolveProgressBarHighColor());
     }
 
     #endregion

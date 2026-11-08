@@ -46,6 +46,9 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4684](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4684), `KryptonProgressBar` `SchemeBaseColors` slots
+  - `KryptonProgressBar` fill colours are scheme-driven via `SchemeBaseColors.ProgressBarValue`, `ProgressBarLow`, `ProgressBarMedium`, and `ProgressBarHigh`. Builtin schemes leave Value/High empty so the fill follows `TrackBarFillTrack` (theme accent); Low/Medium default to Red/Orange; empty Value/High ultimately fall back to Green. Per-control `StateCommon.Back.Color1` and tri-state region overrides still win.
+  - Materialize schemes map `ProgressBarValue` / `ProgressBarHigh` to the accent ramp (`header1` light / `panelAccent` dark); Low/Medium stay Red/Orange.
 - Implemented [#4660](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4660), `KryptonEqualizer` multi-band spectrum display with interactive gain thumbs. Set band levels yourself, or capture the default recording device (FFT). Capture updates spectrum levels only; gains stay under application or user control.
   - Equalizer face, label, low/mid/high, off, peak, and thumb colours are scheme-driven (`SchemeBaseColors.EqualizerFace` … `EqualizerThumb`) in Standard Toolkit and Themes schemes, with the previous palette redirects as empty-slot fallbacks. Per-control `StateCommon` overrides still win.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.

@@ -267,4 +267,8 @@ public sealed class PaletteOffice2010Black_BaseScheme : KryptonColorSchemeBase
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(106, 106, 106);
     public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(137, 137, 137);
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(189, 189, 189);
+    public override Color ProgressBarValue                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarLow                   { get; set; } = Color.Red;
+    public override Color ProgressBarMedium                { get; set; } = Color.Orange;
+    public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }

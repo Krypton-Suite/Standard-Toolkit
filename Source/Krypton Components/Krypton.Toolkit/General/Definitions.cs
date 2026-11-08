@@ -4553,7 +4553,19 @@ public enum SchemeBaseColors
     EqualizerPeak = 254,
 
     /// <summary>Equalizer interactive gain thumbs.</summary>
-    EqualizerThumb = 255
+    EqualizerThumb = 255,
+
+    /// <summary>Default continuous / marquee progress-bar fill.</summary>
+    ProgressBarValue = 256,
+
+    /// <summary>Tri-state progress-bar fill for the low threshold region.</summary>
+    ProgressBarLow = 257,
+
+    /// <summary>Tri-state progress-bar fill for the medium threshold region.</summary>
+    ProgressBarMedium = 258,
+
+    /// <summary>Tri-state progress-bar fill for the high threshold region.</summary>
+    ProgressBarHigh = 259
 }
 
 #endregion
