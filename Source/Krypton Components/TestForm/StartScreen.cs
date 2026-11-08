@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -61,6 +61,7 @@ public partial class StartScreen : KryptonForm
 	/// </summary>
 	private void AddButtons()
 	{
+		CreateButton<FileOperationProgressDemo>("4672 File operation dialogs", "Issue #4672: Krypton.Dialogs copy, move, rename, recycle, and permanent-delete progress. Name conflict offers Replace, Skip, or Keep both. Large copy stays open for Pause and Cancel. Explorer's own copy window is not used.");
 		CreateButton<KryptonSVGPictureBoxDemo>("4657 SVG Picture Box", "Issue #4657: KryptonSVGPictureBox in Krypton.Drawing. Apply markup, load an SVG file, try each SizeMode, resize for DPI rasterization, hover for the tooltip, and send invalid markup.");
 		CreateButton<WinFormsDesignerSdkDemo>("593 WinForms Designer SDK", "Issue #593: runtime host for the OOP designer sample controls. Custom designers, smart tags, and Client editors are visible only in Visual Studio when this library is consumed via NuGet (packed nupkg or local feed), not from a ProjectReference IDE build of TestForm.");
 		CreateButton<ThemeCatalogDemo>("4230 Theme Catalog / 3870 Theme ListView", "Issue #4230: core vs extra palettes, ShowExtraThemes, extra-only Sparkle, theme browser, and KryptonThemeAvailability export/import. Issue #3870: KryptonThemeListView shows stored or generated theme previews (Large Icons / Tile / Details); hover a row for a live theme preview; custom palettes without a Thumbnail use the Kr tile.");

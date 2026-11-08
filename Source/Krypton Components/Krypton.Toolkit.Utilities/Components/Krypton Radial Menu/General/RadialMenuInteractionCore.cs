@@ -269,7 +269,7 @@ internal sealed class RadialMenuInteractionCore
             return hit;
         }
 
-        if (hit.Kind == RadialHitKind.Sector || hit.Kind == RadialHitKind.OuterRing)
+        if (hit.Kind is RadialHitKind.Sector or RadialHitKind.OuterRing)
         {
             _pressedIndex = hit.SectorIndex;
             _pressedOuterRing = hit.Kind == RadialHitKind.OuterRing;

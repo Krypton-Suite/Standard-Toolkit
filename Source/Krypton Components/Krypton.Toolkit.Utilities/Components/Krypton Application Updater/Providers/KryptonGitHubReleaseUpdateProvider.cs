@@ -47,7 +47,7 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
     {
         if (string.IsNullOrWhiteSpace(_owner) || string.IsNullOrWhiteSpace(_repository))
         {
-            throw new KryptonUpdateException("Set GitHubOwner and GitHubRepository.");
+            KryptonUpdateThrowHelper.Throw("Set GitHubOwner and GitHubRepository.");
         }
 
         var api = "https://api.github.com/repos/" + Uri.EscapeDataString(_owner.Trim()) + "/" + Uri.EscapeDataString(_repository.Trim()) + "/releases/latest";
@@ -58,7 +58,7 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
         }
         catch (KryptonUpdateException exception) when (exception.Message.Contains("404"))
         {
-            throw new KryptonUpdateException("No published GitHub release was found.", exception);
+            json = KryptonUpdateThrowHelper.Throw<string>("No published GitHub release was found.", exception);
         }
 
         var release = GitHubRelease.Parse(json);
@@ -74,12 +74,12 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
         var hash = HashFromDigest(asset.Digest);
         if (hash == null || string.IsNullOrWhiteSpace(hash))
         {
-            throw new KryptonUpdateException("The release asset has no SHA-256 digest and the release has no krypton-update.json manifest.");
+            KryptonUpdateThrowHelper.Throw("The release asset has no SHA-256 digest and the release has no krypton-update.json manifest.");
         }
 
         if (!KryptonUpdateVersion.TryParse(release.TagName, out var version))
         {
-            throw new KryptonUpdateException("The release tag is not a System.Version value.");
+            KryptonUpdateThrowHelper.Throw("The release tag is not a System.Version value.");
         }
 
         var kind = asset.Name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase)
@@ -103,13 +103,13 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
             var asset = FindAsset(assets, package.PackageUrl);
             if (asset == null)
             {
-                throw new KryptonUpdateException("The manifest packageUrl '" + package.PackageUrl + "' is not an https address or a release asset name.");
+                KryptonUpdateThrowHelper.Throw("The manifest packageUrl '" + package.PackageUrl + "' is not an https address or a release asset name.");
             }
 
             var hash = string.IsNullOrWhiteSpace(package.Sha256) ? HashFromDigest(asset.Digest) : package.Sha256;
             if (hash == null || string.IsNullOrWhiteSpace(hash))
             {
-                throw new KryptonUpdateException("The manifest package is missing sha256.");
+                KryptonUpdateThrowHelper.Throw("The manifest package is missing sha256.");
             }
 
             resolved.Add(new KryptonUpdatePackage(
@@ -126,7 +126,9 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
                 package.AllowPostponeSetting,
                 package.AllowSkipSetting,
                 package.AllowResumeSetting,
-                package.AllowRetrySetting));
+                package.AllowRetrySetting,
+                package.Banner,
+                package.Pulse));
         }
 
         return resolved;
@@ -139,7 +141,7 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
             var named = FindAsset(assets, _assetName);
             if (named == null)
             {
-                throw new KryptonUpdateException("The release does not contain asset '" + _assetName + "'.");
+                return KryptonUpdateThrowHelper.Throw<GitHubAsset>("The release does not contain asset '" + _assetName + "'.");
             }
 
             return named;
@@ -155,7 +157,7 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
 
             if (match != null)
             {
-                throw new KryptonUpdateException("The release has more than one installer or zip. Set GitHubAssetName.");
+                return KryptonUpdateThrowHelper.Throw<GitHubAsset>("The release has more than one installer or zip. Set GitHubAssetName.");
             }
 
             match = asset;
@@ -163,7 +165,7 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
 
         if (match == null)
         {
-            throw new KryptonUpdateException("The release has no .exe, .msi, or .zip asset.");
+            return KryptonUpdateThrowHelper.Throw<GitHubAsset>("The release has no .exe, .msi, or .zip asset.");
         }
 
         return match;
@@ -279,7 +281,7 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
             var data = serializer.DeserializeObject(json) as Dictionary<string, object>;
             if (data == null)
             {
-                throw new KryptonUpdateException("The GitHub release response was not a JSON object.");
+                return KryptonUpdateThrowHelper.Throw<GitHubRelease>("The GitHub release response was not a JSON object.");
             }
 
             var release = new GitHubRelease

@@ -224,6 +224,8 @@ namespace UpdateManifestEditor
             AddOptionalBool(fields, "allowSkip", package.AllowSkip);
             AddOptionalBool(fields, "allowResume", package.AllowResume);
             AddOptionalBool(fields, "allowRetry", package.AllowRetry);
+            AddBanner(fields, package);
+            AddPulse(fields, package);
 
             builder.Append(pad).AppendLine("{");
             for (var index = 0; index < fields.Count; index++)
@@ -238,6 +240,55 @@ namespace UpdateManifestEditor
             }
 
             builder.Append(pad).Append('}');
+        }
+
+        private static void AddBanner(List<string> fields, ManifestPackage package)
+        {
+            var parts = new List<string>();
+            AddOptional(parts, "text", package.BannerText);
+            AddOptional(parts, "backColor", package.BannerBackColor);
+            AddOptional(parts, "backColor2", package.BannerBackColor2);
+            AddOptional(parts, "foreColor", package.BannerForeColor);
+            AddOptional(parts, "imageUrl", package.BannerImageUrl);
+            if (parts.Count == 0)
+            {
+                return;
+            }
+
+            fields.Add("\"banner\": { " + string.Join(", ", parts) + " }");
+        }
+
+        private static void AddPulse(List<string> fields, ManifestPackage package)
+        {
+            if (package.PulseEnable == null || string.IsNullOrWhiteSpace(package.PulseEnable))
+            {
+                return;
+            }
+
+            if (!bool.TryParse(package.PulseEnable.Trim(), out var enable))
+            {
+                return;
+            }
+
+            var parts = new List<string>
+            {
+                "\"enable\": " + (enable ? "true" : "false")
+            };
+            AddOptional(parts, "color", package.PulseColor);
+            if (package.PulseStyle != null && !string.IsNullOrWhiteSpace(package.PulseStyle))
+            {
+                parts.Add(Quote("style", package.PulseStyle.Trim()));
+            }
+
+            if (package.PulseSpeed != null
+                && !string.IsNullOrWhiteSpace(package.PulseSpeed)
+                && float.TryParse(package.PulseSpeed.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var speed)
+                && speed > 0f)
+            {
+                parts.Add("\"speed\": " + speed.ToString(CultureInfo.InvariantCulture));
+            }
+
+            fields.Add("\"pulse\": { " + string.Join(", ", parts) + " }");
         }
 
         private static string DisplayVersion(string? text)
@@ -280,31 +331,53 @@ namespace UpdateManifestEditor
             fields.Add("\"" + name + "\": " + (allow ? "true" : "false"));
         }
 
-        private static void ApplyRoot(ManifestPackage package, string days, string postpone, string skip, string resume, string retry)
+        private static void ApplyRoot(ManifestPackage package, ManifestPackage root)
         {
             if (string.IsNullOrWhiteSpace(package.MaximumPostponeDays))
             {
-                package.MaximumPostponeDays = days;
+                package.MaximumPostponeDays = root.MaximumPostponeDays;
             }
 
             if (string.IsNullOrWhiteSpace(package.AllowPostpone))
             {
-                package.AllowPostpone = postpone;
+                package.AllowPostpone = root.AllowPostpone;
             }
 
             if (string.IsNullOrWhiteSpace(package.AllowSkip))
             {
-                package.AllowSkip = skip;
+                package.AllowSkip = root.AllowSkip;
             }
 
             if (string.IsNullOrWhiteSpace(package.AllowResume))
             {
-                package.AllowResume = resume;
+                package.AllowResume = root.AllowResume;
             }
 
             if (string.IsNullOrWhiteSpace(package.AllowRetry))
             {
-                package.AllowRetry = retry;
+                package.AllowRetry = root.AllowRetry;
+            }
+
+            // Root banner/pulse apply only when the package omitted that object entirely.
+            if (string.IsNullOrWhiteSpace(package.BannerText)
+                && string.IsNullOrWhiteSpace(package.BannerBackColor)
+                && string.IsNullOrWhiteSpace(package.BannerBackColor2)
+                && string.IsNullOrWhiteSpace(package.BannerForeColor)
+                && string.IsNullOrWhiteSpace(package.BannerImageUrl))
+            {
+                package.BannerText = root.BannerText;
+                package.BannerBackColor = root.BannerBackColor;
+                package.BannerBackColor2 = root.BannerBackColor2;
+                package.BannerForeColor = root.BannerForeColor;
+                package.BannerImageUrl = root.BannerImageUrl;
+            }
+
+            if (string.IsNullOrWhiteSpace(package.PulseEnable))
+            {
+                package.PulseEnable = root.PulseEnable;
+                package.PulseColor = root.PulseColor;
+                package.PulseStyle = root.PulseStyle;
+                package.PulseSpeed = root.PulseSpeed;
             }
         }
 
@@ -372,15 +445,11 @@ namespace UpdateManifestEditor
                     && root.TryGetProperty("packages", out var packages)
                     && packages.ValueKind == JsonValueKind.Array)
                 {
-                    var rootDays = FormatOptionalInt(root, "maximumPostponeDays");
-                    var rootPostpone = FormatOptionalBool(root, "allowPostpone");
-                    var rootSkip = FormatOptionalBool(root, "allowSkip");
-                    var rootResume = FormatOptionalBool(root, "allowResume");
-                    var rootRetry = FormatOptionalBool(root, "allowRetry");
+                    var rootDefaults = ReadElement(root);
                     foreach (var item in packages.EnumerateArray())
                     {
                         var package = ReadElement(item);
-                        ApplyRoot(package, rootDays, rootPostpone, rootSkip, rootResume, rootRetry);
+                        ApplyRoot(package, rootDefaults);
                         list.Add(package);
                     }
 
@@ -414,8 +483,57 @@ namespace UpdateManifestEditor
                 AllowPostpone = FormatOptionalBool(element, "allowPostpone"),
                 AllowSkip = FormatOptionalBool(element, "allowSkip"),
                 AllowResume = FormatOptionalBool(element, "allowResume"),
-                AllowRetry = FormatOptionalBool(element, "allowRetry")
+                AllowRetry = FormatOptionalBool(element, "allowRetry"),
+                BannerText = GetNestedString(element, "banner", "text"),
+                BannerBackColor = GetNestedString(element, "banner", "backColor"),
+                BannerBackColor2 = GetNestedString(element, "banner", "backColor2"),
+                BannerForeColor = GetNestedString(element, "banner", "foreColor"),
+                BannerImageUrl = GetNestedString(element, "banner", "imageUrl"),
+                PulseEnable = GetNestedBool(element, "pulse", "enable"),
+                PulseColor = GetNestedString(element, "pulse", "color"),
+                PulseStyle = GetNestedString(element, "pulse", "style"),
+                PulseSpeed = GetNestedNumber(element, "pulse", "speed")
             };
+        }
+
+        private static string GetNestedString(JsonElement element, string parent, string name)
+        {
+            if (!element.TryGetProperty(parent, out var objectElement) || objectElement.ValueKind != JsonValueKind.Object)
+            {
+                return string.Empty;
+            }
+
+            return GetString(objectElement, name);
+        }
+
+        private static string GetNestedBool(JsonElement element, string parent, string name)
+        {
+            if (!element.TryGetProperty(parent, out var objectElement) || objectElement.ValueKind != JsonValueKind.Object)
+            {
+                return string.Empty;
+            }
+
+            return FormatOptionalBool(objectElement, name);
+        }
+
+        private static string GetNestedNumber(JsonElement element, string parent, string name)
+        {
+            if (!element.TryGetProperty(parent, out var objectElement) || objectElement.ValueKind != JsonValueKind.Object)
+            {
+                return string.Empty;
+            }
+
+            if (!objectElement.TryGetProperty(name, out var value) || value.ValueKind == JsonValueKind.Null)
+            {
+                return string.Empty;
+            }
+
+            if (value.ValueKind == JsonValueKind.Number && value.TryGetSingle(out var number))
+            {
+                return number.ToString(CultureInfo.InvariantCulture);
+            }
+
+            return value.ValueKind == JsonValueKind.String ? value.GetString() ?? string.Empty : string.Empty;
         }
 
         private static string FormatOptionalInt(JsonElement element, string name)
@@ -473,15 +591,11 @@ namespace UpdateManifestEditor
             var list = new List<ManifestPackage>();
             if (data is Dictionary<string, object> root && root.TryGetValue("packages", out var packages))
             {
-                var rootDays = FormatOptionalInt(root, "maximumPostponeDays");
-                var rootPostpone = FormatOptionalBool(root, "allowPostpone");
-                var rootSkip = FormatOptionalBool(root, "allowSkip");
-                var rootResume = FormatOptionalBool(root, "allowResume");
-                var rootRetry = FormatOptionalBool(root, "allowRetry");
+                var rootDefaults = ReadDictionary(root);
                 foreach (var item in Enumerate(packages))
                 {
                     var package = ReadDictionary(item);
-                    ApplyRoot(package, rootDays, rootPostpone, rootSkip, rootResume, rootRetry);
+                    ApplyRoot(package, rootDefaults);
                     list.Add(package);
                 }
 
@@ -513,8 +627,59 @@ namespace UpdateManifestEditor
                 AllowPostpone = FormatOptionalBool(element, "allowPostpone"),
                 AllowSkip = FormatOptionalBool(element, "allowSkip"),
                 AllowResume = FormatOptionalBool(element, "allowResume"),
-                AllowRetry = FormatOptionalBool(element, "allowRetry")
+                AllowRetry = FormatOptionalBool(element, "allowRetry"),
+                BannerText = GetNestedString(element, "banner", "text"),
+                BannerBackColor = GetNestedString(element, "banner", "backColor"),
+                BannerBackColor2 = GetNestedString(element, "banner", "backColor2"),
+                BannerForeColor = GetNestedString(element, "banner", "foreColor"),
+                BannerImageUrl = GetNestedString(element, "banner", "imageUrl"),
+                PulseEnable = GetNestedBool(element, "pulse", "enable"),
+                PulseColor = GetNestedString(element, "pulse", "color"),
+                PulseStyle = GetNestedString(element, "pulse", "style"),
+                PulseSpeed = GetNestedNumber(element, "pulse", "speed")
             };
+
+        private static string GetNestedString(Dictionary<string, object> element, string parent, string name)
+        {
+            if (!element.TryGetValue(parent, out var value) || !(value is Dictionary<string, object> nested))
+            {
+                return string.Empty;
+            }
+
+            return GetString(nested, name);
+        }
+
+        private static string GetNestedBool(Dictionary<string, object> element, string parent, string name)
+        {
+            if (!element.TryGetValue(parent, out var value) || !(value is Dictionary<string, object> nested))
+            {
+                return string.Empty;
+            }
+
+            return FormatOptionalBool(nested, name);
+        }
+
+        private static string GetNestedNumber(Dictionary<string, object> element, string parent, string name)
+        {
+            if (!element.TryGetValue(parent, out var value) || !(value is Dictionary<string, object> nested))
+            {
+                return string.Empty;
+            }
+
+            if (!nested.TryGetValue(name, out var number) || number == null)
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                return Convert.ToSingle(number, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
+            }
+            catch (Exception exception) when (exception is FormatException || exception is InvalidCastException || exception is OverflowException)
+            {
+                return Convert.ToString(number, CultureInfo.InvariantCulture) ?? string.Empty;
+            }
+        }
 
         private static string FormatOptionalInt(Dictionary<string, object> element, string name)
         {

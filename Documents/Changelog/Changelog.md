@@ -48,6 +48,14 @@
 
 - Implemented [#4656](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4656), Analogue gauges in `Krypton.Gauges`: circular needle, linear bar, rectangular (solid or segmented), thermometer (bulb + tube), and ampere meter (square panel, AC or DC center-zero) indicators that share value/range/palette settings, optional animation, and optional interactive input.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.
+- Implemented [#4672](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4672), `KryptonFileOperation` copies, moves, renames, and deletes through the shell and shows Krypton progress, name-conflict, recycle, and permanent-delete dialogs.
+  - The progress dialog offers More details / Fewer details, swapping the progress bar for a theme-aware `KryptonTransferSpeedGraph` transfer-rate chart from `Krypton.Toolkit.Utilities`.
+  - `KryptonTransferSpeedGraph` colours inherit from `PaletteElement.TransferSpeedGraph` (plot, series, grid, frame, label) with `StateCommon` / `StateNormal` / `StateDisabled` element-colour overrides.
+  - Transfer-speed graph colours are also `SchemeBaseColors` slots (`TransferSpeedGraphPlot` / `Series` / `Grid` / `Border` / `Label`) so themes and `SetSchemeColor` can edit them.
+  - `KryptonTransferSpeedGraph` exposes window `Peak` and `Trough` (bytes/sec); `SpeedLabelFormat` may use `{0}` current, `{1}` peak, and `{2}` trough rate strings.
+  - `SpeedGraphValues.ShowGrid` toggles the chart grid (default `true`).
+  - Dialogs show an optional Windows-style icon banner (`KryptonFileOperation.ShowBanners`, default `true`; standalone `Show` methods take `showBanner`).
+  - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as these dialogs are part of the `Krypton.Dialogs` assembly.
 - Implemented [#4218](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4218), Step timeline (`KryptonTimeline`) and date timeline (`KryptonDateTimeline`) in the `Krypton.Charting` assembly.
   - `Style` is `Chart` (row bars and milestone diamonds) or `Vis` (stacked boxes above a bottom axis, in the style of vis.js Timeline). A single date in `Vis` is a box with a stem to the axis. Overlapping items stack. `Row` applies to `Chart` only.
   - Drag a step to reorder it. Drag a date item to move its dates; Chart style also changes the row. Dragging a date item turns auto range off, the same as panning. Set `AllowMove` to false to keep items fixed.
@@ -70,6 +78,7 @@
   - A download that drops or is cancelled stays on the progress window so it can be resumed or started again. The whole file is still checked before it is applied.
   - Release notes open in their own window, Remind later asks for a date or skips that version, and the progress window can show file name, size, speed, and time remaining.
   - The update manifest can limit how many days Remind later offers, and can allow or block postpone, skip, resume, and retry. A critical package blocks postpone unless `allowPostpone` is true and blocks skip unless `allowSkip` is true. `allowRetry` false hides Restart.
+  - The update manifest can add an optional banner (text, colours or gradient, image URL) on the prompt and notes windows, and an optional pulsing form border on the prompt, notes, and progress windows.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 - Implemented [#3806](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3806), Windows XP Themes
   - Windows XP visual-style Extra themes in `Krypton.Themes`: Luna Blue / Olive / Silver, Royale, Royale Noir, Zune, and Embedded, with a dedicated XP renderer in `Krypton.Toolkit` and typed bitmaps from `Krypton.Resources`.

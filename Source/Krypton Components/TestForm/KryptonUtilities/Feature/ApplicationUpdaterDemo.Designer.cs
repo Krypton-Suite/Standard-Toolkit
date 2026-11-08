@@ -30,6 +30,7 @@
             this.lblMaxDays = new Krypton.Toolkit.KryptonLabel();
             this.nudMaxDays = new Krypton.Toolkit.KryptonNumericUpDown();
             this.chkAllowCritical = new Krypton.Toolkit.KryptonCheckBox();
+            this.chkBannerPulse = new Krypton.Toolkit.KryptonCheckBox();
             this.flowButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCheckNow = new Krypton.Toolkit.KryptonButton();
             this.btnScheduled = new Krypton.Toolkit.KryptonButton();
@@ -104,6 +105,7 @@
             this.flowOptions.Controls.Add(this.lblMaxDays);
             this.flowOptions.Controls.Add(this.nudMaxDays);
             this.flowOptions.Controls.Add(this.chkAllowCritical);
+            this.flowOptions.Controls.Add(this.chkBannerPulse);
             this.flowOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowOptions.Name = "flowOptions";
             this.flowOptions.WrapContents = true;
@@ -162,6 +164,14 @@
             this.chkAllowCritical.Name = "chkAllowCritical";
             this.chkAllowCritical.Size = new System.Drawing.Size(180, 24);
             this.chkAllowCritical.Values.Text = "Allow critical postpone";
+            // 
+            // chkBannerPulse
+            // 
+            this.chkBannerPulse.Checked = true;
+            this.chkBannerPulse.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkBannerPulse.Name = "chkBannerPulse";
+            this.chkBannerPulse.Size = new System.Drawing.Size(200, 24);
+            this.chkBannerPulse.Values.Text = "Banner and pulse on 9.9.9";
             // 
             // flowButtons
             // 
@@ -280,6 +290,7 @@
         private Krypton.Toolkit.KryptonLabel lblMaxDays;
         private Krypton.Toolkit.KryptonNumericUpDown nudMaxDays;
         private Krypton.Toolkit.KryptonCheckBox chkAllowCritical;
+        private Krypton.Toolkit.KryptonCheckBox chkBannerPulse;
         private System.Windows.Forms.FlowLayoutPanel flowButtons;
         private Krypton.Toolkit.KryptonButton btnCheckNow;
         private Krypton.Toolkit.KryptonButton btnScheduled;
