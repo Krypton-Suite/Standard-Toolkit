@@ -254,6 +254,11 @@ public sealed class PaletteOffice2007BlackDarkMode_BaseScheme : KryptonColorSche
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(131, 132, 132);
     public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(35, 35, 35);
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(10, 10, 10);
+    public override Color TransferSpeedGraphSeries         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(80, 80, 80);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(80, 80, 80);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.White;
     public override Color EqualizerFace                    { get; set; } = Color.FromArgb(10, 10, 10);
     public override Color EqualizerLabel                   { get; set; } = Color.White;
     public override Color EqualizerLow                     { get; set; } = Color.White;

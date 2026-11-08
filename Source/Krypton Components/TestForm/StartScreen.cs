@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -61,6 +61,7 @@ public partial class StartScreen : KryptonForm
 	/// </summary>
 	private void AddButtons()
 	{
+		CreateButton<FileOperationProgressDemo>("4672 File operation dialogs", "Issue #4672: Krypton.Dialogs copy, move, rename, recycle, and permanent-delete progress. Name conflict offers Replace, Skip, or Keep both. Large copy stays open for Pause and Cancel. Explorer's own copy window is not used.");
 		CreateButton<KryptonSVGPictureBoxDemo>("4657 SVG Picture Box", "Issue #4657: KryptonSVGPictureBox in Krypton.Drawing. Apply markup, load an SVG file, try each SizeMode, resize for DPI rasterization, hover for the tooltip, and send invalid markup.");
 		CreateButton<WinFormsDesignerSdkDemo>("593 WinForms Designer SDK", "Issue #593: runtime host for the OOP designer sample controls. Custom designers, smart tags, and Client editors are visible only in Visual Studio when this library is consumed via NuGet (packed nupkg or local feed), not from a ProjectReference IDE build of TestForm.");
 		CreateButton<ThemeCatalogDemo>("4230 Theme Catalog / 3870 Theme ListView", "Issue #4230: core vs extra palettes, ShowExtraThemes, extra-only Sparkle, theme browser, and KryptonThemeAvailability export/import. Issue #3870: KryptonThemeListView shows stored or generated theme previews (Large Icons / Tile / Details); hover a row for a live theme preview; custom palettes without a Thumbnail use the Kr tile.");
@@ -240,6 +241,7 @@ public partial class StartScreen : KryptonForm
 		CreateButton<KryptonKnobDemo>("Krypton Knob", "Issue #3894: comprehensive demo of KryptonKnob rotary control with full palette State### integration: drag and keyboard input, scale marks, theme switching, custom State colours, and property-grid exploration. Includes a side-by-side enabled vs disabled comparison so the disabled palette colours (face, indicator, ticks, industrial backplate) are obvious.");
 		CreateButton<KryptonVuMeterDemo>("VU Meter (#4655)", "Issue #4655: analog needle and segmented VU meter. Drag the level, play a short music loop, or play a stereo file on the Left and Right meters like a stereo amplifier. Turn on peak hold, capture the default recording device, change segment direction and theme, and compare the disabled meter. Colours follow the palette through StateCommon, StateNormal, and StateDisabled.");
 		CreateButton<KryptonEqualizerDemo>("Equalizer (#4660)", "Issue #4660: multi-band spectrum equalizer with interactive gain thumbs. Simulate levels, play the shared generated music (FFT into bands), or capture the default recording device. Toggle peak hold and segments, change band count / orientation / theme, and compare the disabled face. Music and capture update spectrum only; gains stay under your control.");
+		CreateButton<KryptonAnalogueGaugeDemo>("Analogue Gauges (#4656)", "Issue #4656: circular needle, linear bar, and rectangular (solid/segmented) gauges sharing ranges, palette colours, animation, and optional interactive input. Drag the trackbar or the interactive circular gauge; inspect Values / State### in the property grid.");
 		CreateButton<KryptonRatingDemo>("Krypton Rating (#3928)", "Issue #3928: KryptonRating glyph strip. Exercise Full / Half / Exact precision, hover preview, ReadOnly, AllowClear, RTL, Orientation, Star/Heart/Circle/Image glyphs, colour overrides, theme switching, and enabled vs disabled.");
 		CreateButton<RadialMenuDemo>("Radial Menu (#4172)", "Issue #4172: left surface = popup KryptonRadialMenu (right-click); right panel = hosted KryptonRadialMenuControl (hub, Allow move / float). Native items, editors, ImportFrom, PreferRadial.");
 		CreateButton<EnhancedContextMenuDemo>("Enhanced Context Menu (#3862)", "Issue #3862: Office Mini Toolbar + KryptonContextMenu, designer/runtime configurable. Right-click for paired popup; select text for fade-in Mini Toolbar; use the Configuration panel to show/hide commands, position, opacity. Side-by-side KryptonRichTextBox vs native RichTextBox.");

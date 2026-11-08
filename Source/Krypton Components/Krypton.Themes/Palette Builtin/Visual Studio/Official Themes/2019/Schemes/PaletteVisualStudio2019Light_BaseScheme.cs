@@ -264,6 +264,11 @@ public sealed class PaletteVisualStudio2019Light_BaseScheme : KryptonColorScheme
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(0, 122, 204);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.Black);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(100, 100, 100);
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(238, 238, 238);
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(0, 122, 204);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(204, 206, 219);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(204, 206, 219);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(30, 30, 30);
     public override Color EqualizerFace                    { get; set; } = Color.FromArgb(238, 238, 238);
     public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(30, 30, 30);
     public override Color EqualizerLow                     { get; set; } = Color.FromArgb(30, 30, 30);

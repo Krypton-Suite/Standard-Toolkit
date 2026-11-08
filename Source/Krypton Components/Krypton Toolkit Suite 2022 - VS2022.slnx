@@ -1,4 +1,4 @@
-﻿<Solution>
+<Solution>
   <Configurations>
     <BuildType Name="Canary" />
     <BuildType Name="Debug" />
@@ -213,6 +213,9 @@
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
     <Project Path="Krypton.Drawing/Krypton.Drawing.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Krypton.Dialogs/Krypton.Dialogs.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
     <Project Path="Krypton.Toolkit.JumpList/Krypton.Toolkit.JumpList.csproj">

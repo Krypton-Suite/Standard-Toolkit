@@ -253,6 +253,13 @@ public sealed class PaletteSparkleOrange_BaseScheme : KryptonColorSchemeBase
     public override Color TrackBarBottomTrack              { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
     public override Color TrackBarFillTrack                { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
     public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
+    public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(83, 83, 83);
+    public override Color TransferSpeedGraphSeries         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(30, 30, 30);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(92, 83, 76);
+ // missing value
     public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
     public override Color EqualizerFace                    { get; set; } = Color.FromArgb(83, 83, 83);
     public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(92, 83, 76);

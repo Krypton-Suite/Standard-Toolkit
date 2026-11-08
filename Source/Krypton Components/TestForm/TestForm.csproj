@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <NoWarn>$(NoWarn);WFO5002</NoWarn>
@@ -32,6 +32,7 @@
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
     <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
     <ProjectReference Include="..\Krypton.Drawing\Krypton.Drawing.csproj" />
+    <ProjectReference Include="..\Krypton.Dialogs\Krypton.Dialogs.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
     <ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
@@ -99,6 +100,12 @@
     </Compile>
     <Compile Update="KryptonGauges\Feature\KryptonEqualizerDemo.Designer.cs">
       <DependentUpon>KryptonEqualizerDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.Designer.cs">
+      <DependentUpon>KryptonAnalogueGaugeDemo.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.cs">
       <SubType>Form</SubType>
@@ -229,6 +236,15 @@
     <Compile Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonDialogs\Feature\FileOperationProgressDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonDialogs\Feature\FileOperationProgressDemo.Designer.cs">
+      <DependentUpon>FileOperationProgressDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonDialogs\Feature\FileOperationProgressDemo.resx">
+      <DependentUpon>FileOperationProgressDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.Designer.cs">
       <DependentUpon>KryptonSVGPictureBoxDemo.cs</DependentUpon>
     </Compile>
@@ -284,6 +300,10 @@
     <EmbeddedResource Update="KryptonGauges\Feature\KryptonEqualizerDemo.resx">
       <DependentUpon>KryptonEqualizerDemo.cs</DependentUpon>
       <LogicalName>TestForm.KryptonEqualizerDemo.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.resx">
+      <DependentUpon>KryptonAnalogueGaugeDemo.cs</DependentUpon>
+      <LogicalName>TestForm.KryptonAnalogueGaugeDemo.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
@@ -345,6 +365,7 @@
 
   <ItemGroup>
     <Folder Include="KryptonDrawing\Bugs\" />
+    <Folder Include="KryptonDialogs\Bugs\" />
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonUtilities\Bugs\" />

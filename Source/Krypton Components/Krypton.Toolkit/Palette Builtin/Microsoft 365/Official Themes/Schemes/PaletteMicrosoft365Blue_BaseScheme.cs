@@ -254,6 +254,11 @@ public sealed class PaletteMicrosoft365Blue_BaseScheme : KryptonColorSchemeBase
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(142, 180, 231);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(63, 101, 152);
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(187, 206, 230);
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(200, 219, 240);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(30, 57, 91);
     public override Color EqualizerFace                    { get; set; } = Color.FromArgb(187, 206, 230);
     public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(30, 57, 91);
     public override Color EqualizerLow                     { get; set; } = Color.FromArgb(30, 57, 91);

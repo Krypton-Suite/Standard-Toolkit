@@ -254,6 +254,11 @@ public sealed class PaletteVisualStudio2010Office2013Variation_BaseScheme : Kryp
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(142, 180, 231);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(63, 101, 152);
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(188, 199, 216);
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(200, 219, 240);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(0, 0, 0);
     public override Color EqualizerFace                    { get; set; } = Color.FromArgb(188, 199, 216);
     public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(0, 0, 0);
     public override Color EqualizerLow                     { get; set; } = Color.FromArgb(0, 0, 0);

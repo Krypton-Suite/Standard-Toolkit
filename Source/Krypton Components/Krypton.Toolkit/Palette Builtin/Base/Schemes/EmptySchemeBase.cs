@@ -254,6 +254,11 @@ public sealed class EmptySchemeBase : KryptonColorSchemeBase
     public override Color TrackBarFillTrack                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphPlot           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphSeries         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphGrid           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphBorder         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphLabel          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color EqualizerFace                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color EqualizerLabel                   { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color EqualizerLow                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
