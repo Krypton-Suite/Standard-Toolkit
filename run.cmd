@@ -113,12 +113,12 @@ echo 4. Build long term stable version (LTS)
 echo 5. Go back to main menu
 echo:
 set /p answer="Enter number or letter (1 - 5, a - *): "
-if %answer%==1 (goto buildnightly)
-if %answer%==a (goto rebuildproject)
-if %answer%==2 (goto buildcanary)
-if %answer%==3 (goto buildstable)
-if %answer%==4 (goto buildlts)
-if %answer%==5 (goto mainmenu)
+if "%answer%"=="1" (goto buildnightly)
+if "%answer%"=="a" (goto rebuildproject)
+if "%answer%"=="2" (goto buildcanary)
+if "%answer%"=="3" (goto buildstable)
+if "%answer%"=="4" (goto buildlts)
+if "%answer%"=="5" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -136,11 +136,11 @@ echo 4. Pack long term stable version (LTS)
 echo 5. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 5): "
-if %answer%==1 (goto packnightly)
-if %answer%==2 (goto packcanary)
-if %answer%==3 (goto packstable)
-if %answer%==4 (goto packlts)
-if %answer%==5 (goto mainmenu)
+if "%answer%"=="1" (goto packnightly)
+if "%answer%"=="2" (goto packcanary)
+if "%answer%"=="3" (goto packstable)
+if "%answer%"=="4" (goto packlts)
+if "%answer%"=="5" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -175,11 +175,11 @@ echo 4. Build and pack long term stable (LTS)
 echo 5. Go to main mainmenu
 echo:
 set /p answer="Enter number (1 - 5): "
-if %answer%==1 (goto buildandpacknightly)
-if %answer%==2 (goto buildandpackcanary)
-if %answer%==3 (goto buildandpackstable)
-if %answer%==4 (goto buildandpacklts)
-if %answer%==5 (goto mainmenu)
+if "%answer%"=="1" (goto buildandpacknightly)
+if "%answer%"=="2" (goto buildandpackcanary)
+if "%answer%"=="3" (goto buildandpackstable)
+if "%answer%"=="4" (goto buildandpacklts)
+if "%answer%"=="5" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -276,11 +276,11 @@ goto buildmenu
 :createnugetpackages
 goto packmenu
 
+:packlts
+goto packltsmenu
+
 :debugproject
 goto debugmenu
-
-:nugettools
-goto createarchives
 
 :createarchives
 cls
@@ -522,10 +522,10 @@ echo 3. Produce 'full/lite' stable packages
 echo 4. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 4): "
-if %answer%==1 (goto packstablelite)
-if %answer%==2 (goto packstablefull)
-if %answer%==3 (goto packstableboth)
-if %answer%==4 (goto mainmenu)
+if "%answer%"=="1" (goto packstablelite)
+if "%answer%"=="2" (goto packstablefull)
+if "%answer%"=="3" (goto packstableboth)
+if "%answer%"=="4" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -545,10 +545,10 @@ echo 4. Go back to main menu
 echo:
 set /p answer="Enter number (1 - 4): "
 
-if %answer%==1 (goto packltslite)
-if %answer%==2 (goto packltsfull)
-if %answer%==3 (goto packltsboth)
-if %answer%==4 (goto mainmenu)
+if "%answer%"=="1" (goto packltslite)
+if "%answer%"=="2" (goto packltsfull)
+if "%answer%"=="3" (goto packltsboth)
+if "%answer%"=="4" (goto mainmenu)
 
 @echo Invalid input, please try again.
 
@@ -636,6 +636,10 @@ cls
 
 
 call "%VS_SCRIPTS_DIR%\update-nuget.cmd"
+
+pause
+
+goto mainmenu
 
 :buildandcreatenugetpackages
 cls
@@ -726,17 +730,39 @@ cls
 
 call "%VS_SCRIPTS_DIR%\build-nightly.cmd" Pack
 
+pause
+
+goto buildandpacktoolkitmenu
+
 :buildandpackcanary
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-canary.cmd" Pack
 
+pause
+
+goto buildandpacktoolkitmenu
+
 :buildandpackstable
 cls
 
 
 call "%VS_SCRIPTS_DIR%\build-stable.cmd" Pack
+
+pause
+
+goto buildandpacktoolkitmenu
+
+:buildandpacklts
+cls
+
+
+call "%VS_SCRIPTS_DIR%\build-lts.cmd" Pack
+
+pause
+
+goto buildandpacktoolkitmenu
 
 :: ===================================================================================================
 
