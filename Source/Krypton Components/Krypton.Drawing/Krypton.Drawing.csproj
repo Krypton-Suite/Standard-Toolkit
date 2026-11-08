@@ -15,7 +15,7 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC;LTS</Configurations>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<Nullable>enable</Nullable>
 		<WarningLevel>8</WarningLevel>

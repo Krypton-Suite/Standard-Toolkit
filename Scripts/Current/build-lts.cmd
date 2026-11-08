@@ -17,7 +17,7 @@ for /f "tokens=* usebackq" %%A in (`tzutil /g`) do (
     set "zone=%%A"
 )
 
-@echo Started to build Stable release
+@echo Started to build Long Term Stable release
 @echo:
 @echo Started: %date% %time% %zone%
 @echo:
@@ -29,7 +29,7 @@ call "%~dp0setup-dotnet11-sdk.cmd" || (endlocal & goto exitbatch)
 "%msbuildpath%\msbuild.exe" /m /t:%targets% "%SCRIPT_DIR%longtermstable.proj" /fl /flp:logfile="%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.log" /bl:"%SCRIPT_DIR%..\..\Logs\long-term-stable-build-log.binlog" /clp:Summary;ShowTimestamp /v:quiet
 endlocal
 @echo:
-@echo Stable release build completed: %date% %time% %zone%
+@echo Long Term Stable release build completed: %date% %time% %zone%
 @echo:
 @echo You can find the build Logs in ..\..\Logs
 @echo:

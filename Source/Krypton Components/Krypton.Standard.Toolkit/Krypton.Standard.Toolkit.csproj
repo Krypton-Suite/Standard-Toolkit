@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	
 	<!--
 		Krypton.Standard.Toolkit - Combined Package Project
@@ -44,7 +44,7 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<NeutralLanguage>en</NeutralLanguage>
 		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC;LTS</Configurations>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<Nullable>enable</Nullable>
 		<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->

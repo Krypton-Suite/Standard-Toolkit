@@ -46,6 +46,7 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented, LTS NuGet packages use `Configuration=LTS` with the dedicated `Krypton LTS.png` package icon and package IDs `*.LTS` / `*.LTS.Lite`.
 - Implemented [#4660](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4660), `KryptonEqualizer` multi-band spectrum display with interactive gain thumbs. Set band levels yourself, or capture the default recording device (FFT). Capture updates spectrum levels only; gains stay under application or user control.
   - Equalizer face, label, low/mid/high, off, peak, and thumb colours are scheme-driven (`SchemeBaseColors.EqualizerFace` … `EqualizerThumb`) in Standard Toolkit and Themes schemes, with the previous palette redirects as empty-slot fallbacks. Per-control `StateCommon` overrides still win.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Gauges` assembly. `Krypton.Gauges` is not a separate package.

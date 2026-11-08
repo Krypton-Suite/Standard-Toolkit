@@ -83,7 +83,7 @@ Before considering a task complete:
 Issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593). Modern Windows TFMs (`net8.0-windows` and later) load designers out-of-process via the WinForms Designer Extensibility SDK. .NET Framework still uses in-process designers inside the runtime assemblies.
 
 | Layer | TFMs | Role |
-|-------|------|------|
+| ------- | ------ | ------ |
 | Runtime (`Krypton.Toolkit`, Ribbon, Navigator, …) | net4x + modern Windows | Controls. **No** `Microsoft.WinForms.Designer.SDK` package reference. |
 | `Krypton.*.Design` (Server) | modern Windows only | Dual-compiled designers / action lists / glyphs. SDK version is only `KryptonWinFormsDesignerSdkVersion` in `Source/Krypton Components/Directory.Build.props` (currently **1.6.0**). |
 | `Krypton.Toolkit.Design.Client` | **net472 only** | VS-hosted editors (image / folder). |
@@ -130,7 +130,7 @@ When adding a new **builtin** palette (not a custom XML/`KryptonCustomPaletteBas
 ### Placement
 
 | Kind | Assembly | Register in | `KryptonManager.Palette*` return type |
-|------|----------|-------------|----------------------------------------|
+| ------ | ---------- | ------------- | ---------------------------------------- |
 | **Extra** (default) | `Krypton.Themes` | `KryptonExtendedThemeProvider` | `PaletteBase` via `GetPaletteForMode` |
 | **Core** (explicit only) | `Krypton.Toolkit` | `KryptonCoreThemeProvider` | Concrete typed property + lazy field |
 
@@ -211,7 +211,7 @@ The designer prefers `[DefaultValue]` over `ShouldSerialize*` when the attribute
 Prefer the existing factory helpers on the shared palette/values types rather than inventing a second system:
 
 | Situation | Pattern (already on the type) |
-|-----------|-------------------------------|
+| ----------- | ------------------------------- |
 | Palette back/border colour or style stamped in a ctor | `PaletteBack.SetFactoryColor1` / `SetFactoryColor2` / `SetFactoryColorStyle` / `SetFactoryColorAlign` / `SetFactoryColorAngle` / `SetFactoryImageAlign`; `PaletteBorder.SetFactoryColor1` / `SetFactoryDraw` / `SetFactoryDrawBorders` / `SetFactoryGraphicsHint` |
 | Content text alignment, font, trim, multiline, adjacent gap | `PaletteContentText.SetDefaultTextH` / `SetDefaultTextV` / `SetDefaultFont` / `SetDefaultTrim` / `SetDefaultMultiLine` / `SetDefaultMultiLineH`; `PaletteContent.SetDefaultAdjacentGap`; `PaletteInputControlContentStates.SetDefaultTextH` |
 | Label/button text or image that is not `"Label"` / `null` | `LabelValues` ctor default-text argument or `SetFactoryText`; `ButtonValues.SetFactoryText` / `SetFactoryImage`; color-button stock image: `ResetImage()` (resource getters return a new `Bitmap` each time — do not compare a captured static instance) |
@@ -619,7 +619,7 @@ Each library folder has a `Feature` subfolder and a `Bugs` subfolder. **Feature 
 Keep form types in `namespace TestForm;` even when the files live under a library folder. Do not change the namespace to match the folder path (that breaks `StartScreen` registration and WinForms `.resx` lookup). For forms in subfolders, set `DependentUpon` on `.Designer.cs` / `.resx` like neighbouring TestForm entries. If a `.resx` uses `ResXFileRef` relative paths, update those paths when the file moves.
 
 | Package | Folder under `TestForm\` |
-|---------|--------------------------|
+| --------- | -------------------------- |
 | `Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Toolkit.JumpList` | `KryptonToolkit` |
 | `Krypton.Toolkit.Utilities` | `KryptonToolkitUtilities` |
 | `Krypton.Navigator`, `Krypton.Navigator.Utilities` | `KryptonNavigator` |
@@ -773,7 +773,7 @@ Each example is its **own WinExe project** in a subfolder of the matching `Sourc
 Category solutions (under that `Source\… Examples` folder):
 
 | Category | Solutions on disk today |
-|----------|-------------------------|
+| ---------- | ------------------------- |
 | Toolkit, Navigator, Ribbon, Workspace, Docking | Four pairs: `(Debug)` / `(Release)` × `Dev` / `Nuget`, each as `.sln` and `.slnx` (names contain `2022` and a double space before `-`) |
 | Toolkit Utilities, Navigator Utilities | Debug Dev `.slnx` only |
 | Explorer | `Krypton Explorer 2022 - Dev` and `- Nuget` (`.sln` and `.slnx`; no Debug/Release in the name) |
@@ -793,7 +793,7 @@ Dev solutions `ProjectReference` this repo as `..\..\..\..\Standard-Toolkit\Sour
 Put the new or updated example under `$demosRoot` (not this repo):
 
 | Package | Folder under `$demosRoot\Source\` |
-|---------|-----------------------------------|
+| --------- | ----------------------------------- |
 | `Krypton.Toolkit` | `Krypton Toolkit Examples` |
 | `Krypton.Toolkit.Utilities` | `Krypton Toolkit Utilities Examples` |
 | `Krypton.Navigator` | `Krypton Navigator Examples` |
