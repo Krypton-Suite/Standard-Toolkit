@@ -115,6 +115,8 @@
 
 ## 2026-11-30 - Build 2611 (V110 RTM) - November 2026
 
+- Resolved [#4636](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4636), Toast form designer resources no longer exceed the Windows path limit when building `Krypton.Toolkit.Utilities`.
+  - `System.Resources.Extensions` is referenced only for .NET Framework builds, which removes `NU1510` on the modern Design projects. Framework builds still use the package for preserialized resources.
 - Resolved [#4627](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4627), Release Candidates won't build
   - Fixed release-candidate builds by correcting their project paths and imports, removing the unsupported batch-file BOM, and surfacing MSBuild failures.
 - Resolved [#4591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4591), Events button is missing in `KryptonPropertyGrid`
