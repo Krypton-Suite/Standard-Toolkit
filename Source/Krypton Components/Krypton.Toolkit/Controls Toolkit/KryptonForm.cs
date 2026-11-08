@@ -254,6 +254,8 @@ public class KryptonForm : VisualForm,
 	private Control? _activeControl;
 	private KryptonFormTitleStyle _titleStyle;
 	private InheritBool _internalPanelState;
+	private PaletteBackStyle? _panelStyle;
+	private PaletteBackStyle? _mdiPanelStyle;
 	private int _foundRibbonOffset = -1;
 	private readonly KryptonPanel _internalKryptonPanel;
 	// Compensate for Windows 11 outer accent border by shrinking the window region slightly
@@ -409,9 +411,16 @@ public class KryptonForm : VisualForm,
 
 		// Hook into global static events
 		KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged += OnGlobalUseThemeFormChromeBorderWidthChanged;
+		KryptonManager.GlobalUseKryptonColorsOnFormChanged += OnGlobalUseKryptonColorsOnFormChanged;
+		KryptonManager.GlobalPanelStyleChanged += OnGlobalPanelStyleChanged;
+		KryptonManager.GlobalMdiPanelStyleChanged += OnGlobalMdiPanelStyleChanged;
 		KryptonManager.SnapLayoutValues.ModeChanged += OnSnapLayoutModeChanged;
 		KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
 		KryptonManager.GlobalTouchscreenSupportChanged += OnGlobalTouchscreenSupportChanged;
+		SystemEvents.UserPreferenceChanged += OnFormClientUserPreferenceChanged;
+
+		// Sync internal panel style + form/panel BackColor (or SystemColors.Control when disabled).
+		ApplyFormClientThemeBackColor();
 
 		// Create the view manager instance
 		ViewManager = new ViewManager(this, _pulsingBorder.ViewRoot);
@@ -661,8 +670,12 @@ public class KryptonForm : VisualForm,
 			// Unhook from the global static events
 			KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChanged;
 			KryptonManager.GlobalUseThemeFormChromeBorderWidthChanged -= OnGlobalUseThemeFormChromeBorderWidthChanged;
+			KryptonManager.GlobalUseKryptonColorsOnFormChanged -= OnGlobalUseKryptonColorsOnFormChanged;
+			KryptonManager.GlobalPanelStyleChanged -= OnGlobalPanelStyleChanged;
+			KryptonManager.GlobalMdiPanelStyleChanged -= OnGlobalMdiPanelStyleChanged;
 			KryptonManager.SnapLayoutValues.ModeChanged -= OnSnapLayoutModeChanged;
 			KryptonManager.GlobalTouchscreenSupportChanged -= OnGlobalTouchscreenSupportChanged;
+			SystemEvents.UserPreferenceChanged -= OnFormClientUserPreferenceChanged;
 			KryptonSnapGroupRegistry.Unregister(this);
 			DismissSnapAssistPopup();
 
@@ -1298,6 +1311,96 @@ public class KryptonForm : VisualForm,
 				PerformNeedPaint(false);
 			}
 		}
+	}
+
+	/// <summary>
+	/// Gets and sets the client panel background style.
+	/// </summary>
+	/// <remarks>
+	/// Defaults to <see cref="KryptonManager.PanelStyle"/> until a local value is set.
+	/// Reset clears the local override so the form inherits the manager value again.
+	/// When <see cref="KryptonManager.UseKryptonColorsOnForm"/> is enabled, form and
+	/// internal panel <c>BackColor</c> track the effective style (issue #4685).
+	/// </remarks>
+	[Category(@"Visuals")]
+	[Description(@"Client panel background style. Inherits KryptonManager.PanelStyle until overridden.")]
+	[DefaultValue(PaletteBackStyle.PanelClient)]
+	public PaletteBackStyle PanelStyle
+	{
+		get => _panelStyle ?? KryptonManager.PanelStyle;
+
+		set
+		{
+			if (_panelStyle != value || _internalKryptonPanel.PanelBackStyle != value)
+			{
+				_panelStyle = value;
+				ApplyFormClientThemeBackColor();
+				PerformNeedPaint(false);
+			}
+		}
+	}
+
+	private bool ShouldSerializePanelStyle() => _panelStyle.HasValue;
+
+	/// <summary>
+	/// Clears the local <see cref="PanelStyle"/> override so the form inherits
+	/// <see cref="KryptonManager.PanelStyle"/> again.
+	/// </summary>
+	public void ResetPanelStyle()
+	{
+		if (_panelStyle == null && _internalKryptonPanel.PanelBackStyle == KryptonManager.PanelStyle)
+		{
+			return;
+		}
+
+		_panelStyle = null;
+		ApplyFormClientThemeBackColor();
+		PerformNeedPaint(false);
+	}
+
+	/// <summary>
+	/// Gets and sets the MDI client background style.
+	/// </summary>
+	/// <remarks>
+	/// Defaults to <see cref="KryptonManager.MdiPanelStyle"/> until a local value is set.
+	/// Reset clears the local override so the form inherits the manager value again.
+	/// When <see cref="KryptonManager.UseKryptonColorsOnForm"/> is enabled, the MDI
+	/// client <c>BackColor</c> tracks the effective style (issue #4685); otherwise
+	/// <see cref="SystemColors.AppWorkspace"/> is used.
+	/// Independent of <see cref="PanelStyle"/>.
+	/// </remarks>
+	[Category(@"Visuals")]
+	[Description(@"MDI client background style. Inherits KryptonManager.MdiPanelStyle until overridden.")]
+	[DefaultValue(PaletteBackStyle.PanelAlternate)]
+	public PaletteBackStyle MdiPanelStyle
+	{
+		get => _mdiPanelStyle ?? KryptonManager.MdiPanelStyle;
+
+		set
+		{
+			if (_mdiPanelStyle != value)
+			{
+				_mdiPanelStyle = value;
+				ApplyMdiClientThemeBackColor();
+			}
+		}
+	}
+
+	private bool ShouldSerializeMdiPanelStyle() => _mdiPanelStyle.HasValue;
+
+	/// <summary>
+	/// Clears the local <see cref="MdiPanelStyle"/> override so the form inherits
+	/// <see cref="KryptonManager.MdiPanelStyle"/> again.
+	/// </summary>
+	public void ResetMdiPanelStyle()
+	{
+		if (_mdiPanelStyle == null)
+		{
+			return;
+		}
+
+		_mdiPanelStyle = null;
+		ApplyMdiClientThemeBackColor();
 	}
 
 	/// <summary>
@@ -2223,6 +2326,7 @@ public class KryptonForm : VisualForm,
 		ApplyLeftTrafficLightFormChromeIfNeeded();
 
 		ApplyMdiClientThemeBackColor();
+		ApplyFormClientThemeBackColor();
 
 		// Min/max/close views must rebuild when the palette/renderer changes (#3859, #4061).
 		RecreateMinMaxCloseButtons();
@@ -4253,8 +4357,9 @@ public class KryptonForm : VisualForm,
 	}
 
 	/// <summary>
-	/// Paints the MDI client with the current theme <see cref="PaletteBackStyle.PanelAlternate"/>
-	/// colour instead of the system AppWorkspace grey.
+	/// Paints the MDI client with the effective <see cref="MdiPanelStyle"/> colour when
+	/// <see cref="KryptonManager.UseKryptonColorsOnForm"/> is enabled; otherwise uses
+	/// <see cref="SystemColors.AppWorkspace"/> (issue #4685).
 	/// </summary>
 	private void ApplyMdiClientThemeBackColor()
 	{
@@ -4271,11 +4376,19 @@ public class KryptonForm : VisualForm,
 
 		HookMdiClient(client);
 
-		var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
-		Color back = palette.GetBackColor1(PaletteBackStyle.PanelAlternate, PaletteState.Normal);
-		if (back == SharedStaticVariables.EMPTY_COLOR || back.IsEmpty)
+		Color back;
+		if (KryptonManager.UseKryptonColorsOnForm)
 		{
-			back = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+			var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+			back = palette.GetBackColor1(MdiPanelStyle, PaletteState.Normal);
+			if (back == SharedStaticVariables.EMPTY_COLOR || back.IsEmpty)
+			{
+				back = palette.GetBackColor1(PaletteBackStyle.PanelClient, PaletteState.Normal);
+			}
+		}
+		else
+		{
+			back = SystemColors.AppWorkspace;
 		}
 
 		if (client.BackColor != back)
@@ -4284,6 +4397,73 @@ public class KryptonForm : VisualForm,
 		}
 
 		SyncMdiClientEdgeForBorderlessFillChildren();
+	}
+
+	/// <summary>
+	/// Syncs the internal panel style and form/panel <see cref="Control.BackColor"/> with the
+	/// effective <see cref="PanelStyle"/> when <see cref="KryptonManager.UseKryptonColorsOnForm"/>
+	/// is enabled; otherwise uses <see cref="SystemColors.Control"/> (issue #4685).
+	/// </summary>
+	private void ApplyFormClientThemeBackColor()
+	{
+		if (IsDisposed || _internalKryptonPanel == null)
+		{
+			return;
+		}
+
+		PaletteBackStyle style = PanelStyle;
+		if (_internalKryptonPanel.PanelBackStyle != style)
+		{
+			_internalKryptonPanel.PanelBackStyle = style;
+		}
+
+		Color back;
+		if (KryptonManager.UseKryptonColorsOnForm)
+		{
+			var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+			back = palette.GetBackColor1(style, PaletteState.Normal);
+			if (back == SharedStaticVariables.EMPTY_COLOR || back.IsEmpty)
+			{
+				back = SystemColors.Control;
+			}
+
+			// Leave panel paint on palette inheritance.
+			if (_internalKryptonPanel.StateCommon.Color1 != SharedStaticVariables.EMPTY_COLOR)
+			{
+				_internalKryptonPanel.StateCommon.Color1 = SharedStaticVariables.EMPTY_COLOR;
+			}
+
+			if (_internalKryptonPanel.StateCommon.ColorStyle != PaletteColorStyle.Inherit)
+			{
+				_internalKryptonPanel.StateCommon.ColorStyle = PaletteColorStyle.Inherit;
+			}
+		}
+		else
+		{
+			back = SystemColors.Control;
+
+			// Force a solid Control fill so themed panel painting does not stay active.
+			if (_internalKryptonPanel.StateCommon.Color1 != back)
+			{
+				_internalKryptonPanel.StateCommon.Color1 = back;
+			}
+
+			if (_internalKryptonPanel.StateCommon.ColorStyle != PaletteColorStyle.Solid)
+			{
+				_internalKryptonPanel.StateCommon.ColorStyle = PaletteColorStyle.Solid;
+			}
+		}
+
+		// Public BackColor setter is a no-op; update the base value used by chrome Clear and inheritance.
+		if (base.BackColor != back)
+		{
+			base.BackColor = back;
+		}
+
+		if (_internalKryptonPanel.BackColor != back)
+		{
+			_internalKryptonPanel.BackColor = back;
+		}
 	}
 
 	/// <summary>
@@ -4734,6 +4914,45 @@ public class KryptonForm : VisualForm,
 
 	private void OnGlobalUseThemeFormChromeBorderWidthChanged(object? sender, EventArgs e) => UpdateUseThemeFormChromeBorderWidthDecision();
 
+	private void OnGlobalUseKryptonColorsOnFormChanged(object? sender, EventArgs e)
+	{
+		ApplyFormClientThemeBackColor();
+		ApplyMdiClientThemeBackColor();
+	}
+
+	private void OnGlobalPanelStyleChanged(object? sender, EventArgs e)
+	{
+		// Only forms that still inherit the manager style need to refresh.
+		if (!_panelStyle.HasValue)
+		{
+			ApplyFormClientThemeBackColor();
+			PerformNeedPaint(false);
+		}
+	}
+
+	private void OnGlobalMdiPanelStyleChanged(object? sender, EventArgs e)
+	{
+		// Only forms that still inherit the manager MDI style need to refresh.
+		if (!_mdiPanelStyle.HasValue)
+		{
+			ApplyMdiClientThemeBackColor();
+		}
+	}
+
+	private void OnFormClientUserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+	{
+		switch (e.Category)
+		{
+			case UserPreferenceCategory.Color:
+			case UserPreferenceCategory.VisualStyle:
+			case UserPreferenceCategory.Window:
+			case UserPreferenceCategory.General:
+				ApplyFormClientThemeBackColor();
+				ApplyMdiClientThemeBackColor();
+				break;
+		}
+	}
+
 	private void OnGlobalPaletteChanged(object? sender, EventArgs e)
 	{
 		// We only care if we are using the global palette
@@ -4745,6 +4964,9 @@ public class KryptonForm : VisualForm,
 			ApplyMaterialFormChromeDefaultsIfNeeded();
 			ApplyLeftTrafficLightFormChromeIfNeeded();
 			ApplyMacOSFormWindowEffectsIfNeeded();
+
+			ApplyFormClientThemeBackColor();
+			ApplyMdiClientThemeBackColor();
 
 			// Ensure sizing grip updates with theme
 			RecalcNonClient();
