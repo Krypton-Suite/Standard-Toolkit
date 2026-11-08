@@ -256,6 +256,11 @@ public abstract class KryptonColorSchemeBase
     public abstract Color TrackBarFillTrack                { get; set; }
     public abstract Color TrackBarOutsidePosition          { get; set; }
     public abstract Color TrackBarBorderPosition           { get; set; }
+    public abstract Color TransferSpeedGraphPlot           { get; set; }
+    public abstract Color TransferSpeedGraphSeries         { get; set; }
+    public abstract Color TransferSpeedGraphGrid           { get; set; }
+    public abstract Color TransferSpeedGraphBorder         { get; set; }
+    public abstract Color TransferSpeedGraphLabel          { get; set; }
 
     #endregion
 }

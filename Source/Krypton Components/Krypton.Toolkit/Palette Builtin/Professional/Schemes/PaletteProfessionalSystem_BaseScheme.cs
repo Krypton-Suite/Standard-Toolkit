@@ -254,4 +254,10 @@ public sealed class PaletteProfessionalSystem_BaseScheme : KryptonColorSchemeBas
     public override Color TrackBarFillTrack                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(255, 0, 0);
+
 }

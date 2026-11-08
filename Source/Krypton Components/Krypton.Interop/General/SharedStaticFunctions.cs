@@ -36,5 +36,15 @@ public class SharedStaticFunctions
     /// <param name="parameterName">Name of the parameter to be inserted into the text.</param>
     /// <returns>The message.</returns>
     public static string ParameterCannotBeNull(string parameterName) => $"Parameter {parameterName} cannot be null.";
+
+    /// <summary>
+    /// Helper method that returns a generic message when a value is not within the expected range.
+    /// </summary>
+    /// <param name="value">The value to be inserted into the text.</param>
+    /// <param name="minValue">The minimum expected value.</param>
+    /// <param name="maxValue">The maximum expected value.</param>
+    /// <returns>The message.</returns>
+    public static string ValueNotInRange(object value, object minValue, object maxValue) => $"Value {value} is not in the expected range of {minValue} to {maxValue}.";
+
     #endregion
 }
