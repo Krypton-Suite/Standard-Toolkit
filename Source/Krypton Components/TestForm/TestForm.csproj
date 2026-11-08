@@ -86,6 +86,12 @@
     <Compile Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.Designer.cs">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\FormClientBackColorDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\FormClientBackColorDemo.Designer.cs">
+      <DependentUpon>FormClientBackColorDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="Bug3381KryptonButtonRoundedTextCenteringDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessMdiHostDemo.resx">
       <DependentUpon>BorderlessMdiHostDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\FormClientBackColorDemo.resx">
+      <DependentUpon>FormClientBackColorDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>

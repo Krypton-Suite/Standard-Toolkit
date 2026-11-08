@@ -35,6 +35,15 @@ dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f ne
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-ShowDialogFormChrome.ps1
 ```
 
+## Form client BackColor (`Invoke-FormClientBackColorScreenshot.ps1`)
+
+Issue #4685: captures `FormClientBackColorDemo` light/dark stills for `UseKryptonColorsOnForm` / `PanelStyle` (default and manager `PanelAlternate`). `# UnitTest-CI: exclude`.
+
+```cmd
+dotnet build "Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net48
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-FormClientBackColorScreenshot.ps1
+```
+
 ## Designer serialization defaults (`UnitTest-DesignerSerializationDefaults.ps1`)
 
 Fresh Toolbox controls must not show nested `Storage` objects as **Modified** (issue #4325). Factory message-box and splash-screen strings must not serialize (issue #4466).

@@ -4,6 +4,7 @@
 
 ## Table of Contents
 
+- [2027-02-15 - Build 2702 (Version 105-LTS - Patch 5) - February 2027](#2027-02-15---build-2702-version-105-lts---patch-5---february-2027)
 - [2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026](#2026-11-10---build-2611-version-105-lts---patch-4---november-2026)
 - [2026-07-20 - Build 2607 (Version 105-LTS - Patch 3) - July 2026](#2026-07-20---build-2607-version-105-lts---patch-3---july-2026)
 - [2026-04-20 - Build 2604 (Version 105-LTS - Patch 2) - April 2026](#2026-04-20---build-2604-version-105-lts---patch-2---april-2026)
@@ -46,11 +47,20 @@
 
 ====
 
+## 2027-02-15 - Build 2702 (Version 105-LTS - Patch 5) - February 2027
+
+- Implemented [#4685](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4685), `KryptonForm` background colour
+  - `KryptonManager.UseKryptonColorsOnForm` (default `true`) syncs `KryptonForm` and internal panel `BackColor` to the form `PanelStyle` palette colour. Set to `false` to keep `SystemColors.Control`.
+  - `KryptonManager.PanelStyle` (default `PanelClient`) is the global client panel style; `KryptonForm.PanelStyle` inherits it until a local override is set (Reset returns to inherit).
+  - `KryptonManager.MdiPanelStyle` (default `PanelAlternate`) is the global MDI client style; `KryptonForm.MdiPanelStyle` inherits it until overridden. When `UseKryptonColorsOnForm` is off, the MDI client uses `SystemColors.AppWorkspace`.
+
+====
+
 ## 2026-11-10 - Build 2611 (Version 105-LTS - Patch 4) - November 2026
 
 - Resolved [#4591](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4591), Events button is missing in `KryptonPropertyGrid`
 - Resolved [#4584](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4584), Flickering when displaying a `KryptonForm` in Windows Forms
-   - Bordered `KryptonForm` dialogs no longer flash the Windows 11 system title bar when opened with `ShowDialog`.
+  - Bordered `KryptonForm` dialogs no longer flash the Windows 11 system title bar when opened with `ShowDialog`.
 - Implemented [#4559](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4559), Use different designer 'Modified' types
   - Fresh navigator, workspace, and docking values stay blank in the property grid until they change. A dockable workspace records its compact flags and hidden maximize button as the factory value.
   - Empty ribbon and drag-drop colours, constructor context menus, list-item text, theme selectors, and the tooltip component are not written into the designer file until you change them.
