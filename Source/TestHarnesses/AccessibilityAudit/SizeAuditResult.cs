@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Collections.Generic;
-
 namespace AccessibilityAudit;
 
 internal sealed class SizeAuditResult

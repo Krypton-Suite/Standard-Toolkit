@@ -7,13 +7,6 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-
 namespace AccessibilityAudit;
 
 /// <summary>
@@ -30,8 +23,13 @@ internal sealed class KeyBaseline
 
     public List<string> Failures { get; set; } = new List<string>();
 
-    public static KeyBaseline Load(string path)
+    public static KeyBaseline Load(string? path)
     {
+        if (string.IsNullOrEmpty(path))
+        {
+            throw new ArgumentException(@"Path cannot be null or empty.", nameof(path));
+        }
+
         string json = File.ReadAllText(path);
         KeyBaseline? baseline = JsonSerializer.Deserialize<KeyBaseline>(json, JsonOptions);
         if (baseline == null)
@@ -43,7 +41,7 @@ internal sealed class KeyBaseline
         return baseline;
     }
 
-    public void Save(string path)
+    public void Save(string? path)
     {
         Failures.Sort(StringComparer.Ordinal);
         string? directory = Path.GetDirectoryName(path);
@@ -58,6 +56,6 @@ internal sealed class KeyBaseline
             json += "\r\n";
         }
 
-        File.WriteAllText(path, json, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+        File.WriteAllText(path!, json, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
     }
 }
