@@ -47,6 +47,26 @@ namespace UpdateManifestEditor
         /// <summary>Empty omits <c>allowRetry</c>. False hides Restart.</summary>
         public string AllowRetry { get; set; } = string.Empty;
 
+        public string BannerText { get; set; } = string.Empty;
+
+        public string BannerBackColor { get; set; } = string.Empty;
+
+        public string BannerBackColor2 { get; set; } = string.Empty;
+
+        public string BannerForeColor { get; set; } = string.Empty;
+
+        public string BannerImageUrl { get; set; } = string.Empty;
+
+        /// <summary>Empty omits <c>pulse</c>. <c>true</c> or <c>false</c> writes enable.</summary>
+        public string PulseEnable { get; set; } = string.Empty;
+
+        public string PulseColor { get; set; } = string.Empty;
+
+        /// <summary>Empty defaults to All when pulse is written.</summary>
+        public string PulseStyle { get; set; } = string.Empty;
+
+        public string PulseSpeed { get; set; } = string.Empty;
+
         public override string ToString()
         {
             var version = string.IsNullOrWhiteSpace(Version) ? "(new package)" : Version.Trim();

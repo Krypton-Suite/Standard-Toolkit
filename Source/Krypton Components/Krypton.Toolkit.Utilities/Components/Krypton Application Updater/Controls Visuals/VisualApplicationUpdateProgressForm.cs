@@ -53,7 +53,8 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
 
     /// <summary>Applies localised labels and shows Cancel for the first transfer.</summary>
     /// <param name="strings">Prompt text.</param>
-    internal void Bind(KryptonApplicationUpdaterStrings strings)
+    /// <param name="pulse">Optional form chrome glow from the package.</param>
+    internal void Bind(KryptonApplicationUpdaterStrings strings, KryptonUpdatePulse? pulse = null)
     {
         _strings = strings ?? new KryptonApplicationUpdaterStrings();
         Text = _strings.WindowTitle;
@@ -63,6 +64,7 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
         btnClose.Text = _strings.Close;
         ApplyDetailsButton();
         SetFileName(_fileName);
+        KryptonUpdatePresentation.ApplyPulse(this, pulse);
         BeginTransfer(_strings.Downloading);
     }
 

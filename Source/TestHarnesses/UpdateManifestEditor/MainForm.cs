@@ -36,7 +36,98 @@ namespace UpdateManifestEditor
             cmbAllowSkip.Items.AddRange(new object[] { "default", "allow", "block" });
             cmbAllowResume.Items.AddRange(new object[] { "default", "allow", "block" });
             cmbAllowRetry.Items.AddRange(new object[] { "default", "allow", "block" });
+            AddPresentationEditorRows();
             AddPackage();
+        }
+
+        private void AddPresentationEditorRows()
+        {
+            editor.SuspendLayout();
+            editor.Controls.Remove(lblNotes);
+            editor.Controls.Remove(txtNotes);
+            while (editor.RowStyles.Count > 15)
+            {
+                editor.RowStyles.RemoveAt(editor.RowStyles.Count - 1);
+            }
+
+            for (var index = 0; index < 9; index++)
+            {
+                editor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            }
+
+            editor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            editor.RowCount = 25;
+
+            lblBannerText = CreateEditorLabel("Banner text");
+            txtBannerText = CreateEditorTextBox();
+            lblBannerBackColor = CreateEditorLabel("Banner back");
+            txtBannerBackColor = CreateEditorTextBox();
+            lblBannerBackColor2 = CreateEditorLabel("Banner back 2");
+            txtBannerBackColor2 = CreateEditorTextBox();
+            lblBannerForeColor = CreateEditorLabel("Banner fore");
+            txtBannerForeColor = CreateEditorTextBox();
+            lblBannerImageUrl = CreateEditorLabel("Banner image");
+            txtBannerImageUrl = CreateEditorTextBox();
+            lblPulseEnable = CreateEditorLabel("Pulse");
+            cmbPulseEnable = CreateEditorCombo(new object[] { "default", "on", "off" });
+            lblPulseColor = CreateEditorLabel("Pulse colour");
+            txtPulseColor = CreateEditorTextBox();
+            lblPulseStyle = CreateEditorLabel("Pulse style");
+            cmbPulseStyle = CreateEditorCombo(new object[] { "default", "All", "Bottom" });
+            lblPulseSpeed = CreateEditorLabel("Pulse speed");
+            txtPulseSpeed = CreateEditorTextBox();
+
+            editor.Controls.Add(lblBannerText, 0, 15);
+            editor.Controls.Add(txtBannerText, 1, 15);
+            editor.Controls.Add(lblBannerBackColor, 0, 16);
+            editor.Controls.Add(txtBannerBackColor, 1, 16);
+            editor.Controls.Add(lblBannerBackColor2, 0, 17);
+            editor.Controls.Add(txtBannerBackColor2, 1, 17);
+            editor.Controls.Add(lblBannerForeColor, 0, 18);
+            editor.Controls.Add(txtBannerForeColor, 1, 18);
+            editor.Controls.Add(lblBannerImageUrl, 0, 19);
+            editor.Controls.Add(txtBannerImageUrl, 1, 19);
+            editor.Controls.Add(lblPulseEnable, 0, 20);
+            editor.Controls.Add(cmbPulseEnable, 1, 20);
+            editor.Controls.Add(lblPulseColor, 0, 21);
+            editor.Controls.Add(txtPulseColor, 1, 21);
+            editor.Controls.Add(lblPulseStyle, 0, 22);
+            editor.Controls.Add(cmbPulseStyle, 1, 22);
+            editor.Controls.Add(lblPulseSpeed, 0, 23);
+            editor.Controls.Add(txtPulseSpeed, 1, 23);
+            editor.Controls.Add(lblNotes, 0, 24);
+            editor.Controls.Add(txtNotes, 1, 24);
+            editor.ResumeLayout();
+        }
+
+        private static KryptonLabel CreateEditorLabel(string text)
+        {
+            var label = new KryptonLabel();
+            label.Values.Text = text;
+            return label;
+        }
+
+        private KryptonTextBox CreateEditorTextBox()
+        {
+            var box = new KryptonTextBox
+            {
+                Dock = DockStyle.Fill
+            };
+            box.TextChanged += OnFieldChanged;
+            return box;
+        }
+
+        private KryptonComboBox CreateEditorCombo(object[] items)
+        {
+            var combo = new KryptonComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                DropDownWidth = 160,
+                Width = 160
+            };
+            combo.Items.AddRange(items);
+            combo.SelectedIndexChanged += OnFieldChanged;
+            return combo;
         }
 
         private void OnAdd(object? sender, EventArgs e) => AddPackage();
@@ -266,6 +357,15 @@ namespace UpdateManifestEditor
             SelectCombo(cmbAllowSkip, AllowPostponeLabel(package.AllowSkip), "default");
             SelectCombo(cmbAllowResume, AllowPostponeLabel(package.AllowResume), "default");
             SelectCombo(cmbAllowRetry, AllowPostponeLabel(package.AllowRetry), "default");
+            txtBannerText.Text = package.BannerText;
+            txtBannerBackColor.Text = package.BannerBackColor;
+            txtBannerBackColor2.Text = package.BannerBackColor2;
+            txtBannerForeColor.Text = package.BannerForeColor;
+            txtBannerImageUrl.Text = package.BannerImageUrl;
+            SelectCombo(cmbPulseEnable, PulseEnableLabel(package.PulseEnable), "default");
+            txtPulseColor.Text = package.PulseColor;
+            SelectCombo(cmbPulseStyle, string.IsNullOrWhiteSpace(package.PulseStyle) ? "default" : package.PulseStyle, "default");
+            txtPulseSpeed.Text = package.PulseSpeed;
             txtNotes.Text = package.ReleaseNotes;
             _loading = false;
         }
@@ -287,6 +387,15 @@ namespace UpdateManifestEditor
             cmbAllowSkip.SelectedIndex = -1;
             cmbAllowResume.SelectedIndex = -1;
             cmbAllowRetry.SelectedIndex = -1;
+            txtBannerText.Text = string.Empty;
+            txtBannerBackColor.Text = string.Empty;
+            txtBannerBackColor2.Text = string.Empty;
+            txtBannerForeColor.Text = string.Empty;
+            txtBannerImageUrl.Text = string.Empty;
+            cmbPulseEnable.SelectedIndex = -1;
+            txtPulseColor.Text = string.Empty;
+            cmbPulseStyle.SelectedIndex = -1;
+            txtPulseSpeed.Text = string.Empty;
             txtNotes.Text = string.Empty;
             _loading = false;
         }
@@ -313,6 +422,16 @@ namespace UpdateManifestEditor
             package.AllowSkip = AllowPostponeValue(cmbAllowSkip.SelectedItem as string);
             package.AllowResume = AllowPostponeValue(cmbAllowResume.SelectedItem as string);
             package.AllowRetry = AllowPostponeValue(cmbAllowRetry.SelectedItem as string);
+            package.BannerText = txtBannerText.Text.Trim();
+            package.BannerBackColor = txtBannerBackColor.Text.Trim();
+            package.BannerBackColor2 = txtBannerBackColor2.Text.Trim();
+            package.BannerForeColor = txtBannerForeColor.Text.Trim();
+            package.BannerImageUrl = txtBannerImageUrl.Text.Trim();
+            package.PulseEnable = PulseEnableValue(cmbPulseEnable.SelectedItem as string);
+            package.PulseColor = txtPulseColor.Text.Trim();
+            var style = cmbPulseStyle.SelectedItem as string;
+            package.PulseStyle = style == null || style == "default" ? string.Empty : style;
+            package.PulseSpeed = txtPulseSpeed.Text.Trim();
             package.ReleaseNotes = txtNotes.Text;
         }
 
@@ -444,6 +563,31 @@ namespace UpdateManifestEditor
             return string.Empty;
         }
 
+        private static string PulseEnableLabel(string value)
+        {
+            if (bool.TryParse(value, out var enable))
+            {
+                return enable ? "on" : "off";
+            }
+
+            return "default";
+        }
+
+        private static string PulseEnableValue(string? label)
+        {
+            if (string.Equals(label, "on", StringComparison.OrdinalIgnoreCase))
+            {
+                return "true";
+            }
+
+            if (string.Equals(label, "off", StringComparison.OrdinalIgnoreCase))
+            {
+                return "false";
+            }
+
+            return string.Empty;
+        }
+
         private static void SelectCombo(KryptonComboBox combo, string value, string fallback)
         {
             var wanted = string.IsNullOrWhiteSpace(value) ? fallback : value.Trim();
@@ -460,5 +604,24 @@ namespace UpdateManifestEditor
         }
 
         private void SetStatus(string message) => lblStatus.Text = message;
+
+        private KryptonLabel lblBannerText;
+        private KryptonTextBox txtBannerText;
+        private KryptonLabel lblBannerBackColor;
+        private KryptonTextBox txtBannerBackColor;
+        private KryptonLabel lblBannerBackColor2;
+        private KryptonTextBox txtBannerBackColor2;
+        private KryptonLabel lblBannerForeColor;
+        private KryptonTextBox txtBannerForeColor;
+        private KryptonLabel lblBannerImageUrl;
+        private KryptonTextBox txtBannerImageUrl;
+        private KryptonLabel lblPulseEnable;
+        private KryptonComboBox cmbPulseEnable;
+        private KryptonLabel lblPulseColor;
+        private KryptonTextBox txtPulseColor;
+        private KryptonLabel lblPulseStyle;
+        private KryptonComboBox cmbPulseStyle;
+        private KryptonLabel lblPulseSpeed;
+        private KryptonTextBox txtPulseSpeed;
     }
 }
