@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <NoWarn>$(NoWarn);WFO5002</NoWarn>
@@ -32,12 +32,15 @@
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
     <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
     <ProjectReference Include="..\Krypton.Drawing\Krypton.Drawing.csproj" />
+    <ProjectReference Include="..\Krypton.Dialogs\Krypton.Dialogs.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
     <ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
     <!--<ProjectReference Include="..\..\TestHarnesses\ThemeProviderSample\ThemeProviderSample.csproj" />-->
     <ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
+    <ProjectReference Include="..\Krypton.Gauges\Krypton.Gauges.csproj" />
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Charting\Krypton.Charting.csproj" />
   </ItemGroup>
 
   <!-- WebView2: prefer Lib/WebView2 (matches Krypton.Toolkit.Utilities), fallback to NuGet when DLLs missing -->
@@ -86,6 +89,12 @@
     <Compile Update="KryptonToolkit\Feature\KryptonTagInputDemo.Designer.cs">
       <DependentUpon>KryptonTagInputDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.Designer.cs">
+      <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -96,6 +105,15 @@
     <Compile Update="KryptonUtilities\Feature\KryptonSearchBoxPerformanceDemo.Designer.cs">
       <DependentUpon>KryptonSearchBoxPerformanceDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonCharting\Feature\TimelineDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonCharting\Feature\TimelineDemo.Designer.cs">
+      <DependentUpon>TimelineDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonCharting\Feature\TimelineDemo.resx">
+      <DependentUpon>TimelineDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.cs" />
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.Designer.cs">
       <DependentUpon>LoadingCircleDemo.cs</DependentUpon>
@@ -206,6 +224,15 @@
     <Compile Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonDialogs\Feature\FileOperationProgressDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonDialogs\Feature\FileOperationProgressDemo.Designer.cs">
+      <DependentUpon>FileOperationProgressDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonDialogs\Feature\FileOperationProgressDemo.resx">
+      <DependentUpon>FileOperationProgressDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.Designer.cs">
       <DependentUpon>KryptonSVGPictureBoxDemo.cs</DependentUpon>
     </Compile>
@@ -253,6 +280,10 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonGauges\Feature\KryptonVuMeterDemo.resx">
+      <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
+      <LogicalName>TestForm.KryptonVuMeterDemo.resources</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
@@ -314,6 +345,7 @@
 
   <ItemGroup>
     <Folder Include="KryptonDrawing\Bugs\" />
+    <Folder Include="KryptonDialogs\Bugs\" />
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonUtilities\Bugs\" />

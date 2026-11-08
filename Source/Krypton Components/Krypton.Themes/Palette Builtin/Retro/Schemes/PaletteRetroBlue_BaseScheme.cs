@@ -105,5 +105,11 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         LinkVisitedOverridePanel = Color.FromArgb(255, 170, 255);
         LinkPressedOverridePanel = Color.FromArgb(255, 85, 85);
         LinkNotVisitedOverrideControl = DosYellow;
+
+        TransferSpeedGraphPlot = DosBlue;
+        TransferSpeedGraphSeries = DosCyan;
+        TransferSpeedGraphGrid = Color.Black;
+        TransferSpeedGraphBorder = Color.Black;
+        TransferSpeedGraphLabel = Color.White;
     }
 }

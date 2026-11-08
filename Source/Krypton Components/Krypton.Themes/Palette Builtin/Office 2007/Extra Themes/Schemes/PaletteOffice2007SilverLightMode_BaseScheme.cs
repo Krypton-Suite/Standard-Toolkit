@@ -254,4 +254,10 @@ public sealed class PaletteOffice2007SilverLightMode_BaseScheme : KryptonColorSc
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(196, 190, 205);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(80, 81, 82);
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(224, 225, 231);
+    public override Color TransferSpeedGraphSeries         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(111, 112, 116);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(111, 112, 116);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(24, 24, 24);
+
 }

@@ -246,7 +246,7 @@ public sealed class EmptySchemeBase : KryptonColorSchemeBase
     public override Color MenuMarginGradientMiddle         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color MenuMarginGradientEnd            { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color DisabledMenuItemText             { get; set; } = SharedStaticVariables.EMPTY_COLOR;
-    public override Color MenuStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color ToolStripText                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTickMarks                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTopTrack                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
@@ -254,4 +254,9 @@ public sealed class EmptySchemeBase : KryptonColorSchemeBase
     public override Color TrackBarFillTrack                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphPlot           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphSeries         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphGrid           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphBorder         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphLabel          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }

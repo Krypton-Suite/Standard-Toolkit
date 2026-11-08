@@ -254,4 +254,10 @@ public sealed class PaletteDeuteranopia_BaseScheme : KryptonColorSchemeBase
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(0, 114, 178);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(63, 101, 152);
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(232, 236, 242);
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(0, 114, 178);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(30, 57, 91);
+
 }

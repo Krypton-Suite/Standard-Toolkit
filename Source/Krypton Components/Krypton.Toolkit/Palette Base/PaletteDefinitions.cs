@@ -4430,7 +4430,13 @@ public enum PaletteElement
     /// <summary>
     /// Specifies the position marker of a track bar.
     /// </summary>
-    TrackBarPosition
+    TrackBarPosition,
+
+    /// <summary>
+    /// Specifies colours for the transfer-speed graph.
+    /// Color1 = plot background, Color2 = series fill, Color3 = grid, Color4 = frame border, Color5 = speed label.
+    /// </summary>
+    TransferSpeedGraph
 }
 #endregion
 

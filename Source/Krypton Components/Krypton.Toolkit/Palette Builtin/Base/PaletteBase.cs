@@ -1814,6 +1814,50 @@ public abstract class PaletteBase : Component
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public abstract Color GetElementColor5(PaletteElement element, PaletteState state);
+
+    /// <summary>
+    /// Resolves transfer-speed graph colours from <see cref="SchemeBaseColors"/> slots when set;
+    /// otherwise falls back to panel, accent, border, and label styles.
+    /// Color1 = plot, Color2 = series, Color3 = grid, Color4 = frame, Color5 = speed label.
+    /// </summary>
+    /// <param name="colorIndex">One-based colour slot (1–5).</param>
+    /// <param name="state">Palette state.</param>
+    /// <returns>Theme colour for the graph role.</returns>
+    protected Color GetTransferSpeedGraphElementColor(int colorIndex, PaletteState state)
+    {
+        SchemeBaseColors slot = colorIndex switch
+        {
+            1 => SchemeBaseColors.TransferSpeedGraphPlot,
+            2 => SchemeBaseColors.TransferSpeedGraphSeries,
+            3 => SchemeBaseColors.TransferSpeedGraphGrid,
+            4 => SchemeBaseColors.TransferSpeedGraphBorder,
+            5 => SchemeBaseColors.TransferSpeedGraphLabel,
+            _ => (SchemeBaseColors)(-1)
+        };
+
+        if ((int)slot >= 0)
+        {
+            Color fromScheme = SchemeBaseColorsExtensions.Get(SchemeColors, slot);
+            if (!SchemeBaseColorsExtensions.IsEmptySchemeColor(fromScheme))
+            {
+                return state == PaletteState.Disabled
+                    ? ControlPaint.Light(fromScheme)
+                    : fromScheme;
+            }
+        }
+
+        return colorIndex switch
+        {
+            1 => GetBackColor1(PaletteBackStyle.PanelClient, state),
+            // Checked button back is a high-contrast accent on both light and dark families.
+            2 => GetBackColor1(PaletteBackStyle.ButtonStandalone,
+                state == PaletteState.Disabled ? PaletteState.Disabled : PaletteState.CheckedNormal),
+            3 => GetBorderColor1(PaletteBorderStyle.ControlClient, state),
+            4 => GetBorderColor1(PaletteBorderStyle.ControlClient, state),
+            5 => GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state),
+            _ => Color.Red
+        };
+    }
     #endregion
 
     #region DragDrop
@@ -2247,6 +2291,12 @@ public abstract class PaletteBase : Component
     // Key = (palette base type, enum type that defines the slot, zero-based index)
     private static readonly Dictionary<(Type Owner, Type Enum, int Index), Color> _colorLut = new Dictionary<(Type Owner, Type Enum, int Index), Color>();
 
+    // Hits from ResolveColorLutKey, keyed by the palette runtime type (Owner) so a derived override
+    // does not share a base palette's cached colour. Static: every instance of a type shares
+    // the same registration. _colorLock guards per-instance scheme arrays, not this table.
+    private static readonly Dictionary<(Type Owner, Type Enum, int Index), Color> _resolvedColors = new Dictionary<(Type Owner, Type Enum, int Index), Color>();
+    private static readonly object _resolvedColorLock = new object();
+
     /// <summary>
     /// Called once from a family base static constructor to seed default colours for a particular enum slot.
     /// </summary>
@@ -2272,14 +2322,43 @@ public abstract class PaletteBase : Component
     /// </summary>
     public Color GetArrayColor<TEnum>(TEnum slot) where TEnum : struct, Enum
     {
-        var key = ResolveColorLutKey(typeof(TEnum), Convert.ToInt32(slot));
+        var enumType = typeof(TEnum);
+        var index = Convert.ToInt32(slot);
+        var cacheKey = (GetType(), enumType, index);
 
-        if (key.HasValue)
+        lock (_resolvedColorLock)
         {
-            return _colorLut[key.Value];
+            if (_resolvedColors.TryGetValue(cacheKey, out var cached))
+            {
+                return cached;
+            }
         }
 
-        throw new KeyNotFoundException($@"No registered color for {typeof(TEnum).Name}.{slot}.");
+        var key = ResolveColorLutKey(enumType, index);
+
+        if (!key.HasValue)
+        {
+            throw new KeyNotFoundException($@"No registered color for {enumType.Name}.{slot}.");
+        }
+
+        var color = _colorLut[key.Value];
+        lock (_resolvedColorLock)
+        {
+            // SetArrayColor may have published a newer runtime override while the owner walk ran.
+            if (_resolvedColors.TryGetValue(cacheKey, out var published))
+            {
+                return published;
+            }
+
+            if (_colorLut.TryGetValue(cacheKey, out var overridden))
+            {
+                color = overridden;
+            }
+
+            _resolvedColors[cacheKey] = color;
+        }
+
+        return color;
     }
 
     /// <summary>
@@ -2287,9 +2366,28 @@ public abstract class PaletteBase : Component
     /// </summary>
     public void SetArrayColor<TEnum>(TEnum slot, Color newColor) where TEnum : struct, Enum
     {
-        var key = (GetType(), typeof(TEnum), Convert.ToInt32(slot));
+        var runtimeType = GetType();
+        var key = (runtimeType, typeof(TEnum), Convert.ToInt32(slot));
 
         _colorLut[key] = newColor;
+        lock (_resolvedColorLock)
+        {
+            // The next lookup walks owners again so this override replaces the family default.
+            var stale = new List<(Type Owner, Type Enum, int Index)>();
+            foreach (var entry in _resolvedColors)
+            {
+                if (entry.Key.Owner == runtimeType)
+                {
+                    stale.Add(entry.Key);
+                }
+            }
+
+            foreach (var staleKey in stale)
+            {
+                _resolvedColors.Remove(staleKey);
+            }
+        }
+
         // Inform listeners that colours have changed so UI repaints.
         OnPalettePaint(this, new PaletteLayoutEventArgs(true, true));
     }
