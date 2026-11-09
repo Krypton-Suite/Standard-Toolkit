@@ -46,6 +46,10 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4685](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4685), `KryptonForm` background colour
+  - `KryptonManager.UseKryptonColorsOnForm` (default `true`) syncs `KryptonForm` and internal panel `BackColor` to the form `PanelStyle` palette colour. Set to `false` to keep `SystemColors.Control`.
+  - `KryptonManager.PanelStyle` (default `PanelClient`) is the global client panel style; `KryptonForm.PanelStyle` inherits it until a local override is set (Reset returns to inherit).
+  - `KryptonManager.MdiPanelStyle` (default `PanelAlternate`) is the global MDI client style; `KryptonForm.MdiPanelStyle` inherits it until overridden. When `UseKryptonColorsOnForm` is off, the MDI client uses `SystemColors.AppWorkspace`.
 - Implemented [#4684](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4684), `KryptonProgressBar` `SchemeBaseColors` slots
   - `KryptonProgressBar` fill colours are scheme-driven via `SchemeBaseColors.ProgressBarValue`, `ProgressBarLow`, `ProgressBarMedium`, and `ProgressBarHigh`. Builtin schemes leave Value/High empty so the fill follows `TrackBarFillTrack` (theme accent); Low/Medium default to Red/Orange; empty Value/High ultimately fall back to Green. Per-control `StateCommon.Back.Color1` and tri-state region overrides still win.
   - Materialize schemes map `ProgressBarValue` / `ProgressBarHigh` to the accent ramp (`header1` light / `panelAccent` dark); Low/Medium stay Red/Orange.
