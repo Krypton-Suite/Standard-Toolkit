@@ -5285,3 +5285,33 @@ internal enum WindowsXPLunaPart
 }
 
 #endregion
+
+#region Enum KryptonColorLivePreviewAction
+
+/// <summary>
+/// Stage of an opt-in colour live preview.
+/// </summary>
+public enum KryptonColorLivePreviewAction
+{
+    /// <summary>
+    /// The user is highlighting a swatch. <see cref="KryptonColorLivePreviewEventArgs.Color"/> is temporary.
+    /// </summary>
+    Preview = 0,
+
+    /// <summary>
+    /// The pointer left the swatches. <see cref="KryptonColorLivePreviewEventArgs.Color"/> is the committed colour.
+    /// </summary>
+    Revert = 1,
+
+    /// <summary>
+    /// The user chose a colour. <see cref="KryptonColorLivePreviewEventArgs.Color"/> is that choice.
+    /// </summary>
+    Commit = 2,
+
+    /// <summary>
+    /// The drop-down closed without a choice. <see cref="KryptonColorLivePreviewEventArgs.Color"/> is the committed colour.
+    /// </summary>
+    Cancel = 3
+}
+
+#endregion
