@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// Combines a scrolling transfer-speed chart with an optional progress chart.
+/// Combines transfer-speed and progress charts, either side by side or as one dual-series chart.
 /// </summary>
 /// <remarks>
 /// Part of <c>Krypton.Toolkit.Utilities</c>. Hosted by the application updater progress
@@ -18,7 +18,7 @@ namespace Krypton.Toolkit.Utilities;
 /// </remarks>
 [ToolboxItem(true)]
 [DefaultProperty(nameof(Graph))]
-[Description("Shows transfer speed over time beside an optional progress chart.")]
+[Description("Shows transfer speed and optional progress as side-by-side or dual-series charts.")]
 [DesignerCategory(@"code")]
 public class KryptonTransferProgressPanel : UserControl
 {
@@ -28,8 +28,10 @@ public class KryptonTransferProgressPanel : UserControl
     private readonly TableLayoutPanel _layout;
     private readonly KryptonTransferSpeedGraph _graph;
     private readonly KryptonTransferProgressGraph _progressGraph;
+    private readonly KryptonTransferDualGraph _dualGraph;
     private bool _showProgressGraph = true;
     private TransferProgressSampleMode _progressSampleMode = TransferProgressSampleMode.Auto;
+    private TransferProgressChartLayout _chartLayout = TransferProgressChartLayout.SideBySide;
 
     /// <summary>Creates an empty panel with speed and progress charts.</summary>
     public KryptonTransferProgressPanel()
@@ -51,6 +53,13 @@ public class KryptonTransferProgressPanel : UserControl
             TabStop = false
         };
 
+        _dualGraph = new KryptonTransferDualGraph
+        {
+            Dock = DockStyle.Fill,
+            TabStop = false,
+            Visible = false
+        };
+
         _layout = new TableLayoutPanel
         {
             Dock = DockStyle.Fill,
@@ -66,11 +75,12 @@ public class KryptonTransferProgressPanel : UserControl
         _layout.Controls.Add(_graph, 0, 0);
         _layout.Controls.Add(_progressGraph, 1, 0);
         Controls.Add(_layout);
+        Controls.Add(_dualGraph);
     }
 
-    /// <summary>Gets the scrolling transfer-speed chart.</summary>
+    /// <summary>Gets the scrolling transfer-speed chart (side-by-side layout).</summary>
     [Category(@"Visuals")]
-    [Description(@"The transfer-speed area chart.")]
+    [Description(@"The transfer-speed area chart used in SideBySide layout.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonTransferSpeedGraph Graph => _graph;
 
@@ -78,9 +88,9 @@ public class KryptonTransferProgressPanel : UserControl
 
     private void ResetGraph() => _graph.Values.Reset();
 
-    /// <summary>Gets the scrolling transfer-progress chart.</summary>
+    /// <summary>Gets the scrolling transfer-progress chart (side-by-side layout).</summary>
     [Category(@"Visuals")]
-    [Description(@"The transfer-progress area chart.")]
+    [Description(@"The transfer-progress area chart used in SideBySide layout.")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public KryptonTransferProgressGraph ProgressGraph => _progressGraph;
 
@@ -88,9 +98,38 @@ public class KryptonTransferProgressPanel : UserControl
 
     private void ResetProgressGraph() => _progressGraph.Values.Reset();
 
-    /// <summary>Gets or sets whether the progress chart column is shown.</summary>
+    /// <summary>Gets the dual-series chart (dual-series layout).</summary>
+    [Category(@"Visuals")]
+    [Description(@"The dual-series chart used in DualSeries layout.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonTransferDualGraph DualGraph => _dualGraph;
+
+    private bool ShouldSerializeDualGraph() => !_dualGraph.Values.IsDefault;
+
+    private void ResetDualGraph() => _dualGraph.Values.Reset();
+
+    /// <summary>Gets or sets how speed and progress charts are arranged.</summary>
+    [Category(@"Appearance")]
+    [Description(@"Side-by-side charts or a single dual-series chart.")]
+    [DefaultValue(TransferProgressChartLayout.SideBySide)]
+    public TransferProgressChartLayout ChartLayout
+    {
+        get => _chartLayout;
+        set
+        {
+            if (_chartLayout == value)
+            {
+                return;
+            }
+
+            _chartLayout = value;
+            ApplyLayout();
+        }
+    }
+
+    /// <summary>Gets or sets whether the progress chart / series is shown.</summary>
     [Category(@"Behavior")]
-    [Description(@"Shows the secondary progress chart beside the speed chart.")]
+    [Description(@"Shows the secondary progress chart or dual-series progress series.")]
     [DefaultValue(true)]
     public bool ShowProgressGraph
     {
@@ -132,51 +171,73 @@ public class KryptonTransferProgressPanel : UserControl
         var usePercent = _progressSampleMode == TransferProgressSampleMode.Percent ||
                          (_progressSampleMode == TransferProgressSampleMode.Auto && total.HasValue && total.Value > 0);
 
+        double sample;
+        TransferGraphSampleDisplay display;
         if (usePercent)
         {
-            if (_progressGraph.Values.SampleDisplay != TransferGraphSampleDisplay.Percent)
-            {
-                _progressGraph.Values.SampleDisplay = TransferGraphSampleDisplay.Percent;
-            }
-
-            double percent = 0d;
+            display = TransferGraphSampleDisplay.Percent;
+            sample = 0d;
             if (total.HasValue && total.Value > 0)
             {
-                percent = Math.Min(100d, received * 100d / total.Value);
-                if (percent < 0d)
+                sample = Math.Min(100d, received * 100d / total.Value);
+                if (sample < 0d)
                 {
-                    percent = 0d;
+                    sample = 0d;
                 }
             }
+        }
+        else
+        {
+            display = TransferGraphSampleDisplay.Bytes;
+            sample = received < 0 ? 0d : received;
+        }
 
-            _progressGraph.AddSample(percent);
+        if (_chartLayout == TransferProgressChartLayout.DualSeries)
+        {
+            if (_dualGraph.Values.ProgressSampleDisplay != display)
+            {
+                _dualGraph.Values.ProgressSampleDisplay = display;
+            }
+
+            _dualGraph.AddProgressSample(sample);
             return;
         }
 
-        if (_progressGraph.Values.SampleDisplay != TransferGraphSampleDisplay.Bytes)
+        if (_progressGraph.Values.SampleDisplay != display)
         {
-            _progressGraph.Values.SampleDisplay = TransferGraphSampleDisplay.Bytes;
+            _progressGraph.Values.SampleDisplay = display;
         }
 
-        _progressGraph.AddSample(received < 0 ? 0d : received);
+        _progressGraph.AddSample(sample);
     }
 
-    /// <summary>Appends one speed sample to the speed chart.</summary>
+    /// <summary>Appends one speed sample.</summary>
     /// <param name="bytesPerSecond">Transfer rate for this sample.</param>
-    public void AddSample(double bytesPerSecond) => _graph.AddSample(bytesPerSecond);
+    public void AddSample(double bytesPerSecond)
+    {
+        if (_chartLayout == TransferProgressChartLayout.DualSeries)
+        {
+            _dualGraph.AddSpeedSample(bytesPerSecond);
+            return;
+        }
 
-    /// <summary>Clears both charts.</summary>
+        _graph.AddSample(bytesPerSecond);
+    }
+
+    /// <summary>Clears all charts.</summary>
     public void Clear()
     {
         _graph.Clear();
         _progressGraph.Clear();
+        _dualGraph.Clear();
     }
 
-    /// <summary>Stops accepting samples so both charts stay frozen.</summary>
+    /// <summary>Stops accepting samples so charts stay frozen.</summary>
     public void Pause()
     {
         _graph.Pause();
         _progressGraph.Pause();
+        _dualGraph.Pause();
     }
 
     /// <summary>Starts accepting samples again after <see cref="Pause"/>.</summary>
@@ -184,10 +245,25 @@ public class KryptonTransferProgressPanel : UserControl
     {
         _graph.Resume();
         _progressGraph.Resume();
+        _dualGraph.Resume();
+    }
+
+    private void ApplyLayout()
+    {
+        bool dual = _chartLayout == TransferProgressChartLayout.DualSeries;
+        _layout.Visible = !dual;
+        _dualGraph.Visible = dual;
+        if (dual)
+        {
+            _dualGraph.BringToFront();
+        }
+
+        ApplyProgressVisibility();
     }
 
     private void ApplyProgressVisibility()
     {
+        _dualGraph.ShowProgressSeries = _showProgressGraph;
         _progressGraph.Visible = _showProgressGraph;
         if (_showProgressGraph)
         {

@@ -37,6 +37,14 @@ public partial class TransferProgressPanelDemo : KryptonForm
         }
 
         kcmbMode.SelectedItem = TransferProgressSampleMode.Auto;
+
+        kcmbLayout.Items.Clear();
+        foreach (TransferProgressChartLayout layout in Enum.GetValues(typeof(TransferProgressChartLayout)))
+        {
+            kcmbLayout.Items.Add(layout);
+        }
+
+        kcmbLayout.SelectedItem = transferProgressPanel.ChartLayout;
         chkShowProgress.Checked = transferProgressPanel.ShowProgressGraph;
         transferProgressPanel.ProgressGraph.Values.SpeedLabelFormat = "Progress: {0}";
         transferProgressPanel.Clear();
@@ -101,6 +109,15 @@ public partial class TransferProgressPanelDemo : KryptonForm
         }
     }
 
+    private void kcmbLayout_SelectedIndexChanged(object? sender, EventArgs e)
+    {
+        if (kcmbLayout.SelectedItem is TransferProgressChartLayout layout)
+        {
+            transferProgressPanel.ChartLayout = layout;
+            UpdateStatus();
+        }
+    }
+
     private void OnTick(object? sender, EventArgs e)
     {
         var delta = 180_000 + _random.Next(0, 80_000);
@@ -129,8 +146,9 @@ public partial class TransferProgressPanelDemo : KryptonForm
     {
         var totalText = chkUnknownTotal.Checked ? "unknown" : _total.ToString("N0");
         kwlblStatus.Text =
-            $"Received {_received:N0} of {totalText} bytes. Mode={transferProgressPanel.ProgressSampleMode}; " +
-            $"ShowProgress={transferProgressPanel.ShowProgressGraph}; Theme={KryptonManager.CurrentGlobalPaletteMode}.";
+            $"Received {_received:N0} of {totalText} bytes. Layout={transferProgressPanel.ChartLayout}; " +
+            $"Mode={transferProgressPanel.ProgressSampleMode}; ShowProgress={transferProgressPanel.ShowProgressGraph}; " +
+            $"Theme={KryptonManager.CurrentGlobalPaletteMode}.";
     }
 
     protected override void OnFormClosed(FormClosedEventArgs e)

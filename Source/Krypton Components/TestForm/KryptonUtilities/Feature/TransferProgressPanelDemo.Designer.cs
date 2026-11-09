@@ -32,6 +32,8 @@
             this.chkShowProgress = new Krypton.Toolkit.KryptonCheckBox();
             this.klblMode = new Krypton.Toolkit.KryptonLabel();
             this.kcmbMode = new Krypton.Toolkit.KryptonComboBox();
+            this.klblLayout = new Krypton.Toolkit.KryptonLabel();
+            this.kcmbLayout = new Krypton.Toolkit.KryptonComboBox();
             this.transferProgressPanel = new Krypton.Toolkit.Utilities.KryptonTransferProgressPanel();
             this.kwlblStatus = new Krypton.Toolkit.KryptonWrapLabel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
@@ -40,6 +42,7 @@
             this.flowToolbar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbTheme)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbMode)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbLayout)).BeginInit();
             this.SuspendLayout();
             // 
             // kryptonPanel1
@@ -78,7 +81,7 @@
             this.kwlblInfo.Location = new System.Drawing.Point(3, 3);
             this.kwlblInfo.Name = "kwlblInfo";
             this.kwlblInfo.Size = new System.Drawing.Size(690, 50);
-            this.kwlblInfo.Text = "KryptonTransferProgressPanel pairs a speed chart with an optional progress chart (percent or bytes). Start a simulated download; toggle Show progress and sample mode; Unknown total uses Auto→bytes.";
+            this.kwlblInfo.Text = "KryptonTransferProgressPanel: SideBySide (speed + progress charts) or DualSeries (one chart, two series). Toggle Show progress, sample mode, and chart layout. Unknown total uses Auto→bytes.";
             // 
             // flowToolbar
             // 
@@ -92,6 +95,8 @@
             this.flowToolbar.Controls.Add(this.chkShowProgress);
             this.flowToolbar.Controls.Add(this.klblMode);
             this.flowToolbar.Controls.Add(this.kcmbMode);
+            this.flowToolbar.Controls.Add(this.klblLayout);
+            this.flowToolbar.Controls.Add(this.kcmbLayout);
             this.flowToolbar.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowToolbar.Location = new System.Drawing.Point(3, 59);
             this.flowToolbar.Name = "flowToolbar";
@@ -189,6 +194,23 @@
             this.kcmbMode.TabIndex = 9;
             this.kcmbMode.SelectedIndexChanged += new System.EventHandler(this.kcmbMode_SelectedIndexChanged);
             // 
+            // klblLayout
+            // 
+            this.klblLayout.Location = new System.Drawing.Point(946, 6);
+            this.klblLayout.Name = "klblLayout";
+            this.klblLayout.Size = new System.Drawing.Size(44, 20);
+            this.klblLayout.TabIndex = 10;
+            this.klblLayout.Values.Text = "Layout";
+            // 
+            // kcmbLayout
+            // 
+            this.kcmbLayout.DropDownWidth = 120;
+            this.kcmbLayout.Location = new System.Drawing.Point(996, 5);
+            this.kcmbLayout.Name = "kcmbLayout";
+            this.kcmbLayout.Size = new System.Drawing.Size(110, 22);
+            this.kcmbLayout.TabIndex = 11;
+            this.kcmbLayout.SelectedIndexChanged += new System.EventHandler(this.kcmbLayout_SelectedIndexChanged);
+            // 
             // transferProgressPanel
             // 
             this.transferProgressPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -225,6 +247,7 @@
             this.flowToolbar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbTheme)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.kcmbMode)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.kcmbLayout)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -245,6 +268,8 @@
         private Krypton.Toolkit.KryptonCheckBox chkShowProgress;
         private Krypton.Toolkit.KryptonLabel klblMode;
         private Krypton.Toolkit.KryptonComboBox kcmbMode;
+        private Krypton.Toolkit.KryptonLabel klblLayout;
+        private Krypton.Toolkit.KryptonComboBox kcmbLayout;
         private Krypton.Toolkit.Utilities.KryptonTransferProgressPanel transferProgressPanel;
         private Krypton.Toolkit.KryptonWrapLabel kwlblStatus;
     }
