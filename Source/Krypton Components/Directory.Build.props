@@ -117,7 +117,7 @@
 		</When>
 		<Otherwise>
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton LTS.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -127,7 +127,7 @@
 			<PropertyGroup>
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
-				<PackageIcon>Krypton Stable.png</PackageIcon>
+				<PackageIcon>Krypton LTS.png</PackageIcon>
 				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>

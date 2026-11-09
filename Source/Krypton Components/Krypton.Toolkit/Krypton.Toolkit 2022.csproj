@@ -942,7 +942,7 @@
 	</EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-	<None Update="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Krypton Stable.png" />
+	<None Update="../../../Assets/PNG/NuGet Package Icons/Krypton LTS.png" Link="Krypton LTS.png" />
   </ItemGroup>
   <ItemGroup>
 	<Folder Include="Storage\Images\Generic\" />
