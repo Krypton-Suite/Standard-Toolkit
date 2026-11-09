@@ -150,6 +150,9 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/3927-tag-input-default.png` | `exclude` |
 | `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/tag-input-default.png` | `exclude` |
 | `Invoke-ToolStripTextContrastScreenshot.ps1` | Hosts `Bug4373ToolStripTextContrastDemo` (#4373) and writes Office White/Black ToolStrip PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-ProgressBarSchemeScreenshot.ps1` | Hosts `ProgressBarTest` (#4684) and writes light/dark scheme-slot PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-ProgressBarDemosGalleryScreenshot.ps1` | Builds Demos `KryptonProgressbar Examples` and writes `example-light.png` / `example-dark.png` into that project folder (#4684 gallery) | `exclude` |
+| `Invoke-ProgressBarMaterializeSmoke.ps1` | Asserts Materialize `ProgressBarValue`/`High` are accent-driven (#4684), not Green | `exclude` |
 | `Invoke-BorderlessMdiScreenshot.ps1` | Hosts `BorderlessMdiHostDemo` (#2922) with a Dock.Fill child and writes `Documents/PR/2922-borderless-mdi-dockfill.png` | `exclude` |
 | `Invoke-TabbedFloatingToolbarScreenshot.ps1` | Hosts a tabbed `FloatingToolbarGroup` (#4410) and writes `Documents/PR/4410-tabbed-floating-toolbar-page-content.png` | `exclude` |
 

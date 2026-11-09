@@ -7,14 +7,6 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
 namespace AccessibilityAudit;
 
 internal sealed class BaselineFile
@@ -31,21 +23,28 @@ internal sealed class BaselineFile
 
     public List<string> ControlFailures { get; set; } = new List<string>();
 
-    public static BaselineFile Load(string path)
+    public static BaselineFile Load(string? path)
     {
-        string json = File.ReadAllText(path);
-        BaselineFile? baseline = JsonSerializer.Deserialize<BaselineFile>(json, JsonOptions);
-        if (baseline == null)
+        if (path != null)
         {
-            throw new InvalidOperationException($"Baseline file '{path}' did not contain a JSON object.");
-        }
+            string json = File.ReadAllText(path);
+            BaselineFile? baseline = JsonSerializer.Deserialize<BaselineFile>(json, JsonOptions);
+            if (baseline == null)
+            {
+                throw new InvalidOperationException($"Baseline file '{path}' did not contain a JSON object.");
+            }
 
-        baseline.ContrastFailures ??= new List<string>();
-        baseline.ControlFailures ??= new List<string>();
-        return baseline;
+            baseline.ContrastFailures ??= new List<string>();
+            baseline.ControlFailures ??= new List<string>();
+            return baseline;
+        }
+        else
+        {
+            return new BaselineFile();
+        }
     }
 
-    public void Save(string path)
+    public void Save(string? path)
     {
         ContrastFailures.Sort(StringComparer.Ordinal);
         ControlFailures.Sort(StringComparer.Ordinal);
@@ -62,6 +61,6 @@ internal sealed class BaselineFile
             json += "\r\n";
         }
 
-        File.WriteAllText(path, json, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+        File.WriteAllText(path!, json, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
     }
 }

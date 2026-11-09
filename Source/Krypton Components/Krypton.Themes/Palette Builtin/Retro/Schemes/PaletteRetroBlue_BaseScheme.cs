@@ -119,5 +119,9 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         EqualizerOff = Color.FromArgb(192, 192, 192);
         EqualizerPeak = DosYellow;
         EqualizerThumb = DosCyan;
+        ProgressBarValue = SharedStaticVariables.EMPTY_COLOR;
+        ProgressBarLow = Color.Red;
+        ProgressBarMedium = Color.Orange;
+        ProgressBarHigh = SharedStaticVariables.EMPTY_COLOR;
     }
 }
