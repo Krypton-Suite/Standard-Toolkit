@@ -267,4 +267,8 @@ public sealed class PaletteOffice2007BlueDarkMode_BaseScheme : KryptonColorSchem
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(161, 189, 207);
     public override Color EqualizerPeak                    { get; set; } = Color.Blue;
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(210, 225, 244);
+    public override Color ProgressBarValue                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarLow                   { get; set; } = Color.Red;
+    public override Color ProgressBarMedium                { get; set; } = Color.Orange;
+    public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }

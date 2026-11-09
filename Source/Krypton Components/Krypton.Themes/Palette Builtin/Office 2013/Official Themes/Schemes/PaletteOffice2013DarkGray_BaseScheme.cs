@@ -270,4 +270,8 @@ public sealed class PaletteOffice2013DarkGray_BaseScheme : KryptonColorSchemeBas
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(170, 170, 170);
     public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(83, 83, 83);
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(253, 253, 253);
+    public override Color ProgressBarValue                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarLow                   { get; set; } = Color.Red;
+    public override Color ProgressBarMedium                { get; set; } = Color.Orange;
+    public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }

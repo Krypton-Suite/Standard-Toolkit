@@ -53,6 +53,7 @@ public class KryptonProgressBar : Control, IContentValues
     private bool _showTextBackdrop;
     private Color _textBackdropColor;
     private readonly ProgressBarTriStateValues _triStateValues;
+    private Color _schemeFactoryValueColor1;
     private Color _originalValueColor1;
     private Color _originalTextColor1;
     private Color _originalTextColor2;
@@ -130,7 +131,8 @@ public class KryptonProgressBar : Control, IContentValues
         };
         StateCommon = new PaletteTripleRedirect(_paletteRedirect, PaletteBackStyle.ButtonStandalone,
             PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, OnNeedPaintHandler);
-        StateCommon.Back.SetFactoryColor1(Color.Green);
+        _schemeFactoryValueColor1 = ResolveProgressBarValueColor();
+        StateCommon.Back.SetFactoryColor1(_schemeFactoryValueColor1);
         StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
         StateDisabled.Back.SetFactoryColorStyle(PaletteColorStyle.OneNote);
         StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
@@ -143,7 +145,7 @@ public class KryptonProgressBar : Control, IContentValues
         _showTextBackdrop = false;
         _textBackdropColor = Color.Empty;
 
-        // Store the original color from StateCommon (which is set to Green)
+        // Store the original fill colour from StateCommon (scheme ProgressBarValue, else Green)
         _originalValueColor1 = StateCommon.Back.Color1;
 
         // Store the original text color (will be set after layout)
@@ -240,7 +242,12 @@ public class KryptonProgressBar : Control, IContentValues
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
-    private void ResetStateCommon() => StateCommon.Back.SetFactoryColor1(Color.Green);
+    private void ResetStateCommon()
+    {
+        _schemeFactoryValueColor1 = ResolveProgressBarValueColor();
+        StateCommon.Back.SetFactoryColor1(_schemeFactoryValueColor1);
+        _originalValueColor1 = _schemeFactoryValueColor1;
+    }
 
     /// <summary>
     /// Gets access to the disabled ProgressBar appearance entries.
@@ -1474,6 +1481,7 @@ public class KryptonProgressBar : Control, IContentValues
     {
         Color color = _stateBackValue.Color1;
         if (color == Color.Empty
+            || IsSchemeFactoryValueColor(color)
             || color.ToArgb() == Color.Green.ToArgb()
             || color.ToArgb() == retroPalette.ButtonFaceColor.ToArgb())
         {
@@ -1636,6 +1644,10 @@ public class KryptonProgressBar : Control, IContentValues
             _palette.PalettePaintInternal += OnPalettePaint;
         }
 
+        ApplySchemeValueFactory();
+        _triStateValues.RefreshSchemeDefaults();
+        UpdateThresholdColor();
+
         // Change of palette means we should repaint to show any changes
         Invalidate();
     }
@@ -1652,9 +1664,115 @@ public class KryptonProgressBar : Control, IContentValues
         }
     }
 
-    // Palette indicates we might need to repaint, so lets do it
-    private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
+    // Palette indicates we might need to repaint (including scheme-colour edits)
+    private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e)
+    {
+        ApplySchemeValueFactory();
+        _triStateValues.RefreshSchemeDefaults();
+        UpdateThresholdColor();
+        Invalidate();
+    }
+
     private void OnLabelTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+
+    /// <summary>
+    /// Resolves <see cref="SchemeBaseColors.ProgressBarValue"/>, then
+    /// <see cref="SchemeBaseColors.TrackBarFillTrack"/>, then <see cref="Color.Green"/>.
+    /// </summary>
+    /// <returns>Theme fill colour for the default progress value.</returns>
+    internal Color ResolveProgressBarValueColor() =>
+        ResolveProgressFillColor(SchemeBaseColors.ProgressBarValue, Color.Green);
+
+    /// <summary>
+    /// Resolves <see cref="SchemeBaseColors.ProgressBarLow"/>, falling back to <see cref="Color.Red"/>.
+    /// </summary>
+    /// <returns>Theme fill colour for the low tri-state region.</returns>
+    internal Color ResolveProgressBarLowColor() =>
+        ResolveSchemeOrFallback(SchemeBaseColors.ProgressBarLow, Color.Red);
+
+    /// <summary>
+    /// Resolves <see cref="SchemeBaseColors.ProgressBarMedium"/>, falling back to <see cref="Color.Orange"/>.
+    /// </summary>
+    /// <returns>Theme fill colour for the medium tri-state region.</returns>
+    internal Color ResolveProgressBarMediumColor() =>
+        ResolveSchemeOrFallback(SchemeBaseColors.ProgressBarMedium, Color.Orange);
+
+    /// <summary>
+    /// Resolves <see cref="SchemeBaseColors.ProgressBarHigh"/>, then
+    /// <see cref="SchemeBaseColors.TrackBarFillTrack"/>, then <see cref="Color.Green"/>.
+    /// </summary>
+    /// <returns>Theme fill colour for the high tri-state region.</returns>
+    internal Color ResolveProgressBarHighColor() =>
+        ResolveProgressFillColor(SchemeBaseColors.ProgressBarHigh, Color.Green);
+
+    private Color ResolveSchemeOrFallback(SchemeBaseColors slot, Color fallback)
+    {
+        if (_palette != null)
+        {
+            Color fromScheme = _palette.GetSchemeColor(slot);
+            if (!SchemeBaseColorsExtensions.IsEmptySchemeColor(fromScheme))
+            {
+                return fromScheme;
+            }
+        }
+
+        return fallback;
+    }
+
+    /// <summary>
+    /// Prefer an explicit ProgressBar slot; otherwise use the theme track-fill accent so builtin
+    /// themes are not stuck on the historic Green placeholder when the slot is empty.
+    /// </summary>
+    private Color ResolveProgressFillColor(SchemeBaseColors slot, Color historicFallback)
+    {
+        if (_palette != null)
+        {
+            Color fromScheme = _palette.GetSchemeColor(slot);
+            if (!SchemeBaseColorsExtensions.IsEmptySchemeColor(fromScheme))
+            {
+                return fromScheme;
+            }
+
+            Color trackFill = _palette.GetSchemeColor(SchemeBaseColors.TrackBarFillTrack);
+            if (!SchemeBaseColorsExtensions.IsEmptySchemeColor(trackFill))
+            {
+                return trackFill;
+            }
+        }
+
+        return historicFallback;
+    }
+
+    private bool IsSchemeFactoryValueColor(Color color) =>
+        color.ToArgb() == _schemeFactoryValueColor1.ToArgb();
+
+    /// <summary>
+    /// Restamps <see cref="StateCommon"/>.Back.Color1 from the ProgressBarValue scheme slot
+    /// when the live value is still the previous factory default.
+    /// </summary>
+    private void ApplySchemeValueFactory()
+    {
+        Color resolved = ResolveProgressBarValueColor();
+        bool atFactory = StateCommon.Back.Color1.ToArgb() == _schemeFactoryValueColor1.ToArgb()
+                         || StateCommon.Back.Color1.ToArgb() == Color.Green.ToArgb();
+
+        if (!atFactory)
+        {
+            return;
+        }
+
+        StateCommon.Back.SetFactoryColor1(resolved);
+        _schemeFactoryValueColor1 = resolved;
+        _originalValueColor1 = resolved;
+
+        // Keep the paint path in sync: UpdateThresholdColor stamps _stateBackValue when tri-state
+        // is off, but Color1 may already be a concrete previous factory colour that would otherwise
+        // hide the new StateCommon inherit value until the next threshold pass.
+        if (_triStateValues == null || !_triStateValues.UseTriStateColors)
+        {
+            _stateBackValue.Color1 = resolved;
+        }
+    }
 
     private void SyncTaskbarProgress()
     {
@@ -1838,10 +1956,12 @@ public class KryptonProgressBar : Control, IContentValues
         }
 
         // Store current background color properties as original if we're enabling for the first time
-        if (_originalValueColor1 == Color.Green)
+        if (IsSchemeFactoryValueColor(_originalValueColor1) || _originalValueColor1 == Color.Green)
         {
             Color currentColor = _stateBackValue.Color1;
-            if (currentColor != Color.Green && currentColor != Color.Empty)
+            if (!IsSchemeFactoryValueColor(currentColor)
+                && currentColor != Color.Green
+                && currentColor != Color.Empty)
             {
                 _originalValueColor1 = currentColor;
                 _originalValueColor2 = _stateBackValue.Color2;
