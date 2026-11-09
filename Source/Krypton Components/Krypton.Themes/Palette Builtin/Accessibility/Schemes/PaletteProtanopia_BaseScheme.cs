@@ -269,4 +269,9 @@ public sealed class PaletteProtanopia_BaseScheme : KryptonColorSchemeBase
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(171, 186, 208);
     public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(208, 226, 248);
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(225, 237, 250);
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(236, 234, 230);
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(30, 57, 91);
 }

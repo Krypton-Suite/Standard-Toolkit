@@ -267,4 +267,9 @@ public sealed class PaletteMicrosoft365Silver_BaseScheme : KryptonColorSchemeBas
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(187, 191, 196);
     public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(237, 242, 248);
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(247, 250, 252);
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(227, 230, 232);
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(161, 169, 179);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(161, 169, 179);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(59, 59, 59);
 }

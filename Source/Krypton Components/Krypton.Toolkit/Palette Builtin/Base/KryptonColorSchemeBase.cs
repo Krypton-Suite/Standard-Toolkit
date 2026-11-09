@@ -269,6 +269,11 @@ public abstract class KryptonColorSchemeBase
     public abstract Color EqualizerOff                     { get; set; }
     public abstract Color EqualizerPeak                    { get; set; }
     public abstract Color EqualizerThumb                   { get; set; }
+    public abstract Color TransferProgressGraphPlot        { get; set; }
+    public abstract Color TransferProgressGraphSeries      { get; set; }
+    public abstract Color TransferProgressGraphGrid        { get; set; }
+    public abstract Color TransferProgressGraphBorder      { get; set; }
+    public abstract Color TransferProgressGraphLabel       { get; set; }
 
     #endregion
 }

@@ -19,11 +19,14 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
     private const char EXPAND_GLYPH = '\u25BC';
     private const char COLLAPSE_GLYPH = '\u25B2';
     private const int DETAILS_HEIGHT = 96;
+    private const int ProgressHostBarHeight = 28;
+    private const int ProgressHostGraphHeight = 110;
 
     private bool _allowClose;
     private bool _detailsExpanded;
     private int _collapsedClientHeight;
     private int _footerHeight;
+    private int _progressHostHeight;
     private TaskCompletionSource<KryptonUpdateDownloadRecovery>? _recovery;
     private KryptonApplicationUpdaterStrings _strings = new KryptonApplicationUpdaterStrings();
     private string _fileName = string.Empty;
@@ -31,13 +34,18 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
     private long _lastBytes;
     private DateTime _lastSampleUtc;
     private double _bytesPerSecond;
+    private KryptonUpdateProgressDisplay _progressDisplay = KryptonUpdateProgressDisplay.ProgressBar;
 
     /// <summary>Initializes the progress window.</summary>
     public VisualApplicationUpdateProgressForm()
     {
         InitializeComponent();
         _footerHeight = kryptonPanel1.Height;
+        _progressHostHeight = ProgressHostBarHeight;
         _collapsedClientHeight = ClientSize.Height;
+        transferProgressPanel.Graph.Values.Capacity = 60;
+        transferProgressPanel.ProgressGraph.Values.Capacity = 60;
+        transferProgressPanel.ProgressGraph.Values.SpeedLabelFormat = "Progress: {0}";
         btnDetails.Click += OnDetails;
         btnCancel.Click += OnCancel;
         btnResume.Click += OnResume;
@@ -54,7 +62,8 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
     /// <summary>Applies localised labels and shows Cancel for the first transfer.</summary>
     /// <param name="strings">Prompt text.</param>
     /// <param name="pulse">Optional form chrome glow from the package.</param>
-    internal void Bind(KryptonApplicationUpdaterStrings strings, KryptonUpdatePulse? pulse = null)
+    /// <param name="progressDisplay">Progress bar or transfer-speed graph.</param>
+    internal void Bind(KryptonApplicationUpdaterStrings strings, KryptonUpdatePulse? pulse = null, KryptonUpdateProgressDisplay progressDisplay = KryptonUpdateProgressDisplay.ProgressBar)
     {
         _strings = strings ?? new KryptonApplicationUpdaterStrings();
         Text = _strings.WindowTitle;
@@ -62,6 +71,8 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
         btnResume.Text = _strings.Resume;
         btnRestart.Text = _strings.Restart;
         btnClose.Text = _strings.Close;
+        transferProgressPanel.Graph.Values.SpeedLabelFormat = BuildSpeedLabelFormat(_strings.Speed);
+        ApplyProgressDisplay(progressDisplay);
         ApplyDetailsButton();
         SetFileName(_fileName);
         KryptonUpdatePresentation.ApplyPulse(this, pulse);
@@ -93,9 +104,28 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
         btnCancel.Visible = true;
         btnCancel.Enabled = true;
         ResetRate();
+        transferProgressPanel.Clear();
+        transferProgressPanel.Resume();
         SetStatus(status);
         SetBar(0, 100);
         PaintDetails(0, null);
+    }
+
+    /// <summary>Freezes the transfer progress panel after the transfer stops (verify or recovery).</summary>
+    internal void PauseSpeedGraph()
+    {
+        if (IsDisposed)
+        {
+            return;
+        }
+
+        if (InvokeRequired)
+        {
+            BeginInvoke(new Action(PauseSpeedGraph));
+            return;
+        }
+
+        transferProgressPanel.Pause();
     }
 
     /// <summary>Shows Resume when <paramref name="canResume"/> is true, Restart when <paramref name="canRetry"/> is true, and Close. The window stays open.</summary>
@@ -118,6 +148,7 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
         btnRestart.Enabled = true;
         btnClose.Visible = true;
         btnClose.Enabled = true;
+        transferProgressPanel.Pause();
         SetStatus(message);
         return source.Task;
     }
@@ -171,7 +202,7 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
         btnCancel.Enabled = enabled;
     }
 
-    /// <summary>Updates the bar. An unknown total uses a marquee.</summary>
+    /// <summary>Updates the bar or transfer progress panel. An unknown total uses a marquee.</summary>
     /// <param name="received">Bytes written.</param>
     /// <param name="total">Content length, or null.</param>
     internal void SetProgress(long received, long? total)
@@ -191,8 +222,41 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
         UpdateDetails(received, total);
     }
 
+    private void ApplyProgressDisplay(KryptonUpdateProgressDisplay progressDisplay)
+    {
+        _progressDisplay = progressDisplay;
+        var useGraph = progressDisplay == KryptonUpdateProgressDisplay.TransferSpeedGraph;
+        progressDownload.Visible = !useGraph;
+        transferProgressPanel.Visible = useGraph;
+        var hostHeight = useGraph ? ProgressHostGraphHeight : ProgressHostBarHeight;
+        var delta = hostHeight - _progressHostHeight;
+        if (delta != 0)
+        {
+            _progressHostHeight = hostHeight;
+            _collapsedClientHeight += delta;
+            ClientSize = new Size(ClientSize.Width, ClientSize.Height + delta);
+        }
+    }
+
+    private static string BuildSpeedLabelFormat(string speedCaption)
+    {
+        var caption = string.IsNullOrWhiteSpace(speedCaption) ? "Speed:" : speedCaption.Trim();
+        if (caption.IndexOf('{') >= 0)
+        {
+            return caption;
+        }
+
+        return caption + " {0}";
+    }
+
     private void SetBar(long received, long? total)
     {
+        if (_progressDisplay == KryptonUpdateProgressDisplay.TransferSpeedGraph)
+        {
+            transferProgressPanel.SetProgress(received, total);
+            return;
+        }
+
         if (total.HasValue && total.Value > 0)
         {
             if (progressDownload.Style != ProgressBarStyle.Continuous)
@@ -270,6 +334,10 @@ internal partial class VisualApplicationUpdateProgressForm : KryptonForm
 
                 _lastBytes = received;
                 _lastSampleUtc = now;
+                if (_progressDisplay == KryptonUpdateProgressDisplay.TransferSpeedGraph)
+                {
+                    transferProgressPanel.AddSample(_bytesPerSecond);
+                }
             }
         }
 

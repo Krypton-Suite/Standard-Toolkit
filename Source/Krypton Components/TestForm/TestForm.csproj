@@ -136,6 +136,12 @@
     <Compile Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.Designer.cs">
       <DependentUpon>ApplicationUpdaterDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonUtilities\Feature\TransferProgressPanelDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\TransferProgressPanelDemo.Designer.cs">
+      <DependentUpon>TransferProgressPanelDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonUtilities\Feature\CommandLinkButtons.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -289,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.resx">
       <DependentUpon>ApplicationUpdaterDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonUtilities\Feature\TransferProgressPanelDemo.resx">
+      <DependentUpon>TransferProgressPanelDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>

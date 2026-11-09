@@ -77,7 +77,8 @@ internal static class KryptonUpdateManifestParser
             raw.AllowResume ?? feed.AllowResume,
             raw.AllowRetry ?? feed.AllowRetry,
             raw.Banner ?? feed.Banner,
-            raw.Pulse ?? feed.Pulse);
+            raw.Pulse ?? feed.Pulse,
+            raw.ProgressDisplay ?? feed.ProgressDisplay);
     }
 
     private static void ValidateImageUrl(string? imageUrl)
@@ -205,6 +206,29 @@ internal static class KryptonUpdateManifestParser
             : KryptonUpdatePackageKind.Installer;
     }
 
+    private static KryptonUpdateProgressDisplay? ParseProgressDisplay(string? text)
+    {
+        if (text == null || string.IsNullOrWhiteSpace(text))
+        {
+            return null;
+        }
+
+        if (text.Equals("progressBar", StringComparison.OrdinalIgnoreCase) ||
+            text.Equals("bar", StringComparison.OrdinalIgnoreCase))
+        {
+            return KryptonUpdateProgressDisplay.ProgressBar;
+        }
+
+        if (text.Equals("transferSpeedGraph", StringComparison.OrdinalIgnoreCase) ||
+            text.Equals("speedGraph", StringComparison.OrdinalIgnoreCase) ||
+            text.Equals("graph", StringComparison.OrdinalIgnoreCase))
+        {
+            return KryptonUpdateProgressDisplay.TransferSpeedGraph;
+        }
+
+        return KryptonUpdateThrowHelper.Throw<KryptonUpdateProgressDisplay?>("Unknown progressDisplay '" + text + "'.");
+    }
+
     private static List<RawPackage> ReadRawPackages(string json, out FeedPolicy feed)
     {
 #if NET8_0_OR_GREATER
@@ -260,7 +284,8 @@ internal static class KryptonUpdateManifestParser
             AllowResume = GetBool(element, "allowResume"),
             AllowRetry = GetBool(element, "allowRetry"),
             Banner = ReadBanner(element),
-            Pulse = ReadPulse(element)
+            Pulse = ReadPulse(element),
+            ProgressDisplay = ParseProgressDisplay(GetString(element, "progressDisplay"))
         };
     }
 
@@ -273,7 +298,8 @@ internal static class KryptonUpdateManifestParser
             AllowResume = GetBool(element, "allowResume"),
             AllowRetry = GetBool(element, "allowRetry"),
             Banner = ReadBanner(element),
-            Pulse = ReadPulse(element)
+            Pulse = ReadPulse(element),
+            ProgressDisplay = ParseProgressDisplay(GetString(element, "progressDisplay"))
         };
 
     private static KryptonUpdateBanner? ReadBanner(JsonElement element)
@@ -439,7 +465,8 @@ internal static class KryptonUpdateManifestParser
             AllowResume = GetBool(element, "allowResume"),
             AllowRetry = GetBool(element, "allowRetry"),
             Banner = ReadBanner(element),
-            Pulse = ReadPulse(element)
+            Pulse = ReadPulse(element),
+            ProgressDisplay = ParseProgressDisplay(GetString(element, "progressDisplay"))
         };
 
     private static FeedPolicy ReadPolicy(Dictionary<string, object> element) =>
@@ -451,7 +478,8 @@ internal static class KryptonUpdateManifestParser
             AllowResume = GetBool(element, "allowResume"),
             AllowRetry = GetBool(element, "allowRetry"),
             Banner = ReadBanner(element),
-            Pulse = ReadPulse(element)
+            Pulse = ReadPulse(element),
+            ProgressDisplay = ParseProgressDisplay(GetString(element, "progressDisplay"))
         };
 
     private static KryptonUpdateBanner? ReadBanner(Dictionary<string, object> element)
@@ -623,6 +651,8 @@ internal static class KryptonUpdateManifestParser
         public KryptonUpdateBanner? Banner { get; set; }
 
         public KryptonUpdatePulse? Pulse { get; set; }
+
+        public KryptonUpdateProgressDisplay? ProgressDisplay { get; set; }
     }
 
     private struct FeedPolicy
@@ -640,5 +670,7 @@ internal static class KryptonUpdateManifestParser
         public KryptonUpdateBanner? Banner;
 
         public KryptonUpdatePulse? Pulse;
+
+        public KryptonUpdateProgressDisplay? ProgressDisplay;
     }
 }

@@ -19,6 +19,7 @@ public class SpeedGraphValues : Storage
 
     private const int DefaultCapacityValue = 120;
     private const string DefaultSpeedLabelFormatValue = "Speed: {0}";
+    private const TransferGraphSampleDisplay DefaultSampleDisplayValue = TransferGraphSampleDisplay.Rate;
 
     #endregion
 
@@ -30,6 +31,7 @@ public class SpeedGraphValues : Storage
     private bool _showGrid;
     private bool _showSpeedLabel;
     private string _speedLabelFormat;
+    private TransferGraphSampleDisplay _sampleDisplay;
 
     #endregion
 
@@ -47,6 +49,7 @@ public class SpeedGraphValues : Storage
         _showGrid = true;
         _showSpeedLabel = true;
         _speedLabelFormat = DefaultSpeedLabelFormatValue;
+        _sampleDisplay = DefaultSampleDisplayValue;
     }
 
     #endregion
@@ -60,7 +63,8 @@ public class SpeedGraphValues : Storage
         !Paused &&
         ShowGrid &&
         ShowSpeedLabel &&
-        SpeedLabelFormat == DefaultSpeedLabelFormatValue;
+        SpeedLabelFormat == DefaultSpeedLabelFormatValue &&
+        SampleDisplay == DefaultSampleDisplayValue;
 
     #endregion
 
@@ -187,6 +191,27 @@ public class SpeedGraphValues : Storage
     private void ResetSpeedLabelFormat() => SpeedLabelFormat = DefaultSpeedLabelFormatValue;
 
     /// <summary>
+    /// Gets or sets how overlay samples are formatted (rate, bytes, or percent).
+    /// </summary>
+    [Category(@"Appearance")]
+    [DefaultValue(DefaultSampleDisplayValue)]
+    [Description(@"Formats overlay samples as a transfer rate, absolute bytes, or percent.")]
+    public TransferGraphSampleDisplay SampleDisplay
+    {
+        get => _sampleDisplay;
+        set
+        {
+            if (_sampleDisplay == value)
+            {
+                return;
+            }
+
+            _sampleDisplay = value;
+            _owner.OnSpeedGraphValuesChanged();
+        }
+    }
+
+    /// <summary>
     /// Restores every value to its factory default.
     /// </summary>
     public void Reset()
@@ -196,6 +221,7 @@ public class SpeedGraphValues : Storage
         ShowGrid = true;
         ShowSpeedLabel = true;
         SpeedLabelFormat = DefaultSpeedLabelFormatValue;
+        SampleDisplay = DefaultSampleDisplayValue;
     }
 
     #endregion

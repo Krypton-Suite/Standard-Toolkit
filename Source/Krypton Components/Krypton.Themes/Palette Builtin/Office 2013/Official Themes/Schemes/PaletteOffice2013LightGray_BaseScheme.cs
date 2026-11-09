@@ -270,4 +270,9 @@ public sealed class PaletteOffice2013LightGray_BaseScheme : KryptonColorSchemeBa
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(170, 170, 170);
     public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(230, 230, 230);
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(253, 253, 253);
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.White;
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(171, 171, 171);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(171, 171, 171);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(59, 59, 59);
 }

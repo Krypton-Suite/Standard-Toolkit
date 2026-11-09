@@ -31,6 +31,7 @@
             this.nudMaxDays = new Krypton.Toolkit.KryptonNumericUpDown();
             this.chkAllowCritical = new Krypton.Toolkit.KryptonCheckBox();
             this.chkBannerPulse = new Krypton.Toolkit.KryptonCheckBox();
+            this.chkSpeedGraph = new Krypton.Toolkit.KryptonCheckBox();
             this.flowButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.btnCheckNow = new Krypton.Toolkit.KryptonButton();
             this.btnScheduled = new Krypton.Toolkit.KryptonButton();
@@ -106,6 +107,7 @@
             this.flowOptions.Controls.Add(this.nudMaxDays);
             this.flowOptions.Controls.Add(this.chkAllowCritical);
             this.flowOptions.Controls.Add(this.chkBannerPulse);
+            this.flowOptions.Controls.Add(this.chkSpeedGraph);
             this.flowOptions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowOptions.Name = "flowOptions";
             this.flowOptions.WrapContents = true;
@@ -172,6 +174,12 @@
             this.chkBannerPulse.Name = "chkBannerPulse";
             this.chkBannerPulse.Size = new System.Drawing.Size(200, 24);
             this.chkBannerPulse.Values.Text = "Banner and pulse on 9.9.9";
+            // 
+            // chkSpeedGraph
+            // 
+            this.chkSpeedGraph.Name = "chkSpeedGraph";
+            this.chkSpeedGraph.Size = new System.Drawing.Size(220, 24);
+            this.chkSpeedGraph.Values.Text = "Transfer progress panel on 9.9.9";
             // 
             // flowButtons
             // 
@@ -291,6 +299,7 @@
         private Krypton.Toolkit.KryptonNumericUpDown nudMaxDays;
         private Krypton.Toolkit.KryptonCheckBox chkAllowCritical;
         private Krypton.Toolkit.KryptonCheckBox chkBannerPulse;
+        private Krypton.Toolkit.KryptonCheckBox chkSpeedGraph;
         private System.Windows.Forms.FlowLayoutPanel flowButtons;
         private Krypton.Toolkit.KryptonButton btnCheckNow;
         private Krypton.Toolkit.KryptonButton btnScheduled;

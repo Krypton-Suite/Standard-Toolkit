@@ -111,6 +111,11 @@ public sealed class PaletteRetroBlue_BaseScheme : PaletteRetroGreen_BaseScheme
         TransferSpeedGraphGrid = Color.Black;
         TransferSpeedGraphBorder = Color.Black;
         TransferSpeedGraphLabel = Color.White;
+        TransferProgressGraphPlot = DosBlue;
+        TransferProgressGraphSeries = DosYellow;
+        TransferProgressGraphGrid = Color.Black;
+        TransferProgressGraphBorder = Color.Black;
+        TransferProgressGraphLabel = Color.White;
         EqualizerFace = DosBlue;
         EqualizerLabel = Color.White;
         EqualizerLow = Color.White;

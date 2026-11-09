@@ -1858,6 +1858,49 @@ public abstract class PaletteBase : Component
             _ => Color.Red
         };
     }
+
+    /// <summary>
+    /// Resolves a transfer-progress graph colour from scheme slots when set;
+    /// otherwise falls back to panel, accent, border, and label styles.
+    /// Color1 = plot, Color2 = series, Color3 = grid, Color4 = frame, Color5 = progress label.
+    /// </summary>
+    /// <param name="colorIndex">One-based colour slot (1–5).</param>
+    /// <param name="state">Palette state.</param>
+    /// <returns>Theme colour for the graph role.</returns>
+    protected Color GetTransferProgressGraphElementColor(int colorIndex, PaletteState state)
+    {
+        SchemeBaseColors slot = colorIndex switch
+        {
+            1 => SchemeBaseColors.TransferProgressGraphPlot,
+            2 => SchemeBaseColors.TransferProgressGraphSeries,
+            3 => SchemeBaseColors.TransferProgressGraphGrid,
+            4 => SchemeBaseColors.TransferProgressGraphBorder,
+            5 => SchemeBaseColors.TransferProgressGraphLabel,
+            _ => (SchemeBaseColors)(-1)
+        };
+
+        if ((int)slot >= 0)
+        {
+            Color fromScheme = SchemeBaseColorsExtensions.Get(SchemeColors, slot);
+            if (!SchemeBaseColorsExtensions.IsEmptySchemeColor(fromScheme))
+            {
+                return state == PaletteState.Disabled
+                    ? ControlPaint.Light(fromScheme)
+                    : fromScheme;
+            }
+        }
+
+        return colorIndex switch
+        {
+            1 => GetBackColor1(PaletteBackStyle.PanelClient, state),
+            2 => GetBackColor1(PaletteBackStyle.ButtonStandalone,
+                state == PaletteState.Disabled ? PaletteState.Disabled : PaletteState.CheckedNormal),
+            3 => GetBorderColor1(PaletteBorderStyle.ControlClient, state),
+            4 => GetBorderColor1(PaletteBorderStyle.ControlClient, state),
+            5 => GetContentShortTextColor1(PaletteContentStyle.LabelNormalControl, state),
+            _ => Color.Red
+        };
+    }
     #endregion
 
     #region DragDrop

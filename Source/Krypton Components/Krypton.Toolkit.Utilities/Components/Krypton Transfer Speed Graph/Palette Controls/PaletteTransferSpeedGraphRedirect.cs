@@ -19,15 +19,16 @@ public class PaletteTransferSpeedGraphRedirect : Storage
     /// </summary>
     /// <param name="redirect">Source for inheriting values.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    public PaletteTransferSpeedGraphRedirect([DisallowNull] PaletteRedirect redirect, NeedPaintHandler needPaint)
+    /// <param name="element">Palette element that owns the five graph colours.</param>
+    public PaletteTransferSpeedGraphRedirect([DisallowNull] PaletteRedirect redirect, NeedPaintHandler needPaint, PaletteElement element = PaletteElement.TransferSpeedGraph)
     {
         Debug.Assert(redirect != null);
         NeedPaint = needPaint;
-        Plot = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Plot, needPaint);
-        Series = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Series, needPaint);
-        Grid = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Grid, needPaint);
-        Border = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Border, needPaint);
-        Label = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Label, needPaint);
+        Plot = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Plot, needPaint, element);
+        Series = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Series, needPaint, element);
+        Grid = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Grid, needPaint, element);
+        Border = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Border, needPaint, element);
+        Label = new PaletteTransferSpeedGraphColorRedirect(redirect!, TransferSpeedGraphPaletteColor.Label, needPaint, element);
     }
 
     /// <inheritdoc />

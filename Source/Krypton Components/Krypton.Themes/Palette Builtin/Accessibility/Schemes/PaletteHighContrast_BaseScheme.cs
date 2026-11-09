@@ -267,4 +267,9 @@ public sealed class PaletteHighContrast_BaseScheme : KryptonColorSchemeBase
     public override Color EqualizerOff                      { get; set; } = Color.White;
     public override Color EqualizerPeak                     { get; set; } = Color.FromArgb(40, 40, 40);
     public override Color EqualizerThumb                    { get; set; } = Color.White;
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.Black;
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.White;
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.White;
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.White;
 }

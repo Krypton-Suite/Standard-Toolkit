@@ -4553,7 +4553,22 @@ public enum SchemeBaseColors
     EqualizerPeak = 254,
 
     /// <summary>Equalizer interactive gain thumbs.</summary>
-    EqualizerThumb = 255
+    EqualizerThumb = 255,
+
+    /// <summary>Plot background for the transfer-progress graph.</summary>
+    TransferProgressGraphPlot = 256,
+
+    /// <summary>Series fill for the transfer-progress graph.</summary>
+    TransferProgressGraphSeries = 257,
+
+    /// <summary>Grid lines for the transfer-progress graph.</summary>
+    TransferProgressGraphGrid = 258,
+
+    /// <summary>Chart frame border for the transfer-progress graph.</summary>
+    TransferProgressGraphBorder = 259,
+
+    /// <summary>Progress-label text for the transfer-progress graph.</summary>
+    TransferProgressGraphLabel = 260
 }
 
 #endregion

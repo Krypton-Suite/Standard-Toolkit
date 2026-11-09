@@ -277,4 +277,9 @@ public sealed class PaletteVisualStudio2019Light_BaseScheme : KryptonColorScheme
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(204, 206, 219);
     public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(230, 230, 230);
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(245, 245, 245);
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(238, 238, 238);
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(204, 206, 219);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(204, 206, 219);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(30, 30, 30);
 }

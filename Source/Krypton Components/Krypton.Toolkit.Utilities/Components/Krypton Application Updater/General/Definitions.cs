@@ -93,6 +93,16 @@ public enum KryptonUpdatePackageKind
     Archive = 1
 }
 
+/// <summary>Primary progress control shown while a package downloads.</summary>
+public enum KryptonUpdateProgressDisplay
+{
+    /// <summary>A percent (or marquee) progress bar.</summary>
+    ProgressBar = 0,
+
+    /// <summary>A <see cref="KryptonTransferProgressPanel"/> (speed chart plus optional progress chart).</summary>
+    TransferSpeedGraph = 1
+}
+
 /// <summary>Outcome of <see cref="KryptonApplicationUpdater.CheckAsync"/> or <see cref="KryptonApplicationUpdater.CheckNowAsync"/>.</summary>
 public enum KryptonUpdateCheckStatus
 {

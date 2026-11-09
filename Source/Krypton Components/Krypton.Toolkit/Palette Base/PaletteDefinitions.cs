@@ -4436,7 +4436,13 @@ public enum PaletteElement
     /// Specifies colours for the transfer-speed graph.
     /// Color1 = plot background, Color2 = series fill, Color3 = grid, Color4 = frame border, Color5 = speed label.
     /// </summary>
-    TransferSpeedGraph
+    TransferSpeedGraph,
+
+    /// <summary>
+    /// Specifies colours for the transfer-progress graph.
+    /// Color1 = plot background, Color2 = series fill, Color3 = grid, Color4 = frame border, Color5 = progress label.
+    /// </summary>
+    TransferProgressGraph
 }
 #endregion
 

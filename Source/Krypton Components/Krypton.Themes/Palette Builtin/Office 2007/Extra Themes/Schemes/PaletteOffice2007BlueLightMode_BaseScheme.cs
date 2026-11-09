@@ -267,4 +267,9 @@ public sealed class PaletteOffice2007BlueLightMode_BaseScheme : KryptonColorSche
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(161, 189, 207);
     public override Color EqualizerPeak                    { get; set; } = Color.Blue;
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(230, 239, 249);
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(230, 239, 249);
+    public override Color TransferProgressGraphSeries      { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(101, 147, 207);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(101, 147, 207);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(21, 66, 139);
 }

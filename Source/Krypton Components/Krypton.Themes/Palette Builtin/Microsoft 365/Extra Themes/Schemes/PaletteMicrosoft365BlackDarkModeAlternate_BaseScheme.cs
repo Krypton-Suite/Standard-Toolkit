@@ -267,4 +267,9 @@ public sealed class PaletteMicrosoft365BlackDarkModeAlternate_BaseScheme : Krypt
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(137, 135, 133);
     public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(137, 137, 137);
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(31, 31, 31);
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(31, 31, 31);
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(80, 80, 80);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(80, 80, 80);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.White;
 }

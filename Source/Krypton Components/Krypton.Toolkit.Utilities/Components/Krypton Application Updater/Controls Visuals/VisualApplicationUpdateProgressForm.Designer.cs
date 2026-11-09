@@ -28,6 +28,8 @@ internal partial class VisualApplicationUpdateProgressForm
             this.kryptonPanel = new Krypton.Toolkit.KryptonPanel();
             this.table = new System.Windows.Forms.TableLayoutPanel();
             this.lblStatus = new Krypton.Toolkit.KryptonLabel();
+            this.progressHost = new System.Windows.Forms.Panel();
+            this.transferProgressPanel = new Krypton.Toolkit.Utilities.KryptonTransferProgressPanel();
             this.progressDownload = new Krypton.Toolkit.KryptonProgressBar();
             this.btnDetails = new Krypton.Toolkit.KryptonButton();
             this.btnResume = new Krypton.Toolkit.KryptonButton();
@@ -41,15 +43,13 @@ internal partial class VisualApplicationUpdateProgressForm
             this.lblRemaining = new Krypton.Toolkit.KryptonLabel();
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
             this.kryptonBorderEdge1 = new Krypton.Toolkit.KryptonBorderEdge();
-            this.kryptonPanel2 = new Krypton.Toolkit.KryptonPanel();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel)).BeginInit();
             this.kryptonPanel.SuspendLayout();
             this.table.SuspendLayout();
+            this.progressHost.SuspendLayout();
             this.detailsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).BeginInit();
             this.kryptonPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).BeginInit();
-            this.kryptonPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // kryptonPanel
@@ -68,7 +68,7 @@ internal partial class VisualApplicationUpdateProgressForm
             this.table.ColumnCount = 1;
             this.table.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.table.Controls.Add(this.lblStatus, 0, 0);
-            this.table.Controls.Add(this.progressDownload, 0, 1);
+            this.table.Controls.Add(this.progressHost, 0, 1);
             this.table.Dock = System.Windows.Forms.DockStyle.Fill;
             this.table.Location = new System.Drawing.Point(12, 12);
             this.table.Name = "table";
@@ -88,13 +88,34 @@ internal partial class VisualApplicationUpdateProgressForm
             this.lblStatus.TabIndex = 0;
             this.lblStatus.Values.Text = "Downloading update...";
             // 
+            // progressHost
+            // 
+            this.progressHost.BackColor = System.Drawing.Color.Transparent;
+            this.progressHost.Controls.Add(this.transferProgressPanel);
+            this.progressHost.Controls.Add(this.progressDownload);
+            this.progressHost.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.progressHost.Location = new System.Drawing.Point(3, 29);
+            this.progressHost.Name = "progressHost";
+            this.progressHost.Size = new System.Drawing.Size(610, 94);
+            this.progressHost.TabIndex = 1;
+            // 
+            // transferProgressPanel
+            // 
+            this.transferProgressPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.transferProgressPanel.Location = new System.Drawing.Point(0, 0);
+            this.transferProgressPanel.Name = "transferProgressPanel";
+            this.transferProgressPanel.Size = new System.Drawing.Size(610, 94);
+            this.transferProgressPanel.TabIndex = 1;
+            this.transferProgressPanel.TabStop = false;
+            this.transferProgressPanel.Visible = false;
+            // 
             // progressDownload
             // 
             this.progressDownload.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressDownload.Location = new System.Drawing.Point(3, 29);
+            this.progressDownload.Location = new System.Drawing.Point(0, 0);
             this.progressDownload.Name = "progressDownload";
             this.progressDownload.Size = new System.Drawing.Size(610, 94);
-            this.progressDownload.TabIndex = 1;
+            this.progressDownload.TabIndex = 0;
             // 
             // btnDetails
             // 
@@ -149,18 +170,20 @@ internal partial class VisualApplicationUpdateProgressForm
             this.detailsPanel.BackColor = System.Drawing.Color.Transparent;
             this.detailsPanel.ColumnCount = 1;
             this.detailsPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.detailsPanel.Controls.Add(this.kryptonPanel2, 0, 4);
+            this.detailsPanel.Controls.Add(this.lblFile, 0, 0);
+            this.detailsPanel.Controls.Add(this.lblDownloaded, 0, 1);
+            this.detailsPanel.Controls.Add(this.lblSpeed, 0, 2);
+            this.detailsPanel.Controls.Add(this.lblRemaining, 0, 3);
             this.detailsPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.detailsPanel.Location = new System.Drawing.Point(0, 50);
             this.detailsPanel.Margin = new System.Windows.Forms.Padding(0);
             this.detailsPanel.Name = "detailsPanel";
             this.detailsPanel.Padding = new System.Windows.Forms.Padding(12, 0, 12, 8);
-            this.detailsPanel.RowCount = 5;
+            this.detailsPanel.RowCount = 4;
             this.detailsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.detailsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.detailsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.detailsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.detailsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.detailsPanel.Size = new System.Drawing.Size(640, 0);
             this.detailsPanel.TabIndex = 4;
             this.detailsPanel.Visible = false;
@@ -177,7 +200,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblDownloaded
             // 
             this.lblDownloaded.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblDownloaded.Location = new System.Drawing.Point(15, 3);
+            this.lblDownloaded.Location = new System.Drawing.Point(15, 20);
             this.lblDownloaded.Name = "lblDownloaded";
             this.lblDownloaded.Size = new System.Drawing.Size(610, 14);
             this.lblDownloaded.TabIndex = 1;
@@ -186,7 +209,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblSpeed
             // 
             this.lblSpeed.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblSpeed.Location = new System.Drawing.Point(15, 3);
+            this.lblSpeed.Location = new System.Drawing.Point(15, 37);
             this.lblSpeed.Name = "lblSpeed";
             this.lblSpeed.Size = new System.Drawing.Size(610, 14);
             this.lblSpeed.TabIndex = 2;
@@ -195,7 +218,7 @@ internal partial class VisualApplicationUpdateProgressForm
             // lblRemaining
             // 
             this.lblRemaining.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblRemaining.Location = new System.Drawing.Point(15, 3);
+            this.lblRemaining.Location = new System.Drawing.Point(15, 54);
             this.lblRemaining.Name = "lblRemaining";
             this.lblRemaining.Size = new System.Drawing.Size(610, 14);
             this.lblRemaining.TabIndex = 3;
@@ -226,18 +249,6 @@ internal partial class VisualApplicationUpdateProgressForm
             this.kryptonBorderEdge1.Size = new System.Drawing.Size(640, 1);
             this.kryptonBorderEdge1.Text = "kryptonBorderEdge1";
             // 
-            // kryptonPanel2
-            // 
-            this.kryptonPanel2.Controls.Add(this.lblFile);
-            this.kryptonPanel2.Controls.Add(this.lblDownloaded);
-            this.kryptonPanel2.Controls.Add(this.lblSpeed);
-            this.kryptonPanel2.Controls.Add(this.lblRemaining);
-            this.kryptonPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.kryptonPanel2.Location = new System.Drawing.Point(15, -13);
-            this.kryptonPanel2.Name = "kryptonPanel2";
-            this.kryptonPanel2.Size = new System.Drawing.Size(610, 14);
-            this.kryptonPanel2.TabIndex = 4;
-            // 
             // VisualApplicationUpdateProgressForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,13 +267,12 @@ internal partial class VisualApplicationUpdateProgressForm
             this.kryptonPanel.ResumeLayout(false);
             this.table.ResumeLayout(false);
             this.table.PerformLayout();
+            this.progressHost.ResumeLayout(false);
             this.detailsPanel.ResumeLayout(false);
+            this.detailsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel1)).EndInit();
             this.kryptonPanel1.ResumeLayout(false);
             this.kryptonPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.kryptonPanel2)).EndInit();
-            this.kryptonPanel2.ResumeLayout(false);
-            this.kryptonPanel2.PerformLayout();
             this.ResumeLayout(false);
 
     }
@@ -270,6 +280,8 @@ internal partial class VisualApplicationUpdateProgressForm
     private Krypton.Toolkit.KryptonPanel kryptonPanel;
     private System.Windows.Forms.TableLayoutPanel table;
     private Krypton.Toolkit.KryptonLabel lblStatus;
+    private System.Windows.Forms.Panel progressHost;
+    private Krypton.Toolkit.Utilities.KryptonTransferProgressPanel transferProgressPanel;
     private Krypton.Toolkit.KryptonProgressBar progressDownload;
     private Krypton.Toolkit.KryptonButton btnDetails;
     private System.Windows.Forms.TableLayoutPanel detailsPanel;
@@ -283,5 +295,4 @@ internal partial class VisualApplicationUpdateProgressForm
     private Krypton.Toolkit.KryptonButton btnCancel;
     private KryptonPanel kryptonPanel1;
     private KryptonBorderEdge kryptonBorderEdge1;
-    private KryptonPanel kryptonPanel2;
 }

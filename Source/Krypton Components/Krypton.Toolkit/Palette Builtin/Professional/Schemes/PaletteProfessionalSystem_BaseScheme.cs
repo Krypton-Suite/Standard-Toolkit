@@ -267,4 +267,9 @@ public sealed class PaletteProfessionalSystem_BaseScheme : KryptonColorSchemeBas
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(255, 0, 0);
     public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(255, 0, 0);
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(255, 0, 0);
 }
