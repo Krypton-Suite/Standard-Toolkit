@@ -264,8 +264,7 @@ public class KryptonMultiSelectTreeView : KryptonTreeView
         }
 
         var hit = TreeView.HitTest(e.Location);
-        if (hit.Location == TreeViewHitTestLocations.PlusMinus
-            || hit.Location == TreeViewHitTestLocations.StateImage)
+        if (hit.Location is TreeViewHitTestLocations.PlusMinus or TreeViewHitTestLocations.StateImage)
         {
             return;
         }

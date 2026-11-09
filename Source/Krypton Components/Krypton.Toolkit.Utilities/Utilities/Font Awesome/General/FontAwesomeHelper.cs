@@ -733,7 +733,7 @@ public static class FontAwesomeHelper
 
         // Regular, Light, Thin, and Duotone styles use the same Unicode values as Solid
         // Fall back to Solid mappings when these styles are requested
-        if (style == FontAwesomeStyle.Regular || style == FontAwesomeStyle.Light || style == FontAwesomeStyle.Thin || style == FontAwesomeStyle.Duotone)
+        if (style is FontAwesomeStyle.Regular or FontAwesomeStyle.Light or FontAwesomeStyle.Thin or FontAwesomeStyle.Duotone)
         {
             return GetIconUnicodeMapping(iconName, FontAwesomeStyle.Solid);
         }

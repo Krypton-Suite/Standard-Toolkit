@@ -1015,7 +1015,7 @@ internal static class KryptonCustomStringsPersistence
                 continue;
             }
 
-            if (c == '{' || c == '}' || c == ':' || c == ',')
+            if (c is '{' or '}' or ':' or ',')
             {
                 tokens.Add(c.ToString());
                 index++;

@@ -18,7 +18,7 @@ namespace TestForm;
 
 /// <summary>
 /// Test form demonstrating the KryptonWebView2 control functionality.
-/// 
+///
 /// <para>
 /// This form showcases the key features of the KryptonWebView2 control including:
 /// - Control initialization and error handling
@@ -27,7 +27,7 @@ namespace TestForm;
 /// - Integration with Krypton theming
 /// - Proper async/await patterns for WebView2 operations
 /// </para>
-/// 
+///
 /// <para>
 /// The form includes a toolbar with navigation controls and an address bar,
 /// while the main area displays the WebView2 control. Error handling is

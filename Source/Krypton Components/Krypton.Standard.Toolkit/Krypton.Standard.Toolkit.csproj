@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	
 	<!--
 		Krypton.Standard.Toolkit - Combined Package Project
@@ -6,6 +6,7 @@
 	
 		This project creates a combined NuGet package that includes all the core Krypton libraries:
 		- Krypton.Docking
+		- Krypton.Dialogs
 		- Krypton.Drawing
 		- Krypton.Interop
 		- Krypton.Resources
@@ -60,7 +61,7 @@
 	<!-- NuGet Package Metadata -->
 	<PropertyGroup>
 		<PackageId>Krypton.Standard.Toolkit</PackageId>
-		<Description>All-in-one Krypton Standard Toolkit package: Krypton.Toolkit, Ribbon, Navigator, Workspace, Docking, Drawing, Themes, Interop, Toolkit.Utilities, Navigator.Utilities, Charting, Gauges, and JumpList binaries (plus XML docs and symbols) for each target framework, including WinForms Design/WinForms designer assemblies where applicable. Krypton.Drawing rasterizes SVG with Direct2D on Windows 10 version 1703 and later.</Description>
+		<Description>All-in-one Krypton Standard Toolkit package: Krypton.Toolkit, Ribbon, Navigator, Workspace, Docking, Drawing, Drawing, Themes, Interop, Toolkit.Utilities, Navigator.Utilities, Charting, Gauges, and JumpList binaries (plus XML docs and symbols) for each target framework, including WinForms Design/WinForms designer assemblies where applicable. Krypton.Drawing rasterizes SVG with Direct2D on Windows 10 version 1703 and later.</Description>
 		<!-- Additional package metadata (version, authors, license, etc.) is defined in Directory.Build.props and Directory.Build.targets -->
 
 		<!--
@@ -122,6 +123,9 @@
 		<ProjectReference Include="..\Krypton.Charting\Krypton.Charting.csproj" />
 		<ProjectReference Include="..\Krypton.Gauges\Krypton.Gauges.csproj" />
 		<ProjectReference Include="..\Krypton.Drawing\Krypton.Drawing.csproj">
+			<PrivateAssets>All</PrivateAssets>
+		</ProjectReference>
+		<ProjectReference Include="..\Krypton.Dialogs\Krypton.Dialogs.csproj">
 			<PrivateAssets>All</PrivateAssets>
 		</ProjectReference>
 		<ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
@@ -266,6 +270,12 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Drawing.dll') And Exists('..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Dialogs.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Dialogs.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Dialogs\bin\$(Configuration)\$(TargetFramework)\Krypton.Dialogs.dll" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Dialogs.dll') And Exists('..\Krypton.Dialogs\bin\$(Configuration)\$(TargetFramework)\Krypton.Dialogs.dll')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.dll" Condition="Exists('$(_KryptonPackLibDir)Krypton.Toolkit.JumpList.dll')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -376,6 +386,12 @@
 			<TfmSpecificPackageFile Include="..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Drawing.xml') And Exists('..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Dialogs.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Dialogs.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Dialogs\bin\$(Configuration)\$(TargetFramework)\Krypton.Dialogs.xml" Condition="!Exists('$(_KryptonPackLibDir)Krypton.Dialogs.xml') And Exists('..\Krypton.Dialogs\bin\$(Configuration)\$(TargetFramework)\Krypton.Dialogs.xml')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Interop.xml" Condition="Exists('$(_KryptonPackLibDir)Krypton.Interop.xml')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
@@ -454,6 +470,12 @@
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Drawing.pdb') And Exists('..\Krypton.Drawing\bin\$(Configuration)\$(TargetFramework)\Krypton.Drawing.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Dialogs.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Dialogs.pdb')">
+				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Dialogs\bin\$(Configuration)\$(TargetFramework)\Krypton.Dialogs.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonPackLibDir)Krypton.Dialogs.pdb') And Exists('..\Krypton.Dialogs\bin\$(Configuration)\$(TargetFramework)\Krypton.Dialogs.pdb')">
 				<PackagePath>lib\$(_LibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonPackLibDir)Krypton.Interop.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonPackLibDir)Krypton.Interop.pdb')">

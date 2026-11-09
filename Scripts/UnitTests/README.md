@@ -1,4 +1,4 @@
-# Unit Test Scripts
+﻿# Unit Test Scripts
 
 PowerShell helpers for interactive / UI-automation checks against Debug `TestForm` builds,
 plus CI assert scripts named `UnitTest-*.ps1`.
@@ -106,10 +106,11 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-4406MultilineEditorScreenshot.ps1` | Hosts `Feature3851RenderingDpiDemo`, opens the themed multiline text editor (#4406), and writes `Documents/PR/4406-multiline-string-editor.png` | `exclude` |
 | `Invoke-TableLayoutStyleEditorScreenshot.ps1` | Opens the themed Column and Row Styles dialog, checks insert/delete, Cancel, and OK, and writes `Documents/PR/table-layout-style-editor.png` | `exclude` |
 | `Invoke-SvgPictureBoxScreenshot.ps1` | Hosts `KryptonSVGPictureBoxDemo` (#4657) and writes `Documents/PR/4657-krypton-svg-picture-box.png`. | `exclude` |
+| `Invoke-FileOperationDialogScreenshot.ps1` | #4672 copies, conflicts, and deletes through `KryptonFileOperation`, and writes light (`Microsoft365Blue`) / dark (`Microsoft365BlackDarkMode`) progress, conflict, confirmation, and demo PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-ApplicationUpdaterScreenshot.ps1` | Hosts `ApplicationUpdaterDemo` (#4669), captures the update prompt and the up-to-date notes window, and checks a local zip extract | `exclude` |
-| `Invoke-ApplicationUpdaterRecoveryScreenshot.ps1` | Shows the updater progress window after an interrupted download (#4669) and writes `Documents/PR/4669-application-updater-recovery.png` | `exclude` |
-| `Invoke-ApplicationUpdaterWindowScreenshot.ps1` | Captures the compact update prompt, release notes, remind-later dialog, and expanded progress footer (#4669) | `exclude` |
-| `Invoke-UpdateManifestEditorScreenshot.ps1` | Hosts the update manifest editor and writes `Documents/PR/4669-update-manifest-editor.png` | `exclude` |
+| `Invoke-ApplicationUpdaterRecoveryScreenshot.ps1` | Shows the updater progress window after an interrupted download (#4669) and writes light/dark `Documents/PR/4669-application-updater-recovery-*.png` | `exclude` |
+| `Invoke-ApplicationUpdaterWindowScreenshot.ps1` | Captures the compact update prompt, release notes, remind-later dialog, and expanded progress footer (#4669) in Microsoft 365 Blue / Black Dark Mode | `exclude` |
+| `Invoke-UpdateManifestEditorScreenshot.ps1` | Hosts the update manifest editor and writes light/dark `Documents/PR/4669-update-manifest-editor-*.png` | `exclude` |
 | `Invoke-SnapLayoutOverlayScreenshot.ps1` | Compiles a net472 host beside the Debug `Krypton.Toolkit` build, shows a `KryptonForm`, opens the palette snap menu (#4579), and writes `Documents/PR/4579-snap-layout-overlay.png`. `-CustomCard` adds a 70/30 card and writes `Documents/PR/custom-snap-layouts-menu.png`. `-Ghost` enables `ShowPreviewGhost` and writes `Documents/PR/4579-snap-preview-ghost.png` | `exclude` |
 | `Invoke-SnapGroupsAssistScreenshot.ps1` | Two `KryptonForm`s: registers a half/half group and captures the menu + `Group | …` caption; then captures the Assist peer picker. Writes `Documents/PR/4579-snap-groups-assist-group.png` and `…-assist.png` | `exclude` |
 | `Invoke-SearchBoxPerformanceScreenshot.ps1` | Hosts `KryptonSearchBoxPerformanceDemo` (#4580) and writes `Documents/PR/4580-searchbox-performance-demo.png` | `exclude` || `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
@@ -258,6 +259,21 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 ```
 
 Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR assets; do not commit). That capture leaves Play music off.
+
+### Analogue gauges (#4656)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-AnalogueGaugeScreenshot.ps1
+```
+
+Writes `Documents/PR/4656-analogue-gauges-default-light.png` and `…-dark.png` (Microsoft 365 Blue / Black Dark Mode; local PR assets; do not commit).
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-EqualizerScreenshot.ps1
+```
+
+Writes `Documents/PR/4660-krypton-equalizer-default-light.png` and `…-dark.png` (local PR assets; do not commit).
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-VuMeterMusic.ps1

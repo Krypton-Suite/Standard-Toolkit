@@ -254,4 +254,17 @@ public sealed class PaletteProfessionalSystem_BaseScheme : KryptonColorSchemeBas
     public override Color TrackBarFillTrack                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color EqualizerLow                     { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color EqualizerHigh                    { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(255, 0, 0);
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(255, 0, 0);
 }

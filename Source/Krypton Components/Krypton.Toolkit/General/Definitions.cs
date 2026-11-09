@@ -4514,7 +4514,46 @@ public enum SchemeBaseColors
     TextListItem = 241,
 
     /// <summary>Text color for tool strips. Empty inherits the ColorTable family fallback (often StatusStripText).</summary>
-    ToolStripText = 242
+    ToolStripText = 242,
+
+    /// <summary>Plot background for the transfer-speed graph.</summary>
+    TransferSpeedGraphPlot = 243,
+
+    /// <summary>Series fill for the transfer-speed graph.</summary>
+    TransferSpeedGraphSeries = 244,
+
+    /// <summary>Grid lines for the transfer-speed graph.</summary>
+    TransferSpeedGraphGrid = 245,
+
+    /// <summary>Chart frame border for the transfer-speed graph.</summary>
+    TransferSpeedGraphBorder = 246,
+
+    /// <summary>Speed-label text for the transfer-speed graph.</summary>
+    TransferSpeedGraphLabel = 247,
+
+    /// <summary>Equalizer face / panel fill behind the bars.</summary>
+    EqualizerFace = 248,
+
+    /// <summary>Equalizer band frequency labels.</summary>
+    EqualizerLabel = 249,
+
+    /// <summary>Equalizer lit bars in the lower third of the scale.</summary>
+    EqualizerLow = 250,
+
+    /// <summary>Equalizer lit bars in the middle third of the scale.</summary>
+    EqualizerMid = 251,
+
+    /// <summary>Equalizer lit bars in the upper third / overload of the scale.</summary>
+    EqualizerHigh = 252,
+
+    /// <summary>Equalizer unlit segments.</summary>
+    EqualizerOff = 253,
+
+    /// <summary>Equalizer peak-hold marks.</summary>
+    EqualizerPeak = 254,
+
+    /// <summary>Equalizer interactive gain thumbs.</summary>
+    EqualizerThumb = 255
 }
 
 #endregion

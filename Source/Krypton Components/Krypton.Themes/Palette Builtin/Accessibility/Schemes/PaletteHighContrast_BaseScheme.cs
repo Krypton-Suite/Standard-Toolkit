@@ -254,4 +254,17 @@ public sealed class PaletteHighContrast_BaseScheme : KryptonColorSchemeBase
     public override Color TrackBarFillTrack                 { get; set; } = Color.FromArgb(0, 255, 0);
     public override Color TrackBarOutsidePosition           { get; set; } = Color.FromArgb(64, Color.White);
     public override Color TrackBarBorderPosition            { get; set; } = Color.White;
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.Black;
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(0, 255, 0);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.White;
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.White;
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.White;
+    public override Color EqualizerFace                     { get; set; } = Color.Black;
+    public override Color EqualizerLabel                    { get; set; } = Color.White;
+    public override Color EqualizerLow                      { get; set; } = Color.White;
+    public override Color EqualizerMid                      { get; set; } = Color.Black;
+    public override Color EqualizerHigh                     { get; set; } = Color.Black;
+    public override Color EqualizerOff                      { get; set; } = Color.White;
+    public override Color EqualizerPeak                     { get; set; } = Color.FromArgb(40, 40, 40);
+    public override Color EqualizerThumb                    { get; set; } = Color.White;
 }

@@ -35,6 +35,8 @@ public sealed class KryptonUpdatePackage
     /// <param name="allowSkip">When null, a critical package cannot be skipped and every other severity can. When set, that choice wins.</param>
     /// <param name="allowResume">When null, a partial download can be resumed. When false, Resume is hidden.</param>
     /// <param name="allowRetry">When null, a failed download can be started again. When false, Restart is hidden.</param>
+    /// <param name="banner">Optional prompt and notes banner. Null when the manifest omits it.</param>
+    /// <param name="pulse">Optional form chrome glow. Null when the manifest omits it.</param>
     public KryptonUpdatePackage(
         Version version,
         KryptonUpdateSeverity severity,
@@ -49,12 +51,14 @@ public sealed class KryptonUpdatePackage
         bool? allowPostpone = null,
         bool? allowSkip = null,
         bool? allowResume = null,
-        bool? allowRetry = null)
+        bool? allowRetry = null,
+        KryptonUpdateBanner? banner = null,
+        KryptonUpdatePulse? pulse = null)
     {
         ThrowHelper.ThrowIfNull(version);
         if (maximumPostponeDays.HasValue && maximumPostponeDays.Value < 1)
         {
-            throw new ArgumentOutOfRangeException(nameof(maximumPostponeDays), maximumPostponeDays.Value, "maximumPostponeDays must be at least 1.");
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(maximumPostponeDays), maximumPostponeDays.Value, "maximumPostponeDays must be at least 1.");
         }
 
         Version = version;
@@ -75,6 +79,8 @@ public sealed class KryptonUpdatePackage
         _allowSkip = allowSkip;
         _allowResume = allowResume;
         _allowRetry = allowRetry;
+        Banner = banner;
+        Pulse = pulse;
     }
 
     /// <summary>Gets the package version.</summary>
@@ -140,6 +146,12 @@ public sealed class KryptonUpdatePackage
     /// <summary>Gets the manifest <c>allowRetry</c> value, or null when the file omitted it.</summary>
     internal bool? AllowRetrySetting => _allowRetry;
 
+    /// <summary>Gets the optional prompt and notes banner, or null when the manifest omits it.</summary>
+    public KryptonUpdateBanner? Banner { get; }
+
+    /// <summary>Gets the optional form chrome glow, or null when the manifest omits it.</summary>
+    public KryptonUpdatePulse? Pulse { get; }
+
     /// <summary>Returns a copy that downloads from <paramref name="packageUrl"/>.</summary>
     /// <param name="packageUrl">Resolved HTTPS address or local path.</param>
     /// <returns>A package with the same metadata and the new address.</returns>
@@ -158,7 +170,9 @@ public sealed class KryptonUpdatePackage
             _allowPostpone,
             _allowSkip,
             _allowResume,
-            _allowRetry);
+            _allowRetry,
+            Banner,
+            Pulse);
 }
 
 /// <summary>Packages returned by one feed check.</summary>
