@@ -262,6 +262,17 @@
 				<Description Condition="'$(TFMs)' == 'all'">An update to Component factory's krypton toolkit to support .NET Framework 4.7.2 - 4.8.1 and .NET 10 - 12. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1 and .NET 10 - 12. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md FOR USE WITH DEMO INSTALLERS ONLY!</Description>
 			</PropertyGroup>
 		</When>
+
+		<When Condition="'$(Configuration)' == 'LTS'">
+			<PropertyGroup>
+				<PackageId Condition="'$(TFMs)' == 'lite' And '$(PackageId)' != ''">$(PackageId).LTS.Lite</PackageId>
+
+				<Description Condition="'$(TFMs)' == 'lite'">An update to Component factory's krypton toolkit to support .NET Framework 4.8 - 4.8.1 and .NET 10 - 12. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.8 - 4.8.1, .NET 10 - 12. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md To find out what's new, please visit: https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md This is a long-term support (LTS) package.</Description>
+
+				<PackageId Condition="'$(TFMs)' == 'all' And '$(PackageId)' != ''">$(PackageId).LTS</PackageId>
+				<Description Condition="'$(TFMs)' == 'all'">An update to Component factory's krypton toolkit to support .NET Framework 4.7.2 - 4.8.1 and .NET 10 - 12. $(Description) This package supports all .NET Framework versions starting .NET Framework 4.6.2 - 4.8.1 and .NET 10 - 12. Also, all libraries are included targeting each specific framework version for performance purposes. To view all of the standard toolkit package latest version information, please visit: https://github.com/Krypton-Suite/Krypton-Toolkit-Suite-Version-Dashboard/blob/main/Documents/Modules/Standard/Krypton-Toolkit-Suite-Standard-Modules.md This is a long-term support (LTS) package.</Description>
+			</PropertyGroup>
+		</When>
 		<Otherwise>
 			<PropertyGroup>
 				<PackageId Condition="'$(TFMs)' == 'lite' And '$(PackageId)' != ''">$(PackageId).Lite</PackageId>

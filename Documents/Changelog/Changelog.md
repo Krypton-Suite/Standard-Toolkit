@@ -46,6 +46,7 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented, LTS NuGet packages use `Configuration=LTS` with the dedicated `Krypton LTS.png` package icon and package IDs `*.LTS` / `*.LTS.Lite`.
 - Implemented [#4685](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4685), `KryptonForm` background colour
   - `KryptonManager.UseKryptonColorsOnForm` (default `true`) syncs `KryptonForm` and internal panel `BackColor` to the form `PanelStyle` palette colour. Set to `false` to keep `SystemColors.Control`.
   - `KryptonManager.PanelStyle` (default `PanelClient`) is the global client panel style; `KryptonForm.PanelStyle` inherits it until a local override is set (Reset returns to inherit).
