@@ -247,11 +247,16 @@ public static class MaterializeSchemeHelper
         scheme.TransferSpeedGraphGrid = buttonBorder;
         scheme.TransferSpeedGraphBorder = buttonBorder;
         scheme.TransferSpeedGraphLabel = Color.Black;
+        scheme.ProgressBarValue = header1;
+        scheme.ProgressBarLow = Color.Red;
+        scheme.ProgressBarMedium = Color.Orange;
+        scheme.ProgressBarHigh = header1;
         scheme.TransferProgressGraphPlot = scheme.TransferSpeedGraphPlot;
         scheme.TransferProgressGraphSeries = Color.FromArgb(76, 175, 80);
         scheme.TransferProgressGraphGrid = scheme.TransferSpeedGraphGrid;
         scheme.TransferProgressGraphBorder = scheme.TransferSpeedGraphBorder;
         scheme.TransferProgressGraphLabel = scheme.TransferSpeedGraphLabel;
+
     }
 
     /// <summary>
@@ -590,11 +595,16 @@ public static class MaterializeSchemeHelper
         scheme.TransferSpeedGraphGrid = borderMuted;
         scheme.TransferSpeedGraphBorder = borderMuted;
         scheme.TransferSpeedGraphLabel = lightText;
+        scheme.ProgressBarValue = panelAccent;
+        scheme.ProgressBarLow = Color.Red;
+        scheme.ProgressBarMedium = Color.Orange;
+        scheme.ProgressBarHigh = panelAccent;
         scheme.TransferProgressGraphPlot = scheme.TransferSpeedGraphPlot;
         scheme.TransferProgressGraphSeries = Color.FromArgb(76, 175, 80);
         scheme.TransferProgressGraphGrid = scheme.TransferSpeedGraphGrid;
         scheme.TransferProgressGraphBorder = scheme.TransferSpeedGraphBorder;
         scheme.TransferProgressGraphLabel = scheme.TransferSpeedGraphLabel;
+
     }
 
     private static void GetLightRamp(MaterializeAccentKind kind,

@@ -4555,20 +4555,33 @@ public enum SchemeBaseColors
     /// <summary>Equalizer interactive gain thumbs.</summary>
     EqualizerThumb = 255,
 
+    /// <summary>Default continuous / marquee progress-bar fill.</summary>
+    ProgressBarValue = 256,
+
+    /// <summary>Tri-state progress-bar fill for the low threshold region.</summary>
+    ProgressBarLow = 257,
+
+    /// <summary>Tri-state progress-bar fill for the medium threshold region.</summary>
+    ProgressBarMedium = 258,
+
+    /// <summary>Tri-state progress-bar fill for the high threshold region.</summary>
+    ProgressBarHigh = 259,
+
     /// <summary>Plot background for the transfer-progress graph.</summary>
-    TransferProgressGraphPlot = 256,
+    TransferProgressGraphPlot = 260,
 
     /// <summary>Series fill for the transfer-progress graph.</summary>
-    TransferProgressGraphSeries = 257,
+    TransferProgressGraphSeries = 261,
 
     /// <summary>Grid lines for the transfer-progress graph.</summary>
-    TransferProgressGraphGrid = 258,
+    TransferProgressGraphGrid = 262,
 
     /// <summary>Chart frame border for the transfer-progress graph.</summary>
-    TransferProgressGraphBorder = 259,
+    TransferProgressGraphBorder = 263,
 
     /// <summary>Progress-label text for the transfer-progress graph.</summary>
-    TransferProgressGraphLabel = 260
+    TransferProgressGraphLabel = 264
+
 }
 
 #endregion

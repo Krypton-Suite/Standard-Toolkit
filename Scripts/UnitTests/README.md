@@ -121,6 +121,7 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-ToastDpiScreenshot.ps1` | Shows basic toasts with/without close box and writes `Documents/PR/4419-toast-dpi-*.png` (#4419) | `exclude` |
 | `Invoke-SplitButtonScreenshot.ps1` | Hosts `KryptonSplitButtonDemo` (#4366) and writes `Documents/PR/4366-krypton-split-button-default.png` | `exclude` |
 | `Invoke-ElevatedClickScreenshot.ps1` | Hosts the #4648 ElevatedClick shield as an overlay on a content image, without clicking (no UAC prompt), and writes `Documents/PR/4648-elevated-click-demo.png` | `exclude` |
+| `Invoke-FormClientBackColorScreenshot.ps1` | Hosts `FormClientBackColorDemo` (#4685) under Microsoft 365 Blue / Black Dark Mode and writes `Documents/PR/4685-form-client-backcolor-default-light.png` and `…-dark.png` | `exclude` |
 | `Invoke-CommandLinkElevatedClickScreenshot.ps1` | Hosts the #4648 command-link ElevatedClick shield on the arrow, without clicking, and writes `Documents/PR/4648-command-link-elevated-click-demo.png` | `exclude` |
 | `Invoke-ButtonSpecFillHeightScreenshot.ps1` | Hosts `Bug4432ButtonSpecFillHeightDemo` (#4432) and writes `Documents/PR/4432-buttonspec-fillheight-default.png` | `exclude` |
 | `Probe-ButtonSpecFillHeight.ps1` | Prints TextBox ButtonSpec client rectangles for #4432 FillHeight vs centred | `exclude` |
@@ -151,6 +152,9 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/3927-tag-input-default.png` | `exclude` |
 | `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/tag-input-default.png` | `exclude` |
 | `Invoke-ToolStripTextContrastScreenshot.ps1` | Hosts `Bug4373ToolStripTextContrastDemo` (#4373) and writes Office White/Black ToolStrip PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-ProgressBarSchemeScreenshot.ps1` | Hosts `ProgressBarTest` (#4684) and writes light/dark scheme-slot PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-ProgressBarDemosGalleryScreenshot.ps1` | Builds Demos `KryptonProgressbar Examples` and writes `example-light.png` / `example-dark.png` into that project folder (#4684 gallery) | `exclude` |
+| `Invoke-ProgressBarMaterializeSmoke.ps1` | Asserts Materialize `ProgressBarValue`/`High` are accent-driven (#4684), not Green | `exclude` |
 | `Invoke-BorderlessMdiScreenshot.ps1` | Hosts `BorderlessMdiHostDemo` (#2922) with a Dock.Fill child and writes `Documents/PR/2922-borderless-mdi-dockfill.png` | `exclude` |
 | `Invoke-TabbedFloatingToolbarScreenshot.ps1` | Hosts a tabbed `FloatingToolbarGroup` (#4410) and writes `Documents/PR/4410-tabbed-floating-toolbar-page-content.png` | `exclude` |
 

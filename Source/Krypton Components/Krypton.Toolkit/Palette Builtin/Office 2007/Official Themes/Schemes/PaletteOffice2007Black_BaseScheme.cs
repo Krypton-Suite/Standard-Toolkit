@@ -267,9 +267,14 @@ public sealed class PaletteOffice2007Black_BaseScheme : KryptonColorSchemeBase
     public override Color EqualizerOff                     { get; set; } = Color.FromArgb(137, 135, 133);
     public override Color EqualizerPeak                    { get; set; } = Color.Black;
     public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(203, 213, 223);
+    public override Color ProgressBarValue                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarLow                   { get; set; } = Color.Red;
+    public override Color ProgressBarMedium                { get; set; } = Color.Orange;
+    public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(83, 83, 83);
     public override Color TransferProgressGraphSeries      { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(30, 30, 30);
     public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(30, 30, 30);
     public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(70, 70, 70);
+
 }

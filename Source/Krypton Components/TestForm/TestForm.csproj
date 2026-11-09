@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <NoWarn>$(NoWarn);WFO5002</NoWarn>
@@ -313,6 +313,12 @@
     <EmbeddedResource Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.resx">
       <DependentUpon>KryptonAnalogueGaugeDemo.cs</DependentUpon>
       <LogicalName>TestForm.KryptonAnalogueGaugeDemo.resources</LogicalName>
+    </EmbeddedResource>
+    <Compile Update="KryptonToolkit\Feature\FormClientBackColorDemo.Designer.cs">
+      <DependentUpon>FormClientBackColorDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonToolkit\Feature\FormClientBackColorDemo.resx">
+      <DependentUpon>FormClientBackColorDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
