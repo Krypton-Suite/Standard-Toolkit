@@ -559,7 +559,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $proj = 'Source/Krypton Components/Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
           $msbuildConfig = 'Nightly'
 
           # Primary source: built Krypton.Toolkit.dll assembly version.

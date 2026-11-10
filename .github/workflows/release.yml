@@ -200,8 +200,8 @@ jobs:
         run: |
           $root = $env:GITHUB_WORKSPACE
           if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
+          $utilProj = Join-Path $root "Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Lib\WebView2"
           if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
@@ -353,7 +353,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $proj = 'Source/Krypton Components/Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
           $msbuildConfig = 'Release'
 
           try {
@@ -645,8 +645,8 @@ jobs:
         run: |
           $root = $env:GITHUB_WORKSPACE
           if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
+          $utilProj = Join-Path $root "Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Lib\WebView2"
           if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
@@ -789,7 +789,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $proj = 'Source/Krypton Components/Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
           $msbuildConfig = 'Release'
 
           try {
@@ -1060,8 +1060,8 @@ jobs:
         run: |
           $root = $env:GITHUB_WORKSPACE
           if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
+          $utilProj = Join-Path $root "Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Lib\WebView2"
           if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
@@ -1216,7 +1216,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $proj = 'Source/Krypton Components/Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
           $msbuildConfig = 'Canary'
 
           try {
@@ -1484,8 +1484,8 @@ jobs:
         run: |
           $root = $env:GITHUB_WORKSPACE
           if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
+          $utilProj = Join-Path $root "Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
+          $libDir = Join-Path $root "Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Lib\WebView2"
           if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"

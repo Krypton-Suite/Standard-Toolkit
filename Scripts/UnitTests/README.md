@@ -41,7 +41,7 @@ Optional Discord notifications use repository secret `DISCORD_WEBHOOK_UNIT_TESTS
 ## Prerequisites
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 ```
 
 Default output folder: `Bin\Debug\net472`.
@@ -162,7 +162,7 @@ Default output folder: `Bin\Debug\net472`.
 ## Run all CI assert tests (on demand)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\Invoke-AllUnitTests.ps1 -Strict
 ```
 
@@ -177,7 +177,7 @@ gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -
 ## Typical usage (#4249 startup timing)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-StartupTiming.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-StartupTiming.ps1 -PaletteMode Office2007Blue
 ```
@@ -186,7 +186,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 
 ```powershell
 # In-process CI assert (no live host / mouse)
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-NavigatorCaptionTabRemerge.ps1
 
 # Interactive mouse (optional): host the demo, then drag
@@ -202,7 +202,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Scripts\UnitTests\Invoke-C
 ## Typical usage (#4129 taskbar tab groups)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-NavigatorTaskbarTabGroups.ps1
 ```
 Screenshots from interactive helpers are written under the bin/output directory and are not checked in.
@@ -210,21 +210,21 @@ Screenshots from interactive helpers are written under the bin/output directory 
 ## Typical usage (#4270 / #4269 log protect)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-KryptonLogProtect.ps1
 ```
 
 ## Typical usage (#4253 ribbon overflow glyph)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonOverflowGlyph.ps1
 ```
 
 ## Typical usage (#4369 ribbon translations)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonTranslations.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonTranslationsScreenshot.ps1
 ```
@@ -232,35 +232,35 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 ## Typical usage (#4560 ribbon group stack)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonGroupStackScreenshot.ps1
 ```
 
 ## Typical usage (#4496 Office 2024 ribbon)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-Office2024RibbonScreenshot.ps1
 ```
 
 ## Typical usage (#4552 backstage File double-click)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-BackstageFileDoubleClick.ps1
 ```
 
 ## Typical usage (#4271 bug-report email body)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BugReportEmailBody.ps1
 ```
 
 ## Typical usage (#4655 VU meter)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-VuMeterScreenshot.ps1
 ```
 
@@ -269,7 +269,7 @@ Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR asse
 ### Analogue gauges (#4656)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-AnalogueGaugeScreenshot.ps1
 ```
 
@@ -290,7 +290,7 @@ Selects a 30-second length, then turns on Play music and the stereo file. The st
 ## Typical usage (#1100 scheme strip text)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-SchemeStripTextScreenshot.ps1
 ```
 
@@ -299,7 +299,7 @@ Writes `Documents/PR/1100-scheme-strip-text-*.png` (local PR assets; do not comm
 ## Typical usage (#3859 ribbon caption palette)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-RibbonCaptionPalette.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonCaptionPaletteScreenshot.ps1
 ```
@@ -309,7 +309,7 @@ Writes `Documents/PR/3859-ribbon-caption-palette-*.png` (local PR assets; do not
 ## Typical usage (#4483 dark mode themes)
 
 ```powershell
-dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net8.0-windows
+dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug -f net8.0-windows
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-DarkModeThemeScreenshots.ps1 -TargetFramework net8.0-windows
 ```
 

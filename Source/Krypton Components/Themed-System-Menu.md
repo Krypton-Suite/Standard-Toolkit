@@ -19,7 +19,7 @@ The themed system menu replaces the native Windows system menu with a `KryptonCo
 ### New Classes
 
 #### `KryptonThemedSystemMenu`
-- **Location**: `Source/Krypton Components/Krypton.Toolkit/Controls Toolkit/KryptonThemedSystemMenu.cs`
+- **Location**: `Source/Krypton Components/Core/Krypton.Toolkit/Controls Toolkit/KryptonThemedSystemMenu.cs`
 - **Purpose**: Manages the themed system menu and handles the conversion from native system menu to themed context menu
 - **Key Methods**:
   - `Show(Point screenLocation)`: Displays the themed system menu at the specified location
@@ -102,7 +102,7 @@ UseThemedSystemMenu = false;
 
 ## Testing
 
-A test form has been created at `Source/Krypton Components/TestForm/ThemedSystemMenuTest.cs` that demonstrates the functionality. To test:
+A test form has been created at `Source/TestHarnesses/TestForm/ThemedSystemMenuTest.cs` that demonstrates the functionality. To test:
 
 1. Build the Krypton Toolkit project
 2. Run the TestForm application

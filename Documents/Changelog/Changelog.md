@@ -46,6 +46,8 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented, `Krypton.Graphs` and `Krypton.Graphs.Design` ship inside the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) package. `Krypton.Graphs` is not a separate NuGet package.
+- Implemented [#4700](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4700), **[Breaking Change]** Library projects now live under `Source/Krypton Components/Core`, `Design`, and `Utilities`. NuGet package ids, namespaces, and assembly names are unchanged. A `ProjectReference` that pointed at `Source/Krypton Components/Krypton.<Project>` must insert `Core`, `Design`, or `Utilities`.
 - Implemented [#4691](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4691), Optional colour live preview on `KryptonColorButton`, `KryptonRibbonGroupColorButton`, and `KryptonRibbonGroupClusterColorButton`. Set `LivePreview` to follow a highlighted swatch before it is committed to `SelectedColor`. `ColorPreview` reports preview, revert, commit, and cancel so other colour UI can use the same session.
 - Implemented, LTS NuGet packages use `Configuration=LTS` with the dedicated `Krypton LTS.png` package icon and package IDs `*.LTS` / `*.LTS.Lite`.
 - Implemented [#4685](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4685), `KryptonForm` background colour

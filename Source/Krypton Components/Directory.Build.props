@@ -69,34 +69,6 @@
 		</Otherwise>
 	</Choose>
 
-	<!-- Target Framework Selection: Determines which .NET versions to build for based on configuration -->
-	<Choose>
-		<!-- Nightly, Canary, and Debug configurations build for all target frameworks -->
-		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
-			<PropertyGroup>
-				<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
-			</PropertyGroup>
-		</When>
-		<!-- When SkipNetFramework is true, only build for .NET 8+ (used for testing/CI scenarios) -->
-		<When Condition="'$(SkipNetFramework)' == 'true'">
-			<PropertyGroup>
-				<TargetFrameworks>net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
-			</PropertyGroup>
-		</When>
-		<!-- Otherwise, build for .NET Framework 4.8+ and .NET 8+ (default) -->
-		<Otherwise>
-			<PropertyGroup>
-				<TargetFrameworks>net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
-				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
-				<TargetFrameworks Condition="'$(TFMs)' == 'all'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
-			</PropertyGroup>
-		</Otherwise>
-	</Choose>
-
-	<PropertyGroup Condition="'$(ExcludeNet11)' == 'true' And '$(TFMs)' == 'all'">
-		<TargetFrameworks>net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-	</PropertyGroup>
-
 	<!--Sets up the language version.-->
 	<!--https://learn.microsoft.com/en-gb/dotnet/csharp/language-reference/configure-language-version#configure-multiple-projects-->
 	<PropertyGroup>
@@ -146,7 +118,7 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Canary.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton Canary.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -167,7 +139,7 @@
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Nightly.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton Nightly.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -188,7 +160,7 @@
 
 		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton RC.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton RC.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -213,7 +185,7 @@
 
 		<When Condition="'$(Configuration)' == 'LTS'">
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton LTS.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton LTS.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -233,7 +205,7 @@
 		</When>
 		<Otherwise>
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>

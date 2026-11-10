@@ -173,12 +173,12 @@ jobs:
 
       - name: Restore TestForm
         run: >
-          dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj"
+          dotnet restore "Source/TestHarnesses/TestForm/TestForm.csproj"
           -p:Configuration=${{ env.UNITTEST_CONFIGURATION }}
 
       - name: Build TestForm
         run: >
-          dotnet build "Source/Krypton Components/TestForm/TestForm.csproj"
+          dotnet build "Source/TestHarnesses/TestForm/TestForm.csproj"
           -c ${{ env.UNITTEST_CONFIGURATION }}
           -f ${{ env.UNITTEST_TFM }}
           --no-restore

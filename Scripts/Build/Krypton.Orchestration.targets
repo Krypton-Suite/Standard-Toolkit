@@ -1,4 +1,4 @@
-<Project>
+﻿<Project>
 
 	<!--
 	  Phased Krypton.* orchestration: avoids parallel projects racing on shared Bin/<Configuration>/<tfm>/ outputs
@@ -7,31 +7,33 @@
 	-->
 	<PropertyGroup>
 		<KryptonComponentsRoot>..\..\Source\Krypton Components</KryptonComponentsRoot>
-		<KryptonInteropProject>$(KryptonComponentsRoot)\Krypton.Interop\Krypton.Interop.csproj</KryptonInteropProject>
-		<KryptonToolkitProject>$(KryptonComponentsRoot)\Krypton.Toolkit\Krypton.Toolkit 2022.csproj</KryptonToolkitProject>
-		<KryptonThemesProject>$(KryptonComponentsRoot)\Krypton.Themes\Krypton.Themes.csproj</KryptonThemesProject>
-		<KryptonRibbonProject>$(KryptonComponentsRoot)\Krypton.Ribbon\Krypton.Ribbon 2022.csproj</KryptonRibbonProject>
-		<KryptonNavigatorProject>$(KryptonComponentsRoot)\Krypton.Navigator\Krypton.Navigator 2022.csproj</KryptonNavigatorProject>
-		<KryptonWorkspaceProject>$(KryptonComponentsRoot)\Krypton.Workspace\Krypton.Workspace 2022.csproj</KryptonWorkspaceProject>
-		<KryptonDockingProject>$(KryptonComponentsRoot)\Krypton.Docking\Krypton.Docking 2022.csproj</KryptonDockingProject>
-		<KryptonToolkitJumpListProject>$(KryptonComponentsRoot)\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj</KryptonToolkitJumpListProject>
-		<KryptonDrawingProject>$(KryptonComponentsRoot)\Krypton.Drawing\Krypton.Drawing.csproj</KryptonDrawingProject>
-		<KryptonDialogsProject>$(KryptonComponentsRoot)\Krypton.Dialogs\Krypton.Dialogs.csproj</KryptonDialogsProject>
-		<KryptonNavigatorUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj</KryptonNavigatorUtilitiesProject>
-		<KryptonToolkitUtilitiesProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj</KryptonToolkitUtilitiesProject>
-		<KryptonChartingProject>$(KryptonComponentsRoot)\Krypton.Charting\Krypton.Charting.csproj</KryptonChartingProject>
-		<KryptonGaugesProject>$(KryptonComponentsRoot)\Krypton.Gauges\Krypton.Gauges.csproj</KryptonGaugesProject>
+		<KryptonInteropProject>$(KryptonComponentsRoot)\Core\Krypton.Interop\Krypton.Interop.csproj</KryptonInteropProject>
+		<KryptonToolkitProject>$(KryptonComponentsRoot)\Core\Krypton.Toolkit\Krypton.Toolkit 2022.csproj</KryptonToolkitProject>
+		<KryptonThemesProject>$(KryptonComponentsRoot)\Core\Krypton.Themes\Krypton.Themes.csproj</KryptonThemesProject>
+		<KryptonRibbonProject>$(KryptonComponentsRoot)\Core\Krypton.Ribbon\Krypton.Ribbon 2022.csproj</KryptonRibbonProject>
+		<KryptonNavigatorProject>$(KryptonComponentsRoot)\Core\Krypton.Navigator\Krypton.Navigator 2022.csproj</KryptonNavigatorProject>
+		<KryptonWorkspaceProject>$(KryptonComponentsRoot)\Core\Krypton.Workspace\Krypton.Workspace 2022.csproj</KryptonWorkspaceProject>
+		<KryptonDockingProject>$(KryptonComponentsRoot)\Core\Krypton.Docking\Krypton.Docking 2022.csproj</KryptonDockingProject>
+		<KryptonToolkitJumpListProject>$(KryptonComponentsRoot)\Utilities\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj</KryptonToolkitJumpListProject>
+		<KryptonDrawingProject>$(KryptonComponentsRoot)\Utilities\Krypton.Drawing\Krypton.Drawing.csproj</KryptonDrawingProject>
+		<KryptonDialogsProject>$(KryptonComponentsRoot)\Utilities\Krypton.Dialogs\Krypton.Dialogs.csproj</KryptonDialogsProject>
+		<KryptonNavigatorUtilitiesProject>$(KryptonComponentsRoot)\Utilities\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj</KryptonNavigatorUtilitiesProject>
+		<KryptonToolkitUtilitiesProject>$(KryptonComponentsRoot)\Utilities\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj</KryptonToolkitUtilitiesProject>
+		<KryptonChartingProject>$(KryptonComponentsRoot)\Utilities\Krypton.Charting\Krypton.Charting.csproj</KryptonChartingProject>
+		<KryptonGraphsProject>$(KryptonComponentsRoot)\Utilities\Krypton.Graphs\Krypton.Graphs.csproj</KryptonGraphsProject>
+		<KryptonGaugesProject>$(KryptonComponentsRoot)\Utilities\Krypton.Gauges\Krypton.Gauges.csproj</KryptonGaugesProject>
 		<KryptonStandardToolkitProject>$(KryptonComponentsRoot)\Krypton.Standard.Toolkit\Krypton.Standard.Toolkit.csproj</KryptonStandardToolkitProject>
-		<KryptonToolkitDesignProtocolProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Design.Protocol\Krypton.Toolkit.Design.Protocol.csproj</KryptonToolkitDesignProtocolProject>
-		<KryptonToolkitDesignClientProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Design.Client\Krypton.Toolkit.Design.Client.csproj</KryptonToolkitDesignClientProject>
-		<KryptonToolkitDesignProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Design\Krypton.Toolkit.Design.csproj</KryptonToolkitDesignProject>
-		<KryptonRibbonDesignProject>$(KryptonComponentsRoot)\Krypton.Ribbon.Design\Krypton.Ribbon.Design.csproj</KryptonRibbonDesignProject>
-		<KryptonNavigatorDesignProject>$(KryptonComponentsRoot)\Krypton.Navigator.Design\Krypton.Navigator.Design.csproj</KryptonNavigatorDesignProject>
-		<KryptonWorkspaceDesignProject>$(KryptonComponentsRoot)\Krypton.Workspace.Design\Krypton.Workspace.Design.csproj</KryptonWorkspaceDesignProject>
-		<KryptonToolkitUtilitiesDesignProject>$(KryptonComponentsRoot)\Krypton.Toolkit.Utilities.Design\Krypton.Toolkit.Utilities.Design.csproj</KryptonToolkitUtilitiesDesignProject>
-		<KryptonGaugesDesignProject>$(KryptonComponentsRoot)\Krypton.Gauges.Design\Krypton.Gauges.Design.csproj</KryptonGaugesDesignProject>
-		<KryptonNavigatorUtilitiesDesignProject>$(KryptonComponentsRoot)\Krypton.Navigator.Utilities.Design\Krypton.Navigator.Utilities.Design.csproj</KryptonNavigatorUtilitiesDesignProject>
-		<KryptonChartingDesignProject>$(KryptonComponentsRoot)\Krypton.Charting.Design\Krypton.Charting.Design.csproj</KryptonChartingDesignProject>
+		<KryptonToolkitDesignProtocolProject>$(KryptonComponentsRoot)\Design\Krypton.Toolkit.Design.Protocol\Krypton.Toolkit.Design.Protocol.csproj</KryptonToolkitDesignProtocolProject>
+		<KryptonToolkitDesignClientProject>$(KryptonComponentsRoot)\Design\Krypton.Toolkit.Design.Client\Krypton.Toolkit.Design.Client.csproj</KryptonToolkitDesignClientProject>
+		<KryptonToolkitDesignProject>$(KryptonComponentsRoot)\Design\Krypton.Toolkit.Design\Krypton.Toolkit.Design.csproj</KryptonToolkitDesignProject>
+		<KryptonRibbonDesignProject>$(KryptonComponentsRoot)\Design\Krypton.Ribbon.Design\Krypton.Ribbon.Design.csproj</KryptonRibbonDesignProject>
+		<KryptonNavigatorDesignProject>$(KryptonComponentsRoot)\Design\Krypton.Navigator.Design\Krypton.Navigator.Design.csproj</KryptonNavigatorDesignProject>
+		<KryptonWorkspaceDesignProject>$(KryptonComponentsRoot)\Design\Krypton.Workspace.Design\Krypton.Workspace.Design.csproj</KryptonWorkspaceDesignProject>
+		<KryptonToolkitUtilitiesDesignProject>$(KryptonComponentsRoot)\Design\Krypton.Toolkit.Utilities.Design\Krypton.Toolkit.Utilities.Design.csproj</KryptonToolkitUtilitiesDesignProject>
+		<KryptonGaugesDesignProject>$(KryptonComponentsRoot)\Design\Krypton.Gauges.Design\Krypton.Gauges.Design.csproj</KryptonGaugesDesignProject>
+		<KryptonNavigatorUtilitiesDesignProject>$(KryptonComponentsRoot)\Design\Krypton.Navigator.Utilities.Design\Krypton.Navigator.Utilities.Design.csproj</KryptonNavigatorUtilitiesDesignProject>
+		<KryptonChartingDesignProject>$(KryptonComponentsRoot)\Design\Krypton.Charting.Design\Krypton.Charting.Design.csproj</KryptonChartingDesignProject>
+		<KryptonGraphsDesignProject>$(KryptonComponentsRoot)\Design\Krypton.Graphs.Design\Krypton.Graphs.Design.csproj</KryptonGraphsDesignProject>
 		<KryptonWinFormsDesignerSdkBuild Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">false</KryptonWinFormsDesignerSdkBuild>
 		<KryptonWinFormsDesignerSdkBuild Condition="'$(KryptonWinFormsDesignerSdkBuild)' == ''">true</KryptonWinFormsDesignerSdkBuild>
 		<KryptonComponentBuildProperties Condition="'$(TFMs)' != ''">Configuration=$(Configuration);TFMs=$(TFMs);UseArtifactsOutput=$(UseArtifactsOutput)</KryptonComponentBuildProperties>
@@ -49,15 +51,28 @@
 		<KryptonParallelDesignUtilities Include="$(KryptonToolkitUtilitiesDesignProject)" />
 		<KryptonParallelDesignUtilities Include="$(KryptonNavigatorUtilitiesDesignProject)" />
 		<KryptonParallelDesignUtilities Include="$(KryptonChartingDesignProject)" />
+		<KryptonParallelDesignUtilities Include="$(KryptonGraphsDesignProject)" />
 		<KryptonParallelDesignUtilities Include="$(KryptonGaugesDesignProject)" />
 	</ItemGroup>
 
 	<Target Name="KryptonCleanNuGetRestoreState" BeforeTargets="Restore">
 		<ItemGroup>
 			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Krypton.*\obj\*.json" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Core\Krypton.*\obj\*.json" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Design\Krypton.*\obj\*.json" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Utilities\Krypton.*\obj\*.json" />
 			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Krypton.*\obj\*.cache" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Core\Krypton.*\obj\*.cache" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Design\Krypton.*\obj\*.cache" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Utilities\Krypton.*\obj\*.cache" />
 			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Krypton.*\obj\*.g.targets" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Core\Krypton.*\obj\*.g.targets" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Design\Krypton.*\obj\*.g.targets" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Utilities\Krypton.*\obj\*.g.targets" />
 			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Krypton.*\obj\*.g.props" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Core\Krypton.*\obj\*.g.props" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Design\Krypton.*\obj\*.g.props" />
+			<KryptonNuGetAssets Include="$(KryptonComponentsRoot)\Utilities\Krypton.*\obj\*.g.props" />
 		</ItemGroup>
 		<Delete Files="@(KryptonNuGetAssets)" />
 	</Target>
@@ -107,6 +122,9 @@
 		         Targets="Build" />
 		<MSBuild Projects="$(KryptonChartingProject)"
              Properties="$(KryptonComponentBuildProperties)"
+		         Targets="Build" />
+		<MSBuild Projects="$(KryptonGraphsProject)"
+		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Build" />
 		<MSBuild Projects="$(KryptonGaugesProject)"
 		         Properties="$(KryptonComponentBuildProperties)"

@@ -27,7 +27,7 @@ function Get-KryptonToolkitMajorVersionForDesignerSdk {
         $Configuration = 'Release'
     }
 
-    $proj = Join-Path $RepoRoot 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+    $proj = Join-Path $RepoRoot 'Source/Krypton Components/Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
     if (-not (Test-Path -LiteralPath $proj)) {
         Write-Error "Krypton.Toolkit project not found at '$proj'."
     }
@@ -252,7 +252,7 @@ function Test-KryptonDesignerSdkInPackages {
         }
     }
 
-    $designProject = Join-Path $repoRoot 'Source/Krypton Components/Krypton.Toolkit.Design/Krypton.Toolkit.Design.csproj'
+    $designProject = Join-Path $repoRoot 'Source/Krypton Components/Design/Krypton.Toolkit.Design/Krypton.Toolkit.Design.csproj'
     if ($SkipIfDesignerSdkProjectMissing -and -not (Test-Path -LiteralPath $designProject)) {
         Write-Host '::notice:: Krypton.Toolkit.Design project not present; skipping NuGet package verification.'
         return

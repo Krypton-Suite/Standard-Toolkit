@@ -173,7 +173,7 @@ jobs:
       #     }
       #     if (-not $latestVersion) { $latestVersion = "1.0.3595.46" }
       #     Write-Host "Using WebView2 SDK version: $latestVersion"
-      #     $utilProj = Join-Path $env:GITHUB_WORKSPACE "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
+      #     $utilProj = Join-Path $env:GITHUB_WORKSPACE "Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
       #     dotnet add "$utilProj" package Microsoft.Web.WebView2 --version $latestVersion
       #     dotnet restore "$utilProj"
       #     $nugetBasePath = "$env:USERPROFILE\.nuget\packages\microsoft.web.webview2\$latestVersion"
@@ -350,7 +350,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          $proj = 'Source/Current/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $proj = 'Source/Current/Krypton Components/Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
           $msbuildConfig = 'Canary'
 
           try {

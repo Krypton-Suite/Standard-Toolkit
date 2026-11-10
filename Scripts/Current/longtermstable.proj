@@ -14,6 +14,9 @@
 	<Target Name="Clean">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Core\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Design\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Utilities\Krypton.*\*.csproj" />
 		</ItemGroup>
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Restore" BuildInParallel="false" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Clean" BuildInParallel="false" />
@@ -22,6 +25,9 @@
 	<Target Name="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Core\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Design\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Utilities\Krypton.*\*.csproj" />
 		</ItemGroup>
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Restore" BuildInParallel="false" />
 	</Target>

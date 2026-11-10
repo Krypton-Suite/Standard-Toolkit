@@ -19,7 +19,7 @@ $ErrorActionPreference = 'Stop'
 
 $PackageId = 'Microsoft.Web.WebView2'
 $DefaultFallbackVersion = '1.0.3595.46'
-$LibRelativePath = 'Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2'
+$LibRelativePath = 'Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Lib\WebView2'
 $RequiredDllNames = @(
     'Microsoft.Web.WebView2.Core.dll',
     'Microsoft.Web.WebView2.WinForms.dll',

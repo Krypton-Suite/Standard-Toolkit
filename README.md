@@ -16,6 +16,7 @@
 * [Discord Server](#discord-server)
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
+  * [V120.00 (2027-11-xx - Build 2711 - November 2027)](#v12000-2027-11-xx---build-2711---november-2027)
   * [V110.00 (2026-11-xx - Build 2611 - November 2026)](#v11000-2026-11-xx---build-2611---november-2026)
   * [V100.00 (2025-11-24 - Build 2511 - November 2025)](#v10000-2025-11-24---build-2511---november-2025)
   * [Support for .NET FrameWork 4.6.2, 4.7 & 4.7.1](#support-for-net-framework-462-47--471)
@@ -153,6 +154,15 @@ Follow the links to see the different objects and layouts that this framework al
 =======
 
 ## Breaking Changes
+
+## V120.00 (2027-11-xx - Build 2711 - November 2027)
+
+There are list of changes that have occurred during the development of the V120.00 version
+
+* Implemented [#4700](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4700), **[Breaking Change]** Library projects now live under `Source/Krypton Components/Core`, `Design`, and `Utilities`.
+  * NuGet package ids, namespaces, and assembly names are unchanged.
+  * A `ProjectReference` that pointed at `Source/Krypton Components/Krypton.<Project>` must insert `Core` (Docking, Navigator, Ribbon, Toolkit, Workspace, Interop, Resources, Themes), `Design` (`*.Design`, Design.Client, Design.Protocol), or `Utilities` (Toolkit.Utilities, Navigator.Utilities, UpdateHelper, JumpList, Charting, Gauges, Drawing, Dialogs).
+  * `Krypton.Standard.Toolkit` and `TestForm` stay directly under `Source/Krypton Components`.
 
 ## V110.00 (2026-11-xx - Build 2611 - November 2026)
 

@@ -11,19 +11,19 @@ echo Deleting the 'Bin' folder
 if exist "..\..\Bin\" rd /s /q "..\..\Bin"
 echo Deleted the 'Bin' folder
 echo Deleting the 'Krypton.Docking\obj' folder
-if exist "..\..\Source\Krypton Components\Krypton.Docking\obj\" rd /s /q "..\..\Source\Krypton Components\Krypton.Docking\obj"
+if exist "..\..\Source\Krypton Components\Core\Krypton.Docking\obj\" rd /s /q "..\..\Source\Krypton Components\Core\Krypton.Docking\obj"
 echo Deleted the 'Krypton.Docking\obj' folder
 echo Deleting the 'Krypton.Navigator\obj' folder
-if exist "..\..\Source\Krypton Components\Krypton.Navigator\obj\" rd /s /q "..\..\Source\Krypton Components\Krypton.Navigator\obj"
+if exist "..\..\Source\Krypton Components\Core\Krypton.Navigator\obj\" rd /s /q "..\..\Source\Krypton Components\Core\Krypton.Navigator\obj"
 echo Deleted the 'Krypton.Navigator\obj' folder
 echo Deleting the 'Krypton.Ribbon\obj' folder
-if exist "..\..\Source\Krypton Components\Krypton.Ribbon\obj\" rd /s /q "..\..\Source\Krypton Components\Krypton.Ribbon\obj"
+if exist "..\..\Source\Krypton Components\Core\Krypton.Ribbon\obj\" rd /s /q "..\..\Source\Krypton Components\Core\Krypton.Ribbon\obj"
 echo Deleted the 'Krypton.Ribbon\obj' folder
 echo Deleting the 'Krypton.Toolkit\obj' folder
-if exist "..\..\Source\Krypton Components\Krypton.Toolkit\obj\" rd /s /q "..\..\Source\Krypton Components\Krypton.Toolkit\obj"
+if exist "..\..\Source\Krypton Components\Core\Krypton.Toolkit\obj\" rd /s /q "..\..\Source\Krypton Components\Core\Krypton.Toolkit\obj"
 echo Deleted the 'Krypton.Toolkit\obj' folder
 echo Deleting the 'Krypton.Workspace\obj' folder
-if exist "..\..\Source\Krypton Components\Krypton.Workspace\obj\" rd /s /q "..\..\Source\Krypton Components\Krypton.Workspace\obj"
+if exist "..\..\Source\Krypton Components\Core\Krypton.Workspace\obj\" rd /s /q "..\..\Source\Krypton Components\Core\Krypton.Workspace\obj"
 echo Deleted the 'Krypton.Workspace\obj' folder
 if exist "..\..\Logs" ( goto deletelogsdirectory ) else echo Directory 'Logs' not found
 
