@@ -7,7 +7,7 @@
 	-->
 	<PropertyGroup>
 		<KryptonComponentsRoot>..\..\Source\Krypton Components</KryptonComponentsRoot>
-		<KryptonInteropProject>$(KryptonComponentsRoot)\Core\Krypton.Interop\Krypton.Interop.csproj</KryptonInteropProject>
+		<KryptonSharedProject>$(KryptonComponentsRoot)\Shared\Krypton.Shared\Krypton.Shared.csproj</KryptonSharedProject>
 		<KryptonToolkitProject>$(KryptonComponentsRoot)\Core\Krypton.Toolkit\Krypton.Toolkit 2022.csproj</KryptonToolkitProject>
 		<KryptonThemesProject>$(KryptonComponentsRoot)\Core\Krypton.Themes\Krypton.Themes.csproj</KryptonThemesProject>
 		<KryptonRibbonProject>$(KryptonComponentsRoot)\Core\Krypton.Ribbon\Krypton.Ribbon 2022.csproj</KryptonRibbonProject>
@@ -78,7 +78,7 @@
 	</Target>
 
 	<Target Name="KryptonBuild">
-		<MSBuild Projects="$(KryptonInteropProject)"
+		<MSBuild Projects="$(KryptonSharedProject)"
 		         Properties="$(KryptonComponentBuildProperties)"
 		         Targets="Restore;Build" />
 
