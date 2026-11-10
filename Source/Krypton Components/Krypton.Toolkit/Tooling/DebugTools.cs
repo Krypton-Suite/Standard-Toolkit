@@ -73,7 +73,6 @@ public static class DebugTools
         [CallerLineNumber] int lineNumber = 0,
         [CallerMemberName] string? callingMethod = "")
     {
-        // Do not use `KryptonMessageBox` as this will cause palette's to go into recurrent loop
         // Do not use `KryptonMessageBox` as this will cause palette's to go into recurrent loop.
         // Headless runs (the accessibility audit) must not block on this dialog.
         if (string.Equals(Environment.GetEnvironmentVariable("KRYPTON_HEADLESS"), "1", StringComparison.Ordinal))
@@ -83,7 +82,7 @@ public static class DebugTools
                 Source = callingMethod
             };
         }
-        
+
         if (DialogResult.Yes == MessageBox.Show(
                 @$"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {callingMethod}\nFunction: {callingMethod}\nFile: {callingFilePath}\nLine Number: {lineNumber}",
                 @"Not Implemented - Please submit ?", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2))
