@@ -157,7 +157,7 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
 	<Content Include="Krypton.ico" Pack="false" />
-	<EmbeddedResource Include="..\Krypton.Resources\Resources\KryptonPalette.ico" Link="Resources\KryptonPalette.ico" />
+	<EmbeddedResource Include="..\..\Shared\Krypton.Resources\Resources\KryptonPalette.ico" Link="Resources\KryptonPalette.ico" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroupBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonWrapLabel.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonSeparator.bmp" />
@@ -322,20 +322,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<!-- PrivateAssets="all": Krypton.Resources is not a separate NuGet package; bundled via Krypton.Resources.Package.targets. -->
-	<ProjectReference Include="..\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
-	<!-- PrivateAssets="all": Krypton.Interop is not published as a NuGet package (IsPackable=false); without this,
-	     pack emits a nuspec dependency on the non-existent package and consumers fail restore with NU1101 (#3908).
-	     The assembly itself is bundled into lib\<tfm>\ by Krypton.Shared\Krypton.Interop.Package.targets.
-	     Because PrivateAssets="all" stops the reference flowing transitively, every sibling project that compiles
-	     against Krypton.Interop internals (net4x nullable attribute polyfills) carries its own direct reference. -->
-	<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+	  <!-- PrivateAssets="all": Krypton.Resources is not a separate NuGet package; bundled via Krypton.Resources.Package.targets. -->
+	  <ProjectReference Include="..\..\Shared\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
+	  <!-- PrivateAssets="all": Krypton.Interop is not published as a NuGet package (IsPackable=false); without this,
+		   pack emits a nuspec dependency on the non-existent package and consumers fail restore with NU1101 (#3908).
+		   The assembly itself is bundled into lib\<tfm>\ by Krypton.Shared\Krypton.Interop.Package.targets.
+		   Because PrivateAssets="all" stops the reference flowing transitively, every sibling project that compiles
+		   against Krypton.Interop internals (net4x nullable attribute polyfills) carries its own direct reference. -->
+	  <ProjectReference Include="..\..\Shared\Krypton.Shared\Krypton.Shared.csproj" PrivateAssets="all" />
   </ItemGroup>
 
   <PropertyGroup>
-	<KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Toolkit.Design</KryptonWinFormsDesignerSdkDesignAssembly>
+	  <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Toolkit.Design</KryptonWinFormsDesignerSdkDesignAssembly>
   </PropertyGroup>
-  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
+  <Import Project="..\..\Common\Krypton.WinFormsDesignerSdk.Package.targets" />
 
   <!-- Out-of-process designers live in Krypton.Toolkit.Design for modern TFMs (issue #593). -->
   <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
@@ -380,14 +380,14 @@
   <!-- Embedded placeholder used only when Krypton.Resources.dll is missing at runtime. -->
   <!-- AssignTargetPaths is the first target that snapshots EmbeddedResource. PrepareResourceNames is too late: its work is in DependsOnTargets that may already have run. -->
   <Target Name="EmbedKryptonResourcesFallback" BeforeTargets="AssignTargetPaths">
-	<MSBuild Projects="$(MSBuildThisFileDirectory)..\Krypton.Resources\Fallback\Krypton.Resources.Fallback.csproj"
+	<MSBuild Projects="$(MSBuildThisFileDirectory)..\..\Shared\Krypton.Resources\Fallback\Krypton.Resources.Fallback.csproj"
 	         Targets="Restore"
 	         Properties="Configuration=$(Configuration);KryptonFallbackSingleTargetFramework=$(TargetFramework)" />
-	<MSBuild Projects="$(MSBuildThisFileDirectory)..\Krypton.Resources\Fallback\Krypton.Resources.Fallback.csproj"
-	         Targets="Build"
-	         Properties="Configuration=$(Configuration);KryptonFallbackSingleTargetFramework=$(TargetFramework)" />
+	<MSBuild Projects="$(MSBuildThisFileDirectory)..\..\Shared\Krypton.Resources\Fallback\Krypton.Resources.Fallback.csproj"
+			 Targets="Build"
+			 Properties="Configuration=$(Configuration);KryptonFallbackSingleTargetFramework=$(TargetFramework)" />
 	<PropertyGroup>
-	  <_KryptonResourcesFallbackDll>$(MSBuildThisFileDirectory)..\Krypton.Resources\Fallback\obj\fallback-bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll</_KryptonResourcesFallbackDll>
+	  <_KryptonResourcesFallbackDll>$(MSBuildThisFileDirectory)..\..\Shared\Krypton.Resources\Fallback\obj\fallback-bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll</_KryptonResourcesFallbackDll>
 	</PropertyGroup>
 	<Error Text="Krypton.Resources placeholder was not built at $(_KryptonResourcesFallbackDll)." Condition="!Exists('$(_KryptonResourcesFallbackDll)')" />
 	<ItemGroup>

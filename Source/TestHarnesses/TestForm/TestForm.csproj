@@ -25,8 +25,8 @@
     <!-- Krypton.Interop: direct reference required — it no longer flows transitively from
          Krypton.Toolkit (PrivateAssets="all", #3908) and must appear in this app's deps.json. -->
     <!-- Krypton.Resources: direct reference required — typed ResourceFiles accessors no longer live in Krypton.Toolkit. -->
-    <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Resources\Krypton.Resources.csproj" />
-    <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Interop\Krypton.Interop.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Shared\Krypton.Resources\Krypton.Resources.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Shared\Krypton.Shared\Krypton.Shared.csproj" />
     <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Docking\Krypton.Docking 2022.csproj" />
     <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
     <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
@@ -35,7 +35,7 @@
     <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Dialogs\Krypton.Dialogs.csproj" />
     <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
-    <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Themes\Krypton.Themes.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Shared\Krypton.Themes\Krypton.Themes.csproj" />
     <!--<ProjectReference Include="..\ThemeProviderSample\ThemeProviderSample.csproj" />-->
     <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
     <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Gauges\Krypton.Gauges.csproj" />

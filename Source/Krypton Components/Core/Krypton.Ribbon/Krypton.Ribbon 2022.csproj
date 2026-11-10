@@ -31,7 +31,7 @@
     <Description>Krypton Ribbon for WinForms: Office 2007/2010/2013/365-style ribbon with quick access toolbar, contextual tabs, galleries, and auto-shrinking groups, sharing the Toolkit palette and look and feel.</Description>
   </PropertyGroup>
 
-  <Import Project="..\Krypton.Shared\Krypton.SharedCompileItems.props" />
+  <Import Project="..\..\Common\Krypton.SharedCompileItems.props" />
   <PropertyGroup>
     <IncludeKryptonGlobalSuppressionsLink>true</IncludeKryptonGlobalSuppressionsLink>
   </PropertyGroup>
@@ -102,9 +102,9 @@
     <!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
          PrivateAssets="all" keeps the unpublished package out of this package's nuspec dependencies (#3908). -->
     		<!-- Krypton.Resources: direct reference required (typed ResourceFiles accessors via InternalsVisibleTo); PrivateAssets so it is not a NuGet dependency (bundled via Krypton.Resources.Package.targets). -->
-		<ProjectReference Include="..\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
-		<ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
-    <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+		<ProjectReference Include="..\..\Shared\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\..\Shared\Krypton.Shared\Krypton.Shared.csproj" PrivateAssets="all" />
+	<ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
   <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
     <Compile Remove="Designers\Designers\**\*.cs" />
@@ -113,7 +113,7 @@
   <PropertyGroup>
     <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Ribbon.Design</KryptonWinFormsDesignerSdkDesignAssembly>
   </PropertyGroup>
-  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
+  <Import Project="..\..\Common\Krypton.WinFormsDesignerSdk.Package.targets" />
   <ItemGroup>
     <EmbeddedResource Update="Resources\GenericImageResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

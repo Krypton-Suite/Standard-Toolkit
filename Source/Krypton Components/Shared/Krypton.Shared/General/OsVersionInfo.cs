@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Interop;
+namespace Krypton.Shared;
 
 /// <summary>
 /// Version data obtained via the RtlGetVersion API call.<br/>

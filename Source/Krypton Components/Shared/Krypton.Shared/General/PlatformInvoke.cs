@@ -3227,25 +3227,14 @@ No 	                    No 	                    Show text only
         return sb.ToString();
     }
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    internal static partial bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpScrollInfo);
-    #else
-
     [DllImport(Libraries.User32, SetLastError = true)]
-    internal static extern bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpScrollInfo);
-    #endif
+    internal static extern bool GetScrollInfo(IntPtr hWnd, SB_ nBar, ref Shared.WIN32ScrollBars.ScrollInfo lpScrollInfo);
+
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
-    #if NET8_0_OR_GREATER
-    [LibraryImport(Libraries.User32, SetLastError = true)]
-    internal static partial int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpcScrollInfo, [MarshalAs(UnmanagedType.Bool)] bool redraw);
-    #else
-
     [DllImport(Libraries.User32, SetLastError = true)]
-    internal static extern int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref WIN32ScrollBars.ScrollInfo lpcScrollInfo,
-        bool redraw);
-    #endif
+    internal static extern int SetScrollInfo(IntPtr hwnd, SB_ nBar, ref Shared.WIN32ScrollBars.ScrollInfo lpcScrollInfo,
+        [MarshalAs(UnmanagedType.Bool)] bool redraw);
+
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
     #if NET8_0_OR_GREATER
     [LibraryImport(Libraries.User32)]
@@ -3424,7 +3413,7 @@ No 	                    No 	                    Show text only
             : new IntPtr(GetWindowLongPtr32(hwnd, nIndex));
         if (IntPtr.Zero == ret)
         {
-            Krypton.Interop.ThrowHelper.ThrowWin32Exception();
+            Shared.ThrowHelper.ThrowWin32Exception();
         }
 
         return ret;
@@ -3459,7 +3448,7 @@ No 	                    No 	                    Show text only
             var error = GetLastWin32Error();
             if (error != 0)
             {
-                Krypton.Interop.ThrowHelper.ThrowWin32Exception(error);
+                Shared.ThrowHelper.ThrowWin32Exception(error);
             }
         }
 
@@ -3477,7 +3466,7 @@ No 	                    No 	                    Show text only
             var error = GetLastWin32Error();
             if (error != 0)
             {
-                Krypton.Interop.ThrowHelper.ThrowWin32Exception(error);
+                Shared.ThrowHelper.ThrowWin32Exception(error);
             }
         }
 
@@ -3840,7 +3829,7 @@ No 	                    No 	                    Show text only
         if (!PostMessage(hWnd, msg, wParam, lParam))
         {
             // An error occurred
-            Krypton.Interop.ThrowHelper.ThrowWin32Exception(GetLastWin32Error());
+            Shared.ThrowHelper.ThrowWin32Exception(GetLastWin32Error());
         }
     }
     [DefaultDllImportSearchPaths(DllImportSearchPath.System32)]
@@ -4102,7 +4091,7 @@ No 	                    No 	                    Show text only
         var mi = new MONITORINFO();
         if (!_GetMonitorInfo(hMonitor, mi))
         {
-            Krypton.Interop.ThrowHelper.ThrowWin32Exception();
+            Shared.ThrowHelper.ThrowWin32Exception();
         }
 
         return mi;

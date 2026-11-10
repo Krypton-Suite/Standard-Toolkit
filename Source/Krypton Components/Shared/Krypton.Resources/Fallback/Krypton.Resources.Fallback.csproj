@@ -9,7 +9,7 @@
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 		<EnableNETAnalyzers>false</EnableNETAnalyzers>
 		<SignAssembly>True</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>..\..\Krypton.Shared\StrongKrypton.snk</AssemblyOriginatorKeyFile>
 		<DelaySign>false</DelaySign>
 		<UseWindowsForms>true</UseWindowsForms>
 		<Nullable>disable</Nullable>

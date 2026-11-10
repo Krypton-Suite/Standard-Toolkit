@@ -144,11 +144,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Templates.Vsix", "..\..\Templates\Vsix\Krypton.Templates.Vsix\Krypton.Templates.Vsix.csproj", "{D4E8F1A2-3B5C-4D6E-9F0A-1B2C3D4E5F60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Interop", "Core\Krypton.Interop\Krypton.Interop.csproj", "{D4929B7D-7C26-4ACB-AD3C-0F020BA260CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Shared", "Shared\Krypton.Shared\Krypton.Shared.csproj", "{D4929B7D-7C26-4ACB-AD3C-0F020BA260CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Resources", "Core\Krypton.Resources\Krypton.Resources.csproj", "{139C9F36-FDD8-4C12-8E90-E7B9F21F89A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Resources", "Shared\Krypton.Resources\Krypton.Resources.csproj", "{139C9F36-FDD8-4C12-8E90-E7B9F21F89A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Themes", "Core\Krypton.Themes\Krypton.Themes.csproj", "{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Krypton.Themes", "Shared\Krypton.Themes\Krypton.Themes.csproj", "{224FE275-4FD5-4F41-AA4F-78D6A4475D8A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Krypton.Toolkit.Design.Protocol", "Design\Krypton.Toolkit.Design.Protocol\Krypton.Toolkit.Design.Protocol.csproj", "{8F3A1B20-5930-4A01-8C01-D1E2F3A4B501}"
 EndProject

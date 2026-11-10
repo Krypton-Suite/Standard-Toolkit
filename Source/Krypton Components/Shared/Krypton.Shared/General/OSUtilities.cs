@@ -10,7 +10,7 @@
  */
 #endregion
 
-namespace Krypton.Interop;
+namespace Krypton.Shared;
 
 /// <summary>Gets access to specific information about the client operating system.</summary>
 public class OSUtilities

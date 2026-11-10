@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Interop;
+namespace Krypton.Shared;
 
 #region Enum ImageresIconID
 

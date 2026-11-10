@@ -11,7 +11,7 @@
 // ReSharper disable IdentifierTypo
 using Krypton.Toolkit;
 
-namespace Krypton.Interop;
+namespace Krypton.Shared;
 
 internal partial class NativeFunctions
 {

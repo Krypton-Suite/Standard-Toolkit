@@ -4,7 +4,7 @@
 	  See Documents/Development/Cross-Project-Source-Linking.md
 	-->
 	<PropertyGroup>
-		<KryptonSharedRoot Condition="'$(KryptonSharedRoot)' == ''">$(MSBuildThisFileDirectory)..\Krypton.Toolkit\</KryptonSharedRoot>
+		<KryptonSharedRoot Condition="'$(KryptonSharedRoot)' == ''">$(MSBuildThisFileDirectory)..\Core\Krypton.Toolkit\</KryptonSharedRoot>
 	</PropertyGroup>
 
 	<ItemGroup Condition="'$(IncludeKryptonGlobalSuppressionsLink)' == 'true'">

@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Interop;
+namespace Krypton.Shared;
 
 /// <summary>
 /// A static class that contains shared functions for the Krypton Toolkit.

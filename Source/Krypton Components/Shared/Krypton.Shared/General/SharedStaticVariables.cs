@@ -8,7 +8,7 @@
 #endregion
 
 // ReSharper disable InconsistentNaming
-namespace Krypton.Interop;
+namespace Krypton.Shared;
 
 /// <summary>Provides a collection of static values, used within the toolkit.</summary>
 public class SharedStaticVariables

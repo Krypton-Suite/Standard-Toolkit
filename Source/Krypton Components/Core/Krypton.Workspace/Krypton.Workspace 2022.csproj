@@ -52,7 +52,7 @@
   <ItemGroup>
     <!-- Krypton.Interop: direct reference required (net4x nullable attribute polyfills via InternalsVisibleTo);
          PrivateAssets="all" keeps the unpublished package out of this package's nuspec dependencies (#3908). -->
-    <ProjectReference Include="..\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+    <ProjectReference Include="..\..\Shared\Krypton.Shared\Krypton.Shared.csproj" PrivateAssets="all" />
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
   </ItemGroup>
@@ -65,7 +65,7 @@
   <PropertyGroup>
     <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Workspace.Design</KryptonWinFormsDesignerSdkDesignAssembly>
   </PropertyGroup>
-  <Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.Package.targets" />
+  <Import Project="..\..\Common\Krypton.WinFormsDesignerSdk.Package.targets" />
   <ItemGroup>
     <Compile Remove="Palette Demo\WorkspacePageMenuBase.cs" />
     <Compile Remove="Palette Install\WorkspacePageMenuBase.cs" />

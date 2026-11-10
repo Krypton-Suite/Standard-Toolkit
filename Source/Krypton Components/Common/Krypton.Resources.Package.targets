@@ -21,13 +21,13 @@
 			<TfmSpecificPackageFile Include="$(_KryptonResourcesLibDir)Krypton.Resources.dll" Condition="Exists('$(_KryptonResourcesLibDir)Krypton.Resources.dll')">
 				<PackagePath>lib\$(_KryptonResourcesLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll" Condition="!Exists('$(_KryptonResourcesLibDir)Krypton.Resources.dll') And Exists('..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll')">
+			<TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)..\Shared\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll" Condition="!Exists('$(_KryptonResourcesLibDir)Krypton.Resources.dll') And Exists('$(MSBuildThisFileDirectory)..\Shared\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll')">
 				<PackagePath>lib\$(_KryptonResourcesLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 			<TfmSpecificPackageFile Include="$(_KryptonResourcesLibDir)Krypton.Resources.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonResourcesLibDir)Krypton.Resources.pdb')">
 				<PackagePath>lib\$(_KryptonResourcesLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
-			<TfmSpecificPackageFile Include="..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonResourcesLibDir)Krypton.Resources.pdb') And Exists('..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.pdb')">
+			<TfmSpecificPackageFile Include="$(MSBuildThisFileDirectory)..\Shared\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonResourcesLibDir)Krypton.Resources.pdb') And Exists('$(MSBuildThisFileDirectory)..\Shared\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.pdb')">
 				<PackagePath>lib\$(_KryptonResourcesLibFolderName)\</PackagePath>
 			</TfmSpecificPackageFile>
 		</ItemGroup>

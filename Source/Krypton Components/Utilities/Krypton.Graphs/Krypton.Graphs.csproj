@@ -7,7 +7,7 @@
 		<IsPackable>false</IsPackable>
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\..\Core\Krypton.Interop\StrongKrypton.snk</AssemblyOriginatorKeyFile>
+		<AssemblyOriginatorKeyFile>..\..\Shared\Krypton.Shared\StrongKrypton.snk</AssemblyOriginatorKeyFile>
 		<ApplicationIcon>..\Krypton.Toolkit.Utilities\Krypton.ico</ApplicationIcon>
 		<DelaySign>false</DelaySign>
 		<UseWindowsForms>true</UseWindowsForms>
@@ -29,7 +29,7 @@
 
 	<ItemGroup>
 		<!-- Direct Interop ref required because Krypton.Toolkit uses PrivateAssets="all" (#3908). -->
-		<ProjectReference Include="..\..\Core\Krypton.Interop\Krypton.Interop.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\..\Shared\Krypton.Shared\Krypton.Shared.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\..\Core\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
 	</ItemGroup>
 

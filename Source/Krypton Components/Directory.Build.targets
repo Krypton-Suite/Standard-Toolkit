@@ -285,8 +285,8 @@
 		</Otherwise>
 	</Choose>
 
-	<Import Project="$(MSBuildThisFileDirectory)Core\Krypton.Shared\Krypton.Interop.Package.targets"
-	        Condition="Exists('$(MSBuildThisFileDirectory)Core\Krypton.Shared\Krypton.Interop.Package.targets')" />
-	<Import Project="$(MSBuildThisFileDirectory)Core\Krypton.Shared\Krypton.Resources.Package.targets"
-	        Condition="Exists('$(MSBuildThisFileDirectory)Core\Krypton.Shared\Krypton.Resources.Package.targets')" />
+	<Import Project="$(MSBuildThisFileDirectory)Common\Krypton.Shared.Package.targets"
+			Condition="Exists('$(MSBuildThisFileDirectory)Common\Krypton.Shared.Package.targets')" />
+	<Import Project="$(MSBuildThisFileDirectory)Common\Krypton.Resources.Package.targets"
+			Condition="Exists('$(MSBuildThisFileDirectory)Common\Krypton.Resources.Package.targets')" />
 </Project>

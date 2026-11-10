@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Interop;
+namespace Krypton.Shared;
 
 internal static class HResultExtensions
 {

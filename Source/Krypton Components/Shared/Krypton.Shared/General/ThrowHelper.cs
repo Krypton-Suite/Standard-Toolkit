@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Interop;
+namespace Krypton.Shared;
 
 /// <summary>
 /// Centralized throw helpers that keep exception construction on a cold path.

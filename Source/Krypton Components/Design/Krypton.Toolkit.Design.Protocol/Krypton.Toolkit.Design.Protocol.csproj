@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<Import Project="..\..\Core\Krypton.Shared\Krypton.WinFormsDesignerSdk.props" />
+	<Import Project="..\..\Common\Krypton.WinFormsDesignerSdk.props" />
 
 	<PropertyGroup>
 		<RootNamespace>Krypton.Toolkit.Design.Protocol</RootNamespace>

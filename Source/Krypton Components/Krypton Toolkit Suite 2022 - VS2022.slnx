@@ -35,8 +35,8 @@
     <File Path="../../Directory.Build.props" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Build.targets" />
-    <File Path="Core/Krypton.Shared/Krypton.Interop.Package.targets" />
-    <File Path="Core/Krypton.Shared/Krypton.SharedCompileItems.props" />
+    <File Path="Common/Krypton.Shared/Krypton.Shared.Package.targets" />
+    <File Path="Common/Krypton.Shared/Krypton.SharedCompileItems.props" />
     <File Path="NetFramework.SystemResourcesExtensions.BindingRedirects.props" />
     <File Path="NetFramework.SystemResourcesExtensions.targets" />
   </Folder>
@@ -145,24 +145,12 @@
     <Project Path="Core/Krypton.Workspace/Krypton.Workspace 2022.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
-    <Project Path="Core/Krypton.Interop/Krypton.Interop.csproj">
-      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
-    </Project>
-    <Project Path="Core/Krypton.Resources/Fallback/Krypton.Resources.Fallback.csproj">
-      <BuildType Solution="Canary|*" Project="Release" />
-      <BuildType Solution="Installer|*" Project="Debug" />
-      <BuildType Solution="Nightly|*" Project="Release" />
-      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
-    </Project>
-    <Project Path="Core/Krypton.Resources/Krypton.Resources.csproj">
-      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
-    </Project>
-    <Project Path="Core/Krypton.Themes/Krypton.Themes.csproj">
-      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
-    </Project>
   </Folder>
   <Folder Name="/Source/Design/">
     <Project Path="Design/Krypton.Charting.Design/Krypton.Charting.Design.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Design/Krypton.Gauges.Design/Krypton.Gauges.Design.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
     <Project Path="Design/Krypton.Graphs.Design/Krypton.Graphs.Design.csproj">
@@ -186,13 +174,27 @@
     <Project Path="Design/Krypton.Toolkit.Design/Krypton.Toolkit.Design.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
-    <Project Path="Design/Krypton.Gauges.Design/Krypton.Gauges.Design.csproj">
-      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
-    </Project>
     <Project Path="Design/Krypton.Toolkit.Utilities.Design/Krypton.Toolkit.Utilities.Design.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
     <Project Path="Design/Krypton.Workspace.Design/Krypton.Workspace.Design.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+  </Folder>
+  <Folder Name="/Source/Shared/">
+    <Project Path="Shared/Krypton.Resources/Fallback/Krypton.Resources.Fallback.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="Shared/Krypton.Resources/Krypton.Resources.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Shared/Krypton.Shared/Krypton.Shared.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Shared/Krypton.Themes/Krypton.Themes.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
   </Folder>
@@ -208,6 +210,18 @@
     <Project Path="Utilities/Krypton.Charting/Krypton.Charting.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
+    <Project Path="Utilities/Krypton.Dialogs/Krypton.Dialogs.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Utilities/Krypton.Drawing/Krypton.Drawing.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Utilities/Krypton.Gauges/Krypton.Gauges.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
     <Project Path="Utilities/Krypton.Graphs/Krypton.Graphs.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
@@ -217,28 +231,16 @@
       <BuildType Solution="Nightly|*" Project="Release" />
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
-    <Project Path="Utilities/Krypton.Drawing/Krypton.Drawing.csproj">
-      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
-    </Project>
-    <Project Path="Utilities/Krypton.Dialogs/Krypton.Dialogs.csproj">
-      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
-    </Project>
     <Project Path="Utilities/Krypton.Toolkit.JumpList/Krypton.Toolkit.JumpList.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
-    <Project Path="Utilities/Krypton.Gauges/Krypton.Gauges.csproj">
+    <Project Path="Utilities/Krypton.Toolkit.Utilities.UpdateHelper/Krypton.Toolkit.Utilities.UpdateHelper.csproj" Id="c4a8e6d2-1f47-4b9e-8d33-4669b7c2a1e5">
       <BuildType Solution="Canary|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
       <BuildType Solution="Nightly|*" Project="Release" />
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
     <Project Path="Utilities/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj" Id="e4c9fef0-c69a-4fe6-9784-c8f93250434e">
-      <BuildType Solution="Canary|*" Project="Release" />
-      <BuildType Solution="Installer|*" Project="Debug" />
-      <BuildType Solution="Nightly|*" Project="Release" />
-      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
-    </Project>
-    <Project Path="Utilities/Krypton.Toolkit.Utilities.UpdateHelper/Krypton.Toolkit.Utilities.UpdateHelper.csproj" Id="c4a8e6d2-1f47-4b9e-8d33-4669b7c2a1e5">
       <BuildType Solution="Canary|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
       <BuildType Solution="Nightly|*" Project="Release" />
@@ -270,6 +272,13 @@
       <BuildType Solution="Nightly|*" Project="Release" />
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
+    <Project Path="../TestHarnesses/TestForm/TestForm.csproj">
+      <BuildDependency Project="Core/Krypton.Navigator/Krypton.Navigator 2022.csproj" />
+      <BuildType Solution="Canary|*" Project="Debug" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Debug" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Debug" />
+    </Project>
     <Project Path="../TestHarnesses/ThemeProviderSample/ThemeProviderSample.csproj">
       <BuildType Solution="Canary|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
@@ -293,13 +302,6 @@
       <BuildType Solution="Installer|*" Project="Debug" />
       <BuildType Solution="Nightly|*" Project="Release" />
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
-    </Project>
-    <Project Path="../TestHarnesses/TestForm/TestForm.csproj">
-      <BuildDependency Project="Core/Krypton.Navigator/Krypton.Navigator 2022.csproj" />
-      <BuildType Solution="Canary|*" Project="Debug" />
-      <BuildType Solution="Installer|*" Project="Debug" />
-      <BuildType Solution="Nightly|*" Project="Debug" />
-      <BuildType Solution="ReleaseCandidate|*" Project="Debug" />
     </Project>
   </Folder>
 </Solution>
