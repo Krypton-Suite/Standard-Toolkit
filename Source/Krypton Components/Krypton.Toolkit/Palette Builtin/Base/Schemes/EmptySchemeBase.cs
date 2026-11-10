@@ -267,4 +267,8 @@ public sealed class EmptySchemeBase : KryptonColorSchemeBase
     public override Color EqualizerOff                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color EqualizerPeak                    { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color EqualizerThumb                   { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarValue                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarLow                   { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarMedium                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }

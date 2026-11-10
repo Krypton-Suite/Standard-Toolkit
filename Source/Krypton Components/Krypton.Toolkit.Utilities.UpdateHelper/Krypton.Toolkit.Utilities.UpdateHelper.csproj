@@ -11,7 +11,7 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 		<LangVersion>preview</LangVersion>
 		<UseWindowsForms>false</UseWindowsForms>
-		<Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC;LTS</Configurations>
 		<StartupObject>Krypton.Toolkit.Utilities.UpdateHelper.Program</StartupObject>
 		<Description>Extracts a verified zip update after the host process exits. Embedded in Krypton.Toolkit.Utilities; not a consumer dependency.</Description>
 	</PropertyGroup>

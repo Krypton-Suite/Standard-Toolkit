@@ -269,6 +269,10 @@ public abstract class KryptonColorSchemeBase
     public abstract Color EqualizerOff                     { get; set; }
     public abstract Color EqualizerPeak                    { get; set; }
     public abstract Color EqualizerThumb                   { get; set; }
+    public abstract Color ProgressBarValue                 { get; set; }
+    public abstract Color ProgressBarLow                   { get; set; }
+    public abstract Color ProgressBarMedium                { get; set; }
+    public abstract Color ProgressBarHigh                  { get; set; }
 
     #endregion
 }

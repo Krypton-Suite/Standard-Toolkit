@@ -141,7 +141,8 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'LTS'">
-		<DefineConstants>$(DefineConstants);LTS</DefineConstants>
+		<!-- RELEASE keeps STABLE_BUILD (#if RELEASE) for LTS as a stable-class channel. -->
+		<DefineConstants>$(DefineConstants);LTS;RELEASE</DefineConstants>
 	</PropertyGroup>
 
 </Project>

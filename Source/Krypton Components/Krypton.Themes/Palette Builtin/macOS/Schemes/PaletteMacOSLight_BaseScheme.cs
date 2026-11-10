@@ -270,4 +270,8 @@ public sealed class PaletteMacOSLight_BaseScheme : KryptonColorSchemeBase
     public override Color EqualizerOff { get; set; } = Color.FromArgb(209, 209, 214);
     public override Color EqualizerPeak { get; set; } = Color.FromArgb(208, 226, 248);
     public override Color EqualizerThumb { get; set; } = Color.FromArgb(245, 245, 247);
+    public override Color ProgressBarValue                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarLow                   { get; set; } = Color.Red;
+    public override Color ProgressBarMedium                { get; set; } = Color.Orange;
+    public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }
