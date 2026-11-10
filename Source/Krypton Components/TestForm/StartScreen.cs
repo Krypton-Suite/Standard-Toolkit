@@ -74,6 +74,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ControlStylesForm>("Control Styles", string.Empty);
         CreateButton<DateTimeExample>("DateTime Example", string.Empty);
         CreateButton<DockingConfigSaveLoadTest>("Docking Config Save/Load Test", "Test SaveConfigToArray and LoadConfigFromArray");
+        CreateButton<FormClientBackColorDemo>("4685 Form Client BackColor", "Issue #4685: UseKryptonColorsOnForm syncs Form/internal-panel BackColor to PanelStyle. Manager.PanelStyle is the default; form PanelStyle Inherit keeps it, or pick a local override. Off uses SystemColors.Control. MDI client uses separate Manager/Form MdiPanelStyle (default PanelAlternate) — open via Borderless Form Demo MDI host.");
         CreateButton<FormBorderTest>("FormBorder Test", string.Empty);
         CreateButton<HeaderExamples>("Header Examples", string.Empty);
         CreateButton<MenuToolBarStatusStripTest>("Menu/Tool/Status Strips", string.Empty);
@@ -85,7 +86,7 @@ public partial class StartScreen : KryptonForm
         CreateButton<ToastNotificationTestChoice>("Toast", "Basic / user-input / quick toasts. Try with and without close box at 100% and high DPI (150%+): no-close is borderless with scaled edge inset.");
         CreateButton<WorkspaceTest>("WorkspaceTest", string.Empty);
         CreateButton<BlurExampleForm>("Blur Example", string.Empty);
-        CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar or MDI client border flicker on startup (top-level and MDI child with Dock.Fill). Form should appear directly in borderless state; MdiChildActivate must still fire.");
+        CreateButton<BorderlessFormDemo>("Borderless Form Demo", "Demo for Issue #2922: Borderless KryptonForm without system title bar or MDI client border flicker on startup (top-level and MDI child with Dock.Fill). Form should appear directly in borderless state; MdiChildActivate must still fire. Also #4685 MdiPanelStyle on the MDI host (Manager/Form, default PanelAlternate).");
         CreateButton<VisualControlsTest>("Visual Controls", string.Empty);
         CreateButton<BasicEmojiViewerForm>("EmojiViewer Basic", string.Empty);
         CreateButton<AdvancedEmojiViewerForm>("EmojiViewer Advanced", "Only hardcore devs can handle this one!");
