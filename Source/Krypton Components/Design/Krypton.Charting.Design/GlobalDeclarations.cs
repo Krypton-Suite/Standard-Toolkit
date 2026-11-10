@@ -18,7 +18,7 @@ global using System.Drawing.Design;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 
-global using Krypton.Interop;
+global using Krypton.Shared;
 global using Krypton.Toolkit;
 
 global using ControlDesigner = Microsoft.DotNet.DesignTools.Designers.ControlDesigner;

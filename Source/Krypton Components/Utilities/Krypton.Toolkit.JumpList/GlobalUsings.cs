@@ -12,5 +12,5 @@
 global using System;
 global using System.IO;
 
-global using Krypton.Interop;
+global using Krypton.Shared;
 global using Krypton.Toolkit;

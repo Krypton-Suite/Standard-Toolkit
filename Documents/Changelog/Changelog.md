@@ -46,6 +46,8 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Implemented [#4704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4704), **[Breaking Change]** Rename `Krypton.Interop` -> `Krypton.Shared`
+  - `Krypton.Interop` is now `Krypton.Shared`. The assembly name and namespace are all changed.
 - Implemented, `Krypton.Graphs` and `Krypton.Graphs.Design` ship inside the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) package. `Krypton.Graphs` is not a separate NuGet package.
 - Implemented [#4700](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4700), **[Breaking Change]** Library projects now live under `Source/Krypton Components/Core`, `Design`, and `Utilities`. NuGet package ids, namespaces, and assembly names are unchanged. A `ProjectReference` that pointed at `Source/Krypton Components/Krypton.<Project>` must insert `Core`, `Design`, or `Utilities`.
 - Resolved [#4701](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4701), Visual Studio build issues

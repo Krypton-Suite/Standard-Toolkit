@@ -10,6 +10,10 @@
  */
 #endregion
 
+using ThrowHelper = Krypton.Shared.ThrowHelper;
+using SharedStaticVariables = Krypton.Shared.SharedStaticVariables;
+using WIN32ScrollBars = Krypton.Shared.WIN32ScrollBars;
+
 namespace Krypton.Toolkit;
 
 /// <summary>

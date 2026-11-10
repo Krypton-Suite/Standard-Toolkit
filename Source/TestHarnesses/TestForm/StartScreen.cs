@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 using Krypton.Toolkit.Utilities;
 
-using Krypton.Interop;
+using Krypton.Shared;
 
 
 namespace TestForm;

@@ -3,7 +3,7 @@
     Asserts #4252 Light Gray palettes return a context-menu submenu image without throwing.
 
 .DESCRIPTION
-    Loads Debug Krypton.Interop + Krypton.Toolkit + Krypton.Themes and calls
+    Loads Debug Krypton.Shared + Krypton.Toolkit + Krypton.Themes and calls
     GetContextMenuSubMenuImage on every catalog palette. Office 2007 / 2010 /
     Microsoft 365 Light Gray must return a non-null image (those modes used to
     throw NotImplementedException).
@@ -29,7 +29,7 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Themes.dll'))
 [Krypton.Toolkit.KryptonThemeCatalog]::DiscoverThemes()

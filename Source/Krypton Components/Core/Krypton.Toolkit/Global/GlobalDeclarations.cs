@@ -100,7 +100,7 @@ global using Krypton.Toolkit.ResourceFiles.WindowsXPZune;
 global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;
 
-global using Krypton.Interop;
+global using Krypton.Shared;
 
 
 [assembly: CLSCompliant(true)]

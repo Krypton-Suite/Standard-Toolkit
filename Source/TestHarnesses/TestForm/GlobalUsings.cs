@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -23,6 +23,6 @@ global using System.Windows.Forms;
 global using Krypton.Dialogs;
 global using Krypton.Charting;
 global using Krypton.Drawing;
-global using Krypton.Interop;
+global using Krypton.Shared;
 global using Krypton.Toolkit;
 global using Krypton.Toolkit.Utilities;

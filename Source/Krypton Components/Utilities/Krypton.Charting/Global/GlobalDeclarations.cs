@@ -18,7 +18,7 @@ global using System.Drawing.Drawing2D;
 global using System.Windows.Forms;
 global using System.Windows.Forms.Design;
 
-global using Krypton.Interop;
+global using Krypton.Shared;
 global using Krypton.Toolkit;
 
 [assembly: CLSCompliant(true)]

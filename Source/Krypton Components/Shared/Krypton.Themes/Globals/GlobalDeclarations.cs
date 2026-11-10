@@ -87,7 +87,7 @@ global using Krypton.Toolkit.ResourceFiles.WindowsLogos;
 global using Microsoft.Win32;
 global using Microsoft.Win32.SafeHandles;
 
-global using Krypton.Interop;
+global using Krypton.Shared;
 global using Krypton.Toolkit;
 
 

@@ -29,7 +29,7 @@ global using System.Threading;
 global using System.Windows.Forms;
 global using System.Xml;
 
-global using Krypton.Interop;
+global using Krypton.Shared;
 global using Krypton.Navigator;
 global using Krypton.Toolkit;
 global using Krypton.Workspace;
