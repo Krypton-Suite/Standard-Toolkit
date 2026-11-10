@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit.Utilities;
 
 /// <summary>
-/// Cold-path helpers for <see cref="KryptonUpdateException"/>. BCL throws still go through <see cref="Krypton.Interop.ThrowHelper"/>.
+/// Cold-path helpers for <see cref="KryptonUpdateException"/>. BCL throws still go through <see cref="Krypton.Shared.ThrowHelper"/>.
 /// </summary>
 [StackTraceHidden]
 internal static class KryptonUpdateThrowHelper
