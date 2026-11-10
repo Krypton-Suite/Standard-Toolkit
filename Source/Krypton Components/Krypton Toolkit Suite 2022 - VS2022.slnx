@@ -294,7 +294,7 @@
       <BuildType Solution="Nightly|*" Project="Release" />
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
-    <Project Path="../../TestHarnesses/TestForm/TestForm.csproj">
+    <Project Path="../TestHarnesses/TestForm/TestForm.csproj">
       <BuildDependency Project="Core/Krypton.Navigator/Krypton.Navigator 2022.csproj" />
       <BuildType Solution="Canary|*" Project="Debug" />
       <BuildType Solution="Installer|*" Project="Debug" />
