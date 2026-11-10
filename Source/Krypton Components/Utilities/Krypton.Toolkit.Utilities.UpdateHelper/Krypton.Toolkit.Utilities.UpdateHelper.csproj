@@ -2,7 +2,9 @@
 
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<!-- Directory.Build.props assigns the suite TFM list. This body replaces that list: the helper stays on net472. -->
+		<!-- Directory.Build.props assigns the suite TFM list. This body replaces that list: the helper stays on net472.
+		     Keep TargetFrameworks rather than TargetFramework. Visual Studio evaluates this project with an empty
+		     TargetFramework global, which overrides a project-file TargetFramework and raises NETSDK1241. -->
 		<TargetFrameworks>net472</TargetFrameworks>
 		<RootNamespace>Krypton.Toolkit.Utilities.UpdateHelper</RootNamespace>
 		<AssemblyName>Krypton.Toolkit.Utilities.UpdateHelper</AssemblyName>
@@ -21,5 +23,16 @@
 		<Reference Include="System.IO.Compression.FileSystem" />
 		<Reference Include="System.Web.Extensions" />
 	</ItemGroup>
+
+	<!-- The outer cross-targeting build does not import Microsoft.Common.targets, so GetTargetPath is missing there.
+	     Visual Studio calls it while building Utilities (MSB4057). Return the net472 output path.
+	     The inner net472 build imports Microsoft.Common.targets, which replaces this target. -->
+	<Target Name="GetTargetPath"
+	        Condition="'$(TargetFramework)' == ''"
+	        Returns="@(TargetPathWithTargetPlatformMoniker)">
+		<ItemGroup>
+			<TargetPathWithTargetPlatformMoniker Include="$(KryptonBuildOutputRoot)$(Configuration)\net472\$(AssemblyName).exe" />
+		</ItemGroup>
+	</Target>
 
 </Project>
