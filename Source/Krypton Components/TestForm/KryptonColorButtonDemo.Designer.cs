@@ -21,6 +21,11 @@
             this.lblDescription = new Krypton.Toolkit.KryptonLabel();
             this.grpMain = new Krypton.Toolkit.KryptonGroupBox();
             this.lblSelected = new Krypton.Toolkit.KryptonLabel();
+            this.grpLivePreview = new Krypton.Toolkit.KryptonGroupBox();
+            this.lblLivePreview = new Krypton.Toolkit.KryptonLabel();
+            this.btnLivePreview = new Krypton.Toolkit.KryptonColorButton();
+            this.btnCommittedOnly = new Krypton.Toolkit.KryptonColorButton();
+            this.pnlLivePreview = new Krypton.Toolkit.KryptonPanel();
             this.grpNoMoreColors = new Krypton.Toolkit.KryptonGroupBox();
             this.btnNoMoreColors = new Krypton.Toolkit.KryptonColorButton();
             this.grpMaxCustom = new Krypton.Toolkit.KryptonGroupBox();
@@ -37,6 +42,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.grpMain.Panel)).BeginInit();
             this.grpMain.Panel.SuspendLayout();
             this.grpMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grpLivePreview)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.grpLivePreview.Panel)).BeginInit();
+            this.grpLivePreview.Panel.SuspendLayout();
+            this.grpLivePreview.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pnlLivePreview)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grpNoMoreColors)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.grpNoMoreColors.Panel)).BeginInit();
             this.grpNoMoreColors.Panel.SuspendLayout();
@@ -77,8 +87,8 @@
             this.lblDescription.StateCommon.ShortText.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblDescription.StateCommon.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.lblDescription.TabIndex = 0;
-            this.lblDescription.Values.Text = "KryptonColorButton custom colours (Issue #776): CustomColors, MaxCustomColors, an" +
-    "d visibility options. Use each button\'s drop-down to pick a colour.";
+            this.lblDescription.Values.Text = "Custom colours (#776) and live preview (#4691). Hover Live preview: the bar and p" +
+    "anel follow until you click.";
             // 
             // grpMain
             // 
@@ -89,6 +99,7 @@
             // 
             this.grpMain.Panel.AutoScroll = true;
             this.grpMain.Panel.Controls.Add(this.lblSelected);
+            this.grpMain.Panel.Controls.Add(this.grpLivePreview);
             this.grpMain.Panel.Controls.Add(this.grpNoMoreColors);
             this.grpMain.Panel.Controls.Add(this.grpMaxCustom);
             this.grpMain.Panel.Controls.Add(this.grpCustomAndBuiltIn);
@@ -100,13 +111,60 @@
             // 
             // lblSelected
             // 
-            this.lblSelected.Location = new System.Drawing.Point(15, 437);
+            this.lblSelected.Location = new System.Drawing.Point(15, 600);
             this.lblSelected.Name = "lblSelected";
             this.lblSelected.Size = new System.Drawing.Size(251, 25);
             this.lblSelected.StateCommon.ShortText.Font = new System.Drawing.Font("Segoe UI", 9.75F);
             this.lblSelected.StateCommon.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
             this.lblSelected.TabIndex = 5;
             this.lblSelected.Values.Text = "Selected: (pick a colour from any button)";
+            // 
+            // grpLivePreview
+            // 
+            this.grpLivePreview.Location = new System.Drawing.Point(15, 437);
+            // 
+            // grpLivePreview.Panel
+            // 
+            this.grpLivePreview.Panel.Controls.Add(this.lblLivePreview);
+            this.grpLivePreview.Panel.Controls.Add(this.pnlLivePreview);
+            this.grpLivePreview.Panel.Controls.Add(this.btnCommittedOnly);
+            this.grpLivePreview.Panel.Controls.Add(this.btnLivePreview);
+            this.grpLivePreview.Size = new System.Drawing.Size(875, 150);
+            this.grpLivePreview.TabIndex = 5;
+            this.grpLivePreview.Values.Heading = "6. Live preview (Issue #4691)";
+            // 
+            // lblLivePreview
+            // 
+            this.lblLivePreview.Location = new System.Drawing.Point(15, 52);
+            this.lblLivePreview.Name = "lblLivePreview";
+            this.lblLivePreview.Size = new System.Drawing.Size(820, 40);
+            this.lblLivePreview.StateCommon.ShortText.TextH = Krypton.Toolkit.PaletteRelativeAlign.Near;
+            this.lblLivePreview.TabIndex = 3;
+            this.lblLivePreview.Values.Text = "Live preview follows the hover and returns when the drop-down closes. Committed " +
+    "only changes the bar after a click. The panel tracks the live-preview button.";
+            // 
+            // btnLivePreview
+            // 
+            this.btnLivePreview.Location = new System.Drawing.Point(15, 12);
+            this.btnLivePreview.Name = "btnLivePreview";
+            this.btnLivePreview.Size = new System.Drawing.Size(280, 28);
+            this.btnLivePreview.TabIndex = 0;
+            this.btnLivePreview.Values.Text = "Live preview";
+            // 
+            // btnCommittedOnly
+            // 
+            this.btnCommittedOnly.Location = new System.Drawing.Point(310, 12);
+            this.btnCommittedOnly.Name = "btnCommittedOnly";
+            this.btnCommittedOnly.Size = new System.Drawing.Size(280, 28);
+            this.btnCommittedOnly.TabIndex = 1;
+            this.btnCommittedOnly.Values.Text = "Committed only";
+            // 
+            // pnlLivePreview
+            // 
+            this.pnlLivePreview.Location = new System.Drawing.Point(610, 8);
+            this.pnlLivePreview.Name = "pnlLivePreview";
+            this.pnlLivePreview.Size = new System.Drawing.Size(72, 36);
+            this.pnlLivePreview.TabIndex = 2;
             // 
             // grpNoMoreColors
             // 
@@ -207,13 +265,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(904, 566);
+            this.ClientSize = new System.Drawing.Size(904, 740);
             this.Controls.Add(this.grpMain);
             this.Controls.Add(this.pnlHeader);
             this.MinimumSize = new System.Drawing.Size(550, 400);
             this.Name = "KryptonColorButtonDemo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "KryptonColorButton Custom Colours Demo (Issue #776)";
+            this.Text = "KryptonColorButton Custom Colours and Live Preview";
             ((System.ComponentModel.ISupportInitialize)(this.pnlHeader)).EndInit();
             this.pnlHeader.ResumeLayout(false);
             this.pnlHeader.PerformLayout();
@@ -222,6 +280,12 @@
             this.grpMain.Panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.grpMain)).EndInit();
             this.grpMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.grpLivePreview.Panel)).EndInit();
+            this.grpLivePreview.Panel.ResumeLayout(false);
+            this.grpLivePreview.Panel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grpLivePreview)).EndInit();
+            this.grpLivePreview.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pnlLivePreview)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grpNoMoreColors.Panel)).EndInit();
             this.grpNoMoreColors.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.grpNoMoreColors)).EndInit();
@@ -262,5 +326,10 @@
         private Krypton.Toolkit.KryptonGroupBox grpNoMoreColors;
         private Krypton.Toolkit.KryptonColorButton btnNoMoreColors;
         private Krypton.Toolkit.KryptonLabel lblSelected;
+        private Krypton.Toolkit.KryptonGroupBox grpLivePreview;
+        private Krypton.Toolkit.KryptonColorButton btnLivePreview;
+        private Krypton.Toolkit.KryptonColorButton btnCommittedOnly;
+        private Krypton.Toolkit.KryptonPanel pnlLivePreview;
+        private Krypton.Toolkit.KryptonLabel lblLivePreview;
     }
 }
