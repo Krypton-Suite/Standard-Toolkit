@@ -85,14 +85,14 @@ public static class DebugTools
 
         if (DialogResult.Yes == MessageBox.Show(
                 $"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {callingMethod}\nFunction: {callingMethod}\nFile: {callingFilePath}\nLine Number: {lineNumber}",
-                "Not Implemented - Please submit ?", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2))
+                "Not Implemented - Please submit ?", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2) )
         {
             return new ArgumentOutOfRangeException(outOfRange)
             {
                 Source = callingMethod
             };
         }
-
+        
         if (DialogResult.Yes == MessageBox.Show(
                 @$"If you are seeing this message, please submit a new bug report here.\n\nAdditional details:-\nMethod Signature: {callingMethod}\nFunction: {callingMethod}\nFile: {callingFilePath}\nLine Number: {lineNumber}",
                 @"Not Implemented - Please submit ?", MessageBoxButtons.YesNo, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2))
