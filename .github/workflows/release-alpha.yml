@@ -210,7 +210,7 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Nightly -p:TFMs=all
 
-      # /m: multi-processor MSBuild; nightly.proj sets BuildInParallel (project refs still order Toolkit â†’ â€¦ â†’ Docking).
+      # /m: multi-processor MSBuild; nightly.proj sets BuildInParallel (project refs still order Toolkit, Docking).
       - name: Build Alpha
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
