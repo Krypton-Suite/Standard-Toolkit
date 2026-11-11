@@ -7,8 +7,6 @@
  */
 #endregion
 
-using System.Security;
-
 namespace Krypton.Shared;
 
 /// <summary>

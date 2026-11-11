@@ -22,8 +22,14 @@ namespace Krypton.Graphs;
 [DesignerCategory(@"code")]
 public class KryptonTransferProgressPanel : UserControl
 {
+    #region Static Fields
+
     private const int DefaultProgressColumnWidth = 220;
     private const int DefaultHeight = 110;
+
+    #endregion
+
+    #region Instance Fields
 
     private readonly TableLayoutPanel _layout;
     private readonly KryptonTransferSpeedGraph _graph;
@@ -32,6 +38,10 @@ public class KryptonTransferProgressPanel : UserControl
     private bool _showProgressGraph = true;
     private TransferProgressSampleMode _progressSampleMode = TransferProgressSampleMode.Auto;
     private TransferProgressChartLayout _chartLayout = TransferProgressChartLayout.SideBySide;
+
+    #endregion
+
+    #region Identity
 
     /// <summary>Creates an empty panel with speed and progress charts.</summary>
     public KryptonTransferProgressPanel()
@@ -77,6 +87,10 @@ public class KryptonTransferProgressPanel : UserControl
         Controls.Add(_layout);
         Controls.Add(_dualGraph);
     }
+
+    #endregion
+
+    #region Public
 
     /// <summary>Gets the scrolling transfer-speed chart (side-by-side layout).</summary>
     [Category(@"Visuals")]
@@ -155,6 +169,10 @@ public class KryptonTransferProgressPanel : UserControl
         get => _progressSampleMode;
         set => _progressSampleMode = value;
     }
+
+    #endregion
+
+    #region Implementation
 
     /// <summary>
     /// Appends a progress sample from bytes received and optional total length.
@@ -276,4 +294,7 @@ public class KryptonTransferProgressPanel : UserControl
             _layout.ColumnStyles[1].SizeType = SizeType.Absolute;
         }
     }
+
+    #endregion
+
 }

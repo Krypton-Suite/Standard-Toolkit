@@ -22,6 +22,8 @@ namespace Krypton.Graphs;
 [Description("Displays a scrolling transfer-speed area chart.")]
 public class KryptonTransferSpeedGraph : Control
 {
+    #region Instance Fields
+
     private double[] _samples;
     private int _capacity;
     private int _count;
@@ -30,6 +32,10 @@ public class KryptonTransferSpeedGraph : Control
     private double _trough;
     private PaletteBase? _palette;
     private readonly PaletteRedirect _paletteRedirect;
+
+    #endregion
+
+    #region Identity
 
     /// <summary>
     /// Creates an empty graph with the factory capacity.
@@ -68,6 +74,10 @@ public class KryptonTransferSpeedGraph : Control
         StateDisabled = new PaletteTransferSpeedGraphStates(StateCommon, OnNeedPaintHandler);
         StateNormal = new PaletteTransferSpeedGraphStates(StateCommon, OnNeedPaintHandler);
     }
+
+    #endregion
+
+    #region Public
 
     /// <summary>
     /// Gets the behaviour and appearance values for this control.
@@ -134,6 +144,10 @@ public class KryptonTransferSpeedGraph : Control
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public double Trough => _trough;
+
+    #endregion
+
+    #region Implementation
 
     /// <summary>
     /// Appends one sample in bytes per second and scrolls the chart.
@@ -536,7 +550,7 @@ public class KryptonTransferSpeedGraph : Control
 
     private static string FormatBytes(double bytes)
     {
-        string[] units = { "B", "KB", "MB", "GB", "TB" };
+        string[] units = ["B", "KB", "MB", "GB", "TB"];
         double value = Math.Max(0, bytes);
         int unit = 0;
         while (value >= 1024 && unit < units.Length - 1)
@@ -552,4 +566,7 @@ public class KryptonTransferSpeedGraph : Control
 
         return value.ToString("0.##", CultureInfo.CurrentCulture) + " " + units[unit];
     }
+
+    #endregion
+
 }

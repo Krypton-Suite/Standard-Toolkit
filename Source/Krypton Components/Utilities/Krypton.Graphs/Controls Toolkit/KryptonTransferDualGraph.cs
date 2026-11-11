@@ -22,6 +22,8 @@ namespace Krypton.Graphs;
 [Description("Displays speed and optional progress as two series on one transfer chart.")]
 public class KryptonTransferDualGraph : Control
 {
+    #region Instance Fields
+
     private double[] _speedSamples;
     private double[] _progressSamples;
     private int _capacity;
@@ -33,6 +35,10 @@ public class KryptonTransferDualGraph : Control
     private double _progressPeak;
     private PaletteBase? _palette;
     private readonly PaletteRedirect _paletteRedirect;
+
+    #endregion
+
+    #region Identity
 
     /// <summary>Creates an empty dual-series graph with the factory capacity.</summary>
     public KryptonTransferDualGraph()
@@ -63,6 +69,10 @@ public class KryptonTransferDualGraph : Control
         ProgressSeries = new PaletteTransferSpeedGraphColorRedirect(_paletteRedirect, TransferSpeedGraphPaletteColor.Series, OnNeedPaintHandler, PaletteElement.TransferProgressGraph);
         ProgressLabel = new PaletteTransferSpeedGraphColorRedirect(_paletteRedirect, TransferSpeedGraphPaletteColor.Label, OnNeedPaintHandler, PaletteElement.TransferProgressGraph);
     }
+
+    #endregion
+
+    #region Public
 
     /// <summary>Gets the behaviour and appearance values for this control.</summary>
     [Category(@"Visuals")]
@@ -144,6 +154,10 @@ public class KryptonTransferDualGraph : Control
     [Browsable(false)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public double ProgressPeak => _progressPeak;
+
+    #endregion
+
+    #region Implementation
 
     /// <summary>Appends one speed sample in bytes per second.</summary>
     /// <param name="bytesPerSecond">Transfer rate for this sample.</param>
@@ -547,7 +561,7 @@ public class KryptonTransferDualGraph : Control
 
     private static string FormatBytes(double bytes)
     {
-        string[] units = { "B", "KB", "MB", "GB", "TB" };
+        string[] units = ["B", "KB", "MB", "GB", "TB"];
         double value = Math.Max(0, bytes);
         int unit = 0;
         while (value >= 1024 && unit < units.Length - 1)
@@ -584,4 +598,7 @@ public class KryptonTransferDualGraph : Control
     private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
 
     private void OnNeedPaintHandler(object? sender, NeedLayoutEventArgs e) => Invalidate();
+
+    #endregion
+
 }

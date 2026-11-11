@@ -14,9 +14,15 @@ namespace Krypton.Graphs;
 /// </summary>
 internal sealed class PaletteTransferSpeedGraphColorInheritRedirect : PaletteElementColorInherit
 {
+    #region Instance Fields
+
     private readonly TransferSpeedGraphPaletteColor _color;
     private readonly PaletteElement _element;
     private PaletteRedirect _redirect;
+
+    #endregion
+
+    #region Identity
 
     /// <summary>
     /// Initialize a new instance of the <see cref="PaletteTransferSpeedGraphColorInheritRedirect"/> class.
@@ -30,6 +36,10 @@ internal sealed class PaletteTransferSpeedGraphColorInheritRedirect : PaletteEle
         _color = color;
         _element = element;
     }
+
+    #endregion
+
+    #region Implementation
 
     /// <summary>
     /// Update the redirector with a new reference.
@@ -59,6 +69,9 @@ internal sealed class PaletteTransferSpeedGraphColorInheritRedirect : PaletteEle
 
     /// <inheritdoc />
     public override Color GetElementColor5(PaletteState state) => GetElementColor1(state);
+
+    #endregion
+
 }
 
 /// <summary>
@@ -66,7 +79,13 @@ internal sealed class PaletteTransferSpeedGraphColorInheritRedirect : PaletteEle
 /// </summary>
 public class PaletteTransferSpeedGraphColorRedirect : PaletteElementColor
 {
+    #region Instance Fields
+
     private readonly PaletteTransferSpeedGraphColorInheritRedirect _inherit;
+
+    #endregion
+
+    #region Identity
 
     /// <summary>
     /// Initialize a new instance of the <see cref="PaletteTransferSpeedGraphColorRedirect"/> class.
@@ -82,9 +101,16 @@ public class PaletteTransferSpeedGraphColorRedirect : PaletteElementColor
         SetInherit(_inherit);
     }
 
+    #endregion
+
+    #region Implementation
+
     /// <summary>
     /// Update the redirector with a new reference.
     /// </summary>
     /// <param name="redirect">Target redirector.</param>
     internal void SetRedirector(PaletteRedirect redirect) => _inherit.SetRedirector(redirect);
+
+#endregion
+
 }
