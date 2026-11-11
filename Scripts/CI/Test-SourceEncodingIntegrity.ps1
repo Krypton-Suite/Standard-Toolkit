@@ -1,4 +1,4 @@
-﻿#requires -Version 7.0
+#requires -Version 7.0
 <#
 .SYNOPSIS
     Scans repository text files for UTF-8 encoding corruption (mojibake and replacement characters).
