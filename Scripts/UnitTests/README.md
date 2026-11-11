@@ -67,6 +67,8 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-NavigatorCaptionTabRemerge.ps1` | #925 tear-out / remerge into a single window (in-process; no mouse) | `include` |
 | `UnitTest-AsyncFormApis.ps1` | #4177 async dialog API gating (absent on net472; present on net9+ via `pwsh`) | `include` |
 | `UnitTest-SystemInformationApi.ps1` | #3176 `KryptonSystemInformation` type/API smoke (no UI) | `include` |
+| `Invoke-ColorLivePreviewScreenshot.ps1` | Hosts `KryptonColorButtonDemo` (#4691) and writes light/dark `Documents/PR/4691-color-live-preview-default-*.png` | `exclude` |
+| `Invoke-ColorLivePreviewDemosGallery.ps1` | Hosts the Demos colour-button example and writes `live-preview-light.png` / `live-preview-dark.png` into that project folder | `exclude` |
 | `UnitTest-SystemInformationUi.ps1` | #3176 host the viewer and wait for System Summary rows (WMI) | `include` |
 | `UnitTest-InteractiveToolTips.ps1` | #4192 hosted-control tooltip / HTML helper / NotifyIcon popup API surface | `include` |
 | `UnitTest-TooltipAnimatedGif.ps1` | #4379 tooltip popup plays a multi-frame GIF: two PrintWindow captures must differ | `exclude` |

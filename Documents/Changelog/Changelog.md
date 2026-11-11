@@ -46,6 +46,11 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Resolved [#4701](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4701), Visual Studio build issues
+  - Visual Studio builds no longer fail with missing `Krypton.Toolkit.Utilities` and `Krypton.Dialogs` assemblies.
+  - The IDE uses the Visual Studio target-framework list, so it does not also compile .NET 8, .NET 9, and .NET 11.
+  - The zip-update helper stays on .NET Framework 4.7.2, and Visual Studio can resolve that program while building Utilities.
+- Implemented [#4691](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4691), Optional colour live preview on `KryptonColorButton`, `KryptonRibbonGroupColorButton`, and `KryptonRibbonGroupClusterColorButton`. Set `LivePreview` to follow a highlighted swatch before it is committed to `SelectedColor`. `ColorPreview` reports preview, revert, commit, and cancel so other colour UI can use the same session.
 - Implemented, LTS NuGet packages use `Configuration=LTS` with the dedicated `Krypton LTS.png` package icon and package IDs `*.LTS` / `*.LTS.Lite`.
 - Implemented [#4685](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4685), `KryptonForm` background colour
   - `KryptonManager.UseKryptonColorsOnForm` (default `true`) syncs `KryptonForm` and internal panel `BackColor` to the form `PanelStyle` palette colour. Set to `false` to keep `SystemColors.Control`.

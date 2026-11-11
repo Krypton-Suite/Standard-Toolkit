@@ -575,6 +575,7 @@ internal class ViewDrawRibbonGroupColorButton : ViewComposite,
         switch (e.PropertyName)
         {
             case "SelectedColor":
+            case "DisplayColor":
             case "EmptyBorderColor":
             case "SelectedRectSmall":
             case "SelectedRectLarge":
