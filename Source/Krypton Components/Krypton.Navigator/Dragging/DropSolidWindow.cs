@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -41,8 +41,8 @@ public class DropSolidWindow : KryptonForm
         MaximizeBox = false;
         MinimizeBox = false;
         ShowInTaskbar = false;
-        BackColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
-        TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+        BackColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+        TransparencyKey = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
         Opacity = _paletteDragDrop.GetDragDropSolidOpacity();
     }
 
@@ -85,7 +85,7 @@ public class DropSolidWindow : KryptonForm
                 if (value.IsEmpty)
                 {
                     // Move off-screen to avoid a visible artifact at (0,0) when no target is matched
-                    bounds = new Rectangle(GlobalStaticValues.OFF_SCREEN_POSITION, GlobalStaticValues.OFF_SCREEN_POSITION, 0, 0);
+                    bounds = new Rectangle(SharedStaticConstants.OFF_SCREEN_POSITION, SharedStaticConstants.OFF_SCREEN_POSITION, 0, 0);
                 }
                 else
                 {

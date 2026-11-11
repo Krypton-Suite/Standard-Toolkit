@@ -12,7 +12,10 @@
 
 namespace Krypton.Toolkit;
 
-[ToolboxBitmap(typeof(StatusStrip)), Description(@"A Krypton based status strip."), ToolboxItem(true)]
+[ToolboxBitmap(typeof(KryptonStatusStrip), "ToolboxBitmaps.KryptonStatusStrip.bmp")]
+[Category(@"Krypton Toolkit")]
+[Description(@"A Krypton based status strip.")]
+[ToolboxItem(true)]
 public class KryptonStatusStrip : StatusStrip,
     IFocusLostMenuItem
 {
@@ -20,12 +23,15 @@ public class KryptonStatusStrip : StatusStrip,
     private readonly PaletteBack _stateCommon;
     private readonly PaletteBack _stateDisabled;
     private readonly PaletteBack _stateNormal;
+    private ToolStripFontSyncHelper? _fontSync;
     private bool _disposed;
     #endregion
 
     #region Properties
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public ToolStripProgressBar[] ProgressBars { get; set; }
+    [Description(@"The progress bars to display on the status strip.")]
+    [DefaultValue(null)]
+    public ToolStripProgressBar[]? ProgressBars { get; set; }
     #endregion
 
     #region Constructor
@@ -41,6 +47,8 @@ public class KryptonStatusStrip : StatusStrip,
         _stateCommon = new PaletteBack(inherit, OnNeedPaint);
         _stateDisabled = new PaletteBack(_stateCommon, OnNeedPaint);
         _stateNormal = new PaletteBack(_stateCommon, OnNeedPaint);
+
+        _fontSync = new ToolStripFontSyncHelper(this, ToolStripFontKind.StatusStrip);
 
         // Register with the FocusLostMenuHelper
         Register(this);
@@ -70,6 +78,9 @@ public class KryptonStatusStrip : StatusStrip,
     {
         if (!_disposed && disposing)
         {
+            _fontSync?.Dispose();
+            _fontSync = null;
+
             // Deregister from the FocusLostMenuHelper
             Deregister(this);
 
@@ -117,7 +128,7 @@ public class KryptonStatusStrip : StatusStrip,
     {
         if (!IsDisposed)
         {
-            if (e != null && e.NeedLayout)
+            if (e is { NeedLayout: true })
             {
                 PerformLayout();
             }
@@ -133,8 +144,7 @@ public class KryptonStatusStrip : StatusStrip,
     {
         for (int i = 0; i < Items.Count; i++)
         {
-            if (Items[i] is ToolStripDropDownButton dropDownItem
-                && dropDownItem.DropDown.Visible)
+            if (Items[i] is ToolStripDropDownButton { DropDown.Visible: true } dropDownItem)
             {
                 dropDownItem.DropDown.Close(ToolStripDropDownCloseReason.AppFocusChange);
                 return;

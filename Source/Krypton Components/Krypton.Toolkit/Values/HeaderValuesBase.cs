@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -61,7 +61,7 @@ public abstract class HeaderValuesBase : Storage,
 
         // Set initial values to the default
         _image = GetImageDefault();
-        _transparent = GlobalStaticValues.EMPTY_COLOR;
+        _transparent = SharedStaticVariables.EMPTY_COLOR;
         _heading = GetHeadingDefault();
         _description = GetDescriptionDefault();
     }
@@ -109,6 +109,7 @@ public abstract class HeaderValuesBase : Storage,
     [Category(@"Visuals")]
     [Description(@"Heading image.")]
     [RefreshProperties(RefreshProperties.All)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -164,8 +165,8 @@ public abstract class HeaderValuesBase : Storage,
         }
     }
 
-    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != GlobalStaticValues.EMPTY_COLOR;
-    protected internal void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
+    protected internal void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the content image transparent color.
@@ -184,11 +185,12 @@ public abstract class HeaderValuesBase : Storage,
     [Category(@"Visuals")]
     [Description(@"Heading text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [AllowNull]
     public virtual string Heading
     {
-        get => _heading ?? GlobalStaticValues.DEFAULT_EMPTY_STRING;
+        get => _heading ?? SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
         set
         {
@@ -219,6 +221,7 @@ public abstract class HeaderValuesBase : Storage,
     [Category(@"Visuals")]
     [Description(@"Header description text.")]
     [RefreshProperties(RefreshProperties.All)]
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     public virtual string Description
     {
@@ -254,7 +257,7 @@ public abstract class HeaderValuesBase : Storage,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public virtual Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

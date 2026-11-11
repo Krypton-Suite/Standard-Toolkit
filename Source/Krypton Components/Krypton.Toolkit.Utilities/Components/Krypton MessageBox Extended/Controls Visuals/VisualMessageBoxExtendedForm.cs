@@ -1,0 +1,2005 @@
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2026 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+using ContentAlignment = System.Drawing.ContentAlignment;
+using Resources = Krypton.Toolkit.Utilities.Properties.Resources;
+
+namespace Krypton.Toolkit.Utilities;
+
+public partial class VisualMessageBoxExtendedForm : KryptonForm
+{
+    #region Static Fields
+
+    public const int WH_CALLWNDPROCRET = 12;
+
+    private const int WM_CLOSE = 0x0010;
+
+    #endregion
+
+    #region Instance Fields
+
+    private readonly string _text;
+    private readonly string _caption;
+
+    private readonly KryptonMessageBoxDefaultButton _defaultButton;
+    // If help information provided, or we are not a service/default desktop application then grab an owner for showing the message box
+    private static /*readonly*/ IWin32Window? _showOwner;
+    private readonly HelpInfo? _helpInfo;
+    private readonly ContentAlignment _messageTextAlignment;
+
+    private readonly Image? _applicationImage;
+
+    private readonly KryptonMessageBoxExtendedData _messageBoxExtendedData;
+
+    #endregion
+
+    #region Extended Fields
+
+    private readonly bool _showHelpButton;
+
+    private MessageButton? _helpButton;
+
+    private readonly bool _openInExplorer;
+
+    private readonly bool _useTimeOut;
+
+    private readonly bool _showOptionalCheckBox;
+
+    private readonly bool _useOptionalCheckBoxThreeState;
+
+    private readonly bool _initialDoNotShowAgainCheck;
+
+    private bool _isDoNotShowAgainCheckedResult;
+
+    private readonly Color _messageTextColour;
+
+    private readonly Color[]? _buttonTextColours = new Color[4];
+
+    private readonly CheckState _initialDoNotShowAgainCheckState;
+
+    private CheckState _doNotShowAgainCheckStateResult;
+
+    private readonly DialogResult _buttonOneCustomDialogResult;
+
+    private readonly DialogResult _buttonTwoCustomDialogResult;
+
+    private readonly DialogResult _buttonThreeCustomDialogResult;
+
+    private readonly DialogResult _buttonFourDialogResult;
+
+    private readonly Font? _messageBoxTypeface;
+
+    private readonly ExtendedMessageBoxButtons _buttons;
+
+    private readonly ExtendedKryptonMessageBoxIcon _kryptonMessageBoxIcon;
+
+    private readonly Image? _customKryptonMessageBoxIcon;
+
+    private readonly KryptonOverlayImage _overlayImage;
+
+    private Image? _ownedComposedIcon;
+
+    private readonly string _buttonOneCustomText;
+
+    private readonly string _buttonTwoCustomText;
+
+    private readonly string _buttonThreeCustomText;
+
+    private readonly string _buttonFourCustomText;
+
+    private readonly string _applicationPath;
+
+    private readonly string _checkBoxText;
+
+    private readonly ExtendedKryptonMessageBoxMessageContainerType _messageContainerType;
+
+    private readonly KryptonCommand? _linkLabelCommand;
+
+    private readonly LinkArea _contentLinkArea;
+
+    private readonly ProcessStartInfo? _linkLaunchArgument;
+
+    private static readonly PI.HookProc _hookProc;
+
+    private static IntPtr _hHook;
+
+    private MessageBoxExtendedLifetimeController? _lifetimeController;
+
+    private int _timeOut;
+
+    private readonly int? _timeOutInterval;
+
+    private DialogResult _timerResult;
+
+    private readonly PaletteRelativeAlign _richTextBoxTextAlignment;
+
+    private readonly string? _footerText;
+
+    private readonly bool _footerExpanded;
+
+    private readonly ExtendedKryptonMessageBoxFooterContentType _footerContentType;
+
+    private readonly int? _footerRichTextBoxHeight;
+
+    // Optional custom captions for the footer toggle (FoldableDialog Expand/Collapse, or a single MoreDetails caption).
+    private string? _footerToggleCaption;
+    private string? _footerExpandButtonText;
+    private string? _footerCollapseButtonText;
+
+    private readonly ExtendedKryptonMessageBoxCountdownButton _countdownButton;
+
+    private readonly int? _countdownButtonSeconds;
+
+    private readonly DialogResult? _countdownButtonDialogResult;
+
+    #endregion
+
+    #region Identity
+
+    static VisualMessageBoxExtendedForm()
+    {
+        _hookProc = new PI.HookProc(MessageBoxHookProc);
+
+        _hHook = IntPtr.Zero;
+    }
+
+    public VisualMessageBoxExtendedForm()
+    {
+        InitializeComponent();
+    }
+
+    internal VisualMessageBoxExtendedForm(IWin32Window? showOwner, string text, string caption,
+        ExtendedMessageBoxButtons buttons,
+        ExtendedKryptonMessageBoxIcon icon,
+        KryptonMessageBoxDefaultButton defaultButton,
+        HelpInfo? helpInfo, bool? showCtrlCopy,
+        Font? messageBoxTypeface,
+        Image? customKryptonMessageBoxIcon, bool? showHelpButton,
+        Color? messageTextColour, Color[]? buttonTextColours,
+        DialogResult? buttonOneCustomDialogResult,
+        DialogResult? buttonTwoCustomDialogResult,
+        DialogResult? buttonThreeCustomDialogResult,
+        DialogResult? buttonFourDialogResult,
+        string? buttonOneCustomText, string? buttonTwoCustomText,
+        string? buttonThreeCustomText, string? buttonFourCustomText,
+        string? applicationPath,
+        ExtendedKryptonMessageBoxMessageContainerType? messageContainerType,
+        KryptonCommand? linkLabelCommand,
+        LinkArea? contentLinkArea,
+        ProcessStartInfo? linkLaunchArgument,
+        bool? openInExplorer,
+        ContentAlignment? messageTextAlignment,
+        PaletteRelativeAlign? richTextBoxTextAlignment,
+        HorizontalAlignment? messageTextBoxAlignment,
+        bool? showOptionalCheckBox,
+        bool? initialDoNotShowAgainCheckBoxChecked,
+        CheckState? initialDoNotShowAgainCheckBoxCheckState,
+        string? optionalCheckBoxText,
+        bool? useOptionalCheckBoxThreeState,
+        bool? useTimeOut,
+        int? timeOut,
+        int? timeOutInterval,
+        DialogResult? timerResult, bool showCloseButton, string? footerText = null,
+        bool footerExpanded = false,
+        ExtendedKryptonMessageBoxFooterContentType footerContentType = ExtendedKryptonMessageBoxFooterContentType.Text,
+        int? footerRichTextBoxHeight = null,
+        ExtendedKryptonMessageBoxCountdownButton countdownButton = ExtendedKryptonMessageBoxCountdownButton.None,
+        int? countdownButtonSeconds = null,
+        DialogResult? countdownButtonDialogResult = null,
+        bool? showCopyButton = null,
+        KryptonOverlayImage overlayImage = default)
+    {
+        // Normalize line endings so a lone "\n" is rendered as a line break by the multiline content controls
+        text = text.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
+
+        // Store incoming values
+        _text = text;
+
+        // Keep the caption clean; the lifetime controller appends a countdown suffix when UseTimeOut is set
+        _caption = caption;
+
+        _buttons = buttons;
+        _kryptonMessageBoxIcon = icon;
+        _defaultButton = defaultButton;
+        _helpInfo = helpInfo ?? new HelpInfo(string.Empty, HelpNavigator.AssociateIndex, null);
+        _showOwner = showOwner;
+        _messageTextAlignment = messageTextAlignment ?? ContentAlignment.MiddleLeft;
+
+        // Extended values
+        _messageBoxTypeface = messageBoxTypeface ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+        _customKryptonMessageBoxIcon = customKryptonMessageBoxIcon;
+        _overlayImage = overlayImage;
+        _showHelpButton = showHelpButton ?? false;
+        _messageTextColour = messageTextColour ?? Color.Empty;
+        _buttonTextColours = buttonTextColours;
+        _buttonOneCustomDialogResult = buttonOneCustomDialogResult ?? DialogResult.Yes;
+        _buttonTwoCustomDialogResult = buttonTwoCustomDialogResult ?? DialogResult.No;
+        _buttonThreeCustomDialogResult = buttonThreeCustomDialogResult ?? DialogResult.Cancel;
+        _buttonFourDialogResult = buttonFourDialogResult ?? DialogResult.Retry;
+        _buttonOneCustomText = buttonOneCustomText ?? KryptonManager.Strings.GeneralStrings.Yes;
+        _buttonTwoCustomText = buttonTwoCustomText ?? KryptonManager.Strings.GeneralStrings.No;
+        _buttonThreeCustomText = buttonThreeCustomText ?? KryptonManager.Strings.GeneralStrings.Cancel;
+        _buttonFourCustomText = buttonFourCustomText ?? KryptonManager.Strings.GeneralStrings.Retry;
+        _applicationPath = applicationPath ?? string.Empty;
+        _messageContainerType = messageContainerType ?? ExtendedKryptonMessageBoxMessageContainerType.Normal;
+        _linkLabelCommand = linkLabelCommand ?? new KryptonCommand();
+        _contentLinkArea = contentLinkArea ?? new LinkArea(0, text.Length);
+        _linkLaunchArgument = linkLaunchArgument ?? new ProcessStartInfo();
+        _openInExplorer = openInExplorer ?? false;
+        _richTextBoxTextAlignment = richTextBoxTextAlignment ?? PaletteRelativeAlign.Inherit;
+        _useTimeOut = useTimeOut ?? false;
+        _timeOut = timeOut ?? 60;
+        _timeOutInterval = timeOutInterval ?? 1000;
+        _timerResult = timerResult ?? DialogResult.None;
+        //_openInExplorer = openInExplorer ?? false;
+
+        // Optional checkbox
+        _showOptionalCheckBox = showOptionalCheckBox ?? false;
+        _initialDoNotShowAgainCheck = initialDoNotShowAgainCheckBoxChecked ?? false;
+        _isDoNotShowAgainCheckedResult = _initialDoNotShowAgainCheck;
+        _initialDoNotShowAgainCheckState = initialDoNotShowAgainCheckBoxCheckState ?? CheckState.Unchecked;
+        _doNotShowAgainCheckStateResult = _initialDoNotShowAgainCheckState;
+        _checkBoxText = MessageBoxExtendedDoNotShowAgain.ResolveText(_showOptionalCheckBox, optionalCheckBoxText);
+        _useOptionalCheckBoxThreeState = useOptionalCheckBoxThreeState ?? false;
+        _footerText = footerText;
+        _footerExpanded = footerExpanded;
+        _footerContentType = footerContentType;
+        _footerRichTextBoxHeight = footerRichTextBoxHeight;
+        _countdownButton = countdownButton;
+        _countdownButtonSeconds = countdownButtonSeconds;
+        _countdownButtonDialogResult = countdownButtonDialogResult;
+
+        // Create the form contents
+        InitializeComponent();
+
+        // Update contents to match requirements
+        UpdateText();
+        UpdateIcon();
+        UpdateButtons();
+        UpdateDefault();
+        UpdateHelp();
+        UpdateTextExtra(showCtrlCopy);
+        UpdateCopyButton(showCopyButton);
+        ApplySemanticButtonColors(null);
+        
+        // Apply countdown to selected button if specified
+        ApplyCountdownToButton();
+
+        UpdateContentAreaType(messageContainerType, messageTextAlignment, messageTextBoxAlignment, richTextBoxTextAlignment);
+
+        UpdateContentLinkArea(contentLinkArea);
+
+        SetupOptionalCheckBox();
+
+        SetupFooter(_footerText, _footerExpanded, _footerContentType, _footerRichTextBoxHeight);
+
+        // Finally calculate and set form sizing
+        UpdateSizing(showOwner);
+
+        AttachLifetime(MessageBoxExtendedLifetimeOptions.FromShowParameters(
+            _useTimeOut,
+            _timeOut,
+            _timeOutInterval ?? 1000,
+            _timerResult,
+            _caption));
+    }
+
+    public VisualMessageBoxExtendedForm(KryptonMessageBoxExtendedData messageBoxExtendedData, bool showCloseButton)
+    {
+        _messageBoxExtendedData = messageBoxExtendedData;
+        _overlayImage = messageBoxExtendedData.OverlayImage;
+        _kryptonMessageBoxIcon = messageBoxExtendedData.Icon;
+        _text = messageBoxExtendedData.MessageText ?? string.Empty;
+        _caption = messageBoxExtendedData.Caption ?? string.Empty;
+        _useTimeOut = messageBoxExtendedData.UseTimeOut;
+        _timeOut = messageBoxExtendedData.TimeOut > 0 ? messageBoxExtendedData.TimeOut : 60;
+        _timeOutInterval = messageBoxExtendedData.TimeOutInterval > 0 ? messageBoxExtendedData.TimeOutInterval : 1000;
+        _timerResult = messageBoxExtendedData.TimeOutResult;
+        _countdownButton = messageBoxExtendedData.CountdownButton;
+        _countdownButtonSeconds = messageBoxExtendedData.CountdownButtonSeconds;
+        _countdownButtonDialogResult = messageBoxExtendedData.CountdownButtonDialogResult;
+
+        _showOptionalCheckBox = MessageBoxExtendedDoNotShowAgain.ResolveShow(messageBoxExtendedData);
+        _checkBoxText = MessageBoxExtendedDoNotShowAgain.ResolveText(messageBoxExtendedData);
+        _useOptionalCheckBoxThreeState = messageBoxExtendedData.UseCheckBoxThreeState ?? false;
+        _initialDoNotShowAgainCheck = messageBoxExtendedData.IsCheckBoxChecked ?? false;
+        _isDoNotShowAgainCheckedResult = _initialDoNotShowAgainCheck;
+        _initialDoNotShowAgainCheckState = messageBoxExtendedData.CheckBoxCheckState ?? CheckState.Unchecked;
+        _doNotShowAgainCheckStateResult = _initialDoNotShowAgainCheckState;
+
+        // Create the form contents
+        InitializeComponent();
+
+        RightToLeftLayout = _messageBoxExtendedData.Options.HasFlag(MessageBoxOptions.RtlReading);
+
+        // Update contents to match requirements
+        UpdateText(_messageBoxExtendedData.Caption, messageBoxExtendedData.MessageText, _messageBoxExtendedData.Options, _messageBoxExtendedData.MessageContentAreaType);
+        UpdateIcon(_messageBoxExtendedData.Icon);
+        UpdateButtons(_messageBoxExtendedData.Buttons);
+        UpdateDefault(_messageBoxExtendedData.DefaultButton);
+        UpdateHelp(_messageBoxExtendedData.ShowHelpButton);
+        UpdateTextExtra(_messageBoxExtendedData.ShowCtrlCopy);
+        UpdateCopyButton(_messageBoxExtendedData.ShowCopyButton);
+        ApplySemanticButtonColors(_messageBoxExtendedData.ButtonColors);
+        ApplyCountdownToButton();
+
+        UpdateContentAreaType(_messageBoxExtendedData.MessageContentAreaType, _messageBoxExtendedData.MessageTextAlignment, _messageBoxExtendedData.MessageTextBoxAlignment, _messageBoxExtendedData.RichTextBoxTextAlignment);
+
+        UpdateContentLinkArea(_messageBoxExtendedData.ContentLinkArea);
+
+        SetupOptionalCheckBox();
+
+        UpdateCloseButtonVisibility(showCloseButton);
+
+        // FoldableDialog-style details: non-empty DetailsText / MoreDetailsMessageText shows the expander.
+        if (MessageBoxExtendedFoldable.TryResolveFromData(_messageBoxExtendedData, out MessageBoxExtendedFoldable.FooterSpec spec)
+            && (!string.IsNullOrEmpty(spec.Text) || spec.ContentType == ExtendedKryptonMessageBoxFooterContentType.CheckBox))
+        {
+            _footerText = spec.Text;
+            _footerContentType = spec.ContentType;
+            _footerExpanded = spec.Expanded;
+            _footerRichTextBoxHeight = spec.RichTextBoxHeight;
+            _footerExpandButtonText = spec.ExpandButtonText;
+            _footerCollapseButtonText = spec.CollapseButtonText;
+            _footerToggleCaption = spec.MoreDetailsButtonText;
+
+            SetupFooter(_footerText, _footerExpanded, _footerContentType, _footerRichTextBoxHeight);
+        }
+
+        // Finally calculate and set form sizing
+        UpdateSizing(_messageBoxExtendedData.Owner);
+
+        AttachLifetime(MessageBoxExtendedLifetimeOptions.FromData(_messageBoxExtendedData));
+    }
+
+    #endregion Identity
+
+    #region Implementation
+
+    private void UpdateText(string caption, string? text, MessageBoxOptions options, ExtendedKryptonMessageBoxMessageContainerType? contentAreaType)
+    {
+        // Set the text of the form
+        Text = string.IsNullOrEmpty(caption) ? string.Empty : caption.Split(Environment.NewLine.ToCharArray())[0];
+
+        // Normalize line endings so a lone "\n" is rendered as a line break by the multiline content controls
+        text = text?.Replace("\r\n", "\n").Replace("\r", "\n").Replace("\n", "\r\n");
+
+        switch (contentAreaType)
+        {
+            case ExtendedKryptonMessageBoxMessageContainerType.Normal:
+                kwlblMessageText.Text = text;
+
+                kwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
+                    options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
+                break;
+            case ExtendedKryptonMessageBoxMessageContainerType.HyperLink:
+                klwlblMessageText.Text = text;
+
+                klwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign)
+                    ?
+                    RightToLeft.Yes
+                    : options.HasFlag(MessageBoxOptions.RtlReading)
+                        ? RightToLeft.Inherit
+                        : RightToLeft.No;
+                break;
+            case ExtendedKryptonMessageBoxMessageContainerType.RichTextBox:
+                krtbMessageText.Text = text;
+
+                krtbMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
+                    options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
+                break;
+            case null:
+                kwlblMessageText.Text = text;
+
+                kwlblMessageText.RightToLeft = options.HasFlag(MessageBoxOptions.RightAlign) ? RightToLeft.Yes :
+                    options.HasFlag(MessageBoxOptions.RtlReading) ? RightToLeft.Inherit : RightToLeft.No;
+                break;
+            default:
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(contentAreaType), contentAreaType, null);
+                return;
+        }
+    }
+
+    private void UpdateText()
+    {
+        Text = string.IsNullOrEmpty(_caption) ? string.Empty : _caption.Split(Environment.NewLine.ToCharArray())[0];
+
+        if (_messageContainerType == ExtendedKryptonMessageBoxMessageContainerType.Normal)
+        {
+            kwlblMessageText.Visible = true;
+            kwlblMessageText.Text = _text;
+            kwlblMessageText.StateCommon.Content.Font = _messageBoxTypeface;
+
+            kwlblMessageText.StateCommon.Content.Color1 = _messageTextColour;
+
+            krtbMessageText.Visible = false;
+
+            klwlblMessageText.Visible = false;
+        }
+        else if (_messageContainerType == ExtendedKryptonMessageBoxMessageContainerType.RichTextBox)
+        {
+            krtbMessageText.Visible = true;
+
+            krtbMessageText.Text = _text;
+
+            krtbMessageText.StateCommon.Content.Color1 = _messageTextColour;
+
+            krtbMessageText.StateCommon.Content.Font = _messageBoxTypeface;
+
+            kwlblMessageText.Visible = false;
+
+            klwlblMessageText.Visible = false;
+        }
+        else if (_messageContainerType == ExtendedKryptonMessageBoxMessageContainerType.HyperLink)
+        {
+            klwlblMessageText.Visible = true;
+
+            klwlblMessageText.Text = _text;
+
+            klwlblMessageText.StateCommon.TextColor = _messageTextColour;
+
+            klwlblMessageText.StateCommon.Font = _messageBoxTypeface;
+
+            kwlblMessageText.Visible = false;
+
+            krtbMessageText.Visible = false;
+        }
+
+        kcbOptionalCheckBox.StateCommon.ShortText.Color1 = _messageTextColour;
+
+        kcbOptionalCheckBox.StateCommon.ShortText.Color2 = _messageTextColour;
+
+        kcbOptionalCheckBox.StateCommon.ShortText.Font = _messageBoxTypeface;
+    }
+
+    private void UpdateTextExtra(bool? showCtrlCopy)
+    {
+        if (!showCtrlCopy.HasValue)
+        {
+            showCtrlCopy = _kryptonMessageBoxIcon switch
+            {
+                ExtendedKryptonMessageBoxIcon.Error or ExtendedKryptonMessageBoxIcon.Exclamation => true,
+                _ => showCtrlCopy
+            };
+        }
+
+        if (showCtrlCopy == true)
+        {
+            TextExtra = @"Ctrl+c to copy";
+        }
+    }
+
+    private void UpdateCopyButton(bool? showCopyButton)
+    {
+        if (showCopyButton != true)
+        {
+            return;
+        }
+
+        _copyButton.Text = KryptonManager.Strings.MessageBoxStrings.CopyToClipboard;
+
+        if (_messageBoxTypeface != null)
+        {
+            _copyButton.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+        }
+
+        _copyButton.Visible = true;
+        _copyButton.Enabled = true;
+
+        // No DialogResult is assigned so clicking Copy leaves the message box open.
+        _copyButton.Click += OnCopyButtonClick;
+
+        // Match the Alt+F4 handling of the action buttons when the control box is hidden.
+        if (!ControlBox)
+        {
+            _copyButton.IgnoreAltF4 = true;
+        }
+    }
+
+    private void OnCopyButtonClick(object? sender, EventArgs e) => CopyMessageBoxContentToClipboard();
+
+    private void UpdateIcon(ExtendedKryptonMessageBoxIcon icon)
+    {
+        if (OSUtilities.IsAtLeastWindowsEleven)
+        {
+            switch (icon)
+            {
+                case ExtendedKryptonMessageBoxIcon.None:
+                    // Windows XP and before will Beep, Vista and above do not!
+                    if (SharedStaticVariables.OS_MAJOR_VERSION < 6)
+                    {
+                        SystemSounds.Beep.Play();
+                    }
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Hand:
+                    _messageIcon.Image = Resources.Hand;
+                    SystemSounds.Hand.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Question:
+                    _messageIcon.Image = Resources.Question_Windows_11;
+                    SystemSounds.Question.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Exclamation:
+                    _messageIcon.Image = Resources.Warning_Windows_11;
+                    SystemSounds.Exclamation.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Asterisk:
+                    _messageIcon.Image = Resources.Asterisk_Windows_11;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Stop:
+                    _messageIcon.Image = Resources.Stop;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Error:
+                    _messageIcon.Image = Resources.Critical_Windows_11;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Warning:
+                    _messageIcon.Image = Resources.Warning_Windows_11;
+                    SystemSounds.Exclamation.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Information:
+                    _messageIcon.Image = Resources.Information_Windows_11;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Shield:
+                    _messageIcon.Image = Resources.UAC_Shield_Windows_11;
+                    break;
+                case ExtendedKryptonMessageBoxIcon.WindowsLogo:
+                    _messageIcon.Image = Resources.Windows11;
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Application:
+                    if (_applicationImage != null)
+                    {
+                        _messageIcon.Image = _applicationImage;
+                    }
+                    else if (!string.IsNullOrEmpty(_applicationPath))
+                    {
+                        Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap();
+                        Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+
+                        _messageIcon.Image = scaledImage;
+                    }
+                    else
+                    {
+                        // Fall back to defaults
+                        _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                    }
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemApplication:
+                    _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Custom:
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemHand:
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemQuestion:
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemExclamation:
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemAsterisk:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(icon), icon, null);
+            }
+        }
+        else
+        {
+            switch (icon)
+            {
+                case ExtendedKryptonMessageBoxIcon.None:
+                    // Windows XP and before will Beep, Vista and above do not!
+                    if (SharedStaticVariables.OS_MAJOR_VERSION < 6)
+                    {
+                        SystemSounds.Beep.Play();
+                    }
+
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Hand:
+                    _messageIcon.Image = Resources.Hand;
+                    SystemSounds.Hand.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemHand:
+                    _messageIcon.Image = SystemIcons.Hand.ToBitmap();
+                    SystemSounds.Hand.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Question:
+                    _messageIcon.Image = Resources.Question;
+                    SystemSounds.Question.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemQuestion:
+                    _messageIcon.Image = SystemIcons.Question.ToBitmap();
+                    SystemSounds.Question.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Exclamation:
+                    _messageIcon.Image = Resources.Warning;
+                    SystemSounds.Exclamation.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemExclamation:
+                    _messageIcon.Image = SystemIcons.Warning.ToBitmap();
+                    SystemSounds.Exclamation.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Asterisk:
+                    _messageIcon.Image = OSUtilities.IsAtLeastWindowsEleven
+                        ? Resources.Asterisk_Windows_11
+                        : Resources.Asterisk;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemAsterisk:
+                    _messageIcon.Image = SystemIcons.Asterisk.ToBitmap();
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Stop:
+                    _messageIcon.Image = Resources.Stop;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Error:
+                    _messageIcon.Image = Resources.Critical;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Warning:
+                    _messageIcon.Image = Resources.Warning;
+                    SystemSounds.Exclamation.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Information:
+                    _messageIcon.Image = Resources.Information;
+                    SystemSounds.Asterisk.Play();
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Shield:
+                    if (OSUtilities.IsAtLeastWindowsEleven)
+                    {
+                        _messageIcon.Image = Resources.UAC_Shield_Windows_11;
+                    }
+                    else if (OSUtilities.IsWindowsTen)
+                    {
+                        _messageIcon.Image = Resources.UAC_Shield_Windows_10;
+                    }
+                    else
+                    {
+                        _messageIcon.Image = Resources.UAC_Shield_Windows_7;
+                    }
+
+                    break;
+                case ExtendedKryptonMessageBoxIcon.WindowsLogo:
+                    // Because Windows 11 displays a  application icon,
+                    // we need to rely on a image instead
+                    if (OSUtilities.IsAtLeastWindowsEleven)
+                    {
+                        _messageIcon.Image = Resources.Windows11;
+                    }
+                    // Windows 10
+                    else if (OSUtilities.IsWindowsTen)
+                    {
+                        _messageIcon.Image = Resources.Windows_8_and_10_Logo;
+                    }
+                    else
+                    {
+                        _messageIcon.Image = SystemIcons.WinLogo.ToBitmap();
+                    }
+
+                    break;
+                case ExtendedKryptonMessageBoxIcon.Application:
+                    if (_applicationImage != null)
+                    {
+                        _messageIcon.Image = _applicationImage;
+                    }
+                    else if (!string.IsNullOrEmpty(_applicationPath))
+                    {
+                        Image? sourceImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)
+                            ?.ToBitmap();
+                        Image? scaledImage = GraphicsExtensions.ScaleImage(sourceImage, new Size(32, 32));
+
+                        _messageIcon.Image = scaledImage;
+                    }
+                    else
+                    {
+                        // Fall back to defaults
+                        _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                    }
+
+                    break;
+                case ExtendedKryptonMessageBoxIcon.SystemApplication:
+                    _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                    break;
+            }
+        }
+
+        _messageIcon.Visible = _kryptonMessageBoxIcon != ExtendedKryptonMessageBoxIcon.None;
+        ApplyOverlayImageIfNeeded(rightToLeft: false);
+    }
+
+    private void UpdateIcon()
+    {
+        switch (_kryptonMessageBoxIcon)
+        {
+            case ExtendedKryptonMessageBoxIcon.Custom:
+                if (_customKryptonMessageBoxIcon != null)
+                {
+                    _messageIcon.Image = _customKryptonMessageBoxIcon;
+                }
+                else
+                {
+                    _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                }
+                break;
+            case ExtendedKryptonMessageBoxIcon.None:
+                // Windows XP and before will Beep, Vista and above do not!
+                if (SharedStaticVariables.OS_MAJOR_VERSION < 6)
+                {
+                    SystemSounds.Beep.Play();
+                }
+                break;
+            case ExtendedKryptonMessageBoxIcon.Hand:
+                _messageIcon.Image = Resources.Hand;
+                SystemSounds.Hand.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.SystemHand:
+                _messageIcon.Image = SystemIcons.Hand.ToBitmap();
+                SystemSounds.Hand.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.Question:
+                _messageIcon.Image = Resources.Question;
+                SystemSounds.Question.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.SystemQuestion:
+                _messageIcon.Image = SystemIcons.Question.ToBitmap();
+                SystemSounds.Question.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.Exclamation:
+                _messageIcon.Image = Resources.Warning;
+                SystemSounds.Exclamation.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.SystemExclamation:
+                _messageIcon.Image = SystemIcons.Exclamation.ToBitmap();
+                SystemSounds.Exclamation.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.Asterisk:
+                _messageIcon.Image = Resources.Asterisk;
+                SystemSounds.Asterisk.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.SystemAsterisk:
+                _messageIcon.Image = SystemIcons.Asterisk.ToBitmap();
+                SystemSounds.Asterisk.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.Stop:
+                _messageIcon.Image = Resources.Stop;
+                SystemSounds.Hand.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.Error:
+                _messageIcon.Image = Resources.Critical;
+                SystemSounds.Hand.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.Warning:
+                _messageIcon.Image = Resources.Warning;
+                SystemSounds.Exclamation.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.Information:
+                _messageIcon.Image = Resources.Information;
+                SystemSounds.Asterisk.Play();
+                break;
+            case ExtendedKryptonMessageBoxIcon.Shield:
+                if (OSUtilities.IsAtLeastWindowsEleven)
+                {
+                    _messageIcon.Image = Resources.UAC_Shield_Windows_11;
+                }
+                // Windows 10
+                else if (OSUtilities.IsWindowsTen)
+                {
+                    _messageIcon.Image = Resources.UAC_Shield_Windows_10;
+                }
+                else
+                {
+                    _messageIcon.Image = Resources.UAC_Shield_Windows_7;
+                }
+                break;
+            case ExtendedKryptonMessageBoxIcon.WindowsLogo:
+                // Because Windows 11 displays a generic application icon,
+                // we need to rely on a image instead
+                if (OSUtilities.IsAtLeastWindowsEleven)
+                {
+                    _messageIcon.Image = Resources.Windows11;
+                }
+                // Windows 10, 8.1 & 8
+                else if (OSUtilities.IsWindowsTen || OSUtilities.IsWindowsEightPointOne || OSUtilities.IsWindowsEight)
+                {
+                    _messageIcon.Image = Resources.Windows_8_and_10_Logo;
+                }
+                else
+                {
+                    _messageIcon.Image = SystemIcons.WinLogo.ToBitmap();
+                }
+                break;
+            case ExtendedKryptonMessageBoxIcon.Application:
+                if (!string.IsNullOrEmpty(_applicationPath))
+                {
+                    Image tempImage = GraphicsExtensions.ExtractIconFromFilePath(_applicationPath)?.ToBitmap()!;
+                    Bitmap? scaledImage = GraphicsExtensions.ScaleImage(tempImage, new Size(32, 32));
+
+                    _messageIcon.Image = scaledImage;
+                }
+                else
+                {
+                    _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                }
+                break;
+            case ExtendedKryptonMessageBoxIcon.SystemApplication:
+                _messageIcon.Image = SystemIcons.Application.ToBitmap();
+                break;
+        }
+
+        _messageIcon.Visible = _kryptonMessageBoxIcon != ExtendedKryptonMessageBoxIcon.None;
+        ApplyOverlayImageIfNeeded(rightToLeft: false);
+    }
+
+    /// <summary>
+    /// Composites the optional overlay badge onto the resolved main icon when configured.
+    /// </summary>
+    /// <param name="rightToLeft">Whether Left/Right overlay corners should be mirrored.</param>
+    private void ApplyOverlayImageIfNeeded(bool rightToLeft)
+    {
+        if (_overlayImage.IsEmpty || _messageIcon.Image == null)
+        {
+            return;
+        }
+
+        DisposeOwnedComposedIcon();
+
+        Bitmap? composed = GraphicsExtensions.TryComposeOverlay(_messageIcon.Image, _overlayImage, rightToLeft);
+
+        if (composed != null)
+        {
+            _ownedComposedIcon = composed;
+            _messageIcon.Image = composed;
+        }
+    }
+
+    private void DisposeOwnedComposedIcon()
+    {
+        if (_ownedComposedIcon == null)
+        {
+            return;
+        }
+
+        if (ReferenceEquals(_messageIcon.Image, _ownedComposedIcon))
+        {
+            _messageIcon.Image = null;
+        }
+
+        _ownedComposedIcon.Dispose();
+        _ownedComposedIcon = null;
+    }
+
+    private void UpdateButtons(ExtendedMessageBoxButtons buttons)
+    {
+        switch (buttons)
+        {
+            case ExtendedMessageBoxButtons.OK:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.OK;
+                _button1.DialogResult = DialogResult.OK;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                break;
+            case ExtendedMessageBoxButtons.OKCancel:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.OK;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+                _button1.DialogResult = DialogResult.OK;
+                _button2.DialogResult = DialogResult.Cancel;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                break;
+            case ExtendedMessageBoxButtons.YesNo:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Yes;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.No;
+                _button1.DialogResult = DialogResult.Yes;
+                _button2.DialogResult = DialogResult.No;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                ControlBox = false;
+                break;
+            case ExtendedMessageBoxButtons.YesNoCancel:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Yes;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.No;
+                _button3.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+                _button1.DialogResult = DialogResult.Yes;
+                _button2.DialogResult = DialogResult.No;
+                _button3.DialogResult = DialogResult.Cancel;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                _button3.Visible = true;
+                _button3.Enabled = true;
+                break;
+            case ExtendedMessageBoxButtons.RetryCancel:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Retry;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+                _button1.DialogResult = DialogResult.Retry;
+                _button2.DialogResult = DialogResult.Cancel;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                break;
+            case ExtendedMessageBoxButtons.AbortRetryIgnore:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Abort;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.Retry;
+                _button3.Text = KryptonManager.Strings.GeneralStrings.Ignore;
+                _button1.DialogResult = DialogResult.Abort;
+                _button2.DialogResult = DialogResult.Retry;
+                _button3.DialogResult = DialogResult.Ignore;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                _button3.Visible = true;
+                _button3.Enabled = true;
+                ControlBox = false;
+                break;
+            case ExtendedMessageBoxButtons.CancelTryContinue:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.TryAgain;
+                _button3.Text = KryptonManager.Strings.GeneralStrings.Continue;
+                _button1.DialogResult = DialogResult.Cancel;
+#if NET6_0_OR_GREATER
+                    _button2.DialogResult = DialogResult.TryAgain;
+                    _button3.DialogResult = DialogResult.Continue;
+#else
+                _button2.DialogResult = (DialogResult)10;
+                _button3.DialogResult = (DialogResult)11;
+#endif
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                _button3.Visible = true;
+                _button3.Enabled = true;
+                break;
+        }
+
+        if (_messageBoxExtendedData.ShowActionButton != null)
+        {
+            //_button5.Text = _actionButtonText;
+            //_button5.Visible = true;
+            //_button5.Enabled = true;
+            //_button5.KryptonCommand = _actionButtonCommand;
+        }
+
+        // Do we ignore the Alt+F4 on the buttons?
+        if (!ControlBox)
+        {
+            _button1.IgnoreAltF4 = true;
+            _button2.IgnoreAltF4 = true;
+            _button3.IgnoreAltF4 = true;
+            _button4.IgnoreAltF4 = true;
+            //_button5.IgnoreAltF4 = true;
+        }
+    }
+
+    private void ApplySemanticButtonColors(KryptonDialogButtonColorOptions? buttonColors)
+    {
+        if (!ReferenceEquals(_button1, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button1, _button1.DialogResult, buttonColors);
+        }
+
+        if (!ReferenceEquals(_button2, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button2, _button2.DialogResult, buttonColors);
+        }
+
+        if (!ReferenceEquals(_button3, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button3, _button3.DialogResult, buttonColors);
+        }
+
+        if (!ReferenceEquals(_button4, _helpButton))
+        {
+            DialogButtonAppearanceUtilities.Apply(_button4, _button4.DialogResult, buttonColors);
+        }
+
+        if (_helpButton != null)
+        {
+            DialogButtonAppearanceUtilities.Apply(_helpButton, KryptonDialogButtonRole.Help, buttonColors);
+        }
+    }
+
+    /// <summary>Applies countdown functionality to the selected button.</summary>
+    private void ApplyCountdownToButton()
+    {
+        if (_countdownButton == ExtendedKryptonMessageBoxCountdownButton.None)
+        {
+            return;
+        }
+
+        MessageButton? targetButton = _countdownButton switch
+        {
+            ExtendedKryptonMessageBoxCountdownButton.Button1 => _button1,
+            ExtendedKryptonMessageBoxCountdownButton.Button2 => _button2,
+            ExtendedKryptonMessageBoxCountdownButton.Button3 => _button3,
+            ExtendedKryptonMessageBoxCountdownButton.Button4 => _button4,
+            _ => null
+        };
+
+        if (targetButton == null)
+        {
+            return;
+        }
+
+        // Control.Visible is false until the host form is shown, even after UpdateButtons set Visible = true.
+        int countdownDuration = _countdownButtonSeconds ?? (_useTimeOut ? _timeOut : 60);
+        targetButton.CountdownButtonValues.CountdownDuration = countdownDuration;
+        targetButton.CountdownButtonValues.CountdownInterval = _timeOutInterval ?? 1000;
+        targetButton.CountdownButtonValues.DisableDuringCountdown = false;
+
+        targetButton.StartCountdown();
+
+        targetButton.CountdownFinished += (_, _) =>
+        {
+            if (_countdownButtonDialogResult.HasValue)
+            {
+                DialogResult = _countdownButtonDialogResult.Value;
+                Close();
+            }
+        };
+    }
+
+    private void UpdateButtons()
+    {
+        switch (_buttons)
+        {
+            case ExtendedMessageBoxButtons.OK:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.OK;
+                _button1.DialogResult = DialogResult.OK;
+                _button1.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                break;
+            case ExtendedMessageBoxButtons.OKCancel:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.OK;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+                _button1.DialogResult = DialogResult.OK;
+                _button2.DialogResult = DialogResult.Cancel;
+                _button1.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button2.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                break;
+            case ExtendedMessageBoxButtons.YesNo:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Yes;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.No;
+                _button1.DialogResult = DialogResult.Yes;
+                _button2.DialogResult = DialogResult.No;
+                _button1.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button2.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                ControlBox = false;
+                break;
+            case ExtendedMessageBoxButtons.YesNoCancel:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Yes;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.No;
+                _button3.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+                _button1.DialogResult = DialogResult.Yes;
+                _button2.DialogResult = DialogResult.No;
+                _button3.DialogResult = DialogResult.Cancel;
+                _button1.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button2.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button3.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                _button3.Visible = true;
+                _button3.Enabled = true;
+                break;
+            case ExtendedMessageBoxButtons.RetryCancel:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Retry;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+                _button1.DialogResult = DialogResult.Retry;
+                _button2.DialogResult = DialogResult.Cancel;
+                _button1.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button2.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                break;
+            case ExtendedMessageBoxButtons.AbortRetryIgnore:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Abort;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.Retry;
+                _button3.Text = KryptonManager.Strings.GeneralStrings.Ignore;
+                _button1.DialogResult = DialogResult.Abort;
+                _button2.DialogResult = DialogResult.Retry;
+                _button3.DialogResult = DialogResult.Ignore;
+                _button1.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button2.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button3.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                _button3.Visible = true;
+                _button3.Enabled = true;
+                ControlBox = false;
+                break;
+            case ExtendedMessageBoxButtons.CancelTryContinue:
+                _button1.Text = KryptonManager.Strings.GeneralStrings.Cancel;
+                _button2.Text = KryptonManager.Strings.GeneralStrings.TryAgain;
+                _button3.Text = KryptonManager.Strings.GeneralStrings.Continue;
+                _button1.DialogResult = DialogResult.Cancel;
+#if NET6_0_OR_GREATER
+                    _button2.DialogResult = DialogResult.TryAgain;
+                    _button3.DialogResult = DialogResult.Continue;
+#else
+                _button2.DialogResult = (DialogResult)10;
+                _button2.DialogResult = (DialogResult)11;
+#endif
+                _button1.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button2.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button3.StateCommon.Content.ShortText.Font = _messageBoxTypeface;
+                _button1.Visible = true;
+                _button1.Enabled = true;
+                _button2.Visible = true;
+                _button2.Enabled = true;
+                _button3.Visible = true;
+                _button3.Enabled = true;
+                break;
+        }
+
+        // Do we ignore the Alt+F4 on the buttons?
+        if (!ControlBox)
+        {
+            _button1.IgnoreAltF4 = true;
+            _button2.IgnoreAltF4 = true;
+            _button3.IgnoreAltF4 = true;
+            _button4.IgnoreAltF4 = true;
+        }
+    }
+
+    private void UpdateDefault(KryptonMessageBoxDefaultButton? defaultButton)
+    {
+        AcceptButton = defaultButton switch
+        {
+            KryptonMessageBoxDefaultButton.Button1 =>
+                //_button1.Select();
+                _button1,
+            KryptonMessageBoxDefaultButton.Button2 =>
+                //_button2.Select();
+                _button2,
+            KryptonMessageBoxDefaultButton.Button3 =>
+                //_button3.Select();
+                _button3,
+            KryptonMessageBoxDefaultButton.Button4 => _showHelpButton ? _button4 : _button1,
+            //case KryptonMessageBoxDefaultButton.Button5:
+            //    AcceptButton = _showActionButton ? _button5 : _button1;
+            //    break;
+            null => _button1,
+            _ => _showHelpButton ? _button4 : _button1
+        };
+    }
+
+    private void UpdateDefault()
+    {
+        switch (_defaultButton)
+        {
+            case KryptonMessageBoxDefaultButton.Button1:
+                _button1.Focus();
+                break;
+            case KryptonMessageBoxDefaultButton.Button2:
+                _button2.Focus();
+                break;
+            case KryptonMessageBoxDefaultButton.Button3:
+                _button3.Focus();
+                break;
+            case KryptonMessageBoxDefaultButton.Button4:
+                _button4.Focus();
+                break;
+        }
+    }
+
+    private void UpdateHelp(bool? showHelpButton)
+    {
+        if (showHelpButton != true)
+        {
+            return;
+        }
+
+        MessageButton helpButton = _buttons switch
+        {
+            ExtendedMessageBoxButtons.OK => _button2,
+            ExtendedMessageBoxButtons.OKCancel or ExtendedMessageBoxButtons.YesNo or ExtendedMessageBoxButtons.RetryCancel => _button3,
+            ExtendedMessageBoxButtons.AbortRetryIgnore or ExtendedMessageBoxButtons.YesNoCancel => _button4,
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
+        };
+        if (helpButton != null)
+        {
+            helpButton.Visible = true;
+            helpButton.Enabled = true;
+            helpButton.Text = KryptonManager.Strings.GeneralStrings.Help;
+
+            helpButton.KeyPress += (_, _) => LaunchHelp(_messageBoxExtendedData.Owner);
+
+            helpButton.Click += (_, _) => LaunchHelp(_messageBoxExtendedData.Owner);
+            _helpButton = helpButton;
+        }
+    }
+
+    /// <summary>
+    /// When the user clicks the Help button, the Help file specified in the helpFilePath parameter
+    /// is opened and the Help keyword topic identified by the keyword parameter is Displayed.
+    /// The form that owns the message box (or the active form) also receives the HelpRequested event.
+    /// </summary>
+    private void LaunchHelp(IWin32Window? owner)
+    {
+        try
+        {
+            if (owner != null)
+            {
+                Control? control = FromHandle(owner.Handle);
+
+                var mInfoMethod = control!.GetType().GetMethod(nameof(OnHelpRequested), BindingFlags.Instance | BindingFlags.NonPublic,
+                    Type.DefaultBinder, [typeof(HelpEventArgs)], null)!;
+                mInfoMethod.Invoke(control, [new HelpEventArgs(MousePosition)]);
+                if (_helpInfo != null)
+                {
+                    if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
+                    {
+                        return;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(_helpInfo.Keyword))
+                    {
+                        Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
+                    }
+                    else
+                    {
+                        Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Navigator, _helpInfo.Param);
+                    }
+                }
+            }
+        }
+        catch
+        {
+            // Do nothing if failure to send to Parent
+        }
+    }
+
+    private void UpdateHelp()
+    {
+        if (_helpInfo == null)
+        {
+            return;
+        }
+
+        MessageButton helpButton = _buttons switch
+        {
+            ExtendedMessageBoxButtons.OK => _button2,
+            ExtendedMessageBoxButtons.OKCancel or ExtendedMessageBoxButtons.YesNo or ExtendedMessageBoxButtons.RetryCancel => _button3,
+            ExtendedMessageBoxButtons.AbortRetryIgnore or ExtendedMessageBoxButtons.YesNoCancel => _button4,
+            _ => ThrowHelper.ThrowArgumentOutOfRangeException<MessageButton>()
+        };
+        if (helpButton != null)
+        {
+            helpButton.Visible = true;
+            helpButton.Enabled = true;
+            helpButton.Text = KryptonManager.Strings.GeneralStrings.Help;
+            helpButton.KeyPress += (_, _) => LaunchHelp();
+            helpButton.Click += (_, _) => LaunchHelp();
+            _helpButton = helpButton;
+        }
+    }
+
+    /// <summary>
+    /// When the user clicks the Help button, the Help file specified in the helpFilePath parameter
+    /// is opened and the Help keyword topic identified by the keyword parameter is Displayed.
+    /// The form that owns the message box (or the active form) also receives the HelpRequested event.
+    /// </summary>
+    private void LaunchHelp()
+    {
+        try
+        {
+            Control? control = FromHandle(_showOwner!.Handle);
+
+            MethodInfo? mInfoMethod = control!.GetType().GetMethod(@"OnHelpRequested", BindingFlags.Instance | BindingFlags.NonPublic,
+                Type.DefaultBinder, [typeof(HelpEventArgs)], null)!;
+            if (mInfoMethod != null)
+            {
+                mInfoMethod.Invoke(control, [new HelpEventArgs(MousePosition)]);
+            }
+            if (_helpInfo != null)
+            {
+                if (string.IsNullOrWhiteSpace(_helpInfo.HelpFilePath))
+                {
+                    return;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(_helpInfo!.Keyword))
+            {
+                Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Keyword);
+            }
+            else
+            {
+                Help.ShowHelp(control, _helpInfo.HelpFilePath, _helpInfo.Navigator, _helpInfo.Param);
+            }
+        }
+        catch
+        {
+            // Do nothing if failure to send to Parent
+        }
+
+    }
+
+    private void UpdateSizing(IWin32Window? showOwner)
+    {
+        Size messageSizing = UpdateMessageSizing(showOwner);
+        Size buttonsSizing = UpdateButtonsSizing();
+        Size footerSizing = UpdateFooterSizing();
+
+        // Size of window is calculated from the client area
+        ClientSize = new Size(Math.Max(Math.Max(messageSizing.Width, buttonsSizing.Width), footerSizing.Width),
+            messageSizing.Height + buttonsSizing.Height + footerSizing.Height);
+    }
+
+    /// <summary>
+    /// Updates the footer panel sizing based on its content and expanded state.
+    /// </summary>
+    /// <returns>The size of the footer panel.</returns>
+    private Size UpdateFooterSizing()
+    {
+        if (!_panelFooter.Visible)
+        {
+            return Size.Empty;
+        }
+
+        // Calculate width to match message box width
+        int footerWidth = Math.Max(UpdateMessageSizing(Owner).Width, UpdateButtonsSizing().Width);
+
+        // Height is already set in UpdateFooterExpandedState, but ensure minimum width
+        _panelFooter.Width = footerWidth;
+        int contentWidth = footerWidth - 20; // Account for padding
+
+        // Update width for all content controls
+        _footerWrapLabel.Width = contentWidth;
+        _footerCheckBox.Width = contentWidth;
+        _footerRichTextBox.Width = contentWidth;
+
+        return new Size(footerWidth, _panelFooter.Height);
+    }
+
+    private Size UpdateMessageSizing(IWin32Window? showOwner)
+    {
+        // Update size of the message label but with a maximum width
+        Size textSize;
+        using (Graphics g = CreateGraphics())
+        {
+            // Find size of the label, with a max of 2/3 screen width
+            Screen? screen = showOwner != null ? Screen.FromHandle(showOwner.Handle) : Screen.PrimaryScreen;
+            SizeF scaledMonitorSize = screen!.Bounds.Size;
+            scaledMonitorSize.Width *= 2 / 3.0f;
+            scaledMonitorSize.Height *= 0.95f;
+
+            //kwlblMessageText.UpdateFont();
+            SizeF messageSize = g.MeasureString(_text, kwlblMessageText.Font, scaledMonitorSize);
+            // SKC: Don't forget to add the TextExtra into the calculation
+            SizeF captionSize = g.MeasureString($@"{_caption} {TextExtra}", kwlblMessageText.Font, scaledMonitorSize);
+
+            var messageXSize = Math.Max(messageSize.Width, captionSize.Width);
+            // Work out DPI adjustment factor
+            messageSize.Width = messageXSize * FactorDpiX;
+            messageSize.Height *= FactorDpiY;
+
+            // Always add on ad extra 5 pixels as sometimes the measure size does not draw the last 
+            // character it contains, this ensures there is always definitely enough space for it all
+            messageSize.Width += 5;
+            textSize = Size.Ceiling(messageSize);
+        }
+
+        // Determine which control is actually displaying the message so its chrome can be accounted for
+        Control contentControl = _messageContainerType switch
+        {
+            ExtendedKryptonMessageBoxMessageContainerType.RichTextBox => krtbMessageText,
+            ExtendedKryptonMessageBoxMessageContainerType.HyperLink => klwlblMessageText,
+            _ => kwlblMessageText
+        };
+
+        // Chrome around the content control (its own margin, the content panel padding and the input control
+        // border insets). Without this the control is handed less width than was measured, so the text wraps
+        // further than expected and is clipped vertically
+        Size contentChrome = new(contentControl.Margin.Horizontal + kpnlContent.Padding.Horizontal + (SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2),
+            contentControl.Margin.Vertical + kpnlContent.Padding.Vertical + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
+
+        Size textArea = new(textSize.Width + contentChrome.Width, textSize.Height + contentChrome.Height);
+
+        // Find size of icon area (including its margins) plus the text area added together
+        if (_messageIcon.Image != null)
+        {
+            Size iconArea = new(_messageIcon.Width + _messageIcon.Margin.Horizontal, _messageIcon.Height + _messageIcon.Margin.Vertical);
+
+            return new Size(textArea.Width + iconArea.Width, Math.Max(iconArea.Height, textArea.Height));
+        }
+
+        return textArea;
+    }
+
+    private Size UpdateButtonsSizing()
+    {
+        var numButtons = 1;
+
+        // Smallest width any action button is allowed to be (matches the standard KryptonMessageBox)
+        const int MIN_BUTTON_WIDTH = 62;
+
+        // Button1 is always visible
+        Size button1Size = _button1.GetPreferredSize(Size.Empty);
+        Size maxButtonSize = new(Math.Max(MIN_BUTTON_WIDTH, button1Size.Width) + SharedStaticConstants.GLOBAL_BUTTON_PADDING, button1Size.Height);
+
+        // If Button2 is visible
+        if (_button2.Enabled)
+        {
+            numButtons++;
+            Size button2Size = _button2.GetPreferredSize(Size.Empty);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button2Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Height = Math.Max(maxButtonSize.Height, button2Size.Height);
+        }
+
+        // If Button3 is visible
+        if (_button3.Enabled)
+        {
+            numButtons++;
+            Size button3Size = _button3.GetPreferredSize(Size.Empty);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button3Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Height = Math.Max(maxButtonSize.Height, button3Size.Height);
+        }
+        // If Button4 is visible
+        if (_button4.Enabled)
+        {
+            numButtons++;
+            Size button4Size = _button4.GetPreferredSize(Size.Empty);
+            maxButtonSize.Width = Math.Max(maxButtonSize.Width, button4Size.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING);
+            maxButtonSize.Height = Math.Max(maxButtonSize.Height, button4Size.Height);
+        }
+
+        // Start positioning buttons 10 pixels from right edge
+        var right = _panelButtons.Right - SharedStaticConstants.GLOBAL_BUTTON_PADDING;
+
+        // If Button4 is visible
+        if (_button4.Enabled)
+        {
+            _button4.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
+            _button4.Size = maxButtonSize;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
+        }
+
+        // If Button3 is visible
+        if (_button3.Enabled)
+        {
+            _button3.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
+            _button3.Size = maxButtonSize;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
+        }
+
+        // If Button2 is visible
+        if (_button2.Enabled)
+        {
+            _button2.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
+            _button2.Size = maxButtonSize;
+            right -= maxButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING;
+        }
+
+        // Button1 is always visible
+        _button1.Location = new Point(right - maxButtonSize.Width, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
+        _button1.Size = maxButtonSize;
+
+        // Button area is the number of buttons with GLOBAL_BUTTON_PADDINGs between them and 10 pixels around all edges
+        var buttonsAreaWidth = maxButtonSize.Width * numButtons + SharedStaticConstants.GLOBAL_BUTTON_PADDING * (numButtons + 1);
+
+        // The optional Copy button is anchored to the left edge, opposite the action buttons
+        if (_copyButton.Enabled)
+        {
+            Size copyPreferredSize = _copyButton.GetPreferredSize(Size.Empty);
+            var copyButtonSize = new Size(Math.Max(maxButtonSize.Width, copyPreferredSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING), maxButtonSize.Height);
+
+            _copyButton.Location = new Point(SharedStaticConstants.GLOBAL_BUTTON_PADDING, SharedStaticConstants.GLOBAL_BUTTON_PADDING);
+            _copyButton.Size = copyButtonSize;
+
+            // Widen the area so the Copy button never overlaps the action buttons
+            buttonsAreaWidth += copyButtonSize.Width + SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2;
+        }
+
+        buttonsAreaWidth = MessageBoxExtendedDoNotShowAgain.LayoutInButtonBar(
+            kcbOptionalCheckBox,
+            _showOptionalCheckBox,
+            _copyButton,
+            _copyButton.Enabled,
+            SharedStaticConstants.GLOBAL_BUTTON_PADDING,
+            maxButtonSize.Height,
+            buttonsAreaWidth);
+
+        // Size the panel for the buttons
+        _panelButtons.Size = new Size(buttonsAreaWidth, maxButtonSize.Height + SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2);
+
+        return new Size(buttonsAreaWidth, maxButtonSize.Height + SharedStaticConstants.GLOBAL_BUTTON_PADDING * 2);
+    }
+
+    private void AnyKeyDown(object sender, KeyEventArgs e)
+    {
+        // Escape key kills the dialog if we allow it to be closed
+        if (ControlBox
+            && e.KeyCode == Keys.Escape
+           )
+        {
+            Close();
+        }
+        else if (!e.Control
+                 || e.KeyCode != Keys.C
+                )
+        {
+            return;
+        }
+
+        // Pressing Ctrl+C (or clicking the optional Copy button) copies the contents into the clipboard
+        CopyMessageBoxContentToClipboard();
+    }
+
+    /// <summary>
+    /// Copies the caption, message and button captions into the clipboard using the standard
+    /// Windows message box format. Shared by the Ctrl+C shortcut and the optional Copy button.
+    /// </summary>
+    private void CopyMessageBoxContentToClipboard()
+    {
+        const string DIVIDER = @"---------------------------";
+        const string BUTTON_TEXT_SPACER = @"   ";
+
+        var sb = new StringBuilder();
+
+        sb.AppendLine(DIVIDER);
+        sb.AppendLine(Text);
+        sb.AppendLine(DIVIDER);
+        sb.AppendLine(GetMessageBoxTextForCopy());
+        sb.AppendLine(DIVIDER);
+        sb.Append(_button1.Text).Append(BUTTON_TEXT_SPACER);
+        if (_button2.Enabled)
+        {
+            sb.Append(_button2.Text).Append(BUTTON_TEXT_SPACER);
+            if (_button3.Enabled)
+            {
+                sb.Append(_button3.Text).Append(BUTTON_TEXT_SPACER);
+            }
+
+            if (_button4.Enabled)
+            {
+                sb.Append(_button4.Text).Append(BUTTON_TEXT_SPACER);
+            }
+        }
+
+        sb.AppendLine(string.Empty);
+        sb.AppendLine(DIVIDER);
+
+        Clipboard.SetText(sb.ToString(), TextDataFormat.Text);
+        Clipboard.SetText(sb.ToString(), TextDataFormat.UnicodeText);
+    }
+
+    /// <summary>Returns the message text from whichever content control is currently visible.</summary>
+    private string GetMessageBoxTextForCopy() =>
+        krtbMessageText.Visible
+            ? krtbMessageText.Text
+            : klwlblMessageText.Visible
+                ? klwlblMessageText.Text
+                : kwlblMessageText.Text;
+
+    private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+        try
+        {
+            if (_openInExplorer)
+            {
+                var linkData = e.Link?.LinkData;
+                if (linkData != null)
+                {
+                    OpenInExplorer(linkData.ToString() ?? string.Empty);
+                }
+            }
+            else
+            {
+                if (_linkLabelCommand != null)
+                {
+                    _linkLabelCommand.PerformExecute();
+                }
+                else if (_linkLaunchArgument != null)
+                {
+                    Process.Start(_linkLaunchArgument);
+                }
+            }
+        }
+        catch (Exception exc)
+        {
+            KryptonExceptionDialog.Show(exc);
+        }
+    }
+
+    private void OpenInExplorer(string path)
+    {
+        try
+        {
+            Process.Start(@"explorer.exe", path);
+        }
+        catch (Exception e)
+        {
+            KryptonExceptionDialog.Show(e);
+        }
+    }
+
+    private void UpdateContentLinkArea(LinkArea? contentLinkArea)
+    {
+        if (contentLinkArea != null)
+        {
+            klwlblMessageText.LinkArea = (LinkArea)contentLinkArea;
+        }
+    }
+
+    private void UpdateContentAreaType(ExtendedKryptonMessageBoxMessageContainerType? messageContainerType, ContentAlignment? messageTextAlignment, HorizontalAlignment? messageAlignment, PaletteRelativeAlign? richTextBoxTextAlignment)
+    {
+        switch (messageContainerType)
+        {
+            case ExtendedKryptonMessageBoxMessageContainerType.HyperLink:
+                klwlblMessageText.Visible = true;
+
+                kwlblMessageText.Visible = false;
+
+                klwlblMessageText.TextAlign = messageTextAlignment ?? ContentAlignment.MiddleLeft;
+
+                krtbMessageText.Visible = false;
+                break;
+            case ExtendedKryptonMessageBoxMessageContainerType.Normal:
+                klwlblMessageText.Visible = false;
+
+                kwlblMessageText.Visible = true;
+
+                kwlblMessageText.TextAlign = messageAlignment ?? HorizontalAlignment.Left;
+
+                krtbMessageText.Visible = false;
+                break;
+            case ExtendedKryptonMessageBoxMessageContainerType.RichTextBox:
+                klwlblMessageText.Visible = false;
+
+                kwlblMessageText.Visible = false;
+
+                krtbMessageText.Visible = true;
+
+                krtbMessageText.StateCommon.Content.TextH = richTextBoxTextAlignment ?? PaletteRelativeAlign.Inherit;
+                break;
+        }
+    }
+
+    private static void Initialize()
+    {
+        if (_hHook != IntPtr.Zero)
+        {
+            ThrowHelper.ThrowNotSupportedException("multiple calls are not supported");
+        }
+
+        if (_showOwner != null)
+        {
+            _hHook = PlatformEvents.SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, Thread.CurrentThread.ManagedThreadId);
+        }
+    }
+
+    private static IntPtr MessageBoxHookProc(int nCode, IntPtr wParam, IntPtr lParam)
+    {
+        if (nCode < 0)
+        {
+            return PlatformEvents.CallNextHookEx(_hHook, nCode, wParam, lParam);
+        }
+
+        CWPRETSTRUCT msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT))!;
+        IntPtr hook = _hHook;
+
+        if (msg.message == (int)CbtHookAction.HCBT_ACTIVATE)
+        {
+            try
+            {
+                CenterWindow(msg.hwnd);
+            }
+            finally
+            {
+                PlatformEvents.UnhookWindowsHookEx(_hHook);
+                _hHook = IntPtr.Zero;
+            }
+        }
+
+        return PlatformEvents.CallNextHookEx(hook, nCode, wParam, lParam);
+    }
+
+    private static void CenterWindow(IntPtr hChildWnd)
+    {
+        Rectangle recChild = new Rectangle(0, 0, 0, 0);
+        bool success = PlatformEvents.GetWindowRect(hChildWnd, ref recChild);
+
+        int width = recChild.Width - recChild.X;
+        int height = recChild.Height - recChild.Y;
+
+        Rectangle recParent = new Rectangle(0, 0, 0, 0);
+        success = PlatformEvents.GetWindowRect(_showOwner!.Handle, ref recParent);
+
+        Point ptCenter = new Point(0, 0);
+        ptCenter.X = recParent.X + (recParent.Width - recParent.X) / 2;
+        ptCenter.Y = recParent.Y + (recParent.Height - recParent.Y) / 2;
+
+
+        Point ptStart = new Point(0, 0);
+        ptStart.X = ptCenter.X - width / 2;
+        ptStart.Y = ptCenter.Y - height / 2;
+
+        ptStart.X = ptStart.X < 0 ? 0 : ptStart.X;
+        ptStart.Y = ptStart.Y < 0 ? 0 : ptStart.Y;
+
+        int result = PlatformEvents.MoveWindow(hChildWnd, ptStart.X, ptStart.Y, width,
+            height, false);
+    }
+
+    private void OnTimerElapsed(object state)
+    {
+        IntPtr mbWnd = PlatformEvents.FindWindow("#32770", _caption); // lpClassName is #32770 for MessageBox
+        if (mbWnd != IntPtr.Zero)
+        {
+            PlatformEvents.SendMessage(mbWnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+        }
+    }
+
+    private void SetupOptionalCheckBox()
+    {
+        kcbOptionalCheckBox.AutoSize = true;
+        kcbOptionalCheckBox.Visible = _showOptionalCheckBox;
+
+        kcbOptionalCheckBox.ThreeState = _useOptionalCheckBoxThreeState;
+
+        _ = _useOptionalCheckBoxThreeState
+            ? (kcbOptionalCheckBox.CheckState = _initialDoNotShowAgainCheckState) == _initialDoNotShowAgainCheckState
+            : kcbOptionalCheckBox.Checked = _initialDoNotShowAgainCheck;
+
+        kcbOptionalCheckBox.Text = _checkBoxText;
+    }
+
+    /// <summary>
+    /// Sets up the expandable footer with the specified content and initial expanded state.
+    /// </summary>
+    /// <param name="footerText">The text content to display in the footer. If null or empty, footer will not be shown.</param>
+    /// <param name="expanded">If true, the footer will be expanded initially; otherwise, it will be collapsed.</param>
+    /// <param name="contentType">The type of content to display in the footer (Text, CheckBox, or RichTextBox).</param>
+    /// <param name="richTextBoxHeight">The height for the RichTextBox when contentType is RichTextBox. If null, uses default height.</param>
+    private void SetupFooter(string? footerText, bool expanded, ExtendedKryptonMessageBoxFooterContentType contentType, int? richTextBoxHeight)
+    {
+        bool showFooter = !string.IsNullOrEmpty(footerText) || contentType == ExtendedKryptonMessageBoxFooterContentType.CheckBox;
+        _panelFooter.Visible = showFooter;
+        _footerToggleButton.Visible = showFooter;
+
+        if (!showFooter)
+        {
+            _panelFooter.Height = 0;
+            return;
+        }
+
+        // Hide all footer content controls initially
+        _footerWrapLabel.Visible = false;
+        _footerCheckBox.Visible = false;
+        _footerRichTextBox.Visible = false;
+
+        // Configure based on content type
+        switch (contentType)
+        {
+            case ExtendedKryptonMessageBoxFooterContentType.Text:
+                _footerWrapLabel.Text = footerText ?? string.Empty;
+                if (_messageBoxTypeface != null)
+                {
+                    _footerWrapLabel.StateCommon.Font = _messageBoxTypeface;
+                }
+                break;
+
+            case ExtendedKryptonMessageBoxFooterContentType.CheckBox:
+                _footerCheckBox.Text = footerText ?? string.Empty;
+                if (_messageBoxTypeface != null)
+                {
+                    _footerCheckBox.StateCommon.ShortText.Font = _messageBoxTypeface;
+                }
+                break;
+
+            case ExtendedKryptonMessageBoxFooterContentType.RichTextBox:
+                _footerRichTextBox.Text = footerText ?? string.Empty;
+                if (_messageBoxTypeface != null)
+                {
+                    _footerRichTextBox.StateCommon.Content.Font = _messageBoxTypeface;
+                }
+                _footerRichTextBox.Height = MessageBoxExtendedFoldable.ResolveRichTextBoxHeight(richTextBoxHeight);
+                break;
+        }
+
+        // Set initial expanded state
+        UpdateFooterExpandedState(expanded, contentType);
+    }
+
+    /// <summary>
+    /// Updates the footer expanded state, adjusting visibility and toggle button text.
+    /// </summary>
+    /// <param name="expanded">If true, footer is expanded; otherwise, collapsed.</param>
+    /// <param name="contentType">The type of content displayed in the footer.</param>
+    private void UpdateFooterExpandedState(bool expanded, ExtendedKryptonMessageBoxFooterContentType contentType)
+    {
+        if (!_panelFooter.Visible)
+        {
+            return;
+        }
+
+        // Hide all content controls first
+        _footerWrapLabel.Visible = false;
+        _footerCheckBox.Visible = false;
+        _footerRichTextBox.Visible = false;
+
+        // Show the appropriate content control based on type and expanded state
+        if (expanded)
+        {
+            switch (contentType)
+            {
+                case ExtendedKryptonMessageBoxFooterContentType.Text:
+                    _footerWrapLabel.Visible = true;
+                    break;
+                case ExtendedKryptonMessageBoxFooterContentType.CheckBox:
+                    _footerCheckBox.Visible = true;
+                    break;
+                case ExtendedKryptonMessageBoxFooterContentType.RichTextBox:
+                    _footerRichTextBox.Visible = true;
+                    break;
+            }
+        }
+
+        // Match KryptonFoldableDialog: ▼ Show Details / ▲ Hide Details (localizable, optional custom captions).
+        _footerToggleButton.Values.Text = MessageBoxExtendedFoldable.GetToggleCaption(
+            expanded,
+            _footerExpandButtonText,
+            _footerCollapseButtonText,
+            _footerToggleCaption);
+
+        // Calculate footer height based on expanded state and content type
+        if (expanded)
+        {
+            int contentHeight = 0;
+            switch (contentType)
+            {
+                case ExtendedKryptonMessageBoxFooterContentType.Text:
+                    // Measure the footer text to determine required height
+                    using (Graphics g = CreateGraphics())
+                    {
+                        Font footerFont = _footerWrapLabel.Font ?? _messageBoxTypeface ?? KryptonManager.CurrentGlobalPalette.BaseFont;
+                        SizeF textSize = g.MeasureString(_footerWrapLabel.Text, footerFont, _footerWrapLabel.Width);
+                        contentHeight = (int)Math.Ceiling(textSize.Height);
+                    }
+                    break;
+                case ExtendedKryptonMessageBoxFooterContentType.CheckBox:
+                    contentHeight = _footerCheckBox.Height;
+                    break;
+                case ExtendedKryptonMessageBoxFooterContentType.RichTextBox:
+                    contentHeight = _footerRichTextBox.Height;
+                    break;
+            }
+            int footerHeight = contentHeight + 40; // Add padding for toggle button and borders
+            _panelFooter.Height = Math.Max(footerHeight, 50); // Minimum height
+        }
+        else
+        {
+            // Collapsed state - just show the toggle button
+            _panelFooter.Height = 30;
+        }
+
+        // Recalculate form size (owner can be null, UpdateSizing handles it)
+        IWin32Window? owner = Owner;
+        UpdateSizing(owner);
+    }
+
+    /// <summary>
+    /// Handles the footer toggle button click event to expand or collapse the footer.
+    /// </summary>
+    private void FooterToggleButton_Click(object sender, EventArgs e)
+    {
+        bool currentExpanded = _footerWrapLabel.Visible || _footerCheckBox.Visible || _footerRichTextBox.Visible;
+        UpdateFooterExpandedState(!currentExpanded, _footerContentType);
+    }
+
+    internal static bool ReturnCheckBoxCheckedValue()
+    {
+        VisualMessageBoxExtendedForm messageBoxExtendedForm = new VisualMessageBoxExtendedForm();
+
+        return messageBoxExtendedForm.GetDoNotShowAgainChecked();
+    }
+
+    internal static CheckState ReturnCheckBoxCheckState()
+    {
+        VisualMessageBoxExtendedForm messageBoxExtendedForm = new VisualMessageBoxExtendedForm();
+
+        return messageBoxExtendedForm.GetDoNotShowAgainCheckState();
+    }
+
+    private void OptionalCheckBox_CheckedChanged(object sender, EventArgs e) =>
+        _ = _useOptionalCheckBoxThreeState
+            ? (_doNotShowAgainCheckStateResult = kcbOptionalCheckBox.CheckState) == kcbOptionalCheckBox.CheckState
+            : _isDoNotShowAgainCheckedResult = kcbOptionalCheckBox.Checked;
+
+    internal bool GetDoNotShowAgainChecked() => _isDoNotShowAgainCheckedResult;
+
+    internal CheckState GetDoNotShowAgainCheckState() => _doNotShowAgainCheckStateResult;
+
+    private void UpdateCloseButtonVisibility(bool? visible) => CloseBox = visible ?? true;
+
+    private void AttachLifetime(MessageBoxExtendedLifetimeOptions options)
+    {
+        _lifetimeController = new MessageBoxExtendedLifetimeController(
+            this,
+            options,
+            ResolveTimeoutButton,
+            ResolveDefaultTimeoutResult,
+            CancelButtonCountdowns);
+        _lifetimeController.Attach();
+    }
+
+    private Control? ResolveTimeoutButton(ExtendedMessageBoxTimeoutAction action)
+    {
+        MessageButton? button = action switch
+        {
+            ExtendedMessageBoxTimeoutAction.ButtonOne => _button1,
+            ExtendedMessageBoxTimeoutAction.ButtonTwo => _button2,
+            ExtendedMessageBoxTimeoutAction.ButtonThree => _button3,
+            ExtendedMessageBoxTimeoutAction.ButtonFour => _button4,
+            _ => null
+        };
+
+        return button is { Visible: true } ? button : null;
+    }
+
+    private DialogResult ResolveDefaultTimeoutResult() =>
+        AcceptButton is { } accept && accept.DialogResult != DialogResult.None
+            ? accept.DialogResult
+            : DialogResult.OK;
+
+    private void CancelButtonCountdowns()
+    {
+        if (_countdownButton == ExtendedKryptonMessageBoxCountdownButton.None)
+        {
+            return;
+        }
+
+        MessageButton? targetButton = _countdownButton switch
+        {
+            ExtendedKryptonMessageBoxCountdownButton.Button1 => _button1,
+            ExtendedKryptonMessageBoxCountdownButton.Button2 => _button2,
+            ExtendedKryptonMessageBoxCountdownButton.Button3 => _button3,
+            ExtendedKryptonMessageBoxCountdownButton.Button4 => _button4,
+            _ => null
+        };
+
+        targetButton?.CancelCountdown();
+    }
+
+    /// <inheritdoc />
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        _lifetimeController?.Dispose();
+        _lifetimeController = null;
+        DisposeOwnedComposedIcon();
+        base.OnFormClosed(e);
+    }
+
+    #endregion
+}

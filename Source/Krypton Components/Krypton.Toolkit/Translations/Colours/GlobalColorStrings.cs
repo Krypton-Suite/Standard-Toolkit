@@ -26,6 +26,7 @@ public class GlobalColorStrings : GlobalId
     private const string DEFAULT_PALETTE_COLORS = @"Palette Colors";
     private const string DEFAULT_STANDARD_COLORS = @"Standard Colors";
     private const string DEFAULT_RECENT_COLORS = @"Recent Colors";
+    private const string DEFAULT_CUSTOM_COLORS = @"Custom Colors";
     private const string DEFAULT_NO_COLOR = @"No Color";
 
     #endregion
@@ -57,6 +58,7 @@ public class GlobalColorStrings : GlobalId
                              ThemeColors.Equals(DEFAULT_THEME_COLORS) &&
                              PaletteColors.Equals(DEFAULT_PALETTE_COLORS) &&
                              StandardColors.Equals(DEFAULT_STANDARD_COLORS) &&
+                             CustomColors.Equals(DEFAULT_CUSTOM_COLORS) &&
                              RecentColors.Equals(DEFAULT_RECENT_COLORS) &&
                              NoColor.Equals(DEFAULT_NO_COLOR);
 
@@ -71,6 +73,7 @@ public class GlobalColorStrings : GlobalId
         ThemeColors = DEFAULT_THEME_COLORS;
         PaletteColors = DEFAULT_PALETTE_COLORS;
         StandardColors = DEFAULT_STANDARD_COLORS;
+        CustomColors = DEFAULT_CUSTOM_COLORS;
         RecentColors = DEFAULT_RECENT_COLORS;
         NoColor = DEFAULT_NO_COLOR;
     }
@@ -122,6 +125,14 @@ public class GlobalColorStrings : GlobalId
     [DefaultValue(DEFAULT_RECENT_COLORS)]
     [RefreshProperties(RefreshProperties.All)]
     public string RecentColors { get; set; }
+
+    /// <summary>Gets or sets the custom colors string.</summary>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"Localised custom colors string.")]
+    [DefaultValue(DEFAULT_CUSTOM_COLORS)]
+    [RefreshProperties(RefreshProperties.All)]
+    public string CustomColors { get; set; }
 
     /// <summary>Gets or sets the no color string.</summary>
     [Localizable(true)]

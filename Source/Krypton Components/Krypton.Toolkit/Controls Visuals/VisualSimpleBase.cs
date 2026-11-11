@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,22 +19,6 @@ namespace Krypton.Toolkit;
 [DesignerCategory(@"code")]
 public abstract class VisualSimpleBase : VisualControlBase
 {
-    #region Instance Fields
-
-    private bool _isRightToLeftLayout;
-
-    #endregion
-
-    #region Identity
-    /// <summary>
-    /// Initialize a new instance of the VisualSimpleBase class.
-    /// </summary>
-    protected VisualSimpleBase()
-    {
-        _isRightToLeftLayout = false;
-    }
-    #endregion
-
     #region Public
     /// <summary>
     /// Gets and sets the auto size mode.
@@ -98,16 +82,19 @@ public abstract class VisualSimpleBase : VisualControlBase
             retSize.Height += Padding.Vertical;
 #endif
 
-            // For AutoSize with GrowAndShrink, ensure we never return a size smaller than what
-            // the base class would return, to prevent incorrect shrinking behavior.
-            if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+            // For AutoSize with GrowAndShrink, use base class size only as fallback when the view
+            // failed to calculate a valid preferred size (e.g. renderer not ready in designer).
+            // Do NOT use it as a floor when we have valid content-based size, or labels with
+            // short text (e.g. "K") would incorrectly stay at DefaultSize 90x25 instead of shrinking.
+            if (AutoSize && GetAutoSizeMode() == AutoSizeMode.GrowAndShrink
+                && (retSize.Width <= 0 || retSize.Height <= 0))
             {
-                // Get what the base class would return (this includes padding handling in .NET)
                 Size baseSize = base.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
-
-                // Ensure our calculated size is at least as large as the base class size
-                retSize.Width = Math.Max(retSize.Width, baseSize.Width);
-                retSize.Height = Math.Max(retSize.Height, baseSize.Height);
+                if (baseSize is { Width: > 0, Height: > 0 })
+                {
+                    retSize.Width = Math.Max(retSize.Width, baseSize.Width);
+                    retSize.Height = Math.Max(retSize.Height, baseSize.Height);
+                }
             }
 
             // Apply the maximum sizing
@@ -139,6 +126,78 @@ public abstract class VisualSimpleBase : VisualControlBase
             // Fall back on default control processing
             return base.GetPreferredSize(proposedSize);
         }
+    }
+
+    /// <summary>
+    /// Sets the bounds of the control. For AutoSize controls, apply preferred-size sizing
+    /// based on AutoSizeMode semantics (GrowAndShrink vs GrowOnly).
+    /// </summary>
+    /// <param name="x">The new Left property value of the control.</param>
+    /// <param name="y">The new Top property value of the control.</param>
+    /// <param name="width">The new Width property value of the control.</param>
+    /// <param name="height">The new Height property value of the control.</param>
+    /// <param name="specified">A bitwise combination of the BoundsSpecified values.</param>
+    protected override void SetBoundsCore(int x, int y, int width, int height, BoundsSpecified specified)
+    {
+        if (AutoSize)
+        {
+            Size preferredSize = GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
+            Rectangle virtualScreen = SystemInformation.VirtualScreen;
+            int maxSensibleWidth = (int)Math.Min(int.MaxValue, Math.Max(1L, (long)Math.Abs(virtualScreen.Width) * 2L));
+            int maxSensibleHeight = (int)Math.Min(int.MaxValue, Math.Max(1L, (long)Math.Abs(virtualScreen.Height) * 2L));
+
+            // Only apply sensible calculated sizes to avoid unstable initialization values.
+            // Use the OS virtual screen size as the baseline instead of a hard-coded pixel limit.
+            if (preferredSize is { Width: > 0, Height: > 0 }
+                && preferredSize.Width <= maxSensibleWidth && preferredSize.Height <= maxSensibleHeight)
+            {
+                if (GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)
+                {
+                    switch (Dock)
+                    {
+                        case DockStyle.Top:
+                        case DockStyle.Bottom:
+                            height = preferredSize.Height;
+                            break;
+                        case DockStyle.Left:
+                        case DockStyle.Right:
+                            width = preferredSize.Width;
+                            break;
+                        case DockStyle.Fill:
+                            break;
+                        default:
+                            width = preferredSize.Width;
+                            height = preferredSize.Height;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (Dock)
+                    {
+                        case DockStyle.Top:
+                        case DockStyle.Bottom:
+                            height = Math.Max(Height, preferredSize.Height);
+                            break;
+                        case DockStyle.Left:
+                        case DockStyle.Right:
+                            width = Math.Max(Width, preferredSize.Width);
+                            break;
+                        case DockStyle.Fill:
+                            break;
+                        default:
+                            // GrowOnly semantics: allow growth to preferred size, never force shrink.
+                            width = Math.Max(Width, preferredSize.Width);
+                            height = Math.Max(Height, preferredSize.Height);
+                            break;
+                    }
+                }
+
+                specified |= BoundsSpecified.Size;
+            }
+        }
+
+        base.SetBoundsCore(x, y, width, height, specified);
     }
 
     /// <summary>
@@ -199,30 +258,6 @@ public abstract class VisualSimpleBase : VisualControlBase
             }
         }
     }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether the layout of the control is from right to left.
-    /// </summary>
-    [Category(@"Appearance")]
-    [Localizable(true)]
-    [Description(@"Indicates whether the layout of the control is from right to left.")]
-    [DefaultValue(false)]
-    [Browsable(true)]
-    [EditorBrowsable(EditorBrowsableState.Always)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-    public bool RightToLeftLayout
-    {
-        get => _isRightToLeftLayout;
-        set
-        {
-            if (_isRightToLeftLayout != value)
-            {
-                _isRightToLeftLayout = value;
-                OnRightToLeftLayoutChanged(EventArgs.Empty);
-                PerformNeedPaint(true);
-            }
-        }
-    }
     #endregion
 
     #region Protected Overrides
@@ -237,18 +272,6 @@ public abstract class VisualSimpleBase : VisualControlBase
 
         base.OnRightToLeftChanged(e);
     }
-
-    /// <summary>
-    /// Raises the RightToLeftLayoutChanged event.
-    /// </summary>
-    /// <param name="e">An EventArgs containing event data.</param>
-    /// <remarks>
-    /// This method is provided for controls that don't have OnRightToLeftLayoutChanged in their base class.
-    /// Derived classes can override this to provide custom handling when RightToLeftLayout changes.
-    /// </remarks>
-    protected virtual void OnRightToLeftLayoutChanged(EventArgs e) =>
-        // Need re-layout to reflect change of layout direction
-        PerformNeedPaint(true);
 
     #endregion
 }

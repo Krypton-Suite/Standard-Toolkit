@@ -39,6 +39,7 @@ public class KryptonProgressBar : Control, IContentValues
     private IDisposable? _mementoBackProgressValue;
     private bool _useValueAsText;
     private int _marqueeSpeed;
+    private int _factoryMarqueeSpeed = 100;
     private int _maximum;
     private int _minimum;
     private int _step;
@@ -65,6 +66,8 @@ public class KryptonProgressBar : Control, IContentValues
     private Image? _originalValueImage;
     private PaletteImageStyle _originalValueImageStyle;
     private PaletteRectangleAlign _originalValueImageAlign;
+    private bool _useTaskbarProgress;
+    private KryptonTaskbarProgressState _taskbarProgressState;
 
     #endregion
 
@@ -92,6 +95,8 @@ public class KryptonProgressBar : Control, IContentValues
         _maximum = 100;
         _step = 10;
         _value = 0;
+        _useTaskbarProgress = false;
+        _taskbarProgressState = KryptonTaskbarProgressState.Normal;
         _marqueeLocation = _minimum;
         _marqueeTimer = new Timer
         {
@@ -109,10 +114,7 @@ public class KryptonProgressBar : Control, IContentValues
         }
 
         // Create content storage
-        Values = new LabelValues(OnNeedPaintHandler)
-        {
-            Text = string.Empty
-        };
+        Values = new LabelValues(OnNeedPaintHandler, string.Empty);
         Values.TextChanged += OnLabelTextChanged;
 
         // We want to be notified whenever the global palette changes
@@ -127,17 +129,12 @@ public class KryptonProgressBar : Control, IContentValues
             Style = PaletteBackStyle.PanelClient
         };
         StateCommon = new PaletteTripleRedirect(_paletteRedirect, PaletteBackStyle.ButtonStandalone,
-            PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, OnNeedPaintHandler)
-        {
-            Back =
-            {
-                Color1 = Color.Green
-            }
-        };
+            PaletteBorderStyle.ButtonStandalone, PaletteContentStyle.ButtonStandalone, OnNeedPaintHandler);
+        StateCommon.Back.SetFactoryColor1(Color.Green);
         StateDisabled = new PaletteTriple(StateCommon, OnNeedPaintHandler);
-        ((PaletteBack)StateDisabled.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
+        StateDisabled.Back.SetFactoryColorStyle(PaletteColorStyle.OneNote);
         StateNormal = new PaletteTriple(StateCommon, OnNeedPaintHandler);
-        ((PaletteBack)StateNormal.PaletteBack).ColorStyle = PaletteColorStyle.OneNote;
+        StateNormal.Back.SetFactoryColorStyle(PaletteColorStyle.OneNote);
         _stateBackValue = new PaletteTriple(StateCommon, OnNeedPaintHandler).Back;
         _stateBackValue.ColorStyle = PaletteColorStyle.GlassNormalFull;
         _blockCount = 0; // 0 = automatic sizing
@@ -200,6 +197,11 @@ public class KryptonProgressBar : Control, IContentValues
                 _mementoBackProgressValue = null;
             }
 
+            if (_useTaskbarProgress)
+            {
+                ClearTaskbarProgress();
+            }
+
             // Unhook from the palette events
             if (_palette != null)
             {
@@ -238,11 +240,7 @@ public class KryptonProgressBar : Control, IContentValues
 
     private bool ShouldSerializeStateCommon() => !StateCommon.IsDefault;
 
-    private void ResetStateCommon()
-    {
-        StateCommon.PopulateFromBase(PaletteState.Normal);
-        StateCommon.Back.Color1 = Color.Green;
-    }
+    private void ResetStateCommon() => StateCommon.Back.SetFactoryColor1(Color.Green);
 
     /// <summary>
     /// Gets access to the disabled ProgressBar appearance entries.
@@ -286,11 +284,19 @@ public class KryptonProgressBar : Control, IContentValues
             if (_style == ProgressBarStyle.Marquee)
             {
                 StartMarquee();
+                if (_useTaskbarProgress)
+                {
+                    SyncTaskbarProgress();
+                }
             }
             else
             {
                 Invalidate();
                 _marqueeTimer.Stop();
+                if (_useTaskbarProgress)
+                {
+                    SyncTaskbarProgress();
+                }
             }
         }
     }
@@ -306,7 +312,7 @@ public class KryptonProgressBar : Control, IContentValues
         {
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(BlockCount));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(BlockCount));
             }
             if (_blockCount == value)
             {
@@ -357,9 +363,10 @@ public class KryptonProgressBar : Control, IContentValues
         }
     }
 
+    // "Empty" does not convert in DefaultValueAttribute; KryptonDefaultColor stores Color.Empty directly.
     [Category(@"Visuals")]
     [Description(@"Shadow color for the text; Empty for automatic.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
+    [KryptonDefaultColor]
     public Color TextShadowColor
     {
         get => _textShadowColor;
@@ -395,9 +402,10 @@ public class KryptonProgressBar : Control, IContentValues
         }
     }
 
+    // "Empty" does not convert in DefaultValueAttribute; KryptonDefaultColor stores Color.Empty directly.
     [Category(@"Visuals")]
     [Description(@"Backdrop color for the text; Empty for automatic semi-transparent.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
+    [KryptonDefaultColor]
     public Color TextBackdropColor
     {
         get => _textBackdropColor;
@@ -425,7 +433,6 @@ public class KryptonProgressBar : Control, IContentValues
     [Category("Behavior")]
     [Description(
         "Gets or sets the time period, in milliseconds, that it takes the progress block to scroll across the progress bar.")]
-    [DefaultValue(100)]
     public int MarqueeAnimationSpeed
     {
         get => _marqueeSpeed;
@@ -433,7 +440,7 @@ public class KryptonProgressBar : Control, IContentValues
         {
             _marqueeSpeed = value >= 0
                 ? value
-                : throw new ArgumentOutOfRangeException($@"{nameof(MarqueeAnimationSpeed)} must be non-negative");
+                : ThrowHelper.ThrowArgumentOutOfRangeException<int>(nameof(MarqueeAnimationSpeed), $@"{nameof(MarqueeAnimationSpeed)} must be non-negative");
             if (DesignMode)
             {
                 return;
@@ -442,6 +449,20 @@ public class KryptonProgressBar : Control, IContentValues
             StartMarquee();
         }
     }
+
+    /// <summary>
+    /// Records <paramref name="value"/> as the designer factory marquee speed.
+    /// </summary>
+    /// <param name="value">Constructor speed in milliseconds.</param>
+    protected void SetFactoryMarqueeAnimationSpeed(int value)
+    {
+        _factoryMarqueeSpeed = value;
+        MarqueeAnimationSpeed = value;
+    }
+
+    private bool ShouldSerializeMarqueeAnimationSpeed() => _marqueeSpeed != _factoryMarqueeSpeed;
+
+    private void ResetMarqueeAnimationSpeed() => MarqueeAnimationSpeed = _factoryMarqueeSpeed;
 
     /// <summary>Gets or sets the maximum value of the range of the control.</summary>
     /// <returns>The maximum value of the range. The default is 100.</returns>
@@ -462,7 +483,7 @@ public class KryptonProgressBar : Control, IContentValues
 
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(Maximum), value.ToString(CultureInfo.CurrentCulture));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Maximum), value.ToString(CultureInfo.CurrentCulture));
             }
 
             if (_minimum > value)
@@ -518,7 +539,7 @@ public class KryptonProgressBar : Control, IContentValues
 
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(Minimum), value.ToString(CultureInfo.CurrentCulture));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Minimum), value.ToString(CultureInfo.CurrentCulture));
             }
 
             if (_maximum < value)
@@ -577,7 +598,7 @@ public class KryptonProgressBar : Control, IContentValues
 
             if (value < _minimum || value > _maximum)
             {
-                throw new ArgumentOutOfRangeException(nameof(Value), value.ToString(CultureInfo.CurrentCulture));
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(Value), value.ToString(CultureInfo.CurrentCulture));
             }
 
             _value = value;
@@ -593,12 +614,18 @@ public class KryptonProgressBar : Control, IContentValues
             }
 
             Invalidate();
+
+            if (_useTaskbarProgress)
+            {
+                SyncTaskbarProgress();
+            }
         }
     }
 
     /// <summary>
     /// Gets or sets the text associated with this control.
     /// </summary>
+    // ToDo V120 LTS: Migrate designer editor to KryptonDesignerMultilineStringEditor (replaces System.ComponentModel.Design.MultilineStringEditor).
     [Editor(typeof(MultilineStringEditor), typeof(UITypeEditor))]
     [RefreshProperties(RefreshProperties.Repaint)]
     [DefaultValue("")]
@@ -630,7 +657,7 @@ public class KryptonProgressBar : Control, IContentValues
     {
         if (Style == ProgressBarStyle.Marquee)
         {
-            throw new InvalidOperationException(@"The `Style` property is set to `ProgressBarStyle.Marquee`");
+            ThrowHelper.ThrowInvalidOperationException(@"The `Style` property is set to `ProgressBarStyle.Marquee`");
         }
 
         _value += value;
@@ -650,6 +677,11 @@ public class KryptonProgressBar : Control, IContentValues
         }
 
         Invalidate();
+
+        if (_useTaskbarProgress)
+        {
+            SyncTaskbarProgress();
+        }
     }
 
     /// <summary>Advances the current position of the progress bar by the amount of the <see cref="P:System.Windows.Forms.ProgressBar.Step" /> property.</summary>
@@ -715,6 +747,59 @@ public class KryptonProgressBar : Control, IContentValues
     public ProgressBarTriStateValues TriStateValues => _triStateValues;
 
     private bool ShouldSerializeTriStateValues() => !TriStateValues.IsDefault;
+
+    /// <summary>Gets or sets a value indicating whether the progress bar value and state are reflected on the Windows taskbar button.</summary>
+    /// <remarks>When enabled, the parent form's taskbar button will display progress using the Windows ITaskbarList3 API.
+    /// Setting this to <c>false</c> clears any taskbar progress indicator.</remarks>
+    [Category(@"Behavior")]
+    [Description(@"Synchronises the progress bar value and state with the Windows taskbar button progress indicator.")]
+    [DefaultValue(false)]
+    public bool UseTaskbarProgress
+    {
+        get => _useTaskbarProgress;
+        set
+        {
+            if (_useTaskbarProgress == value)
+            {
+                return;
+            }
+
+            _useTaskbarProgress = value;
+            if (!value)
+            {
+                ClearTaskbarProgress();
+            }
+            else
+            {
+                SyncTaskbarProgress();
+            }
+        }
+    }
+
+    /// <summary>Gets or sets the taskbar progress state override when <see cref="UseTaskbarProgress"/> is enabled.</summary>
+    /// <remarks>Set to <see cref="KryptonTaskbarProgressState.Error"/> or <see cref="KryptonTaskbarProgressState.Paused"/> to signal
+    /// a failed or suspended operation. <see cref="KryptonTaskbarProgressState.Normal"/> restores automatic synchronisation.
+    /// Has no effect when <see cref="UseTaskbarProgress"/> is <c>false</c>.</remarks>
+    [Category(@"Behavior")]
+    [Description(@"Overrides the automatic taskbar progress state. Use Error or Paused to indicate a failed or suspended operation.")]
+    [DefaultValue(KryptonTaskbarProgressState.Normal)]
+    public KryptonTaskbarProgressState TaskbarProgressState
+    {
+        get => _taskbarProgressState;
+        set
+        {
+            if (_taskbarProgressState == value)
+            {
+                return;
+            }
+
+            _taskbarProgressState = value;
+            if (_useTaskbarProgress)
+            {
+                SyncTaskbarProgress();
+            }
+        }
+    }
 
     #endregion
 
@@ -814,6 +899,26 @@ public class KryptonProgressBar : Control, IContentValues
     }
 
     /// <inheritdoc />
+    protected override void OnParentChanged(EventArgs e)
+    {
+        base.OnParentChanged(e);
+        if (_useTaskbarProgress)
+        {
+            SyncTaskbarProgress();
+        }
+    }
+
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+        if (_useTaskbarProgress)
+        {
+            SyncTaskbarProgress();
+        }
+    }
+
+    /// <inheritdoc />
     protected override void OnLayout(LayoutEventArgs e)
     {
         OnlayoutInternal(e);
@@ -842,6 +947,8 @@ public class KryptonProgressBar : Control, IContentValues
         using var renderContext = new RenderContext(this, e.Graphics, e.ClipRectangle, renderer);
         // Set the style we want picked up from the base palette
         var (barPaletteState, barState) = GetBarPaletteState();
+        PaletteRetroBase? retroPalette = RetroRenderHelper.AsRetroPalette(_palette);
+        bool drawRetroProgress = retroPalette != null;
 
         // Draw the background of the entire control over the entire client area.
         using (GraphicsPath path = CreateRectGraphicsPath(ClientRectangle))
@@ -867,9 +974,16 @@ public class KryptonProgressBar : Control, IContentValues
         {
             // Ask renderer to draw the background
             using var gh = new GraphicsHint(renderContext.Graphics, barPaletteState.PaletteBorder!.GetBorderGraphicsHint(barState));
-            _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
-                fullLozengePath, barPaletteState.PaletteBack,
-                Orientation, barState, _mementoBackProgressBar);
+            if (drawRetroProgress)
+            {
+                DrawRetroProgressTrack(renderContext.Graphics, ClientRectangle, retroPalette!);
+            }
+            else
+            {
+                _mementoBackProgressBar = renderer.RenderStandardBack.DrawBack(renderContext, ClientRectangle,
+                    fullLozengePath, barPaletteState.PaletteBack,
+                    Orientation, barState, _mementoBackProgressBar);
+            }
             using var region = new Region(fullLozengePath);
             // Set the clipping region, So that "Small" rounded values do not escape the draw area
             e.Graphics.SetClip(region, CombineMode.Replace);
@@ -882,208 +996,127 @@ public class KryptonProgressBar : Control, IContentValues
         switch (Style)
         {
             case ProgressBarStyle.Marquee:
-            {
-                int bandUnits = Math.Max(1, maximumRange / 10);
-                int lowerUnits = Math.Max(_marqueeLocation - Minimum, Minimum);
-                int upperUnits = Math.Min(lowerUnits + bandUnits, maximumRange);
-
-                switch (Orientation)
                 {
-                    case VisualOrientation.Top:
-                    case VisualOrientation.Bottom:
+                    int bandUnits = Math.Max(1, maximumRange / 10);
+                    int lowerUnits = Math.Max(_marqueeLocation - Minimum, Minimum);
+                    int upperUnits = Math.Min(lowerUnits + bandUnits, maximumRange);
+
+                    switch (Orientation)
                     {
-                        int width = innerRect.Width;
-                        float pixelsPerUnit = width / (float)maximumRange;
+                        case VisualOrientation.Top:
+                        case VisualOrientation.Bottom:
+                            {
+                                int width = innerRect.Width;
+                                float pixelsPerUnit = width / (float)maximumRange;
 
-                        innerRect.X += (int)(pixelsPerUnit * lowerUnits);
-                        innerRect.Width = (int)(pixelsPerUnit * (upperUnits - lowerUnits));
-                        if (innerRect.Right > ClientRectangle.Right)
-                        {
-                            innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
-                        }
-                        if (innerRect.X > ClientRectangle.Right)
-                        {
-                            innerRect.X = ClientRectangle.Right;
-                        }
+                                innerRect.X += (int)(pixelsPerUnit * lowerUnits);
+                                innerRect.Width = (int)(pixelsPerUnit * (upperUnits - lowerUnits));
+                                if (innerRect.Right > ClientRectangle.Right)
+                                {
+                                    innerRect.Width -= (innerRect.Right - ClientRectangle.Right);
+                                }
+                                if (innerRect.X > ClientRectangle.Right)
+                                {
+                                    innerRect.X = ClientRectangle.Right;
+                                }
+                            }
+                            break;
+
+                        case VisualOrientation.Left:
+                        case VisualOrientation.Right:
+                            {
+                                int height = innerRect.Height;
+                                float pixelsPerUnit = height / (float)maximumRange;
+
+                                innerRect.Y += (int)(pixelsPerUnit * lowerUnits);
+                                innerRect.Height = (int)(pixelsPerUnit * (upperUnits - lowerUnits));
+                                if (innerRect.Bottom > ClientRectangle.Bottom)
+                                {
+                                    innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
+                                }
+                                if (innerRect.Y > ClientRectangle.Bottom)
+                                {
+                                    innerRect.Y = ClientRectangle.Bottom;
+                                }
+                            }
+                            break;
                     }
-                        break;
 
-                    case VisualOrientation.Left:
-                    case VisualOrientation.Right:
+                    using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                               innerRect,
+                               barPaletteState.PaletteBorder!,
+                               Orientation,
+                               barState))
                     {
-                        int height = innerRect.Height;
-                        float pixelsPerUnit = height / (float)maximumRange;
-
-                        innerRect.Y += (int)(pixelsPerUnit * lowerUnits);
-                        innerRect.Height = (int)(pixelsPerUnit * (upperUnits - lowerUnits));
-                        if (innerRect.Bottom > ClientRectangle.Bottom)
-                        {
-                            innerRect.Height -= (innerRect.Bottom - ClientRectangle.Bottom);
-                        }
-                        if (innerRect.Y > ClientRectangle.Bottom)
-                        {
-                            innerRect.Y = ClientRectangle.Bottom;
-                        }
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, innerRect, valueLozengePath, drawRetroProgress, retroPalette);
                     }
-                        break;
+                    break;
                 }
-
-                using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
-                           innerRect,
-                           barPaletteState.PaletteBorder!,
-                           Orientation,
-                           barState))
-                {
-                    using var gh = new GraphicsHint(renderContext.Graphics,
-                        barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
-                        Orientation, barState, _mementoBackProgressValue);
-                }
-                break;
-            }
 
             case ProgressBarStyle.Blocks:
-            {
-                float v = (Value - Minimum);
-                float ratio = maximumRange == 0 ? 0f : v / maximumRange;
-                int totalBlocks = _blockCount > 0 ? _blockCount : Math.Max(1, maximumRange / 10);
-                float filledBlocksFloat = ratio * totalBlocks;
-                int fullBlocks = Math.Max(0, Math.Min(totalBlocks, (int)Math.Floor(filledBlocksFloat)));
-                float fractional = Math.Max(0f, Math.Min(1f, filledBlocksFloat - fullBlocks));
-                bool rtl = RightToLeft == RightToLeft.Yes;
-
-                switch (Orientation)
                 {
-                    case VisualOrientation.Top:
-                    case VisualOrientation.Bottom:
-                    {
-                        Rectangle barRect = ClientRectangle;
-                        int gap = 1;//Math.Max(1, Math.Min(2, barRect.Height / 6));
-                        int blockWidth = Math.Max(1, (barRect.Width - ((totalBlocks - 1) * gap)) / totalBlocks);
-                        // Draw full blocks
-                        for (int i = 0; i < fullBlocks; i++)
-                        {
-                            int x = rtl
-                                ? barRect.Right - ((i + 1) * blockWidth) - (i * gap)
-                                : barRect.Left + (i * (blockWidth + gap));
-                            Rectangle block = new Rectangle(x, barRect.Y, blockWidth, barRect.Height);
-                            using (GraphicsPath path = CreateRectGraphicsPath(block))
-                            {
-                                using var gh = new GraphicsHint(renderContext.Graphics,
-                                    barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                                _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
-                                    Orientation, barState, _mementoBackProgressValue);
-                            }
-                        }
-                        // Draw partial last block if needed
-                        if (fractional > 0f && fullBlocks < totalBlocks)
-                        {
-                            int i = fullBlocks;
-                            int fractionWidth = Math.Max(1, (int)Math.Round(blockWidth * fractional, MidpointRounding.AwayFromZero));
-                            int xBase = rtl
-                                ? barRect.Right - ((i + 1) * blockWidth) - (i * gap)
-                                : barRect.Left + (i * (blockWidth + gap));
-                            int x = rtl ? xBase + (blockWidth - fractionWidth) : xBase;
-                            Rectangle block = new Rectangle(x, barRect.Y, fractionWidth, barRect.Height);
-                            using (GraphicsPath path = CreateRectGraphicsPath(block))
-                            {
-                                using var gh = new GraphicsHint(renderContext.Graphics,
-                                    barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                                _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
-                                    Orientation, barState, _mementoBackProgressValue);
-                            }
-                        }
-                    }
-                        break;
-
-                    case VisualOrientation.Left:
-                    case VisualOrientation.Right:
-                    {
-                        Rectangle barRect = ClientRectangle;
-                        int gap = 1;//Math.Max(1, Math.Min(2, barRect.Width / 6));
-                        int blockHeight = Math.Max(1, (barRect.Height - ((totalBlocks - 1) * gap)) / totalBlocks);
-                        // Draw full blocks
-                        for (int i = 0; i < fullBlocks; i++)
-                        {
-                            int y = rtl
-                                ? barRect.Bottom - ((i + 1) * blockHeight) - (i * gap)
-                                : barRect.Top + (i * (blockHeight + gap));
-                            Rectangle block = new Rectangle(barRect.X, y, barRect.Width, blockHeight);
-                            using (GraphicsPath path = CreateRectGraphicsPath(block))
-                            {
-                                using var gh = new GraphicsHint(renderContext.Graphics,
-                                    barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                                _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
-                                    Orientation, barState, _mementoBackProgressValue);
-                            }
-                        }
-                        // Draw partial last block if needed
-                        if (fractional > 0f && fullBlocks < totalBlocks)
-                        {
-                            int i = fullBlocks;
-                            int fractionHeight = Math.Max(1, (int)Math.Round(blockHeight * fractional, MidpointRounding.AwayFromZero));
-                            int yBase = rtl
-                                ? barRect.Bottom - ((i + 1) * blockHeight) - (i * gap)
-                                : barRect.Top + (i * (blockHeight + gap));
-                            int y = rtl ? yBase + (blockHeight - fractionHeight) : yBase;
-                            Rectangle block = new Rectangle(barRect.X, y, barRect.Width, fractionHeight);
-                            using (GraphicsPath path = CreateRectGraphicsPath(block))
-                            {
-                                using var gh = new GraphicsHint(renderContext.Graphics,
-                                    barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                                _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, block, path, _stateBackValue,
-                                    Orientation, barState, _mementoBackProgressValue);
-                            }
-                        }
-                    }
-                        break;
+                    float v = (Value - Minimum);
+                    float ratio = maximumRange == 0 ? 0f : v / maximumRange;
+                    int totalBlocks = GetProgressBlockCount(renderContext, barPaletteState, barState, ClientRectangle, maximumRange, drawRetroProgress);
+                    float filledBlocksFloat = ratio * totalBlocks;
+                    DrawProgressBlocks(renderContext, renderer, barPaletteState, barState, ClientRectangle, totalBlocks, filledBlocksFloat, drawRetroProgress, retroPalette);
+                    break;
                 }
-                break;
-            }
 
             default: // Continuous
-            {
-                float v = (Value - Minimum);
-                float ratio = maximumRange == 0 ? 0f : v / maximumRange;
-                switch (Orientation)
                 {
-                    case VisualOrientation.Top:
-                    case VisualOrientation.Bottom:
-                        innerRect.Width = (int)(ratio * innerRect.Width);
-                        if (RightToLeft == RightToLeft.Yes)
-                        {
-                            innerRect.X = ClientRectangle.Right - innerRect.Width;
-                        }
+                    float v = (Value - Minimum);
+                    float ratio = maximumRange == 0 ? 0f : v / maximumRange;
+                    if (drawRetroProgress)
+                    {
+                        int totalBlocks = GetProgressBlockCount(renderContext, barPaletteState, barState, ClientRectangle, maximumRange, true);
+                        DrawProgressBlocks(renderContext, renderer, barPaletteState, barState, ClientRectangle, totalBlocks, ratio * totalBlocks, true, retroPalette);
                         break;
+                    }
 
-                    case VisualOrientation.Left:
-                    case VisualOrientation.Right:
-                        innerRect.Height = (int)(ratio * innerRect.Height);
-                        if (RightToLeft == RightToLeft.Yes)
-                        {
-                            innerRect.Y = ClientRectangle.Bottom - innerRect.Height;
-                        }
-                        break;
-                }
+                    switch (Orientation)
+                    {
+                        case VisualOrientation.Top:
+                        case VisualOrientation.Bottom:
+                            innerRect.Width = (int)(ratio * innerRect.Width);
+                            if (RightToLeft == RightToLeft.Yes)
+                            {
+                                innerRect.X = ClientRectangle.Right - innerRect.Width;
+                            }
+                            break;
 
-                using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
-                           innerRect,
-                           barPaletteState.PaletteBorder!,
-                           Orientation,
-                           barState))
-                {
-                    using var gh = new GraphicsHint(renderContext.Graphics,
-                        barPaletteState.PaletteBorder.GetBorderGraphicsHint(PaletteState.Normal));
-                    _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, innerRect, valueLozengePath, _stateBackValue,
-                        Orientation, barState, _mementoBackProgressValue);
+                        case VisualOrientation.Left:
+                        case VisualOrientation.Right:
+                            innerRect.Height = (int)(ratio * innerRect.Height);
+                            if (RightToLeft == RightToLeft.Yes)
+                            {
+                                innerRect.Y = ClientRectangle.Bottom - innerRect.Height;
+                            }
+                            break;
+                    }
+
+                    using (GraphicsPath valueLozengePath = renderer.RenderStandardBorder.GetBackPath(renderContext,
+                               innerRect,
+                               barPaletteState.PaletteBorder!,
+                               Orientation,
+                               barState))
+                    {
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, innerRect, valueLozengePath, false, null);
+                    }
+                    break;
                 }
-                break;
-            }
         }
 
         // Now we draw the border of the inner area
-        renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
-            Orientation, barState);
+        if (drawRetroProgress)
+        {
+            DrawRetroProgressBorder(renderContext.Graphics, ClientRectangle);
+        }
+        else
+        {
+            renderer.RenderStandardBorder.DrawBorder(renderContext, ClientRectangle, barPaletteState.PaletteBorder,
+                Orientation, barState);
+        }
 
         // Optional text backdrop for readability
         if (_showTextBackdrop && !string.IsNullOrEmpty(Text))
@@ -1137,7 +1170,7 @@ public class KryptonProgressBar : Control, IContentValues
             };
 
             Color baseText = barPaletteState.PaletteContent!.GetContentShortTextColor1(barState);
-            Color shadow = _textShadowColor != Color.Empty ? _textShadowColor : ControlPaint.Dark(baseText);
+            Color shadow = _textShadowColor != Color.Empty ? _textShadowColor : GetTextShadowColor(baseText);
             shadow = Color.FromArgb(160, shadow);
             var textFont = barPaletteState.PaletteContent!.GetContentShortTextFont(barState) ?? Font;
 
@@ -1163,13 +1196,7 @@ public class KryptonProgressBar : Control, IContentValues
                 // Ensure drawing hint matches the main text draw
                 using (var drawHint = new GraphicsTextHint(renderContext.Graphics, renderingHint))
                 {
-                    AccurateText.DrawString(renderContext.Graphics,
-                        brush,
-                        shadowRect,
-                        RightToLeft,
-                        Orientation,
-                        barState,
-                        memento);
+                    DrawTextShadow(renderContext.Graphics, brush, shadowRect, barState, memento);
                 }
             }
         }
@@ -1178,11 +1205,301 @@ public class KryptonProgressBar : Control, IContentValues
             barPaletteState.PaletteContent!, _mementoContent!,
             Orientation, barState, false);
 
+        if (drawRetroProgress && !Enabled && !string.IsNullOrEmpty(Text))
+        {
+            DrawRetroProgressDisabledText(renderContext, renderer, barPaletteState, barState);
+        }
+
         base.OnPaint(e);
     }
     #endregion
 
     #region Implementation
+
+    private void DrawTextShadow(Graphics graphics,
+        Brush brush,
+        Rectangle textRect,
+        PaletteState barState,
+        AccurateTextMemento memento)
+    {
+        DrawTextShadowOffset(graphics, brush, textRect, barState, memento, 1, 1);
+        DrawTextShadowOffset(graphics, brush, textRect, barState, memento, -1, 1);
+        DrawTextShadowOffset(graphics, brush, textRect, barState, memento, 1, -1);
+    }
+
+    private void DrawTextShadowOffset(Graphics graphics,
+        Brush brush,
+        Rectangle textRect,
+        PaletteState barState,
+        AccurateTextMemento memento,
+        int x,
+        int y)
+    {
+        Rectangle shadowRect = textRect;
+        shadowRect.Offset(x, y);
+        AccurateText.DrawString(graphics,
+            brush,
+            shadowRect,
+            RightToLeft,
+            Orientation,
+            barState,
+            memento);
+    }
+
+    private static Color GetTextShadowColor(Color textColor)
+    {
+        if (textColor == Color.Empty)
+        {
+            return Color.Black;
+        }
+
+        int luminance = (textColor.R * 299) + (textColor.G * 587) + (textColor.B * 114);
+        return luminance > 128000 ? Color.Black : Color.White;
+    }
+
+    private int GetProgressBlockCount(RenderContext renderContext,
+        IPaletteTriple barPaletteState,
+        PaletteState barState,
+        Rectangle barRect,
+        int maximumRange,
+        bool drawRetroProgress)
+    {
+        if (_blockCount > 0)
+        {
+            return _blockCount;
+        }
+
+        if (!drawRetroProgress)
+        {
+            return Math.Max(1, maximumRange / 10);
+        }
+
+        int axisLength = Orientation switch
+        {
+            VisualOrientation.Left or VisualOrientation.Right => barRect.Height,
+            _ => barRect.Width
+        };
+        int gap = 1;
+        int cellExtent = GetRetroProgressCellExtent(renderContext, barPaletteState, barState);
+
+        return Math.Max(1, (axisLength + gap) / (cellExtent + gap));
+    }
+
+    private int GetRetroProgressCellExtent(RenderContext renderContext,
+        IPaletteTriple barPaletteState,
+        PaletteState barState)
+    {
+        Font font = barPaletteState.PaletteContent!.GetContentShortTextFont(barState) ?? Font;
+        Size cellSize = TextRenderer.MeasureText(renderContext.Graphics, "0", font, Size.Empty, TextFormatFlags.NoPadding);
+
+        return Orientation switch
+        {
+            VisualOrientation.Left or VisualOrientation.Right => Math.Max(1, cellSize.Height),
+            _ => Math.Max(1, cellSize.Width)
+        };
+    }
+
+    private void DrawProgressBlocks(RenderContext renderContext,
+        IRenderer renderer,
+        IPaletteTriple barPaletteState,
+        PaletteState barState,
+        Rectangle barRect,
+        int totalBlocks,
+        float filledBlocksFloat,
+        bool drawRetroProgress,
+        PaletteRetroBase? retroPalette)
+    {
+        int fullBlocks = Math.Max(0, Math.Min(totalBlocks, (int)Math.Floor(filledBlocksFloat)));
+        float fractional = Math.Max(0f, Math.Min(1f, filledBlocksFloat - fullBlocks));
+        bool rtl = RightToLeft == RightToLeft.Yes;
+
+        switch (Orientation)
+        {
+            case VisualOrientation.Top:
+            case VisualOrientation.Bottom:
+                {
+                    int gap = 1;
+                    int blockWidth = Math.Max(1, (barRect.Width - ((totalBlocks - 1) * gap)) / totalBlocks);
+                    for (int i = 0; i < fullBlocks; i++)
+                    {
+                        int x = rtl
+                            ? barRect.Right - ((i + 1) * blockWidth) - (i * gap)
+                            : barRect.Left + (i * (blockWidth + gap));
+                        Rectangle block = new Rectangle(x, barRect.Y, blockWidth, barRect.Height);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, block, null, drawRetroProgress, retroPalette);
+                    }
+
+                    if (fractional > 0f && fullBlocks < totalBlocks)
+                    {
+                        int fractionWidth = Math.Max(1, (int)Math.Round(blockWidth * fractional, MidpointRounding.AwayFromZero));
+                        int xBase = rtl
+                            ? barRect.Right - ((fullBlocks + 1) * blockWidth) - (fullBlocks * gap)
+                            : barRect.Left + (fullBlocks * (blockWidth + gap));
+                        int x = rtl ? xBase + (blockWidth - fractionWidth) : xBase;
+                        Rectangle block = new Rectangle(x, barRect.Y, fractionWidth, barRect.Height);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, block, null, drawRetroProgress, retroPalette);
+                    }
+                }
+                break;
+
+            case VisualOrientation.Left:
+            case VisualOrientation.Right:
+                {
+                    int gap = 1;
+                    int blockHeight = Math.Max(1, (barRect.Height - ((totalBlocks - 1) * gap)) / totalBlocks);
+                    for (int i = 0; i < fullBlocks; i++)
+                    {
+                        int y = rtl
+                            ? barRect.Bottom - ((i + 1) * blockHeight) - (i * gap)
+                            : barRect.Top + (i * (blockHeight + gap));
+                        Rectangle block = new Rectangle(barRect.X, y, barRect.Width, blockHeight);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, block, null, drawRetroProgress, retroPalette);
+                    }
+
+                    if (fractional > 0f && fullBlocks < totalBlocks)
+                    {
+                        int fractionHeight = Math.Max(1, (int)Math.Round(blockHeight * fractional, MidpointRounding.AwayFromZero));
+                        int yBase = rtl
+                            ? barRect.Bottom - ((fullBlocks + 1) * blockHeight) - (fullBlocks * gap)
+                            : barRect.Top + (fullBlocks * (blockHeight + gap));
+                        int y = rtl ? yBase + (blockHeight - fractionHeight) : yBase;
+                        Rectangle block = new Rectangle(barRect.X, y, barRect.Width, fractionHeight);
+                        DrawProgressValueBack(renderContext, renderer, barPaletteState, barState, block, null, drawRetroProgress, retroPalette);
+                    }
+                }
+                break;
+        }
+    }
+
+    private void DrawProgressValueBack(RenderContext renderContext,
+        IRenderer renderer,
+        IPaletteTriple barPaletteState,
+        PaletteState barState,
+        Rectangle valueRect,
+        GraphicsPath? valuePath,
+        bool drawRetroProgress,
+        PaletteRetroBase? retroPalette)
+    {
+        if (valueRect.Width <= 0 || valueRect.Height <= 0)
+        {
+            return;
+        }
+
+        if (drawRetroProgress)
+        {
+            DrawRetroProgressValue(renderContext.Graphics, valueRect, GetRetroProgressValueColor(retroPalette!));
+            return;
+        }
+
+        GraphicsPath? ownedPath = null;
+        try
+        {
+            GraphicsPath path = valuePath ?? (ownedPath = CreateRectGraphicsPath(valueRect));
+            using var gh = new GraphicsHint(renderContext.Graphics,
+                barPaletteState.PaletteBorder!.GetBorderGraphicsHint(PaletteState.Normal));
+            _mementoBackProgressValue = renderer.RenderStandardBack.DrawBack(renderContext, valueRect, path, _stateBackValue,
+                Orientation, barState, _mementoBackProgressValue);
+        }
+        finally
+        {
+            ownedPath?.Dispose();
+        }
+    }
+
+    private Color GetRetroProgressValueColor(PaletteRetroBase retroPalette)
+    {
+        Color color = _stateBackValue.Color1;
+        if (color == Color.Empty
+            || color.ToArgb() == Color.Green.ToArgb()
+            || color.ToArgb() == retroPalette.ButtonFaceColor.ToArgb())
+        {
+            return retroPalette.ProgressValueColor;
+        }
+
+        return color;
+    }
+
+    private static void DrawRetroProgressTrack(Graphics graphics, Rectangle rect, PaletteRetroBase retroPalette)
+    {
+        using var brush = new SolidBrush(retroPalette.ButtonDisabledColor);
+        graphics.FillRectangle(brush, rect);
+    }
+
+    private static void DrawRetroProgressValue(Graphics graphics, Rectangle rect, Color color)
+    {
+        using (var brush = new SolidBrush(color))
+        {
+            graphics.FillRectangle(brush, rect);
+        }
+
+        Color checkerColor = ControlPaint.Dark(color);
+        using var checkerBrush = new SolidBrush(checkerColor);
+        const int CHECKER_SIZE = 2;
+
+        for (int y = rect.Top; y < rect.Bottom; y += CHECKER_SIZE)
+        {
+            int row = (y - rect.Top) / CHECKER_SIZE;
+            for (int x = rect.Left + ((row & 1) * CHECKER_SIZE); x < rect.Right; x += CHECKER_SIZE * 2)
+            {
+                int width = Math.Min(CHECKER_SIZE, rect.Right - x);
+                int height = Math.Min(CHECKER_SIZE, rect.Bottom - y);
+                graphics.FillRectangle(checkerBrush, x, y, width, height);
+            }
+        }
+    }
+
+    private static void DrawRetroProgressBorder(Graphics graphics, Rectangle rect)
+    {
+        using var pen = new Pen(Color.Black, 1f);
+        graphics.DrawRectangle(pen, rect.X, rect.Y, rect.Width - 1, rect.Height - 1);
+    }
+
+    private void DrawRetroProgressDisabledText(RenderContext renderContext,
+        IRenderer renderer,
+        IPaletteTriple barPaletteState,
+        PaletteState barState)
+    {
+        Rectangle textRect = renderer.RenderStandardContent.GetContentShortTextRectangle(_mementoContent!);
+        var paletteContent = barPaletteState.PaletteContent!;
+        var textFont = paletteContent.GetContentShortTextFont(barState) ?? Font;
+        var hAlign = paletteContent.GetContentShortTextH(barState);
+        var hint = paletteContent.GetContentShortTextHint(barState);
+        var trim = paletteContent.GetContentShortTextTrim(barState);
+        var prefix = paletteContent.GetContentShortTextPrefix(barState);
+        var renderingHint = CommonHelper.PaletteTextHintToRenderingHint(hint);
+
+        using var memento = AccurateText.MeasureString(renderContext.Graphics,
+            RightToLeft,
+            Text,
+            textFont,
+            trim,
+            hAlign,
+            prefix,
+            renderingHint,
+            false);
+
+        using var drawHint = new GraphicsTextHint(renderContext.Graphics, renderingHint);
+        using var shadowBrush = new SolidBrush(Color.Black);
+        using var textBrush = new SolidBrush(Color.White);
+
+        Rectangle shadowRect = textRect;
+        shadowRect.Offset(1, 1);
+        AccurateText.DrawString(renderContext.Graphics,
+            shadowBrush,
+            shadowRect,
+            RightToLeft,
+            Orientation,
+            barState,
+            memento);
+
+        AccurateText.DrawString(renderContext.Graphics,
+            textBrush,
+            textRect,
+            RightToLeft,
+            Orientation,
+            barState,
+            memento);
+    }
 
     private void OnlayoutInternal(LayoutEventArgs? e = null)
     {
@@ -1274,6 +1591,91 @@ public class KryptonProgressBar : Control, IContentValues
     // Palette indicates we might need to repaint, so lets do it
     private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
     private void OnLabelTextChanged(object? sender, EventArgs e) => OnTextChanged(EventArgs.Empty);
+
+    private void SyncTaskbarProgress()
+    {
+        if (!_useTaskbarProgress || CommonHelper.DesignMode())
+        {
+            return;
+        }
+
+        // Error and Paused: set the coloured state first, then update the value so the bar
+        // shows at the correct position in the chosen colour (per MSDN ITaskbarList3 docs).
+        if (_taskbarProgressState == KryptonTaskbarProgressState.Error)
+        {
+            ApplyTaskbarProgress(PI.TBPFLAG.TBPF_ERROR, sendValue: true);
+            return;
+        }
+
+        if (_taskbarProgressState == KryptonTaskbarProgressState.Paused)
+        {
+            ApplyTaskbarProgress(PI.TBPFLAG.TBPF_PAUSED, sendValue: true);
+            return;
+        }
+
+        if (_style == ProgressBarStyle.Marquee)
+        {
+            // MSDN: SetProgressValue clears TBPF_INDETERMINATE, so never send a value here.
+            ApplyTaskbarProgress(PI.TBPFLAG.TBPF_INDETERMINATE, sendValue: false);
+        }
+        else
+        {
+            // MSDN: SetProgressValue implicitly assumes TBPF_NORMAL when no blocking state is
+            // active, so a single SetProgressValue call is sufficient for the normal state.
+            ApplyTaskbarProgress(PI.TBPFLAG.TBPF_NORMAL, sendValue: true);
+        }
+    }
+
+    /// <summary>
+    /// Sets the taskbar progress state and, optionally, the current value using a single
+    /// <see cref="PI.ITaskbarList3"/> COM instance.
+    /// Per MSDN: <c>SetProgressValue</c> implicitly enters <c>TBPF_NORMAL</c> and clears
+    /// <c>TBPF_INDETERMINATE</c>, so <paramref name="sendValue"/> must be <c>false</c> when
+    /// <paramref name="flag"/> is <c>TBPF_INDETERMINATE</c>.
+    /// </summary>
+    private void ApplyTaskbarProgress(PI.TBPFLAG flag, bool sendValue)
+    {
+        if (CommonHelper.DesignMode())
+        {
+            return;
+        }
+
+        var form = FindForm();
+        if (form == null || !form.IsHandleCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            var taskbar = (PI.ITaskbarList3)new PI.TaskbarList();
+            taskbar.HrInit();
+
+            taskbar.SetProgressState(form.Handle, flag);
+
+            if (sendValue)
+            {
+                ulong range = (ulong)Math.Max(_maximum - _minimum, 1);
+                ulong completed = (ulong)Math.Max(_value - _minimum, 0);
+                taskbar.SetProgressValue(form.Handle, completed, range);
+            }
+        }
+        catch (Exception ex)
+        {
+            KryptonExceptionHandler.CaptureException(ex, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    /// <summary>
+    /// Clears the taskbar progress indicator. Called when <see cref="UseTaskbarProgress"/> is
+    /// set to <c>false</c> or when the control is disposed.
+    /// Per MSDN: after an operation completes or is cancelled, call <c>SetProgressState</c>
+    /// with <c>TBPF_NOPROGRESS</c> to dismiss the progress bar.
+    /// </summary>
+    private void ClearTaskbarProgress()
+    {
+        ApplyTaskbarProgress(PI.TBPFLAG.TBPF_NOPROGRESS, sendValue: false);
+    }
 
     private void StartMarquee()
     {
@@ -1492,6 +1894,35 @@ public class KryptonProgressBar : Control, IContentValues
             }
         }
     }
+
+    #endregion
+
+    #region Protected
+
+    /// <summary>
+    /// Gets the palette redirector used by the progress bar.
+    /// </summary>
+    protected PaletteRedirect ProgressPaletteRedirect => _paletteRedirect;
+
+    /// <summary>
+    /// Gets the resolved palette instance.
+    /// </summary>
+    protected PaletteBase? ResolvedPalette => _palette;
+
+    /// <summary>
+    /// Gets the palette used for the progress value fill.
+    /// </summary>
+    protected IPaletteBack ValueBackPalette => _stateBackValue;
+
+    /// <summary>
+    /// Gets the progress bar palette triple and state for the current enabled state.
+    /// </summary>
+    protected (IPaletteTriple BarPaletteState, PaletteState BarState) GetProgressBarPaletteState() => GetBarPaletteState();
+
+    /// <summary>
+    /// Updates threshold-based colours when tri-state values are enabled.
+    /// </summary>
+    protected void SyncThresholdColors() => UpdateThresholdColor();
 
     #endregion
 

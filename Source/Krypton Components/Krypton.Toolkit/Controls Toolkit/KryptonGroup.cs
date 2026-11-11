@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -19,7 +19,7 @@ namespace Krypton.Toolkit;
 [ToolboxBitmap(typeof(KryptonGroup), "ToolboxBitmaps.KryptonGroup.bmp")]
 [DefaultEvent(nameof(Paint))]
 [DefaultProperty(nameof(GroupBackStyle))]
-[Designer(typeof(KryptonGroupDesigner))]
+[Designer("Krypton.Toolkit.KryptonGroupDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Enables you to group collections of controls.")]
 [Docking(DockingBehavior.Ask)]
@@ -261,11 +261,12 @@ public class KryptonGroup : VisualControlContainment
     private void ResetUseKryptonScrollbars() => _useKryptonScrollbars = null;
 
     /// <summary>
-    /// Gets access to the scrollbar manager when UseKryptonScrollbars is enabled.
+    /// Gets access to the scrollbar manager settings used when UseKryptonScrollbars is enabled.
     /// </summary>
-    [Browsable(false)]
-    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-    public KryptonScrollbarManager? ScrollbarManager => _scrollbarManager;
+    [Category(@"Behavior")]
+    [Description(@"Settings for the Krypton-themed scrollbars used when UseKryptonScrollbars is enabled.")]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public KryptonScrollbarManager ScrollbarManager => _scrollbarManager ??= new KryptonScrollbarManager();
 
     /// <summary>
     /// Get the preferred size of the control based on a proposed size.
@@ -321,7 +322,14 @@ public class KryptonGroup : VisualControlContainment
             // Ensure that the layout is calculated in order to know the remaining display space
             ForceViewLayout();
 
-            // The inside panel is the client rectangle size
+            // The fill rect from view layout is authoritative; Panel bounds are applied in OnLayout
+            // and can be stale when the designer queries DisplayRectangle before WinForms layout runs.
+            Rectangle fillRect = _layoutFill.FillRect;
+            if (!fillRect.IsEmpty)
+            {
+                return fillRect;
+            }
+
             return new Rectangle(Panel.Location, Panel.Size);
         }
     }
@@ -379,7 +387,7 @@ public class KryptonGroup : VisualControlContainment
         InvokeLayout();
 
         // Update scrollbar manager state
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
             UpdateScrollbarManager();
         }
@@ -496,23 +504,18 @@ public class KryptonGroup : VisualControlContainment
 
     private void UpdateScrollbarManager()
     {
-        if (KryptonManager.UseKryptonScrollbars)
+        if (UseKryptonScrollbars)
         {
-            if (_scrollbarManager == null)
+            // The manager instance persists (designer settings survive); only the
+            // attachment to the group panel follows the enabled state.
+            if (ScrollbarManager.TargetControl == null)
             {
-                _scrollbarManager = new KryptonScrollbarManager(Panel, ScrollbarManagerMode.Container)
-                {
-                    Enabled = true
-                };
+                ScrollbarManager.Attach(Panel, ScrollbarManagerMode.Container);
             }
         }
         else
         {
-            if (_scrollbarManager != null)
-            {
-                _scrollbarManager.Dispose();
-                _scrollbarManager = null;
-            }
+            _scrollbarManager?.Detach();
         }
     }
 
