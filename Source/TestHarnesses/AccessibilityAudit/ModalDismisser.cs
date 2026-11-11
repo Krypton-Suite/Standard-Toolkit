@@ -7,8 +7,9 @@
  */
 #endregion
 
-using System.Diagnostics;
+using System;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 
 namespace AccessibilityAudit;
@@ -58,8 +59,7 @@ internal sealed class ModalDismisser : IDisposable
     private bool CloseDialog(IntPtr hWnd, IntPtr lParam)
     {
         GetWindowThreadProcessId(hWnd, out uint processId);
-        // Environment.ProcessId is net5+; Process.GetCurrentProcess().Id works on net481.
-        if (processId != (uint)Process.GetCurrentProcess().Id)
+        if (processId != (uint)Environment.ProcessId)
         {
             return true;
         }
