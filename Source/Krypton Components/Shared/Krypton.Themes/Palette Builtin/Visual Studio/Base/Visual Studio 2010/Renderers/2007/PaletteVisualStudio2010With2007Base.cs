@@ -7,6 +7,8 @@
  */
 #endregion
 
+using DebugTools = Krypton.Shared.DebugTools;
+
 namespace Krypton.Themes;
 
 /// <summary>Provides a base for Visual Studio palettes.</summary>
