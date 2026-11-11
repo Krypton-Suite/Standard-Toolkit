@@ -44,6 +44,28 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
 
+      - name: Resolve Krypton source paths
+        id: source_paths
+        if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $componentsRoot = 'Source/Krypton Components'
+          $solution = Join-Path $componentsRoot 'Krypton Toolkit Suite 2022 - VS2022.slnx'
+          if (-not (Test-Path -LiteralPath $solution)) { throw "Krypton Components solution not found: $solution" }
+          $toolkitProject = @(
+            (Join-Path $componentsRoot 'Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'),
+            (Join-Path $componentsRoot 'Krypton.Toolkit/Krypton.Toolkit 2022.csproj')
+          ) | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          if (-not $toolkitProject) { throw "Krypton.Toolkit project not found under $componentsRoot." }
+          $utilitiesProject = @(
+            (Join-Path $componentsRoot 'Utilities/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj'),
+            (Join-Path $componentsRoot 'Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj')
+          ) | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          "components_root=$componentsRoot" >> $env:GITHUB_OUTPUT
+          "toolkit_project=$toolkitProject" >> $env:GITHUB_OUTPUT
+          "utilities_project=$utilitiesProject" >> $env:GITHUB_OUTPUT
+
       # .NET 10 required; .NET 11 with preview fallback (NETSDK1045 if only 10.x is selected). .NET 12 when USE_DOTNET_PREVIEW != false.
       - name: Setup .NET (10 and 11)
         # Kill switch check
@@ -141,10 +163,8 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         shell: pwsh
         run: |
-          $root = $env:GITHUB_WORKSPACE
-          if (-not $root) { $root = (Get-Location).Path }
-          $utilProj = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj"
-          $libDir = Join-Path $root "Source\Krypton Components\Krypton.Toolkit.Utilities\Lib\WebView2"
+          $utilProj = '${{ steps.source_paths.outputs.utilities_project }}'
+          $libDir = Join-Path (Split-Path -Parent $utilProj) 'Lib\WebView2'
           if (-not (Test-Path $utilProj)) { Write-Error "Project not found: $utilProj"; exit 1 }
           if (-not (Test-Path $libDir)) { New-Item -ItemType Directory -Path $libDir -Force }
           $packageId = "Microsoft.Web.WebView2"
@@ -190,7 +210,7 @@ jobs:
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Nightly -p:TFMs=all
 
-      # /m: multi-processor MSBuild; nightly.proj sets BuildInParallel (project refs still order Toolkit â†’ â€¦ â†’ Docking).
+      # /m: multi-processor MSBuild; nightly.proj sets BuildInParallel (project refs still order Toolkit, Docking).
       - name: Build Alpha
         # Kill switch check
         if: steps.nightly_release_kill_switch.outputs.enabled == 'true'
