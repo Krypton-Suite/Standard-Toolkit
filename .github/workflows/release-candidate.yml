@@ -141,27 +141,13 @@ jobs:
           Write-Host 'Copied WebView2 CI script from workflow ref onto gold checkout.'
 
       # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false.
-      - name: Setup .NET (10)
+      - name: Setup .NET (10 and 11)
         if: steps.rc_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             10.0.x
-
-      - name: Setup .NET (11)
-        id: setup_dotnet11_rc_yml
-        continue-on-error: true
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-
-      - name: Setup .NET (11 preview fallback)
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_rc_yml.outcome == 'failure'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_rc_yml
@@ -491,8 +477,8 @@ jobs:
         if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
-          if (-not $env:DISCORD_WEBHOOK_RC) {
-            Write-Warning "DISCORD_WEBHOOK_RC not set - skipping Discord notification"
+          if (-not $env:DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK) {
+            Write-Warning "DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK not set - skipping Discord notification"
             exit 0
           }
 
@@ -551,6 +537,6 @@ jobs:
             )
           } | ConvertTo-Json -Depth 10
 
-          Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_RC -Method Post -Body $payload -ContentType "application/json"
+          Invoke-RestMethod -Uri $env:DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK -Method Post -Body $payload -ContentType "application/json"
         env:
-          DISCORD_WEBHOOK_RC: ${{ secrets.DISCORD_WEBHOOK_RC }}
+          DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK: ${{ secrets.DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK }}
