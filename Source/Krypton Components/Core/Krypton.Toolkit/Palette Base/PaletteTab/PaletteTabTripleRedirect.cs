@@ -141,7 +141,7 @@ public class PaletteTabTripleRedirect : Storage,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(tabStyle.ToString());
+                SharedDebugTools.NotImplemented(tabStyle.ToString());
                 break;
         }
     }

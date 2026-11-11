@@ -144,17 +144,17 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
         switch (_toolkitType)
         {
             case ToolkitSupportType.Canary:
-                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/Documents/Changelog/Changelog.md");
+                GeneralLibraryUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/Documents/Changelog/Changelog.md");
                 break;
             case ToolkitSupportType.Nightly:
-                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Changelog/Changelog.md");
+                GeneralLibraryUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/Documents/Changelog/Changelog.md");
                 break;
             case ToolkitSupportType.LongTermSupport:
-                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/V85-LTS/Documents/Help/Changelog.md");
+                GeneralLibraryUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/V85-LTS/Documents/Help/Changelog.md");
                 break;
             case ToolkitSupportType.Stable:
             default:
-                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md");
+                GeneralLibraryUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/Documents/Changelog/Changelog.md");
                 break;
         }
     }
@@ -164,17 +164,17 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
         switch (_toolkitType)
         {
             case ToolkitSupportType.Canary:
-                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/README.md");
+                GeneralLibraryUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/canary/README.md");
                 break;
             case ToolkitSupportType.Nightly:
-                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/README.md");
+                GeneralLibraryUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/alpha/README.md");
                 break;
             case ToolkitSupportType.LongTermSupport:
-                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/V85-LTS/README.md");
+                GeneralLibraryUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/V85-LTS/README.md");
                 break;
             case ToolkitSupportType.Stable:
             default:
-                GeneralToolkitUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/README.md");
+                GeneralLibraryUtilities.Start(@"https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/README.md");
                 break;
         }
     }

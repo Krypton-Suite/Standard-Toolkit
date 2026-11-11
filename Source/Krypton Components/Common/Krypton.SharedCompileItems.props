@@ -13,6 +13,6 @@
 
 	<ItemGroup Condition="'$(IncludeKryptonUtilitiesSourceLinks)' == 'true'">
 		<Compile Include="$(KryptonSharedRoot)Utilities\FileSystemIconHelper.cs" Link="Components\KryptonFileSystemTreeView\Utilities\FileSystemIconHelper.cs" />
-		<Compile Include="$(KryptonSharedRoot)Tooling\GeneralToolkitUtilities.cs" Link="Tooling\GeneralToolkitUtilities.cs" />
+		<Compile Include="$(KryptonSharedRoot)Tooling\GeneralLibraryUtilities.cs" Link="Tooling\GeneralLibraryUtilities.cs" />
 	</ItemGroup>
 </Project>

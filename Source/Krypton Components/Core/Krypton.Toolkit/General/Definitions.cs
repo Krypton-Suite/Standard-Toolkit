@@ -4565,7 +4565,22 @@ public enum SchemeBaseColors
     ProgressBarMedium = 258,
 
     /// <summary>Tri-state progress-bar fill for the high threshold region.</summary>
-    ProgressBarHigh = 259
+    ProgressBarHigh = 259,
+
+    /// <summary>Plot background for the transfer-progress graph.</summary>
+    TransferProgressGraphPlot = 260,
+
+    /// <summary>Series fill for the transfer-progress graph.</summary>
+    TransferProgressGraphSeries = 261,
+
+    /// <summary>Grid lines for the transfer-progress graph.</summary>
+    TransferProgressGraphGrid = 262,
+
+    /// <summary>Chart frame border for the transfer-progress graph.</summary>
+    TransferProgressGraphBorder = 263,
+
+    /// <summary>Progress-label text for the transfer-progress graph.</summary>
+    TransferProgressGraphLabel = 264
 }
 
 #endregion

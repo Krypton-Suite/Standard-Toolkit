@@ -31,8 +31,8 @@
 		<!-- Direct Interop ref required because Krypton.Toolkit uses PrivateAssets="all" (#3908). -->
 		<ProjectReference Include="..\..\Shared\Krypton.Shared\Krypton.Shared.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\..\Core\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
-		<!-- Progress dialog hosts KryptonTransferSpeedGraph from Utilities. -->
-		<ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
+		<!-- Progress dialog hosts KryptonTransferSpeedGraph from Krypton.Graphs. -->
+		<ProjectReference Include="..\Krypton.Graphs\Krypton.Graphs.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

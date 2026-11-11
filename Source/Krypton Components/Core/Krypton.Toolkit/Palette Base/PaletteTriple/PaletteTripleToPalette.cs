@@ -165,7 +165,7 @@ public class PaletteTripleToPalette : IPaletteTriple
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(buttonStyle.ToString());
+                SharedDebugTools.NotImplemented(buttonStyle.ToString());
                 break;
         }
     }

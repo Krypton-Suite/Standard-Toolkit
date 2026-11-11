@@ -271,4 +271,10 @@ public sealed class EmptySchemeBase : KryptonColorSchemeBase
     public override Color ProgressBarLow                   { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color ProgressBarMedium                { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphPlot        { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphSeries      { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphGrid        { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphBorder      { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphLabel       { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+
 }

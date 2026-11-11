@@ -67,6 +67,7 @@ public partial class ApplicationUpdaterDemo : KryptonForm
         nudMaxDays.ValueChanged += OnSelectionChanged;
         chkAllowCritical.CheckedChanged += OnSelectionChanged;
         chkBannerPulse.CheckedChanged += OnSelectionChanged;
+        chkSpeedGraph.CheckedChanged += OnSelectionChanged;
     }
 
     private void ApplicationUpdaterDemo_Load(object? sender, EventArgs e)
@@ -223,6 +224,16 @@ public partial class ApplicationUpdaterDemo : KryptonForm
         {
             policy += ",\"banner\":{\"text\":\"Security update — install now\",\"backColor\":\"#8B0000\",\"backColor2\":\"#FF4500\",\"foreColor\":\"#FFFFFF\"}"
                 + ",\"pulse\":{\"enable\":true,\"color\":\"#FF4500\",\"style\":\"All\",\"speed\":1.5}";
+        }
+
+        if (chkSpeedGraph.Checked)
+        {
+            policy += ",\"progressDisplay\":\"transferSpeedGraph\"";
+            _updater.ProgressDisplay = KryptonUpdateProgressDisplay.TransferSpeedGraph;
+        }
+        else
+        {
+            _updater.ProgressDisplay = KryptonUpdateProgressDisplay.ProgressBar;
         }
 
         var json = "{\"packages\":["

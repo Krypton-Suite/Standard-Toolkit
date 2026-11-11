@@ -119,7 +119,7 @@ public class AccurateText : GlobalId
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(align.ToString());
+                SharedDebugTools.NotImplemented(align.ToString());
                 break;
         }
 
@@ -153,7 +153,7 @@ public class AccurateText : GlobalId
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(trim.ToString());
+                SharedDebugTools.NotImplemented(trim.ToString());
                 break;
         }
 
@@ -175,7 +175,7 @@ public class AccurateText : GlobalId
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(prefix.ToString());
+                SharedDebugTools.NotImplemented(prefix.ToString());
                 break;
         }
 

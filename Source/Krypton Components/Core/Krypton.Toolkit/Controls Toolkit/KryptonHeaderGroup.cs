@@ -1343,7 +1343,7 @@ public class KryptonHeaderGroup : VisualControlContainment
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                SharedDebugTools.NotImplemented(style.ToString());
                 break;
         }
     }
@@ -1375,7 +1375,7 @@ public class KryptonHeaderGroup : VisualControlContainment
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(CollapseTarget.ToString());
+                    SharedDebugTools.NotImplemented(CollapseTarget.ToString());
                     break;
             }
         }

@@ -4506,6 +4506,8 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(1, state);
+            case PaletteElement.TransferProgressGraph:
+                return GetTransferProgressGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4552,6 +4554,8 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(2, state);
+            case PaletteElement.TransferProgressGraph:
+                return GetTransferProgressGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4601,6 +4605,8 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
 
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(3, state);
+            case PaletteElement.TransferProgressGraph:
+                return GetTransferProgressGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4657,6 +4663,8 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(4, state);
+            case PaletteElement.TransferProgressGraph:
+                return GetTransferProgressGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4713,6 +4721,8 @@ public abstract class PaletteOffice2010SilverDarkModeBase : PaletteBase
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(5, state);
+            case PaletteElement.TransferProgressGraph:
+                return GetTransferProgressGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);

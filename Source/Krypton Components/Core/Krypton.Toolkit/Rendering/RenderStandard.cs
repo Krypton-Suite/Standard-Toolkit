@@ -1883,7 +1883,7 @@ public class RenderStandard : RenderBase
 			default:
 				// Should never happen!
 				Debug.Assert(false);
-				DebugTools.NotImplemented(tabBorderStyle.ToString());
+				SharedDebugTools.NotImplemented(tabBorderStyle.ToString());
 				break;
 		}
 
@@ -2206,7 +2206,7 @@ public class RenderStandard : RenderBase
 			default:
 				// Should never happen!
 				Debug.Assert(false);
-				DebugTools.NotImplemented(backColorStyle.ToString());
+				SharedDebugTools.NotImplemented(backColorStyle.ToString());
 				break;
 		}
 
@@ -5262,7 +5262,7 @@ public class RenderStandard : RenderBase
 			default:
 				// Should never happen!
 				Debug.Assert(false);
-				DebugTools.NotImplemented(tabBorderStyle.ToString());
+				SharedDebugTools.NotImplemented(tabBorderStyle.ToString());
 				break;
 		}
 	}

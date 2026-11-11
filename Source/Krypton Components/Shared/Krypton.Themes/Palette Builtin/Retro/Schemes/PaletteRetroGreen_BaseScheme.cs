@@ -271,4 +271,10 @@ public class PaletteRetroGreen_BaseScheme : KryptonColorSchemeBase
     public override Color ProgressBarLow                   { get; set; } = Color.Red;
     public override Color ProgressBarMedium                { get; set; } = Color.Orange;
     public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(0, 160, 160);
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.Black;
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.Black;
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(0, 0, 0);
+
 }

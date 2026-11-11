@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit.Utilities;
+namespace Krypton.Graphs;
 
 /// <summary>
 /// Transfer-speed graph appearance for one state. Unset colours inherit from <see cref="PaletteTransferSpeedGraphRedirect"/>.

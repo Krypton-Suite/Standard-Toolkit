@@ -90,13 +90,13 @@ internal partial class VisualExceptionDialogForm : KryptonForm
             isbSearchArea.Populate(_exception);
         }
 
-        if (GeneralToolkitUtilities.GetCurrentScreenSize() == new Point(1080, 720))
+        if (GeneralLibraryUtilities.GetCurrentScreenSize() == new Point(1080, 720))
         {
-            GeneralToolkitUtilities.AdjustFormDimensions(this, 900, 650);
+            GeneralLibraryUtilities.AdjustFormDimensions(this, 900, 650);
         }
         else
         {
-            GeneralToolkitUtilities.AdjustFormDimensions(this, 1108, 687);
+            GeneralLibraryUtilities.AdjustFormDimensions(this, 1108, 687);
         }
 
         PackButtons();

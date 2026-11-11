@@ -7,35 +7,15 @@
  */
 #endregion
 
-namespace Krypton.Toolkit.Utilities;
+namespace Krypton.Graphs;
 
 /// <summary>
-/// Which transfer-speed graph colour is inherited from <see cref="PaletteElement.TransferSpeedGraph"/>.
-/// </summary>
-internal enum TransferSpeedGraphPaletteColor
-{
-    /// <summary>Plot background (<see cref="IPaletteElementColor.GetElementColor1"/> of the palette element).</summary>
-    Plot = 1,
-
-    /// <summary>Series fill (palette element Color2).</summary>
-    Series = 2,
-
-    /// <summary>Grid lines (palette element Color3).</summary>
-    Grid = 3,
-
-    /// <summary>Chart frame border (palette element Color4).</summary>
-    Border = 4,
-
-    /// <summary>Speed-label text (palette element Color5).</summary>
-    Label = 5
-}
-
-/// <summary>
-/// Inherit one graph colour from <see cref="PaletteElement.TransferSpeedGraph"/>.
+/// Inherit one graph colour from a transfer graph <see cref="PaletteElement"/>.
 /// </summary>
 internal sealed class PaletteTransferSpeedGraphColorInheritRedirect : PaletteElementColorInherit
 {
     private readonly TransferSpeedGraphPaletteColor _color;
+    private readonly PaletteElement _element;
     private PaletteRedirect _redirect;
 
     /// <summary>
@@ -43,10 +23,12 @@ internal sealed class PaletteTransferSpeedGraphColorInheritRedirect : PaletteEle
     /// </summary>
     /// <param name="redirect">Source for inheriting values.</param>
     /// <param name="color">Graph colour this instance supplies as Color1.</param>
-    public PaletteTransferSpeedGraphColorInheritRedirect(PaletteRedirect redirect, TransferSpeedGraphPaletteColor color)
+    /// <param name="element">Palette element that owns the five graph colours.</param>
+    public PaletteTransferSpeedGraphColorInheritRedirect(PaletteRedirect redirect, TransferSpeedGraphPaletteColor color, PaletteElement element)
     {
         _redirect = redirect;
         _color = color;
+        _element = element;
     }
 
     /// <summary>
@@ -59,11 +41,11 @@ internal sealed class PaletteTransferSpeedGraphColorInheritRedirect : PaletteEle
     public override Color GetElementColor1(PaletteState state) =>
         _color switch
         {
-            TransferSpeedGraphPaletteColor.Plot => _redirect.GetElementColor1(PaletteElement.TransferSpeedGraph, state),
-            TransferSpeedGraphPaletteColor.Series => _redirect.GetElementColor2(PaletteElement.TransferSpeedGraph, state),
-            TransferSpeedGraphPaletteColor.Grid => _redirect.GetElementColor3(PaletteElement.TransferSpeedGraph, state),
-            TransferSpeedGraphPaletteColor.Border => _redirect.GetElementColor4(PaletteElement.TransferSpeedGraph, state),
-            _ => _redirect.GetElementColor5(PaletteElement.TransferSpeedGraph, state)
+            TransferSpeedGraphPaletteColor.Plot => _redirect.GetElementColor1(_element, state),
+            TransferSpeedGraphPaletteColor.Series => _redirect.GetElementColor2(_element, state),
+            TransferSpeedGraphPaletteColor.Grid => _redirect.GetElementColor3(_element, state),
+            TransferSpeedGraphPaletteColor.Border => _redirect.GetElementColor4(_element, state),
+            _ => _redirect.GetElementColor5(_element, state)
         };
 
     /// <inheritdoc />
@@ -92,10 +74,11 @@ public class PaletteTransferSpeedGraphColorRedirect : PaletteElementColor
     /// <param name="redirect">Source for inheriting values.</param>
     /// <param name="color">Graph colour this storage supplies.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
-    internal PaletteTransferSpeedGraphColorRedirect(PaletteRedirect redirect, TransferSpeedGraphPaletteColor color, NeedPaintHandler? needPaint)
+    /// <param name="element">Palette element that owns the five graph colours.</param>
+    internal PaletteTransferSpeedGraphColorRedirect(PaletteRedirect redirect, TransferSpeedGraphPaletteColor color, NeedPaintHandler? needPaint, PaletteElement element = PaletteElement.TransferSpeedGraph)
         : base(null, needPaint)
     {
-        _inherit = new PaletteTransferSpeedGraphColorInheritRedirect(redirect, color);
+        _inherit = new PaletteTransferSpeedGraphColorInheritRedirect(redirect, color, element);
         SetInherit(_inherit);
     }
 

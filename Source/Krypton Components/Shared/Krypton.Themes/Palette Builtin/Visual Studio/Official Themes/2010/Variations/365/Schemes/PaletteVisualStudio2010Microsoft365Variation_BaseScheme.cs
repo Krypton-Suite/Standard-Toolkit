@@ -271,4 +271,10 @@ public sealed class PaletteVisualStudio2010Microsoft365Variation_BaseScheme : Kr
     public override Color ProgressBarLow                   { get; set; } = Color.Red;
     public override Color ProgressBarMedium                { get; set; } = Color.Orange;
     public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(188, 199, 216);
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(133, 158, 191);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(0, 0, 0);
+
 }

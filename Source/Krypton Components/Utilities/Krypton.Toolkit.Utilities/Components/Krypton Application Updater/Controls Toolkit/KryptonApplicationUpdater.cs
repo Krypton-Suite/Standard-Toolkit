@@ -45,6 +45,7 @@ public class KryptonApplicationUpdater : Component
     private string _installDirectory = string.Empty;
     private string _restartCommand = string.Empty;
     private string _stateFilePath = string.Empty;
+    private KryptonUpdateProgressDisplay _progressDisplay = KryptonUpdateProgressDisplay.ProgressBar;
 
     /// <summary>Initializes a component that does not contact a feed until it is sited or <see cref="CheckNow"/> is called.</summary>
     public KryptonApplicationUpdater()
@@ -265,6 +266,19 @@ public class KryptonApplicationUpdater : Component
     {
         get => _restartCommand;
         set => _restartCommand = value ?? string.Empty;
+    }
+
+    /// <summary>
+    /// Gets or sets the progress control used while downloading.
+    /// A package <c>progressDisplay</c> value overrides this when set.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Progress bar or transfer-speed graph while downloading. A package progressDisplay value overrides this.")]
+    [DefaultValue(KryptonUpdateProgressDisplay.ProgressBar)]
+    public KryptonUpdateProgressDisplay ProgressDisplay
+    {
+        get => _progressDisplay;
+        set => _progressDisplay = value;
     }
 
     /// <summary>Gets or sets prompt text.</summary>
@@ -727,11 +741,12 @@ public class KryptonApplicationUpdater : Component
         var destination = KryptonUpdateClient.CreateDownloadPath(package.PackageUrl);
         var interrupted = Strings.DownloadInterrupted;
         var restarting = Strings.DownloadRestarting;
+        var progressDisplay = package.ProgressDisplay ?? ProgressDisplay;
         VisualApplicationUpdateProgressForm? progressForm = null;
         Report(() =>
         {
             progressForm = new VisualApplicationUpdateProgressForm();
-            progressForm.Bind(Strings, package.Pulse);
+            progressForm.Bind(Strings, package.Pulse, progressDisplay);
             progressForm.SetFileName(PackageFileName(package.PackageUrl));
             progressForm.CancelClicked += delegate { CancelDownload(); };
             var owner = TryGetOwnerForm();
@@ -775,6 +790,7 @@ public class KryptonApplicationUpdater : Component
                     Report(() =>
                     {
                         progressForm?.SetCancelEnabled(false);
+                        progressForm?.PauseSpeedGraph();
                         progressForm?.SetStatus(Strings.Verifying);
                     });
                     await ApplyAsync(package, destination, cancellationToken).ConfigureAwait(true);

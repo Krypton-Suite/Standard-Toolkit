@@ -63,7 +63,7 @@ SchemeGenerator distinguishes between two kinds of palette classes:
 • **Preview everything, no writes – safe!**
 
 ```bash
-kptheme genscheme --migrate --dry-run -d "Source/Krypton Components/Core/Krypton.Toolkit/Palette Builtin"
+kptheme genscheme --migrate --dry-run -d "Source/Krypton Components/Krypton.Toolkit/Palette Builtin"
 ```
 
 The generator runs all transformations in memory and prints

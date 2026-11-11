@@ -1135,7 +1135,7 @@ public abstract class ButtonSpec : Component,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(paletteRelativeEdgeAlign.ToString());
+                SharedDebugTools.NotImplemented(paletteRelativeEdgeAlign.ToString());
                 return RelativeEdgeAlign.Far;
         }
     }
@@ -1167,7 +1167,7 @@ public abstract class ButtonSpec : Component,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(paletteButtonOrientation.ToString());
+                SharedDebugTools.NotImplemented(paletteButtonOrientation.ToString());
                 return ButtonOrientation.Auto;
         }
     }
@@ -1218,7 +1218,7 @@ public abstract class ButtonSpec : Component,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(paletteButtonStyle.ToString());
+                SharedDebugTools.NotImplemented(paletteButtonStyle.ToString());
                 return ButtonStyle.Standalone;
         }
     }

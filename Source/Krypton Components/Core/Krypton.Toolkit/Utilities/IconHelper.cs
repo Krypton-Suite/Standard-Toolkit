@@ -107,7 +107,7 @@ internal static class IconHelper
             case InformationBoxIcon.SystemApplication:
                 return SystemIcons.Application;
             default:
-                DebugTools.NotImplemented(iconType.ToString());
+                SharedDebugTools.NotImplemented(iconType.ToString());
                 return null;
         }
 

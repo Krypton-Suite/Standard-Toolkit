@@ -128,7 +128,8 @@ public sealed class KryptonGitHubReleaseUpdateProvider : IKryptonUpdateProvider
                 package.AllowResumeSetting,
                 package.AllowRetrySetting,
                 package.Banner,
-                package.Pulse));
+                package.Pulse,
+                package.ProgressDisplay));
         }
 
         return resolved;

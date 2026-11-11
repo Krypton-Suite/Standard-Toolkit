@@ -1908,9 +1908,12 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public override Color GetElementColor1(PaletteElement element, PaletteState state) =>
-        element == PaletteElement.TransferSpeedGraph
-            ? GetTransferSpeedGraphElementColor(1, state)
-            : GetTrackBar(element, state).GetElementColor1(state);
+        element switch
+        {
+            PaletteElement.TransferSpeedGraph => GetTransferSpeedGraphElementColor(1, state),
+            PaletteElement.TransferProgressGraph => GetTransferProgressGraphElementColor(1, state),
+            _ => GetTrackBar(element, state).GetElementColor1(state)
+        };
 
     /// <summary>
     /// Gets the second element color.
@@ -1919,9 +1922,12 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public override Color GetElementColor2(PaletteElement element, PaletteState state) =>
-        element == PaletteElement.TransferSpeedGraph
-            ? GetTransferSpeedGraphElementColor(2, state)
-            : GetTrackBar(element, state).GetElementColor2(state);
+        element switch
+        {
+            PaletteElement.TransferSpeedGraph => GetTransferSpeedGraphElementColor(2, state),
+            PaletteElement.TransferProgressGraph => GetTransferProgressGraphElementColor(2, state),
+            _ => GetTrackBar(element, state).GetElementColor2(state)
+        };
 
     /// <summary>
     /// Gets the third element color.
@@ -1930,9 +1936,12 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public override Color GetElementColor3(PaletteElement element, PaletteState state) =>
-        element == PaletteElement.TransferSpeedGraph
-            ? GetTransferSpeedGraphElementColor(3, state)
-            : GetTrackBar(element, state).GetElementColor3(state);
+        element switch
+        {
+            PaletteElement.TransferSpeedGraph => GetTransferSpeedGraphElementColor(3, state),
+            PaletteElement.TransferProgressGraph => GetTransferProgressGraphElementColor(3, state),
+            _ => GetTrackBar(element, state).GetElementColor3(state)
+        };
 
     /// <summary>
     /// Gets the fourth element color.
@@ -1941,9 +1950,12 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public override Color GetElementColor4(PaletteElement element, PaletteState state) =>
-        element == PaletteElement.TransferSpeedGraph
-            ? GetTransferSpeedGraphElementColor(4, state)
-            : GetTrackBar(element, state).GetElementColor4(state);
+        element switch
+        {
+            PaletteElement.TransferSpeedGraph => GetTransferSpeedGraphElementColor(4, state),
+            PaletteElement.TransferProgressGraph => GetTransferProgressGraphElementColor(4, state),
+            _ => GetTrackBar(element, state).GetElementColor4(state)
+        };
 
     /// <summary>
     /// Gets the fifth element color.
@@ -1952,9 +1964,13 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
     public override Color GetElementColor5(PaletteElement element, PaletteState state) =>
-        element == PaletteElement.TransferSpeedGraph
-            ? GetTransferSpeedGraphElementColor(5, state)
-            : GetTrackBar(element, state).GetElementColor5(state);
+        element switch
+        {
+            PaletteElement.TransferSpeedGraph => GetTransferSpeedGraphElementColor(5, state),
+            PaletteElement.TransferProgressGraph => GetTransferProgressGraphElementColor(5, state),
+            _ => GetTrackBar(element, state).GetElementColor5(state)
+        };
+
     #endregion
 
     #region Public Methods
@@ -4569,7 +4585,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        throw DebugTools.NotImplemented(state.ToString());
+                        throw SharedDebugTools.NotImplemented(state.ToString());
                 }
 
             case PaletteElement.TrackBarTrack:
@@ -4584,7 +4600,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        throw DebugTools.NotImplemented(state.ToString());
+                        throw SharedDebugTools.NotImplemented(state.ToString());
                 }
 
             case PaletteElement.TrackBarPosition:
@@ -4603,13 +4619,13 @@ public class KryptonCustomPaletteBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        throw DebugTools.NotImplemented(state.ToString());
+                        throw SharedDebugTools.NotImplemented(state.ToString());
                 }
 
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(element.ToString());
+                throw SharedDebugTools.NotImplemented(element.ToString());
         }
     }
 
@@ -4660,7 +4676,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                throw SharedDebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -4691,7 +4707,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4709,7 +4725,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4734,7 +4750,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4754,7 +4770,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4774,7 +4790,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4796,7 +4812,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4818,7 +4834,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4840,7 +4856,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4862,7 +4878,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4879,7 +4895,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4909,7 +4925,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4937,7 +4953,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4953,7 +4969,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4969,7 +4985,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -4985,7 +5001,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -5065,7 +5081,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 Debug.Assert(false, $"Unhandled {nameof(PaletteButtonSpecStyle)}: {(int)style}");
                 if (Debugger.IsAttached)
                 {
-                    throw DebugTools.NotImplemented(style.ToString());
+                    throw SharedDebugTools.NotImplemented(style.ToString());
                 }
                 return ButtonSpecs.Generic;
         }
@@ -5271,7 +5287,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                throw SharedDebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -5384,7 +5400,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             PaletteBorderStyle.ContextMenuItemSplit => GetPaletteBorderContextMenuItemSplit(state),
             PaletteBorderStyle.ContextMenuItemImageColumn => ContextMenu.StateCommon.ItemImageColumn.Border,
             PaletteBorderStyle.ContextMenuSeparator => ContextMenu.StateCommon.Separator.Border,
-            _ => throw DebugTools.NotImplemented(style.ToString())
+            _ => throw SharedDebugTools.NotImplemented(style.ToString())
         };
     }
 
@@ -5552,7 +5568,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                throw SharedDebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -5580,7 +5596,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 {
                     // Should never happen!
                     Debug.Assert(false);
-                    throw DebugTools.NotImplemented(state.ToString());
+                    throw SharedDebugTools.NotImplemented(state.ToString());
                 }
             }
         }
@@ -5610,7 +5626,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 {
                     // Should never happen!
                     Debug.Assert(false);
-                    throw DebugTools.NotImplemented(state.ToString());
+                    throw SharedDebugTools.NotImplemented(state.ToString());
                 }
             }
         }
@@ -5640,7 +5656,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 {
                     // Should never happen!
                     Debug.Assert(false);
-                    throw DebugTools.NotImplemented(state.ToString());
+                    throw SharedDebugTools.NotImplemented(state.ToString());
                 }
             }
         }
@@ -5667,7 +5683,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -5693,7 +5709,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 {
                     // Should never happen!
                     Debug.Assert(false);
-                    throw DebugTools.NotImplemented(state.ToString());
+                    throw SharedDebugTools.NotImplemented(state.ToString());
                 }
             }
         }
@@ -5721,7 +5737,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 {
                     // Should never happen!
                     Debug.Assert(false);
-                    throw DebugTools.NotImplemented(state.ToString());
+                    throw SharedDebugTools.NotImplemented(state.ToString());
                 }
             }
         }
@@ -5749,7 +5765,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 {
                     // Should never happen!
                     Debug.Assert(false);
-                    throw DebugTools.NotImplemented(state.ToString());
+                    throw SharedDebugTools.NotImplemented(state.ToString());
                 }
             }
         }
@@ -5777,7 +5793,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -5800,7 +5816,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -5822,7 +5838,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 {
                     // Should never happen!
                     Debug.Assert(false);
-                    throw DebugTools.NotImplemented(state.ToString());
+                    throw SharedDebugTools.NotImplemented(state.ToString());
                 }
             }
         }
@@ -5846,7 +5862,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 {
                     // Should never happen!
                     Debug.Assert(false);
-                    throw DebugTools.NotImplemented(state.ToString());
+                    throw SharedDebugTools.NotImplemented(state.ToString());
                 }
             }
         }
@@ -5870,7 +5886,7 @@ public class KryptonCustomPaletteBase : PaletteBase
                 {
                     // Should never happen!
                     Debug.Assert(false);
-                    throw DebugTools.NotImplemented(state.ToString());
+                    throw SharedDebugTools.NotImplemented(state.ToString());
                 }
             }
         }
@@ -5895,7 +5911,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -5911,7 +5927,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         {
             // Should never happen!
             Debug.Assert(false);
-            throw DebugTools.NotImplemented("separatorState == null");
+            throw SharedDebugTools.NotImplemented("separatorState == null");
         }
     }
 
@@ -5927,7 +5943,7 @@ public class KryptonCustomPaletteBase : PaletteBase
         {
             // Should never happen!
             Debug.Assert(false);
-            throw DebugTools.NotImplemented("separatorState == null");
+            throw SharedDebugTools.NotImplemented("separatorState == null");
         }
     }
 
@@ -5946,7 +5962,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -5975,7 +5991,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -5999,7 +6015,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6022,7 +6038,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6043,7 +6059,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6062,7 +6078,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6083,7 +6099,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6104,7 +6120,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6123,7 +6139,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6145,7 +6161,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6166,7 +6182,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6185,7 +6201,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6207,7 +6223,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6244,7 +6260,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6262,7 +6278,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6288,7 +6304,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6305,7 +6321,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6322,7 +6338,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6341,7 +6357,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6358,7 +6374,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6375,7 +6391,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6394,7 +6410,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6411,7 +6427,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6426,7 +6442,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6441,7 +6457,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -6456,7 +6472,7 @@ public class KryptonCustomPaletteBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
     #endregion

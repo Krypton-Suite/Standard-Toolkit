@@ -274,4 +274,10 @@ public sealed class PaletteOffice2013LightGray_BaseScheme : KryptonColorSchemeBa
     public override Color ProgressBarLow                   { get; set; } = Color.Red;
     public override Color ProgressBarMedium                { get; set; } = Color.Orange;
     public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.White;
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(171, 171, 171);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(171, 171, 171);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(59, 59, 59);
+
 }

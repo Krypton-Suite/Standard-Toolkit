@@ -737,7 +737,7 @@ public class ViewLayoutViewport : ViewComposite
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(orientation.ToString());
+                    SharedDebugTools.NotImplemented(orientation.ToString());
                     break;
             }
         }

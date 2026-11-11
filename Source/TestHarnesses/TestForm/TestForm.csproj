@@ -38,6 +38,7 @@
     <ProjectReference Include="..\..\Krypton Components\Shared\Krypton.Themes\Krypton.Themes.csproj" />
     <!--<ProjectReference Include="..\ThemeProviderSample\ThemeProviderSample.csproj" />-->
     <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Graphs\Krypton.Graphs.csproj" />
     <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Gauges\Krypton.Gauges.csproj" />
     <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
     <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Charting\Krypton.Charting.csproj" />
@@ -372,6 +373,7 @@
   <ItemGroup>
     <Folder Include="KryptonDrawing\Bugs\" />
     <Folder Include="KryptonDialogs\Bugs\" />
+    <Folder Include="KryptonGraphs\Feature\" />
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonUtilities\Bugs\" />

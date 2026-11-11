@@ -246,7 +246,8 @@ public sealed class PaletteMicrosoft365Black_BaseScheme : KryptonColorSchemeBase
     public override Color MenuMarginGradientMiddle          { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color MenuMarginGradientEnd             { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color DisabledMenuItemText              { get; set; } = SharedStaticVariables.EMPTY_COLOR;
-    public override Color MenuStripText                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color MenuStripText                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+
     public override Color ToolStripText                     { get; set; } = SharedStaticVariables.EMPTY_COLOR;
     public override Color TrackBarTickMarks                 { get; set; } = Color.FromArgb(17, 17, 17);
     public override Color TrackBarTopTrack                  { get; set; } = Color.FromArgb(37, 37, 37);
@@ -271,4 +272,10 @@ public sealed class PaletteMicrosoft365Black_BaseScheme : KryptonColorSchemeBase
     public override Color ProgressBarLow                   { get; set; } = Color.Red;
     public override Color ProgressBarMedium                { get; set; } = Color.Orange;
     public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferProgressGraphPlot        { get; set; } = Color.FromArgb(99, 99, 99);
+    public override Color TransferProgressGraphSeries      { get; set; } = Color.FromArgb(76, 175, 80);
+    public override Color TransferProgressGraphGrid        { get; set; } = Color.FromArgb(46, 46, 46);
+    public override Color TransferProgressGraphBorder      { get; set; } = Color.FromArgb(46, 46, 46);
+    public override Color TransferProgressGraphLabel       { get; set; } = Color.FromArgb(70, 70, 70);
+
 }

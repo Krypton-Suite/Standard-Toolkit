@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -18,8 +18,8 @@ global using System.Runtime.InteropServices;
 global using System.Threading;
 global using System.Windows.Forms;
 
+global using Krypton.Graphs;
 global using Krypton.Toolkit;
-global using Krypton.Toolkit.Utilities;
 
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]

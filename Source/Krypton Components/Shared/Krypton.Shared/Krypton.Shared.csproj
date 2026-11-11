@@ -35,4 +35,9 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+		<Compile Remove="Controls Toolkit\**\*.cs;Controls Visuals\**\*.cs" />
+		<Compile Remove="General\ExceptionHandler.cs;General\GeneralLibraryUtilities.cs" />
+	</ItemGroup>
+
 </Project>

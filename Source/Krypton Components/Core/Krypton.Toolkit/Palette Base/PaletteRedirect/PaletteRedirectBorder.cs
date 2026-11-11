@@ -344,7 +344,7 @@ public class PaletteRedirectBorder : PaletteRedirect
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw SharedDebugTools.NotImplemented(state.ToString());
         }
     }
     #endregion

@@ -199,7 +199,7 @@ public class PaletteDataGridViewTripleRedirect : Storage,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(buttonStyle.ToString());
+                SharedDebugTools.NotImplemented(buttonStyle.ToString());
                 break;
         }
     }
@@ -260,7 +260,7 @@ public class PaletteDataGridViewTripleRedirect : Storage,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(headerStyle.ToString());
+                SharedDebugTools.NotImplemented(headerStyle.ToString());
                 break;
         }
     }

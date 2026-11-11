@@ -33,7 +33,7 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 Initialize-UnitTestNativeInput
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Resources.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 $themesDll = Join-Path $bin 'Krypton.Themes.dll'
@@ -78,12 +78,13 @@ function New-Package([string]$version, $severity, [string]$notes, $banner = $nul
     [void]$invokeArgs.Add($notes)
     [void]$invokeArgs.Add($null)
     [void]$invokeArgs.Add($released)
-    while ($invokeArgs.Count -lt ($ctor.GetParameters().Count - 2)) {
+    while ($invokeArgs.Count -lt ($ctor.GetParameters().Count - 3)) {
         [void]$invokeArgs.Add([Type]::Missing)
     }
 
     [void]$invokeArgs.Add($banner)
     [void]$invokeArgs.Add($pulse)
+    [void]$invokeArgs.Add($null) # progressDisplay — use Bind argument / updater property
     return $ctor.Invoke($invokeArgs.ToArray())
 }
 
@@ -140,8 +141,12 @@ foreach ($theme in $themes) {
     [void]$postponeType.GetMethod('Bind', $flags).Invoke($postpone, @($strings, 7, 365, $true))
     Show-Shot $postpone (Join-Path $pr "4669-application-updater-postpone-$suffix.png")
 
+    $progressDisplayType = $utilities.GetType('Krypton.Toolkit.Utilities.KryptonUpdateProgressDisplay')
+    $progressBarMode = [Enum]::Parse($progressDisplayType, 'ProgressBar')
+    $graphMode = [Enum]::Parse($progressDisplayType, 'TransferSpeedGraph')
+
     $progress = [System.Activator]::CreateInstance($progressType)
-    [void]$progressType.GetMethod('Bind', $flags).Invoke($progress, @($strings, $demoPulse))
+    [void]$progressType.GetMethod('Bind', $flags).Invoke($progress, @($strings, $demoPulse, $progressBarMode))
     [void]$progressType.GetMethod('SetFileName', $flags).Invoke($progress, @('setup-9.9.9.exe'))
     $progress.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
     $progress.Location = New-Object System.Drawing.Point 80, 80
@@ -168,4 +173,33 @@ foreach ($theme in $themes) {
     $progress.Close()
     $progress.Dispose()
     Write-Output "Wrote $detailsPath"
+
+    $graph = [System.Activator]::CreateInstance($progressType)
+    [void]$progressType.GetMethod('Bind', $flags).Invoke($graph, @($strings, $demoPulse, $graphMode))
+    [void]$progressType.GetMethod('SetFileName', $flags).Invoke($graph, @('setup-9.9.9.exe'))
+    $graph.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
+    $graph.Location = New-Object System.Drawing.Point 80, 80
+    $graph.TopMost = $true
+    $graph.Show()
+    $graph.Refresh()
+    $graph.Activate()
+    $graph.BringToFront()
+    [void][UnitTestNative]::SetForegroundWindow($graph.Handle)
+    [System.Windows.Forms.Application]::DoEvents()
+    $received = [int64]1000000
+    $total = [Nullable[int64]]10000000
+    for ($sample = 0; $sample -lt 12; $sample++) {
+        $received += [int64](180000 + (Get-Random -Minimum 0 -Maximum 80000))
+        $progressArgs = [object[]]::new(2)
+        $progressArgs[0] = $received
+        $progressArgs[1] = $total
+        [void]$progressType.GetMethod('SetProgress', $flags).Invoke($graph, $progressArgs)
+        Start-Sleep -Milliseconds 280
+        [System.Windows.Forms.Application]::DoEvents()
+    }
+    $graphPath = Join-Path $pr "4669-application-updater-speed-graph-$suffix.png"
+    Save-UnitTestWindowPng -Form $graph -Path $graphPath -SettleMs 200
+    $graph.Close()
+    $graph.Dispose()
+    Write-Output "Wrote $graphPath"
 }

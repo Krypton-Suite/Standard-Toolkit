@@ -273,6 +273,12 @@ public abstract class KryptonColorSchemeBase
     public abstract Color ProgressBarLow                   { get; set; }
     public abstract Color ProgressBarMedium                { get; set; }
     public abstract Color ProgressBarHigh                  { get; set; }
+    public abstract Color TransferProgressGraphPlot        { get; set; }
+    public abstract Color TransferProgressGraphSeries      { get; set; }
+    public abstract Color TransferProgressGraphGrid        { get; set; }
+    public abstract Color TransferProgressGraphBorder      { get; set; }
+    public abstract Color TransferProgressGraphLabel       { get; set; }
+
 
     #endregion
 }

@@ -469,7 +469,7 @@ public class LinkLabelController : GlobalId,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(_target.State.ToString());
+                SharedDebugTools.NotImplemented(_target.State.ToString());
                 break;
         }
 

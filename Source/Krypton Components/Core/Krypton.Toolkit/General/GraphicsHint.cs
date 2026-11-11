@@ -59,7 +59,7 @@ public class GraphicsHint : GlobalId,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(hint.ToString());
+                SharedDebugTools.NotImplemented(hint.ToString());
                 break;
         }
     }

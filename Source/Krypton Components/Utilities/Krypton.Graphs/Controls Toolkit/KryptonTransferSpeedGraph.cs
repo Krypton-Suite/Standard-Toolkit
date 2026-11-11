@@ -7,7 +7,7 @@
  */
 #endregion
 
-namespace Krypton.Toolkit.Utilities;
+namespace Krypton.Graphs;
 
 /// <summary>
 /// Scrolls a theme-aware area chart of transfer speed samples.
@@ -35,6 +35,15 @@ public class KryptonTransferSpeedGraph : Control
     /// Creates an empty graph with the factory capacity.
     /// </summary>
     public KryptonTransferSpeedGraph()
+        : this(PaletteElement.TransferSpeedGraph)
+    {
+    }
+
+    /// <summary>
+    /// Creates an empty graph that inherits colours from <paramref name="paletteElement"/>.
+    /// </summary>
+    /// <param name="paletteElement">Speed or progress graph palette element.</param>
+    protected KryptonTransferSpeedGraph(PaletteElement paletteElement)
     {
         Values = new SpeedGraphValues(this);
         _capacity = Values.Capacity;
@@ -50,12 +59,12 @@ public class KryptonTransferSpeedGraph : Control
         _palette = KryptonManager.CurrentGlobalPalette;
         if (_palette != null)
         {
-            _palette.PalettePaintInternal += OnPalettePaint;
+            _palette.PalettePaint += OnPalettePaint;
         }
 
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChanged;
         _paletteRedirect = new PaletteRedirect(_palette);
-        StateCommon = new PaletteTransferSpeedGraphRedirect(_paletteRedirect, OnNeedPaintHandler);
+        StateCommon = new PaletteTransferSpeedGraphRedirect(_paletteRedirect, OnNeedPaintHandler, paletteElement);
         StateDisabled = new PaletteTransferSpeedGraphStates(StateCommon, OnNeedPaintHandler);
         StateNormal = new PaletteTransferSpeedGraphStates(StateCommon, OnNeedPaintHandler);
     }
@@ -186,7 +195,7 @@ public class KryptonTransferSpeedGraph : Control
         {
             if (_palette != null)
             {
-                _palette.PalettePaintInternal -= OnPalettePaint;
+                _palette.PalettePaint -= OnPalettePaint;
                 _palette = null;
             }
 
@@ -330,9 +339,9 @@ public class KryptonTransferSpeedGraph : Control
         if (Values.ShowSpeedLabel)
         {
             double current = _count == 0 ? 0 : SampleAt(_count - 1);
-            string rate = FormatBytes(current) + "/s";
-            string peakRate = FormatBytes(Peak) + "/s";
-            string troughRate = FormatBytes(Trough) + "/s";
+            string rate = FormatSample(current, Values.SampleDisplay);
+            string peakRate = FormatSample(Peak, Values.SampleDisplay);
+            string troughRate = FormatSample(Trough, Values.SampleDisplay);
             string label = string.Format(CultureInfo.CurrentCulture, Values.SpeedLabelFormat, rate, peakRate, troughRate);
             using (var textBrush = new SolidBrush(text))
             {
@@ -494,7 +503,7 @@ public class KryptonTransferSpeedGraph : Control
     {
         if (_palette != null)
         {
-            _palette.PalettePaintInternal -= OnPalettePaint;
+            _palette.PalettePaint -= OnPalettePaint;
         }
 
         _palette = KryptonManager.CurrentGlobalPalette;
@@ -502,7 +511,7 @@ public class KryptonTransferSpeedGraph : Control
         StateCommon.SetRedirector(_paletteRedirect);
         if (_palette != null)
         {
-            _palette.PalettePaintInternal += OnPalettePaint;
+            _palette.PalettePaint += OnPalettePaint;
         }
 
         Invalidate();
@@ -511,6 +520,19 @@ public class KryptonTransferSpeedGraph : Control
     private void OnPalettePaint(object? sender, PaletteLayoutEventArgs e) => Invalidate();
 
     private void OnNeedPaintHandler(object? sender, NeedLayoutEventArgs e) => Invalidate();
+
+    private static string FormatSample(double value, TransferGraphSampleDisplay display)
+    {
+        switch (display)
+        {
+            case TransferGraphSampleDisplay.Percent:
+                return value.ToString("0", CultureInfo.CurrentCulture) + "%";
+            case TransferGraphSampleDisplay.Bytes:
+                return FormatBytes(value);
+            default:
+                return FormatBytes(value) + "/s";
+        }
+    }
 
     private static string FormatBytes(double bytes)
     {

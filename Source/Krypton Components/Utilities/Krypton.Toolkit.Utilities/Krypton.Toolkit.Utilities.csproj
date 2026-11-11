@@ -31,10 +31,10 @@
 		<Description>Optional Krypton.Toolkit utilities assembly: AboutBox, toast and exception dialogs, command-link buttons, floating toolbars, palette file selectors, file-system views, transfer-speed graph, WebView2 helpers, and related controls. Included in the Krypton.Standard.Toolkit NuGet package.</Description>
 	</PropertyGroup>
 
-	<Import Project="..\..\Common\Krypton.SharedCompileItems.props" />
 	<PropertyGroup>
 		<IncludeKryptonUtilitiesSourceLinks>true</IncludeKryptonUtilitiesSourceLinks>
 	</PropertyGroup>
+	<Import Project="..\..\Common\Krypton.SharedCompileItems.props" />
 
 	<ItemGroup>
 	  <Content Include="Utilities\WinFormAnimatiion\General\Icon.png" />
@@ -96,6 +96,7 @@
 			<!-- Krypton.Resources: direct reference required (typed ResourceFiles accessors via InternalsVisibleTo); PrivateAssets so it is not a NuGet dependency (bundled via Krypton.Resources.Package.targets). -->
 		<ProjectReference Include="..\..\Shared\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\..\Shared\Krypton.Shared\Krypton.Shared.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\Krypton.Graphs\Krypton.Graphs.csproj" />
 	  <ProjectReference Include="..\..\Core\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
 	  <ProjectReference Include="..\..\Core\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
 	  <ProjectReference Include="..\..\Core\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />

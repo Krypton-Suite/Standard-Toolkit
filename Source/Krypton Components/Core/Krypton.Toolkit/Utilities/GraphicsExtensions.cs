@@ -251,7 +251,7 @@ public static class GraphicsExtensions
             case KryptonMessageBoxIcon.SystemApplication:
                 return ScaleImage(SystemIcons.Application.ToBitmap(), newSize);
             default:
-                DebugTools.NotImplemented(iconType.ToString());
+                SharedDebugTools.NotImplemented(iconType.ToString());
                 return ThrowHelper.ThrowArgumentOutOfRangeException<Image?>(nameof(iconType), iconType, null);
         }
     }

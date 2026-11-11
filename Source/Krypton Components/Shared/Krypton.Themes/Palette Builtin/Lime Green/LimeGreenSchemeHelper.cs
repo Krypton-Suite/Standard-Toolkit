@@ -258,6 +258,11 @@ public static class LimeGreenSchemeHelper
         scheme.TransferSpeedGraphGrid = buttonBorder;
         scheme.TransferSpeedGraphBorder = buttonBorder;
         scheme.TransferSpeedGraphLabel = Color.Black;
+        scheme.TransferProgressGraphPlot = scheme.TransferSpeedGraphPlot;
+        scheme.TransferProgressGraphSeries = Color.FromArgb(76, 175, 80);
+        scheme.TransferProgressGraphGrid = scheme.TransferSpeedGraphGrid;
+        scheme.TransferProgressGraphBorder = scheme.TransferSpeedGraphBorder;
+        scheme.TransferProgressGraphLabel = scheme.TransferSpeedGraphLabel;
     }
 
     /// <summary>
@@ -587,5 +592,10 @@ public static class LimeGreenSchemeHelper
         scheme.TransferSpeedGraphGrid = borderMuted;
         scheme.TransferSpeedGraphBorder = borderMuted;
         scheme.TransferSpeedGraphLabel = lightText;
+        scheme.TransferProgressGraphPlot = scheme.TransferSpeedGraphPlot;
+        scheme.TransferProgressGraphSeries = Color.FromArgb(76, 175, 80);
+        scheme.TransferProgressGraphGrid = scheme.TransferSpeedGraphGrid;
+        scheme.TransferProgressGraphBorder = scheme.TransferSpeedGraphBorder;
+        scheme.TransferProgressGraphLabel = scheme.TransferSpeedGraphLabel;
     }
 }

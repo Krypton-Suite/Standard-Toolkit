@@ -120,3 +120,13 @@ public enum KryptonUpdateCheckStatus
     /// <summary>The feed, download, verification, or apply failed. See <see cref="KryptonUpdateCheckResult.Error"/>.</summary>
     Failed = 7
 }
+
+/// <summary>Primary progress control shown while a package downloads.</summary>
+public enum KryptonUpdateProgressDisplay
+{
+    /// <summary>A percent (or marquee) progress bar.</summary>
+    ProgressBar = 0,
+
+    /// <summary>A <see cref="Krypton.Graphs.KryptonTransferProgressPanel"/> (speed chart plus optional progress chart).</summary>
+    TransferSpeedGraph = 1
+}

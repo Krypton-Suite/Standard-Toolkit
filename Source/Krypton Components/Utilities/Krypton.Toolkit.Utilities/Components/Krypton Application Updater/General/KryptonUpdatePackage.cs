@@ -37,6 +37,7 @@ public sealed class KryptonUpdatePackage
     /// <param name="allowRetry">When null, a failed download can be started again. When false, Restart is hidden.</param>
     /// <param name="banner">Optional prompt and notes banner. Null when the manifest omits it.</param>
     /// <param name="pulse">Optional form chrome glow. Null when the manifest omits it.</param>
+    /// <param name="progressDisplay">Optional progress control. Null uses <see cref="KryptonApplicationUpdater.ProgressDisplay"/>.</param>
     public KryptonUpdatePackage(
         Version version,
         KryptonUpdateSeverity severity,
@@ -53,7 +54,8 @@ public sealed class KryptonUpdatePackage
         bool? allowResume = null,
         bool? allowRetry = null,
         KryptonUpdateBanner? banner = null,
-        KryptonUpdatePulse? pulse = null)
+        KryptonUpdatePulse? pulse = null,
+        KryptonUpdateProgressDisplay? progressDisplay = null)
     {
         ThrowHelper.ThrowIfNull(version);
         if (maximumPostponeDays.HasValue && maximumPostponeDays.Value < 1)
@@ -81,6 +83,7 @@ public sealed class KryptonUpdatePackage
         _allowRetry = allowRetry;
         Banner = banner;
         Pulse = pulse;
+        ProgressDisplay = progressDisplay;
     }
 
     /// <summary>Gets the package version.</summary>
@@ -152,6 +155,9 @@ public sealed class KryptonUpdatePackage
     /// <summary>Gets the optional form chrome glow, or null when the manifest omits it.</summary>
     public KryptonUpdatePulse? Pulse { get; }
 
+    /// <summary>Gets the optional progress control, or null when the manifest omits it.</summary>
+    public KryptonUpdateProgressDisplay? ProgressDisplay { get; }
+
     /// <summary>Returns a copy that downloads from <paramref name="packageUrl"/>.</summary>
     /// <param name="packageUrl">Resolved HTTPS address or local path.</param>
     /// <returns>A package with the same metadata and the new address.</returns>
@@ -172,7 +178,8 @@ public sealed class KryptonUpdatePackage
             _allowResume,
             _allowRetry,
             Banner,
-            Pulse);
+            Pulse,
+            ProgressDisplay);
 }
 
 /// <summary>Packages returned by one feed check.</summary>

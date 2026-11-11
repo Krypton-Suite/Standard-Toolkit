@@ -945,7 +945,7 @@ public abstract class ButtonSpecManagerBase : GlobalId
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(location.ToString());
+                SharedDebugTools.NotImplemented(location.ToString());
                 break;
         }
 
