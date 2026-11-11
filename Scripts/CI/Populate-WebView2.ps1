@@ -19,7 +19,7 @@ $ErrorActionPreference = 'Stop'
 
 $PackageId = 'Microsoft.Web.WebView2'
 $DefaultFallbackVersion = '1.0.3595.46'
-$LibRelativePath = 'Source\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Lib\WebView2'
+$LibRelativePath = $null
 $RequiredDllNames = @(
     'Microsoft.Web.WebView2.Core.dll',
     'Microsoft.Web.WebView2.WinForms.dll',
@@ -132,6 +132,17 @@ if (-not $RepoRoot) {
         $RepoRoot = (Get-Location).Path
     }
 }
+
+$webView2ProjectCandidates = @(
+    'Source/Krypton Components/Utilities/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj',
+    'Source/Krypton Components/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj'
+) | ForEach-Object { Join-Path $RepoRoot $_ }
+$webView2Project = $webView2ProjectCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+if (-not $webView2Project) {
+    Write-Error "Krypton.Toolkit.Utilities project not found under '$RepoRoot/Source/Krypton Components' (checked modern and legacy layouts)."
+}
+$LibRelativePath = Join-Path (Split-Path -Parent $webView2Project) 'Lib\WebView2'
+$LibRelativePath = [System.IO.Path]::GetRelativePath($RepoRoot, $LibRelativePath)
 
 if (-not $CacheRoot) {
     $runnerTemp = $env:RUNNER_TEMP

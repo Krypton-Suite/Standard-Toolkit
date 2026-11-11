@@ -7,8 +7,8 @@
 #
 # Stable, canary, alpha, and release-candidate templates publish from the matching
 # package workflow after NuGet publish:
-#   stable -> .github/workflows/release.yml (master)
-#   canary -> .github/workflows/canary.yml and release.yml (canary)
+#   stable -> .github/workflows/release-master.yml (master)
+#   canary -> .github/workflows/release-canary.yml
 #   alpha  -> .github/workflows/nightly.yml
 #   rc     -> .github/workflows/release-candidate.yml
 # This workflow publishes the V110 "current" channel, and can be run manually.
