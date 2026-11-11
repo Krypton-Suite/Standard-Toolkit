@@ -1,27 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-	<OutputType>WinExe</OutputType>
-	<TargetFrameworks>net481;net10.0-windows</TargetFrameworks>
-	<UseWindowsForms>true</UseWindowsForms>
-	<EnableWindowsTargeting>true</EnableWindowsTargeting>
-	<Nullable>enable</Nullable>
-	<ImplicitUsings>disable</ImplicitUsings>
-	<RootNamespace>AccessibilityAudit</RootNamespace>
-	<AssemblyName>AccessibilityAudit</AssemblyName>
-	<Platforms>AnyCPU</Platforms>
-	<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-	<ApplicationVisualStyles>true</ApplicationVisualStyles>
-	<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
-	  <LangVersion>preview</LangVersion>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>AccessibilityAudit</RootNamespace>
+    <AssemblyName>AccessibilityAudit</AssemblyName>
+    <Platforms>AnyCPU</Platforms>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <ApplicationVisualStyles>true</ApplicationVisualStyles>
+    <ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
   </PropertyGroup>
 
-  <!-- System.Text.Json is in-box on modern TFMs; net4x needs the NuGet package (also pulls Encodings.Web). -->
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-	<PackageReference Include="System.Text.Json" Version="9.0.10" />
-  </ItemGroup>
-
   <ItemGroup>
-	<ProjectReference Include="..\..\Krypton Components\Krypton.Docking\Krypton.Docking 2022.csproj" />
-	<ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Docking\Krypton.Docking 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj" />
   </ItemGroup>
 </Project>
