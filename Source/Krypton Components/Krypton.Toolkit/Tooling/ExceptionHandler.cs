@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
@@ -15,12 +15,13 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// This class is designed to handle thrown exceptions. (FOR INTERNAL USE ONLY!)
 /// </summary>
-internal class ExceptionHandler
+// TODO: Remove this class in a future release. It is kept for backward compatibility with existing code that uses ExceptionHandlerOld.
+internal class ExceptionHandlerOld
 {
     #region Idendity
 
     /// <summary>Initializes a new instance of the <see cref="ExceptionHandler" /> class.</summary>
-    public ExceptionHandler()
+    public ExceptionHandlerOld()
     {
 
     }

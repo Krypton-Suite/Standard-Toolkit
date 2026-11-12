@@ -16,7 +16,8 @@
 
 namespace Krypton.Toolkit;
 
-public class GeneralToolkitUtilities
+// TODO: Remove this class in a future release. It is kept for backward compatibility with existing code that uses GeneralToolkitUtilitiesOld.
+public class GeneralToolkitUtilitiesOld
 {
     #region Implementation
 

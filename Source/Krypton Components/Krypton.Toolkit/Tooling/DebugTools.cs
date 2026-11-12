@@ -24,7 +24,8 @@ namespace Krypton.Toolkit;
 /// If not configured, clicking "Yes" on the "Not Implemented" prompt will open the GitHub new issue page in the browser.
 /// </para>
 /// </remarks>
-public static class DebugTools
+// TODO: Remove this class in a future release. It is kept for backward compatibility with existing code that uses DebugToolsOld.NotImplemented.
+public static class DebugToolsOld
 {
     #region Static Fields
 
