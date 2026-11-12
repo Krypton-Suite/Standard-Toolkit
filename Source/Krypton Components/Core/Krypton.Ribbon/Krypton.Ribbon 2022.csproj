@@ -7,8 +7,8 @@
     <!-- Disable CheckEolTargetFramework to suppress this warning. -->
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
-    <ApplicationIcon>Krypton.ico</ApplicationIcon>
+    <AssemblyOriginatorKeyFile>$(KryptonStrongNameKeyFile)</AssemblyOriginatorKeyFile>
+    <ApplicationIcon>$(KryptonApplicationIcon)</ApplicationIcon>
     <DelaySign>false</DelaySign>
     <UseWindowsForms>true</UseWindowsForms>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -60,7 +60,7 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Krypton.ico" Pack="false" />
+    <Content Include="$(KryptonApplicationIcon)" Link="Krypton.ico" Pack="false" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupDateTimePicker.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupDomainUpDown.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonRibbonGroupNumericUpDown.bmp" />

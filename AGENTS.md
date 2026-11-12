@@ -23,6 +23,7 @@ These are recurring issues observed when using AI coding agents and shell wrappe
 
 Before considering a task complete:
 
+- For every code change, build the complete suite in the Visual Studio IDE using `Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.slnx` (Debug by default). Open the solution in Visual Studio 2022 and run **Build > Build Solution** (`Ctrl+Shift+B`). Record the result; a command-line or project-only build does not replace this IDE validation. If Visual Studio is unavailable, report that the required IDE build was not run.
 - Build the affected project if instructed.
 - Fix any compiler or analyzer warnings introduced by the change; treat new warnings as part of the build (do not leave them for later). Prefer fixing pre-existing warnings in files you already touch when the fix is small and local; do not expand into a repo-wide warning cleanup unless asked.
 - Check files you create or edit for UTF-8 BOM encoding issues and fix them (see **Coding Style & Naming Conventions**). Do not leave UTF-8-without-BOM or wrong-encoding files when the repo expects UTF-8 with BOM; do not expand into a repo-wide encoding cleanup unless asked.
@@ -52,7 +53,7 @@ Before considering a task complete:
 
 ## Project Structure & Module Organization
 
-- `Source/Krypton Components`: solution `Krypton Toolkit Suite 2022 - VS2022.sln`, with library projects in three folders. `Core` holds Docking, Navigator, Ribbon, Toolkit, Workspace, Interop, Resources, Shared, and Themes. `Utilities` holds Toolkit.Utilities, Navigator.Utilities, UpdateHelper, JumpList, Charting, Gauges, Drawing, Dialogs, and Graphs. `Design` holds every `Krypton.*.Design` project, including `Krypton.Graphs.Design`, plus Design.Client and Design.Protocol. `Krypton.Standard.Toolkit` stays beside those three folders. New library projects go in `Core`, `Design`, or `Utilities`.
+- `Source/Krypton Components`: Visual Studio solution `Krypton Toolkit Suite 2022 - VS2022.slnx`, with library projects in three folders. `Core` holds Docking, Navigator, Ribbon, Toolkit, Workspace, Interop, Resources, Shared, and Themes. `Utilities` holds Toolkit.Utilities, Navigator.Utilities, UpdateHelper, JumpList, Charting, Gauges, Drawing, Dialogs, and Graphs. `Design` holds every `Krypton.*.Design` project, including `Krypton.Graphs.Design`, plus Design.Client and Design.Protocol. `Krypton.Standard.Toolkit` stays beside those three folders. New library projects go in `Core`, `Design`, or `Utilities`.
 - Design-time projects (`Krypton.*.Design`, `Krypton.Toolkit.Design.Client`, `Krypton.Toolkit.Design.Protocol`) live in `Source/Krypton Components/Design` and the **Design** solution folder. They are not packable on their own; pack copies them into consumer nupkgs (see **WinForms Designer Extensibility SDK**).
 - `Krypton.Standard.Toolkit` is the aggregate NuGet project: it bundles referenced binaries (including `Krypton.Themes.dll` and `lib\{tfm}\Design\WinForms`) into one nupkg.
 - `Source/TestHarnesses/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**). Library folders omit `.` from assembly names (`KryptonToolkit`, `KryptonUtilities`, not `Krypton.Toolkit`); new feature demos sit under that folder’s `Feature` subfolder and issue repros under `Bugs`.
@@ -295,8 +296,9 @@ When startup or a hot path is the task, time it before and after. Reuse `Scripts
 ## Build, Test, and Development Commands
 
 - Script/CI builds use phased orchestration (`Scripts/Build/Krypton.Orchestration.targets`) with `msbuild /m` for parallel TFMs; do not build all `Krypton.*` projects in one parallel batch (shared `Bin/<Configuration>/<tfm>/` outputs).
-- Build solution (Debug):
-  - `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug`
+- Required full-suite IDE build (Debug): open `.\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.slnx` in Visual Studio 2022 and run **Build > Build Solution** (`Ctrl+Shift+B`). A CLI build is supplemental and does not satisfy the IDE validation requirement.
+- Optional command-line build for additional diagnostics:
+  - `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.slnx" -c Debug`
 - Run sample app:
   - `dotnet run --project ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug`
 - Build script entry points, only when explicitly instructed:
@@ -995,18 +997,17 @@ This is separate from **UI Screenshots / GIFs**. A build-log PNG is required eve
 
 ### What to capture
 
-- One **PNG** of a successful **full solution** Debug build of `Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln` (unless the change is configuration-specific, then use that configuration).
+- One **PNG** of a successful **full solution** Debug build performed in Visual Studio 2022 using `Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx` (unless the change is configuration-specific, then use that configuration).
 - Do **not** substitute a single-project or TestForm-only build for the PR build-log artefact. Targeted builds are fine during development; the screenshot recorded under **Validation** must cover the entire suite solution.
 - The image must show the build command or solution name, the configuration (for example `Debug`), and the success summary (`Build succeeded` / `0 Error(s)`; include the warning count when the tool prints it). Prefer `0 Warning(s)` when practical; fix warnings introduced by the change (and small local pre-existing warnings in files already touched) before capturing.
 - One shot is enough. Do not screenshot every TFM unless the change is TFM-specific.
 
 ### How
 
-1. Build the full suite solution as recorded in **Validation**:
-   `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug`
+1. Build the full suite in the Visual Studio IDE as recorded in **Validation**: open `.\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.slnx`, select the required configuration, then run **Build > Build Solution** (`Ctrl+Shift+B`).
 2. Save a PNG as `Documents/PR/<issue-or-branch>-<short-title>-build.png`.
-   - Prefer rendering the last ~40 lines of the build output (command, solution, configuration, and success summary) to a PNG with `System.Drawing` so the shot does not depend on an on-screen terminal.
-   - If a terminal window showing that build is already on-screen, `CopyFromScreen` of that window is also fine; crop to the log.
+   - Prefer rendering the last ~40 lines of the Visual Studio Build output (solution, configuration, and success summary) to a PNG with `System.Drawing`.
+   - If the Visual Studio Build output is already visible, capture that IDE window and crop to the log.
 3. Embed the image under **Validation** in the PR description (keep UI shots in **Screenshots / GIFs**):
 
 ```markdown

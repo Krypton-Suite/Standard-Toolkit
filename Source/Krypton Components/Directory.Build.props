@@ -1,6 +1,11 @@
 ﻿<Project>
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
 
+	<PropertyGroup>
+		<KryptonStrongNameKeyFile>$(MSBuildThisFileDirectory)Common\StrongKrypton.snk</KryptonStrongNameKeyFile>
+		<KryptonApplicationIcon>$(MSBuildThisFileDirectory)Common\Krypton.ico</KryptonApplicationIcon>
+	</PropertyGroup>
+
 	<!-- MSB3822/3823: binary .resx (images/icons) need preserialized GenerateResource + System.Resources.Extensions.
 	     Defined here (not repo root) so it applies after SDK props; all projects under this folder are WinForms SDK. -->
 	<PropertyGroup>

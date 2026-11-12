@@ -6,7 +6,7 @@
     <AssemblyName>Krypton.Themes</AssemblyName>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
 	<SignAssembly>True</SignAssembly>
-	<AssemblyOriginatorKeyFile>..\Krypton.Shared\StrongKrypton.snk</AssemblyOriginatorKeyFile>
+	<AssemblyOriginatorKeyFile>$(KryptonStrongNameKeyFile)</AssemblyOriginatorKeyFile>
 	<DelaySign>false</DelaySign>
 	<UseWindowsForms>true</UseWindowsForms>
 	<PlatformTarget>AnyCPU</PlatformTarget>

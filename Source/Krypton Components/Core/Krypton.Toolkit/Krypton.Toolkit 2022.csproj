@@ -7,8 +7,8 @@
 	<!-- Disable CheckEolTargetFramework to suppress this warning. -->
 	<CheckEolTargetFramework>false</CheckEolTargetFramework>
 	<SignAssembly>True</SignAssembly>
-	<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
-	<ApplicationIcon>Krypton.ico</ApplicationIcon>
+	<AssemblyOriginatorKeyFile>$(KryptonStrongNameKeyFile)</AssemblyOriginatorKeyFile>
+	<ApplicationIcon>$(KryptonApplicationIcon)</ApplicationIcon>
 	<DelaySign>false</DelaySign>
 	<UseWindowsForms>true</UseWindowsForms>
 	<PlatformTarget>AnyCPU</PlatformTarget>
@@ -156,7 +156,7 @@
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckButton.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
-	<Content Include="Krypton.ico" Pack="false" />
+	<Content Include="$(KryptonApplicationIcon)" Link="Krypton.ico" Pack="false" />
 	<EmbeddedResource Include="..\..\Shared\Krypton.Resources\Resources\KryptonPalette.ico" Link="Resources\KryptonPalette.ico" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroupBox.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonWrapLabel.bmp" />

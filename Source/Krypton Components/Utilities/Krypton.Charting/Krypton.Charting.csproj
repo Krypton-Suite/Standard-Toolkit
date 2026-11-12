@@ -7,8 +7,8 @@
 		<IsPackable>false</IsPackable>
 		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<SignAssembly>True</SignAssembly>
-		<AssemblyOriginatorKeyFile>..\..\Shared\Krypton.Shared\StrongKrypton.snk</AssemblyOriginatorKeyFile>
-		<ApplicationIcon>..\Krypton.Toolkit.Utilities\Krypton.ico</ApplicationIcon>
+		<AssemblyOriginatorKeyFile>$(KryptonStrongNameKeyFile)</AssemblyOriginatorKeyFile>
+		<ApplicationIcon>$(KryptonApplicationIcon)</ApplicationIcon>
 		<DelaySign>false</DelaySign>
 		<UseWindowsForms>true</UseWindowsForms>
 		<PlatformTarget>AnyCPU</PlatformTarget>

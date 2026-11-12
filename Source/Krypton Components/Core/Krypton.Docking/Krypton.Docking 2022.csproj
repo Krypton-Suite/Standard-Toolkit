@@ -6,7 +6,7 @@
 	<AssemblyName>Krypton.Docking</AssemblyName>
 	<!-- Disable CheckEolTargetFramework to suppress this warning. -->
 	<CheckEolTargetFramework>false</CheckEolTargetFramework>
-	<ApplicationIcon>Krypton.ico</ApplicationIcon>
+	<ApplicationIcon>$(KryptonApplicationIcon)</ApplicationIcon>
 	<DelaySign>false</DelaySign>
 	<UseWindowsForms>true</UseWindowsForms>
 	<PlatformTarget>AnyCPU</PlatformTarget>
@@ -70,7 +70,7 @@
 	</Compile>
   </ItemGroup>
   <ItemGroup>
-	<Content Include="Krypton.ico" Pack="false" />
+	<Content Include="$(KryptonApplicationIcon)" Link="Krypton.ico" Pack="false" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonDockableNavigator.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonDockableWorkspace.bmp" />
 	<EmbeddedResource Include="ToolboxBitmaps\KryptonDockingManager.bmp" />
@@ -96,7 +96,7 @@
   <PropertyGroup>
 	<NoWarn>1701;1702</NoWarn>
 	<SignAssembly>True</SignAssembly>
-	<AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
+	<AssemblyOriginatorKeyFile>$(KryptonStrongNameKeyFile)</AssemblyOriginatorKeyFile>
 	<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>

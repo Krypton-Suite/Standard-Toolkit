@@ -7,8 +7,8 @@
     <!-- Disable CheckEolTargetFramework to suppress this warning. -->
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
-    <ApplicationIcon>Krypton.ico</ApplicationIcon>
+    <AssemblyOriginatorKeyFile>$(KryptonStrongNameKeyFile)</AssemblyOriginatorKeyFile>
+    <ApplicationIcon>$(KryptonApplicationIcon)</ApplicationIcon>
     <DelaySign>false</DelaySign>
     <UseWindowsForms>true</UseWindowsForms>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Krypton.ico" Pack="false" />
+    <Content Include="$(KryptonApplicationIcon)" Link="Krypton.ico" Pack="false" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceSequence.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspaceCell.bmp" />
     <EmbeddedResource Include="ToolboxBitmaps\KryptonWorkspace.bmp" />
