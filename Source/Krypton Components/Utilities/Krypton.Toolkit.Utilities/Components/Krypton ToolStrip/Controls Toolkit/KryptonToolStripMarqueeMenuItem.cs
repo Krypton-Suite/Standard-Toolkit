@@ -194,7 +194,9 @@ public class KryptonToolStripMarqueeMenuItem : KryptonEnhancedToolStripMenuItem
         int maxWidth = MinimumTextWidth > 0 ? MinimumTextWidth : _textSize.Width;
 
         while (TextRenderer.MeasureText(allSpacesString.ToString(), Font).Width < maxWidth)
+        {
             allSpacesString.Append(' ');
+        }
 
         base.Text = allSpacesString.ToString();
 

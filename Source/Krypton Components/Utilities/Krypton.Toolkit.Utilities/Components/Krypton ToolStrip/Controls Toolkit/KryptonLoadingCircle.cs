@@ -432,7 +432,9 @@ public partial class KryptonLoadingCircle : Control
         double dblAngle = NumberOfDegreesInCircle / intNumberSpoke;
 
         for (int shtCounter = 0; shtCounter < intNumberSpoke; shtCounter++)
+        {
             angles[shtCounter] = shtCounter == 0 ? dblAngle : angles[shtCounter - 1] + dblAngle;
+        }
 
         return angles;
     }

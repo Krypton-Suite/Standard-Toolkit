@@ -507,7 +507,11 @@ public class KryptonQRCode : KryptonPanel
     /// <returns>A bitmap of the QR code, or null if no content.</returns>
     public Bitmap? GetBitmap()
     {
-        if (_moduleMatrix == null) return null;
+        if (_moduleMatrix == null)
+        {
+            return null;
+        }
+
         return QRCodeBitmapRenderer.Render(
             _moduleMatrix,
             _moduleSize,
@@ -576,7 +580,10 @@ public class KryptonQRCode : KryptonPanel
     protected override void OnPaint(PaintEventArgs e)
     {
         base.OnPaint(e);
-        if (_moduleMatrix == null) return;
+        if (_moduleMatrix == null)
+        {
+            return;
+        }
 
         Graphics g = e.Graphics;
         g.InterpolationMode = InterpolationMode.NearestNeighbor;

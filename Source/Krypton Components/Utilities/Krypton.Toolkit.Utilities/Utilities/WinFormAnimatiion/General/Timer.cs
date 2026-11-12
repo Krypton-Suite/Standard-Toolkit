@@ -110,6 +110,7 @@ internal class Timer
     private static void ThreadCycle()
     {
         while (true)
+        {
             try
             {
                 bool hibernate;
@@ -119,7 +120,9 @@ internal class Timer
                     if (!hibernate)
                     {
                         foreach (var t in Subscribers.ToList())
+                        {
                             t.Tick();
+                        }
                     }
                 }
 
@@ -129,6 +132,7 @@ internal class Timer
             {
                 // ignored
             }
+        }
 
         // ReSharper disable once FunctionNeverReturns
     }

@@ -174,7 +174,11 @@ public class KryptonPrintPreviewControl : VisualPanel
         get => _columns;
         set
         {
-            if (value < 1) value = 1;
+            if (value < 1)
+            {
+                value = 1;
+            }
+
             if (_columns != value)
             {
                 _columns = value;
@@ -194,7 +198,11 @@ public class KryptonPrintPreviewControl : VisualPanel
         get => _rows;
         set
         {
-            if (value < 1) value = 1;
+            if (value < 1)
+            {
+                value = 1;
+            }
+
             if (_rows != value)
             {
                 _rows = value;
@@ -214,8 +222,16 @@ public class KryptonPrintPreviewControl : VisualPanel
         get => _zoom;
         set
         {
-            if (value < 0.1) value = 0.1;
-            if (value > 5.0) value = 5.0;
+            if (value < 0.1)
+            {
+                value = 0.1;
+            }
+
+            if (value > 5.0)
+            {
+                value = 5.0;
+            }
+
             if (Math.Abs(_zoom - value) > 0.001)
             {
                 _zoom = value;
@@ -259,8 +275,16 @@ public class KryptonPrintPreviewControl : VisualPanel
         set
         {
             var maxPage = Math.Max(0, _pageCache.PageCount - 1);
-            if (value < 0) value = 0;
-            if (value > maxPage) value = maxPage;
+            if (value < 0)
+            {
+                value = 0;
+            }
+
+            if (value > maxPage)
+            {
+                value = maxPage;
+            }
+
             if (_startPage != value)
             {
                 _startPage = value;
@@ -583,8 +607,15 @@ public class KryptonPrintPreviewControl : VisualPanel
         var zoomY = availableHeight / (double)(_rows * pageSize.Height);
 
         _zoom = Math.Min(zoomX, zoomY);
-        if (_zoom < 0.1) _zoom = 0.1;
-        if (_zoom > 5.0) _zoom = 5.0;
+        if (_zoom < 0.1)
+        {
+            _zoom = 0.1;
+        }
+
+        if (_zoom > 5.0)
+        {
+            _zoom = 5.0;
+        }
     }
 
     private void RenderPages(Graphics g, Rectangle clipRect)

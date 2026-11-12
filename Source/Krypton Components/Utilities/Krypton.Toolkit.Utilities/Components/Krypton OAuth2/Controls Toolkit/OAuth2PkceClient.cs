@@ -110,7 +110,9 @@ public class OAuth2PkceClient
         if (_options.ExtraParameters != null)
         {
             foreach (var kv in _options.ExtraParameters)
+            {
                 query[kv.Key] = kv.Value;
+            }
         }
 
         var queryString = string.Join("&", query.Select(kv => $"{Uri.EscapeDataString(kv.Key ?? "")}={Uri.EscapeDataString(kv.Value ?? "")}"));
@@ -285,7 +287,9 @@ public class OAuth2PkceClient
         }
 
         foreach (var interceptor in interceptors)
+        {
             interceptor.OnBeforeTokenRequest(request, context);
+        }
     }
 
     private void RunHttpInterceptorsAfter(HttpRequestMessage request, HttpResponseMessage response, string jsonBody, OAuth2TokenRequestContext context)
@@ -297,7 +301,9 @@ public class OAuth2PkceClient
         }
 
         foreach (var interceptor in interceptors)
+        {
             interceptor.OnAfterTokenResponse(response, jsonBody, context);
+        }
     }
 
     private static OAuth2Exception CreateExceptionFromErrorResponse(string json, int statusCode)

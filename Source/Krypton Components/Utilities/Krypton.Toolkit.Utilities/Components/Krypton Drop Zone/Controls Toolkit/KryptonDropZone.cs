@@ -907,7 +907,11 @@ public class KryptonDropZone : KryptonPanel
         {
             int allowedCount = Math.Max(0, _behavior.MaxFileCount - _droppedFilesList.Count);
             var overflow = validFiles.Skip(allowedCount).ToList();
-            foreach (var f in overflow) _rejectionReasons[f] = string.Format(_strings.ExceedsMaxFileCountFormat, _behavior.MaxFileCount);
+            foreach (var f in overflow)
+            {
+                _rejectionReasons[f] = string.Format(_strings.ExceedsMaxFileCountFormat, _behavior.MaxFileCount);
+            }
+
             invalidFiles.AddRange(overflow);
             validFiles = validFiles.Take(allowedCount).ToList();
         }
@@ -1454,7 +1458,11 @@ public class KryptonDropZone : KryptonPanel
 
         PushUndoState();
         var indices = _fileListView.SelectedIndices.Cast<int>().OrderByDescending(i => i).ToList();
-        foreach (int index in indices) _droppedFilesList.RemoveAt(index);
+        foreach (int index in indices)
+        {
+            _droppedFilesList.RemoveAt(index);
+        }
+
         UpdateListView();
     }
 
