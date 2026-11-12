@@ -51,6 +51,7 @@
 - Implemented, `Krypton.Graphs` and `Krypton.Graphs.Design` ship inside the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) package. `Krypton.Graphs` is not a separate NuGet package.
 - Implemented [#4700](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4700), **[Breaking Change]** Library projects now live under `Source/Krypton Components/Core`, `Design`, and `Utilities`. NuGet package ids, namespaces, and assembly names are unchanged. A `ProjectReference` that pointed at `Source/Krypton Components/Krypton.<Project>` must insert `Core`, `Design`, or `Utilities`.
   - GitHub workflows now resolve both the legacy V105/V115 project paths and the V120+ Core/Design/Utilities layout.
+- Resolved, Nightly aggregate packages now use the shared signing key and no longer require a missing project-local icon.
 - Resolved [#4701](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4701), Visual Studio build issues
   - Visual Studio builds no longer fail with missing `Krypton.Toolkit.Utilities` and `Krypton.Dialogs` assemblies.
   - The IDE uses the Visual Studio target-framework list, so it does not also compile .NET 8, .NET 9, and .NET 11.
