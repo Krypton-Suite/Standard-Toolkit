@@ -46,6 +46,7 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Resolved, Nightly aggregate packages now use the shared signing key and no longer require a missing project-local icon.
 - Resolved [#4701](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4701), Visual Studio build issues
   - Visual Studio builds no longer fail with missing `Krypton.Toolkit.Utilities` and `Krypton.Dialogs` assemblies.
   - The IDE uses the Visual Studio target-framework list, so it does not also compile .NET 8, .NET 9, and .NET 11.
