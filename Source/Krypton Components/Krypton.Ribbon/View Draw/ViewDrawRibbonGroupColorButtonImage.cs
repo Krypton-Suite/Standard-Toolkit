@@ -81,7 +81,7 @@ internal class ViewDrawRibbonGroupColorButtonImage : ViewDrawRibbonGroupImageBas
         }
 
         _emptyBorderColor = _ribbonColorButton.EmptyBorderColor;
-        _selectedColor = _ribbonColorButton.SelectedColor;
+        _selectedColor = _ribbonColorButton.DisplayColor;
         _selectedRectSmall = _ribbonColorButton.SelectedRectSmall;
         _selectedRectLarge = _ribbonColorButton.SelectedRectLarge;
     }

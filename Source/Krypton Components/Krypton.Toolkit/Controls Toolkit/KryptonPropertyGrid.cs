@@ -93,22 +93,22 @@ public class KryptonPropertyGrid : VisualControlBase,
         /// Gets the image that appears on the alphabetical (A-Z) toolbar button.
         /// </summary>
         protected override Bitmap SortByPropertyImage =>
-            _kryptonPropertyGrid.ResolvePropertyGridToolBitmap(PropertyGridToolImage.Alphabetical)
-            ?? base.SortByPropertyImage;
+            _kryptonPropertyGrid?.ResolvePropertyGridToolBitmap(PropertyGridToolImage.Alphabetical)
+                ?? base.SortByPropertyImage;
 
         /// <summary>
         /// Gets the image that appears on the categorized toolbar button.
         /// </summary>
         protected override Bitmap SortByCategoryImage =>
-            _kryptonPropertyGrid.ResolvePropertyGridToolBitmap(PropertyGridToolImage.Categorized)
-            ?? base.SortByCategoryImage;
+            _kryptonPropertyGrid?.ResolvePropertyGridToolBitmap(PropertyGridToolImage.Categorized)
+                ?? base.SortByCategoryImage;
 
         /// <summary>
         /// Gets the image that appears on the property pages toolbar button.
         /// </summary>
         protected override Bitmap ShowPropertyPageImage =>
-            _kryptonPropertyGrid.ResolvePropertyGridToolBitmap(PropertyGridToolImage.PropertyPages)
-            ?? base.ShowPropertyPageImage;
+            _kryptonPropertyGrid?.ResolvePropertyGridToolBitmap(PropertyGridToolImage.PropertyPages)
+                ?? base.ShowPropertyPageImage;
 
         /// <summary>
         /// Creates a <see cref="PropertyTab"/> for the given type, using a themed Events tab when requested.

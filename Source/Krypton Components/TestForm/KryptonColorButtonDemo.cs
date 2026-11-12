@@ -10,8 +10,8 @@
 namespace TestForm;
 
 /// <summary>
-/// Comprehensive demonstration of KryptonColorButton custom colours (Issue #776).
-/// Shows CustomColors, MaxCustomColors, VisibleCustomColors, and using only a fixed set of colours.
+/// Comprehensive demonstration of KryptonColorButton custom colours (Issue #776)
+/// and opt-in live preview (Issue #4691).
 /// </summary>
 public partial class KryptonColorButtonDemo : KryptonForm
 {
@@ -77,6 +77,15 @@ public partial class KryptonColorButtonDemo : KryptonForm
         btnNoMoreColors.Values.Text = @"Only custom (no No Color / More Colors)";
         btnNoMoreColors.CustomColorPreviewShape = KryptonColorButtonCustomColorPreviewShape.Circle;
 
+        // 6. Live preview follows the hover. The second button keeps the default (commit on click).
+        btnLivePreview.LivePreview = true;
+        btnLivePreview.Values.Text = @"Live preview";
+        btnLivePreview.CustomColorPreviewShape = KryptonColorButtonCustomColorPreviewShape.Circle;
+        btnCommittedOnly.LivePreview = false;
+        btnCommittedOnly.Values.Text = @"Committed only";
+        btnCommittedOnly.CustomColorPreviewShape = KryptonColorButtonCustomColorPreviewShape.Circle;
+        ApplyLivePreviewPanel(btnLivePreview.SelectedColor);
+
         UpdateSelectedLabel(btnDefault.SelectedColor);
     }
 
@@ -87,6 +96,19 @@ public partial class KryptonColorButtonDemo : KryptonForm
         btnCustomAndBuiltIn.SelectedColorChanged += OnAnyColorButtonSelectedColorChanged;
         btnMaxCustom.SelectedColorChanged += OnAnyColorButtonSelectedColorChanged;
         btnNoMoreColors.SelectedColorChanged += OnAnyColorButtonSelectedColorChanged;
+        btnLivePreview.ColorPreview += OnLivePreview;
+        btnLivePreview.SelectedColorChanged += OnLivePreviewCommitted;
+        btnCommittedOnly.SelectedColorChanged += OnAnyColorButtonSelectedColorChanged;
+    }
+
+    private void OnLivePreview(object? sender, KryptonColorLivePreviewEventArgs e) =>
+        ApplyLivePreviewPanel(e.Color);
+
+    private void OnLivePreviewCommitted(object? sender, ColorEventArgs e)
+    {
+        // More Colors commits through SelectedColor. The Win32 dialog does not raise ColorPreview.
+        ApplyLivePreviewPanel(e.Color);
+        UpdateSelectedLabel(e.Color);
     }
 
     private void OnAnyColorButtonSelectedColorChanged(object? sender, ColorEventArgs e)
@@ -107,5 +129,13 @@ public partial class KryptonColorButtonDemo : KryptonForm
         }
 
         lblSelected.Values.Text = text;
+    }
+
+    private void ApplyLivePreviewPanel(Color color)
+    {
+        var paint = color.IsEmpty ? Color.White : color;
+        pnlLivePreview.StateCommon.Color1 = paint;
+        pnlLivePreview.StateCommon.Color2 = paint;
+        pnlLivePreview.StateCommon.ColorStyle = PaletteColorStyle.Solid;
     }
 }

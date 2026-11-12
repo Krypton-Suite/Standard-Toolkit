@@ -4514,7 +4514,58 @@ public enum SchemeBaseColors
     TextListItem = 241,
 
     /// <summary>Text color for tool strips. Empty inherits the ColorTable family fallback (often StatusStripText).</summary>
-    ToolStripText = 242
+    ToolStripText = 242,
+
+    /// <summary>Plot background for the transfer-speed graph.</summary>
+    TransferSpeedGraphPlot = 243,
+
+    /// <summary>Series fill for the transfer-speed graph.</summary>
+    TransferSpeedGraphSeries = 244,
+
+    /// <summary>Grid lines for the transfer-speed graph.</summary>
+    TransferSpeedGraphGrid = 245,
+
+    /// <summary>Chart frame border for the transfer-speed graph.</summary>
+    TransferSpeedGraphBorder = 246,
+
+    /// <summary>Speed-label text for the transfer-speed graph.</summary>
+    TransferSpeedGraphLabel = 247,
+
+    /// <summary>Equalizer face / panel fill behind the bars.</summary>
+    EqualizerFace = 248,
+
+    /// <summary>Equalizer band frequency labels.</summary>
+    EqualizerLabel = 249,
+
+    /// <summary>Equalizer lit bars in the lower third of the scale.</summary>
+    EqualizerLow = 250,
+
+    /// <summary>Equalizer lit bars in the middle third of the scale.</summary>
+    EqualizerMid = 251,
+
+    /// <summary>Equalizer lit bars in the upper third / overload of the scale.</summary>
+    EqualizerHigh = 252,
+
+    /// <summary>Equalizer unlit segments.</summary>
+    EqualizerOff = 253,
+
+    /// <summary>Equalizer peak-hold marks.</summary>
+    EqualizerPeak = 254,
+
+    /// <summary>Equalizer interactive gain thumbs.</summary>
+    EqualizerThumb = 255,
+
+    /// <summary>Default continuous / marquee progress-bar fill.</summary>
+    ProgressBarValue = 256,
+
+    /// <summary>Tri-state progress-bar fill for the low threshold region.</summary>
+    ProgressBarLow = 257,
+
+    /// <summary>Tri-state progress-bar fill for the medium threshold region.</summary>
+    ProgressBarMedium = 258,
+
+    /// <summary>Tri-state progress-bar fill for the high threshold region.</summary>
+    ProgressBarHigh = 259
 }
 
 #endregion
@@ -5041,7 +5092,10 @@ public enum KryptonThemeChromeKind
     MacOS,
 
     /// <summary>RetroUI chrome.</summary>
-    Retro
+    Retro,
+
+    /// <summary>Windows XP visual-style chrome (Luna, Royale, Zune, Embedded).</summary>
+    WindowsXP
 }
 
 #endregion
@@ -5161,6 +5215,103 @@ public enum FormCaptionTextBoxEdge
     /// In the centre of the caption, between the side chrome. The title keeps the near side of the slot.
     /// </summary>
     Center = 2
+}
+
+#endregion
+
+#region Enum KryptonSnapLayoutMode
+
+/// <summary>
+/// Chooses which maximize-button layout menu a <see cref="KryptonForm"/> shows.
+/// </summary>
+/// <remarks>
+/// <para>
+/// <see cref="Inherit"/> follows <see cref="SnapLayoutValues.Mode"/>.
+/// <see cref="System"/> is that global default and keeps the Windows 11 snap menu.
+/// Set the manager, or one form, to <see cref="Toolkit"/> for the palette menu.
+/// Win+Z remains the shell menu in every mode.
+/// </para>
+/// </remarks>
+public enum KryptonSnapLayoutMode
+{
+    /// <summary>
+    /// Show the palette-drawn layout menu and snap this form to the chosen work-area zone.
+    /// </summary>
+    Toolkit = 0,
+
+    /// <summary>
+    /// Keep the shell maximize hit-test so Windows 11 draws its own snap menu.
+    /// </summary>
+    System = 1,
+
+    /// <summary>
+    /// Maximize and restore only. The shell snap menu is not requested.
+    /// </summary>
+    None = 2,
+
+    /// <summary>
+    /// Use <see cref="SnapLayoutValues.Mode"/>. On the manager itself this is treated as <see cref="System"/>.
+    /// </summary>
+    Inherit = 3
+}
+
+#endregion
+
+#region Enum WindowsXPLunaPart
+
+/// <summary>Luna sprite sheet used by a Krypton background or border.</summary>
+internal enum WindowsXPLunaPart
+{
+    Button,
+    ComboButton,
+    ComboGlyph,
+    Caption,
+    FrameLeft,
+    FrameRight,
+    FrameBottom,
+    CaptionButton,
+    CloseButton,
+    ProgressChunk,
+    ProgressChunkVertical,
+    ProgressTrack,
+    ProgressTrackVertical,
+    Checkbox,
+    Radio,
+    MinimizeGlyph,
+    MaximizeGlyph,
+    RestoreGlyph,
+    CloseGlyph,
+    HelpGlyph
+}
+
+#endregion
+
+#region Enum KryptonColorLivePreviewAction
+
+/// <summary>
+/// Stage of an opt-in colour live preview.
+/// </summary>
+public enum KryptonColorLivePreviewAction
+{
+    /// <summary>
+    /// The user is highlighting a swatch. <see cref="KryptonColorLivePreviewEventArgs.Color"/> is temporary.
+    /// </summary>
+    Preview = 0,
+
+    /// <summary>
+    /// The pointer left the swatches. <see cref="KryptonColorLivePreviewEventArgs.Color"/> is the committed colour.
+    /// </summary>
+    Revert = 1,
+
+    /// <summary>
+    /// The user chose a colour. <see cref="KryptonColorLivePreviewEventArgs.Color"/> is that choice.
+    /// </summary>
+    Commit = 2,
+
+    /// <summary>
+    /// The drop-down closed without a choice. <see cref="KryptonColorLivePreviewEventArgs.Color"/> is the committed colour.
+    /// </summary>
+    Cancel = 3
 }
 
 #endregion

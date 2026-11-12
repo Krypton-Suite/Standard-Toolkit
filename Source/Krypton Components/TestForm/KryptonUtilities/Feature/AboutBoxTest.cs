@@ -10,6 +10,8 @@
 using System.IO;
 using System.Reflection;
 
+using Krypton.Toolkit.Utilities;
+
 namespace TestForm;
 
 public partial class AboutBoxTest : KryptonForm

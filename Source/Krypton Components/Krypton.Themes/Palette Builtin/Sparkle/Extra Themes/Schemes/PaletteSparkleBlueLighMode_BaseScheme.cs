@@ -253,5 +253,22 @@ public sealed class PaletteSparkleBlueLighMode_BaseScheme : KryptonColorSchemeBa
     public override Color TrackBarBottomTrack              { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
     public override Color TrackBarFillTrack                { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
     public override Color TrackBarOutsidePosition          { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
-    public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR; // missing value
+    public override Color TrackBarBorderPosition           { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb( 83, 83, 83);
+    public override Color TransferSpeedGraphSeries         { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb( 30, 30, 30);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb( 30, 30, 30);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb( 76, 83, 92);
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb( 83, 83, 83);
+    public override Color EqualizerLabel                   { get; set; } = Color.FromArgb( 76, 83, 92);
+    public override Color EqualizerLow                     { get; set; } = Color.FromArgb( 76, 83, 92);
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb( 70, 70, 70);
+    public override Color EqualizerHigh                    { get; set; } = Color.Black;
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(137, 135, 133);
+    public override Color EqualizerPeak                    { get; set; } = Color.Black;
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(203, 213, 223);
+    public override Color ProgressBarValue                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarLow                   { get; set; } = Color.Red;
+    public override Color ProgressBarMedium                { get; set; } = Color.Orange;
+    public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }

@@ -199,13 +199,16 @@ public static class DesignerDefaultAudit
 foreach ($name in @(
         'Krypton.Interop.dll',
         'Krypton.Toolkit.dll',
+        'Krypton.Drawing.dll',
         'Krypton.Themes.dll',
         'Krypton.Ribbon.dll',
         'Krypton.Navigator.dll',
         'Krypton.Workspace.dll',
         'Krypton.Docking.dll',
         'Krypton.Toolkit.Utilities.dll',
-        'Krypton.Navigator.Utilities.dll'
+        'Krypton.Navigator.Utilities.dll',
+        'Krypton.Charting.dll',
+        'Krypton.Gauges.dll'
     )) {
     $path = Join-Path $bin $name
     if (Test-Path -LiteralPath $path) {

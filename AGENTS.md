@@ -15,17 +15,20 @@ These are recurring issues observed when using AI coding agents and shell wrappe
 - Do not pack extra nupkg files as `lib\$(TargetFramework)\` for `netX.0-windows` (NU5128: extra `net8.0-windows` folder vs nuspec `net8.0-windows7.0`). Use `_KryptonPackageLibFolder` (see **WinForms Designer Extensibility SDK**).
 - Do not `dotnet pack` after a VS 2026 build that skipped net11 without `-p:ExcludeNet11=true` on **both** restore and pack (or pack with a rebuild so net11 compiles). Otherwise NU5128 asks for `net11.0-windows7.0` lib assemblies that were never built.
 - Do not capture PR screenshots with bare `Graphics.CopyFromScreen` after only `$form.Show()` / `$form.Activate()`. Cursor, Visual Studio, or the terminal often stays on top, so the PNG shows the IDE instead of the demo. Correct example: call `Save-UnitTestWindowPng` from `Scripts/UnitTests/UnitTestCommon.ps1` (PrintWindow of the HWND; see **UI Screenshots / GIFs**).
+- Do not finish a [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) example with only code (or only a Toolkit `Documents/PR/` shot). Save the gallery PNG/GIF **inside the example project folder** and wire it into that category’s `README.md` (see **Standard-Toolkit-Demos** → **Category README entry and screenshot / GIF**).
 - Do not add a WinForms `.resx` whose generated `obj` path reaches 260 characters. `GenerateResource` names that file from the folder path and fails with `MSB3554` when Windows long paths are off. Keep the class name and shorten the manifest name (see **Generated .resx path length**).
+- Do not `dotnet build` suite projects with `-o` / `--output` into a temporary folder under `Bin\` (for example `net472-snapcheck`) and then delete that folder. `-o` overrides the shared per-TFM `OutputPath` (`UseCommonOutputDirectory=true` in `Directory.Build.targets`), so dependency outputs such as `Krypton.Toolkit.Utilities.dll` land in the temp folder and `FileListAbsolute` keeps pointing there. After the folder is removed, dependents fail with CS0006 (metadata file could not be found). Prefer the default `Bin\<Configuration>\<tfm>\` path, or an isolated worktree / output outside the shared Bin tree. If this already happened: delete the poisoned project’s `obj\Debug` (and Dialogs if needed), then rebuild without `-o`.
 
 ## Always
 
 Before considering a task complete:
 
+- For every code change, build the complete suite in the Visual Studio IDE using `Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.slnx` (Debug by default). Open the solution in Visual Studio 2022 and run **Build > Build Solution** (`Ctrl+Shift+B`). Record the result; a command-line or project-only build does not replace this IDE validation. If Visual Studio is unavailable, report that the required IDE build was not run.
 - Build the affected project if instructed.
 - Fix any compiler or analyzer warnings introduced by the change; treat new warnings as part of the build (do not leave them for later). Prefer fixing pre-existing warnings in files you already touch when the fix is small and local; do not expand into a repo-wide warning cleanup unless asked.
 - Check files you create or edit for UTF-8 BOM encoding issues and fix them (see **Coding Style & Naming Conventions**). Do not leave UTF-8-without-BOM or wrong-encoding files when the repo expects UTF-8 with BOM; do not expand into a repo-wide encoding cleanup unless asked.
 - Update TestForm when adding a feature.
-- When adding a feature, also add or append a comprehensive consumer demo in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (see **Standard-Toolkit-Demos**). Reuse `..\Standard-Toolkit-Demos` if it already exists (do **not** clone again); clone into the parent only if that folder is missing. Then switch to `alpha` (if not already on it) and create a new `alpha-…` branch from `alpha`. It is not part of this repository. If an example already exists, do not overwrite it; append. For a **new** example project, also add a screenshot or GIF under that example folder and register it in the category `README.md` (see **Standard-Toolkit-Demos** → **Category README entry and screenshot / GIF**).
+- When adding a feature, also add or append a comprehensive consumer demo in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) (see **Standard-Toolkit-Demos**). Reuse `..\Standard-Toolkit-Demos` if it already exists (do **not** clone again); clone into the parent only if that folder is missing. Then switch to `alpha` (if not already on it) and create a new `alpha-…` branch from `alpha`. It is not part of this repository. If an example already exists, do not overwrite it; append. Always capture a gallery screenshot or GIF **into the example project folder** and register or refresh it in that category’s `README.md` (required for every **new** example project; also required when an **append** changes the visible default look — see **Standard-Toolkit-Demos** → **Category README entry and screenshot / GIF**).
 - Update Changelog.md for completed features and bug fixes.
 - When a change is **breaking** for consumers, also update `README.md` under **Breaking Changes** (see **Breaking Changes (README)**). The entry must follow the existing pattern in that section.
 - Add developer documentation for substantial new features (see **Feature Developer Documentation**). Keep `Documents/Development/` files **out of pull requests**.
@@ -50,7 +53,7 @@ Before considering a task complete:
 
 ## Project Structure & Module Organization
 
-- `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the solution `Krypton Toolkit Suite 2022 - VS2022.sln`
+- `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the Visual Studio solution `Krypton Toolkit Suite 2022 - VS2022.slnx`
 - Design-time projects (`Krypton.*.Design`, `Krypton.Toolkit.Design.Client`, `Krypton.Toolkit.Design.Protocol`) live in the same folder and the **DesignerSdk** solution folder. They are not packable on their own; pack copies them into consumer nupkgs (see **WinForms Designer Extensibility SDK**).
 - `Krypton.Standard.Toolkit` is the aggregate NuGet project: it bundles referenced binaries (including `Krypton.Themes.dll` and `lib\{tfm}\Design\WinForms`) into one nupkg.
 - `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**). Library folders omit `.` from assembly names (`KryptonToolkit`, `KryptonUtilities`, not `Krypton.Toolkit`); new feature demos sit under that folder’s `Feature` subfolder and issue repros under `Bugs`.
@@ -71,6 +74,7 @@ Before considering a task complete:
 - `Krypton.Interop` holds shared internal Win32/P/Invoke and net472 nullable polyfills; referenced by `Krypton.Toolkit` and consumed transitively by sibling assemblies.
 - `Krypton.Resources` holds the shared image/string resource bank (`ResourceFiles` / theme bitmaps); `IsPackable=false` and bundled into `Krypton.Toolkit` / sibling / `Krypton.Standard.Toolkit` nupkgs via `Krypton.Resources.Package.targets` (same pattern as Interop). Typed accessors stay under `Krypton.Toolkit.ResourceFiles.*` namespaces. If the DLL is missing at runtime, Toolkit loads an embedded placeholder with the same assembly identity: the process still starts, control text stays visible, and string resources (palette schemas, Outlook grid) still resolve. Theme images are drawn fallbacks (checks, arrows, window buttons) at the original size, on the magenta colour key, until `Krypton.Resources.dll` is deployed beside `Krypton.Toolkit.dll`.
 - `Krypton.Themes` holds **extra** builtin palettes (optional assembly, auto-discovered). Toolkit must **not** project-reference Themes (cycle). `Krypton.Standard.Toolkit` **does** reference Themes and must pack `Krypton.Themes.dll` into `lib\{tfm}\` so extra palettes auto-discover. Individual `Krypton.Toolkit` packages do not include Themes.
+- `Krypton.Drawing` is `IsPackable=false`. It is referenced only by `Krypton.Standard.Toolkit` and samples. Toolkit must **not** reference it. SVG is rasterized with Direct2D on Windows 10 version 1703 and later. The aggregate package does not ship Svg.Skia, SkiaSharp, or HarfBuzzSharp.
 - Out-of-process designers for modern Windows TFMs live in `Krypton.*.Design` (issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593)). Runtime libraries must not reference `Microsoft.WinForms.Designer.SDK` or ProjectReference a Design project (cycle). See **WinForms Designer Extensibility SDK**.
 - `Krypton.Ribbon` depends on `Krypton.Toolkit`.
 - `Krypton.Navigator` depends on `Krypton.Toolkit`.
@@ -82,7 +86,7 @@ Before considering a task complete:
 Issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593). Modern Windows TFMs (`net8.0-windows` and later) load designers out-of-process via the WinForms Designer Extensibility SDK. .NET Framework still uses in-process designers inside the runtime assemblies.
 
 | Layer | TFMs | Role |
-|-------|------|------|
+| ------- | ------ | ------ |
 | Runtime (`Krypton.Toolkit`, Ribbon, Navigator, …) | net4x + modern Windows | Controls. **No** `Microsoft.WinForms.Designer.SDK` package reference. |
 | `Krypton.*.Design` (Server) | modern Windows only | Dual-compiled designers / action lists / glyphs. SDK version is only `KryptonWinFormsDesignerSdkVersion` in `Source/Krypton Components/Directory.Build.props` (currently **1.6.0**). |
 | `Krypton.Toolkit.Design.Client` | **net472 only** | VS-hosted editors (image / folder). |
@@ -129,7 +133,7 @@ When adding a new **builtin** palette (not a custom XML/`KryptonCustomPaletteBas
 ### Placement
 
 | Kind | Assembly | Register in | `KryptonManager.Palette*` return type |
-|------|----------|-------------|----------------------------------------|
+| ------ | ---------- | ------------- | ---------------------------------------- |
 | **Extra** (default) | `Krypton.Themes` | `KryptonExtendedThemeProvider` | `PaletteBase` via `GetPaletteForMode` |
 | **Core** (explicit only) | `Krypton.Toolkit` | `KryptonCoreThemeProvider` | Concrete typed property + lazy field |
 
@@ -210,7 +214,7 @@ The designer prefers `[DefaultValue]` over `ShouldSerialize*` when the attribute
 Prefer the existing factory helpers on the shared palette/values types rather than inventing a second system:
 
 | Situation | Pattern (already on the type) |
-|-----------|-------------------------------|
+| ----------- | ------------------------------- |
 | Palette back/border colour or style stamped in a ctor | `PaletteBack.SetFactoryColor1` / `SetFactoryColor2` / `SetFactoryColorStyle` / `SetFactoryColorAlign` / `SetFactoryColorAngle` / `SetFactoryImageAlign`; `PaletteBorder.SetFactoryColor1` / `SetFactoryDraw` / `SetFactoryDrawBorders` / `SetFactoryGraphicsHint` |
 | Content text alignment, font, trim, multiline, adjacent gap | `PaletteContentText.SetDefaultTextH` / `SetDefaultTextV` / `SetDefaultFont` / `SetDefaultTrim` / `SetDefaultMultiLine` / `SetDefaultMultiLineH`; `PaletteContent.SetDefaultAdjacentGap`; `PaletteInputControlContentStates.SetDefaultTextH` |
 | Label/button text or image that is not `"Label"` / `null` | `LabelValues` ctor default-text argument or `SetFactoryText`; `ButtonValues.SetFactoryText` / `SetFactoryImage`; color-button stock image: `ResetImage()` (resource getters return a new `Bitmap` each time — do not compare a captured static instance) |
@@ -251,15 +255,49 @@ WinForms base properties whose `[DefaultValue]` lives on `System.Windows.Forms` 
 
 ## Performance
 
+Correctness, `net472` compatibility, binary compatibility, designer serialization, and readable code stay in force (**Editing Philosophy**, **Public API**). A faster path that changes colours, skips disposal, or breaks a public contract is not an improvement. Do not start a repo-wide performance rewrite unless asked. Optimize the path you are already changing.
+
 - Avoid unnecessary allocations in paint paths.
 - Avoid creating disposable GDI objects inside tight rendering loops.
 - Reuse existing rendering infrastructure whenever possible.
 
+### Startup (time to first form)
+
+Touching `KryptonManager` runs static field initializers before the static constructor, including `CurrentGlobalPalette`. That path runs before the first form. Keep it on the core palette.
+
+`KryptonManager.AutoDiscoverThemes` stays on by default. That is the auto-discovery feature for extra themes. It does not run while the default palette is created. Core palettes (Professional, Sparkle Blue/Orange/Purple, Office 2007/2010/Microsoft 365 Blue, Silver, and Black) must be creatable without loading `Krypton.Themes.dll`. The first `Application.Idle` calls `DiscoverThemes` once the UI thread is free, unless auto-discovery is off or the caller is the designer. An extra `PaletteMode`, a theme list, or the `PaletteMode` drop-down still calls `DiscoverThemes` immediately if idle has not run. Do not call it from the `KryptonManager` static constructor, and do not `Assembly.Load` or scan `AppDomain` assemblies while creating the default palette.
+
+- Caption glyphs the first form paints may be created with the palette. Context-menu, toolbar, and other strips wait until a caller asks (`??=` on a cached field, not a `static readonly` initializer).
+- Resource getters such as `Office2019ToolbarImageResources` return a new `Bitmap` on every get. Do not call them from static field initializers unless that image is needed before the first paint.
+- Do not walk types, call `RunClassConstructor`, or use reflection on every colour or paint lookup. Cache the result and drop the cache when the value can change (`SetArrayColor`).
+
+### Paint, layout, and input
+
+These run per control, per state, per frame.
+
+- Do not allocate per call: no LINQ, no string concatenation, no `new List` or event-args object that can be reused, and no closure allocated only to pass a resource getter. A cached field or a direct property is enough.
+- Do not create `Pen`, `Brush`, `Font`, `GraphicsPath`, or `Bitmap` inside a loop. Reuse the renderer and palette objects that already exist. Dispose what you create. Do not dispose a static or shared image.
+- Theme switches and system-colour changes must still refresh. A cache that ignores `UserPreferenceChanged` or a palette paint event is a bug.
+
+### Measure, then change
+
+When startup or a hot path is the task, time it before and after. Reuse `Scripts/UnitTests/UnitTest-StartupTiming.ps1` for time-to-first-form (`UnitTest-CI: exclude`). Record the numbers in the local PR description. Do not claim a speedup without a before/after on the same machine.
+
+### Do not
+
+- Trade a public behaviour change, a broken designer default, or a leaked GDI object for a smaller diff or a guessed speedup.
+- Turn auto-discovery off, or load every extra theme before the first form is shown. Discovery runs on the first UI idle, or sooner when an extra theme or a theme list asks.
+- Micro-optimize cold code, one-off dialogs, or designer-only paths.
+- Mass-edit palette files to lazy-load images that are not on the path being changed.
+- Cache a lookup without an invalidation point.
+- Block startup on work that only an extra theme, a toolbar, or a menu needs.
+
 ## Build, Test, and Development Commands
 
 - Script/CI builds use phased orchestration (`Scripts/Build/Krypton.Orchestration.targets`) with `msbuild /m` for parallel TFMs; do not build all `Krypton.*` projects in one parallel batch (shared `Bin/<Configuration>/<tfm>/` outputs).
-- Build solution (Debug):
-  - `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug`
+- Required full-suite IDE build (Debug): open `.\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.slnx` in Visual Studio 2022 and run **Build > Build Solution** (`Ctrl+Shift+B`). A CLI build is supplemental and does not satisfy the IDE validation requirement.
+- Optional command-line build for additional diagnostics:
+  - `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.slnx" -c Debug`
 - Run sample app:
   - `dotnet run --project ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`
 - Build script entry points, only when explicitly instructed:
@@ -305,6 +343,7 @@ Do not rename a public type to get under the limit.
 
 - Preserve the existing nullable reference type annotations and context (`<Nullable>enable</Nullable>` is set at project level).
 - Do not enable or disable nullable in individual files unless requested.
+- **ThrowHelper (required for BCL throws):** For new and changed code, throw framework exceptions only through `Krypton.Interop.ThrowHelper` (`Source/Krypton Components/Krypton.Interop/General/ThrowHelper.cs`). Prefer `ThrowIfNull` / `ThrowIfNullOrWhiteSpace` for guards, `value ?? ThrowHelper.ThrowArgumentNullException(value)` (or the generic `<T>` overloads) in expression contexts, and the matching `ThrowArgumentException` / `ThrowArgumentOutOfRangeException` / `ThrowInvalidOperationException` / `ThrowNotSupportedException` / `ThrowNotImplementedException` / `ThrowObjectDisposedException` / `ThrowInvalidCastException` / `ThrowWin32Exception` / `ThrowNullReferenceException` helpers when that is the contract. Do **not** write bare `throw new ArgumentNullException(...)`, `throw new ArgumentException(...)`, `throw new ArgumentOutOfRangeException(...)`, `throw new InvalidOperationException(...)`, and the other BCL types `ThrowHelper` already covers. `ThrowHelper` is `internal` in Interop and visible to sibling assemblies via `InternalsVisibleTo`; do not duplicate it, and do not add `ThrowHelper` APIs for product/domain exception types (for example `KryptonUpdateException`) into Interop. Domain or feature exceptions stay as typed `throw new …` (or a **local** cold-path helper next to that feature when the call sites are many). Apply to new and changed throw sites; do not mass-convert unrelated legacy `throw new` in files outside the task unless asked.
 - No unneeded `try/catch` blocks if there's no catch handling
 - Idioms: use null-propagation and object/collection initializers where consistent
 - Prefer [switch expressions](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/switch-expression) for simple value/type dispatch that only returns (or assigns) a value. Keep `switch` statements for complex control flow, multiple statements per arm, or side effects. Prefer a discard arm (`_ => ...`) when exhaustiveness matters. Use only pattern forms already common in this codebase (constant, type, discard, simple property/`when` guards as elsewhere); do not introduce newer pattern syntax that would fight **Public API → Compatibility**. Apply to new and changed code; do not mass-convert unrelated existing code unless asked.
@@ -584,13 +623,14 @@ Each library folder has a `Feature` subfolder and a `Bugs` subfolder. **Feature 
 Keep form types in `namespace TestForm;` even when the files live under a library folder. Do not change the namespace to match the folder path (that breaks `StartScreen` registration and WinForms `.resx` lookup). For forms in subfolders, set `DependentUpon` on `.Designer.cs` / `.resx` like neighbouring TestForm entries. If a `.resx` uses `ResXFileRef` relative paths, update those paths when the file moves.
 
 | Package | Folder under `TestForm\` |
-|---------|--------------------------|
+| --------- | -------------------------- |
 | `Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Toolkit.JumpList` | `KryptonToolkit` |
 | `Krypton.Toolkit.Utilities` | `KryptonToolkitUtilities` |
 | `Krypton.Navigator`, `Krypton.Navigator.Utilities` | `KryptonNavigator` |
 | `Krypton.Ribbon` | `KryptonRibbon` |
 | `Krypton.Workspace` | `KryptonWorkspace` |
 | `Krypton.Docking` | `KryptonDocking` |
+| `Krypton.Drawing` | `KryptonDrawing` |
 
 ```
 TestForm\
@@ -603,6 +643,10 @@ TestForm\
     Bugs\
       Bug3858DockingDragHeuristicsDemo.cs
     Feature\
+  KryptonDrawing\
+    Bugs\
+    Feature\
+      KryptonSVGPictureBoxDemo.cs
   KryptonNavigator\
     Bugs\
     Feature\
@@ -733,7 +777,7 @@ Each example is its **own WinExe project** in a subfolder of the matching `Sourc
 Category solutions (under that `Source\… Examples` folder):
 
 | Category | Solutions on disk today |
-|----------|-------------------------|
+| ---------- | ------------------------- |
 | Toolkit, Navigator, Ribbon, Workspace, Docking | Four pairs: `(Debug)` / `(Release)` × `Dev` / `Nuget`, each as `.sln` and `.slnx` (names contain `2022` and a double space before `-`) |
 | Toolkit Utilities, Navigator Utilities | Debug Dev `.slnx` only |
 | Explorer | `Krypton Explorer 2022 - Dev` and `- Nuget` (`.sln` and `.slnx`; no Debug/Release in the name) |
@@ -753,7 +797,7 @@ Dev solutions `ProjectReference` this repo as `..\..\..\..\Standard-Toolkit\Sour
 Put the new or updated example under `$demosRoot` (not this repo):
 
 | Package | Folder under `$demosRoot\Source\` |
-|---------|-----------------------------------|
+| --------- | ----------------------------------- |
 | `Krypton.Toolkit` | `Krypton Toolkit Examples` |
 | `Krypton.Toolkit.Utilities` | `Krypton Toolkit Utilities Examples` |
 | `Krypton.Navigator` | `Krypton Navigator Examples` |
@@ -773,23 +817,29 @@ Copy a neighbouring example in the same `Source\… Examples` folder **only when
 - Dual references: copy the neighbour’s `Choose` / `When` block that tests whether `$(SolutionName)` ends with `Nuget`. Dev arms `ProjectReference` this repo (`Krypton.Toolkit 2022.csproj` plus Navigator/Ribbon/Workspace/Docking/Utilities projects as needed). Nuget arms use the matching Canary packages (`Krypton.Toolkit.Canary`, `Krypton.Navigator.Canary`, `Krypton.Standard.Toolkit.Canary`, …).
 - TFMs come from Demos `Directory.Build.props`; do not duplicate a `<TargetFrameworks>` list on the example unless a neighbour does.
 - Comprehensive for consumers: main API paths, properties, events, theme/palette switches, short on-form instructions. Use a Krypton vs WinForms side-by-side when the feature is a replacement or wrapper for a built-in control (same rule as **TestForm Demos**). This is not a bug-repro form.
-- After the example runs, capture a gallery PNG or GIF into that example folder and register it in the category `README.md` (required for new projects; see **Category README entry and screenshot / GIF**).
+- After the example runs, capture a gallery PNG or GIF **into that example project folder** and register it in the category `README.md` (both steps required; see **Category README entry and screenshot / GIF**).
 
 ### Registration
 
 - Add the project to **every** `.sln` and `.slnx` in that category folder that already lists neighbouring examples. Do not invent missing Debug/Release/Nuget solutions; Utilities categories currently have only a Debug Dev `.slnx`.
 - If neighbouring examples in that category already appear in Krypton Explorer, add a `KryptonLinkLabel` on the same page in `$demosRoot\Source\Krypton Explorer\Main.Designer.cs` and wire `LinkClicked` in `Main.cs` to `LaunchApplication(@"<AssemblyName>")`. Explorer pages today cover Toolkit, Docking, Workspace, Navigator, and Ribbon. Do **not** add a new Explorer tab for Utilities unless the user asks; those examples currently have no Explorer links.
-- Add a category `README.md` entry **and** a screenshot or GIF for every **new** example project (required; see **Category README entry and screenshot / GIF** below). When appending UI-visible capability to an existing example, refresh that example’s gallery image when the current shot would be misleading.
+- Add a category `README.md` entry **and** a screenshot or GIF under the example project for every **new** example (both required; see **Category README entry and screenshot / GIF** below). When appending UI-visible capability to an existing example, refresh the gallery image in the project folder and keep the category `README.md` image link accurate (add a second image line when the new scenario deserves its own shot).
 - Do not change `WixInstaller` for a feature demo.
 
 ### Category README entry and screenshot / GIF
 
-When adding a **new** example project in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos), capture a gallery still or short GIF and wire it into that category’s `README.md`. Do **not** leave a heading with only prose and no image when neighbouring entries show media (gaps such as text-only `KryptonRating` / `KryptonTagInput` sections are the anti-pattern to avoid). These assets **are** committed in the Demos repo (unlike Toolkit `Documents/PR/` shots).
+Every Demos example that ships or updates a user-visible gallery must do **both**:
+
+1. Save the PNG/GIF **inside the example project folder** (sibling to `Form1`).
+2. Wire that file into the category `README.md` under `$demosRoot\Source\<Category>\README.md` (TOC + heading + image markdown, matching neighbours).
+
+When adding a **new** example project in [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos), both steps are mandatory. When **appending** a major visible scenario to an existing example, refresh or add the project-folder image and update the category README link(s) so the gallery still matches the demo. Do **not** leave a heading with only prose and no image when neighbouring entries show media (gaps such as text-only `KryptonRating` / `KryptonTagInput` sections are the anti-pattern to avoid). These assets **are** committed in the Demos repo (unlike Toolkit `Documents/PR/` shots).
 
 #### What to capture
 
-- **PNG** for a static default look of the example (typical theme is enough; do not shoot every theme).
-- **GIF** when motion is the point (toggle, toast, menu open, fade, scrollbar interaction), matching neighbours such as `KryptonToggleSwitchExample.gif` or `ToastNotificationExample.gif`.
+- **PNG** for a static default look of the example in **both** a light and a dark builtin theme (same baseline as Toolkit **UI Screenshots / GIFs**: `Microsoft365Blue` and `Microsoft365BlackDarkMode`). Do not shoot every theme.
+- Prefer filenames that keep the pair obvious (`example-light.png` / `example-dark.png`, or `Example-light.png` / `Example-dark.png`). When the category README historically shows a single image, embed both (two image lines under the heading).
+- **GIF** when motion is the point (toggle, toast, menu open, fade, scrollbar interaction), matching neighbours such as `KryptonToggleSwitchExample.gif` or `ToastNotificationExample.gif`. Capture light and dark when the motion is theme-sensitive; one GIF is enough when motion is geometry-only.
 - Prefer PrintWindow / HWND capture of the example form (same idea as Toolkit **UI Screenshots / GIFs**); verify the image shows the demo, not the IDE.
 
 #### Where to save the file
@@ -820,13 +870,13 @@ Examples from Toolkit:
 ```
 
 - Insert the new section next to alphabetically or thematically neighbouring examples; keep the outline TOC and body in sync.
-- When **appending** a major visible scenario to an existing example, replace or add a second image beside the existing one when needed (see the Button / SplitButton pair above); do not wipe unrelated README entries.
+- When **appending** a major visible scenario to an existing example, replace the project-folder gallery image and/or add a second image line in the category README when needed (see the Button / SplitButton pair above); do not wipe unrelated README entries.
 - If that category has **no** `README.md` yet, say so in the Toolkit PR validation notes and skip the README wire-up (do not invent a full gallery for an empty category unless asked). Still keep the capture under the example folder when practical so a README can pick it up later.
 
 #### Do not
 
-- Ship a new Demos example project without a gallery PNG/GIF and README entry when the category README already lists peers with images.
-- Put Demos gallery images only under Toolkit `Documents/PR/` or leave them unlinked in the category README.
+- Ship a new or UI-updated Demos example without a gallery PNG/GIF in the **example project folder** and a matching image entry in the category `README.md` when that README already lists peers with images.
+- Put Demos gallery images only under Toolkit `Documents/PR/`, only under `Binaries\`, or leave them unlinked in the category README.
 - Overwrite another example’s image path or README section.
 
 ### Git boundary
@@ -887,43 +937,50 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 
 ### What to capture
 
-- Enough to show the change: typical default look plus the distinctive demo state (for example contrast/override, or before/after).
-- Do not capture every theme variant unless the bug or feature is family-specific; then include the affected families.
-- **PNG** for stills (colour, layout, chrome, default vs override).
-- **Short GIF** when motion is the point (drag, tear-out/remerge, animation, slide, flicker). Do not GIF a static colour or layout change, and do not substitute a single still when the defect is motion.
+- Enough to show the change: the distinctive demo state (for example contrast/override, or before/after), captured in **both a light and a dark** builtin theme.
+- Baseline pair (use these unless the bug or feature is family-specific):
+  - Light: `PaletteMode.Microsoft365Blue`
+  - Dark: `PaletteMode.Microsoft365BlackDarkMode`
+- Do **not** shoot every theme. When the defect or feature is family-specific, add the affected families **in addition to** the light/dark pair (or replace the baseline pair when that family has no light/dark equivalents and note it in the PR description).
+- **PNG** for stills (colour, layout, chrome, light vs dark, default vs override).
+- **Short GIF** when motion is the point (drag, tear-out/remerge, animation, slide, flicker). Capture the motion once per light and dark baseline when the motion is theme-sensitive (colours, chrome, contrast); one GIF is enough when motion is geometry-only. Do not GIF a static colour or layout change, and do not substitute a single still when the defect is motion.
 
 ### How
 
 1. Build Debug TestForm if binaries are stale: `dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`.
 2. Host the relevant demo with PowerShell `-STA`. Reuse a `Start-*Host.ps1`, or instantiate the form in-process (pattern: `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`). Place the form on the primary working area (`StartPosition = Manual`, e.g. `(80, 80)`); do not leave it off-screen or minimized.
-3. Before capture: `Show`, set `TopMost = $true`, `Activate`, `BringToFront`, `SetForegroundWindow` (via `Initialize-UnitTestNativeInput` / `UnitTestNative`), `Application.DoEvents()`, then a short settle sleep so paint completes.
-4. **Capture the HWND, not whatever is on top of the desktop.** Dot-source `Scripts/UnitTests/UnitTestCommon.ps1` and call `Save-UnitTestWindowPng -Form $form -Path $OutputPath`. That helper uses `PrintWindow` with `PW_RENDERFULLCONTENT`, so Cursor / Visual Studio covering the same screen region cannot appear in the PNG. Use `-InflateX` / `-InflateY` only when a popup must be included outside the form bounds (then the helper falls back to TopMost + foreground + `CopyFromScreen`). Do **not** hand-roll bare `Graphics.CopyFromScreen($form.Bounds…)` after only `Activate` — that is the usual “wrong window” failure.
-5. **Read the PNG or GIF in the session** (image Read tool) and confirm it shows the demo chrome/content, not the IDE, terminal, or another app. If it is wrong, fix foreground/`Save-UnitTestWindowPng` and recapture; do not embed a bad shot.
-6. If the capture is reusable, keep the script under `Scripts/UnitTests/` with `# UnitTest-CI: exclude` and a README row (see **Unit Test Scripts**). Prefer STA `-File` scripts that call `Save-UnitTestWindowPng` over a long `powershell -Command { … }` one-liner (see **Recent Tooling Mistakes To Avoid**).
+3. For each of the light and dark baseline modes (and any extra family-specific modes): set `KryptonManager.GlobalPaletteMode` (or a sited `KryptonManager` instance’s `GlobalPaletteMode`) **before** show, or set it and refresh/recreate the form so chrome and content pick up the palette. Pattern: `Scripts/UnitTests/Invoke-DarkModeThemeScreenshots.ps1` / `Invoke-ToolStripTextContrastScreenshot.ps1`. Load `Krypton.Themes.dll` when the mode lives in the Themes assembly.
+4. Before capture: `Show`, set `TopMost = $true`, `Activate`, `BringToFront`, `SetForegroundWindow` (via `Initialize-UnitTestNativeInput` / `UnitTestNative`), `Application.DoEvents()`, then a short settle sleep so paint completes.
+5. **Capture the HWND, not whatever is on top of the desktop.** Dot-source `Scripts/UnitTests/UnitTestCommon.ps1` and call `Save-UnitTestWindowPng -Form $form -Path $OutputPath`. That helper uses `PrintWindow` with `PW_RENDERFULLCONTENT`, so Cursor / Visual Studio covering the same screen region cannot appear in the PNG. Use `-InflateX` / `-InflateY` only when a popup must be included outside the form bounds (then the helper falls back to TopMost + foreground + `CopyFromScreen`). Do **not** hand-roll bare `Graphics.CopyFromScreen($form.Bounds…)` after only `Activate` — that is the usual “wrong window” failure.
+6. **Read each PNG or GIF in the session** (image Read tool) and confirm it shows the demo chrome/content in the intended light or dark palette, not the IDE, terminal, or another app. If it is wrong, fix foreground/`Save-UnitTestWindowPng` / palette apply and recapture; do not embed a bad shot.
+7. If the capture is reusable, keep the script under `Scripts/UnitTests/` with `# UnitTest-CI: exclude` and a README row (see **Unit Test Scripts**). Prefer STA `-File` scripts that call `Save-UnitTestWindowPng` over a long `powershell -Command { … }` one-liner (see **Recent Tooling Mistakes To Avoid**).
 
-**GIF (motion only):** same host, STA, on-screen, TopMost/foreground, and verify-the-frames rules as PNG. Prefer per-frame `Save-UnitTestWindowPng` / `PrintWindow` when only the form is needed. Use `CopyFromScreen` on a timer only when the motion leaves the HWND (drag ghost, tear-out). Encode to an animated GIF and save next to the description. Prefer `ffmpeg` or ImageMagick `magick` if on PATH; otherwise assemble frames with WPF `GifBitmapEncoder` (`Add-Type -AssemblyName PresentationCore`). Keep it to a few seconds, cropped, looping. If no encoder is available, capture labelled stills (`-before.png`, `-during.png`, `-after.png`) instead of skipping — do not invent a GIF.
+**GIF (motion only):** same host, STA, on-screen, TopMost/foreground, light/dark (when theme-sensitive), and verify-the-frames rules as PNG. Prefer per-frame `Save-UnitTestWindowPng` / `PrintWindow` when only the form is needed. Use `CopyFromScreen` on a timer only when the motion leaves the HWND (drag ghost, tear-out). Encode to an animated GIF and save next to the description. Prefer `ffmpeg` or ImageMagick `magick` if on PATH; otherwise assemble frames with WPF `GifBitmapEncoder` (`Add-Type -AssemblyName PresentationCore`). Keep it to a few seconds, cropped, looping. If no encoder is available, capture labelled stills (`-before.png`, `-during.png`, `-after.png`) instead of skipping — do not invent a GIF.
 
 ### Where
 
-- Save reviewer shots as `Documents/PR/<issue-or-branch>-<short-title>-<state>.png` or `.gif` next to the PR description (for example `1100-scheme-strip-text-default.png`, `925-caption-tab-remerge.gif`).
+- Save reviewer shots as `Documents/PR/<issue-or-branch>-<short-title>-<state>-light.png` and `…-dark.png` (or `.gif`) next to the PR description (for example `1100-scheme-strip-text-default-light.png`, `1100-scheme-strip-text-default-dark.png`, `925-caption-tab-remerge-light.gif`). Use a clear `<state>` when there are multiple scenarios; keep `-light` / `-dark` as the theme suffix.
 - These files are **local**, like the PR description file: do **not** stage, commit, or push them. Do **not** leave the only copy under `Bin/`.
-- Embed in `Documents/PR/<file>.md` with relative markdown images and a one-line caption stating the state shown:
+- Embed in `Documents/PR/<file>.md` with relative markdown images and a one-line caption stating the state and theme:
 
 ```markdown
-![Default builtin theme](./1100-scheme-strip-text-default.png)
-![Caption tab remerge](./925-caption-tab-remerge.gif)
+![Default look (Microsoft 365 Blue)](./1100-scheme-strip-text-default-light.png)
+![Default look (Microsoft 365 Black Dark Mode)](./1100-scheme-strip-text-default-dark.png)
+![Caption tab remerge (light)](./925-caption-tab-remerge-light.gif)
 ```
 
 - Do **not** upload, attach, or host these files on the GitHub pull request (no `user-attachments` URLs, no drag-and-drop onto the PR, no `gh` image attach). GitHub will not display local relative paths; that is intended.
-- Demos category README: for a **new** Standard-Toolkit-Demos example, a screenshot or GIF in the example folder **and** a category `README.md` entry are required (see **Standard-Toolkit-Demos** → **Category README entry and screenshot / GIF**). Those live in the Demos repo and are committed there, not on the Toolkit GitHub PR.
+- Demos gallery (separate from Toolkit `Documents/PR/`): for a **new** or UI-updated Standard-Toolkit-Demos example, put the screenshot or GIF in the **example project folder** and register or refresh it in that category’s `README.md` (see **Standard-Toolkit-Demos** → **Category README entry and screenshot / GIF**). Those files are committed in the Demos repo, not on the Toolkit GitHub PR.
 
 ### Do not
 
 - Skip screenshots or GIFs for UI work, or leave the template placeholder.
+- Ship only a light (or only a dark) still when both can be captured — the light/dark pair is required for UI-visible work.
 - Capture with bare `CopyFromScreen` after only `Show`/`Activate` (IDE/Cursor occlusion → wrong window).
-- Embed a PNG/GIF without reading it in-session to confirm it shows the demo.
+- Embed a PNG/GIF without reading it in-session to confirm it shows the demo in the intended palette.
 - Commit PNGs, GIFs, or `Bin/` capture output in the Standard-Toolkit pull request.
 - Upload or attach screenshot or GIF files to the GitHub pull request.
+- Treat Toolkit `Documents/PR/` shots as a substitute for the Demos project-folder gallery image and category `README.md` entry.
 - Invent or draw substitute images. If capture is impossible (no interactive desktop), say so in **Validation** instead of faking a shot.
 
 ## Build Log Screenshot
@@ -939,18 +996,17 @@ This is separate from **UI Screenshots / GIFs**. A build-log PNG is required eve
 
 ### What to capture
 
-- One **PNG** of a successful **full solution** Debug build of `Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.sln` (unless the change is configuration-specific, then use that configuration).
+- One **PNG** of a successful **full solution** Debug build performed in Visual Studio 2022 using `Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx` (unless the change is configuration-specific, then use that configuration).
 - Do **not** substitute a single-project or TestForm-only build for the PR build-log artefact. Targeted builds are fine during development; the screenshot recorded under **Validation** must cover the entire suite solution.
 - The image must show the build command or solution name, the configuration (for example `Debug`), and the success summary (`Build succeeded` / `0 Error(s)`; include the warning count when the tool prints it). Prefer `0 Warning(s)` when practical; fix warnings introduced by the change (and small local pre-existing warnings in files already touched) before capturing.
 - One shot is enough. Do not screenshot every TFM unless the change is TFM-specific.
 
 ### How
 
-1. Build the full suite solution as recorded in **Validation**:
-   `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.sln" -c Debug`
+1. Build the full suite in the Visual Studio IDE as recorded in **Validation**: open `.\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.slnx`, select the required configuration, then run **Build > Build Solution** (`Ctrl+Shift+B`).
 2. Save a PNG as `Documents/PR/<issue-or-branch>-<short-title>-build.png`.
-   - Prefer rendering the last ~40 lines of the build output (command, solution, configuration, and success summary) to a PNG with `System.Drawing` so the shot does not depend on an on-screen terminal.
-   - If a terminal window showing that build is already on-screen, `CopyFromScreen` of that window is also fine; crop to the log.
+   - Prefer rendering the last ~40 lines of the Visual Studio Build output (solution, configuration, and success summary) to a PNG with `System.Drawing`.
+   - If the Visual Studio Build output is already visible, capture that IDE window and crop to the log.
 3. Embed the image under **Validation** in the PR description (keep UI shots in **Screenshots / GIFs**):
 
 ```markdown
@@ -1031,4 +1087,4 @@ Fill in every applicable section of `Documents/PR/TEMPLATE.md` (delete those tha
 
 ## Security & Configuration Tips
 
-- Windows long paths must be enabled to build locally (see README link). Build on Windows for `-windows` TFMs
+- Windows long paths must be enabled to build locally (see README link). Build on Windows for `-windows` TFMs. Keep new `.resx` intermediates under 260 characters even when long paths are enabled (see **Generated .resx path length**).

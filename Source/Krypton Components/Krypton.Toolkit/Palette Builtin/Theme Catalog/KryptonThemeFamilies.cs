@@ -41,6 +41,9 @@ public static class KryptonThemeFamilies
     /// <summary>Retro palettes.</summary>
     public const string Retro = @"Retro";
 
+    /// <summary>Windows XP visual-style palettes (Luna, Royale, Zune, Embedded).</summary>
+    public const string WindowsXP = @"WindowsXP";
+
     /// <summary>macOS and Mac OS X Aqua palettes.</summary>
     public const string MacOS = @"MacOS";
 

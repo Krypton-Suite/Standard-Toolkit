@@ -180,5 +180,12 @@ public partial class KryptonWebView2Test : KryptonForm
             kryptonTextBox1.Text = kryptonWebView21.CoreWebView2.Source;
         }
     }
+#else
+    /// <summary>
+    /// Initializes the form when the WebView2 assemblies are not referenced.
+    /// </summary>
+    public KryptonWebView2Test()
+    {
+    }
 #endif
 }

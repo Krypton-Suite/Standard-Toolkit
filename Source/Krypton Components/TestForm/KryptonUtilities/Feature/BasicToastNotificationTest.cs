@@ -7,6 +7,8 @@
  */
 #endregion
 
+using Krypton.Toolkit.Utilities;
+
 using GraphicsExtensions = Krypton.Toolkit.GraphicsExtensions;
 
 namespace TestForm;

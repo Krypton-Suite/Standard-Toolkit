@@ -162,7 +162,7 @@ internal sealed class VisualScreenColorPickerOverlay : Form
     protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
     {
         Keys key = keyData & Keys.KeyCode;
-        if (key == Keys.F12 || key == Keys.PrintScreen || key == Keys.Snapshot)
+        if (key is Keys.F12 or Keys.PrintScreen or Keys.Snapshot)
         {
             CopyVisibleOverlayToClipboard();
             return true;
@@ -178,7 +178,7 @@ internal sealed class VisualScreenColorPickerOverlay : Form
 
     protected override void WndProc(ref Message m)
     {
-        if ((m.Msg == WmKeyDown || m.Msg == WmSysKeyDown) && (int)m.WParam == VkSnapshot)
+        if (m.Msg is WmKeyDown or WmSysKeyDown && (int)m.WParam == VkSnapshot)
         {
             CopyVisibleOverlayToClipboard();
             return;
@@ -195,12 +195,12 @@ internal sealed class VisualScreenColorPickerOverlay : Form
             Cancel();
             e.Handled = true;
         }
-        else if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
+        else if (e.KeyCode is Keys.Enter or Keys.Space)
         {
             Confirm();
             e.Handled = true;
         }
-        else if (e.KeyCode == Keys.F12 || e.KeyCode == Keys.PrintScreen || e.KeyCode == Keys.Snapshot)
+        else if (e.KeyCode is Keys.F12 or Keys.PrintScreen or Keys.Snapshot)
         {
             CopyVisibleOverlayToClipboard();
             e.Handled = true;

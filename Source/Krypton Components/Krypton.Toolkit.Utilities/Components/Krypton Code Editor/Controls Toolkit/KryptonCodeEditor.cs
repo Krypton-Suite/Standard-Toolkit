@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -1438,7 +1438,7 @@ public class KryptonCodeEditor : VisualPanel,
         int indent = 0;
         foreach (char c in line)
         {
-            if (c == ' ' || c == '\t')
+            if (c is ' ' or '\t')
             {
                 indent++;
             }
@@ -1468,7 +1468,7 @@ public class KryptonCodeEditor : VisualPanel,
         return _language switch
         {
             Language.CSharp or Language.Cpp => trimmed == "}",
-            Language.VbNet => trimmed == "End Sub" || trimmed == "End Function" || trimmed == "End If" || trimmed == "End For" || trimmed == "End While",
+            Language.VbNet => trimmed is "End Sub" or "End Function" or "End If" or "End For" or "End While",
             Language.Python => GetIndentLevel(line) == 0 && !string.IsNullOrWhiteSpace(line),
             _ => false
         };
@@ -1589,7 +1589,7 @@ public class KryptonCodeEditor : VisualPanel,
             {
                 ShowAutoComplete();
             }
-            else if (e.KeyChar == '.' || e.KeyChar == '(')
+            else if (e.KeyChar is '.' or '(')
             {
                 ShowAutoComplete();
             }

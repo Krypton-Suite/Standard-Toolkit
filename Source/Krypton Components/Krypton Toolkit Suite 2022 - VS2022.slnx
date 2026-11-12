@@ -103,7 +103,9 @@
     <File Path="../../Scripts/UnitTests/Get-NavigatorTabGroupColourShot.ps1" />
     <File Path="../../Scripts/UnitTests/Invoke-AllUnitTests.ps1" />
     <File Path="../../Scripts/UnitTests/Invoke-CaptionTabDrag.ps1" />
+    <File Path="../../Scripts/UnitTests/Invoke-CustomRendererScreenshot.ps1" />
     <File Path="../../Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1" />
+    <File Path="../../Scripts/UnitTests/Invoke-WindowsXPThemesScreenshot.ps1" />
     <File Path="../../Scripts/UnitTests/README.md" />
     <File Path="../../Scripts/UnitTests/Restore-ThrowHelper-Coalesce.ps1" />
     <File Path="../../Scripts/UnitTests/Start-AsyncFormsDemoHost.ps1" />
@@ -138,6 +140,9 @@
     </Project>
   </Folder>
   <Folder Name="/Source/DesignerSdk/">
+    <Project Path="Krypton.Charting.Design/Krypton.Charting.Design.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
     <Project Path="Krypton.Navigator.Design/Krypton.Navigator.Design.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
@@ -154,6 +159,9 @@
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
     <Project Path="Krypton.Toolkit.Design/Krypton.Toolkit.Design.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Krypton.Gauges.Design/Krypton.Gauges.Design.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
     <Project Path="Krypton.Toolkit.Utilities.Design/Krypton.Toolkit.Utilities.Design.csproj">
@@ -186,6 +194,9 @@
     </Project>
   </Folder>
   <Folder Name="/Source/Utility Libraries/">
+    <Project Path="Krypton.Charting/Krypton.Charting.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
     <Project Path="Krypton.Navigator.Utilities/Krypton.Navigator.Utilities.csproj" Id="20869492-f8bf-4fc1-9714-44012de15756">
       <BuildType Solution="Canary|*" Project="Release" />
       <BuildType Solution="Installer|*" Project="Debug" />
@@ -201,8 +212,20 @@
     <Project Path="Krypton.Themes/Krypton.Themes.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
     </Project>
+    <Project Path="Krypton.Drawing/Krypton.Drawing.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Krypton.Dialogs/Krypton.Dialogs.csproj">
+      <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
     <Project Path="Krypton.Toolkit.JumpList/Krypton.Toolkit.JumpList.csproj">
       <BuildType Solution="ReleaseCandidate|*" Project="RC" />
+    </Project>
+    <Project Path="Krypton.Gauges/Krypton.Gauges.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
     <Project Path="Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj" Id="e4c9fef0-c69a-4fe6-9784-c8f93250434e">
       <BuildType Solution="Canary|*" Project="Release" />
@@ -210,24 +233,68 @@
       <BuildType Solution="Nightly|*" Project="Release" />
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
+    <Project Path="Krypton.Toolkit.Utilities.UpdateHelper/Krypton.Toolkit.Utilities.UpdateHelper.csproj" Id="c4a8e6d2-1f47-4b9e-8d33-4669b7c2a1e5">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
   </Folder>
-  <Project Path="../TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj">
-    <BuildType Solution="Canary|*" Project="Release" />
-    <BuildType Solution="Installer|*" Project="Debug" />
-    <BuildType Solution="Nightly|*" Project="Release" />
-    <BuildType Solution="ReleaseCandidate|*" Project="Release" />
-  </Project>
-  <Project Path="../Utilities/MacOSPaletteExporter/MacOSPaletteExporter.csproj" Id="f5db6397-1df9-4df1-9451-de313466cc88">
-    <BuildType Solution="Canary|*" Project="Release" />
-    <BuildType Solution="Installer|*" Project="Debug" />
-    <BuildType Solution="Nightly|*" Project="Release" />
-    <BuildType Solution="ReleaseCandidate|*" Project="Release" />
-  </Project>
-  <Project Path="TestForm/TestForm.csproj">
-    <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
-    <BuildType Solution="Canary|*" Project="Debug" />
-    <BuildType Solution="Installer|*" Project="Debug" />
-    <BuildType Solution="Nightly|*" Project="Debug" />
-    <BuildType Solution="ReleaseCandidate|*" Project="Debug" />
-  </Project>
+  <Folder Name="/Testing/">
+    <Project Path="../TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/MenuItemThemeSettingsRepro/MenuItemThemeSettingsRepro.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/NavigatorTabGroupLayoutSmoke/NavigatorTabGroupLayoutSmoke.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/RibbonAccessibilityProbe/RibbonAccessibilityProbe.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/ThemeProviderSample/ThemeProviderSample.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/ThemeSwapRepro/ThemeSwapRepro.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../TestHarnesses/UpdateManifestEditor/UpdateManifestEditor.csproj" Id="e3b7a1c4-5d28-4f96-8a17-4669c2d84e10">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Utilities/MacOSPaletteExporter/MacOSPaletteExporter.csproj" Id="f5db6397-1df9-4df1-9451-de313466cc88">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="TestForm/TestForm.csproj">
+      <BuildDependency Project="Krypton.Navigator/Krypton.Navigator 2022.csproj" />
+      <BuildType Solution="Canary|*" Project="Debug" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Debug" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Debug" />
+    </Project>
+  </Folder>
 </Solution>

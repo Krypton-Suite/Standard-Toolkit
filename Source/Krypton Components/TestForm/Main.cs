@@ -1,4 +1,4 @@
-﻿#region BSD License
+#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -366,10 +366,7 @@ public partial class Main : KryptonForm
         new CheckBoxStyleExamples().Show();
     }
 
-    private void kbtnCheckBoxExtendedDemo_Click(object sender, EventArgs e)
-    {
-        //  ToDo: Fix this: new CheckBoxExtendedDemo().ShowDialog(this);
-    }
+    private void kbtnCheckBoxExtendedDemo_Click(object sender, EventArgs e) => new CheckBoxExtendedDemo().ShowDialog(this);
 
     private void kryptonButton14_Click(object sender, EventArgs e)
     {
