@@ -31,25 +31,12 @@ jobs:
         uses: actions/checkout@v7
 
       # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false.
-      - name: Setup .NET (10)
+      - name: Setup .NET (10 and 11)
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             10.0.x
-
-      - name: Setup .NET (11)
-        id: setup_dotnet11_build
-        continue-on-error: true
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-
-      - name: Setup .NET (11 preview fallback)
-        if: steps.setup_dotnet11_build.outcome == 'failure'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable
@@ -190,25 +177,12 @@ jobs:
         uses: actions/checkout@v7
 
       # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false (same as build job).
-      - name: Setup .NET (10)
+      - name: Setup .NET (10 and 11)
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
             10.0.x
-
-      - name: Setup .NET (11)
-        id: setup_dotnet11_release
-        continue-on-error: true
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-
-      - name: Setup .NET (11 preview fallback)
-        if: steps.setup_dotnet11_release.outcome == 'failure'
-        uses: actions/setup-dotnet@v6
-        with:
-          dotnet-version: 11.0.x
-          dotnet-quality: preview
+            11.0.x
 
       - name: Setup .NET Preview (stable)
         id: setup_dotnetpreview_stable_release
