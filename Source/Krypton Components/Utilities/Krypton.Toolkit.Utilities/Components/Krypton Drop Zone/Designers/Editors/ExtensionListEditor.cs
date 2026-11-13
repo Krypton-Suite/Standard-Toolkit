@@ -13,6 +13,7 @@ public sealed class ExtensionListEditor : UITypeEditor
 {
     public override UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext context) => UITypeEditorEditStyle.Modal;
 
+    /*
     public override object EditValue(ITypeDescriptorContext context, IServiceProvider provider, object value)
     {
         var service = provider?.GetService(typeof(IWindowsFormsEditorService)) as IWindowsFormsEditorService;
@@ -25,5 +26,5 @@ public sealed class ExtensionListEditor : UITypeEditor
         {
             return service.ShowDialog(form) == DialogResult.OK ? form.Result : value;
         }
-    }
+    }*/
 }

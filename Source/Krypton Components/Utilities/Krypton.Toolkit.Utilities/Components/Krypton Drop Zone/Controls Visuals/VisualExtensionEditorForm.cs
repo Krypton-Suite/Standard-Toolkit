@@ -11,6 +11,7 @@ namespace Krypton.Toolkit.Utilities;
 
 internal sealed class VisualExtensionEditorForm : KryptonForm
 {
+    /*
     private static readonly KeyValuePair<string, string>[] Presets =
     {
             new KeyValuePair<string, string>("Preset_Images", ".png .jpg .jpeg .gif .bmp .tif .tiff .webp"),
@@ -65,4 +66,5 @@ internal sealed class VisualExtensionEditorForm : KryptonForm
         Controls.Add(hint);
         Controls.Add(bottom);
     }
+    */
 }
