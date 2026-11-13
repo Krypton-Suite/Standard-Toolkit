@@ -11,7 +11,7 @@ namespace Krypton.Toolkit.Utilities;
 
 public sealed class FileEntry : INotifyPropertyChanged
 {
-    private volatile string _hash;
+    private volatile string? _hash;
     private UploadStatus _status;
     private int _progress;
     private string _statusMessage;
@@ -34,18 +34,18 @@ public sealed class FileEntry : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    internal FileEntry(string path, long size, DateTime modified, string rejectionReason, bool isTemporary)
+    internal FileEntry(string path, long size, DateTime modified, string? rejectionReason, bool isTemporary)
     {
         Path = path;
         Name = System.IO.Path.GetFileName(path);
         Extension = System.IO.Path.GetExtension(path).ToLowerInvariant();
         Size = size;
         Modified = modified;
-        RejectionReason = rejectionReason;
+        RejectionReason = rejectionReason ?? string.Empty;
         IsTemporary = isTemporary;
     }
 
-    public static FileEntry FromDisk(string path, string rejectionReason = null)
+    public static FileEntry FromDisk(string path, string? rejectionReason = null)
     {
         long size = 0;
         DateTime modified = DateTime.MinValue;
@@ -57,12 +57,12 @@ public sealed class FileEntry : INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            rejectionReason = rejectionReason ?? DropZoneStrings.Format("Reject_Unreadable", ex.Message);
+           // rejectionReason = rejectionReason ?? DropZoneStrings.Format("Reject_Unreadable", ex.Message);
         }
         return new FileEntry(path, size, modified, rejectionReason, false);
     }
 
-    internal static FileEntry Temporary(string tempPath, long size, DateTime modified, string rejectionReason) =>
+    internal static FileEntry Temporary(string tempPath, long size, DateTime modified, string? rejectionReason) =>
         new FileEntry(tempPath, size, modified, rejectionReason, true);
 
     // Called on the UI thread by FileDropCollection.
@@ -92,9 +92,9 @@ public sealed class FileEntry : INotifyPropertyChanged
     }
 
     /// <summary>SHA-256 of the file, cached. Returns null if the file can't be read.</summary>
-    public string GetOrComputeHash(CancellationToken token)
+    public string? GetOrComputeHash(CancellationToken token)
     {
-        string h = _hash;
+        string? h = _hash;
         if (h != null)
         {
             return h;

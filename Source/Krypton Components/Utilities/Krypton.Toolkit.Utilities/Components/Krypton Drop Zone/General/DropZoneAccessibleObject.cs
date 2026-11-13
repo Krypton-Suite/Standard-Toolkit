@@ -19,8 +19,10 @@ internal sealed class DropZoneAccessibleObject : Control.ControlAccessibleObject
     public DropZoneAccessibleObject(KryptonDropZoneAlternate owner) : base(owner) { _owner = owner; }
 
     public override AccessibleRole Role => AccessibleRole.Grouping;
+    /*
     public override string Name { get => _owner.AccessibleName ?? DropZoneStrings.Get("Acc_Name"); set { base.Name = value; } }
     public override string Description => _owner.AccessibleDescription ?? DropZoneStrings.Get("Acc_Description");
     public override string Value { get => _owner.StatusText; set { } }
     public override AccessibleStates State => _owner.IsScanning ? base.State | AccessibleStates.Busy : base.State;
+    */
 }

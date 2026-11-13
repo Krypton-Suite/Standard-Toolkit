@@ -11,9 +11,10 @@ namespace Krypton.Toolkit.Utilities;
 
 [ToolboxItem(true)]
 [DesignerCategory("Code")]
-[DefaultEvent(nameof(FilesDropped))]
+//[DefaultEvent(nameof(FilesDropped))]
 public class KryptonDropZoneAlternate : KryptonPanel
 {
+    /*
     private const string DefaultExtensions = ".txt, .png, .jpg, .jpeg, .gif, .bmp, .xls, .xlsx, .csv, .pdf, .doc, .docx";
     private const int GlyphQueued = 0, GlyphUploading = 1, GlyphCompleted = 2, GlyphFailed = 3,
                       GlyphCancelled = 4, GlyphModified = 5, GlyphMissing = 6;
@@ -51,6 +52,8 @@ public class KryptonDropZoneAlternate : KryptonPanel
     private int _busy, _virtualThreshold = 2000, _fileListHeight = 140;
     private bool _virtual, _dragHover;
     private bool _showClearButton = true, _showStatusLabel = true, _showFileListView = true;
+
+    private DropZoneAlternateStrings _strings;
 
     #endregion
 
@@ -107,7 +110,7 @@ public class KryptonDropZoneAlternate : KryptonPanel
     [Category("Appearance")]
     public string DropZoneText
     {
-        get => _dropZoneText ?? DropZoneStrings.Get("DropHere");
+        get => _dropZoneText ?? Strings.DropZoneText;
         set { _dropZoneText = value; _dropZoneLabel.Text = DropZoneText; }
     }
     private bool ShouldSerializeDropZoneText() => _dropZoneText != null;
@@ -141,6 +144,7 @@ public class KryptonDropZoneAlternate : KryptonPanel
     {
         AllowDrop = true;
         Padding = new Padding(3); // leaves room for the border, which docked children would otherwise cover
+        _strings = new DropZoneAlternateStrings(this);
         _theme = DropZoneTheme.FromGlobalPalette();
         _thumbs = new ThumbnailProvider(new Size(Px(64), Px(64)), new Size(Px(16), Px(16)), 400);
         _thumbs.Ready += MarkDirty;
@@ -603,7 +607,7 @@ public class KryptonDropZoneAlternate : KryptonPanel
             IDropDataSource source = data == null ? null : _dataSources.FirstOrDefault(s => s.CanHandle(data));
             if (source != null) { var _ = AddEntriesAsync(source.Extract(data).ToList()); }
         }
-        catch (ExternalException) { /* clipboard locked by another process */ }
+        catch (ExternalException) { /* clipboard locked by another process * }
     }
 
     #endregion
@@ -1106,7 +1110,7 @@ public class KryptonDropZoneAlternate : KryptonPanel
         if (announce)
         {
             AccessibilityNotifyClients(AccessibleEvents.ValueChange, -1);
-            AccessibilityNotifyClients((AccessibleEvents)0x8019 /* EVENT_OBJECT_LIVEREGIONCHANGED */, -1);
+            AccessibilityNotifyClients((AccessibleEvents)0x8019 /* EVENT_OBJECT_LIVEREGIONCHANGED *, -1);
         }
     }
 
@@ -1243,4 +1247,6 @@ public class KryptonDropZoneAlternate : KryptonPanel
     }
 
     #endregion
+
+    */
 }
