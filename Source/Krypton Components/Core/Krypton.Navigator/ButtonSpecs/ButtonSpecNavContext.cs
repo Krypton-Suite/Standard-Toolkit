@@ -76,14 +76,14 @@ public class ButtonSpecNavContext : ButtonSpecNavFixed
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
+                        Krypton.Shared.DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
                         return false;
                 }
 
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Button.ContextButtonDisplay.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(Navigator.Button.ContextButtonDisplay.ToString());
                 return false;
         }
     }
@@ -110,7 +110,7 @@ public class ButtonSpecNavContext : ButtonSpecNavFixed
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Button.ContextButtonDisplay.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(Navigator.Button.ContextButtonDisplay.ToString());
                 return ButtonEnabled.False;
         }
 

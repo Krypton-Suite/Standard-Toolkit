@@ -12,6 +12,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Ribbon;
 
 internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
@@ -441,7 +443,7 @@ internal class KryptonRibbonGroupCheckBoxDesigner : ComponentDesigner
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonCheckBox.RibbonContainer!.ToString());
+                    Shared.DebugTools.NotImplemented(_ribbonCheckBox.RibbonContainer!.ToString());
                     return null;
             }
         }

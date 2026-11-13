@@ -10,6 +10,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Navigator;
 
 /// <summary>
@@ -58,13 +60,13 @@ public class ButtonSpecNavNext : ButtonSpecNavFixed
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
+                        Shared.DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
                         return false;
                 }
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Button.NextButtonDisplay.ToString());
+                Shared.DebugTools.NotImplemented(Navigator.Button.NextButtonDisplay.ToString());
                 return false;
         }
     }
@@ -90,7 +92,7 @@ public class ButtonSpecNavNext : ButtonSpecNavFixed
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Button.NextButtonDisplay.ToString());
+                Shared.DebugTools.NotImplemented(Navigator.Button.NextButtonDisplay.ToString());
                 return ButtonEnabled.False;
         }
 

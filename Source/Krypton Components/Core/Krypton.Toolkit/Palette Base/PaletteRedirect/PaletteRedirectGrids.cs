@@ -1003,7 +1003,7 @@ public class PaletteRedirectGrids : PaletteRedirect
 
         // Should never happen!
         Debug.Assert(false);
-        throw SharedDebugTools.NotImplemented(state.ToString());
+        throw Shared.DebugTools.NotImplemented(state.ToString());
     }
 
     private IPaletteBorder GetInheritBorder(PaletteBorderStyle style, PaletteState state)
@@ -1130,7 +1130,7 @@ public class PaletteRedirectGrids : PaletteRedirect
 
         // Should never happen!
         Debug.Assert(false);
-        throw SharedDebugTools.NotImplemented(state.ToString());
+        throw Shared.DebugTools.NotImplemented(state.ToString());
     }
 
     private IPaletteContent GetInheritContent(PaletteContentStyle style, PaletteState state)
@@ -1256,7 +1256,7 @@ public class PaletteRedirectGrids : PaletteRedirect
 
         // Should never happen!
         Debug.Assert(false);
-        throw SharedDebugTools.NotImplemented(state.ToString());
+        throw Shared.DebugTools.NotImplemented(state.ToString());
     }
     #endregion
 }

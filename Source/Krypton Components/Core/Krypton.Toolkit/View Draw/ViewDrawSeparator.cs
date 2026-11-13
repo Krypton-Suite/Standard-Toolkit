@@ -262,7 +262,7 @@ public class ViewDrawSeparator : ViewLeaf
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw SharedDebugTools.NotImplemented(state.ToString());
+                throw Shared.DebugTools.NotImplemented(state.ToString());
         }
     }
     #endregion

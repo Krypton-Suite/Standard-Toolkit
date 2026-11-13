@@ -2587,7 +2587,7 @@ public class KryptonDataGridView : DataGridView
 
         // Should never happen!
         Debug.Assert(false);
-        SharedDebugTools.NotImplemented(textH.ToString());
+        Shared.DebugTools.NotImplemented(textH.ToString());
         return DataGridViewContentAlignment.MiddleLeft;
     }
 

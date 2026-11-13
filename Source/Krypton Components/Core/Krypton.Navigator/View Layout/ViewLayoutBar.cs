@@ -437,7 +437,7 @@ internal class ViewLayoutBar : ViewComposite
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(BarItemSizing.ToString());
+                    Shared.DebugTools.NotImplemented(BarItemSizing.ToString());
                     break;
             }
 
@@ -1056,7 +1056,7 @@ internal class ViewLayoutBar : ViewComposite
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(align.ToString());
+                Shared.DebugTools.NotImplemented(align.ToString());
                 return ClientLocation.X;
         }
     }
@@ -1106,7 +1106,7 @@ internal class ViewLayoutBar : ViewComposite
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(align.ToString());
+                Shared.DebugTools.NotImplemented(align.ToString());
                 return ClientLocation.Y;
         }
     }

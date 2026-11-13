@@ -78,7 +78,7 @@ internal abstract class ViewBuilderBarRibbonTabBase : ViewBuilderBarItemBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Bar.BarOrientation.ToString());
+                Shared.DebugTools.NotImplemented(Navigator.Bar.BarOrientation.ToString());
                 return VisualOrientation.Top;
         }
     }

@@ -492,7 +492,7 @@ internal class KryptonRibbonGroupTrackBarDesigner : ComponentDesigner, IKryptonD
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonTrackBar.RibbonContainer!.ToString());
+                    Krypton.Shared.DebugTools.NotImplemented(_ribbonTrackBar.RibbonContainer!.ToString());
                     return null;
             }
         }

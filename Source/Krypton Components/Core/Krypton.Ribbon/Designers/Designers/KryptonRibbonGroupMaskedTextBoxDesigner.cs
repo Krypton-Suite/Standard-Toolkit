@@ -12,6 +12,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Ribbon;
 
 internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKryptonDesignObject
@@ -492,7 +494,7 @@ internal class KryptonRibbonGroupMaskedTextBoxDesigner : ComponentDesigner, IKry
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonMaskedTextBox.RibbonContainer!.ToString());
+                    Krypton.Shared.DebugTools.NotImplemented(_ribbonMaskedTextBox.RibbonContainer!.ToString());
                     return null;
             }
         }

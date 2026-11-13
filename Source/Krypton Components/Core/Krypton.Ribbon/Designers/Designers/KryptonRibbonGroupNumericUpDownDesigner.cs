@@ -12,6 +12,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Ribbon;
 
 internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKryptonDesignObject
@@ -490,7 +492,7 @@ internal class KryptonRibbonGroupNumericUpDownDesigner : ComponentDesigner, IKry
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonNumericUpDown.RibbonContainer!.ToString());
+                    Shared.DebugTools.NotImplemented(_ribbonNumericUpDown.RibbonContainer!.ToString());
                     return null;
             }
         }

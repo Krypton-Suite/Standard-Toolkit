@@ -10,6 +10,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Navigator;
 
 internal class ViewDrawNavRibbonTab : ViewComposite,
@@ -572,7 +574,7 @@ internal class ViewDrawNavRibbonTab : ViewComposite,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(buttonState.ToString());
+                Shared.DebugTools.NotImplemented(buttonState.ToString());
                 break;
         }
 

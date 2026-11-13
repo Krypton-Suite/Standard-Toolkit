@@ -1377,7 +1377,7 @@ public class KryptonCircularProgressBar : KryptonProgressBar
         }
         catch (Exception exc)
         {
-            DebugTools.NotImplemented(exc.ToString());
+            Shared.DebugTools.NotImplemented(exc.ToString());
         }
     }
 

@@ -767,7 +767,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                         }
 
                     default:
-                        throw DebugTools.NotImplemented(state.ToString());
+                        throw Shared.DebugTools.NotImplemented(state.ToString());
                 }
             case PaletteBackStyle.TabDock:
             case PaletteBackStyle.TabDockAutoHidden:
@@ -775,7 +775,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.Tracking => Color.FromArgb(168, 196, 230),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.HeaderForm:
                 return state == PaletteState.Disabled
@@ -919,7 +919,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => BaseColors!.RibbonGalleryBack1,
                     PaletteState.Tracking or PaletteState.CheckedTracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
                     PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonForm:
             case PaletteBackStyle.ButtonFormClose:
@@ -930,7 +930,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Tracking => BaseColors!.FormButtonBack1Track,
                     PaletteState.CheckedTracking => BaseColors!.FormButtonBack1CheckTrack,
                     PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors!.FormButtonBack1Pressed,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonStandalone:
             case PaletteBackStyle.ButtonAlternate:
@@ -966,10 +966,10 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                         ? BaseColors!.AlternatePressedBack1
                         : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                     PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack1 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             default:
-                throw DebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -1043,7 +1043,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : BaseColors!.ButtonNormalBack2,
                     PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : Color.FromArgb(168, 196, 230),
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => Color.FromArgb(168, 196, 230),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDock:
                 return state switch
@@ -1052,7 +1052,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Normal => BaseColors!.ButtonNormalBack2,
                     PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => Color.FromArgb(168, 196, 230),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDockAutoHidden:
                 return state switch
@@ -1060,7 +1060,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal or PaletteState.CheckedNormal => BaseColors!.ButtonNormalBack2,
                     PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.HeaderForm:
                 return state == PaletteState.Disabled
@@ -1200,7 +1200,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => BaseColors!.RibbonGalleryBack2,
                     PaletteState.Tracking or PaletteState.CheckedTracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
                     PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonForm:
             case PaletteBackStyle.ButtonFormClose:
@@ -1211,7 +1211,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Tracking => BaseColors!.FormButtonBack2Track,
                     PaletteState.CheckedTracking => BaseColors!.FormButtonBack2CheckTrack,
                     PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors!.FormButtonBack2Pressed,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonStandalone:
             case PaletteBackStyle.ButtonAlternate:
@@ -1251,10 +1251,10 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                         ? BaseColors!.AlternatePressedBack2
                         : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color6),
                     PaletteState.CheckedTracking => style == PaletteBackStyle.ButtonInputControl ? BaseColors!.ButtonNormalBack1 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color10),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             default:
-                throw DebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -1309,14 +1309,14 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.CheckedNormal => PaletteColorStyle.GlassNormalFull,
                 PaletteState.Tracking or PaletteState.CheckedTracking => PaletteColorStyle.GlassCenter,
                 PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassBottom,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonGallery => state switch
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => PaletteColorStyle.GlassSimpleFull,
                 PaletteState.Tracking or PaletteState.CheckedTracking => PaletteColorStyle.GlassTrackingFull,
                 PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassPressedFull,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonAlternate => state switch
             {
@@ -1325,7 +1325,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassPressedStump,
                 PaletteState.CheckedNormal => PaletteColorStyle.GlassCheckedStump,
                 PaletteState.CheckedTracking => PaletteColorStyle.GlassCheckedTrackingStump,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonStandalone or PaletteBackStyle.ButtonLowProfile or PaletteBackStyle.ButtonBreadCrumb or PaletteBackStyle.ButtonListItem or PaletteBackStyle.ButtonCommand or PaletteBackStyle.ButtonButtonSpec or PaletteBackStyle.ButtonCluster or PaletteBackStyle.ButtonCustom1 or PaletteBackStyle.ButtonCustom2 or PaletteBackStyle.ButtonCustom3 or PaletteBackStyle.ContextMenuItemHighlight => state switch
             {
@@ -1334,7 +1334,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassPressedFull,
                 PaletteState.CheckedNormal => PaletteColorStyle.GlassCheckedFull,
                 PaletteState.CheckedTracking => PaletteColorStyle.GlassCheckedTrackingFull,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ContextMenuItemImage => PaletteColorStyle.Solid,
             PaletteBackStyle.ButtonNavigatorStack or PaletteBackStyle.ButtonNavigatorOverflow or PaletteBackStyle.ButtonInputControl => state switch
@@ -1344,7 +1344,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassPressedSimple,
                 PaletteState.CheckedNormal => PaletteColorStyle.GlassCheckedSimple,
                 PaletteState.CheckedTracking => PaletteColorStyle.GlassCheckedTrackingSimple,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBackStyle.ButtonNavigatorMini => state switch
             {
@@ -1605,7 +1605,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _disabledBorder,
                 PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : BaseColors!.ButtonNormalBorder,
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => BaseColors!.ControlBorder,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.TabDock => state switch
             {
@@ -1613,14 +1613,14 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Normal => BaseColors!.ButtonNormalBorder,
                 PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => BaseColors!.ControlBorder,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.TabDockAutoHidden => state switch
             {
                 PaletteState.Disabled => _disabledBorder,
                 PaletteState.Normal or PaletteState.CheckedNormal => BaseColors!.ButtonNormalBorder,
                 PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.HeaderCalendar => state == PaletteState.Disabled
                 ? BaseColors!.HeaderPrimaryBack1
@@ -1655,7 +1655,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.CheckedNormal => BaseColors!.FormButtonBorderCheck,
                 PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors!.FormButtonBorderTrack,
                 PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors!.FormButtonBorderPressed,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonGallery => state switch
             {
@@ -1663,7 +1663,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => BaseColors!.RibbonGalleryBorder,
                 PaletteState.Tracking or PaletteState.CheckedTracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color2),
                 PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonNavigatorMini or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.ButtonInputControl or PaletteBorderStyle.ContextMenuItemHighlight => state switch
             {
@@ -1680,7 +1680,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     ? BaseColors!.AlternatePressedBorder1
                     : GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                 PaletteState.CheckedTracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonCalendarDay => state switch
             {
@@ -1691,7 +1691,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
                 PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                 PaletteState.CheckedTracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9),
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             _ => ThrowHelper.ThrowArgumentOutOfRangeException<Color>(nameof(style))
         };
@@ -1727,7 +1727,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _disabledBorder,
                 PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => style == PaletteBorderStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : BaseColors!.ButtonNormalBorder,
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => BaseColors!.ControlBorder,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.TabDock => state switch
             {
@@ -1735,14 +1735,14 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Normal => BaseColors!.ButtonNormalBorder,
                 PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
                 PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => BaseColors!.ControlBorder,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.TabDockAutoHidden => state switch
             {
                 PaletteState.Disabled => _disabledBorder,
                 PaletteState.Normal or PaletteState.CheckedNormal => BaseColors!.ButtonNormalBorder,
                 PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color3),
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.HeaderForm => state == PaletteState.Disabled
                 ? BaseColors!.FormBorderHeaderInactive
@@ -1777,7 +1777,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.CheckedNormal => BaseColors!.FormButtonBorderCheck,
                 PaletteState.Tracking or PaletteState.CheckedTracking => BaseColors!.FormButtonBorderTrack,
                 PaletteState.Pressed or PaletteState.CheckedPressed => BaseColors!.FormButtonBorderPressed,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonGallery => state switch
             {
@@ -1785,7 +1785,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.CheckedNormal => BaseColors!.RibbonGalleryBorder,
                 PaletteState.Tracking or PaletteState.CheckedTracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color2),
                 PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonStandalone or PaletteBorderStyle.ButtonAlternate or PaletteBorderStyle.ButtonLowProfile or PaletteBorderStyle.ButtonBreadCrumb or PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand or PaletteBorderStyle.ButtonButtonSpec or PaletteBorderStyle.ButtonCluster or PaletteBorderStyle.ButtonNavigatorStack or PaletteBorderStyle.ButtonNavigatorOverflow or PaletteBorderStyle.ButtonNavigatorMini or PaletteBorderStyle.ButtonCustom1 or PaletteBorderStyle.ButtonCustom2 or PaletteBorderStyle.ButtonCustom3 or PaletteBorderStyle.ButtonInputControl or PaletteBorderStyle.ContextMenuItemHighlight => state switch
             {
@@ -1800,7 +1800,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     ? BaseColors!.AlternatePressedBorder2
                     : GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color5),
                 PaletteState.CheckedTracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color5),
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonCalendarDay => state switch
             {
@@ -1811,7 +1811,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                 PaletteState.Tracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
                 PaletteState.Pressed or PaletteState.CheckedPressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                 PaletteState.CheckedTracking => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color9),
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             _ => ThrowHelper.ThrowArgumentOutOfRangeException<Color>(nameof(style))
         };
@@ -3372,7 +3372,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(metric.ToString());
+                Shared.DebugTools.NotImplemented(metric.ToString());
                 break;
         }
 
@@ -3398,7 +3398,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(metric.ToString());
+                Shared.DebugTools.NotImplemented(metric.ToString());
                 break;
         }
 
@@ -3461,7 +3461,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(metric.ToString());
+                Shared.DebugTools.NotImplemented(metric.ToString());
                 break;
         }
 
@@ -3696,7 +3696,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -3893,7 +3893,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3910,7 +3910,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3936,7 +3936,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3963,7 +3963,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3971,7 +3971,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4033,7 +4033,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4058,7 +4058,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4076,7 +4076,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4093,7 +4093,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4110,7 +4110,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4141,7 +4141,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4149,7 +4149,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4196,7 +4196,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4221,7 +4221,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4239,7 +4239,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4256,7 +4256,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4273,7 +4273,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4306,7 +4306,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4318,7 +4318,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4359,7 +4359,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4383,7 +4383,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4409,7 +4409,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4437,7 +4437,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4445,7 +4445,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4482,7 +4482,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4506,7 +4506,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4534,7 +4534,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4562,7 +4562,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4570,7 +4570,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4618,7 +4618,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4648,7 +4648,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4656,7 +4656,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4702,7 +4702,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4744,7 +4744,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 
@@ -4779,7 +4779,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Normal => BaseColors!.ButtonNormalBorder,
                     PaletteState.Tracking => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color2),
                     PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(2, state);
@@ -4788,7 +4788,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 
@@ -4824,7 +4824,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                         BaseColors!.ButtonNormalBack1),
                     PaletteState.Tracking => ControlPaint.Light(GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3)),
                     PaletteState.Pressed => ControlPaint.Light(GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5)),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
 
             case PaletteElement.TransferSpeedGraph:
@@ -4834,7 +4834,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 
@@ -4878,7 +4878,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Normal => BaseColors!.ButtonNormalBack1,
                     PaletteState.Tracking or PaletteState.FocusOverride => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3),
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(4, state);
@@ -4887,7 +4887,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 
@@ -4931,7 +4931,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
                     PaletteState.Normal => BaseColors!.ButtonNormalBack2,
                     PaletteState.Tracking or PaletteState.FocusOverride => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color4),
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color6),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(5, state);
@@ -4940,7 +4940,7 @@ public abstract class PaletteOffice2007BlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 

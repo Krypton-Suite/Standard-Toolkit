@@ -4003,7 +4003,7 @@ public class KryptonForm : VisualForm,
 			default:
 				// Should never happen!
 				Debug.Assert(false);
-				SharedDebugTools.NotImplemented(style.ToString());
+				Shared.DebugTools.NotImplemented(style.ToString());
 				break;
 		}
 	}

@@ -90,7 +90,7 @@ internal class ViewLayoutRibbonRowCenter : ViewComposite
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(CurrentSize.ToString());
+                Shared.DebugTools.NotImplemented(CurrentSize.ToString());
                 break;
         }
 

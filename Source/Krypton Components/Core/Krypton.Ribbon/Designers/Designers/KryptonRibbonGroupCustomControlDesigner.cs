@@ -12,6 +12,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Ribbon;
 
 internal class KryptonRibbonGroupCustomControlDesigner : ComponentDesigner, IKryptonDesignObject
@@ -473,7 +475,7 @@ internal class KryptonRibbonGroupCustomControlDesigner : ComponentDesigner, IKry
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonCustomControl.RibbonContainer!.ToString());
+                    Shared.DebugTools.NotImplemented(_ribbonCustomControl.RibbonContainer!.ToString());
                     return null;
             }
         }

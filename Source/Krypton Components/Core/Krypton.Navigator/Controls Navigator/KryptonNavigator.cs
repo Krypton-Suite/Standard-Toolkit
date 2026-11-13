@@ -1747,7 +1747,7 @@ public class KryptonNavigator : VisualSimple,
                             default:
                                 // Should never happen!
                                 Debug.Assert(false);
-                                DebugTools.NotImplemented(e.Action.ToString());
+                                Shared.DebugTools.NotImplemented(e.Action.ToString());
                                 break;
                         }
                     }

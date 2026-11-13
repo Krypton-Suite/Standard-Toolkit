@@ -239,7 +239,7 @@ public class PaletteTripleJustImageRedirect : Storage,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(buttonStyle.ToString());
+                Shared.DebugTools.NotImplemented(buttonStyle.ToString());
                 break;
         }
     }
@@ -300,7 +300,7 @@ public class PaletteTripleJustImageRedirect : Storage,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(headerStyle.ToString());
+                Shared.DebugTools.NotImplemented(headerStyle.ToString());
                 break;
         }
     }

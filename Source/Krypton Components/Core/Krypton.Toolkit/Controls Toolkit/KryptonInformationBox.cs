@@ -14,6 +14,6 @@ public class KryptonInformationBox
 {
     public KryptonInformationBox()
     {
-        SharedDebugTools.NotImplemented(SharedStaticVariables.DEFAULT_NOT_IMPLEMENTED_YET_MESSAGE);
+        Shared.DebugTools.NotImplemented(SharedStaticVariables.DEFAULT_NOT_IMPLEMENTED_YET_MESSAGE);
     }
 }

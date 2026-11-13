@@ -184,7 +184,7 @@ public class ButtonSpecView : GlobalId,
                 Debug.Assert(false);
                 newDependent = null;
                 newEnabled = false;
-                SharedDebugTools.NotImplemented(ButtonSpec.GetEnabled(_redirector).ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(ButtonSpec.GetEnabled(_redirector).ToString());
                 break;
         }
 
@@ -226,7 +226,7 @@ public class ButtonSpecView : GlobalId,
                 // Should never happen!
                 Debug.Assert(false);
                 newChecked = false;
-                SharedDebugTools.NotImplemented(ButtonSpec.GetChecked(_redirector).ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(ButtonSpec.GetChecked(_redirector).ToString());
                 break;
         }
 

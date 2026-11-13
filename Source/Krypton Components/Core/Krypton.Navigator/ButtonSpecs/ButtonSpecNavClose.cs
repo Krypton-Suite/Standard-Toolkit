@@ -50,7 +50,7 @@ public class ButtonSpecNavClose : ButtonSpecNavFixed
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Button.CloseButtonDisplay.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(Navigator.Button.CloseButtonDisplay.ToString());
                 return false;
         }
     }
@@ -77,7 +77,7 @@ public class ButtonSpecNavClose : ButtonSpecNavFixed
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Button.CloseButtonDisplay.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(Navigator.Button.CloseButtonDisplay.ToString());
                 return ButtonEnabled.False;
         }
     }

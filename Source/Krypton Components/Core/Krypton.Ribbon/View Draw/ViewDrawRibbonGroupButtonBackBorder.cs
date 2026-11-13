@@ -468,7 +468,7 @@ internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
             default:
                 // Should never happen
                 Debug.Assert(false);
-                DebugTools.NotImplemented(drawState.ToString());
+                Shared.DebugTools.NotImplemented(drawState.ToString());
                 break;
         }
     }
@@ -674,7 +674,7 @@ internal class ViewDrawRibbonGroupButtonBackBorder : ViewComposite
             default:
                 // Should never happen
                 Debug.Assert(false);
-                DebugTools.NotImplemented(drawState.ToString());
+                Shared.DebugTools.NotImplemented(drawState.ToString());
                 break;
         }
     }

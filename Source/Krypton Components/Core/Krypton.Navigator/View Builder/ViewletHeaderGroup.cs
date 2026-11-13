@@ -10,6 +10,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Navigator;
 
 /// <summary>
@@ -440,7 +442,7 @@ internal class ViewletHeaderGroup
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
     }

@@ -935,7 +935,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw SharedDebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -1000,7 +1000,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 return SharedStaticVariables.EMPTY_COLOR;
         }
     }
@@ -1056,7 +1056,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw SharedDebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -1111,7 +1111,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw SharedDebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -1178,7 +1178,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw SharedDebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -1234,7 +1234,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 return SharedStaticVariables.EMPTY_COLOR;
         }
     }
@@ -1291,7 +1291,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 return SharedStaticVariables.EMPTY_COLOR;
         }
     }
@@ -1349,7 +1349,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 return PaletteButtonStyle.ButtonSpec;
         }
     }
@@ -1405,7 +1405,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 return HeaderLocation.PrimaryHeader;
         }
     }
@@ -1461,7 +1461,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 return PaletteRelativeEdgeAlign.Far;
         }
     }
@@ -1518,7 +1518,7 @@ public abstract class PaletteBase : Component
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 return PaletteButtonOrientation.Auto;
         }
     }

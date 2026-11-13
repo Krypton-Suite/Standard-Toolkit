@@ -10,6 +10,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Docking;
 
 /// <summary>
@@ -39,7 +41,7 @@ public static class DockingHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(edge.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(edge.ToString());
                 return DockStyle.Top;
         }
     }

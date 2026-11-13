@@ -788,7 +788,7 @@ internal abstract class ViewBuilderBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(mode.ToString());
+                throw Shared.DebugTools.NotImplemented(mode.ToString());
         }
     }
     #endregion

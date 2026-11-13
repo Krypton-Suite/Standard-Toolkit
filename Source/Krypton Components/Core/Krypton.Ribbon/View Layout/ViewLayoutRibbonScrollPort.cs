@@ -767,7 +767,7 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(Orientation.ToString());
+                    Shared.DebugTools.NotImplemented(Orientation.ToString());
                     return VisualOrientation.Left;
             }
         }
@@ -788,7 +788,7 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(Orientation.ToString());
+                    Shared.DebugTools.NotImplemented(Orientation.ToString());
                     return VisualOrientation.Right;
             }
         }

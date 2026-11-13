@@ -125,6 +125,5 @@ internal static class DebugTools
         string? outOfRange,
         [CallerFilePath] string callingFilePath = "",
         [CallerLineNumber] int lineNumber = 0,
-        [CallerMemberName] string? callingMethod = "") =>
-        SharedDebugTools.NotImplemented(outOfRange, callingFilePath, lineNumber, callingMethod);
+        [CallerMemberName] string? callingMethod = "") => Shared.DebugTools.NotImplemented(outOfRange, callingFilePath, lineNumber, callingMethod);
 }

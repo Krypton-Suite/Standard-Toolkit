@@ -854,7 +854,7 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(orientation.ToString());
+                        Shared.DebugTools.NotImplemented(orientation.ToString());
                         return VisualOrientation.Top;
                 }
 
@@ -873,7 +873,7 @@ internal abstract class ViewBuilderItemBase : ViewBuilderBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Bar.ItemOrientation.ToString());
+                Shared.DebugTools.NotImplemented(Navigator.Bar.ItemOrientation.ToString());
                 return VisualOrientation.Top;
         }
     }

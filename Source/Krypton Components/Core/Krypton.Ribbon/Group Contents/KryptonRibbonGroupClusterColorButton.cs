@@ -12,6 +12,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Ribbon;
 
 /// <summary>
@@ -1110,7 +1112,7 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem, IKry
                         default:
                             // Should never happen!
                             Debug.Assert(false);
-                            DebugTools.NotImplemented(ButtonType.ToString());
+                            Shared.DebugTools.NotImplemented(ButtonType.ToString());
                             break;
                     }
 

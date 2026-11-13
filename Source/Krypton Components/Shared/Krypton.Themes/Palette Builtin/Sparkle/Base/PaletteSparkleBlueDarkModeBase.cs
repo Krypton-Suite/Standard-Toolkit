@@ -407,7 +407,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             case PaletteBackStyle.GridDataCellCustom3:
                 return PaletteGraphicsHint.None;
             default:
-                throw DebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -501,7 +501,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                         ? _sparkleColors[5]
                         : _sparkleColors[12],
                     PaletteState.CheckedPressed => _sparkleColors[14],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonCalendarDay:
                 return state switch
@@ -512,7 +512,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Tracking => _sparkleColors[27],
                     PaletteState.Pressed or PaletteState.CheckedNormal => _sparkleColors[15],
                     PaletteState.CheckedTracking or PaletteState.CheckedPressed => _sparkleColors[12],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonForm:
             case PaletteBackStyle.ButtonFormClose:
@@ -523,7 +523,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Tracking => _sparkleColors[5],
                     PaletteState.CheckedTracking => _sparkleColors[12],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _sparkleColors[14],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonListItem:
             case PaletteBackStyle.ButtonCommand:
@@ -532,7 +532,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorWhite215,
                     PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _sparkleColors[15],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ContextMenuOuter:
             case PaletteBackStyle.ContextMenuInner:
@@ -625,7 +625,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _colorWhite220,
                     PaletteState.Pressed or PaletteState.Tracking => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _colorWhite220,
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => style == PaletteBackStyle.TabHighProfile ? _sparkleColors[29] : _colorWhite220,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDock:
             case PaletteBackStyle.TabDockAutoHidden:
@@ -633,14 +633,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal or PaletteState.Pressed or PaletteState.Tracking or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorWhite220,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ControlRibbon:
                 return _ribbonColors[(int)SchemeBaseColors.RibbonTabSelected4];
             case PaletteBackStyle.ControlRibbonAppMenu:
                 return _ribbonColors[(int)SchemeBaseColors.AppButtonBack1];
             default:
-                throw DebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -731,7 +731,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                         ? _sparkleColors[22]
                         : _sparkleColors[13],
                     PaletteState.CheckedPressed => _sparkleColors[11],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonCalendarDay:
                 return state switch
@@ -742,7 +742,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Tracking => _sparkleColors[27],
                     PaletteState.Pressed or PaletteState.CheckedNormal => _sparkleColors[15],
                     PaletteState.CheckedTracking or PaletteState.CheckedPressed => _sparkleColors[12],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonForm:
             case PaletteBackStyle.ButtonFormClose:
@@ -753,7 +753,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Tracking => _sparkleColors[22],
                     PaletteState.CheckedTracking => _sparkleColors[13],
                     PaletteState.Pressed or PaletteState.CheckedPressed => _sparkleColors[11],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ButtonListItem:
             case PaletteBackStyle.ButtonCommand:
@@ -762,7 +762,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Disabled => _disabledBack2,
                     PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorWhite215,
                     PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _sparkleColors[15],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ContextMenuInner:
                 return _colorWhite240;
@@ -852,7 +852,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _colorWhite220,
                     PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _colorWhite238,
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorWhite238,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDock:
                 return state switch
@@ -861,7 +861,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Normal => _colorWhite220,
                     PaletteState.Tracking or PaletteState.Pressed => _ribbonColors[(int)SchemeBaseColors.FormHeaderShortActive],
                     PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorWhite238,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDockAutoHidden:
                 return state switch
@@ -869,7 +869,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal or PaletteState.CheckedNormal => _colorWhite220,
                     PaletteState.Tracking or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.FormHeaderShortActive],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.ContextMenuItemSplit:
                 return state == PaletteState.Disabled ? _colorWhite240 : _colorWhite255;
@@ -881,7 +881,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             case PaletteBackStyle.ControlToolTip:
                 return _toolTipBack2;
             default:
-                throw DebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -935,7 +935,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 PaletteState.Pressed or PaletteState.CheckedPressed => PaletteColorStyle.GlassPressedSimple,
                 PaletteState.CheckedNormal => PaletteColorStyle.GlassCheckedSimple,
                 PaletteState.CheckedTracking => PaletteColorStyle.GlassCheckedTrackingSimple,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             _ => ThrowHelper.ThrowArgumentOutOfRangeException<PaletteColorStyle>(nameof(style))
         };
@@ -1199,7 +1199,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 PaletteState.Tracking => _sparkleColors[27],
                 PaletteState.Pressed or PaletteState.CheckedNormal => _sparkleColors[15],
                 PaletteState.CheckedTracking or PaletteState.CheckedPressed => _sparkleColors[12],
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonGallery => _colorDark00,
             PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand => state switch
@@ -1207,7 +1207,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 PaletteState.Disabled => _disabledBack,
                 PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorWhite215,
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _sparkleColors[15],
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ContextMenuSeparator => _colorWhite224,
             PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _colorWhite255,
@@ -1225,7 +1225,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _disabledBorder,
                 PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorDark00,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea5],
             PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeBaseColors.AppButtonBorder],
@@ -1273,14 +1273,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 PaletteState.Tracking => _sparkleColors[27],
                 PaletteState.Pressed or PaletteState.CheckedNormal => _sparkleColors[15],
                 PaletteState.CheckedTracking or PaletteState.CheckedPressed => _sparkleColors[12],
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ButtonListItem or PaletteBorderStyle.ButtonCommand => state switch
             {
                 PaletteState.Disabled => _disabledBack,
                 PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorWhite215,
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _sparkleColors[15],
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ContextMenuSeparator => _colorWhite224,
             PaletteBorderStyle.ContextMenuHeading or PaletteBorderStyle.ContextMenuItemImageColumn => _colorWhite255,
@@ -1298,7 +1298,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled => style == PaletteBorderStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _disabledBorder,
                 PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => _colorDark00,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteBorderStyle.ControlRibbon => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeBaseColors.RibbonGroupsArea5],
             PaletteBorderStyle.ControlRibbonAppMenu => state == PaletteState.Disabled ? _disabledBorder : _ribbonColors[(int)SchemeBaseColors.AppButtonBorder],
@@ -2026,13 +2026,13 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => GetSparkleListItemNormalTextColor(),
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteContentStyle.ButtonCommand => state switch
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorDark00,
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteContentStyle.ButtonStandalone or PaletteContentStyle.ButtonAlternate or PaletteContentStyle.ButtonGallery or PaletteContentStyle.ButtonCluster or PaletteContentStyle.ButtonBreadCrumb or PaletteContentStyle.ButtonNavigatorMini or PaletteContentStyle.ButtonNavigatorStack or PaletteContentStyle.ButtonNavigatorOverflow or PaletteContentStyle.ButtonCustom1 or PaletteContentStyle.ButtonCustom2 or PaletteContentStyle.ButtonCustom3 or PaletteContentStyle.HeaderSecondary or PaletteContentStyle.HeaderPrimary or PaletteContentStyle.HeaderDockInactive or PaletteContentStyle.HeaderDockActive or PaletteContentStyle.HeaderCalendar or PaletteContentStyle.HeaderCustom1 or PaletteContentStyle.HeaderCustom2 or PaletteContentStyle.HeaderCustom3 or PaletteContentStyle.LabelAlternatePanel or PaletteContentStyle.LabelNormalPanel or PaletteContentStyle.LabelBoldPanel or PaletteContentStyle.LabelItalicPanel or PaletteContentStyle.LabelTitlePanel or PaletteContentStyle.LabelGroupBoxCaption or PaletteContentStyle.ContextMenuHeading => _colorWhite255,
             PaletteContentStyle.ButtonCalendarDay => state switch
@@ -2437,13 +2437,13 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => GetSparkleListItemNormalTextColor(),
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteContentStyle.ButtonCommand => state switch
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorDark00,
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteContentStyle.ButtonCalendarDay => state switch
             {
@@ -2520,13 +2520,13 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => GetSparkleListItemNormalTextColor(),
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteContentStyle.ButtonCommand => state switch
             {
                 PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride or PaletteState.Tracking => _colorDark00,
                 PaletteState.Pressed or PaletteState.CheckedNormal or PaletteState.CheckedTracking or PaletteState.CheckedPressed => _colorWhite255,
-                _ => throw DebugTools.NotImplemented(state.ToString())
+                _ => throw Shared.DebugTools.NotImplemented(state.ToString())
             },
             PaletteContentStyle.ButtonCalendarDay => state switch
             {
@@ -2863,7 +2863,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(metric.ToString());
+                Shared.DebugTools.NotImplemented(metric.ToString());
                 break;
         }
 
@@ -2888,7 +2888,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(metric.ToString());
+                Shared.DebugTools.NotImplemented(metric.ToString());
                 break;
         }
 
@@ -2953,7 +2953,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(metric.ToString());
+                Shared.DebugTools.NotImplemented(metric.ToString());
                 break;
         }
 
@@ -3194,7 +3194,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 // Should never happen!
                 MessageBox.Show($"Style: {style}");
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(style.ToString());
+                throw Shared.DebugTools.NotImplemented(style.ToString());
         }
     }
 
@@ -3392,7 +3392,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3408,7 +3408,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3433,7 +3433,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3460,14 +3460,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -3533,7 +3533,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3558,7 +3558,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3575,7 +3575,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3591,7 +3591,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3607,7 +3607,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3635,14 +3635,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -3693,7 +3693,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3718,7 +3718,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3735,7 +3735,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3751,7 +3751,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3767,7 +3767,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3797,7 +3797,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3808,7 +3808,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -3849,7 +3849,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3873,7 +3873,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3898,7 +3898,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3924,14 +3924,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -3968,7 +3968,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -3992,7 +3992,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4019,7 +4019,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4045,14 +4045,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4100,7 +4100,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
@@ -4129,14 +4129,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(state.ToString());
+                        Shared.DebugTools.NotImplemented(state.ToString());
                         break;
                 }
                 break;
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4182,7 +4182,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(style.ToString());
+                Shared.DebugTools.NotImplemented(style.ToString());
                 break;
         }
 
@@ -4222,7 +4222,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 
@@ -4253,7 +4253,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => ControlPaint.Light(_colorDark00),
                     PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => _colorDark00,
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(2, state);
@@ -4262,7 +4262,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 
@@ -4295,7 +4295,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Normal or PaletteState.FocusOverride => ControlPaint.Light(_sparkleColors[5]),
                     PaletteState.Tracking => ControlPaint.Light(_sparkleColors[6]),
                     PaletteState.Pressed => ControlPaint.Light(_sparkleColors[8]),
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(3, state);
@@ -4304,7 +4304,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 
@@ -4347,7 +4347,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Normal => _sparkleColors[5],
                     PaletteState.Tracking or PaletteState.FocusOverride => _sparkleColors[6],
                     PaletteState.Pressed => _sparkleColors[8],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(4, state);
@@ -4356,7 +4356,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 
@@ -4392,7 +4392,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Tracking => _sparkleColors[7],
                     PaletteState.FocusOverride => _sparkleColors[7],
                     PaletteState.Pressed => _sparkleColors[9],
-                    _ => throw DebugTools.NotImplemented(state.ToString())
+                    _ => throw Shared.DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteElement.TransferSpeedGraph:
                 return GetTransferSpeedGraphElementColor(5, state);
@@ -4401,7 +4401,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(element.ToString());
+                Shared.DebugTools.NotImplemented(element.ToString());
                 break;
         }
 

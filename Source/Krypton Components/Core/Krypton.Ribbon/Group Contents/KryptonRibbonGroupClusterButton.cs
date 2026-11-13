@@ -704,7 +704,7 @@ public class KryptonRibbonGroupClusterButton : KryptonRibbonGroupItem
                         default:
                             // Should never happen!
                             Debug.Assert(false);
-                            DebugTools.NotImplemented(ButtonType.ToString());
+                            Shared.DebugTools.NotImplemented(ButtonType.ToString());
                             break;
                     }
 

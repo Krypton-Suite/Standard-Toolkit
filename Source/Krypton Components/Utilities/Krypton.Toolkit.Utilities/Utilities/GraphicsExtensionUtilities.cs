@@ -85,7 +85,7 @@ public static class GraphicsExtensionUtilities
             case KryptonToastIcon.Custom:
                 return customImage != null ? GraphicsExtensions.ScaleImage(customImage, newSize) : null;
             default:
-                DebugTools.NotImplemented(notificationIconType.ToString());
+                Shared.DebugTools.NotImplemented(notificationIconType.ToString());
                 return ThrowHelper.ThrowArgumentOutOfRangeException<Image?>(nameof(notificationIconType), notificationIconType, null);
         }
     }

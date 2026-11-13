@@ -310,7 +310,7 @@ internal class CalculatedValues
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(groupLine.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(groupLine.ToString());
                 screenPt = new Point(viewRect.X, viewRect.Y);
                 break;
         }

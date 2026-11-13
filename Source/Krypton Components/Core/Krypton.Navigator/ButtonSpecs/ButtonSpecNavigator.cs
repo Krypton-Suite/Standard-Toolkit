@@ -10,6 +10,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Navigator;
 
 /// <summary>
@@ -114,7 +116,7 @@ public class ButtonSpecNavigator : ButtonSpecHeaderGroup
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(type.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(type.ToString());
                 return PaletteButtonSpecStyle.Generic;
         }
     }
@@ -166,7 +168,7 @@ public class ButtonSpecNavigator : ButtonSpecHeaderGroup
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(type.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(type.ToString());
                 return PaletteNavButtonSpecStyle.Generic;
         }
     }

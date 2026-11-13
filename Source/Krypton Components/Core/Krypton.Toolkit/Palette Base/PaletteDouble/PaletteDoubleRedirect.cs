@@ -174,7 +174,7 @@ public class PaletteDoubleRedirect : Storage,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(separatorStyle.ToString());
+                Shared.DebugTools.NotImplemented(separatorStyle.ToString());
                 break;
         }
     }
@@ -196,7 +196,7 @@ public class PaletteDoubleRedirect : Storage,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(inputControlStyle.ToString());
+                Shared.DebugTools.NotImplemented(inputControlStyle.ToString());
                 break;
         }
     }

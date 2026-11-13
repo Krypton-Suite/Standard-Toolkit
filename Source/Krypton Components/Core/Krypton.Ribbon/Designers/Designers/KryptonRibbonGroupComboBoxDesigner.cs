@@ -12,6 +12,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Ribbon;
 
 internal class KryptonRibbonGroupComboBoxDesigner : ComponentDesigner, IKryptonDesignObject
@@ -475,7 +477,7 @@ internal class KryptonRibbonGroupComboBoxDesigner : ComponentDesigner, IKryptonD
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonComboBox.RibbonContainer!.ToString());
+                    Shared.DebugTools.NotImplemented(_ribbonComboBox.RibbonContainer!.ToString());
                     return null;
             }
         }

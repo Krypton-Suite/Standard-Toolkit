@@ -10,6 +10,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Navigator;
 
 /// <summary>
@@ -2061,7 +2063,7 @@ internal abstract class ViewBuilderOutlookBase : ViewBuilderBase,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Outlook.ItemOrientation.ToString());
+                Shared.DebugTools.NotImplemented(Navigator.Outlook.ItemOrientation.ToString());
                 return VisualOrientation.Top;
         }
     }

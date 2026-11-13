@@ -3,14 +3,14 @@
 #
 # NUGET: Trusted publishing via NuGet/login. Secret NUGET_USER is the nuget.org profile name.
 # nuget.org needs a trusted-publishing policy for THIS workflow file path
-# (.github/workflows/release-master.yml), Krypton-Suite/Standard-Toolkit, environment production.
+# (.github/workflows/release-stable.yml), Krypton-Suite/Standard-Toolkit, environment production.
 # A policy that only lists the retired release.yml path will not authorize this workflow.
 #
 # MARKETPLACE: publish-templates-marketplace submits the stable templates VSIX after
-# release-master. Secret VSMARKETPLACE_PAT (Marketplace Manage) on environment production.
+# release-stable. Secret VSMARKETPLACE_PAT (Marketplace Manage) on environment production.
 # VSMARKETPLACE_PRIVATE=false makes the listing public. Any other value keeps it private.
 
-name: Release (Master)
+name: Release (Stable)
 
 permissions:
   contents: write
@@ -20,11 +20,12 @@ on:
   push:
     branches:
       - master
+      # Replace with your own release branch if you want to trigger releases from a different branch.
       - V115
   workflow_dispatch:
 
 jobs:
-  release-master:
+  release-stable:
     runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
     if: github.ref == 'refs/heads/master' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
@@ -487,8 +488,8 @@ jobs:
           DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK: ${{ secrets.DISCORD_STABLE_ANNOUNCEMENT_WEBHOOK }}
 
   publish-templates-marketplace:
-    needs: release-master
-    if: needs.release-master.result == 'success' && needs.release-master.outputs.templates_tag != ''
+    needs: release-stable
+    if: needs.release-stable.result == 'success' && needs.release-stable.outputs.templates_tag != ''
     runs-on: windows-2025-vs2026
     environment: production
     steps:

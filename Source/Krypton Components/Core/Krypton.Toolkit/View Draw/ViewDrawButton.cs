@@ -722,7 +722,7 @@ public class ViewDrawButton : ViewComposite, IRippleHost
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    SharedDebugTools.NotImplemented(buttonState.ToString());
+                    Shared.DebugTools.NotImplemented(buttonState.ToString());
                     break;
             }
 

@@ -420,7 +420,7 @@ internal class KryptonRibbonGroupLabelDesigner : ComponentDesigner
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonLabel.RibbonContainer!.ToString());
+                    Krypton.Shared.DebugTools.NotImplemented(_ribbonLabel.RibbonContainer!.ToString());
                     return null;
             }
         }

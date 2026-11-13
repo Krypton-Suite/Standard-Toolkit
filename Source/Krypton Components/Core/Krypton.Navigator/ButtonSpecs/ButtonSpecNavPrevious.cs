@@ -60,14 +60,14 @@ public class ButtonSpecNavPrevious : ButtonSpecNavFixed
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
+                        Krypton.Shared.DebugTools.NotImplemented(Navigator.Button.ButtonDisplayLogic.ToString());
                         return false;
                 }
 
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Button.PreviousButtonDisplay.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(Navigator.Button.PreviousButtonDisplay.ToString());
                 return false;
         }
     }
@@ -93,7 +93,7 @@ public class ButtonSpecNavPrevious : ButtonSpecNavFixed
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Button.PreviousButtonDisplay.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(Navigator.Button.PreviousButtonDisplay.ToString());
                 return ButtonEnabled.False;
         }
     }

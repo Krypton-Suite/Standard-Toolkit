@@ -931,7 +931,7 @@ internal abstract class ViewBuilderStackCheckButtonBase : ViewBuilderBase
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(Navigator.Stack.ItemOrientation.ToString());
+                Shared.DebugTools.NotImplemented(Navigator.Stack.ItemOrientation.ToString());
                 return VisualOrientation.Top;
         }
     }

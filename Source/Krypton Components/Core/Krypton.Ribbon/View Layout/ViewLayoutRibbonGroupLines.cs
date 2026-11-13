@@ -602,7 +602,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(_currentSize.ToString());
+                Shared.DebugTools.NotImplemented(_currentSize.ToString());
                 return Size.Empty;
         }
     }
@@ -639,7 +639,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_currentSize.ToString());
+                    Shared.DebugTools.NotImplemented(_currentSize.ToString());
                     break;
             }
         }
@@ -718,7 +718,7 @@ internal class ViewLayoutRibbonGroupLines : ViewComposite,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(size.ToString());
+                Shared.DebugTools.NotImplemented(size.ToString());
                 break;
         }
 

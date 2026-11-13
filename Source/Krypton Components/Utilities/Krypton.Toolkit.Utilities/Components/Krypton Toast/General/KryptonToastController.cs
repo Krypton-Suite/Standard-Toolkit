@@ -106,7 +106,7 @@ internal class KryptonToastController
             case KryptonToastInputAreaType.NumericUpDown:
                 return ReturnDecimalInput(data);
             default:
-                DebugTools.NotImplemented(data.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(data.ToString());
                 break;
         }
 
@@ -192,7 +192,7 @@ internal class KryptonToastController
             case null:
                 return ThrowHelper.ThrowArgumentNullException<object>();
             default:
-                DebugTools.NotImplemented(data.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(data.ToString());
                 break;
         }
 
@@ -274,7 +274,7 @@ internal class KryptonToastController
             case KryptonToastInputAreaType.NumericUpDown:
                 return AsObject(ReturnDecimalInputAsync(data));
             default:
-                DebugTools.NotImplemented(data.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(data.ToString());
                 break;
         }
 
@@ -350,7 +350,7 @@ internal class KryptonToastController
             case null:
                 return ThrowHelper.ThrowArgumentNullException<Task<object>>();
             default:
-                DebugTools.NotImplemented(data.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(data.ToString());
                 break;
         }
 

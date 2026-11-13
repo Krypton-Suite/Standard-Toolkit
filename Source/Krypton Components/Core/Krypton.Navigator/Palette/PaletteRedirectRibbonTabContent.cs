@@ -835,7 +835,7 @@ public class PaletteRedirectRibbonTabContent : PaletteRedirect
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw Shared.DebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -860,7 +860,7 @@ public class PaletteRedirectRibbonTabContent : PaletteRedirect
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw Shared.DebugTools.NotImplemented(state.ToString());
         }
     }
 
@@ -885,7 +885,7 @@ public class PaletteRedirectRibbonTabContent : PaletteRedirect
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw DebugTools.NotImplemented(state.ToString());
+                throw Shared.DebugTools.NotImplemented(state.ToString());
         }
     }
     #endregion

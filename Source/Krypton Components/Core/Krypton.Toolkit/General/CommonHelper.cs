@@ -253,7 +253,7 @@ public static class CommonHelper
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    SharedDebugTools.NotImplemented(orientation.ToString());
+                    SharedKrypton.Shared.DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
         }
@@ -292,7 +292,7 @@ public static class CommonHelper
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    SharedDebugTools.NotImplemented(orientation.ToString());
+                    SharedKrypton.Shared.DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
         }
@@ -333,7 +333,7 @@ public static class CommonHelper
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    SharedDebugTools.NotImplemented(orientation.ToString());
+                    SharedKrypton.Shared.DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
         }
@@ -378,7 +378,7 @@ public static class CommonHelper
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    SharedDebugTools.NotImplemented(orientation.ToString());
+                    SharedKrypton.Shared.DebugTools.NotImplemented(orientation.ToString());
                     break;
             }
         }
@@ -408,7 +408,7 @@ public static class CommonHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(orientation.ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(orientation.ToString());
                 return padding;
         }
     }
@@ -551,7 +551,7 @@ public static class CommonHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                throw SharedDebugTools.NotImplemented(opThread.State.ToString());
+                throw SharedKrypton.Shared.DebugTools.NotImplemented(opThread.State.ToString());
         }
     }
 
@@ -812,7 +812,7 @@ public static class CommonHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(orientation.ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(orientation.ToString());
                 break;
         }
 
@@ -840,7 +840,7 @@ public static class CommonHelper
                 return new PaletteCornerRounding(corners.TopRight, corners.BottomRight, corners.BottomLeft, corners.TopLeft);
             default:
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(orientation.ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(orientation.ToString());
                 return corners;
         }
     }
@@ -943,7 +943,7 @@ public static class CommonHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(orientation.ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(orientation.ToString());
                 break;
         }
 
@@ -968,7 +968,7 @@ public static class CommonHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(orientation.ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(orientation.ToString());
                 return Orientation.Vertical;
         }
     }
@@ -1019,7 +1019,7 @@ public static class CommonHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(style.ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(style.ToString());
                 return PaletteButtonStyle.Standalone;
         }
     }
@@ -1624,7 +1624,7 @@ public static class CommonHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(style.ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(style.ToString());
                 return PaletteContentStyle.LabelNormalPanel;
         }
     }
@@ -1651,7 +1651,7 @@ public static class CommonHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(hint.ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(hint.ToString());
                 return TextRenderingHint.SystemDefault;
         }
     }
@@ -1680,7 +1680,7 @@ public static class CommonHelper
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(separatorStyle.ToString());
+                SharedKrypton.Shared.DebugTools.NotImplemented(separatorStyle.ToString());
                 return PaletteMetricPadding.SeparatorPaddingLowProfile;
         }
     }

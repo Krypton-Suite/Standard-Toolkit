@@ -12,6 +12,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Ribbon;
 
 internal class KryptonRibbonGroupColorButtonDesigner : ComponentDesigner
@@ -466,7 +468,7 @@ internal class KryptonRibbonGroupColorButtonDesigner : ComponentDesigner
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonColorButton.RibbonContainer!.ToString());
+                    Shared.DebugTools.NotImplemented(_ribbonColorButton.RibbonContainer!.ToString());
                     return null;
             }
         }

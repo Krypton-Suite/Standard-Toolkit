@@ -314,7 +314,7 @@ public class KryptonHeader : VisualSimpleBase
                     default:
                         // Should never happen!
                         Debug.Assert(false);
-                        SharedDebugTools.NotImplemented(_style.ToString());
+                        Shared.DebugTools.NotImplemented(_style.ToString());
                         break;
                 }
 

@@ -12,6 +12,8 @@
  */
 #endregion
 
+
+
 namespace Krypton.Ribbon;
 
 internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
@@ -415,7 +417,7 @@ internal class KryptonRibbonGroupRadioButtonDesigner : ComponentDesigner
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonRadioButton.RibbonContainer!.ToString());
+                    Shared.DebugTools.NotImplemented(_ribbonRadioButton.RibbonContainer!.ToString());
                     return null;
             }
         }

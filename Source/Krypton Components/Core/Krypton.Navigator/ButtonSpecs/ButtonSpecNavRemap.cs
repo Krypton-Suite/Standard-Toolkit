@@ -321,7 +321,7 @@ internal class ButtonSpecNavRemap : PaletteRedirect
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(_remapTarget.ToString());
+                Krypton.Shared.DebugTools.NotImplemented(_remapTarget.ToString());
                 return Color.Black;
         }
     }

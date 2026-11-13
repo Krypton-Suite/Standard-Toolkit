@@ -788,7 +788,7 @@ internal class ViewDrawRibbonTab : ViewComposite,
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(buttonState.ToString());
+                    Shared.DebugTools.NotImplemented(buttonState.ToString());
                     break;
             }
 

@@ -12,6 +12,8 @@
  */
 #endregion
 
+using DebugTools = Krypton.Shared.DebugTools;
+
 namespace Krypton.Ribbon;
 
 internal class KryptonRibbonGroupDateTimePickerDesigner : ComponentDesigner, IKryptonDesignObject
@@ -492,7 +494,7 @@ internal class KryptonRibbonGroupDateTimePickerDesigner : ComponentDesigner, IKr
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonDateTimePicker.RibbonContainer!.ToString());
+                    Krypton.Shared.DebugTools.NotImplemented(_ribbonDateTimePicker.RibbonContainer!.ToString());
                     return null;
             }
         }

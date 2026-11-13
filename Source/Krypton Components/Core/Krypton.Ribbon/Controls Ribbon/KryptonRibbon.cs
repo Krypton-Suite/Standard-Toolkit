@@ -3569,7 +3569,7 @@ public partial class KryptonRibbon : VisualSimple,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(QATLocation.ToString());
+                Shared.DebugTools.NotImplemented(QATLocation.ToString());
                 return null;
         }
     }
@@ -3587,7 +3587,7 @@ public partial class KryptonRibbon : VisualSimple,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                DebugTools.NotImplemented(QATLocation.ToString());
+                Shared.DebugTools.NotImplemented(QATLocation.ToString());
                 return null;
         }
     }

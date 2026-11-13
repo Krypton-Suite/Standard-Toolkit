@@ -492,7 +492,7 @@ internal class KryptonRibbonGroupRichTextBoxDesigner : ComponentDesigner, IKrypt
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonRichTextBox.RibbonContainer!.ToString());
+                    Krypton.Shared.DebugTools.NotImplemented(_ribbonRichTextBox.RibbonContainer!.ToString());
                     return null;
             }
         }

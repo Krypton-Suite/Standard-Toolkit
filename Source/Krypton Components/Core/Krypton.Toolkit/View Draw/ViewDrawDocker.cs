@@ -891,7 +891,7 @@ public class ViewDrawDocker : ViewDrawCanvas
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedDebugTools.NotImplemented(Orientation.ToString());
+                Shared.DebugTools.NotImplemented(Orientation.ToString());
                 break;
         }
 

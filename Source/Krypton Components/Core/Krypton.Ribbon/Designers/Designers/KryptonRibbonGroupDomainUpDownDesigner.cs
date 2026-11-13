@@ -492,7 +492,7 @@ internal class KryptonRibbonGroupDomainUpDownDesigner : ComponentDesigner, IKryp
                 default:
                     // Should never happen!
                     Debug.Assert(false);
-                    DebugTools.NotImplemented(_ribbonDomainUpDown.RibbonContainer!.ToString());
+                    Krypton.Shared.DebugTools.NotImplemented(_ribbonDomainUpDown.RibbonContainer!.ToString());
                     return null;
             }
         }
