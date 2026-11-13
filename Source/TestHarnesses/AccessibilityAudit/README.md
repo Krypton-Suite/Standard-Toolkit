@@ -1,4 +1,4 @@
-# Accessibility audit
+﻿# Accessibility audit
 
 Scores WCAG contrast for every built-in theme and smoke-tests the accessible object of every public Krypton control that has a parameterless constructor.
 
@@ -9,7 +9,7 @@ The audit sets `KRYPTON_HEADLESS=1`. That tells `Shared.DebugTools.NotImplemente
 From the repository root:
 
 ```cmd
-dotnet build "Source/TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj" -c Debug -f net10.0-windows -m:1 -p:BuildInParallel=false
+dotnet build "Source/TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj" -c Debug -f net10.0-windows -m:1 -p:BuildInParallel=false -p:Platform=AnyCPU
 Source\TestHarnesses\AccessibilityAudit\bin\Debug\net10.0-windows\AccessibilityAudit.exe --baseline Scripts\Accessibility\baseline.json --report accessibility-report.md
 ```
 

@@ -114,6 +114,7 @@ jobs:
         run: >
           dotnet restore "Source/TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj"
           -p:Configuration=Debug
+          -p:Platform=AnyCPU
 
       - name: Build AccessibilityAudit
         if: steps.kill_switch.outputs.enabled == 'true'
@@ -124,6 +125,7 @@ jobs:
           --no-restore
           -m:1
           -p:BuildInParallel=false
+          -p:Platform=AnyCPU
 
       - name: Run accessibility audit
         id: audit
