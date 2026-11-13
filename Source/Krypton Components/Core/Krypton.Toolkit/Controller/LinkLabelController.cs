@@ -469,7 +469,7 @@ public class LinkLabelController : GlobalId,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedKrypton.Shared.DebugTools.NotImplemented(_target.State.ToString());
+                Shared.DebugTools.NotImplemented(_target.State.ToString());
                 break;
         }
 

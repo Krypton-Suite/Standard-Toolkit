@@ -1135,7 +1135,7 @@ public abstract class ButtonSpec : Component,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedKrypton.Shared.DebugTools.NotImplemented(paletteRelativeEdgeAlign.ToString());
+                Shared.DebugTools.NotImplemented(paletteRelativeEdgeAlign.ToString());
                 return RelativeEdgeAlign.Far;
         }
     }
@@ -1167,7 +1167,7 @@ public abstract class ButtonSpec : Component,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedKrypton.Shared.DebugTools.NotImplemented(paletteButtonOrientation.ToString());
+                Shared.DebugTools.NotImplemented(paletteButtonOrientation.ToString());
                 return ButtonOrientation.Auto;
         }
     }
@@ -1218,7 +1218,7 @@ public abstract class ButtonSpec : Component,
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedKrypton.Shared.DebugTools.NotImplemented(paletteButtonStyle.ToString());
+                Shared.DebugTools.NotImplemented(paletteButtonStyle.ToString());
                 return ButtonStyle.Standalone;
         }
     }

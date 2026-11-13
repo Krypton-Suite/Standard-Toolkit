@@ -119,7 +119,7 @@ public class AccurateText : GlobalId
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedKrypton.Shared.DebugTools.NotImplemented(align.ToString());
+                Shared.DebugTools.NotImplemented(align.ToString());
                 break;
         }
 
@@ -153,7 +153,7 @@ public class AccurateText : GlobalId
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedKrypton.Shared.DebugTools.NotImplemented(trim.ToString());
+                Shared.DebugTools.NotImplemented(trim.ToString());
                 break;
         }
 
@@ -175,7 +175,7 @@ public class AccurateText : GlobalId
             default:
                 // Should never happen!
                 Debug.Assert(false);
-                SharedKrypton.Shared.DebugTools.NotImplemented(prefix.ToString());
+                Shared.DebugTools.NotImplemented(prefix.ToString());
                 break;
         }
 

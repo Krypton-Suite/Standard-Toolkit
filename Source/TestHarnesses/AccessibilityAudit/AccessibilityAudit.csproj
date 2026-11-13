@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Docking\Krypton.Docking 2022.csproj" />
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Docking\Krypton.Docking 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Utilities\Krypton.Utilities.csproj" />
   </ItemGroup>
 </Project>
