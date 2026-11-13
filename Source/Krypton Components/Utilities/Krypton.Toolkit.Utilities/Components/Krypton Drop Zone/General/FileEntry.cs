@@ -30,7 +30,7 @@ public sealed class FileEntry : INotifyPropertyChanged
     public int Progress => _progress;
     public string StatusMessage => _statusMessage;
     public StaleState Stale => _stale;
-    public string ContentHash => _hash;
+    public string? ContentHash => _hash;
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -57,7 +57,8 @@ public sealed class FileEntry : INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-           // rejectionReason = rejectionReason ?? DropZoneStrings.Format("Reject_Unreadable", ex.Message);
+            // rejectionReason = rejectionReason ?? DropZoneStrings.Format("Reject_Unreadable", ex.Message);
+            KryptonExceptionHandler.CaptureException(ex);
         }
         return new FileEntry(path, size, modified, rejectionReason, false);
     }
