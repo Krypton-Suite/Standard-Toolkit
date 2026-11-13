@@ -9,7 +9,7 @@
 		<KryptonComponentsRoot>..\..\Source\Krypton Components</KryptonComponentsRoot>
 		<KryptonSharedProject>$(KryptonComponentsRoot)\Shared\Krypton.Shared\Krypton.Shared.csproj</KryptonSharedProject>
 		<KryptonToolkitProject>$(KryptonComponentsRoot)\Core\Krypton.Toolkit\Krypton.Toolkit 2022.csproj</KryptonToolkitProject>
-		<KryptonThemesProject>$(KryptonComponentsRoot)\Core\Krypton.Themes\Krypton.Themes.csproj</KryptonThemesProject>
+		<KryptonThemesProject>$(KryptonComponentsRoot)\Shared\Krypton.Themes\Krypton.Themes.csproj</KryptonThemesProject>
 		<KryptonRibbonProject>$(KryptonComponentsRoot)\Core\Krypton.Ribbon\Krypton.Ribbon 2022.csproj</KryptonRibbonProject>
 		<KryptonNavigatorProject>$(KryptonComponentsRoot)\Core\Krypton.Navigator\Krypton.Navigator 2022.csproj</KryptonNavigatorProject>
 		<KryptonWorkspaceProject>$(KryptonComponentsRoot)\Core\Krypton.Workspace\Krypton.Workspace 2022.csproj</KryptonWorkspaceProject>

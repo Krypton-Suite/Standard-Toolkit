@@ -16,11 +16,13 @@ namespace Krypton.Toolkit.Utilities;
 /// </summary>
 internal sealed class ThumbnailProvider : IDisposable
 {
+    #region Instance Fields
+
     private static readonly HashSet<string> ImageExtensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
             { ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tif", ".tiff", ".ico" };
     private const string Placeholder = "placeholder";
 
-    private readonly SynchronizationContext _ui = SynchronizationContext.Current;
+    private readonly SynchronizationContext? _ui = SynchronizationContext.Current;
     private readonly CancellationTokenSource _cts = new CancellationTokenSource();
     private readonly SemaphoreSlim _throttle = new SemaphoreSlim(2);
     private readonly LinkedList<string> _lru = new LinkedList<string>();
@@ -29,9 +31,22 @@ internal sealed class ThumbnailProvider : IDisposable
     private readonly int _capacity;
     private bool _disposed;
 
+    #endregion
+
+    #region Public
+
     public ImageList Large { get; }
     public ImageList Small { get; }
+
+    #endregion
+
+    #region Events
+
     public event Action<FileEntry> Ready;
+
+    #endregion
+
+    #region Identity
 
     public ThumbnailProvider(Size large, Size small, int capacity)
     {
@@ -51,6 +66,10 @@ internal sealed class ThumbnailProvider : IDisposable
         }
     }
 
+    #endregion
+
+    #region Implementation
+
     public int IndexOf(string key) => Small.Images.IndexOfKey(key);
 
     public string GetKey(FileEntry entry, bool wantThumbnail)
@@ -58,8 +77,13 @@ internal sealed class ThumbnailProvider : IDisposable
         if (wantThumbnail && ImageExtensions.Contains(entry.Extension))
         {
             string tk = "thumb:" + entry.Path + "|" + entry.Modified.Ticks;
-            LinkedListNode<string> node;
-            if (_nodes.TryGetValue(tk, out node)) { _lru.Remove(node); _lru.AddFirst(node); return tk; }
+            LinkedListNode<string>? node;
+            if (_nodes.TryGetValue(tk, out node)) 
+            {
+                _lru.Remove(node); 
+                _lru.AddFirst(node);
+                return tk;
+            }
             if (_requested.Add(tk))
             {
                 Enqueue(entry, tk);
@@ -78,7 +102,7 @@ internal sealed class ThumbnailProvider : IDisposable
 
         try
         {
-            using (Icon icon = Icon.ExtractAssociatedIcon(entry.Path))
+            using (Icon icon = Icon.ExtractAssociatedIcon(entry.Path)!)
             {
                 if (icon == null)
                 {
@@ -113,7 +137,7 @@ internal sealed class ThumbnailProvider : IDisposable
             try { await _throttle.WaitAsync(token).ConfigureAwait(false); }
             catch (OperationCanceledException) { return; }
 
-            Bitmap thumb = null;
+            Bitmap? thumb = null;
             try
             {
                 token.ThrowIfCancellationRequested();
@@ -154,7 +178,7 @@ internal sealed class ThumbnailProvider : IDisposable
         _nodes[key] = _lru.AddFirst(key);
         while (_lru.Count > _capacity)
         {
-            string old = _lru.Last.Value;
+            string old = _lru.Last!.Value;
             _lru.RemoveLast();
             _nodes.Remove(old);
             _requested.Remove(old); // may be re-requested if scrolled back into view
@@ -204,4 +228,6 @@ internal sealed class ThumbnailProvider : IDisposable
         Large.Dispose();
         Small.Dispose();
     }
+
+    #endregion
 }
