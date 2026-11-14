@@ -32,7 +32,8 @@ public sealed class FileEntry : INotifyPropertyChanged
     public StaleState Stale => _stale;
     public string? ContentHash => _hash;
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    /// <inheritdoc/>
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     internal FileEntry(string path, long size, DateTime modified, string? rejectionReason, bool isTemporary)
     {
@@ -103,22 +104,35 @@ public sealed class FileEntry : INotifyPropertyChanged
 
         try
         {
-            using (var sha = SHA256.Create())
-            using (var fs = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920))
+            using var sha = SHA256.Create();
+            using var fs = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete, 81920);
+            var buffer = new byte[81920];
+            int n;
+            while ((n = fs.Read(buffer, 0, buffer.Length)) > 0)
             {
-                var buffer = new byte[81920];
-                int n;
-                while ((n = fs.Read(buffer, 0, buffer.Length)) > 0)
-                {
-                    token.ThrowIfCancellationRequested();
-                    sha.TransformBlock(buffer, 0, n, null, 0);
-                }
-                sha.TransformFinalBlock(buffer, 0, 0);
-                h = BitConverter.ToString(sha.Hash);
+                token.ThrowIfCancellationRequested();
+                sha.TransformBlock(buffer, 0, n, null, 0);
+            }
+            sha.TransformFinalBlock(buffer, 0, 0);
+            byte[]? hash = sha.Hash;
+
+            if (hash != null)
+            {
+                h = BitConverter.ToString(value: hash);
+            }
+            else
+            {
+                h = null;
             }
         }
-        catch (OperationCanceledException) { throw; }
-        catch (Exception) { return null; }
+        catch (OperationCanceledException) 
+        {
+            throw; 
+        }
+        catch (Exception) 
+        {
+            return null;
+        }
         _hash = h;
         return h;
     }
