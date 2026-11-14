@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\..\Common\Krypton.WinFormsDesignerSdk.Server.props" />
+
+	<PropertyGroup>
+		<RootNamespace>Krypton.Workspace</RootNamespace>
+		<AssemblyName>Krypton.Workspace.Design</AssemblyName>
+		<Description>Out-of-process DesignToolsServer designers, action lists, and glyphs for Krypton.Workspace on modern Windows TFMs (WinForms Designer Extensibility SDK). Packed under lib\{tfm}\Design\WinForms\Server\.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\..\Core\Krypton.Workspace\Workspace\KryptonWorkspaceDesigner.cs" Link="Workspace\KryptonWorkspaceDesigner.cs" />
+		<Compile Include="..\..\Core\Krypton.Workspace\Workspace\KryptonWorkspaceSequenceDesigner.cs" Link="Workspace\KryptonWorkspaceSequenceDesigner.cs" />
+		<Compile Include="..\..\Core\Krypton.Workspace\Workspace\KryptonWorkspaceCellDesigner.cs" Link="Workspace\KryptonWorkspaceCellDesigner.cs" />
+		<Compile Include="..\..\Core\Krypton.Workspace\Workspace\KryptonWorkspaceActionList.cs" Link="Workspace\KryptonWorkspaceActionList.cs" />
+		<Compile Include="..\..\Common\KryptonDesignerTypeRoutingProvider.cs" Link="KryptonDesignerTypeRoutingProvider.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+		<ProjectReference Include="..\Krypton.Navigator.Design\Krypton.Navigator.Design.csproj" />
+		<ProjectReference Include="..\Krypton.Toolkit.Design\Krypton.Toolkit.Design.csproj" />
+		<ProjectReference Include="..\..\Shared\Krypton.Shared\Krypton.Shared.csproj" PrivateAssets="all" />
+	</ItemGroup>
+
+</Project>

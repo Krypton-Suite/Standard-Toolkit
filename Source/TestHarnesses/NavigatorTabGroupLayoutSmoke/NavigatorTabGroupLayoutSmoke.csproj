@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <AssemblyName>NavigatorTabGroupLayoutSmoke</AssemblyName>
@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Interop\Krypton.Interop.csproj" />
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Shared\Krypton.Shared\Krypton.Shared.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
   </ItemGroup>
 
   <ItemGroup>

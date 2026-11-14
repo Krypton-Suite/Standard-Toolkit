@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
@@ -15,7 +15,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Docking\Krypton.Docking 2022.csproj" />
-    <ProjectReference Include="..\..\Krypton Components\Krypton.Utilities\Krypton.Utilities.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Docking\Krypton.Docking 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Core\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />    
+    <ProjectReference Include="..\..\Krypton Components\Shared\Krypton.Themes\Krypton.Themes.csproj" />
+	  <ProjectReference Include="..\..\Krypton Components\Utilities\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
   </ItemGroup>
 </Project>

@@ -36,7 +36,7 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 Initialize-UnitTestNativeInput
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Resources.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 $themesDll = Join-Path $bin 'Krypton.Themes.dll'
@@ -64,7 +64,9 @@ foreach ($theme in $themes) {
     $manager.GlobalPaletteMode = $theme.Mode
     $strings = [System.Activator]::CreateInstance($stringsType)
     $form = [System.Activator]::CreateInstance($formType)
-    [void]$formType.GetMethod('Bind', $flags).Invoke($form, @($strings, $null))
+    $progressDisplayType = $utilities.GetType('Krypton.Toolkit.Utilities.KryptonUpdateProgressDisplay')
+    $progressBarMode = [Enum]::Parse($progressDisplayType, 'ProgressBar')
+    [void]$formType.GetMethod('Bind', $flags).Invoke($form, @($strings, $null, $progressBarMode))
     $progressArgs = [object[]]::new(2)
     $progressArgs[0] = [int64]45
     $progressArgs[1] = [Nullable[int64]]100

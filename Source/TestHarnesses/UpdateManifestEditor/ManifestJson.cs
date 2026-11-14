@@ -224,6 +224,7 @@ namespace UpdateManifestEditor
             AddOptionalBool(fields, "allowSkip", package.AllowSkip);
             AddOptionalBool(fields, "allowResume", package.AllowResume);
             AddOptionalBool(fields, "allowRetry", package.AllowRetry);
+            AddOptional(fields, "progressDisplay", package.ProgressDisplay);
             AddBanner(fields, package);
             AddPulse(fields, package);
 
@@ -379,6 +380,11 @@ namespace UpdateManifestEditor
                 package.PulseStyle = root.PulseStyle;
                 package.PulseSpeed = root.PulseSpeed;
             }
+
+            if (string.IsNullOrWhiteSpace(package.ProgressDisplay))
+            {
+                package.ProgressDisplay = root.ProgressDisplay;
+            }
         }
 
         private static void AddOptional(List<string> fields, string name, string? value)
@@ -492,7 +498,8 @@ namespace UpdateManifestEditor
                 PulseEnable = GetNestedBool(element, "pulse", "enable"),
                 PulseColor = GetNestedString(element, "pulse", "color"),
                 PulseStyle = GetNestedString(element, "pulse", "style"),
-                PulseSpeed = GetNestedNumber(element, "pulse", "speed")
+                PulseSpeed = GetNestedNumber(element, "pulse", "speed"),
+                ProgressDisplay = GetString(element, "progressDisplay")
             };
         }
 
@@ -636,7 +643,8 @@ namespace UpdateManifestEditor
                 PulseEnable = GetNestedBool(element, "pulse", "enable"),
                 PulseColor = GetNestedString(element, "pulse", "color"),
                 PulseStyle = GetNestedString(element, "pulse", "style"),
-                PulseSpeed = GetNestedNumber(element, "pulse", "speed")
+                PulseSpeed = GetNestedNumber(element, "pulse", "speed"),
+                ProgressDisplay = GetString(element, "progressDisplay")
             };
 
         private static string GetNestedString(Dictionary<string, object> element, string parent, string name)

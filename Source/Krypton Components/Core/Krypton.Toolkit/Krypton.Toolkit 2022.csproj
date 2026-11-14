@@ -1,0 +1,401 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	<OutputType>Library</OutputType>
+	<RootNamespace>Krypton.Toolkit</RootNamespace>
+	<AssemblyName>Krypton.Toolkit</AssemblyName>
+	<!-- Disable CheckEolTargetFramework to suppress this warning. -->
+	<CheckEolTargetFramework>false</CheckEolTargetFramework>
+	<SignAssembly>True</SignAssembly>
+	<AssemblyOriginatorKeyFile>$(KryptonStrongNameKeyFile)</AssemblyOriginatorKeyFile>
+	<ApplicationIcon>$(KryptonApplicationIcon)</ApplicationIcon>
+	<DelaySign>false</DelaySign>
+	<UseWindowsForms>true</UseWindowsForms>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<NeutralLanguage>en</NeutralLanguage>
+	<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+	<!-- WFO5002: Form.ShowAsync / ShowDialogAsync experimental on net9; stable on net10+ -->
+	<NoWarn>1701;1702;WFO5002</NoWarn>
+	<Configurations>Debug;Release;Installer;Nightly;Canary;RC;LTS</Configurations>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	<Nullable>enable</Nullable>
+	<!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
+	<WarningLevel>8</WarningLevel>
+	<AnalysisLevel>latest</AnalysisLevel>
+	<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+	<!--https://learn.microsoft.com/en-us/visualstudio/designers/disable-dpi-awareness?view=vs-2022-->
+	<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+	<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<Reference Include="System.Design, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Condition="$(TargetFramework.StartsWith('net4'))">
+	  <SpecificVersion>True</SpecificVersion>
+	  <Version>4.0.0.0</Version>
+	  <!-- Designers for the `TFMs != net4` are "Pulled in" via Visual studios ".nuget\packages\microsoft.windowsdesktop.app.ref" -->
+	</Reference>
+  </ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+		<Reference Include="System.Net.Http" />
+	</ItemGroup>
+
+
+	<PropertyGroup>
+	<PackageId>Krypton.Toolkit</PackageId>
+	<Description>Core Krypton WinForms library: themed controls, forms, dialogs, buttons, input controls, palette and renderer infrastructure, and the official Professional, Office, and Sparkle Blue/Orange/Purple builtin themes.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+	<Compile Update="ButtonSpec\ButtonSpecFormFixed.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="ButtonSpec\ButtonSpecFormWindowClose.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="ButtonSpec\ButtonSpecFormWindowMin.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="ButtonSpec\ButtonSpecFormWindowMax.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="ButtonSpec\ButtonSpecCalendar.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Controls Toolkit\KryptonColorDialog.cs" />
+	<Compile Update="Controls Toolkit\KryptonPrintDialog.cs" />
+	<Compile Update="Designers\Other\PaletteDrawBordersSelector.cs" />
+	<Compile Update="Controls Toolkit\KryptonBreadCrumbItem.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Controls Toolkit\KryptonListItem.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="ContextMenu\KryptonContextMenuItemBase.cs" />
+	<Compile Update="ButtonSpec\ButtonSpecAny.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="ButtonSpec\ButtonSpec.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Palette Builtin\Microsoft 365\Bases\PaletteMicrosoft365Base.cs" />
+	<Compile Update="Palette Builtin\Microsoft 365\Official Themes\PaletteMicrosoft365Black.cs" />
+	<Compile Update="Palette Builtin\Microsoft 365\Official Themes\PaletteMicrosoft365Blue.cs" />
+	<Compile Update="Palette Builtin\Microsoft 365\Official Themes\PaletteMicrosoft365Silver.cs" />
+	<Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Black.cs" />
+	<Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Blue.cs" />
+	<Compile Update="Palette Builtin\Office 2010\Official Themes\PaletteOffice2010Silver.cs" />
+	<Compile Update="Palette Builtin\Office 2010\Bases\PaletteOffice2010Base.cs" />
+	<Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Black.cs" />
+	<Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Silver.cs" />
+	<Compile Update="Palette Builtin\Office 2007\Official Themes\PaletteOffice2007Blue.cs" />
+	<Compile Update="Palette Builtin\Office 2007\Bases\PaletteOffice2007Base.cs" />
+	<Compile Update="Palette Builtin\Sparkle\Base\PaletteSparkleBase.cs" />
+	<Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparkleBlue.cs" />
+	<Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparkleOrange.cs" />
+	<Compile Update="Palette Builtin\Sparkle\Official Themes\PaletteSparklePurple.cs" />
+	<Compile Update="Properties\Resources.Designer.cs">
+	  <DesignTime>True</DesignTime>
+	  <AutoGen>True</AutoGen>
+	  <DependentUpon>Resources.resx</DependentUpon>
+	</Compile>
+	<Compile Update="Rendering\RenderOffice2013.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Rendering\RenderMicrosoft365.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Rendering\RenderOffice2007.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Rendering\RenderSparkle.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="ButtonSpec\ButtonSpecHeaderGroup.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Controls Toolkit\KryptonManager.cs" />
+	<Compile Update="Controls Toolkit\KryptonToolTip.cs" />
+	<Compile Update="Palette Builtin\Professional\PaletteProfessionalSystem.cs" />
+	<Compile Update="Palette Builtin\Base\PaletteBase.cs" />
+	<Compile Update="Rendering\RenderOffice2010.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Rendering\RenderProfessional.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Palette Builtin\Professional\PaletteProfessionalOffice2003.cs" />
+	<Compile Update="Rendering\RenderBase.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="Rendering\RenderStandard.cs">
+	  <SubType>Component</SubType>
+	</Compile>
+	<Compile Update="View Base\ViewControl.cs" />
+  </ItemGroup>
+  <ItemGroup>
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonButton.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonTreeView.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonInputBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonTaskDialogCommand.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonTaskDialog.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonMessageBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonTrackBar.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonRating.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonTagInput.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonManager.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonHeaderGroup.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroup.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonHeader.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonPanel.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonLabel.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonPalette.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonSplitContainer.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckButton.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckSet.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonBorderEdge.bmp" />
+	<Content Include="$(KryptonApplicationIcon)" Link="Krypton.ico" Pack="false" />
+	<EmbeddedResource Include="..\..\Shared\Krypton.Resources\Resources\KryptonPalette.ico" Link="Resources\KryptonPalette.ico" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroupBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonWrapLabel.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonSeparator.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonDateTimePicker.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonMonthCalendar.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonBreadCrumbItem.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonDomainUpDown.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonBreadCrumb.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonNumericUpDown.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenuImageSelect.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonCommand.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckedListBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonListBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonColorButton.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonDropButton.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonSplitButton.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonCalcInput.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenuColorColumns.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonMaskedTextBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenuItem.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenuItems.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenuSeparator.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenuHeading.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonContextMenu.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonRichTextBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonComboBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonTextBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonDataGridView.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonRadioButton.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonCheckBox.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonButtonSpec.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonGroupPanel.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonForm.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonLinkLabel.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonMenuBar.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonStatusStrip.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonToolStrip.bmp" />
+	<EmbeddedResource Include="ToolboxBitmaps\KryptonToolstripContainer.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+	<Compile Remove="Controls Toolkit\KryptonByteViewer.cs" />
+	<Compile Remove="Controls Toolkit\KryptonDataGridViewBinaryCell.cs" />
+	<Compile Remove="Controls Toolkit\KryptonDataGridViewBinaryColumn.cs" />
+	<Compile Remove="Controls Toolkit\KryptonInputBoxNew.cs" />
+	<Compile Remove="Toolkit\KryptonBorderEdgeActionList.cs" />
+	<Compile Remove="Toolkit\KryptonBorderEdgeDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonBreadCrumbActionList.cs" />
+	<Compile Remove="Toolkit\KryptonBreadCrumbDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonBreadCrumbItemDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonBreadCrumbItemsEditor.cs" />
+	<Compile Remove="Toolkit\KryptonButtonActionList.cs" />
+	<Compile Remove="Toolkit\KryptonButtonDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonCheckBoxActionList.cs" />
+	<Compile Remove="Toolkit\KryptonCheckBoxDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonCheckButtonActionList.cs" />
+	<Compile Remove="Toolkit\KryptonCheckButtonCollectionEditor.cs" />
+	<Compile Remove="Toolkit\KryptonCheckButtonCollectionForm.cs" />
+	<Compile Remove="Toolkit\KryptonCheckButtonCollectionForm.Designer.cs" />
+	<Compile Remove="Toolkit\KryptonCheckButtonDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonCheckedListBoxActionList.cs" />
+	<Compile Remove="Toolkit\KryptonCheckedListBoxDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonCheckSetActionList.cs" />
+	<Compile Remove="Toolkit\KryptonCheckSetDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonColorButtonActionList.cs" />
+	<Compile Remove="Toolkit\KryptonColorButtonDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonComboBoxActionList.cs" />
+	<Compile Remove="Toolkit\KryptonComboBoxColumnDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonComboBoxDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonCommandActionList.cs" />
+	<Compile Remove="Toolkit\KryptonCommandDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonContextMenuActionList.cs" />
+	<Compile Remove="Toolkit\KryptonContextMenuCollectionEditor.cs" />
+	<Compile Remove="Toolkit\KryptonContextMenuDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonContextMenuItemCollectionEditor.cs" />
+	<Compile Remove="Toolkit\KryptonContextMenuItemDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonContextMenuItemsDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonDataGridViewDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonDateTimePickerActionList.cs" />
+	<Compile Remove="Toolkit\KryptonDateTimePickerColumnDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonDateTimePickerDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonDesignerActionItem.cs" />
+	<Compile Remove="Toolkit\KryptonDomainUpDownActionList.cs" />
+	<Compile Remove="Toolkit\KryptonDomainUpDownColumnDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonDomainUpDownDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonDropButtonActionList.cs" />
+	<Compile Remove="Toolkit\KryptonDropButtonDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonGroupActionList.cs" />
+	<Compile Remove="Toolkit\KryptonGroupBoxActionList.cs" />
+	<Compile Remove="Toolkit\KryptonGroupBoxDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonGroupDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonGroupPanelDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonHeaderActionList.cs" />
+	<Compile Remove="Toolkit\KryptonHeaderDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonHeaderGroupActionList.cs" />
+	<Compile Remove="Toolkit\KryptonHeaderGroupDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonLabelActionList.cs" />
+	<Compile Remove="Toolkit\KryptonLabelDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonLinkLabelActionList.cs" />
+	<Compile Remove="Toolkit\KryptonLinkLabelDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonListBoxActionList.cs" />
+	<Compile Remove="Toolkit\KryptonListBoxDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonManagerActionList.cs" />
+	<Compile Remove="Toolkit\KryptonManagerDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonMaskedTextBoxActionList.cs" />
+	<Compile Remove="Toolkit\KryptonMaskedTextBoxColumnDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonMaskedTextBoxDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonMonthCalendarActionList.cs" />
+	<Compile Remove="Toolkit\KryptonMonthCalendarDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonNumericUpDownActionList.cs" />
+	<Compile Remove="Toolkit\KryptonNumericUpDownColumnDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonNumericUpDownDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonPaletteActionList.cs" />
+	<Compile Remove="Toolkit\KryptonPaletteDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonPanelActionList.cs" />
+	<Compile Remove="Toolkit\KryptonPanelDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonRadioButtonActionList.cs" />
+	<Compile Remove="Toolkit\KryptonRadioButtonDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonRichTextBoxActionList.cs" />
+	<Compile Remove="Toolkit\KryptonRichTextBoxDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonSeparatorActionList.cs" />
+	<Compile Remove="Toolkit\KryptonSeparatorDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonSplitContainerActionList.cs" />
+	<Compile Remove="Toolkit\KryptonSplitContainerBehavior.cs" />
+	<Compile Remove="Toolkit\KryptonSplitContainerDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonSplitContainerGlyph.cs" />
+	<Compile Remove="Toolkit\KryptonSplitterPanelDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonTextBoxActionList.cs" />
+	<Compile Remove="Toolkit\KryptonTextBoxColumnDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonTextBoxDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonTrackBarActionList.cs" />
+	<Compile Remove="Toolkit\KryptonTrackBarDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonTreeViewActionList.cs" />
+	<Compile Remove="Toolkit\KryptonTreeViewDesigner.cs" />
+	<Compile Remove="Toolkit\KryptonWrapLabelActionList.cs" />
+	<Compile Remove="Toolkit\KryptonWrapLabelDesigner.cs" />
+	<Compile Remove="Toolkit\PaletteDrawBordersEditor.cs" />
+	<Compile Remove="Toolkit\PaletteDrawBordersSelector.cs" />
+	<Compile Remove="Toolkit\PaletteDrawBordersSelector.Designer.cs" />
+	<EmbeddedResource Remove="Controls Toolkit\KryptonInputBoxNew.resx" />
+	<EmbeddedResource Remove="Toolkit\KryptonCheckButtonCollectionForm.resx" />
+	<EmbeddedResource Remove="Toolkit\PaletteDrawBordersSelector.resx" />
+  </ItemGroup>
+  <ItemGroup>
+	<None Remove="Controls Toolkit\KryptonButton.bmp" />
+	<None Remove="ToolboxBitmaps\KryptonButton.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+	<EmbeddedResource Update="Properties\Resources.resx">
+	  <Generator>ResXFileCodeGenerator</Generator>
+	  <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	</EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+	<None Update="../../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Krypton Stable.png" />
+  </ItemGroup>
+  <ItemGroup>
+	<Folder Include="Storage\Images\Generic\" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'!='Debug'">
+	<Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <!-- PrivateAssets="all": Krypton.Resources is not a separate NuGet package; bundled via Krypton.Resources.Package.targets. -->
+	  <ProjectReference Include="..\..\Shared\Krypton.Resources\Krypton.Resources.csproj" PrivateAssets="all" />
+	  <!-- PrivateAssets="all": Krypton.Interop is not published as a NuGet package (IsPackable=false); without this,
+		   pack emits a nuspec dependency on the non-existent package and consumers fail restore with NU1101 (#3908).
+		   The assembly itself is bundled into lib\<tfm>\ by Krypton.Shared\Krypton.Interop.Package.targets.
+		   Because PrivateAssets="all" stops the reference flowing transitively, every sibling project that compiles
+		   against Krypton.Interop internals (net4x nullable attribute polyfills) carries its own direct reference. -->
+	  <ProjectReference Include="..\..\Shared\Krypton.Shared\Krypton.Shared.csproj" PrivateAssets="all" />
+  </ItemGroup>
+
+  <PropertyGroup>
+	  <KryptonWinFormsDesignerSdkDesignAssembly>Krypton.Toolkit.Design</KryptonWinFormsDesignerSdkDesignAssembly>
+  </PropertyGroup>
+  <Import Project="..\..\Common\Krypton.WinFormsDesignerSdk.Package.targets" />
+
+  <!-- Out-of-process designers live in Krypton.Toolkit.Design for modern TFMs (issue #593). -->
+  <ItemGroup Condition="!$(TargetFramework.StartsWith('net4'))">
+	<Compile Remove="Designers\Designers\**\*.cs" />
+	<Compile Remove="Designers\Action Lists\**\*.cs" />
+	<Compile Remove="Designers\KryptonVScrollBarDesigner.cs" />
+	<Compile Remove="Designers\Other\KryptonDesignerActionItem.cs" />
+	<Compile Remove="Designers\Other\KryptonDesignerSdkCompat.cs" />
+	<Compile Remove="Designers\Other\KryptonSplitContainerGlyph.cs" />
+	<Compile Remove="Designers\Other\KryptonSplitContainerBehavior.cs" />
+  </ItemGroup>
+
+  <!-- .NET Framework: SRE deploy, binding redirects, consumer targets; runtime hook in KryptonPreserializedResourceAssemblyResolve. -->
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
+	<None Include="Krypton.Toolkit.dll.config" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<None Include="..\NetFramework.SystemResourcesExtensions.BindingRedirects.props" Pack="true" PackagePath="build\$(PackageId).props;buildTransitive\$(PackageId).props" Visible="false" />
+	<None Include="..\NetFramework.SystemResourcesExtensions.targets" Pack="true" PackagePath="build\$(PackageId).targets;buildTransitive\$(PackageId).targets" Visible="false" />
+  </ItemGroup>
+
+  <!-- Bundle preserialized-resource dependencies in the nupkg (aggregate packages suppress dependencies). -->
+  <Target Name="KryptonPackPreserializedResourceDependencies" BeforeTargets="_GetPackageFiles">
+	<PropertyGroup>
+	  <_KryptonPackSreLibFolder Condition="$(TargetFramework.StartsWith('net4'))">net462</_KryptonPackSreLibFolder>
+	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net8.0-windows'">net8.0</_KryptonPackSreLibFolder>
+	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net9.0-windows'">net9.0</_KryptonPackSreLibFolder>
+	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net10.0-windows'">net10.0</_KryptonPackSreLibFolder>
+	  <_KryptonPackSreLibFolder Condition="'$(TargetFramework)' == 'net11.0-windows'">net11.0</_KryptonPackSreLibFolder>
+	  <_KryptonPackageLibFolder Condition="'$(_KryptonPackageLibFolder)' == ''">$(TargetFramework)</_KryptonPackageLibFolder>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(_KryptonPackSreLibFolder)' != ''">
+	  <_KryptonPackRuntimeDll Include="$(PkgSystem_Resources_Extensions)\lib\$(_KryptonPackSreLibFolder)\System.Resources.Extensions.dll" Condition="Exists('$(PkgSystem_Resources_Extensions)\lib\$(_KryptonPackSreLibFolder)\System.Resources.Extensions.dll')" />
+	  <_KryptonPackRuntimeDll Include="$(PkgSystem_Formats_Nrbf)\lib\$(_KryptonPackSreLibFolder)\System.Formats.Nrbf.dll" Condition="Exists('$(PkgSystem_Formats_Nrbf)\lib\$(_KryptonPackSreLibFolder)\System.Formats.Nrbf.dll')" />
+	  <_KryptonPackRuntimeDll Include="$(PkgSystem_Memory)\lib\net461\System.Memory.dll" Condition="$(TargetFramework.StartsWith('net4')) And Exists('$(PkgSystem_Memory)\lib\net461\System.Memory.dll')" />
+	  <TfmSpecificPackageFile Include="@(_KryptonPackRuntimeDll)" PackagePath="lib\$(_KryptonPackageLibFolder)\" />
+	  <TfmSpecificPackageFile Include="Krypton.Toolkit.dll.config" PackagePath="lib\$(_KryptonPackageLibFolder)\" Condition="$(TargetFramework.StartsWith('net4'))" />
+	</ItemGroup>
+  </Target>
+
+  <!-- Embedded placeholder used only when Krypton.Resources.dll is missing at runtime. -->
+  <!-- AssignTargetPaths is the first target that snapshots EmbeddedResource. PrepareResourceNames is too late: its work is in DependsOnTargets that may already have run. -->
+  <Target Name="EmbedKryptonResourcesFallback" BeforeTargets="AssignTargetPaths">
+	<MSBuild Projects="$(MSBuildThisFileDirectory)..\..\Shared\Krypton.Resources\Fallback\Krypton.Resources.Fallback.csproj"
+	         Targets="Restore"
+	         Properties="Configuration=$(Configuration);KryptonFallbackSingleTargetFramework=$(TargetFramework)" />
+	<MSBuild Projects="$(MSBuildThisFileDirectory)..\..\Shared\Krypton.Resources\Fallback\Krypton.Resources.Fallback.csproj"
+			 Targets="Build"
+			 Properties="Configuration=$(Configuration);KryptonFallbackSingleTargetFramework=$(TargetFramework)" />
+	<PropertyGroup>
+	  <_KryptonResourcesFallbackDll>$(MSBuildThisFileDirectory)..\..\Shared\Krypton.Resources\Fallback\obj\fallback-bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll</_KryptonResourcesFallbackDll>
+	</PropertyGroup>
+	<Error Text="Krypton.Resources placeholder was not built at $(_KryptonResourcesFallbackDll)." Condition="!Exists('$(_KryptonResourcesFallbackDll)')" />
+	<ItemGroup>
+	  <EmbeddedResource Include="$(_KryptonResourcesFallbackDll)">
+		<Link>ResourcesFallback.dll</Link>
+		<LogicalName>Krypton.Toolkit.ResourcesFallback.dll</LogicalName>
+	  </EmbeddedResource>
+	</ItemGroup>
+  </Target>
+
+</Project>

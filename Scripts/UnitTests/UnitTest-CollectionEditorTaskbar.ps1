@@ -34,7 +34,7 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Design
 
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Resources.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 
@@ -46,7 +46,7 @@ if (-not ('CollectionEditorTaskbarProbe' -as [type])) {
         $design.Location,
         $drawing.Location,
         $forms.Location,
-        (Join-Path $bin 'Krypton.Interop.dll'),
+        (Join-Path $bin 'Krypton.Shared.dll'),
         (Join-Path $bin 'Krypton.Resources.dll'),
         (Join-Path $bin 'Krypton.Toolkit.dll')
     )

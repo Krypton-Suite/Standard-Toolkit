@@ -53,12 +53,12 @@ Before considering a task complete:
 
 ## Project Structure & Module Organization
 
-- `Source/Krypton Components`: Core libraries (`Krypton.Toolkit`, `Krypton.Themes`, `Krypton.Ribbon`, `Krypton.Navigator`, `Krypton.Workspace`, `Krypton.Docking`) and the Visual Studio solution `Krypton Toolkit Suite 2022 - VS2022.slnx`
-- Design-time projects (`Krypton.*.Design`, `Krypton.Toolkit.Design.Client`, `Krypton.Toolkit.Design.Protocol`) live in the same folder and the **DesignerSdk** solution folder. They are not packable on their own; pack copies them into consumer nupkgs (see **WinForms Designer Extensibility SDK**).
+- `Source/Krypton Components`: Visual Studio solution `Krypton Toolkit Suite 2022 - VS2022.slnx`, with library projects in three folders. `Core` holds Docking, Navigator, Ribbon, Toolkit, Workspace, Interop, Resources, Shared, and Themes. `Utilities` holds Toolkit.Utilities, Navigator.Utilities, UpdateHelper, JumpList, Charting, Gauges, Drawing, Dialogs, and Graphs. `Design` holds every `Krypton.*.Design` project, including `Krypton.Graphs.Design`, plus Design.Client and Design.Protocol. `Krypton.Standard.Toolkit` stays beside those three folders. New library projects go in `Core`, `Design`, or `Utilities`.
+- Design-time projects (`Krypton.*.Design`, `Krypton.Toolkit.Design.Client`, `Krypton.Toolkit.Design.Protocol`) live in `Source/Krypton Components/Design` and the **Design** solution folder. They are not packable on their own; pack copies them into consumer nupkgs (see **WinForms Designer Extensibility SDK**).
 - `Krypton.Standard.Toolkit` is the aggregate NuGet project: it bundles referenced binaries (including `Krypton.Themes.dll` and `lib\{tfm}\Design\WinForms`) into one nupkg.
-- `Source/Krypton Components/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**). Library folders omit `.` from assembly names (`KryptonToolkit`, `KryptonUtilities`, not `Krypton.Toolkit`); new feature demos sit under that folder’s `Feature` subfolder and issue repros under `Bugs`.
+- `Source/TestHarnesses/TestForm`: WinForms sample app used to validate changes; add or extend demos here when features or bugs are completed (see **TestForm Demos**). Library folders omit `.` from assembly names (`KryptonToolkit`, `KryptonUtilities`, not `Krypton.Toolkit`); new feature demos sit under that folder’s `Feature` subfolder and issue repros under `Bugs`.
 - [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos) is a **separate** repo in the directory above this project (`..\Standard-Toolkit-Demos`), not a folder inside Standard-Toolkit. Reuse that folder if it exists (do **not** clone again); clone there only if missing. When completing a feature, add a consumer example (or **append** if one exists; do not overwrite) on a new `alpha-…` branch from `alpha` (see **Standard-Toolkit-Demos**)
-- `Source/TestHarnesses`: Small repro/test harnesses (e.g., `ThemeSwapRepro`)
+- `Source/TestHarnesses`: `TestForm` and smaller repro harnesses (for example `ThemeSwapRepro`). New samples and harnesses go here, not under `Source/Krypton Components`.
 - `Scripts/`: Build and packaging scripts; `run.cmd` (root) launches an interactive menu; scripts live under `Scripts/VS2022/`, `Scripts/Current/`, `Scripts/Build/` (e.g., `build-stable.cmd`, `build-canary.cmd`, `build-nightly.cmd`, `build-release-candidate.cmd`, `build.proj`)
 - `Scripts/UnitTests/`: Reusable PowerShell UI-automation helpers for interactive validation of `TestForm` scenarios (see **Unit Test Scripts**)
 - `Bin/`: Build outputs by configuration (e.g., `Bin/Debug`)
@@ -75,6 +75,7 @@ Before considering a task complete:
 - `Krypton.Resources` holds the shared image/string resource bank (`ResourceFiles` / theme bitmaps); `IsPackable=false` and bundled into `Krypton.Toolkit` / sibling / `Krypton.Standard.Toolkit` nupkgs via `Krypton.Resources.Package.targets` (same pattern as Interop). Typed accessors stay under `Krypton.Toolkit.ResourceFiles.*` namespaces. If the DLL is missing at runtime, Toolkit loads an embedded placeholder with the same assembly identity: the process still starts, control text stays visible, and string resources (palette schemas, Outlook grid) still resolve. Theme images are drawn fallbacks (checks, arrows, window buttons) at the original size, on the magenta colour key, until `Krypton.Resources.dll` is deployed beside `Krypton.Toolkit.dll`.
 - `Krypton.Themes` holds **extra** builtin palettes (optional assembly, auto-discovered). Toolkit must **not** project-reference Themes (cycle). `Krypton.Standard.Toolkit` **does** reference Themes and must pack `Krypton.Themes.dll` into `lib\{tfm}\` so extra palettes auto-discover. Individual `Krypton.Toolkit` packages do not include Themes.
 - `Krypton.Drawing` is `IsPackable=false`. It is referenced only by `Krypton.Standard.Toolkit` and samples. Toolkit must **not** reference it. SVG is rasterized with Direct2D on Windows 10 version 1703 and later. The aggregate package does not ship Svg.Skia, SkiaSharp, or HarfBuzzSharp.
+- `Krypton.Graphs` is `IsPackable=false` and has no NuGet package id of its own. `Krypton.Standard.Toolkit` references it and packs `Krypton.Graphs.dll` (plus XML docs and PDB) into `lib\{tfm}\`, and packs `Krypton.Graphs.Design.dll` into `lib\{tfm}\Design\WinForms\Server\`. Do not publish `Krypton.Graphs` as its own package.
 - Out-of-process designers for modern Windows TFMs live in `Krypton.*.Design` (issue [#593](https://github.com/Krypton-Suite/Standard-Toolkit/issues/593)). Runtime libraries must not reference `Microsoft.WinForms.Designer.SDK` or ProjectReference a Design project (cycle). See **WinForms Designer Extensibility SDK**.
 - `Krypton.Ribbon` depends on `Krypton.Toolkit`.
 - `Krypton.Navigator` depends on `Krypton.Toolkit`.
@@ -299,7 +300,7 @@ When startup or a hot path is the task, time it before and after. Reuse `Scripts
 - Optional command-line build for additional diagnostics:
   - `dotnet build ".\Source\Krypton Components\Krypton Toolkit Suite 2022 - VS2022.slnx" -c Debug`
 - Run sample app:
-  - `dotnet run --project ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`
+  - `dotnet run --project ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug`
 - Build script entry points, only when explicitly instructed:
   - `.\run.cmd` launches the interactive menu and lets you choose `Scripts\VS2022` or `Scripts\Current` (VS 2026).
   - Direct VS2022 presets: `.\Scripts\VS2022\build-stable.cmd`, `.\Scripts\VS2022\build-canary.cmd`, `.\Scripts\VS2022\build-nightly.cmd`, `.\Scripts\VS2022\build-release-candidate.cmd`.
@@ -343,7 +344,7 @@ Do not rename a public type to get under the limit.
 
 - Preserve the existing nullable reference type annotations and context (`<Nullable>enable</Nullable>` is set at project level).
 - Do not enable or disable nullable in individual files unless requested.
-- **ThrowHelper (required for BCL throws):** For new and changed code, throw framework exceptions only through `Krypton.Interop.ThrowHelper` (`Source/Krypton Components/Krypton.Interop/General/ThrowHelper.cs`). Prefer `ThrowIfNull` / `ThrowIfNullOrWhiteSpace` for guards, `value ?? ThrowHelper.ThrowArgumentNullException(value)` (or the generic `<T>` overloads) in expression contexts, and the matching `ThrowArgumentException` / `ThrowArgumentOutOfRangeException` / `ThrowInvalidOperationException` / `ThrowNotSupportedException` / `ThrowNotImplementedException` / `ThrowObjectDisposedException` / `ThrowInvalidCastException` / `ThrowWin32Exception` / `ThrowNullReferenceException` helpers when that is the contract. Do **not** write bare `throw new ArgumentNullException(...)`, `throw new ArgumentException(...)`, `throw new ArgumentOutOfRangeException(...)`, `throw new InvalidOperationException(...)`, and the other BCL types `ThrowHelper` already covers. `ThrowHelper` is `internal` in Interop and visible to sibling assemblies via `InternalsVisibleTo`; do not duplicate it, and do not add `ThrowHelper` APIs for product/domain exception types (for example `KryptonUpdateException`) into Interop. Domain or feature exceptions stay as typed `throw new …` (or a **local** cold-path helper next to that feature when the call sites are many). Apply to new and changed throw sites; do not mass-convert unrelated legacy `throw new` in files outside the task unless asked.
+- **ThrowHelper (required for BCL throws):** For new and changed code, throw framework exceptions only through `Krypton.Interop.ThrowHelper` (`Source/Krypton Components/Core/Krypton.Interop/General/ThrowHelper.cs`). Prefer `ThrowIfNull` / `ThrowIfNullOrWhiteSpace` for guards, `value ?? ThrowHelper.ThrowArgumentNullException(value)` (or the generic `<T>` overloads) in expression contexts, and the matching `ThrowArgumentException` / `ThrowArgumentOutOfRangeException` / `ThrowInvalidOperationException` / `ThrowNotSupportedException` / `ThrowNotImplementedException` / `ThrowObjectDisposedException` / `ThrowInvalidCastException` / `ThrowWin32Exception` / `ThrowNullReferenceException` helpers when that is the contract. Do **not** write bare `throw new ArgumentNullException(...)`, `throw new ArgumentException(...)`, `throw new ArgumentOutOfRangeException(...)`, `throw new InvalidOperationException(...)`, and the other BCL types `ThrowHelper` already covers. `ThrowHelper` is `internal` in Interop and visible to sibling assemblies via `InternalsVisibleTo`; do not duplicate it, and do not add `ThrowHelper` APIs for product/domain exception types (for example `KryptonUpdateException`) into Interop. Domain or feature exceptions stay as typed `throw new …` (or a **local** cold-path helper next to that feature when the call sites are many). Apply to new and changed throw sites; do not mass-convert unrelated legacy `throw new` in files outside the task unless asked.
 - No unneeded `try/catch` blocks if there's no catch handling
 - Idioms: use null-propagation and object/collection initializers where consistent
 - Prefer [switch expressions](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/switch-expression) for simple value/type dispatch that only returns (or assigns) a value. Keep `switch` statements for complex control flow, multiple statements per arm, or side effects. Prefer a discard arm (`_ => ...`) when exhaustiveness matters. Use only pattern forms already common in this codebase (constant, type, discard, simple property/`when` guards as elsewhere); do not introduce newer pattern syntax that would fight **Public API → Compatibility**. Apply to new and changed code; do not mass-convert unrelated existing code unless asked.
@@ -612,7 +613,7 @@ When adding a **new** version heading, also add a TOC child under Breaking Chang
 
 ## TestForm Demos
 
-`Source/Krypton Components/TestForm` (`TestForm.csproj`) is the primary interactive validation app. When a **feature** is completed, add a **comprehensive demo** or **append to an existing demo** (do not overwrite) so maintainers and reviewers can exercise the capability without reading source first.
+`Source/TestHarnesses/TestForm` (`TestForm.csproj`) is the primary interactive validation app. When a **feature** is completed, add a **comprehensive demo** or **append to an existing demo** (do not overwrite) so maintainers and reviewers can exercise the capability without reading source first.
 
 ### Folder layout
 
@@ -716,7 +717,7 @@ Skip the comparison when there is no meaningful WinForms equivalent (e.g. ribbon
 - Place new forms per **Folder layout** (library folder, no `.` in the name; demos in `Feature`; repros in `Bugs`; `namespace TestForm`).
 - Add new `.cs` / `.Designer.cs` / `.resx` files to `TestForm.csproj` if not picked up automatically. Keep empty `<Folder Include="…\Feature\" />` and `…\Bugs\` entries; do not re-add them once the folder has files.
 - Reference `Krypton.Toolkit.Utilities` / `Krypton.Navigator.Utilities` when the demo targets those assemblies.
-- Run: `dotnet run --project ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`
+- Run: `dotnet run --project ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug`
 - `TestForm` does not replace [Standard-Toolkit-Demos](https://github.com/Krypton-Suite/Standard-Toolkit-Demos). For features, also add a consumer example there (reuse `..\Standard-Toolkit-Demos` if present; clone into the parent only if missing), or **append** if one already exists (see **Standard-Toolkit-Demos**).
 
 ## Standard-Toolkit-Demos
@@ -947,7 +948,7 @@ When a change is **user-visible**, capture stills (and a short GIF when motion i
 
 ### How
 
-1. Build Debug TestForm if binaries are stale: `dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug`.
+1. Build Debug TestForm if binaries are stale: `dotnet build ".\Source\TestHarnesses\TestForm\TestForm.csproj" -c Debug`.
 2. Host the relevant demo with PowerShell `-STA`. Reuse a `Start-*Host.ps1`, or instantiate the form in-process (pattern: `Scripts/UnitTests/Invoke-RadialMenuScreenshot.ps1`). Place the form on the primary working area (`StartPosition = Manual`, e.g. `(80, 80)`); do not leave it off-screen or minimized.
 3. For each of the light and dark baseline modes (and any extra family-specific modes): set `KryptonManager.GlobalPaletteMode` (or a sited `KryptonManager` instance’s `GlobalPaletteMode`) **before** show, or set it and refresh/recreate the form so chrome and content pick up the palette. Pattern: `Scripts/UnitTests/Invoke-DarkModeThemeScreenshots.ps1` / `Invoke-ToolStripTextContrastScreenshot.ps1`. Load `Krypton.Themes.dll` when the mode lives in the Themes assembly.
 4. Before capture: `Show`, set `TopMost = $true`, `Activate`, `BringToFront`, `SetForegroundWindow` (via `Initialize-UnitTestNativeInput` / `UnitTestNative`), `Application.DoEvents()`, then a short settle sleep so paint completes.

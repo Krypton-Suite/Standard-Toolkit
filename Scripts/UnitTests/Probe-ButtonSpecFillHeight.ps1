@@ -18,7 +18,7 @@ $bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -Tar
 Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 $asm = [System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'TestForm.exe'))
 

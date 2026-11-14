@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Krypton.Graphs</RootNamespace>
+		<AssemblyName>Krypton.Graphs</AssemblyName>
+		<IsPackable>false</IsPackable>
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
+		<SignAssembly>True</SignAssembly>
+		<AssemblyOriginatorKeyFile>$(KryptonStrongNameKeyFile)</AssemblyOriginatorKeyFile>
+		<ApplicationIcon>$(KryptonApplicationIcon)</ApplicationIcon>
+		<DelaySign>false</DelaySign>
+		<UseWindowsForms>true</UseWindowsForms>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<NeutralLanguage>en</NeutralLanguage>
+		<DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+		<Configurations>Debug;Release;Installer;Nightly;Canary;RC;LTS</Configurations>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Nullable>enable</Nullable>
+		<WarningLevel>8</WarningLevel>
+		<AnalysisLevel>latest</AnalysisLevel>
+		<AccelerateBuildsInVisualStudio>true</AccelerateBuildsInVisualStudio>
+		<ForceDesignerDPIUnaware>true</ForceDesignerDPIUnaware>
+		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+		<NoWarn>1701;1702</NoWarn>
+		<Description>Graph controls for the Krypton Standard Toolkit. Included in the Krypton.Standard.Toolkit NuGet package and not published as its own package.</Description>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Direct Interop ref required because Krypton.Toolkit uses PrivateAssets="all" (#3908). -->
+		<ProjectReference Include="..\..\Shared\Krypton.Shared\Krypton.Shared.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\..\Core\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Controls Toolkit\KryptonTransferSpeedGraph.cs">
+	    <SubType>Component</SubType>
+	  </Compile>
+	</ItemGroup>
+
+</Project>

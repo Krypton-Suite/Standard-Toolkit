@@ -67,6 +67,9 @@ namespace UpdateManifestEditor
 
         public string PulseSpeed { get; set; } = string.Empty;
 
+        /// <summary>Empty omits <c>progressDisplay</c>. Values: <c>progressBar</c>, <c>transferSpeedGraph</c>.</summary>
+        public string ProgressDisplay { get; set; } = string.Empty;
+
         public override string ToString()
         {
             var version = string.IsNullOrWhiteSpace(Version) ? "(new package)" : Version.Trim();

@@ -197,7 +197,7 @@ public static class DesignerDefaultAudit
 '@
 
 foreach ($name in @(
-        'Krypton.Interop.dll',
+        'Krypton.Shared.dll',
         'Krypton.Toolkit.dll',
         'Krypton.Drawing.dll',
         'Krypton.Themes.dll',
