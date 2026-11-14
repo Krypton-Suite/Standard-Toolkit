@@ -68,4 +68,7 @@ public class SharedStaticConstants
 
     /// <summary>The required toolbar image count</summary>
     public const int REQUIRED_TOOLBAR_IMAGE_COUNT = 14;
+
+    /// <summary>The default theme palette container version</summary>
+    public const int DEFAULT_THEME_PALETTE_CONTAINER_VERSION = 1;
 }
