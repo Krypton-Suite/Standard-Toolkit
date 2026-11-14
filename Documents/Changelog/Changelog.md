@@ -46,6 +46,7 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Resolved, Unsupported palette states no longer trigger a recursive stack overflow in the accessibility audit.
 - Implemented [#4704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4704), **[Breaking Change]** Rename `Krypton.Interop` -> `Krypton.Shared`
   - `Krypton.Interop` is now `Krypton.Shared`. The assembly name and namespace are all changed.
 - Implemented, `Krypton.Graphs` and `Krypton.Graphs.Design` ship inside the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) package. `Krypton.Graphs` is not a separate NuGet package.
