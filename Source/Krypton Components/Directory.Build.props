@@ -1,6 +1,11 @@
 ﻿<Project>
 	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../../'))" />
 
+	<PropertyGroup>
+		<KryptonStrongNameKeyFile>$(MSBuildThisFileDirectory)Common\StrongKrypton.snk</KryptonStrongNameKeyFile>
+		<KryptonApplicationIcon>$(MSBuildThisFileDirectory)Common\Krypton.ico</KryptonApplicationIcon>
+	</PropertyGroup>
+
 	<!-- MSB3822/3823: binary .resx (images/icons) need preserialized GenerateResource + System.Resources.Extensions.
 	     Defined here (not repo root) so it applies after SDK props; all projects under this folder are WinForms SDK. -->
 	<PropertyGroup>
@@ -101,11 +106,11 @@
 
 	<!-- NuGet package readme (https://aka.ms/nuget-include-readme) and license for all pack configurations. -->
 	<ItemGroup>
-		<None Include="..\..\..\Documents\License\License.md">
+		<None Include="$(MSBuildThisFileDirectory)..\..\Documents\License\License.md" Link="License.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-		<None Include="..\..\..\README.md">
+		<None Include="$(MSBuildThisFileDirectory)..\..\README.md" Link="README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
@@ -118,7 +123,7 @@
 	<Choose>
 		<When Condition="'$(Configuration)' == 'Canary'">
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Canary.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton Canary.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -139,7 +144,7 @@
 
 		<When Condition="'$(Configuration)' == 'Nightly'">
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Nightly.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton Nightly.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -160,7 +165,7 @@
 
 		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton RC.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton RC.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -185,7 +190,7 @@
 
 		<When Condition="'$(Configuration)' == 'LTS'">
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton LTS.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton LTS.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>
@@ -205,7 +210,7 @@
 		</When>
 		<Otherwise>
 			<ItemGroup>
-				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
+				<None Include="$(MSBuildThisFileDirectory)..\..\Assets\PNG\NuGet Package Icons\Krypton Stable.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
 
 			<PropertyGroup>

@@ -30,6 +30,27 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Resolve Krypton source paths
+        id: source_paths
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $componentsRoot = 'Source/Krypton Components'
+          $solution = Join-Path $componentsRoot 'Krypton Toolkit Suite 2022 - VS2022.slnx'
+          if (-not (Test-Path -LiteralPath $solution)) { throw "Krypton Components solution not found: $solution" }
+          $toolkitProject = @(
+            (Join-Path $componentsRoot 'Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'),
+            (Join-Path $componentsRoot 'Krypton.Toolkit/Krypton.Toolkit 2022.csproj')
+          ) | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          if (-not $toolkitProject) { throw "Krypton.Toolkit project not found under $componentsRoot." }
+          $utilitiesProject = @(
+            (Join-Path $componentsRoot 'Utilities/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj'),
+            (Join-Path $componentsRoot 'Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj')
+          ) | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          "components_root=$componentsRoot" >> $env:GITHUB_OUTPUT
+          "toolkit_project=$toolkitProject" >> $env:GITHUB_OUTPUT
+          "utilities_project=$utilitiesProject" >> $env:GITHUB_OUTPUT
+
       # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false.
       - name: Setup .NET (10 and 11)
         uses: actions/setup-dotnet@v6
@@ -161,7 +182,7 @@ jobs:
       # Match nightly.proj: Release + TFMs=all so TargetFrameworks / package graphs align (avoids CS7069 / prune mismatches).
       # UseArtifactsOutput must match MSBuild Build (avoids NETSDK1005 under artifacts/obj).
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
+        run: dotnet restore "${{ steps.source_paths.outputs.components_root }}/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
 
       # /m: multi-processor MSBuild; nightly.proj sets BuildInParallel on the Krypton.* graph.
       - name: Build
@@ -175,6 +196,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+
+      - name: Resolve Krypton source paths
+        id: source_paths
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $componentsRoot = 'Source/Krypton Components'
+          $solution = Join-Path $componentsRoot 'Krypton Toolkit Suite 2022 - VS2022.slnx'
+          if (-not (Test-Path -LiteralPath $solution)) { throw "Krypton Components solution not found: $solution" }
+          $toolkitProject = @(
+            (Join-Path $componentsRoot 'Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'),
+            (Join-Path $componentsRoot 'Krypton.Toolkit/Krypton.Toolkit 2022.csproj')
+          ) | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          if (-not $toolkitProject) { throw "Krypton.Toolkit project not found under $componentsRoot." }
+          $utilitiesProject = @(
+            (Join-Path $componentsRoot 'Utilities/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj'),
+            (Join-Path $componentsRoot 'Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj')
+          ) | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+          "components_root=$componentsRoot" >> $env:GITHUB_OUTPUT
+          "toolkit_project=$toolkitProject" >> $env:GITHUB_OUTPUT
+          "utilities_project=$utilitiesProject" >> $env:GITHUB_OUTPUT
 
       # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false (same as build job).
       - name: Setup .NET (10 and 11)
@@ -298,14 +340,14 @@ jobs:
 
       # Match build job: same dotnet restore + properties so project.assets.json lands under artifacts/obj (avoids NETSDK1005).
       - name: Restore
-        run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
+        run: dotnet restore "${{ steps.source_paths.outputs.components_root }}/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
 
       # Fail early if Restore did not write assets under artifacts/obj (would surface later as NETSDK1005 in Pack).
       - name: "Debug: list artifacts/obj"
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $objRoot = "Source/Krypton Components/artifacts/obj"
+          $objRoot = Join-Path '${{ steps.source_paths.outputs.components_root }}' 'artifacts/obj'
           if (-not (Test-Path -LiteralPath $objRoot)) {
             Write-Error "Artifacts obj folder missing: $objRoot"
           }
@@ -350,7 +392,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           $version = $null
-          $proj = 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+          $proj = '${{ steps.source_paths.outputs.toolkit_project }}'
           $msbuildConfig = 'Release'
 
           # Primary source: built Krypton.Toolkit.dll assembly version.

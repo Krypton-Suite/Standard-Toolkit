@@ -3,7 +3,7 @@
     Asserts #4230 theme catalog: cores, discovery, availability, export/import, sample provider.
 
 .DESCRIPTION
-    Loads Debug Krypton.Interop + Krypton.Toolkit, asserts unimplemented extras, then loads
+    Loads Debug Krypton.Shared + Krypton.Toolkit, asserts unimplemented extras, then loads
     Krypton.Themes and ThemeProviderSample.
 
     Exit code 0 on success; non-zero on failure.
@@ -62,7 +62,7 @@ if (Test-Path -LiteralPath $themesPath) {
     $themesHiddenForFallback = $true
 }
 
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void](Import-UnitTestAssembly -Path (Join-Path $bin 'Krypton.Toolkit.dll'))
 
 $failed = New-Object System.Collections.Generic.List[string]

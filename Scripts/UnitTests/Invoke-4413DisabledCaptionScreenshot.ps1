@@ -38,7 +38,7 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Initialize-UnitTestNativeInput
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 $themesDll = Join-Path $bin 'Krypton.Themes.dll'
 if (Test-Path -LiteralPath $themesDll) {

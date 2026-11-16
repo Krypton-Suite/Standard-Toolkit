@@ -1,6 +1,6 @@
 # Python 3.10+
 # Creates a 16x16 24-bit BMP depicting a simple calculator.
-# Default output: Source\Krypton Components\Krypton.Toolkit\Resources\KryptonCalcInput.bmp
+# Default output: Source\Krypton Components\Core\Krypton.Toolkit\Resources\KryptonCalcInput.bmp
 
 from __future__ import annotations
 

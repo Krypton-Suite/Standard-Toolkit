@@ -26,9 +26,13 @@ function Get-KryptonToolkitMajorVersion {
         $Configuration = 'Release'
     }
 
-    $proj = Join-Path $RepoRoot 'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
-    if (-not (Test-Path -LiteralPath $proj)) {
-        Write-Error "Krypton.Toolkit project not found at '$proj'."
+    $projectCandidates = @(
+        'Source/Krypton Components/Core/Krypton.Toolkit/Krypton.Toolkit 2022.csproj',
+        'Source/Krypton Components/Krypton.Toolkit/Krypton.Toolkit 2022.csproj'
+    ) | ForEach-Object { Join-Path $RepoRoot $_ }
+    $proj = $projectCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+    if (-not $proj) {
+        Write-Error "Krypton.Toolkit project not found under '$RepoRoot/Source/Krypton Components' (checked Core and legacy layouts)."
     }
 
     $versionProperties = @('LibraryVersion', 'AssemblyVersion', 'Version')
@@ -157,8 +161,12 @@ function Test-KryptonInteropInPackages {
         }
     }
 
-    $interopProject = Join-Path $repoRoot 'Source/Krypton Components/Krypton.Interop/Krypton.Interop.csproj'
-    if ($SkipIfInteropProjectMissing -and -not (Test-Path -LiteralPath $interopProject)) {
+    $interopCandidates = @(
+        'Source/Krypton Components/Core/Krypton.Interop/Krypton.Interop.csproj',
+        'Source/Krypton Components/Krypton.Interop/Krypton.Interop.csproj'
+    ) | ForEach-Object { Join-Path $repoRoot $_ }
+    $interopProject = $interopCandidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+    if ($SkipIfInteropProjectMissing -and -not $interopProject) {
         Write-Host '::notice:: Krypton.Interop project not present; skipping NuGet package verification.'
         return
     }

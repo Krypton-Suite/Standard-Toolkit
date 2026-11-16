@@ -7,7 +7,7 @@
 #
 # Stable, canary, alpha, and release-candidate templates publish from the matching
 # package workflow after NuGet publish:
-#   stable -> .github/workflows/release-master.yml (master)
+#   stable -> .github/workflows/release-stable.yml (master)
 #   canary -> .github/workflows/canary.yml and release-canary.yml (canary)
 #   alpha  -> .github/workflows/nightly.yml
 #   rc     -> .github/workflows/release-candidate.yml

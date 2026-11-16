@@ -46,6 +46,12 @@
 
 ## 2027-11-xx - Build 2711 (V120 Nightly) - November 2027
 
+- Resolved, Unsupported palette states no longer trigger a recursive stack overflow in the accessibility audit.
+- Implemented [#4704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4704), **[Breaking Change]** Rename `Krypton.Interop` -> `Krypton.Shared`
+  - `Krypton.Interop` is now `Krypton.Shared`. The assembly name and namespace are all changed.
+- Implemented, `Krypton.Graphs` and `Krypton.Graphs.Design` ship inside the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) package. `Krypton.Graphs` is not a separate NuGet package.
+- Implemented [#4700](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4700), **[Breaking Change]** Library projects now live under `Source/Krypton Components/Core`, `Design`, and `Utilities`. NuGet package ids, namespaces, and assembly names are unchanged. A `ProjectReference` that pointed at `Source/Krypton Components/Krypton.<Project>` must insert `Core`, `Design`, or `Utilities`.
+  - GitHub workflows now resolve both the legacy V105/V115 project paths and the V120+ Core/Design/Utilities layout.
 - Resolved, Nightly aggregate packages now use the shared signing key and no longer require a missing project-local icon.
 - Resolved [#4701](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4701), Visual Studio build issues
   - Visual Studio builds no longer fail with missing `Krypton.Toolkit.Utilities` and `Krypton.Dialogs` assemblies.
@@ -95,6 +101,9 @@
   - A download that drops or is cancelled stays on the progress window so it can be resumed or started again. The whole file is still checked before it is applied.
   - Release notes open in their own window, Remind later asks for a date or skips that version, and the progress window can show file name, size, speed, and time remaining.
   - The update manifest can limit how many days Remind later offers, and can allow or block postpone, skip, resume, and retry. A critical package blocks postpone unless `allowPostpone` is true and blocks skip unless `allowSkip` is true. `allowRetry` false hides Restart.
+  - Download progress can use a transfer-speed graph instead of a progress bar. Set `KryptonApplicationUpdater.ProgressDisplay`, or override per package with JSON `progressDisplay` (`progressBar` / `transferSpeedGraph`). `TransferSpeedGraph` hosts `KryptonTransferProgressPanel` (speed chart plus optional progress chart); size and ETA stay in Details.
+  - `KryptonTransferProgressPanel` is a public Toolbox composite (`SetProgress` / `AddSample`, `ShowProgressGraph`, `ProgressSampleMode` Auto/Percent/Bytes, `ChartLayout` SideBySide/DualSeries). Progress colours use `PaletteElement.TransferProgressGraph` / `SchemeBaseColors.TransferProgressGraph*` across Toolkit and Themes palettes.
+  - `KryptonTransferDualGraph` paints speed and optional progress as two series on one chart (independent Y scales; speed colours from `TransferSpeedGraph`, progress from `TransferProgressGraph`). Panel `ChartLayout.DualSeries` hosts it; updater keeps SideBySide by default.
   - The update manifest can add an optional banner (text, colours or gradient, image URL) on the prompt and notes windows, and an optional pulsing form border on the prompt, notes, and progress windows.
   - To use, you will need to download the [Krypton.Standard.Toolkit](https://www.nuget.org/packages/Krypton.Standard.Toolkit) NuGet package, as this control is part of the `Krypton.Toolkit.Utilities` assembly.
 - Implemented [#3806](https://github.com/Krypton-Suite/Standard-Toolkit/issues/3806), Windows XP Themes

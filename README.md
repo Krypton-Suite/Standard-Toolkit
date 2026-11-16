@@ -16,7 +16,8 @@
 * [Discord Server](#discord-server)
 * [Version History](#version-history)
 * [Breaking Changes](#breaking-changes)
-  * [V110.00 (2026-11-xx - Build 2611 - November 2026)](#v11000-2026-11-xx---build-2611---november-2026)
+  * [V120.00 (2027-11-xx - Build 2711 - November 2027)](#v12000-2027-11-xx---build-2711---november-2027)
+  * [V110.00 (2026-11-30 - Build 2611 - November 2026)](#v11000-2026-11-30---build-2611---november-2026)
   * [V100.00 (2025-11-24 - Build 2511 - November 2025)](#v10000-2025-11-24---build-2511---november-2025)
   * [Support for .NET FrameWork 4.6.2, 4.7 & 4.7.1](#support-for-net-framework-462-47--471)
   * [V95.00 (2025-02-01 - Build 2502 - February 2025)](#v9500-2025-02-01---build-2502---february-2025)
@@ -48,7 +49,7 @@ View [package version details and supported frameworks](https://krypton-suite.gi
 | Workflow | Status |
 |----------|--------|
 | Build (Master)   | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
-| Release (Master)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-master.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-master.yml) |
+| Release (Master)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-stable.yml/badge.svg)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-stable.yml) |
 | Build (Canary)    | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
 | Release (Canary)  | [![Release](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-canary.yml/badge.svg?branch=canary)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/release-canary.yml) |
 | Build (Alpha)     | [![Build](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml/badge.svg?branch=alpha)](https://github.com/Krypton-Suite/Standard-Toolkit/actions/workflows/build.yml) |
@@ -154,7 +155,18 @@ Follow the links to see the different objects and layouts that this framework al
 
 ## Breaking Changes
 
-## V110.00 (2026-11-xx - Build 2611 - November 2026)
+## V120.00 (2027-11-xx - Build 2711 - November 2027)
+
+There are list of changes that have occurred during the development of the V120.00 version
+
+* Implemented [#4700](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4700), **[Breaking Change]** Library projects now live under `Source/Krypton Components/Core`, `Design`, and `Utilities`.
+  * NuGet package ids, namespaces, and assembly names are unchanged.
+  * A `ProjectReference` that pointed at `Source/Krypton Components/Krypton.<Project>` must insert `Core` (Docking, Navigator, Ribbon, Toolkit, Workspace, Interop, Resources, Themes), `Design` (`*.Design`, Design.Client, Design.Protocol), or `Utilities` (Toolkit.Utilities, Navigator.Utilities, UpdateHelper, JumpList, Charting, Gauges, Drawing, Dialogs).
+  * `Krypton.Standard.Toolkit` and `TestForm` stay directly under `Source/Krypton Components`.
+* Implemented [#4704](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4704), **[Breaking Change]** Rename `Krypton.Interop` -> `Krypton.Shared`
+  * `Krypton.Interop` is now `Krypton.Shared`. The assembly name and namespace are all changed.
+
+## V110.00 (2026-11-30 - Build 2611 - November 2026)
 
 There are list of changes that have occurred during the development of the V110.00 version
 

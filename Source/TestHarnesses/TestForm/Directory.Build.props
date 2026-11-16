@@ -1,0 +1,4 @@
+﻿<Project>
+	<!-- TestForm lives under Source/TestHarnesses. Import the components props so the suite TFM list and Bin layout still apply. -->
+	<Import Project="..\..\Krypton Components\Directory.Build.props" />
+</Project>

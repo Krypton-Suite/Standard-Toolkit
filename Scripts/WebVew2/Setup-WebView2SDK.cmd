@@ -48,12 +48,12 @@ if "%WEBVIEW2_VERSION%"=="" (
 
 REM Try to download and setup WebView2 SDK automatically
 echo Attempting to install WebView2 SDK via NuGet...
-dotnet add "Source/Krypton Components/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj" package Microsoft.Web.WebView2 --version %WEBVIEW2_VERSION%
+dotnet add "Source/Krypton Components/Utilities/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj" package Microsoft.Web.WebView2 --version %WEBVIEW2_VERSION%
 
 if %ERRORLEVEL% EQU 0 (
     echo.
     echo Restoring NuGet packages to ensure WebView2 SDK is downloaded...
-    dotnet restore "Source/Krypton Components/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj"
+    dotnet restore "Source/Krypton Components/Utilities/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj"
     
     if %ERRORLEVEL% NEQ 0 (
         echo ERROR: Failed to restore NuGet packages
@@ -72,7 +72,7 @@ powershell -Command "& { $nugetPath = \"$env:USERPROFILE\.nuget\packages\microso
     
     REM Remove the NuGet package reference since we're using local assemblies
     REM Note: This only removes it if it was added temporarily. .NET Framework targets use floating versions (1.0.*) via NuGet.
-    dotnet remove "Source/Krypton Components/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj" package Microsoft.Web.WebView2
+    dotnet remove "Source/Krypton Components/Utilities/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj" package Microsoft.Web.WebView2
     
     REM Update project file with the latest version
     echo Updating project file with latest version...

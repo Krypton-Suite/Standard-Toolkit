@@ -36,7 +36,7 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-$interopPath = Join-Path $bin 'Krypton.Interop.dll'
+$interopPath = Join-Path $bin 'Krypton.Shared.dll'
 $toolkitPath = Join-Path $bin 'Krypton.Toolkit.dll'
 $navigatorPath = Join-Path $bin 'Krypton.Navigator.dll'
 
