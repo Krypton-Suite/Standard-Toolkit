@@ -304,4 +304,93 @@
       <BuildType Solution="ReleaseCandidate|*" Project="Release" />
     </Project>
   </Folder>
+  <Folder Name="/Unit Tests/" />
+  <Folder Name="/Unit Tests/Core/">
+    <Project Path="../Unit Tests/Core/Krypton.Docking.Tests/Krypton.Docking.Tests.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Core/Krypton.Navigator.Tests/Krypton.Navigator.Tests.csproj">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Core/Krypton.Ribbon.Tests/Krypton.Ribbon.Tests.csproj" Id="ddf43a26-5224-422d-8139-6ea5c0237702">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Core/Krypton.Toolkit.Tests/Krypton.Toolkit.Tests.csproj" Id="c3e9398e-9153-4555-b05e-859b562af8ed">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Core/Krypton.Workspace.Tests/Krypton.Workspace.Tests.csproj" Id="3bbca426-793a-41d7-ab6c-29c2dc06acae">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+  </Folder>
+  <Folder Name="/Unit Tests/Utilities/">
+    <Project Path="../Unit Tests/Utilities/Krypton.Charting.Tests/Krypton.Charting.Tests.csproj" Id="e1cc8a37-5232-4320-a872-20647b1c3223">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Utilities/Krypton.Dialogs.Tests/Krypton.Dialogs.Tests.csproj" Id="054d7f2f-57a0-4625-8517-a454cd72b895">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Utilities/Krypton.Drawing.Tests/Krypton.Drawing.Tests.csproj" Id="b91cda4a-b4a0-4759-9a73-f0e088d79ae5">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Utilities/Krypton.Gauges.Tests/Krypton.Gauges.Tests.csproj" Id="97332254-a61e-4560-897c-834981da353a">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Utilities/Krypton.Graphs.Tests/Krypton.Graphs.Tests.csproj" Id="e1829bdc-a462-48a2-810a-76d50f1059f9">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Utilities/Krypton.Navigator.Utilities.Tests/Krypton.Navigator.Utilities.Tests.csproj" Id="a114bbf5-4655-4576-b8a3-8e5aa906ed0a">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Utilities/Krypton.Toolkit.JumpList.Tests/Krypton.Toolkit.JumpList.Tests.csproj" Id="adab4d5b-f704-43d3-8db9-5a10b2f42452">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Utilities/Krypton.Toolkit.Utilities.Tests/Krypton.Toolkit.Utilities.Tests.csproj" Id="e201e4b6-27ce-493c-ba28-5869b429b613">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+    <Project Path="../Unit Tests/Utilities/Krypton.Toolkit.Utilities.UpdateHelper.Tests/Krypton.Toolkit.Utilities.UpdateHelper.Tests.csproj" Id="e56cfbea-03f6-43ea-b3f2-f59167b98521">
+      <BuildType Solution="Canary|*" Project="Release" />
+      <BuildType Solution="Installer|*" Project="Debug" />
+      <BuildType Solution="Nightly|*" Project="Release" />
+      <BuildType Solution="ReleaseCandidate|*" Project="Release" />
+    </Project>
+  </Folder>
 </Solution>
