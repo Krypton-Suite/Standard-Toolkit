@@ -1,0 +1,85 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Checks out alpha, bumps the end year in "Modifications by Peter Wagner" license headers,
+# and opens a pull request back into alpha.
+
+name: Update License Year
+
+on:
+  schedule:
+    # 06:00 UTC on 1 January each year
+    - cron: '0 6 1 1 *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Preview changes without modifying files or creating a PR'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-license-year:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout alpha
+        uses: actions/checkout@v6
+        with:
+          ref: alpha
+          fetch-depth: 0
+
+      - name: Update license header end year
+        id: update_year
+        shell: pwsh
+        run: |
+          $year = (Get-Date).Year
+          $dryRun = '${{ inputs.dry_run }}' -ieq 'true'
+          echo "year=$year" >> $env:GITHUB_OUTPUT
+          echo "dry_run=$($dryRun.ToString().ToLower())" >> $env:GITHUB_OUTPUT
+
+          $scriptArgs = @{ Year = $year }
+          if ($dryRun) { $scriptArgs.DryRun = $true }
+
+          $updatedFiles = & "${{ github.workspace }}/.github/scripts/Update-LicenseYear.ps1" @scriptArgs
+          echo "updated_files=$updatedFiles" >> $env:GITHUB_OUTPUT
+
+          if ($dryRun) {
+            @"
+          ## License year dry run
+
+          - Target year: **$year**
+          - Files that would be updated: **$updatedFiles**
+          - No files were modified and no pull request was created.
+          "@ | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Encoding utf8
+          }
+
+      - name: Create pull request into alpha
+        if: steps.update_year.outputs.dry_run != 'true' && steps.update_year.outputs.updated_files != '0'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: alpha
+          branch: automation/license-year-${{ steps.update_year.outputs.year }}
+          delete-branch: true
+          title: "chore: update license header end year to ${{ steps.update_year.outputs.year }}"
+          commit-message: "Update license header end year to ${{ steps.update_year.outputs.year }}"
+          body: |
+            Automated update of the end year in `Modifications by Peter Wagner` license headers.
+
+            - Target year: **${{ steps.update_year.outputs.year }}**
+            - Files updated: **${{ steps.update_year.outputs.updated_files }}**
+            - Base branch: **alpha**
+
+            *Triggered by the Update License Year workflow.*
+
+      - name: No changes required
+        if: steps.update_year.outputs.updated_files == '0'
+        run: |
+          if [ "${{ steps.update_year.outputs.dry_run }}" = "true" ]; then
+            echo "Dry run: all license headers already use end year ${{ steps.update_year.outputs.year }}."
+          else
+            echo "All license headers already use end year ${{ steps.update_year.outputs.year }}."
+          fi

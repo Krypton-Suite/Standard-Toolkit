@@ -1,0 +1,582 @@
+# New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+# Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
+#
+# Restores branches (and optionally tags) from the mirror repository back into this repository.
+# Manual only — use after validating with a dry run.
+#
+# KILL-SWITCH: To disable this workflow, set repository variable REPO_RESTORE_DISABLED=true
+# Location: Repository Settings → Secrets and variables → Actions → Variables tab
+# To re-enable: Set REPO_RESTORE_DISABLED=false or delete the variable
+#
+# Required configuration (same as Repository Mirror):
+#   Variable  MIRROR_REPO         Mirror repo as owner/name (e.g. Krypton-Suite/Standard-Toolkit-Mirror)
+#   Secret    MIRROR_REPO_TOKEN   PAT with read access to the mirror repository
+#
+# Optional:
+#   Variable  MIRROR_BRANCHES     Comma-separated branch list (overrides the default six branches)
+#   Secret    DISCORD_WEBHOOK_RESTORE  Discord webhook for restore notifications
+#
+# Restore modes (when dry_run is false):
+#   new_branch  — Push mirror state to restore/<branch>-<date|sha> on the source repo (safest)
+#   force_push  — Overwrite the source branch tip (requires typing RESTORE in confirmation)
+#
+# Point-in-time restore:
+#   Leave restore_date and commit_sha empty to restore current mirror branch tips.
+#   Set restore_date (UTC) to restore the latest commit on each branch at or before that time.
+#   Set commit_sha to restore one exact commit (single branch only; overrides restore_date).
+#
+# Testing: Actions → Repository Restore from Mirror → Run workflow → leave dry_run enabled first.
+
+name: Repository Restore from Mirror
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Preview restore actions without pushing to the source repository
+        type: boolean
+        default: true
+      restore_mode:
+        description: How to apply the restore (ignored when dry_run is true)
+        type: choice
+        options:
+          - new_branch
+          - force_push
+        default: new_branch
+      branches:
+        description: Comma-separated branches to restore (empty = MIRROR_BRANCHES variable or defaults)
+        type: string
+        default: ''
+      restore_date:
+        description: Optional UTC date/time (e.g. 2025-06-01 or 2025-06-01 14:30:00). Empty = current mirror tips.
+        type: string
+        default: ''
+      commit_sha:
+        description: Optional exact commit (single branch only; overrides restore_date)
+        type: string
+        default: ''
+      sync_tags:
+        description: Sync all tags from the mirror to the source repository
+        type: boolean
+        default: false
+      force_push_confirmation:
+        description: Type RESTORE to confirm force_push mode
+        type: string
+        default: ''
+      new_branch_prefix:
+        description: Prefix for branches created in new_branch mode
+        type: string
+        default: 'restore/'
+
+permissions:
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+
+    concurrency:
+      group: repo-restore
+      cancel-in-progress: false
+
+    steps:
+      - name: Repository Restore Kill Switch Check
+        id: kill_switch
+        run: |
+          disabled="${{ vars.REPO_RESTORE_DISABLED }}"
+          if [ "$disabled" = "true" ]; then
+            echo "::warning:: Repository Restore workflow is currently DISABLED via kill switch (REPO_RESTORE_DISABLED=true)"
+            echo "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set REPO_RESTORE_DISABLED to 'false'."
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Repository Restore kill switch check has passed, continuing..."
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Security - Verify Repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        run: |
+          if [ "$GITHUB_REPOSITORY" != "Krypton-Suite/Standard-Toolkit" ]; then
+            echo "::error::Security: Invalid repository '$GITHUB_REPOSITORY'. This workflow should only run on Krypton-Suite/Standard-Toolkit"
+            exit 1
+          fi
+          echo "Repository verified: $GITHUB_REPOSITORY"
+
+      - name: Validate restore inputs
+        if: steps.kill_switch.outputs.enabled == 'true'
+        env:
+          DRY_RUN: ${{ inputs.dry_run == true && 'true' || 'false' }}
+          RESTORE_MODE: ${{ inputs.restore_mode }}
+          FORCE_PUSH_CONFIRMATION: ${{ inputs.force_push_confirmation }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          BRANCHES_INPUT: ${{ inputs.branches }}
+          RESTORE_DATE: ${{ inputs.restore_date }}
+          NEW_BRANCH_PREFIX: ${{ inputs.new_branch_prefix }}
+        run: |
+          set -euo pipefail
+
+          if [ "$DRY_RUN" != "true" ] && [ "$RESTORE_MODE" = "force_push" ]; then
+            if [ "$FORCE_PUSH_CONFIRMATION" != "RESTORE" ]; then
+              echo "::error::force_push mode requires typing RESTORE in the force_push_confirmation input."
+              exit 1
+            fi
+            echo "::warning::force_push will overwrite branch tips on the source repository."
+          fi
+
+          if [ -n "$COMMIT_SHA" ]; then
+            if ! [[ "$COMMIT_SHA" =~ ^[0-9a-fA-F]{7,40}$ ]]; then
+              echo "::error::commit_sha must be a 7–40 character hexadecimal Git object id."
+              exit 1
+            fi
+            branch_count=0
+            if [ -n "$BRANCHES_INPUT" ]; then
+              IFS=',' read -r -a branch_parts <<< "$BRANCHES_INPUT"
+              for branch in "${branch_parts[@]}"; do
+                branch="${branch#"${branch%%[![:space:]]*}"}"
+                branch="${branch%"${branch##*[![:space:]]}"}"
+                [ -n "$branch" ] && branch_count=$((branch_count + 1))
+              done
+            else
+              branch_count=6
+            fi
+            if [ "$branch_count" -ne 1 ]; then
+              echo "::error::commit_sha may only be used when restoring a single branch."
+              exit 1
+            fi
+          fi
+
+          if [ -n "$RESTORE_DATE" ] && [ -n "$COMMIT_SHA" ]; then
+            echo "::notice::commit_sha is set; restore_date will be ignored."
+          fi
+
+          if [ -n "$RESTORE_DATE" ]; then
+            if ! date -u -d "$RESTORE_DATE" '+%Y-%m-%d %H:%M:%S' >/dev/null 2>&1; then
+              echo "::error::restore_date is not a valid UTC date/time: '$RESTORE_DATE'"
+              exit 1
+            fi
+          fi
+
+          prefix="$NEW_BRANCH_PREFIX"
+          if [ -z "$prefix" ]; then
+            echo "::error::new_branch_prefix must not be empty."
+            exit 1
+          fi
+          if [[ "$prefix" == *" "* ]]; then
+            echo "::error::new_branch_prefix must not contain spaces."
+            exit 1
+          fi
+
+      - name: Restore branches from mirror repository
+        if: steps.kill_switch.outputs.enabled == 'true'
+        id: restore
+        env:
+          SOURCE_REPO_TOKEN: ${{ github.token }}
+          MIRROR_REPO: ${{ vars.MIRROR_REPO }}
+          MIRROR_REPO_TOKEN: ${{ secrets.MIRROR_REPO_TOKEN }}
+          MIRROR_BRANCHES: ${{ vars.MIRROR_BRANCHES }}
+          DRY_RUN: ${{ inputs.dry_run == true && 'true' || 'false' }}
+          RESTORE_MODE: ${{ inputs.restore_mode }}
+          BRANCHES_INPUT: ${{ inputs.branches }}
+          RESTORE_DATE: ${{ inputs.restore_date }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+          SYNC_TAGS: ${{ inputs.sync_tags == true && 'true' || 'false' }}
+          NEW_BRANCH_PREFIX: ${{ inputs.new_branch_prefix }}
+        run: |
+          set -euo pipefail
+
+          install_git_credential_helper() {
+            {
+              echo '#!/bin/sh'
+              echo 'case "$1" in'
+              echo 'get)'
+              echo '  echo "username=x-access-token"'
+              echo '  echo "password=${GIT_CREDENTIAL_TOKEN}"'
+              echo '  ;;'
+              echo 'esac'
+            } > /tmp/git-credential-actions
+            chmod +x /tmp/git-credential-actions
+          }
+
+          git_with_token() {
+            local token="$1"
+            shift
+            GIT_CREDENTIAL_TOKEN="$token" git -c "credential.helper=!/tmp/git-credential-actions" "$@"
+          }
+
+          normalize_mirror_repo() {
+            local value="$1"
+            if [[ "$value" == https://github.com/* ]] || [[ "$value" == http://github.com/* ]]; then
+              value="${value#*github.com/}"
+              value="${value%.git}"
+              value="${value%/}"
+              echo "Normalized MIRROR_REPO from full URL to: $value" >&2
+            fi
+            printf '%s' "$value"
+          }
+
+          validate_owner_repo() {
+            local value="$1"
+            local label="$2"
+            if ! [[ "$value" =~ ^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$ ]]; then
+              echo "::error::${label} must be a strict owner/repo identifier (got: ${value})"
+              exit 1
+            fi
+          }
+
+          trim_value() {
+            local value="$1"
+            value="${value#"${value%%[![:space:]]*}"}"
+            value="${value%"${value##*[![:space:]]}"}"
+            printf '%s' "$value"
+          }
+
+          validate_branch_name() {
+            local branch="$1"
+            if ! git check-ref-format --branch "$branch" 2>/dev/null; then
+              echo "::error::Invalid branch name: '${branch}'"
+              exit 1
+            fi
+          }
+
+          sanitize_ref_suffix() {
+            local value="$1"
+            value="${value// /-}"
+            value="${value//:/-}"
+            printf '%s' "$value"
+          }
+
+          write_outputs() {
+            {
+              echo "dry_run=${DRY_RUN}"
+              echo "restore_mode=${RESTORE_MODE}"
+              echo "mirror_repo=${repo_path}"
+              echo "restored_branches=${restored_branches[*]}"
+              echo "would_restore_branches=${would_restore_branches[*]}"
+              echo "failed_branches=${failed_branches[*]}"
+              echo "missing_branches=${missing_branches[*]}"
+              echo "unchanged_branches=${unchanged_branches[*]}"
+              echo "created_branches=${created_branches[*]}"
+              echo "would_create_branches=${would_create_branches[*]}"
+              echo "restore_shas=${restore_shas[*]}"
+              echo "source_shas=${source_shas[*]}"
+              echo "tags_synced=${tags_synced}"
+              echo "tags_failed=${tags_failed}"
+              echo "would_sync_tags=${WOULD_SYNC_TAGS}"
+            } >> "$GITHUB_OUTPUT"
+          }
+
+          if [ -z "${MIRROR_REPO_TOKEN:-}" ] || [ -z "${MIRROR_REPO:-}" ]; then
+            echo "::error::MIRROR_REPO (variable) and MIRROR_REPO_TOKEN (secret) must both be configured."
+            exit 1
+          fi
+
+          if [ -z "${SOURCE_REPO_TOKEN:-}" ]; then
+            echo "::error::SOURCE_REPO_TOKEN is not available for source repository access."
+            exit 1
+          fi
+
+          repo_path="$(normalize_mirror_repo "$MIRROR_REPO")"
+          validate_owner_repo "$repo_path" "MIRROR_REPO"
+          validate_owner_repo "$GITHUB_REPOSITORY" "Source repository"
+
+          if [ "$repo_path" = "$GITHUB_REPOSITORY" ]; then
+            echo "::error::MIRROR_REPO must not be the source repository ($GITHUB_REPOSITORY)."
+            exit 1
+          fi
+
+          if [ -n "${BRANCHES_INPUT:-}" ]; then
+            IFS=',' read -r -a branches <<< "$BRANCHES_INPUT"
+          elif [ -n "${MIRROR_BRANCHES:-}" ]; then
+            IFS=',' read -r -a branches <<< "$MIRROR_BRANCHES"
+          else
+            branches=(master gold canary alpha V105-LTS V85-LTS)
+          fi
+
+          normalized_branches=()
+          for branch in "${branches[@]}"; do
+            branch="$(trim_value "$branch")"
+            if [ -z "$branch" ]; then
+              echo "::error::Empty branch entry in branches input."
+              exit 1
+            fi
+            validate_branch_name "$branch"
+            normalized_branches+=("$branch")
+          done
+          branches=("${normalized_branches[@]}")
+
+          mirror_remote="https://github.com/${repo_path}.git"
+          source_remote="https://github.com/${GITHUB_REPOSITORY}.git"
+
+          install_git_credential_helper
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "::notice::Dry run enabled — listing mirror/source refs; no pushes will occur."
+          elif [ "$RESTORE_MODE" = "new_branch" ]; then
+            echo "::notice::Restore mode: new_branch (prefix: ${NEW_BRANCH_PREFIX})"
+          else
+            echo "::warning::Restore mode: force_push — source branch tips will be overwritten."
+          fi
+
+          echo "Cloning mirror repository (bare)..."
+          git_with_token "$MIRROR_REPO_TOKEN" clone --bare "$mirror_remote" mirror.git
+          cd mirror.git
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          echo "Fetching source repository refs for comparison..."
+          git_with_token "$SOURCE_REPO_TOKEN" fetch "$source_remote" '+refs/heads/*:refs/remotes/source/*'
+
+          restored_branches=()
+          would_restore_branches=()
+          failed_branches=()
+          missing_branches=()
+          unchanged_branches=()
+          created_branches=()
+          would_create_branches=()
+          restore_shas=()
+          source_shas=()
+          tags_synced=false
+          tags_failed=false
+          WOULD_SYNC_TAGS=false
+
+          for branch in "${branches[@]}"; do
+            if ! git show-ref --verify --quiet "refs/heads/${branch}"; then
+              echo "::error::Branch '${branch}' does not exist on the mirror."
+              missing_branches+=("$branch")
+              continue
+            fi
+
+            if [ -n "${COMMIT_SHA:-}" ]; then
+              restore_sha="$COMMIT_SHA"
+              if ! git cat-file -e "${restore_sha}^{commit}" 2>/dev/null; then
+                echo "::error::commit_sha '${restore_sha}' was not found in the mirror."
+                failed_branches+=("$branch")
+                continue
+              fi
+              if ! git merge-base --is-ancestor "$restore_sha" "refs/heads/${branch}" 2>/dev/null; then
+                echo "::error::commit_sha '${restore_sha}' is not reachable from mirror branch '${branch}'."
+                failed_branches+=("$branch")
+                continue
+              fi
+            elif [ -n "${RESTORE_DATE:-}" ]; then
+              restore_sha="$(git rev-list -1 --before="$RESTORE_DATE" "refs/heads/${branch}" || true)"
+              if [ -z "$restore_sha" ]; then
+                echo "::error::No commit found on mirror branch '${branch}' at or before '${RESTORE_DATE}'."
+                failed_branches+=("$branch")
+                continue
+              fi
+            else
+              restore_sha="$(git rev-parse "refs/heads/${branch}")"
+            fi
+
+            source_sha=""
+            if git show-ref --verify --quiet "refs/remotes/source/${branch}"; then
+              source_sha="$(git rev-parse "refs/remotes/source/${branch}")"
+            fi
+
+            restore_shas+=("${branch}:${restore_sha}")
+            if [ -n "$source_sha" ]; then
+              source_shas+=("${branch}:${source_sha}")
+            else
+              source_shas+=("${branch}:missing")
+            fi
+
+            short_sha="${restore_sha:0:7}"
+            if [ "$source_sha" = "$restore_sha" ]; then
+              echo "Branch '${branch}' already matches mirror restore target (${short_sha})."
+              unchanged_branches+=("$branch")
+              continue
+            fi
+
+            if [ "$DRY_RUN" = "true" ]; then
+              if [ "$RESTORE_MODE" = "new_branch" ]; then
+                date_suffix="$(sanitize_ref_suffix "${RESTORE_DATE:-tip}")"
+                if [ -n "${COMMIT_SHA:-}" ]; then
+                  target_branch="${NEW_BRANCH_PREFIX}${branch}-${short_sha}"
+                else
+                  target_branch="${NEW_BRANCH_PREFIX}${branch}-${date_suffix}"
+                fi
+                echo "Would create branch '${target_branch}' from ${restore_sha} (source tip: ${source_sha:-none})."
+                would_create_branches+=("$target_branch")
+              else
+                echo "Would force-push branch '${branch}' to ${restore_sha} (source tip: ${source_sha:-none})."
+              fi
+              would_restore_branches+=("$branch")
+              continue
+            fi
+
+            if [ "$RESTORE_MODE" = "new_branch" ]; then
+              date_suffix="$(sanitize_ref_suffix "${RESTORE_DATE:-tip}")"
+              if [ -n "${COMMIT_SHA:-}" ]; then
+                target_branch="${NEW_BRANCH_PREFIX}${branch}-${short_sha}"
+              else
+                target_branch="${NEW_BRANCH_PREFIX}${branch}-${date_suffix}"
+              fi
+              validate_branch_name "$target_branch"
+              echo "Creating branch '${target_branch}' at ${restore_sha}..."
+              if git_with_token "$SOURCE_REPO_TOKEN" push "$source_remote" "${restore_sha}:refs/heads/${target_branch}"; then
+                created_branches+=("$target_branch")
+                restored_branches+=("$branch")
+              else
+                failed_branches+=("$branch")
+              fi
+            else
+              echo "Force-pushing branch '${branch}' to ${restore_sha}..."
+              if git_with_token "$SOURCE_REPO_TOKEN" push --force "$source_remote" "${restore_sha}:refs/heads/${branch}"; then
+                restored_branches+=("$branch")
+              else
+                failed_branches+=("$branch")
+              fi
+            fi
+          done
+
+          if [ "$SYNC_TAGS" = "true" ]; then
+            mirror_tag_count="$(git tag -l | sed '/^$/d' | wc -l | tr -d ' ')"
+            if [ "$DRY_RUN" = "true" ]; then
+              echo "Would sync ${mirror_tag_count} tag(s) from mirror to source."
+              WOULD_SYNC_TAGS=true
+            elif [ "$mirror_tag_count" -gt 0 ]; then
+              echo "Syncing tags from mirror to source..."
+              if git_with_token "$SOURCE_REPO_TOKEN" push --force "$source_remote" 'refs/tags/*:refs/tags/*'; then
+                tags_synced=true
+              else
+                tags_failed=true
+                echo "::error::Tag sync from mirror failed."
+              fi
+            else
+              echo "No tags on mirror to sync."
+            fi
+          fi
+
+          write_outputs
+
+          if [ "${#missing_branches[@]}" -gt 0 ]; then
+            echo "::error::Mirror missing configured branch(es): ${missing_branches[*]}"
+            exit 1
+          fi
+
+          if [ "${#failed_branches[@]}" -gt 0 ]; then
+            echo "::error::Failed to restore branch(es): ${failed_branches[*]}"
+            exit 1
+          fi
+
+          if [ "$tags_failed" = "true" ]; then
+            exit 1
+          fi
+
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "Dry run complete <- ${repo_path} -> ${GITHUB_REPOSITORY}"
+            echo "  Would restore branches: ${would_restore_branches[*]:-(none)}"
+            echo "  Would create branches: ${would_create_branches[*]:-(none)}"
+            echo "  Unchanged branches: ${unchanged_branches[*]:-(none)}"
+            echo "  Would sync tags: ${WOULD_SYNC_TAGS}"
+          else
+            echo "Restore complete <- ${repo_path} -> ${GITHUB_REPOSITORY}"
+            echo "  Restored branches: ${restored_branches[*]:-(none)}"
+            echo "  Created branches: ${created_branches[*]:-(none)}"
+            echo "  Unchanged branches: ${unchanged_branches[*]:-(none)}"
+            echo "  Tags synced: ${tags_synced}"
+          fi
+
+          echo "  Restore SHAs: ${restore_shas[*]:-(none)}"
+          echo "  Source SHAs: ${source_shas[*]:-(none)}"
+
+      - name: Discord notification
+        if: steps.kill_switch.outputs.enabled == 'true' && always() && steps.restore.outcome != 'skipped'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_RESTORE }}
+          RESTORE_OUTCOME: ${{ steps.restore.outcome }}
+          DRY_RUN: ${{ steps.restore.outputs.dry_run }}
+          RESTORE_MODE: ${{ steps.restore.outputs.restore_mode }}
+          MIRROR_REPO: ${{ steps.restore.outputs.mirror_repo }}
+          RESTORED_BRANCHES: ${{ steps.restore.outputs.restored_branches }}
+          WOULD_RESTORE_BRANCHES: ${{ steps.restore.outputs.would_restore_branches }}
+          CREATED_BRANCHES: ${{ steps.restore.outputs.created_branches }}
+          WOULD_CREATE_BRANCHES: ${{ steps.restore.outputs.would_create_branches }}
+          UNCHANGED_BRANCHES: ${{ steps.restore.outputs.unchanged_branches }}
+          FAILED_BRANCHES: ${{ steps.restore.outputs.failed_branches }}
+          MISSING_BRANCHES: ${{ steps.restore.outputs.missing_branches }}
+          RESTORE_SHAS: ${{ steps.restore.outputs.restore_shas }}
+          TAGS_SYNCED: ${{ steps.restore.outputs.tags_synced }}
+          WOULD_SYNC_TAGS: ${{ steps.restore.outputs.would_sync_tags }}
+          RESTORE_DATE: ${{ inputs.restore_date }}
+          COMMIT_SHA: ${{ inputs.commit_sha }}
+        run: |
+          if [ -z "$DISCORD_WEBHOOK" ]; then
+            echo "DISCORD_WEBHOOK_RESTORE not set - skipping Discord notification"
+            exit 0
+          fi
+
+          if [ "$RESTORE_OUTCOME" = "success" ]; then
+            color=3066993
+            if [ "$DRY_RUN" = "true" ]; then
+              title="Repository Restore — dry run OK"
+            else
+              title="Repository Restore — completed"
+            fi
+          else
+            color=15158332
+            title="Repository Restore — failed"
+          fi
+
+          if [ -n "$RESTORE_DATE" ]; then
+            target_line="At or before \`${RESTORE_DATE}\` (UTC)"
+          elif [ -n "$COMMIT_SHA" ]; then
+            target_line="Commit \`${COMMIT_SHA:0:7}\`"
+          else
+            target_line="Current mirror branch tips"
+          fi
+
+          if [ "$DRY_RUN" = "true" ]; then
+            mode_line="Dry run"
+            branch_line="Would restore: ${WOULD_RESTORE_BRANCHES:-none}"
+            created_line="Would create: ${WOULD_CREATE_BRANCHES:-none}"
+            tags_line="Would sync tags: ${WOULD_SYNC_TAGS:-false}"
+          else
+            mode_line="${RESTORE_MODE}"
+            branch_line="Restored: ${RESTORED_BRANCHES:-none}"
+            created_line="Created: ${CREATED_BRANCHES:-none}"
+            if [ "$TAGS_SYNCED" = "true" ]; then
+              tags_line="Tags synced: true"
+            else
+              tags_line="Tags synced: false"
+            fi
+          fi
+
+          payload=$(jq -n \
+            --arg title "$title" \
+            --arg mirror_repo "$MIRROR_REPO" \
+            --arg target_line "$target_line" \
+            --arg mode_line "$mode_line" \
+            --arg branch_line "$branch_line" \
+            --arg created_line "$created_line" \
+            --arg unchanged "${UNCHANGED_BRANCHES:-none}" \
+            --arg failed "${FAILED_BRANCHES:-none}" \
+            --arg missing "${MISSING_BRANCHES:-none}" \
+            --arg shas "${RESTORE_SHAS:-none}" \
+            --arg tags_line "$tags_line" \
+            --arg run_url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            --argjson color "$color" \
+            '{
+              embeds: [{
+                title: $title,
+                description: (
+                  "Mirror: " + $mirror_repo + "\n"
+                  + "Target: " + $target_line + "\n"
+                  + "Mode: " + $mode_line + "\n\n"
+                  + "• " + $branch_line + "\n"
+                  + "• " + $created_line + "\n"
+                  + "• Unchanged: " + $unchanged + "\n"
+                  + "• Failed: " + $failed + "\n"
+                  + "• Missing on mirror: " + $missing + "\n"
+                  + "• SHAs: " + $shas + "\n"
+                  + "• " + $tags_line + "\n"
+                  + "• [Workflow run](" + $run_url + ")"
+                ),
+                color: $color,
+                timestamp: (now | todate),
+                footer: { text: "Repository Restore from Mirror" }
+              }]
+            }')
+          curl -sS -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d "$payload"
