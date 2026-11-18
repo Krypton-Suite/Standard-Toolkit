@@ -13,7 +13,9 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Acts as a proxy for a KryptonPage inside an auto hidden group.
+/// Tab entry in an auto-hidden group that mirrors a single <see cref="KryptonPage"/> instance also
+/// hosted in the slide-out dockspace. The proxy supplies group-tab chrome; <see cref="Page"/> is the
+/// content shown when the tab is selected. Unwrapped by <c>PropogatePageState</c> for unique-name lookup.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

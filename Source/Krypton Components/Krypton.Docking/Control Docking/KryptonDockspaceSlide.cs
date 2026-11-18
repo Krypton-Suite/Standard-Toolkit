@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace to work within the docking edge of a control.
+/// Dockspace hosted inside the auto-hidden slide panel. Page drag is disabled; content moves via pin/float requests.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]
