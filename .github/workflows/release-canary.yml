@@ -31,10 +31,10 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $disabled = '${{ vars.CANARY_DISABLED }}'
+          $disabled = '${{ vars.CANARY_RELEASE_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: Canary Release workflow is currently DISABLED via kill switch (CANARY_DISABLED=true)"
+            Write-Host "::warning:: Canary Release workflow is currently DISABLED via kill switch (CANARY_RELEASE_DISABLED=true)"
             Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set LTS_DISABLED to 'false'."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {

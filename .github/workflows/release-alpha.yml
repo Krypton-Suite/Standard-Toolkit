@@ -28,11 +28,11 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $disabled = '${{ vars.NIGHTLY_DISABLED }}'
+          $disabled = '${{ vars.NIGHTLY_RELEASE_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: Nightly Release workflow is currently DISABLED via kill switch (NIGHTLY_DISABLED=true)"
-            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set NIGHTLY_DISABLED to 'false'."
+            Write-Host "::warning:: Nightly Release workflow is currently DISABLED via kill switch (NIGHTLY_RELEASE_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set NIGHTLY_RELEASE_DISABLED to 'false'."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {
             Write-Host "Nightly Release kill switch check has passed, continuing..."

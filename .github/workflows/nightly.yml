@@ -1,9 +1,9 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, tobitege et al. 2026 - 2026. All rights reserved.
 #
-# KILL-SWITCH: To disable this workflow, set repository variable NIGHTLY_DISABLED=true
+# KILL-SWITCH: To disable this workflow, set repository variable NIGHTLY_RELEASE_DISABLED=true
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
-# To re-enable: Set NIGHTLY_DISABLED=false or delete the variable
+# To re-enable: Set NIGHTLY_RELEASE_DISABLED=false or delete the variable
 #
 # SKIP CHANGE CHECK: Set repository variable SKIP_NIGHTLY_24_HOUR_CHECK=true to always force a nightly
 # build (scheduled or manual), or enable the skip_change_check workflow_dispatch input for a one-off run.
@@ -55,11 +55,11 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $disabled = '${{ vars.NIGHTLY_DISABLED }}'
+          $disabled = '${{ vars.NIGHTLY_RELEASE_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: Nightly Release workflow is currently DISABLED via kill switch (NIGHTLY_DISABLED=true)"
-            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set NIGHTLY_DISABLED to 'false'."
+            Write-Host "::warning:: Nightly Release workflow is currently DISABLED via kill switch (NIGHTLY_RELEASE_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set NIGHTLY_RELEASE_DISABLED to 'false'."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {
             Write-Host "Nightly Release kill switch check has passed, continuing..."

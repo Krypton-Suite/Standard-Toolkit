@@ -31,11 +31,11 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $disabled = '${{ vars.RELEASE_DISABLED }}'
+          $disabled = '${{ vars.LONG_TERM_SERVICING_RELEASE_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: Release workflow is currently DISABLED via kill switch (RELEASE_DISABLED=true)"
-            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set RELEASE_DISABLED to 'false'."
+            Write-Host "::warning:: Release workflow is currently DISABLED via kill switch (LONG_TERM_SERVICING_RELEASE_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set LONG_TERM_SERVICING_RELEASE_DISABLED to 'false'."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {
             Write-Host "Release kill switch check has passed, continuing..."

@@ -2,7 +2,7 @@
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), tobitege et al. 2026 - 2026. All rights reserved.
 #
 # Build and release Canary LTS NuGet packages. Only runs on the V105-LTS branch.
-# KILL-SWITCH: Set repository variable CANARY_LTS_DISABLED=true to disable.
+# KILL-SWITCH: Set repository variable CANARY_LONG_TERM_SERVICING_RELEASE_DISABLED=true to disable.
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
 #
 # NUGET: Trusted publishing via NuGet/login. Secret NUGET_USER is the nuget.org profile name.
@@ -32,11 +32,11 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $disabled = '${{ vars.CANARY_LTS_DISABLED }}'
+          $disabled = '${{ vars.CANARY_LONG_TERM_SERVICING_RELEASE_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: Canary LTS Release workflow is currently DISABLED via kill switch (CANARY_LTS_DISABLED=true)"
-            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set CANARY_LTS_DISABLED to 'false'."
+            Write-Host "::warning:: Canary LTS Release workflow is currently DISABLED via kill switch (CANARY_LONG_TERM_SERVICING_RELEASE_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set CANARY_LONG_TERM_SERVICING_RELEASE_DISABLED to 'false'."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {
             Write-Host "Canary LTS Release kill switch check has passed, continuing..."
