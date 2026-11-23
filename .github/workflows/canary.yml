@@ -74,7 +74,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           # This workflow is for the Canary branch only (push to Canary or manual run from Canary)
-          if ($env:GITHUB_REF -ne 'refs/heads/Canary') {
+          if ($env:GITHUB_REF -ne 'refs/heads/canary') {
             Write-Error "Security: Canary release only runs from branch Canary. Current ref: '$env:GITHUB_REF'. For manual run, select branch 'Canary' in the workflow dispatch."
             exit 1
           }
