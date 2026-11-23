@@ -16,7 +16,8 @@ name: Canary Release
 on:
   push:
     branches:
-      - Canary
+      - master
+      - canary
   workflow_dispatch:  # Allow manual triggering
 
 permissions:
