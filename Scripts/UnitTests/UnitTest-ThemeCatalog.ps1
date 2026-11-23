@@ -151,7 +151,7 @@ if ($themesHiddenForFallback) {
 
 Assert-True (Test-Path -LiteralPath $themesPath) 'Krypton.Themes.dll exists in the bin folder'
 
-# The startup probe already failed while the DLL was hidden. The designer path asks ITypeResolutionService.
+# GetPalette already probed while the DLL was hidden, before any UI idle. The designer path asks ITypeResolutionService.
 if (-not ('UnitTestThemeResolutionService' -as [type])) {
     Add-Type -TypeDefinition @'
 using System;

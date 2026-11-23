@@ -18,7 +18,7 @@ public class ProgressBarTriStateRegionStateValues : Storage
     private readonly ProgressBarTriStateRegionAppearanceValues _parent;
     private readonly ProgressBarTriStateRegionBackValues _back;
     private readonly ProgressBarTriStateRegionContentValues _content;
-    private readonly Color _defaultBackColor1;
+    private Color _defaultBackColor1;
     private Color _originalContentColor1;
 
     #endregion
@@ -86,6 +86,16 @@ public class ProgressBarTriStateRegionStateValues : Storage
     #endregion
 
     #region Internal
+
+    /// <summary>
+    /// Updates the factory default for <see cref="Back"/>.Color1 from a scheme slot.
+    /// </summary>
+    /// <param name="color">New factory / scheme default.</param>
+    internal void SetFactoryBackColor1(Color color)
+    {
+        _defaultBackColor1 = color;
+        _back.SetFactoryColor1(color);
+    }
 
     /// <summary>
     /// Called when a back property changes. Notifies the parent.

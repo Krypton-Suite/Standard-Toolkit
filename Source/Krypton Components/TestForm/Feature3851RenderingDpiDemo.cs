@@ -21,6 +21,8 @@ namespace TestForm;
 /// for QAT Above (caption mini button) and QAT Below (full bar).</item>
 /// <item>4.4 - the multiline editor button now lives in an internal fixed collection, so it never appears
 /// in the public <see cref="KryptonTextBox.ButtonSpecs"/> collection (the count stays at zero).</item>
+/// <item>#4406 - that button opens the themed text editor. OK writes the full text back, including a trailing
+/// newline. Cancel leaves the text box unchanged.</item>
 /// </list>
 /// </summary>
 public partial class Feature3851RenderingDpiDemo : KryptonForm
@@ -63,7 +65,9 @@ public partial class Feature3851RenderingDpiDemo : KryptonForm
                  + "the overflow chevrons / customize arrow sit inside the extra button, not clipped or floating.\r\n\r\n"
                  + "The text box below enables the multiline string editor button. That button is now an internal "
                  + "fixed button spec, so the public ButtonSpecs count stays at 0 - it can no longer be removed, "
-                 + "reordered, or serialized by the designer (point 4.4)."
+                 + "reordered, or serialized by the designer (point 4.4).\r\n\r\n"
+                 + "Issue #4406: with the editor enabled, click the button on the text box. The themed Text Editor "
+                 + "opens. OK writes the full text back, including a trailing newline. Cancel leaves the text unchanged."
         };
 
         _multilineTextBox = new KryptonTextBox

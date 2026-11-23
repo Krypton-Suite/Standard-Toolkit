@@ -492,6 +492,7 @@ internal class ViewDrawRibbonGroupClusterColorButton : ViewComposite,
         switch (e.PropertyName)
         {
             case "SelectedColor":
+            case "DisplayColor":
             case "SelectedRect":
             case "EmptyBorderColor":
                 _viewMediumSmallImage.SelectedColorRectChanged();

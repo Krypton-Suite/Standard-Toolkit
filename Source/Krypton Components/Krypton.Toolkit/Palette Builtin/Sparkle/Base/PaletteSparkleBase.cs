@@ -4366,6 +4366,8 @@ public class PaletteSparkleBase : PaletteBase
                 return _ribbonColors![(int)SchemeBaseColors.TrackBarTopTrack];
             case PaletteElement.TrackBarPosition:
                 return _ribbonColors![(int)SchemeBaseColors.TrackBarOutsidePosition];
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4402,6 +4404,8 @@ public class PaletteSparkleBase : PaletteBase
                     PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => _colorDark00,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4440,6 +4444,8 @@ public class PaletteSparkleBase : PaletteBase
                     PaletteState.Pressed => ControlPaint.Light(_sparkleColors[8]),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4488,6 +4494,8 @@ public class PaletteSparkleBase : PaletteBase
                     PaletteState.Pressed => _sparkleColors[8],
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4529,6 +4537,8 @@ public class PaletteSparkleBase : PaletteBase
                     PaletteState.Pressed => _sparkleColors[9],
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);

@@ -440,7 +440,7 @@ internal class SuggestionPopup : KryptonForm
     protected override void WndProc(ref Message m)
     {
         // Prevent activation messages from stealing focus
-        if (m.Msg == PI.WM_.ACTIVATE || m.Msg == PI.WM_.MOUSEACTIVATE)
+        if (m.Msg is PI.WM_.ACTIVATE or PI.WM_.MOUSEACTIVATE)
         {
             m.Result = IntPtr.Zero;
             return;

@@ -39,6 +39,10 @@ namespace TestForm
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommandLinkButtons));
             this.kryptonPanel1 = new Krypton.Toolkit.KryptonPanel();
+            this.kcmdElevated = new Krypton.Toolkit.Utilities.KryptonCommandLinkButton();
+            this.klblElevated = new Krypton.Toolkit.KryptonLabel();
+            this.kbtnTryHideShield = new Krypton.Toolkit.KryptonButton();
+            this.ktxtElevatedLog = new Krypton.Toolkit.KryptonTextBox();
             this.kryptonCommandLinkButton5 = new Krypton.Toolkit.Utilities.KryptonCommandLinkButton();
             this.kryptonCommandLinkButton4 = new Krypton.Toolkit.Utilities.KryptonCommandLinkButton();
             this.kryptonCommandLinkButton3 = new Krypton.Toolkit.Utilities.KryptonCommandLinkButton();
@@ -51,6 +55,10 @@ namespace TestForm
             // 
             // kryptonPanel1
             // 
+            this.kryptonPanel1.Controls.Add(this.ktxtElevatedLog);
+            this.kryptonPanel1.Controls.Add(this.kbtnTryHideShield);
+            this.kryptonPanel1.Controls.Add(this.kcmdElevated);
+            this.kryptonPanel1.Controls.Add(this.klblElevated);
             this.kryptonPanel1.Controls.Add(this.kryptonCommandLinkButton5);
             this.kryptonPanel1.Controls.Add(this.kryptonCommandLinkButton4);
             this.kryptonPanel1.Controls.Add(this.kryptonCommandLinkButton3);
@@ -61,8 +69,46 @@ namespace TestForm
             this.kryptonPanel1.Location = new System.Drawing.Point(0, 0);
             this.kryptonPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.kryptonPanel1.Name = "kryptonPanel1";
-            this.kryptonPanel1.Size = new System.Drawing.Size(931, 471);
+            this.kryptonPanel1.Size = new System.Drawing.Size(931, 680);
             this.kryptonPanel1.TabIndex = 0;
+            // 
+            // kcmdElevated
+            // 
+            this.kcmdElevated.CommandLinkTextValues.Description = "The arrow keeps the UAC shield.";
+            this.kcmdElevated.CommandLinkTextValues.Heading = "Elevated Click";
+            this.kcmdElevated.Location = new System.Drawing.Point(17, 496);
+            this.kcmdElevated.Margin = new System.Windows.Forms.Padding(4);
+            this.kcmdElevated.Name = "kcmdElevated";
+            this.kcmdElevated.Size = new System.Drawing.Size(453, 90);
+            this.kcmdElevated.TabIndex = 6;
+            this.kcmdElevated.ElevatedClick += new System.EventHandler(this.kcmdElevated_ElevatedClick);
+            this.kcmdElevated.Click += new System.EventHandler(this.kcmdElevated_Click);
+            // 
+            // klblElevated
+            // 
+            this.klblElevated.Location = new System.Drawing.Point(17, 470);
+            this.klblElevated.Name = "klblElevated";
+            this.klblElevated.Size = new System.Drawing.Size(430, 20);
+            this.klblElevated.TabIndex = 7;
+            this.klblElevated.Values.Text = "ElevatedClick draws the shield on the arrow.";
+            // 
+            // kbtnTryHideShield
+            // 
+            this.kbtnTryHideShield.Location = new System.Drawing.Point(479, 496);
+            this.kbtnTryHideShield.Name = "kbtnTryHideShield";
+            this.kbtnTryHideShield.Size = new System.Drawing.Size(240, 28);
+            this.kbtnTryHideShield.TabIndex = 8;
+            this.kbtnTryHideShield.Values.Text = "Try to hide shield";
+            this.kbtnTryHideShield.Click += new System.EventHandler(this.kbtnTryHideShield_Click);
+            // 
+            // ktxtElevatedLog
+            // 
+            this.ktxtElevatedLog.Location = new System.Drawing.Point(479, 532);
+            this.ktxtElevatedLog.Multiline = true;
+            this.ktxtElevatedLog.Name = "ktxtElevatedLog";
+            this.ktxtElevatedLog.ReadOnly = true;
+            this.ktxtElevatedLog.Size = new System.Drawing.Size(425, 120);
+            this.ktxtElevatedLog.TabIndex = 9;
             // 
             // kryptonCommandLinkButton5
             // 
@@ -214,7 +260,7 @@ namespace TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(931, 471);
+            this.ClientSize = new System.Drawing.Size(931, 680);
             this.Controls.Add(this.kryptonPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
@@ -230,6 +276,10 @@ namespace TestForm
 
         #endregion
 
+        private Krypton.Toolkit.KryptonTextBox ktxtElevatedLog;
+        private Krypton.Toolkit.KryptonButton kbtnTryHideShield;
+        private Krypton.Toolkit.KryptonLabel klblElevated;
+        private Krypton.Toolkit.Utilities.KryptonCommandLinkButton kcmdElevated;
         private Krypton.Toolkit.KryptonPanel kryptonPanel1;
         private Krypton.Toolkit.Utilities.KryptonCommandLinkButton kryptonCommandLinkButton1;
         private Krypton.Toolkit.Utilities.KryptonCommandLinkButton kryptonCommandLinkButton5;

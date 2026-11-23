@@ -26,6 +26,9 @@ public sealed class KryptonManager : Component
     // Initialize the global state
     private static bool _globalApplyToolstrips = true;
     private static bool _globalUseThemeFormChromeBorderWidth = true;
+    private static bool _globalUseKryptonColorsOnForm = true;
+    private static PaletteBackStyle _globalPanelStyle = PaletteBackStyle.PanelClient;
+    private static PaletteBackStyle _globalMdiPanelStyle = PaletteBackStyle.PanelAlternate;
     private static bool _globalShowAdministratorSuffix = true;
     internal static bool _globalUseKryptonFileDialogs = true;
     private static bool _globalUseKryptonScrollbars = false;
@@ -119,6 +122,11 @@ public sealed class KryptonManager : Component
     private static RenderOffice2024? _renderOffice2024;
     private static RenderMaterial? _renderMaterial;
     private static RenderRetro? _renderRetro;
+    private static RenderWindowsXPLuna? _renderWindowsXPLuna;
+    private static RenderWindowsXPRoyale? _renderWindowsXPRoyale;
+    private static RenderWindowsXPRoyaleNoir? _renderWindowsXPRoyaleNoir;
+    private static RenderWindowsXPZune? _renderWindowsXPZune;
+    private static RenderWindowsXPEmbedded? _renderWindowsXPEmbedded;
     private static RenderMacOSXAqua? _renderMacOSXAqua;
     private static RenderMacOS? _renderMacOS;
     private static RenderSparkle? _renderSparkle;
@@ -145,6 +153,27 @@ public sealed class KryptonManager : Component
     [Category(@"Property Changed")]
     [Description(@"Occurs when the value of the GlobalUseThemeFormChromeBorderWidth property is changed.")]
     public static event EventHandler? GlobalUseThemeFormChromeBorderWidthChanged;
+
+    /// <summary>
+    /// Occurs when the UseKryptonColorsOnForm property changes.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the value of the GlobalUseKryptonColorsOnForm property is changed.")]
+    public static event EventHandler? GlobalUseKryptonColorsOnFormChanged;
+
+    /// <summary>
+    /// Occurs when the PanelStyle property changes.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the value of the GlobalPanelStyle property is changed.")]
+    public static event EventHandler? GlobalPanelStyleChanged;
+
+    /// <summary>
+    /// Occurs when the MdiPanelStyle property changes.
+    /// </summary>
+    [Category(@"Property Changed")]
+    [Description(@"Occurs when the value of the GlobalMdiPanelStyle property is changed.")]
+    public static event EventHandler? GlobalMdiPanelStyleChanged;
 
     /// <summary>
     /// Occurs when the drop-down arrow render mode changes.
@@ -192,19 +221,54 @@ public sealed class KryptonManager : Component
     #endregion
 
     #region Identity
+    private static EventHandler? _deferredThemeDiscovery;
+    private static KryptonImageStorage? _images;
+
     static KryptonManager()
     {
         // We need to notice when system color settings change
         SystemEvents.UserPreferenceChanged += OnUserPreferenceChanged;
 
-        // Align toolbar image storage with the startup theme before any change event
-        UpdatePaletteImages(CurrentGlobalPaletteMode);
+        // Toolbar image packs load on the first use of Images, not while the first form is created.
 
         // Update the tool strip global renderer with the default setting
         UpdateToolStripManager();
 
         // Probe the application base directory for a Translations file and load it if found.
         RunAutoDiscovery();
+
+        // Extra themes load on the first UI idle, after the first form can paint.
+        ScheduleDeferredThemeDiscovery();
+    }
+
+    /// <summary>
+    /// Subscribes once to <see cref="Application.Idle"/> so <c>Krypton.Themes.dll</c> loads after the
+    /// UI thread has finished the messages that show the first form.
+    /// </summary>
+    private static void ScheduleDeferredThemeDiscovery()
+    {
+        if (!AutoDiscoverThemes || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+        {
+            return;
+        }
+
+        _deferredThemeDiscovery = OnDeferredThemeDiscovery;
+        Application.Idle += _deferredThemeDiscovery;
+    }
+
+    private static void OnDeferredThemeDiscovery(object? sender, EventArgs e)
+    {
+        if (_deferredThemeDiscovery != null)
+        {
+            Application.Idle -= _deferredThemeDiscovery;
+            _deferredThemeDiscovery = null;
+        }
+
+        if (!AutoDiscoverThemes || LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+        {
+            return;
+        }
+
         KryptonThemeCatalog.DiscoverThemes();
     }
 
@@ -261,6 +325,9 @@ public sealed class KryptonManager : Component
                                ShouldSerializeToolkitColors() ||
                                ShouldSerializeGlobalApplyToolstrips() ||
                                ShouldSerializeGlobalUseThemeFormChromeBorderWidth() ||
+                               ShouldSerializeGlobalUseKryptonColorsOnForm() ||
+                               ShouldSerializeGlobalPanelStyle() ||
+                               ShouldSerializeGlobalMdiPanelStyle() ||
                                ShouldSerializeShowAdministratorSuffix() ||
                                ShouldSerializeToolkitStrings() ||
                                ShouldSerializeUseKryptonFileDialogs() ||
@@ -268,6 +335,7 @@ public sealed class KryptonManager : Component
                                ShouldSerializeGlobalScrollbarCornerStyle() ||
                                ShouldSerializeGlobalDropDownArrowRenderMode() ||
                                ShouldSerializeGlobalDropDownArrowGlyphStyle() ||
+                               ShouldSerializeSnapLayout() ||
                                ShouldSerializeBaseFont() ||
                                ShouldSerializeGlobalPaletteMode() ||
                                ShouldSerializePaletteSpecificValues() ||
@@ -283,6 +351,9 @@ public sealed class KryptonManager : Component
         ResetToolkitColors();
         ResetGlobalApplyToolstrips();
         ResetGlobalUseThemeFormChromeBorderWidth();
+        ResetGlobalUseKryptonColorsOnForm();
+        ResetGlobalPanelStyle();
+        ResetGlobalMdiPanelStyle();
         ResetShowAdministratorSuffix();
         ResetToolkitStrings();
         ResetUseKryptonFileDialogs();
@@ -290,6 +361,7 @@ public sealed class KryptonManager : Component
         ResetGlobalScrollbarCornerStyle();
         ResetGlobalDropDownArrowRenderMode();
         ResetGlobalDropDownArrowGlyphStyle();
+        ResetSnapLayout();
         ResetBaseFont();
         ResetGlobalPaletteMode();
         ResetPaletteSpecificValues();
@@ -490,6 +562,23 @@ public sealed class KryptonManager : Component
     private void ResetGlobalDropDownArrowGlyphStyle() => GlobalDropDownArrowGlyphStyle = DropDownArrowGlyphStyle.Bevel;
 
     /// <summary>
+    /// Gets the toolkit snap-layout menu settings.
+    /// </summary>
+    /// <remarks>
+    /// Expand this in the property grid to set the mode, card size, preview, shadow, and custom cards.
+    /// The same object as <see cref="SnapLayoutValues"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Toolkit snap-layout menu: mode, cards, preview, and shadow.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    public SnapLayoutValues SnapLayout => SnapLayoutValues;
+
+    private bool ShouldSerializeSnapLayout() => !SnapLayout.IsDefault;
+
+    private void ResetSnapLayout() => SnapLayout.Reset();
+
+    /// <summary>
     /// Gets or sets a value indicating if KryptonForm instances are allowed to UseThemeFormChromeBorderWidth.
     /// </summary>
     [Category(@"Visuals")]
@@ -502,6 +591,60 @@ public sealed class KryptonManager : Component
     }
     private bool ShouldSerializeGlobalUseThemeFormChromeBorderWidth() => !GlobalUseThemeFormChromeBorderWidth;
     private void ResetGlobalUseThemeFormChromeBorderWidth() => GlobalUseThemeFormChromeBorderWidth = true;
+
+    /// <summary>
+    /// Gets or sets a value indicating if KryptonForm client backgrounds use palette colours.
+    /// </summary>
+    /// <remarks>
+    /// When <see langword="true"/>, form and internal panel <c>BackColor</c> values track
+    /// <see cref="KryptonForm.PanelStyle"/>. When <see langword="false"/>, they use
+    /// <see cref="SystemColors.Control"/>.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Should KryptonForm client backgrounds use palette colours instead of SystemColors.Control.")]
+    [DefaultValue(true)]
+    public bool GlobalUseKryptonColorsOnForm
+    {
+        get => UseKryptonColorsOnForm;
+        set => UseKryptonColorsOnForm = value;
+    }
+    private bool ShouldSerializeGlobalUseKryptonColorsOnForm() => !GlobalUseKryptonColorsOnForm;
+    private void ResetGlobalUseKryptonColorsOnForm() => GlobalUseKryptonColorsOnForm = true;
+
+    /// <summary>
+    /// Gets or sets the global default client panel background style for KryptonForm instances.
+    /// </summary>
+    /// <remarks>
+    /// Forms inherit this value until they set a local <see cref="KryptonForm.PanelStyle"/> override.
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Global default client panel background style for KryptonForm instances.")]
+    [DefaultValue(PaletteBackStyle.PanelClient)]
+    public PaletteBackStyle GlobalPanelStyle
+    {
+        get => PanelStyle;
+        set => PanelStyle = value;
+    }
+    private bool ShouldSerializeGlobalPanelStyle() => GlobalPanelStyle != PaletteBackStyle.PanelClient;
+    private void ResetGlobalPanelStyle() => GlobalPanelStyle = PaletteBackStyle.PanelClient;
+
+    /// <summary>
+    /// Gets or sets the global default MDI client background style for KryptonForm instances.
+    /// </summary>
+    /// <remarks>
+    /// Forms inherit this value until they set a local <see cref="KryptonForm.MdiPanelStyle"/> override.
+    /// Defaults to <see cref="PaletteBackStyle.PanelAlternate"/> (issue #4685).
+    /// </remarks>
+    [Category(@"Visuals")]
+    [Description(@"Global default MDI client background style for KryptonForm instances.")]
+    [DefaultValue(PaletteBackStyle.PanelAlternate)]
+    public PaletteBackStyle GlobalMdiPanelStyle
+    {
+        get => MdiPanelStyle;
+        set => MdiPanelStyle = value;
+    }
+    private bool ShouldSerializeGlobalMdiPanelStyle() => GlobalMdiPanelStyle != PaletteBackStyle.PanelAlternate;
+    private void ResetGlobalMdiPanelStyle() => GlobalMdiPanelStyle = PaletteBackStyle.PanelAlternate;
 
     /// <summary>Gets the toolkit strings that can be localised.</summary>
     [Category(@"Data")]
@@ -605,12 +748,17 @@ public sealed class KryptonManager : Component
     public const string DefaultTranslationsBaseName = @"ToolkitTranslations";
 
     /// <summary>
-    /// When <see langword="true"/>, the manager loads <c>Krypton.Themes.dll</c> from the application directory
-    /// (and already-loaded assemblies) and registers extra builtin palettes. Defaults to <see langword="true"/>.
+    /// When <see langword="true"/>, extra builtin palettes are discovered automatically.
+    /// Defaults to <see langword="true"/>.
     /// </summary>
     /// <remarks>
-    /// Set to <see langword="false"/> before the first palette lookup to keep only core themes
-    /// (Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue, Silver, and Black).
+    /// The default core palette does not load <c>Krypton.Themes.dll</c>. The first
+    /// <see cref="Application.Idle"/> does, after the first form can paint. An extra
+    /// <see cref="PaletteMode"/> or a theme list still discovers immediately if idle has not run.
+    /// The designer does not use the idle probe; the <see cref="PaletteMode"/> drop-down asks Visual Studio
+    /// for the assembly. Set this to <see langword="false"/> before the first Krypton type is used to keep
+    /// only core themes (Professional, Sparkle Blue/Orange/Purple, plus Office 2007/2010/Microsoft 365 Blue,
+    /// Silver, and Black).
     /// </remarks>
     public static bool AutoDiscoverThemes { get; set; } = true;
 
@@ -931,9 +1079,24 @@ public sealed class KryptonManager : Component
         }
     }
 
-    /// <summary>Gets the images.</summary>
-    /// <value>The images.</value>
-    public static KryptonImageStorage Images { get; } = new KryptonImageStorage();
+    /// <summary>
+    /// Gets the toolkit images. The toolbar pack for the current theme is applied the first time this is read.
+    /// </summary>
+    public static KryptonImageStorage Images
+    {
+        get
+        {
+            if (_images != null)
+            {
+                return _images;
+            }
+
+            var images = new KryptonImageStorage();
+            _images = images;
+            UpdatePaletteImages(CurrentGlobalPaletteMode);
+            return images;
+        }
+    }
 
     /// <summary>Gets the colors.</summary>
     /// <value>The colors.</value>
@@ -953,6 +1116,12 @@ public sealed class KryptonManager : Component
         get => _globalDialogButtonColors;
         set => _globalDialogButtonColors = value;
     }
+
+    /// <summary>
+    /// Gets the toolkit snap-layout menu settings.
+    /// </summary>
+    /// <remarks>The same object as the <see cref="SnapLayout"/> property on a <see cref="KryptonManager"/> component.</remarks>
+    public static SnapLayoutValues SnapLayoutValues { get; } = new SnapLayoutValues();
 
     /// <summary>Gets the touchscreen support settings.</summary>
     /// <value>The touchscreen support settings.</value>
@@ -1049,6 +1218,90 @@ public sealed class KryptonManager : Component
 
                 // Fire change event
                 OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs.Empty);
+            }
+        }
+    }
+    #endregion
+
+    #region Static UseKryptonColorsOnForm
+    /// <summary>
+    /// Gets and sets the global flag that decides if KryptonForm client backgrounds use palette colours.
+    /// </summary>
+    /// <remarks>
+    /// When <see langword="true"/>, <see cref="KryptonForm"/> syncs form and internal panel
+    /// <c>BackColor</c> to <see cref="KryptonForm.PanelStyle"/>. When <see langword="false"/>,
+    /// those surfaces use <see cref="SystemColors.Control"/>.
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static bool UseKryptonColorsOnForm
+    {
+        get => _globalUseKryptonColorsOnForm;
+
+        set
+        {
+            // Only interested if the value changes
+            if (_globalUseKryptonColorsOnForm != value)
+            {
+                // Use new value
+                _globalUseKryptonColorsOnForm = value;
+
+                // Fire change event
+                OnGlobalUseKryptonColorsOnFormChanged(EventArgs.Empty);
+            }
+        }
+    }
+    #endregion
+
+    #region Static PanelStyle
+    /// <summary>
+    /// Gets and sets the global default client panel background style for KryptonForm instances.
+    /// </summary>
+    /// <remarks>
+    /// Forms inherit this value until they set a local <see cref="KryptonForm.PanelStyle"/> override.
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static PaletteBackStyle PanelStyle
+    {
+        get => _globalPanelStyle;
+
+        set
+        {
+            // Only interested if the value changes
+            if (_globalPanelStyle != value)
+            {
+                // Use new value
+                _globalPanelStyle = value;
+
+                // Fire change event
+                OnGlobalPanelStyleChanged(EventArgs.Empty);
+            }
+        }
+    }
+    #endregion
+
+    #region Static MdiPanelStyle
+    /// <summary>
+    /// Gets and sets the global default MDI client background style for KryptonForm instances.
+    /// </summary>
+    /// <remarks>
+    /// Forms inherit this value until they set a local <see cref="KryptonForm.MdiPanelStyle"/> override.
+    /// Defaults to <see cref="PaletteBackStyle.PanelAlternate"/> (issue #4685).
+    /// </remarks>
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+    public static PaletteBackStyle MdiPanelStyle
+    {
+        get => _globalMdiPanelStyle;
+
+        set
+        {
+            // Only interested if the value changes
+            if (_globalMdiPanelStyle != value)
+            {
+                // Use new value
+                _globalMdiPanelStyle = value;
+
+                // Fire change event
+                OnGlobalMdiPanelStyleChanged(EventArgs.Empty);
             }
         }
     }
@@ -2402,6 +2655,8 @@ public sealed class KryptonManager : Component
                 return RenderMaterial;
             case RendererMode.Retro:
                 return RenderRetro;
+            case RendererMode.WindowsXP:
+                return RenderWindowsXPLuna;
             case RendererMode.MacOS:
                 return RenderMacOS;
             case RendererMode.OSXAqua:
@@ -2454,6 +2709,33 @@ public sealed class KryptonManager : Component
     /// Gets the single instance of the Retro renderer.
     /// </summary>
     public static RenderRetro RenderRetro => _renderRetro ??= new RenderRetro();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Luna renderer.
+    /// </summary>
+    public static RenderWindowsXPLuna RenderWindowsXPLuna => _renderWindowsXPLuna ??= new RenderWindowsXPLuna();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Royale renderer.
+    /// </summary>
+    public static RenderWindowsXPRoyale RenderWindowsXPRoyale => _renderWindowsXPRoyale ??= new RenderWindowsXPRoyale();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Royale Noir renderer.
+    /// </summary>
+    public static RenderWindowsXPRoyaleNoir RenderWindowsXPRoyaleNoir =>
+        _renderWindowsXPRoyaleNoir ??= new RenderWindowsXPRoyaleNoir();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Zune renderer.
+    /// </summary>
+    public static RenderWindowsXPZune RenderWindowsXPZune => _renderWindowsXPZune ??= new RenderWindowsXPZune();
+
+    /// <summary>
+    /// Gets the single instance of the Windows XP Embedded renderer.
+    /// </summary>
+    public static RenderWindowsXPEmbedded RenderWindowsXPEmbedded =>
+        _renderWindowsXPEmbedded ??= new RenderWindowsXPEmbedded();
 
     /// <summary>
     /// Gets the single instance of the macOS-inspired renderer.
@@ -2581,6 +2863,12 @@ public sealed class KryptonManager : Component
 
     private static void OnGlobalUseThemeFormChromeBorderWidthChanged(EventArgs e) => GlobalUseThemeFormChromeBorderWidthChanged?.Invoke(null, e);
 
+    private static void OnGlobalUseKryptonColorsOnFormChanged(EventArgs e) => GlobalUseKryptonColorsOnFormChanged?.Invoke(null, e);
+
+    private static void OnGlobalPanelStyleChanged(EventArgs e) => GlobalPanelStyleChanged?.Invoke(null, e);
+
+    private static void OnGlobalMdiPanelStyleChanged(EventArgs e) => GlobalMdiPanelStyleChanged?.Invoke(null, e);
+
     private static void OnGlobalDropDownArrowRenderModeChanged(EventArgs e) => GlobalDropDownArrowRenderModeChanged?.Invoke(null, e);
 
     private static void OnGlobalDropDownArrowGlyphStyleChanged(EventArgs e) => GlobalDropDownArrowGlyphStyleChanged?.Invoke(null, e);
@@ -2592,7 +2880,10 @@ public sealed class KryptonManager : Component
     {
         UpdateToolStripManager();
 
-        UpdatePaletteImages(CurrentGlobalPaletteMode);
+        if (_images != null)
+        {
+            UpdatePaletteImages(CurrentGlobalPaletteMode);
+        }
 
         ToolStripFontSync.RefreshAllOpenForms();
 

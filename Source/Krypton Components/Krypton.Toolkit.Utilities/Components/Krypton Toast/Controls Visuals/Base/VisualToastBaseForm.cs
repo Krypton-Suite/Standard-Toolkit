@@ -203,7 +203,7 @@ internal partial class VisualToastBaseForm : KryptonForm
 
                 foreach (Control cellChild in tlp.Controls)
                 {
-                    if (cellChild.Anchor == AnchorStyles.Right || cellChild.Anchor == AnchorStyles.Left)
+                    if (cellChild.Anchor is AnchorStyles.Right or AnchorStyles.Left)
                     {
                         cellChild.Anchor = AnchorStyles.None;
                     }

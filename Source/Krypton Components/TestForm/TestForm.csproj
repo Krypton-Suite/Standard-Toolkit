@@ -31,12 +31,16 @@
     <ProjectReference Include="..\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
     <ProjectReference Include="..\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
     <ProjectReference Include="..\Krypton.Ribbon\Krypton.Ribbon 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Drawing\Krypton.Drawing.csproj" />
+    <ProjectReference Include="..\Krypton.Dialogs\Krypton.Dialogs.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit.JumpList\Krypton.Toolkit.JumpList.csproj" />
     <ProjectReference Include="..\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
     <ProjectReference Include="..\Krypton.Themes\Krypton.Themes.csproj" />
     <!--<ProjectReference Include="..\..\TestHarnesses\ThemeProviderSample\ThemeProviderSample.csproj" />-->
     <ProjectReference Include="..\Krypton.Toolkit.Utilities\Krypton.Toolkit.Utilities.csproj" />
+    <ProjectReference Include="..\Krypton.Gauges\Krypton.Gauges.csproj" />
     <ProjectReference Include="..\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+    <ProjectReference Include="..\Krypton.Charting\Krypton.Charting.csproj" />
   </ItemGroup>
 
   <!-- WebView2: prefer Lib/WebView2 (matches Krypton.Toolkit.Utilities), fallback to NuGet when DLLs missing -->
@@ -85,23 +89,58 @@
     <Compile Update="KryptonToolkit\Feature\KryptonTagInputDemo.Designer.cs">
       <DependentUpon>KryptonTagInputDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonVuMeterDemo.Designer.cs">
+      <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonEqualizerDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonEqualizerDemo.Designer.cs">
+      <DependentUpon>KryptonEqualizerDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.Designer.cs">
+      <DependentUpon>KryptonAnalogueGaugeDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="KryptonUtilities\Feature\KryptonTagInputControlDemo.Designer.cs">
       <DependentUpon>KryptonTagInputControlDemo.cs</DependentUpon>
     </Compile>
-    <Compile Update="KryptonUtilities\Feature\KryptonSearchBoxPerformanceDemo.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="KryptonUtilities\Feature\KryptonSearchBoxPerformanceDemo.cs" />
     <Compile Update="KryptonUtilities\Feature\KryptonSearchBoxPerformanceDemo.Designer.cs">
       <DependentUpon>KryptonSearchBoxPerformanceDemo.cs</DependentUpon>
     </Compile>
-    <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.cs">
+    <Compile Update="KryptonCharting\Feature\TimelineDemo.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="KryptonCharting\Feature\TimelineDemo.Designer.cs">
+      <DependentUpon>TimelineDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonCharting\Feature\TimelineDemo.resx">
+      <DependentUpon>TimelineDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.cs" />
     <Compile Update="KryptonUtilities\Feature\LoadingCircleDemo.Designer.cs">
       <DependentUpon>LoadingCircleDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.Designer.cs">
+      <DependentUpon>ApplicationUpdaterDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\CommandLinkButtons.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonUtilities\Feature\CommandLinkButtons.Designer.cs">
+      <DependentUpon>CommandLinkButtons.cs</DependentUpon>
     </Compile>
     <Compile Update="KryptonToolkit\Feature\KryptonTaskDialogDemo\KryptonTaskDialogDemoForm.Designer.cs">
       <DependentUpon>KryptonTaskDialogDemoForm.cs</DependentUpon>
@@ -194,6 +233,24 @@
     <Compile Update="Feature3851RenderingDpiDemo.Designer.cs">
       <DependentUpon>Feature3851RenderingDpiDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonDialogs\Feature\FileOperationProgressDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonDialogs\Feature\FileOperationProgressDemo.Designer.cs">
+      <DependentUpon>FileOperationProgressDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonDialogs\Feature\FileOperationProgressDemo.resx">
+      <DependentUpon>FileOperationProgressDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.Designer.cs">
+      <DependentUpon>KryptonSVGPictureBoxDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonDrawing\Feature\KryptonSVGPictureBoxDemo.resx">
+      <DependentUpon>KryptonSVGPictureBoxDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Update="KryptonToolkit\Feature\KryptonSplitButtonDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -212,6 +269,12 @@
     <Compile Update="KryptonToolkit\Feature\TextBoxInputModeDemo.Designer.cs">
       <DependentUpon>TextBoxInputModeDemo.cs</DependentUpon>
     </Compile>
+    <Compile Update="KryptonToolkit\Feature\SnapLayoutOverlayDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="KryptonToolkit\Feature\SnapLayoutOverlayDemo.Designer.cs">
+      <DependentUpon>SnapLayoutOverlayDemo.cs</DependentUpon>
+    </Compile>
     <Compile Update="KryptonToolkit\Feature\WinFormsDesignerSdkDemo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,8 +284,32 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="KryptonUtilities\Feature\CommandLinkButtons.resx">
+      <DependentUpon>CommandLinkButtons.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonUtilities\Feature\ApplicationUpdaterDemo.resx">
+      <DependentUpon>ApplicationUpdaterDemo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Bugs\Bug3381KryptonButtonRoundedTextCenteringDemo.resx">
       <DependentUpon>Bug3381KryptonButtonRoundedTextCenteringDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonGauges\Feature\KryptonVuMeterDemo.resx">
+      <DependentUpon>KryptonVuMeterDemo.cs</DependentUpon>
+      <LogicalName>TestForm.KryptonVuMeterDemo.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonGauges\Feature\KryptonEqualizerDemo.resx">
+      <DependentUpon>KryptonEqualizerDemo.cs</DependentUpon>
+      <LogicalName>TestForm.KryptonEqualizerDemo.resources</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonGauges\Feature\KryptonAnalogueGaugeDemo.resx">
+      <DependentUpon>KryptonAnalogueGaugeDemo.cs</DependentUpon>
+      <LogicalName>TestForm.KryptonAnalogueGaugeDemo.resources</LogicalName>
+    </EmbeddedResource>
+    <Compile Update="KryptonToolkit\Feature\FormClientBackColorDemo.Designer.cs">
+      <DependentUpon>FormClientBackColorDemo.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="KryptonToolkit\Feature\FormClientBackColorDemo.resx">
+      <DependentUpon>FormClientBackColorDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\BorderlessFormDemo.resx">
       <DependentUpon>BorderlessFormDemo.cs</DependentUpon>
@@ -232,6 +319,9 @@
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\TextBoxInputModeDemo.resx">
       <DependentUpon>TextBoxInputModeDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="KryptonToolkit\Feature\SnapLayoutOverlayDemo.resx">
+      <DependentUpon>SnapLayoutOverlayDemo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Update="KryptonToolkit\Feature\ToolkitRtlGalleryDemo.resx">
       <DependentUpon>ToolkitRtlGalleryDemo.cs</DependentUpon>
@@ -280,10 +370,26 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="KryptonDrawing\Bugs\" />
+    <Folder Include="KryptonDialogs\Bugs\" />
     <Folder Include="KryptonNavigator\Bugs\" />
     <Folder Include="KryptonNavigator\Feature\" />
     <Folder Include="KryptonUtilities\Bugs\" />
     <Folder Include="KryptonWorkspace\Bugs\" />
   </ItemGroup>
+
+  <!-- Forms stay in namespace TestForm while the files live in subfolders.
+       ComponentResourceManager looks up TestForm.<FormName>. A path-derived manifest name
+       throws MissingManifestResourceException in InitializeComponent.
+       Strongly typed resources have no sibling .cs, so they keep their path-derived names. -->
+  <Target Name="UseTestFormNamespaceForSubdirectoryFormResources" BeforeTargets="CreateManifestResourceNames">
+    <ItemGroup>
+      <!-- AssignTargetPath rewrites Directory to a drive-relative path, so pair it with RootDir. -->
+      <EmbeddedResource Condition="'%(Extension)' == '.resx' and Exists('%(RootDir)%(Directory)%(Filename).cs')">
+        <ManifestResourceName>TestForm.%(Filename)</ManifestResourceName>
+        <LogicalName>TestForm.%(Filename).resources</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
 
 </Project>

@@ -253,6 +253,11 @@ public static class LimeGreenSchemeHelper
         scheme.MenuItemText = Color.Black;
         scheme.MenuStripText = Color.Black;
         scheme.ToolStripText = Color.Black;
+        scheme.TransferSpeedGraphPlot = Color.FromArgb(0xF7, 0xFB, 0xEA);
+        scheme.TransferSpeedGraphSeries = Color.FromArgb(0xD9, 0xEC, 0x77);
+        scheme.TransferSpeedGraphGrid = buttonBorder;
+        scheme.TransferSpeedGraphBorder = buttonBorder;
+        scheme.TransferSpeedGraphLabel = Color.Black;
     }
 
     /// <summary>
@@ -577,5 +582,10 @@ public static class LimeGreenSchemeHelper
         scheme.TrackBarFillTrack = borderAccent;
         scheme.TrackBarOutsidePosition = Color.FromArgb(64, lightText);
         scheme.TrackBarBorderPosition = borderMuted;
+        scheme.TransferSpeedGraphPlot = panelDeep;
+        scheme.TransferSpeedGraphSeries = panelAccent;
+        scheme.TransferSpeedGraphGrid = borderMuted;
+        scheme.TransferSpeedGraphBorder = borderMuted;
+        scheme.TransferSpeedGraphLabel = lightText;
     }
 }

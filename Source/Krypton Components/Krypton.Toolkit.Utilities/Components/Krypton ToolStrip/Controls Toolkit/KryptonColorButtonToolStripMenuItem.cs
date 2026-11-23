@@ -10,7 +10,7 @@
 namespace Krypton.Toolkit.Utilities;
 
 [ToolboxBitmap(typeof(Button)), ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.All), DefaultEvent(@"SelectedColorChanged"), DefaultProperty(@"SelectedColor")]
-public class KryptonColorButtonToolStripMenuItem : KryptonToolStripControlHostFixed
+public class KryptonColorButtonToolStripMenuItem : KryptonToolStripControlHostFixed, IKryptonColorLivePreview
 {
     #region Instance Fields
 
@@ -40,6 +40,13 @@ public class KryptonColorButtonToolStripMenuItem : KryptonToolStripControlHostFi
     [Category(@"Action")]
     [Description(@"Occurs when user selects the more colors option.")]
     public event CancelEventHandler? MoreColors;
+
+    /// <summary>
+    /// Occurs when the live preview starts, updates, commits, or cancels.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when the live preview starts, updates, commits, or cancels.")]
+    public event EventHandler<KryptonColorLivePreviewEventArgs>? ColorPreview;
 
     #endregion
 
@@ -93,6 +100,38 @@ public class KryptonColorButtonToolStripMenuItem : KryptonToolStripControlHostFi
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public Rectangle SelectedRect { get => _values.SelectedRect; set => _values.SelectedRect = value; }
 
+    /// <summary>
+    /// Gets or sets a value indicating whether highlighting a swatch previews that colour before it is committed.
+    /// </summary>
+    [Category(@"Behavior")]
+    [Description(@"Preview a highlighted swatch before it is committed to SelectedColor.")]
+    [DefaultValue(false)]
+    public bool LivePreview
+    {
+        get => KryptonColourButtonControl?.LivePreview ?? false;
+        set
+        {
+            if (KryptonColourButtonControl != null)
+            {
+                KryptonColourButtonControl.LivePreview = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether a swatch colour is currently shown in place of <see cref="SelectedColor"/>.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool IsColorPreviewActive => KryptonColourButtonControl?.IsColorPreviewActive ?? false;
+
+    /// <summary>
+    /// Gets the colour to paint: the highlighted swatch while <see cref="IsColorPreviewActive"/> is true, otherwise <see cref="SelectedColor"/>.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Color DisplayColor => KryptonColourButtonControl?.DisplayColor ?? Color.Empty;
+
     #endregion
 
     #region Identity
@@ -122,6 +161,12 @@ public class KryptonColorButtonToolStripMenuItem : KryptonToolStripControlHostFi
 
     protected virtual void OnMoreColors(CancelEventArgs e) => MoreColors?.Invoke(this, e);
 
+    /// <summary>
+    /// Raises the <see cref="ColorPreview"/> event.
+    /// </summary>
+    /// <param name="e">Preview stage and colours.</param>
+    protected virtual void OnColorPreview(KryptonColorLivePreviewEventArgs e) => ColorPreview?.Invoke(this, e);
+
     #endregion
 
     #region Implementation
@@ -149,6 +194,7 @@ public class KryptonColorButtonToolStripMenuItem : KryptonToolStripControlHostFi
             button.SelectedColorChanged += Button_SelectedColorChanged;
             button.TrackingColor += Button_TrackingColor;
             button.MoreColors += Button_MoreColors;
+            button.ColorPreview += Button_ColorPreview;
         }
     }
 
@@ -163,6 +209,7 @@ public class KryptonColorButtonToolStripMenuItem : KryptonToolStripControlHostFi
             button.SelectedColorChanged -= Button_SelectedColorChanged;
             button.TrackingColor -= Button_TrackingColor;
             button.MoreColors -= Button_MoreColors;
+            button.ColorPreview -= Button_ColorPreview;
         }
 
         base.OnUnsubscribeControlEvents(control);
@@ -173,6 +220,8 @@ public class KryptonColorButtonToolStripMenuItem : KryptonToolStripControlHostFi
     private void Button_TrackingColor(object? sender, ColorEventArgs e) => OnTrackingColor(e);
 
     private void Button_MoreColors(object? sender, CancelEventArgs e) => OnMoreColors(e);
+
+    private void Button_ColorPreview(object? sender, KryptonColorLivePreviewEventArgs e) => OnColorPreview(e);
 
     #endregion
 }

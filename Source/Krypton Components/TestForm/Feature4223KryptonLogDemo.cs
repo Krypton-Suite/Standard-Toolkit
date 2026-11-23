@@ -15,7 +15,7 @@ namespace TestForm;
 
 /// <summary>
 /// Interactive validation for the native <see cref="KryptonLog"/> stack (Issue #4223).
-/// Distinct from <see cref="KryptonLoggerDemo"/> which exercises the toolkit <c>IKryptonLogger</c> hook (#3856).
+/// Distinct from the Krypton logger demo, which exercises the toolkit <c>IKryptonLogger</c> hook (#3856).
 /// </summary>
 public sealed class Feature4223KryptonLogDemo : KryptonForm
 {

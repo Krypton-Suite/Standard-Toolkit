@@ -2248,8 +2248,22 @@ public class KryptonTextBox : VisualControlBase,
     private bool IsMouseReallyOverControl() =>
         IsHandleCreated && ClientRectangle.Contains(PointToClient(Control.MousePosition));
 
-    // ToDo V120 LTS: Replace MultilineStringEditor1 inline popup with KryptonDesignerMultilineStringEditor.
-    private void OnEditorButtonClicked(object? sender, EventArgs e) => new VisualMultilineStringEditorAlternateForm(this).ShowEditor();
+    // Same modal dialog the designer string editor uses. Commit the raw text so a trailing newline is kept.
+    private void OnEditorButtonClicked(object? sender, EventArgs e)
+    {
+        using (var form = new VisualMultilineStringEditorForm(null, null, false, @"Enter text:", @"Text Editor"))
+        {
+            form.SetEditText(Text);
+            KryptonDesignerEditorTheme.ApplyToForm(form, PaletteMode, LocalCustomPalette);
+
+            Form? owner = FindForm();
+            DialogResult result = owner is null ? form.ShowDialog() : form.ShowDialog(owner);
+            if (result == DialogResult.OK)
+            {
+                Text = form.GetEditedText();
+            }
+        }
+    }
 
     private void OnMouseDoubleClick(object? sender, MouseEventArgs e) => base.OnMouseDoubleClick(e);
 

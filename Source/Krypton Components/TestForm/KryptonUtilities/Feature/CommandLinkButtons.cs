@@ -14,7 +14,38 @@ public partial class CommandLinkButtons : KryptonForm
     public CommandLinkButtons()
     {
         InitializeComponent();
-        //StateCommon.Border.Draw = InheritBool.False;
-        //StateCommon.Border.DrawBorders = PaletteDrawBorders.Top;
     }
+
+    private void kcmdElevated_ElevatedClick(object sender, EventArgs e)
+    {
+        bool administrator;
+        using (System.Security.Principal.WindowsIdentity identity = System.Security.Principal.WindowsIdentity.GetCurrent())
+        {
+            administrator = new System.Security.Principal.WindowsPrincipal(identity)
+                .IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator);
+        }
+
+        AppendElevatedLog(administrator
+            ? "ElevatedClick (already Administrator)"
+            : "ElevatedClick (RunAs launch requested)");
+    }
+
+    private void kcmdElevated_Click(object sender, EventArgs e) =>
+        AppendElevatedLog("Click");
+
+    private void kbtnTryHideShield_Click(object sender, EventArgs e)
+    {
+        kcmdElevated.UACShieldIcon.DisplayUACShield = false;
+        kcmdElevated.CommandLinkTextValues.UseDefaultImage = false;
+
+        bool shieldStillShown = (kcmdElevated.UACShieldIcon.DisplayUACShield
+                                 && kcmdElevated.UACShieldIcon.Image != null)
+                                || kcmdElevated.CommandLinkTextValues.GetOverlayImage(PaletteState.Normal) != null;
+        AppendElevatedLog(shieldStillShown
+            ? "Hide ignored: shield still shown."
+            : "Hide changed the shield.");
+    }
+
+    private void AppendElevatedLog(string line) =>
+        ktxtElevatedLog.AppendText(line + Environment.NewLine);
 }

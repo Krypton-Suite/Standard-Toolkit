@@ -16,7 +16,7 @@ public class ProgressBarTriStateRegionBackValues : Storage
     #region Instance Fields
 
     private readonly ProgressBarTriStateRegionStateValues _parent;
-    private readonly Color _factoryColor1;
+    private Color _factoryColor1;
     private Color _color1;
     private Color _color2;
     private PaletteColorStyle _colorStyle;
@@ -91,6 +91,21 @@ public class ProgressBarTriStateRegionBackValues : Storage
     /// Resets the <see cref="Color1"/> property to its default value.
     /// </summary>
     public void ResetColor1() => Color1 = _factoryColor1;
+
+    /// <summary>
+    /// Updates the designer factory default for <see cref="Color1"/>.
+    /// When the live value is still at the previous factory, it is restamped too.
+    /// </summary>
+    /// <param name="color">New factory / scheme default.</param>
+    internal void SetFactoryColor1(Color color)
+    {
+        bool atFactory = _color1 == _factoryColor1;
+        _factoryColor1 = color;
+        if (atFactory)
+        {
+            _color1 = color;
+        }
+    }
 
     [Category(@"Visuals")]
     [Description(@"Second background color. Empty uses default.")]

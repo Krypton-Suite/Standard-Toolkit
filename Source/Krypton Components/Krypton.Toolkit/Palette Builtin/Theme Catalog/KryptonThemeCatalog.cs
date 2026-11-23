@@ -181,6 +181,9 @@ public static class KryptonThemeCatalog
     /// <param name="mode">Palette mode.</param>
     /// <param name="descriptor">The descriptor when registered.</param>
     /// <returns><see langword="true"/> when the mode is catalogued.</returns>
+    /// <remarks>
+    /// A core mode is resolved from <c>Krypton.Toolkit</c> only. An extra mode calls <see cref="DiscoverThemes()"/>.
+    /// </remarks>
     public static bool TryGetDescriptor(PaletteMode mode, out KryptonThemeDescriptor? descriptor)
     {
         descriptor = null;
@@ -189,16 +192,28 @@ public static class KryptonThemeCatalog
             return false;
         }
 
+        if (TryGetRegisteredDescriptor(mode, coreOnly: true, out descriptor))
+        {
+            return true;
+        }
+
         EnsureReady();
+        return TryGetRegisteredDescriptor(mode, coreOnly: false, out descriptor);
+    }
+
+    private static bool TryGetRegisteredDescriptor(PaletteMode mode, bool coreOnly, out KryptonThemeDescriptor? descriptor)
+    {
+        EnsureCoreRegistered();
         lock (_sync)
         {
-            if (_descriptors.TryGetValue(mode, out var found))
+            if (_descriptors.TryGetValue(mode, out var found) && (!coreOnly || found.IsCore))
             {
                 descriptor = found;
                 return true;
             }
         }
 
+        descriptor = null;
         return false;
     }
 
@@ -214,6 +229,9 @@ public static class KryptonThemeCatalog
     /// <param name="mode">Requested mode.</param>
     /// <returns>Palette instance. Extra modes without <c>Krypton.Themes</c> return Microsoft 365 Blue.</returns>
     /// <exception cref="ArgumentOutOfRangeException">The mode is not a builtin palette.</exception>
+    /// <remarks>
+    /// A core mode does not load <c>Krypton.Themes.dll</c>. An extra mode calls <see cref="DiscoverThemes()"/> first.
+    /// </remarks>
     public static PaletteBase GetPalette(PaletteMode mode)
     {
         if (mode == PaletteMode.Global || mode == PaletteMode.Custom)
@@ -221,20 +239,20 @@ public static class KryptonThemeCatalog
             return KryptonManager.CurrentGlobalPalette;
         }
 
-        EnsureReady();
-        lock (_sync)
+        // Core factories must not call DiscoverThemes. CurrentGlobalPalette's field initializer
+        // reaches this method before KryptonManager's static constructor has finished.
+        EnsureCoreRegistered();
+        var core = TryGetOrCreatePalette(mode, coreOnly: true);
+        if (core != null)
         {
-            if (_instances.TryGetValue(mode, out var existing))
-            {
-                return existing;
-            }
+            return core;
+        }
 
-            if (_descriptors.TryGetValue(mode, out var descriptor))
-            {
-                var created = descriptor.Factory();
-                _instances[mode] = created;
-                return created;
-            }
+        DiscoverThemes();
+        var palette = TryGetOrCreatePalette(mode, coreOnly: false);
+        if (palette != null)
+        {
+            return palette;
         }
 
         if (IsKnownExtraMode(mode))
@@ -243,6 +261,31 @@ public static class KryptonThemeCatalog
         }
 
         throw new ArgumentOutOfRangeException(nameof(mode), mode, @"mode must be a PaletteMode value.");
+    }
+
+    private static PaletteBase? TryGetOrCreatePalette(PaletteMode mode, bool coreOnly)
+    {
+        lock (_sync)
+        {
+            if (_instances.TryGetValue(mode, out var existing))
+            {
+                return existing;
+            }
+
+            if (!_descriptors.TryGetValue(mode, out var descriptor))
+            {
+                return null;
+            }
+
+            if (coreOnly && !descriptor.IsCore)
+            {
+                return null;
+            }
+
+            var created = descriptor.Factory();
+            _instances[mode] = created;
+            return created;
+        }
     }
 
     private static PaletteBase FallbackMissingExtra(PaletteMode requestedMode)
@@ -361,9 +404,12 @@ public static class KryptonThemeCatalog
     /// Pass <see langword="null"/> for the runtime probe only.
     /// </param>
     /// <remarks>
-    /// The runtime probe runs once from <see cref="KryptonManager"/>'s static constructor, before Visual Studio
-    /// has sited the component. Property-grid and theme-selector calls pass the designer service so extra
-    /// palettes appear when the project references <c>Krypton.Themes</c>.
+    /// Creating the default core palette does not call this method. The first <see cref="Application.Idle"/>
+    /// does, unless <see cref="KryptonManager.AutoDiscoverThemes"/> is <see langword="false"/> or the caller is
+    /// the designer. Extra modes, theme lists, and the <see cref="PaletteMode"/> drop-down also call it, so a
+    /// request that arrives before idle still resolves. Property-grid calls pass the designer service so extra
+    /// palettes appear when the project references <c>Krypton.Themes</c>, including when the assembly was not
+    /// beside the IDE.
     /// </remarks>
     public static void DiscoverThemes(IServiceProvider? services)
     {

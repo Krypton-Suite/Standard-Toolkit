@@ -785,6 +785,41 @@ public enum PaletteMode
     Office2024BlackDarkModeAlternate,
 
     /// <summary>
+    /// Windows XP Luna Blue (NormalColor) palette.
+    /// </summary>
+    WindowsXPLunaBlue,
+
+    /// <summary>
+    /// Windows XP Luna Olive Green (HomeStead) palette.
+    /// </summary>
+    WindowsXPLunaOlive,
+
+    /// <summary>
+    /// Windows XP Luna Silver (Metallic) palette.
+    /// </summary>
+    WindowsXPLunaSilver,
+
+    /// <summary>
+    /// Windows XP Royale (Energy Blue) palette.
+    /// </summary>
+    WindowsXPRoyale,
+
+    /// <summary>
+    /// Windows XP Royale Noir palette.
+    /// </summary>
+    WindowsXPRoyaleNoir,
+
+    /// <summary>
+    /// Windows XP Zune palette.
+    /// </summary>
+    WindowsXPZune,
+
+    /// <summary>
+    /// Windows XP Embedded palette.
+    /// </summary>
+    WindowsXPEmbedded,
+
+    /// <summary>
     /// Specifies a custom palette be used.
     /// </summary>
     Custom

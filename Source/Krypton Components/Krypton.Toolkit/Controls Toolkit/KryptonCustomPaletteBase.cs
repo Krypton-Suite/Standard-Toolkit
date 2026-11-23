@@ -1907,8 +1907,10 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="element">Element for which color is required.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetElementColor1(PaletteElement element, PaletteState state)
-        => GetTrackBar(element, state).GetElementColor1(state);
+    public override Color GetElementColor1(PaletteElement element, PaletteState state) =>
+        element == PaletteElement.TransferSpeedGraph
+            ? GetTransferSpeedGraphElementColor(1, state)
+            : GetTrackBar(element, state).GetElementColor1(state);
 
     /// <summary>
     /// Gets the second element color.
@@ -1916,8 +1918,10 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="element">Element for which color is required.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetElementColor2(PaletteElement element, PaletteState state)
-        => GetTrackBar(element, state).GetElementColor2(state);
+    public override Color GetElementColor2(PaletteElement element, PaletteState state) =>
+        element == PaletteElement.TransferSpeedGraph
+            ? GetTransferSpeedGraphElementColor(2, state)
+            : GetTrackBar(element, state).GetElementColor2(state);
 
     /// <summary>
     /// Gets the third element color.
@@ -1925,8 +1929,10 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="element">Element for which color is required.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetElementColor3(PaletteElement element, PaletteState state)
-        => GetTrackBar(element, state).GetElementColor3(state);
+    public override Color GetElementColor3(PaletteElement element, PaletteState state) =>
+        element == PaletteElement.TransferSpeedGraph
+            ? GetTransferSpeedGraphElementColor(3, state)
+            : GetTrackBar(element, state).GetElementColor3(state);
 
     /// <summary>
     /// Gets the fourth element color.
@@ -1934,8 +1940,10 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="element">Element for which color is required.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetElementColor4(PaletteElement element, PaletteState state)
-        => GetTrackBar(element, state).GetElementColor4(state);
+    public override Color GetElementColor4(PaletteElement element, PaletteState state) =>
+        element == PaletteElement.TransferSpeedGraph
+            ? GetTransferSpeedGraphElementColor(4, state)
+            : GetTrackBar(element, state).GetElementColor4(state);
 
     /// <summary>
     /// Gets the fifth element color.
@@ -1943,8 +1951,10 @@ public class KryptonCustomPaletteBase : PaletteBase
     /// <param name="element">Element for which color is required.</param>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public override Color GetElementColor5(PaletteElement element, PaletteState state)
-        => GetTrackBar(element, state).GetElementColor5(state);
+    public override Color GetElementColor5(PaletteElement element, PaletteState state) =>
+        element == PaletteElement.TransferSpeedGraph
+            ? GetTransferSpeedGraphElementColor(5, state)
+            : GetTrackBar(element, state).GetElementColor5(state);
     #endregion
 
     #region Public Methods

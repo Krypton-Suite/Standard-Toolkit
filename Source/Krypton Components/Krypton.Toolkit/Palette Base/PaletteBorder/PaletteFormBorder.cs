@@ -113,12 +113,19 @@ public class PaletteFormBorder : PaletteBorder
     /// <inheritdoc />
     public override PaletteCornerRounding GetBorderCornerRounding(PaletteState state)
     {
-        if (Draw == InheritBool.False || (Rounding == -1F && !UsesOffice2024FormRounding()))
+        if (Draw == InheritBool.False)
         {
             return PaletteCornerRounding.Uniform(0f);
         }
 
-        return base.GetBorderCornerRounding(state);
+        if (Rounding != -1F || UsesOffice2024FormRounding())
+        {
+            return base.GetBorderCornerRounding(state);
+        }
+
+        // Inherit stays square unless the palette supplies its own form corners, such as Luna's rounded caption.
+        PaletteCornerRounding inherited = InheritedBorderCornerRounding(state);
+        return inherited.HasRounding ? inherited : PaletteCornerRounding.Uniform(0f);
     }
 
     private bool UsesOffice2024FormRounding() =>

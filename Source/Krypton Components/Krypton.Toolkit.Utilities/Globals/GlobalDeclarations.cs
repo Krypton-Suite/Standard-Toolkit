@@ -29,7 +29,12 @@ global using System.Globalization;
 global using System.IO;
 global using System.Linq;
 global using System.Management;
+global using System.Net;
+global using System.Net.Http;
+global using System.Security.Cryptography;
+global using System.Security.Cryptography.X509Certificates;
 #if NET8_0_OR_GREATER
+global using System.Text.Json;
 global using System.Text.Json.Nodes;
 #endif
 global using System.Media;

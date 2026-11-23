@@ -24,7 +24,7 @@ namespace Krypton.Ribbon;
 [DesignTimeVisible(false)]
 [DefaultEvent(nameof(SelectedColorChanged))]
 [DefaultProperty(nameof(SelectedColor))]
-public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
+public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem, IKryptonColorLivePreview
 {
     #region Static Fields
     private static readonly Image? _defaultButtonImageSmall = GenericImageResources.ButtonColorImageSmall;
@@ -44,6 +44,7 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
     private string _keyTip;
     private Rectangle _selectedRect;
     private Color _selectedColor;
+    private readonly KryptonColorLivePreviewSession _colorLivePreview = new KryptonColorLivePreviewSession();
     private Color _emptyBorderColor;
     private Image? _imageSmall;
     private KryptonCommand? _command;
@@ -112,6 +113,13 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
     [Category(@"Ribbon")]
     [Description(@"Occurs when user selects the more colors option.")]
     public event CancelEventHandler? MoreColors;
+
+    /// <summary>
+    /// Occurs when the live preview starts, updates, commits, or cancels.
+    /// </summary>
+    [Category(@"Ribbon")]
+    [Description(@"Occurs when the live preview starts, updates, commits, or cancels.")]
+    public event EventHandler<KryptonColorLivePreviewEventArgs>? ColorPreview;
 
     /// <summary>
     /// Occurs after the value of a property has changed.
@@ -192,6 +200,7 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
 
         // Listen for palette switches so we can refresh dynamic theme colors
         Krypton.Toolkit.KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChangedForThemeColors;
+        _colorLivePreview.PreviewChanged += OnColorLivePreviewChanged;
     }
 
     /// <summary>
@@ -203,6 +212,8 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
         if (disposing)
         {
             Krypton.Toolkit.KryptonManager.GlobalPaletteChanged -= OnGlobalPaletteChangedForThemeColors;
+            _colorLivePreview.PreviewChanged -= OnColorLivePreviewChanged;
+            _colorLivePreview.Cancel();
             _kryptonContextMenu?.Close();
             _kryptonContextMenu?.Dispose();
         }
@@ -257,6 +268,37 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
             }
         }
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether highlighting a swatch previews that colour before it is committed.
+    /// </summary>
+    /// <remarks>
+    /// When false, <see cref="SelectedColor"/> changes only when the user chooses a colour, and <see cref="TrackingColor"/> is unchanged.
+    /// When true, the colour glyph follows the highlight and <see cref="ColorPreview"/> reports preview, revert, commit, and cancel.
+    /// <see cref="SelectedColor"/> and the recent-colour list still change only when the user chooses a colour.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [Description(@"Preview a highlighted swatch before it is committed to SelectedColor.")]
+    [DefaultValue(false)]
+    public bool LivePreview
+    {
+        get => _colorLivePreview.Enabled;
+        set => _colorLivePreview.Enabled = value;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether a swatch colour is currently shown in place of <see cref="SelectedColor"/>.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool IsColorPreviewActive => _colorLivePreview.IsPreviewing;
+
+    /// <summary>
+    /// Gets the colour to paint: the highlighted swatch while <see cref="IsColorPreviewActive"/> is true, otherwise <see cref="SelectedColor"/>.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Color DisplayColor => _colorLivePreview.IsPreviewing ? _colorLivePreview.DisplayColor : _selectedColor;
 
     /// <summary>
     /// Gets and sets the selected color block when selected color is empty.
@@ -990,6 +1032,7 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
                                 if (contextArgs.KryptonContextMenu.Show(this, new Point(screenRect.X, screenRect.Bottom + 1)))
                                 {
                                     fireDelegate = false;
+                                    _colorLivePreview.Open(_selectedColor);
                                 }
                             }
                         }
@@ -1022,6 +1065,12 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
     /// </summary>
     /// <param name="e">An CancelEventArgs that contains the event data.</param>
     protected virtual void OnMoreColors(CancelEventArgs e) => MoreColors?.Invoke(this, e);
+
+    /// <summary>
+    /// Raises the <see cref="ColorPreview"/> event.
+    /// </summary>
+    /// <param name="e">Preview stage and colours.</param>
+    protected virtual void OnColorPreview(KryptonColorLivePreviewEventArgs e) => ColorPreview?.Invoke(this, e);
 
     /// <summary>
     /// Raises the PropertyChanged event.
@@ -1282,14 +1331,29 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
         visible.Visible = previous;
     }
 
-    private void OnColumnsTrackingColor(object? sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
+    private void OnColumnsTrackingColor(object? sender, ColorEventArgs e)
+    {
+        OnTrackingColor(new ColorEventArgs(e.Color));
+        _colorLivePreview.Track(e.Color);
+    }
 
-    private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
+    private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e)
+    {
+        SelectedColor = e.Color;
+        _colorLivePreview.Commit(e.Color);
+    }
 
-    private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = Color.Empty;
+    private void OnClickNoColor(object? sender, EventArgs e)
+    {
+        SelectedColor = Color.Empty;
+        _colorLivePreview.Commit(Color.Empty);
+    }
 
     private void OnClickMoreColors(object? sender, EventArgs e)
     {
+        // The Win32 colour dialog has no hover callback. Drop any swatch preview before it opens.
+        _colorLivePreview.Cancel();
+
         // Give user a chance to cancel showing the standard more colors dialog
         var cea = new CancelEventArgs();
         OnMoreColors(cea);
@@ -1323,6 +1387,7 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
     {
         var kcm = sender as KryptonContextMenu;
         kcm!.Closed -= OnKryptonContextMenuClosed;
+        _colorLivePreview.Cancel();
 
         // Fire any associated finish delegate
         if (_kcmFinishDelegate != null)
@@ -1333,6 +1398,13 @@ public class KryptonRibbonGroupClusterColorButton : KryptonRibbonGroupItem
 
         // Unhook from item events
         HookContextMenuEvents(_kryptonContextMenu?.Items!, false);
+    }
+
+    private void OnColorLivePreviewChanged(object? sender, KryptonColorLivePreviewEventArgs e)
+    {
+        // Refresh the glyph from DisplayColor. SelectedColor and recent colours stay unchanged until commit.
+        OnPropertyChanged(nameof(DisplayColor));
+        OnColorPreview(e);
     }
     #endregion
 }

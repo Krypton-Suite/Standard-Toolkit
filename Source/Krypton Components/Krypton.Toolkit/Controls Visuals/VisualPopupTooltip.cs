@@ -15,6 +15,10 @@ namespace Krypton.Toolkit;
 /// <summary>
 /// Visual display of tooltip information, optionally hosting an interactive <see cref="Control"/>.
 /// </summary>
+/// <remarks>
+/// A multi-frame image from <see cref="IContentValues.GetImage"/> plays until this popup is disposed.
+/// The active frame is stored on that <see cref="Image"/> instance.
+/// </remarks>
 public class VisualPopupToolTip : VisualPopup
 {
     #region Instance Fields
@@ -25,6 +29,7 @@ public class VisualPopupToolTip : VisualPopup
     private readonly IContentValues? _contentValues;
     private readonly Control? _hostedControl;
     private readonly bool _keyboardInert;
+    private Image? _animatedImage;
     #endregion
 
     #region Identity
@@ -125,7 +130,18 @@ public class VisualPopupToolTip : VisualPopup
 
         if (_contentValues is not null)
         {
-            _drawContent = new ViewDrawContent(_palette.Content, _contentValues, VisualOrientation.Top);
+            IContentValues drawValues = _contentValues;
+            Image? animatedImage = ResolveAnimatedSource(_contentValues);
+            if (animatedImage is not null)
+            {
+                // Layout and paint must see the multi-frame instance. Header values otherwise
+                // return a single-frame DPI snapshot that cannot animate.
+                _animatedImage = animatedImage;
+                drawValues = new AnimatedToolTipImageContent(_contentValues, animatedImage);
+                TooltipAnimatedImage.Attach(animatedImage, OnAnimatedFrameChanged);
+            }
+
+            _drawContent = new ViewDrawContent(_palette.Content, drawValues, VisualOrientation.Top);
             _drawDocker.Add(_drawContent, hostedControl is null ? ViewDockStyle.Fill : ViewDockStyle.Top);
         }
 
@@ -153,12 +169,17 @@ public class VisualPopupToolTip : VisualPopup
     /// <inheritdoc />
     protected override void Dispose(bool disposing)
     {
-        if (disposing && _hostedControl is not null && !_hostedControl.IsDisposed)
+        if (disposing)
         {
-            // Unparent so ContainerControl.Dispose does not destroy caller-owned content.
-            if (Controls.Contains(_hostedControl))
+            StopAnimatedImage();
+
+            if (_hostedControl is not null && !_hostedControl.IsDisposed)
             {
-                Controls.Remove(_hostedControl);
+                // Unparent so ContainerControl.Dispose does not destroy caller-owned content.
+                if (Controls.Contains(_hostedControl))
+                {
+                    Controls.Remove(_hostedControl);
+                }
             }
         }
 
@@ -409,7 +430,113 @@ public class VisualPopupToolTip : VisualPopup
     }
     #endregion
 
+    #region Animation
+
+    /// <summary>
+    /// Returns the multi-frame image this popup should play, or null when the content image is static.
+    /// </summary>
+    private static Image? ResolveAnimatedSource(IContentValues values)
+    {
+        // Header values scale a copy on each GetImage call. The stored Image is the GIF.
+        Image? image = values is HeaderValuesBase header
+            ? header.Image
+            : values.GetImage(PaletteState.Normal);
+
+        if (image is null || !ImageAnimator.CanAnimate(image))
+        {
+            return null;
+        }
+
+        return image;
+    }
+
+    /// <summary>
+    /// ImageAnimator raises this on a thread-pool thread. Marshal the repaint to the popup.
+    /// </summary>
+    private void OnAnimatedFrameChanged(object? sender, EventArgs e)
+    {
+        if (IsDisposed || !IsHandleCreated)
+        {
+            return;
+        }
+
+        try
+        {
+            BeginInvoke((Action)InvalidateAnimatedFrame);
+        }
+        catch (InvalidOperationException)
+        {
+            // The handle was destroyed while the animator callback was already queued.
+        }
+    }
+
+    private void InvalidateAnimatedFrame()
+    {
+        if (!IsDisposed)
+        {
+            Invalidate();
+        }
+    }
+
+    private void StopAnimatedImage()
+    {
+        if (_animatedImage is null)
+        {
+            return;
+        }
+
+        TooltipAnimatedImage.Detach(_animatedImage, OnAnimatedFrameChanged);
+        _animatedImage = null;
+    }
+
+    #endregion
+
     #region Private Types
+    /// <summary>
+    /// Forwards tooltip content but returns the multi-frame image so layout keeps that instance.
+    /// </summary>
+    private sealed class AnimatedToolTipImageContent : IContentValues
+    {
+        private readonly IContentValues _inner;
+        private readonly Image _image;
+
+        public AnimatedToolTipImageContent(IContentValues inner, Image image)
+        {
+            _inner = inner;
+            _image = image;
+        }
+
+        /// <inheritdoc />
+        public Image? GetImage(PaletteState state) => _image;
+
+        /// <inheritdoc />
+        public Color GetImageTransparentColor(PaletteState state) => _inner.GetImageTransparentColor(state);
+
+        /// <inheritdoc />
+        public string GetShortText() => _inner.GetShortText();
+
+        /// <inheritdoc />
+        public string GetLongText() => _inner.GetLongText();
+
+        /// <inheritdoc />
+        public Image? GetOverlayImage(PaletteState state) => _inner.GetOverlayImage(state);
+
+        /// <inheritdoc />
+        public Color GetOverlayImageTransparentColor(PaletteState state) => _inner.GetOverlayImageTransparentColor(state);
+
+        /// <inheritdoc />
+        public OverlayImagePosition GetOverlayImagePosition(PaletteState state) => _inner.GetOverlayImagePosition(state);
+
+        /// <inheritdoc />
+        public OverlayImageScaleMode GetOverlayImageScaleMode(PaletteState state) => _inner.GetOverlayImageScaleMode(state);
+
+        /// <inheritdoc />
+        public float GetOverlayImageScaleFactor(PaletteState state) => _inner.GetOverlayImageScaleFactor(state);
+
+        /// <inheritdoc />
+        public Size GetOverlayImageFixedSize(PaletteState state) => _inner.GetOverlayImageFixedSize(state);
+    }
+
     /// <summary>
     /// Fills the docker remainder and sizes from the hosted control's AutoSize preferred size or explicit Size.
     /// </summary>

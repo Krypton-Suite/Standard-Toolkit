@@ -13,8 +13,13 @@
 namespace Krypton.Toolkit;
 
 /// <summary>
-/// What will be Displayed in the designer
+/// Tooltip text, image, timing, and placement shown by <see cref="VisualPopupToolTip"/>.
 /// </summary>
+/// <remarks>
+/// A multi-frame GIF assigned to <see cref="HeaderValuesBase.Image"/> plays until the tooltip popup closes.
+/// GDI+ stores the active frame on that <see cref="Image"/> instance, so another control painting the same instance can show a later frame the next time it paints.
+/// Animated images are drawn at the image pixel size. Single-frame images keep the usual DPI scaling.
+/// </remarks>
 [ToolboxItem(false)]
 [DesignerCategory(@"code")]
 [TypeConverter(typeof(ExpandableObjectConverter))]
