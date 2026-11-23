@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonNavigator to work as a docking auto hidden group control.
+/// Tab strip for auto-hidden pages on one edge. Disposes itself when the last tab is removed.
 /// </summary>
 [ToolboxItem(false)]
 [DesignerCategory("code")]

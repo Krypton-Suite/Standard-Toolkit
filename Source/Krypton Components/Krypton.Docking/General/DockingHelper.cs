@@ -62,7 +62,7 @@ public static class DockingHelper
     /// <returns>Rectangle in control coordinates.</returns>
     public static Rectangle InnerRectangle(Control c)
     {
-        // Start with entire client area
+        // Start with entire client area, then subtract each visible edge-docked child.
         Rectangle inner = c.ClientRectangle;
 
         // Adjust for edge docked controls

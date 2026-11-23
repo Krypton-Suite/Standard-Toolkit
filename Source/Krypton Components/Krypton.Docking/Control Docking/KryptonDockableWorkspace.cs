@@ -13,7 +13,7 @@
 namespace Krypton.Docking;
 
 /// <summary>
-/// Extends the KryptonWorkspace to work within the docking framework.
+/// Designer-facing workspace wired into <see cref="KryptonDockingWorkspace"/>; enables tab context menus.
 /// </summary>
 [ToolboxBitmap(typeof(KryptonDockableWorkspace), "ToolboxBitmaps.KryptonDockableWorkspace.bmp")]
 public class KryptonDockableWorkspace : KryptonSpace
