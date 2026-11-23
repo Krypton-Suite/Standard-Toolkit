@@ -74,7 +74,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           # This workflow is for the Canary branch only (push to Canary or manual run from Canary)
-          if ($env:GITHUB_REF -ne 'refs/heads/Canary') {
+          if ($env:GITHUB_REF -ne 'refs/heads/canary') {
             Write-Error "Security: Canary release only runs from branch Canary. Current ref: '$env:GITHUB_REF'. For manual run, select branch 'Canary' in the workflow dispatch."
             exit 1
           }
@@ -84,7 +84,7 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
         with:
-          ref: Canary
+          ref: canary
           fetch-depth: 0
 
       # Canary always builds Canary; the workflow file may land before Populate-WebView2.ps1 is merged to Canary.
