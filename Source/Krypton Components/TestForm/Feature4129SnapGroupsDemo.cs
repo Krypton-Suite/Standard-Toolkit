@@ -145,7 +145,7 @@ public partial class Feature4129SnapGroupsDemo : KryptonForm
     private void UpdateStatus()
     {
         klblStatus.Values.Text =
-            $"Peer open: {_peerForm != null && !_peerForm.IsDisposed} | " +
+            $"Peer open: {_peerForm is { IsDisposed: false }} | " +
             $"Floats in taskbar (new floats): {_floating?.ShowFloatingWindowsInTaskbar == true} | " +
             $"AUMID: {JumpList.AppId}";
     }

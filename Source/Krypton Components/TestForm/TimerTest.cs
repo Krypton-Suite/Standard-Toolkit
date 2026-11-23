@@ -190,7 +190,7 @@ public partial class TimerTest : KryptonForm
 
     private void knudInterval_ValueChanged(object sender, EventArgs e)
     {
-        if (_timer != null && !_timer.Enabled)
+        if (_timer is { Enabled: false })
         {
             _timer.Interval = (int)knudInterval.Value;
             ktxtInterval.Text = knudInterval.Value.ToString();
@@ -202,7 +202,7 @@ public partial class TimerTest : KryptonForm
     {
         if (int.TryParse(ktxtInterval.Text, out var interval) && interval >= 1)
         {
-            if (_timer != null && !_timer.Enabled)
+            if (_timer is { Enabled: false })
             {
                 _timer.Interval = interval;
                 knudInterval.Value = interval;

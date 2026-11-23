@@ -411,8 +411,7 @@ public class KryptonDataGridViewNumericUpDownCell : KryptonDataGridViewTextBoxCe
 
                 if (DataGridView is DataGridView grid
                     && grid.Rows.SharedRow(rowIndex).Index != -1
-                    && formattedValue is string str
-                    && str.Length > 0)
+                    && formattedValue is string { Length: > 0 } str)
                 {
                     text = decimal.TryParse(str, out decimal d)
                         ? d.ToString(InheritedStyle.Format)

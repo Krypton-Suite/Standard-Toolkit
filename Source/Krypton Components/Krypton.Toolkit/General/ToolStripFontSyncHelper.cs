@@ -276,7 +276,7 @@ internal static class ToolStripFontSync
     {
         foreach (ToolStripItem item in items)
         {
-            if (item is ToolStripDropDownItem dropDownItem && dropDownItem.DropDown != null)
+            if (item is ToolStripDropDownItem { DropDown: not null } dropDownItem)
             {
                 var palette = KryptonManager.CurrentGlobalPalette;
                 if (palette != null)

@@ -366,8 +366,7 @@ public class KryptonNavigatorTaskbarThumbnails : Component
             return false;
         }
 
-        return _navigator != null &&
-               !_navigator.IsDisposed &&
+        return _navigator is { IsDisposed: false } &&
                ReferenceEquals(_formIntegrator.Navigator, _navigator);
     }
 
@@ -378,7 +377,7 @@ public class KryptonNavigatorTaskbarThumbnails : Component
             return;
         }
 
-        if (_enabled && _navigator != null && !_navigator.IsDisposed)
+        if (_enabled && _navigator is { IsDisposed: false })
         {
             _manager ??= new NavigatorTaskbarThumbnailManager(this);
             _manager.Sync();

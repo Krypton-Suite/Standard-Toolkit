@@ -295,7 +295,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Text trimming style for the content text.")]
-    [DefaultValue(PaletteTextTrim.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteTextTrim Trim
     {
@@ -379,7 +378,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Relative horizontal alignment of content text.")]
-    [DefaultValue(PaletteRelativeAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteRelativeAlign TextH
     {
@@ -423,7 +421,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Relative vertical alignment of content text.")]
-    [DefaultValue(PaletteRelativeAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteRelativeAlign TextV
     {
@@ -467,7 +464,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Relative horizontal alignment of multiline content text.")]
-    [DefaultValue(PaletteRelativeAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual PaletteRelativeAlign MultiLineH
     {
@@ -511,7 +507,6 @@ public class PaletteContentText : Storage
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Flag indicating if multiline text is allowed..")]
-    [DefaultValue(InheritBool.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual InheritBool MultiLine
     {

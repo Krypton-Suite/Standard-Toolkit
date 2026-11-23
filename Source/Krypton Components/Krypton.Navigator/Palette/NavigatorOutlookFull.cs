@@ -78,7 +78,7 @@ public class NavigatorOutlookFull : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the overflow item image.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageImage), "Small")]
+    [DefaultValue(typeof(MapKryptonPageImage), "Small")]
     public virtual MapKryptonPageImage OverflowMapImage
     {
         get => _overflowMapImage;
@@ -106,7 +106,7 @@ public class NavigatorOutlookFull : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the overflow item text.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+    [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
     public MapKryptonPageText OverflowMapText
     {
         get => _overflowMapText;
@@ -134,7 +134,7 @@ public class NavigatorOutlookFull : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the overflow item description.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+    [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
     public MapKryptonPageText OverflowMapExtraText
     {
         get => _overflowMapExtraText;
@@ -163,7 +163,7 @@ public class NavigatorOutlookFull : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the stack item image.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageImage), "MediumSmall")]
+    [DefaultValue(typeof(MapKryptonPageImage), "MediumSmall")]
     public virtual MapKryptonPageImage StackMapImage
     {
         get => _stackMapImage;
@@ -191,7 +191,7 @@ public class NavigatorOutlookFull : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the stack item text.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
+    [DefaultValue(typeof(MapKryptonPageText), "Text - Title")]
     public MapKryptonPageText StackMapText
     {
         get => _stackMapText;
@@ -219,7 +219,7 @@ public class NavigatorOutlookFull : Storage
     [Category(@"Visuals")]
     [Description(@"Mapping used for the stack item description.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
+    [DefaultValue(typeof(MapKryptonPageText), "None (Empty string)")]
     public MapKryptonPageText StackMapExtraText
     {
         get => _stackMapExtraText;

@@ -40,6 +40,7 @@ internal class ViewDrawRibbonDesignGroupContainer : ViewDrawRibbonDesignBase
         _imageList.Images.AddRange([
             GenericImageResources.KryptonRibbonGroupTriple,
             GenericImageResources.KryptonRibbonGroupLines,
+            GenericImageResources.KryptonRibbonGroupStack,
             GenericImageResources.KryptonRibbonGroupSeparator,
             GenericImageResources.KryptonGallery
         ]);
@@ -111,17 +112,19 @@ internal class ViewDrawRibbonDesignGroupContainer : ViewDrawRibbonDesignBase
             // Create child items
             var menuTriple = new ToolStripMenuItem("Add Triple", null, OnAddTriple);
             var menuLines = new ToolStripMenuItem("Add Lines", null, OnAddLines);
+            var menuStack = new ToolStripMenuItem("Add Stack", null, OnAddStack);
             var menuSeparator = new ToolStripMenuItem("Add Separator", null, OnAddSeparator);
             var menuGallery = new ToolStripMenuItem("Add Gallery", null, OnAddGallery);
 
             // Assign correct images
             menuTriple.ImageIndex = 0;
             menuLines.ImageIndex = 1;
-            menuSeparator.ImageIndex = 2;
-            menuGallery.ImageIndex = 3;
+            menuStack.ImageIndex = 2;
+            menuSeparator.ImageIndex = 3;
+            menuGallery.ImageIndex = 4;
 
             // Finally, add all items to the strip
-            _cms.Items.AddRange(new ToolStripItem[] { menuTriple, menuLines, menuSeparator, menuGallery });
+            _cms.Items.AddRange(new ToolStripItem[] { menuTriple, menuLines, menuStack, menuSeparator, menuGallery });
         }
 
         if (CommonHelper.ValidContextMenuStrip(_cms))
@@ -139,6 +142,8 @@ internal class ViewDrawRibbonDesignGroupContainer : ViewDrawRibbonDesignBase
     private void OnAddTriple(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddTriple();
 
     private void OnAddLines(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddLines();
+
+    private void OnAddStack(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddStack();
 
     private void OnAddSeparator(object? sender, EventArgs e) => _ribbonGroup.OnDesignTimeAddSeparator();
 

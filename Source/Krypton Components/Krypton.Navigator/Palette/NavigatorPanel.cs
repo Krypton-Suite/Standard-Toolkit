@@ -61,7 +61,7 @@ public class NavigatorPanel : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Panel back style.")]
-    //[DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
+    [DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
     public PaletteBackStyle PanelBackStyle
     {
         get => _panelBackStyle;

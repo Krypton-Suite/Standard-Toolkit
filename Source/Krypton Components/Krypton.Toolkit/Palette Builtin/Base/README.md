@@ -1,4 +1,4 @@
-# Strongly-typed Color Schemes in Krypton Toolkit
+﻿# Strongly-typed Color Schemes in Krypton Toolkit
 
 ## Overview
 
@@ -48,12 +48,15 @@ SchemeGenerator distinguishes between two kinds of palette classes:
    • `PaletteSparkleBlueDarkModeBase`
    • `PaletteVisualStudioBase`
 
-   They **retain the legacy `_ribbonColors` array for one more release**.  Migration only
-   – adds a strongly-typed constructor that forwards the scheme to the existing array,
-   – injects `[Obsolete(..., false)]` on every `Color[]` constructor,
-   – ensures a nullable `BaseColors` field is present.  No array removal or index-to-property conversion is executed yet.
+   As of [#4405](https://github.com/Krypton-Suite/Standard-Toolkit/issues/4405) / V110 they take **only** a
+   `KryptonColorSchemeBase` constructor (`BaseColors` is non-nullable). They still **retain** the legacy
+   `_ribbonColors` snapshot (`scheme.ToArray()`) for paint / ColorTable paths; index-to-property conversion
+   and array removal remain a later phase. Legacy `Color[] schemeColors` overloads are gone (including the
+   formerly public `PaletteVisualStudioBase(Color[]…)`).
 
-2. **Theme palettes** – every other concrete palette class.  These are migrated fully: colour arrays are deleted, all `[...]` accesses become `BaseColors.<Property>` (in non-base palettes!), and a helper overload taking a `KryptonColorSchemeBase` is inserted (until the next major version when the legacy `Color[]` ctor disappears entirely).  This now also covers Sparkle, Professional, and Visual Studio theme variants.
+2. **Theme palettes** – every other concrete palette class. These construct with `new Xxx_BaseScheme()`
+   (or a helper that returns a scheme) into the family-base scheme constructor. Further migration may
+   replace residual `_ribbonColors[...]` indexers with `BaseColors.<Property>` over time.
 
 ### 2. Typical commands
 
@@ -86,24 +89,24 @@ Writes scheme files *and* updates palette sources in place.  Family-bases keep t
 
 During `--dry-run` SchemeGenerator simulates the transformation and then asserts that the resulting text obeys the expected rules.
 
-Family-base checks:
-    - `[Obsolete]` attribute present on every `Color[]` constructor
+Family-base checks (post-#4405):
+    - Single `KryptonColorSchemeBase` constructor (no `Color[] schemeColors` overload)
     - `_ribbonColors` array still declared
-    - No `BaseColors.` property usages
-    - New `KryptonColorSchemeBase` overload exists
+    - Non-nullable `BaseColors` assigned from the scheme
 
 Theme palette checks:
-    - No residual `_ribbonColors[...]` indexers
-    - At least one `BaseColors.` property usage
-    - `[Obsolete]` attribute present on the legacy ctor
+    - Construct via `*_BaseScheme` (or scheme helper) into the family-base scheme ctor
+    - Prefer `BaseColors.<Property>` where already migrated; residual `_ribbonColors[...]` may remain until a later pass
 
 A failing check is printed as `[CHECK FAIL] PaletteName: message` and the process exits with a non-zero status.
 
 ### 4. Release timeline
 
-• **Current release** – V100: dual constructors, arrays still available in family-bases, marked obsolete.
+• **V100** – dual constructors on family bases; schemes adopted on concrete themes.
 
-• **Next major release** – V110: obsolete array-based constructors will be removed; family-bases will finally drop the arrays and adopt the same strong-typed implementation as themes.
+• **V110 (#4405)** – `Color[] schemeColors` constructors removed from family bases; scheme-only ctors with non-nullable `BaseColors`. `_ribbonColors` snapshot retained.
+
+• **Later** – drop `_ribbonColors` / convert remaining indexers to `BaseColors.<Property>` on family bases.
 
 ---
 
@@ -115,22 +118,21 @@ A failing check is printed as `[CHECK FAIL] PaletteName: message` and the proces
 * All properties are writable so advanced users can tweak a live palette at run-time
   while the toolkit reflects the changes instantly.
 
-## Usability improvement – base-class overload
+## Usability improvement – scheme-only family-base constructor
 
-`PaletteMicrosoft365Base` (and its descendants) gained an additional constructor that
-accepts a `KryptonColorSchemeBase`.  Internally the palette converts the scheme into
-the two required arrays via the extension methods shown above (till end of migration).
+Family bases (`PaletteMicrosoft365Base`, `PaletteOffice2007Base`, `PaletteVisualStudioBase`, …)
+accept only a `KryptonColorSchemeBase`. Internally the palette snapshots `_ribbonColors` via
+`scheme.ToArray()` for legacy paint paths.
 
 ```csharp
-// Modern, safer way – pass a strongly-typed scheme in Palette-family `Base` class
-protected readonly KryptonColorSchemeBase? BaseColors;
+// Pass a strongly-typed scheme into the palette-family base class
+protected readonly KryptonColorSchemeBase BaseColors;
 
 public PaletteMicrosoft365Black() :
     base(new PaletteMicrosoft365Black_BaseScheme(),
          _checkBoxList,
          _galleryButtonList,
-         _radioButtonArray,
-         new PaletteMicrosoft365Black_BaseScheme().ToTrackBarArray()) { }
+         _radioButtonArray) { }
 ```
 
 ### Why this matters in day-to-day coding

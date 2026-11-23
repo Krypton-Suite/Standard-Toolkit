@@ -101,4 +101,7 @@ public class SharedStaticVariables
         "Krypton.Toolkit.Utilities.dll",
         "Krypton.Workspace.dll"
     ];
+
+    /// <summary>Should collection editors be shown in the taskbar</summary>
+    public static bool SHOW_COLLECTION_EDITORS_IN_TASKBAR = false;
 }

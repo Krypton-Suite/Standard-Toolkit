@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupDateTimePicker : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the text box definition
-        GroupDateTimePicker.DateTimePickerView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupDateTimePicker.DateTimePickerView = this;
 
         // Give paint delegate to date time picker so its palette changes are redrawn
-        GroupDateTimePicker.ViewPaintDelegate = needPaint;
+            GroupDateTimePicker.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupDateTimePicker.DateTimePicker);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupDateTimePicker : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupDateTimePicker.MouseEnterControl -= OnMouseEnterControl;
                 GroupDateTimePicker.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupDateTimePicker.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupDateTimePicker.DateTimePickerView, this))
+                {
+                    GroupDateTimePicker.ViewPaintDelegate = null;
+                }
                 GroupDateTimePicker.PropertyChanged -= OnDateTimePickerPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupDateTimePicker.DateTimePickerView = null!; 
+                if (ReferenceEquals(GroupDateTimePicker.DateTimePickerView, this))
+                {
+                    GroupDateTimePicker.DateTimePickerView = null!;
+                } 
                 GroupDateTimePicker = null;
             }
         }

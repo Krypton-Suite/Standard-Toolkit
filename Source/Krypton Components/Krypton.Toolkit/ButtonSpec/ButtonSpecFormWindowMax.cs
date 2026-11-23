@@ -75,10 +75,16 @@ public class ButtonSpecFormWindowMax : ButtonSpecFormFixed
                 var mea = (MouseEventArgs)e;
                 if (GetView().ClientRectangle.Contains(mea.Location))
                 {
-                    // Toggle between maximized and restored
-                    KryptonForm.SendSysCommand(KryptonForm.WindowState == FormWindowState.Maximized
-                        ? PI.SC_.RESTORE
-                        : PI.SC_.MAXIMIZE);
+                    // Maximized uses the shell restore. A toolkit snap is still Normal, so restore the saved bounds.
+                    // Otherwise maximize.
+                    if (KryptonForm.WindowState == FormWindowState.Maximized)
+                    {
+                        KryptonForm.SendSysCommand(PI.SC_.RESTORE);
+                    }
+                    else if (!KryptonForm.TryRestoreToolkitSnap())
+                    {
+                        KryptonForm.SendSysCommand(PI.SC_.MAXIMIZE);
+                    }
 
                     // Let base class fire any other attached events
                     base.OnClick(e);

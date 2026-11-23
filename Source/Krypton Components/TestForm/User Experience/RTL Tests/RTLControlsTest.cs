@@ -279,7 +279,7 @@ public partial class RTLControlsTest : KryptonForm
     {
         if (sender is KryptonMonthCalendar calendar)
         {
-            string rtlInfo = calendar.RightToLeft == RightToLeft.Yes && calendar.RightToLeftLayout
+            string rtlInfo = calendar is { RightToLeft: RightToLeft.Yes, RightToLeftLayout: true }
                 ? " (RTL)"
                 : " (LTR)";
             UpdateStatus($"Date selected: {e.Start:yyyy-MM-dd} to {e.End:yyyy-MM-dd}{rtlInfo}");

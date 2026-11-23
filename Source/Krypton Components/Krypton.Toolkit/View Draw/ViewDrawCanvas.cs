@@ -520,13 +520,16 @@ public class ViewDrawCanvas : ViewComposite
             {
                 RenderBorder(context);
             }
-            else
+            else if (!IsSpriteFrameBorder())
             {
                 // Drawing border afterwards, and so clip children to prevent drawing
                 // over the corners if they are rounded.  We only clip children if the
                 // border is drawn afterwards.
+                // A sprite frame is thicker than that middle path. Clipping to it cuts
+                // the caption, icon, and caption buttons off the top of the window.
 
                 // Remember the current clipping region
+                _clipRegion?.Dispose();
                 _clipRegion = context.Graphics.Clip.Clone();
 
                 // Restrict the clipping to the area inside the canvas border
@@ -540,6 +543,11 @@ public class ViewDrawCanvas : ViewComposite
                 // Reduce clipping region down by our border path
                 combineRegion.Intersect(_clipRegion);
                 context.Graphics.Clip = combineRegion;
+            }
+            else
+            {
+                _clipRegion?.Dispose();
+                _clipRegion = null;
             }
         }
     }
@@ -577,6 +585,21 @@ public class ViewDrawCanvas : ViewComposite
                 RenderBorder(context);
             }
         }
+    }
+
+    /// <summary>
+    /// Sprite frames paint a bitmap thicker than the middle-of-border clip.
+    /// </summary>
+    /// <returns><see langword="true"/> when this border is a Windows XP sprite frame.</returns>
+    private bool IsSpriteFrameBorder()
+    {
+        if (_paletteBorder == null)
+        {
+            return false;
+        }
+
+        return WindowsXPLunaArt.TryGet(_paletteBorder.GetBorderImage(State), out WindowsXPLunaSprite sprite)
+               && sprite.Part == WindowsXPLunaPart.FrameLeft;
     }
 
     /// <summary>

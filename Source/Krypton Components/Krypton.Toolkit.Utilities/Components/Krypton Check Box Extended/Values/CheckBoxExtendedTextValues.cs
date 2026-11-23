@@ -103,7 +103,7 @@ public class CheckBoxExtendedTextValues : LabelValues
     /// </summary>
     [Category(@"Text")]
     [Description(@"The color used to display the subtext.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     public Color SubtextForeColor
     {
         get => _subtextForeColor;

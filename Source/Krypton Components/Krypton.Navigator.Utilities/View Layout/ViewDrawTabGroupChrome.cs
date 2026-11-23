@@ -106,7 +106,7 @@ internal sealed class ViewDrawTabGroupHeader : ViewDrawButton
         }
 
         // Solid bottom accent bar using the group color (does not replace palette theming).
-        if (_appearance.ShowHeaderAccent && _appearance.HeaderAccentHeight > 0)
+        if (_appearance is { ShowHeaderAccent: true, HeaderAccentHeight: > 0 })
         {
             int height = Math.Min(_appearance.HeaderAccentHeight, ClientRectangle.Height);
             var accent = new Rectangle(ClientRectangle.X, ClientRectangle.Bottom - height,

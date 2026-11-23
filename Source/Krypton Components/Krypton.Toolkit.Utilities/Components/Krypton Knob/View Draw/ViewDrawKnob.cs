@@ -1109,7 +1109,7 @@ public class ViewDrawKnob : ViewDrawPanel
             return;
         }
 
-        if (_indicatorCustomPoints != null && _indicatorCustomPoints.Length >= 3)
+        if (_indicatorCustomPoints is { Length: >= 3 })
         {
             DrawInsetPolygon(g, ScaleCustomPoints(_indicatorCustomPoints, half), borderColor, beginColor, endColor);
             return;

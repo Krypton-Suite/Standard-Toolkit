@@ -822,7 +822,7 @@ public class ViewDrawBadge : ViewLeaf
                 break;
         }
 
-        if (needsUpdate && _control != null && !_control.IsDisposed && _control.IsHandleCreated)
+        if (needsUpdate && _control is { IsDisposed: false, IsHandleCreated: true })
         {
             _control.Invalidate();
         }

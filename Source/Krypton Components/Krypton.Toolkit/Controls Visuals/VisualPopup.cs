@@ -500,6 +500,42 @@ public class VisualPopup : ContainerControl
         _shadow?.ApplyAppearance(color, opacity);
 
     /// <summary>
+    /// Updates the popup shadow colour and opacity when a shadow window is present.
+    /// </summary>
+    /// <param name="color">Base RGB colour for the shadow layers.</param>
+    /// <param name="opacity">Form opacity in the range 0..1.</param>
+    /// <param name="opaqueColor"><see langword="true"/> paints solid shades so the magenta colour key does not tint <paramref name="color"/>.</param>
+    protected void UpdateShadowAppearance(Color color, float opacity, bool opaqueColor) =>
+        _shadow?.ApplyAppearance(color, opacity, opaqueColor);
+
+    /// <summary>
+    /// Stops Windows 11 from rounding this popup and its shadow on top of an explicit region.
+    /// </summary>
+    /// <remarks>
+    /// The two clips do not match, and the gap shows the black back buffer. Older systems ignore the attribute.
+    /// </remarks>
+    protected void SuppressSystemCornerRounding()
+    {
+        ApplyDoNotRound(this);
+        if (_shadow != null)
+        {
+            ApplyDoNotRound(_shadow);
+        }
+    }
+
+    private static void ApplyDoNotRound(Control control)
+    {
+        if (!control.IsHandleCreated)
+        {
+            return;
+        }
+
+        // DWMWCP_DONOTROUND = 1.
+        int preference = 1;
+        PI.Dwm.DwmSetWindowAttribute(control.Handle, PI.Dwm.DWMWINDOWATTRIBUTE.WindowCornerPreference, ref preference, sizeof(int));
+    }
+
+    /// <summary>
     /// Raises the Layout event.
     /// </summary>
     /// <param name="lEvent">A LayoutEventArgs that contains the event data.</param>

@@ -219,5 +219,7 @@ internal partial class InternalDesignerDesignBindingPicker : UserControl
             ? $@"Data source: {node.Text}"
             : $@"Data member: {node.Tag}";
     }
+
+    private void TreeView_AfterSelect(object? sender, TreeViewEventArgs e) => UpdateHelp(e.Node);
     #endregion
 }

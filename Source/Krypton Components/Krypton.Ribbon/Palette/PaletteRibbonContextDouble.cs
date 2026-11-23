@@ -69,7 +69,28 @@ public class PaletteRibbonContextDouble : IPaletteRibbonBack,
     /// </summary>
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Color value.</returns>
-    public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state) => _inherit.GetRibbonBackColorStyle(state);
+    public PaletteRibbonColorStyle GetRibbonBackColorStyle(PaletteState state)
+    {
+        PaletteRibbonColorStyle style = _inherit.GetRibbonBackColorStyle(state);
+        if (_ribbon.RibbonShape != PaletteRibbonShape.Office2024
+            || _ribbon.StateCommon.RibbonGeneral.TabMarker != PaletteRibbonTabMarker.Pill)
+        {
+            return style;
+        }
+
+        // The theme always reports the line styles. Pill is a per-ribbon choice.
+        if (style == PaletteRibbonColorStyle.RibbonTabSelected2024)
+        {
+            return PaletteRibbonColorStyle.RibbonTabSelected2024Pill;
+        }
+
+        if (style == PaletteRibbonColorStyle.RibbonTabTracking2024)
+        {
+            return PaletteRibbonColorStyle.RibbonTabTracking2024Pill;
+        }
+
+        return style;
+    }
 
     #endregion
 
@@ -81,6 +102,16 @@ public class PaletteRibbonContextDouble : IPaletteRibbonBack,
     /// <returns>Color value.</returns>
     public Color GetRibbonBackColor1(PaletteState state)
     {
+        // Selected Office 2024 context tabs underline with the context colour.
+        if (Office2024ContextTab && IsContextChecked(state))
+        {
+            Color contextColor = CheckForContextColor();
+            if (contextColor != Color.Empty)
+            {
+                return contextColor;
+            }
+        }
+
         Color retColor = _inherit.GetRibbonBackColor1(state);
 
         // If empty then try and recover the context specific color
@@ -181,25 +212,17 @@ public class PaletteRibbonContextDouble : IPaletteRibbonBack,
     /// <returns>Color value.</returns>
     public Color GetRibbonTextColor(PaletteState state)
     {
+        // Office 2024 context tabs use the context colour for the label.
+        if (Office2024ContextTab && IsContextTabState(state))
+        {
+            Color contextColor = CheckForContextColor();
+            if (contextColor != Color.Empty)
+            {
+                return contextColor;
+            }
+        }
+
         return _inherit.GetRibbonTextColor(state);
-
-        // #1399 Disable this override on the theme color arrays and accepting the normal return color
-        // The approach below goes outside of the theme color array and causes problems.
-
-        //// If empty then try and recover the context specific color
-        //if (retColor == Color.Empty)
-        //{
-        //    retColor = CheckForContextColor();
-        //}
-        //else if ((state == PaletteState.Normal) && LightBackground)
-        //{
-        //    // With a light background we force the color to be dark in normal state so it stands out
-        //    return Color.FromArgb(Math.Min(retColor.R, (byte)60),
-        //                          Math.Min(retColor.G, (byte)60),
-        //                          Math.Min(retColor.B, (byte)60));
-        //}
-
-        //return retColor;
     }
     #endregion
 
@@ -222,5 +245,15 @@ public class PaletteRibbonContextDouble : IPaletteRibbonBack,
 
         return Color.Empty;
     }
+
+    private bool Office2024ContextTab =>
+        _ribbon.RibbonShape == PaletteRibbonShape.Office2024 && !string.IsNullOrEmpty(RibbonTab?.ContextName);
+
+    private static bool IsContextChecked(PaletteState state) =>
+        state == PaletteState.ContextCheckedNormal || state == PaletteState.ContextCheckedTracking;
+
+    private static bool IsContextTabState(PaletteState state) =>
+        (state & PaletteState.Context) == PaletteState.Context;
+
     #endregion
 }

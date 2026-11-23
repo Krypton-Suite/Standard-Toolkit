@@ -1,0 +1,4 @@
+﻿<Project>
+	<!-- Same TFM set and output layout as TestForm so the ProjectReference is not net472-only (NU1702). -->
+	<Import Project="..\..\Krypton Components\Directory.Build.props" />
+</Project>

@@ -86,6 +86,8 @@ internal class ViewDrawRibbonTabSep : ViewLayoutRibbonSeparator
 
             switch (_palette.GetRibbonShape())
             {
+                case PaletteRibbonShape.Office2024:
+                    break;
                 default:
                 case PaletteRibbonShape.Office2007:
                 case PaletteRibbonShape.Office2013:

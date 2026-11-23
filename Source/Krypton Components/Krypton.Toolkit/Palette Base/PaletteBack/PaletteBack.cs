@@ -71,6 +71,9 @@ public class PaletteBack : Storage,
     private Color _factoryColor1 = SharedStaticVariables.EMPTY_COLOR;
     private Color _factoryColor2 = SharedStaticVariables.EMPTY_COLOR;
     private PaletteColorStyle _factoryColorStyle = PaletteColorStyle.Inherit;
+    private PaletteRectangleAlign _factoryColorAlign = PaletteRectangleAlign.Inherit;
+    private float _factoryColorAngle = -1f;
+    private PaletteRectangleAlign _factoryImageAlign = PaletteRectangleAlign.Inherit;
     #endregion
 
     #region Events
@@ -121,11 +124,11 @@ public class PaletteBack : Storage,
                    && (_storage.BackColor1 == _factoryColor1)
                    && (_storage.BackColor2 == _factoryColor2)
                    && (_storage.BackColorStyle == _factoryColorStyle)
-                   && (_storage.BackColorAlign == PaletteRectangleAlign.Inherit)
-                   && (_storage.BackColorAngle == -1)
+                   && (_storage.BackColorAlign == _factoryColorAlign)
+                   && (_storage.BackColorAngle == _factoryColorAngle)
                    && (_storage.BackImage == null)
                    && (_storage.BackImageStyle == PaletteImageStyle.Inherit)
-                   && (_storage.BackImageAlign == PaletteRectangleAlign.Inherit);
+                   && (_storage.BackImageAlign == _factoryImageAlign);
         }
     }
 
@@ -154,6 +157,33 @@ public class PaletteBack : Storage,
     {
         _factoryColorStyle = style;
         ColorStyle = style;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="align"/> as the unset designer default for <see cref="ColorAlign"/>.
+    /// </summary>
+    internal void SetFactoryColorAlign(PaletteRectangleAlign align)
+    {
+        _factoryColorAlign = align;
+        ColorAlign = align;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="angle"/> as the unset designer default for <see cref="ColorAngle"/>.
+    /// </summary>
+    internal void SetFactoryColorAngle(float angle)
+    {
+        _factoryColorAngle = angle;
+        ColorAngle = angle;
+    }
+
+    /// <summary>
+    /// Treats <paramref name="align"/> as the unset designer default for <see cref="ImageAlign"/>.
+    /// </summary>
+    internal void SetFactoryImageAlign(PaletteRectangleAlign align)
+    {
+        _factoryImageAlign = align;
+        ImageAlign = align;
     }
 
     #endregion
@@ -292,7 +322,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Main background color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color Color1
     {
@@ -342,7 +371,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Secondary background color.")]
-    [KryptonDefaultColor]
     [RefreshProperties(RefreshProperties.All)]
     public Color Color2
     {
@@ -392,7 +420,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background color drawing style.")]
-    [DefaultValue(PaletteColorStyle.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteColorStyle ColorStyle
     {
@@ -442,7 +469,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background color alignment style.")]
-    [DefaultValue(PaletteRectangleAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteRectangleAlign ColorAlign
     {
@@ -474,6 +500,10 @@ public class PaletteBack : Storage,
         }
     }
 
+    private bool ShouldSerializeColorAlign() => ColorAlign != _factoryColorAlign;
+
+    private void ResetColorAlign() => ColorAlign = _factoryColorAlign;
+
     /// <summary>
     /// Gets the color alignment style.
     /// </summary>
@@ -490,7 +520,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background color angle.")]
-    [DefaultValue(-1f)]
     [RefreshProperties(RefreshProperties.All)]
     public float ColorAngle
     {
@@ -521,6 +550,10 @@ public class PaletteBack : Storage,
             }
         }
     }
+
+    private bool ShouldSerializeColorAngle() => ColorAngle != _factoryColorAngle;
+
+    private void ResetColorAngle() => ColorAngle = _factoryColorAngle;
 
     /// <summary>
     /// Gets the color background angle.
@@ -635,7 +668,6 @@ public class PaletteBack : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Background image alignment style.")]
-    [DefaultValue(PaletteRectangleAlign.Inherit)]
     [RefreshProperties(RefreshProperties.All)]
     public PaletteRectangleAlign ImageAlign
     {
@@ -666,6 +698,10 @@ public class PaletteBack : Storage,
             }
         }
     }
+
+    private bool ShouldSerializeImageAlign() => ImageAlign != _factoryImageAlign;
+
+    private void ResetImageAlign() => ImageAlign = _factoryImageAlign;
 
     /// <summary>
     /// Gets the image alignment style.

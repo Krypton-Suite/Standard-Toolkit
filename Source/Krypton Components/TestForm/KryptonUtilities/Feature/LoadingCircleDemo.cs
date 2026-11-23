@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -12,8 +12,8 @@ using Krypton.Toolkit.Utilities;
 namespace TestForm;
 
 /// <summary>
-/// Demonstrates form-level <see cref="KryptonLoadingCircle"/> with palette-resolved spoke colours,
-/// style presets, Active/Enabled toggles, and an optional explicit colour override.
+/// Demonstrates palette-aware <see cref="KryptonLoadingCircle"/> spoke colours:
+/// Empty inherits the global palette short-text colour; an explicit colour overrides the theme.
 /// </summary>
 public partial class LoadingCircleDemo : KryptonForm
 {
@@ -24,77 +24,61 @@ public partial class LoadingCircleDemo : KryptonForm
 
     private void LoadingCircleDemo_Load(object? sender, EventArgs e)
     {
-        cmbPreset.Items.AddRange(new object[] { @"Custom", @"MacOSX", @"Firefox", @"IE7" });
-        cmbPreset.SelectedIndex = 1;
-        ApplyPreset();
-        spinner.Active = true;
-        chkActive.Checked = true;
-        UpdateStatus();
+        loadingPalette.Active = true;
+        loadingOverride.Active = true;
+        loadingOverride.Color = Color.SteelBlue;
+        loadingDisabled.Active = true;
+        loadingDisabled.Enabled = false;
+
+        cmbPreset.DataSource = Enum.GetValues(typeof(StylePresets));
+        cmbPreset.SelectedItem = StylePresets.Custom;
+
+        RefreshStatus();
     }
 
     private void chkActive_CheckedChanged(object? sender, EventArgs e)
     {
-        spinner.Active = chkActive.Checked;
-        UpdateStatus();
-    }
-
-    private void chkEnabled_CheckedChanged(object? sender, EventArgs e)
-    {
-        spinner.Enabled = chkEnabled.Checked;
-        UpdateStatus();
-    }
-
-    private void chkUsePalette_CheckedChanged(object? sender, EventArgs e)
-    {
-        ApplyColorMode();
-        UpdateStatus();
+        bool active = chkActive.Checked;
+        loadingPalette.Active = active;
+        loadingOverride.Active = active;
+        loadingDisabled.Active = active;
+        RefreshStatus();
     }
 
     private void cmbPreset_SelectedIndexChanged(object? sender, EventArgs e)
     {
-        ApplyPreset();
-        UpdateStatus();
-    }
-
-    private void btnOverrideRed_Click(object? sender, EventArgs e)
-    {
-        chkUsePalette.Checked = false;
-        spinner.Color = Color.Firebrick;
-        UpdateStatus();
-    }
-
-    private void btnResetColor_Click(object? sender, EventArgs e)
-    {
-        chkUsePalette.Checked = true;
-        ApplyColorMode();
-        UpdateStatus();
-    }
-
-    private void kcmbTheme_SelectedIndexChanged(object? sender, EventArgs e) => UpdateStatus();
-
-    private void ApplyPreset()
-    {
-        spinner.StylePreset = cmbPreset.SelectedItem?.ToString() switch
+        if (cmbPreset.SelectedItem is StylePresets preset)
         {
-            @"MacOSX" => StylePresets.MacOSX,
-            @"Firefox" => StylePresets.Firefox,
-            @"IE7" => StylePresets.IE7,
-            _ => StylePresets.Custom
-        };
+            loadingPalette.StylePreset = preset;
+            loadingOverride.StylePreset = preset;
+            loadingDisabled.StylePreset = preset;
+            RefreshStatus();
+        }
     }
 
-    private void ApplyColorMode()
+    private void kbtnResetOverride_Click(object? sender, EventArgs e)
     {
-        spinner.Color = chkUsePalette.Checked ? Color.Empty : Color.SteelBlue;
+        loadingOverride.CircleValues.Reset();
+        loadingOverride.Active = chkActive.Checked;
+        loadingOverride.Color = Color.Empty;
+        RefreshStatus();
     }
 
-    private void UpdateStatus()
+    private void kbtnSetOverride_Click(object? sender, EventArgs e)
     {
-        string colorMode = spinner.Color.IsEmpty
-            ? @"palette (Color.Empty)"
-            : $@"override {ColorTranslator.ToHtml(spinner.Color)}";
+        loadingOverride.Color = Color.OrangeRed;
+        RefreshStatus();
+    }
+
+    private void kcmbTheme_SelectedIndexChanged(object? sender, EventArgs e) => RefreshStatus();
+
+    private void RefreshStatus()
+    {
         kwlblStatus.Text =
-            $@"Active={spinner.Active}, Enabled={spinner.Enabled}, Preset={spinner.StylePreset}, Colour={colorMode}. " +
-            @"Change Theme to confirm spokes follow the palette when Colour is Empty.";
+            $@"Palette circle Color={Describe(loadingPalette.Color)}; Override Color={Describe(loadingOverride.Color)}; " +
+            $@"Active={chkActive.Checked}; Theme={KryptonManager.CurrentGlobalPaletteMode}.";
     }
+
+    private static string Describe(Color color) =>
+        color.IsEmpty ? @"Empty (palette)" : $"{color.Name} ({color.R},{color.G},{color.B})";
 }

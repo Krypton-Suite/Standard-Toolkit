@@ -70,7 +70,7 @@ internal partial class VisualContextMenuCollectionForm
             _treeView.ImageIndex = 0;
             _treeView.ImageList = _imageList;
             _treeView.Location = new Point(16, 33);
-            _treeView.Name = nameof(_treeView);
+            _treeView.Name = "_treeView";
             _treeView.SelectedImageIndex = 0;
             _treeView.Size = new Size(320, 615);
             _treeView.TabIndex = 0;
@@ -79,7 +79,8 @@ internal partial class VisualContextMenuCollectionForm
             // imageList
             // 
             _imageList.TransparentColor = Color.Magenta;
-            _imageList.Images.AddRange([
+            _imageList.Images.AddRange(new Image[]
+            {
                 GenericKryptonImageResources.KryptonContextMenuColorColumns,
                 GenericKryptonImageResources.KryptonContextMenuHeading,
                 GenericKryptonImageResources.KryptonContextMenuItem,
@@ -97,7 +98,7 @@ internal partial class VisualContextMenuCollectionForm
                 GenericKryptonImageResources.KryptonComboBox,
                 GenericKryptonImageResources.KryptonTextBox,
                 GenericKryptonImageResources.KryptonNumericUpDown
-            ]);
+            });
 
             // TODO: Do these need updating?
             _imageList.Images.SetKeyName(0, "KryptonContextMenuColorColumns.bmp");
@@ -122,7 +123,7 @@ internal partial class VisualContextMenuCollectionForm
             // 
             _label1.AutoSize = true;
             _label1.Location = new Point(3, 0);
-            _label1.Name = nameof(_label1);
+            _label1.Name = "_label1";
             _label1.Size = new Size(120, 21);
             _label1.TabIndex = 7;
             _label1.Text = @"Item Hierarchy";
@@ -130,7 +131,7 @@ internal partial class VisualContextMenuCollectionForm
             // buttonDelete
             // 
             ConfigureImageListButton(_buttonDelete, _imageList, 9, @"Delete", buttonDelete_Click);
-            _buttonDelete.Name = nameof(_buttonDelete);
+            _buttonDelete.Name = "_buttonDelete";
             _buttonDelete.TabIndex = 14;
             // 
             // buttonMoveUp
@@ -138,7 +139,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonMoveUp, _imageList, 10, @"Move Up", buttonMoveUp_Click);
             _buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonMoveUp.Location = new Point(21, 29);
-            _buttonMoveUp.Name = nameof(_buttonMoveUp);
+            _buttonMoveUp.Name = "_buttonMoveUp";
             _buttonMoveUp.Size = new Size(184, 32);
             _buttonMoveUp.TabIndex = 1;
             // 
@@ -147,7 +148,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonMoveDown, _imageList, 11, @"Move Down", buttonMoveDown_Click);
             _buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonMoveDown.Location = new Point(21, 70);
-            _buttonMoveDown.Name = nameof(_buttonMoveDown);
+            _buttonMoveDown.Name = "_buttonMoveDown";
             _buttonMoveDown.Size = new Size(184, 32);
             _buttonMoveDown.TabIndex = 2;
             // 
@@ -156,7 +157,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddCheckBox, _imageList, 6, @"Add CheckBox", buttonAddCheckBox_Click);
             _buttonAddCheckBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddCheckBox.Location = new Point(21, 275);
-            _buttonAddCheckBox.Name = nameof(_buttonAddCheckBox);
+            _buttonAddCheckBox.Name = "_buttonAddCheckBox";
             _buttonAddCheckBox.Size = new Size(184, 32);
             _buttonAddCheckBox.TabIndex = 7;
             // 
@@ -165,7 +166,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddCheckButton, _imageList, 7, @"Add CheckButton", buttonAddCheckButton_Click);
             _buttonAddCheckButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddCheckButton.Location = new Point(21, 316);
-            _buttonAddCheckButton.Name = nameof(_buttonAddCheckButton);
+            _buttonAddCheckButton.Name = "_buttonAddCheckButton";
             _buttonAddCheckButton.Size = new Size(184, 32);
             _buttonAddCheckButton.TabIndex = 8;
             // 
@@ -174,7 +175,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddRadioButton, _imageList, 5, @"Add RadioButton", buttonAddRadioButton_Click);
             _buttonAddRadioButton.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddRadioButton.Location = new Point(21, 357);
-            _buttonAddRadioButton.Name = nameof(_buttonAddRadioButton);
+            _buttonAddRadioButton.Name = "_buttonAddRadioButton";
             _buttonAddRadioButton.Size = new Size(184, 32);
             _buttonAddRadioButton.TabIndex = 9;
             // 
@@ -183,7 +184,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddLinkLabel, _imageList, 8, @"Add LinkLabel", buttonAddLinkLabel_Click);
             _buttonAddLinkLabel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddLinkLabel.Location = new Point(21, 398);
-            _buttonAddLinkLabel.Name = nameof(_buttonAddLinkLabel);
+            _buttonAddLinkLabel.Name = "_buttonAddLinkLabel";
             _buttonAddLinkLabel.Size = new Size(184, 32);
             _buttonAddLinkLabel.TabIndex = 10;
             // 
@@ -192,7 +193,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddSeparator, _imageList, 4, @"Add Separator", buttonAddSeparator_Click);
             _buttonAddSeparator.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddSeparator.Location = new Point(21, 234);
-            _buttonAddSeparator.Name = nameof(_buttonAddSeparator);
+            _buttonAddSeparator.Name = "_buttonAddSeparator";
             _buttonAddSeparator.Size = new Size(184, 32);
             _buttonAddSeparator.TabIndex = 6;
             // 
@@ -201,7 +202,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddItem, _imageList, 2, @"Add Item", buttonAddItem_Click);
             _buttonAddItem.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddItem.Location = new Point(21, 111);
-            _buttonAddItem.Name = nameof(_buttonAddItem);
+            _buttonAddItem.Name = "_buttonAddItem";
             _buttonAddItem.Size = new Size(184, 32);
             _buttonAddItem.TabIndex = 3;
             // 
@@ -210,7 +211,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddItems, _imageList, 3, @"Add Items", buttonAddItems_Click);
             _buttonAddItems.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddItems.Location = new Point(21, 152);
-            _buttonAddItems.Name = nameof(_buttonAddItems);
+            _buttonAddItems.Name = "_buttonAddItems";
             _buttonAddItems.Size = new Size(184, 32);
             _buttonAddItems.TabIndex = 4;
             // 
@@ -219,7 +220,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddHeading, _imageList, 1, @"Add Heading", buttonAddHeading_Click);
             _buttonAddHeading.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddHeading.Location = new Point(21, 193);
-            _buttonAddHeading.Name = nameof(_buttonAddHeading);
+            _buttonAddHeading.Name = "_buttonAddHeading";
             _buttonAddHeading.Size = new Size(184, 32);
             _buttonAddHeading.TabIndex = 5;
             // 
@@ -228,7 +229,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddMonthCalendar, _imageList, 13, @"Add Month Calendar", buttonAddMonthCalendar_Click);
             _buttonAddMonthCalendar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddMonthCalendar.Location = new Point(21, 562);
-            _buttonAddMonthCalendar.Name = nameof(_buttonAddMonthCalendar);
+            _buttonAddMonthCalendar.Name = "_buttonAddMonthCalendar";
             _buttonAddMonthCalendar.Size = new Size(184, 32);
             _buttonAddMonthCalendar.TabIndex = 13;
             // 
@@ -246,7 +247,7 @@ internal partial class VisualContextMenuCollectionForm
             // 
             _label2.AutoSize = true;
             _label2.Location = new Point(524, 0);
-            _label2.Name = nameof(_label2);
+            _label2.Name = "_label2";
             _label2.Size = new Size(125, 21);
             _label2.TabIndex = 16;
             _label2.Text = @"Item Properties";
@@ -256,7 +257,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddColorColumns, _imageList, 0, @"Add ColorColumns", buttonAddColorColumns_Click);
             _buttonAddColorColumns.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddColorColumns.Location = new Point(21, 439);
-            _buttonAddColorColumns.Name = nameof(_buttonAddColorColumns);
+            _buttonAddColorColumns.Name = "_buttonAddColorColumns";
             _buttonAddColorColumns.Size = new Size(184, 32);
             _buttonAddColorColumns.TabIndex = 11;
             // 
@@ -265,7 +266,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddImageSelect, _imageList, 12, @"Add ImageSelect", buttonAddImageSelect_Click);
             _buttonAddImageSelect.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddImageSelect.Location = new Point(21, 480);
-            _buttonAddImageSelect.Name = nameof(_buttonAddImageSelect);
+            _buttonAddImageSelect.Name = "_buttonAddImageSelect";
             _buttonAddImageSelect.Size = new Size(184, 32);
             _buttonAddImageSelect.TabIndex = 12;
             // 
@@ -274,7 +275,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddGallery, _imageList, 12, @"Add Gallery", buttonAddGallery_Click);
             _buttonAddGallery.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddGallery.Location = new Point(21, 521);
-            _buttonAddGallery.Name = nameof(_buttonAddGallery);
+            _buttonAddGallery.Name = "_buttonAddGallery";
             _buttonAddGallery.Size = new Size(184, 32);
             _buttonAddGallery.TabIndex = 19;
             // 
@@ -283,7 +284,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddComboBox, _imageList, 14, @"Add ComboBox", buttonAddComboBox_Click);
             _buttonAddComboBox.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddComboBox.Location = new Point(21, 603);
-            _buttonAddComboBox.Name = nameof(_buttonAddComboBox);
+            _buttonAddComboBox.Name = "_buttonAddComboBox";
             _buttonAddComboBox.Size = new Size(184, 32);
             _buttonAddComboBox.TabIndex = 14;
             // 
@@ -292,7 +293,7 @@ internal partial class VisualContextMenuCollectionForm
             ConfigureImageListButton(_buttonAddProgressBar, _imageList, 16, @"Add ProgressBar", buttonAddProgressBar_Click);
             _buttonAddProgressBar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             _buttonAddProgressBar.Location = new Point(21, 644);
-            _buttonAddProgressBar.Name = nameof(_buttonAddProgressBar);
+            _buttonAddProgressBar.Name = "_buttonAddProgressBar";
             _buttonAddProgressBar.Size = new Size(184, 32);
             _buttonAddProgressBar.TabIndex = 18;
             // 
@@ -364,7 +365,7 @@ internal partial class VisualContextMenuCollectionForm
         Controls.Add(kpnlButtonBar);
         Font = new Font(@"Tahoma", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
         MinimumSize = new Size(733, 593);
-        Name = nameof(VisualContextMenuCollectionForm);
+        Name = "VisualContextMenuCollectionForm";
         Text = @"KryptonContextMenu Items Editor";
         _tableLayoutPanel1.ResumeLayout(false);
         _tableLayoutPanel1.PerformLayout();

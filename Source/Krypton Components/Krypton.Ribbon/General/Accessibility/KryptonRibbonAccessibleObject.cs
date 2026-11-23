@@ -535,9 +535,7 @@ internal class KryptonRibbonAccessibleObject : Control.ControlAccessibleObject
         {
             get
             {
-                if (_item is KryptonRibbonGroupCustomControl customControl
-                    && customControl.CustomControl != null
-                    && customControl.CustomControl.Visible)
+                if (_item is KryptonRibbonGroupCustomControl { CustomControl.Visible: true } customControl)
                 {
                     return customControl.CustomControl.RectangleToScreen(customControl.CustomControl.ClientRectangle);
                 }

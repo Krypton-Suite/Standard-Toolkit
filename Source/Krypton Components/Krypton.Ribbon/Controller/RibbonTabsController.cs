@@ -62,7 +62,7 @@ internal class RibbonTabsController : GlobalId,
     /// <param name="pt">Mouse position relative to control.</param>
     public virtual void MouseMove(Control c, Point pt)
     {
-        if (_leftButtonDown && _ribbon.AllowDetach && !_ribbon.IsDetached)
+        if (_leftButtonDown && _ribbon is { AllowDetach: true, IsDetached: false })
         {
             var diffX = Math.Abs(pt.X - _mouseDownPoint.X);
             var diffY = Math.Abs(pt.Y - _mouseDownPoint.Y);
@@ -88,7 +88,7 @@ internal class RibbonTabsController : GlobalId,
             // Remember the user has pressed the right mouse button down
             _rightButtonDown = true;
         }
-        else if (button == MouseButtons.Left && _ribbon.AllowDetach && !_ribbon.IsDetached)
+        else if (button == MouseButtons.Left && _ribbon is { AllowDetach: true, IsDetached: false })
         {
             _leftButtonDown = true;
             _mouseDownPoint = pt;
@@ -140,7 +140,7 @@ internal class RibbonTabsController : GlobalId,
     /// <param name="pt">Mouse position relative to control.</param>
     public virtual void DoubleClick(Point pt)
     {
-        if (_ribbon.AllowDetach && !_ribbon.IsDetached)
+        if (_ribbon is { AllowDetach: true, IsDetached: false })
         {
             _ribbon.Detach();
         }

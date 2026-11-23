@@ -481,7 +481,7 @@ public class KryptonPrintPreviewControl : VisualPanel
     /// </summary>
     private void OnMouseUp(object? sender, MouseEventArgs e)
     {
-        if (_isPanning && (e.Button == MouseButtons.Middle || e.Button == MouseButtons.Left))
+        if (_isPanning && e.Button is MouseButtons.Middle or MouseButtons.Left)
         {
             _isPanning = false;
             Cursor = Cursors.Default;

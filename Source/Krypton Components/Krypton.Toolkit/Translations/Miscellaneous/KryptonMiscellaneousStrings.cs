@@ -9,6 +9,11 @@
 
 namespace Krypton.Toolkit;
 
+/// <summary>
+/// Provides customizable text strings used by miscellaneous Krypton Toolkit user interface elements.
+/// </summary>
+/// <remarks>The strings default to their standard English text and can be reset with <see
+/// cref="Reset"/>.</remarks>
 [TypeConverter(typeof(ExpandableObjectConverter))]
 public class KryptonMiscellaneousStrings
 {
@@ -24,7 +29,8 @@ public class KryptonMiscellaneousStrings
     private const string DEFAULT_CHANGELOG_TEXT = @"&Changelog";
     private const string DEFAULT_README_TEXT = @"&Readme";
     private const string DEFAULT_RIBBON_FLOATING_WINDOW_TEXT = @"Ribbon";
-    
+    private const string DEFAULT_CUSTOM_STRING = @"Custom";
+
     #endregion
 
     #region Identity
@@ -118,10 +124,21 @@ public class KryptonMiscellaneousStrings
     [DefaultValue(DEFAULT_RIBBON_FLOATING_WINDOW_TEXT)]
     public string RibbonFloatingWindowText { get; set; }
 
+    /// <summary>Gets or sets the custom text.</summary>
+    /// <value>The custom text.</value>
+    [Localizable(true)]
+    [Category(@"Visuals")]
+    [Description(@"The custom text.")]
+    [DefaultValue(DEFAULT_CUSTOM_STRING)]
+    public string CustomText { get; set; }
+
     #endregion
 
     #region IsDefault
 
+    /// <summary>
+    /// Gets a value indicating whether all text properties are set to their default values.
+    /// </summary>
     [Browsable(false)]
     public bool IsDefault => FileNotFoundText.Equals(DEFAULT_FILE_NOT_FOUND_TEXT) &&
                              PoweredByText.Equals(DEFAULT_POWERED_BY_TEXT) &&
@@ -132,11 +149,15 @@ public class KryptonMiscellaneousStrings
                              LongTermStableText.Equals(DEFAULT_LONG_TERM_STABLE_TEXT) &&
                              ChangeLogText.Equals(DEFAULT_CHANGELOG_TEXT) &&
                              ReadmeText.Equals(DEFAULT_README_TEXT) &&
-                             RibbonFloatingWindowText.Equals(DEFAULT_RIBBON_FLOATING_WINDOW_TEXT);
+                             RibbonFloatingWindowText.Equals(DEFAULT_RIBBON_FLOATING_WINDOW_TEXT) &&
+                             CustomText.Equals(DEFAULT_CUSTOM_STRING);
     #endregion
 
     #region Implementation
 
+    /// <summary>
+    /// Restores all miscellaneous strings to their default values.
+    /// </summary>
     public void Reset()
     {
         FileNotFoundText = DEFAULT_FILE_NOT_FOUND_TEXT;
@@ -158,6 +179,8 @@ public class KryptonMiscellaneousStrings
         ReadmeText = DEFAULT_README_TEXT;
 
         RibbonFloatingWindowText = DEFAULT_RIBBON_FLOATING_WINDOW_TEXT;
+
+        CustomText = DEFAULT_CUSTOM_STRING;
     }
 
     #endregion

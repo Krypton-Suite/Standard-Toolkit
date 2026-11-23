@@ -69,6 +69,7 @@ internal class ViewDrawRibbonPanel : ViewDrawPanel
     /// The ribbon panel uses <see cref="PaletteBackStyle.PanelClient"/>, which stays light for Office 2013 Grey
     /// (document surface). When the palette supplies a tab-row solid colour, paint that over the tabs strip
     /// so Dark Grey chrome is not a white band between the caption and the groups area.
+    /// Office 2024 supplies <see cref="PaletteBackStyle.PanelClient"/> for that colour.
     /// </remarks>
     public override void RenderBefore(RenderContext context)
     {
@@ -92,8 +93,10 @@ internal class ViewDrawRibbonPanel : ViewDrawPanel
             return;
         }
 
-        using var brush = new SolidBrush(tabRow);
-        context.Graphics.FillRectangle(brush, tabsRect);
+        using (var brush = new SolidBrush(tabRow))
+        {
+            context.Graphics.FillRectangle(brush, tabsRect);
+        }
     }
 
     #endregion

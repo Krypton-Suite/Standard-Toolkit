@@ -56,7 +56,7 @@ public class ColourButtonHostValues : Storage
     /// Gets or sets the selected colour.
     /// </summary>
     [Category(@"Appearance")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     public Color SelectedColor
     {
         get => _owner.KryptonColourButtonControl!.SelectedColor;

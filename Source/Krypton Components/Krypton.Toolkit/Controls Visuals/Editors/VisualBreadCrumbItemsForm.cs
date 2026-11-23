@@ -78,7 +78,7 @@ internal partial class VisualBreadCrumbItemsForm : VisualDesignerCollectionForm
             /// Gets and sets the image transparent color.
             /// </summary>
             [Category(@"Appearance")]
-            [DefaultValue(typeof(Color), "Empty")]
+            [KryptonDefaultColor]
             public Color ImageTransparentColor
             {
                 get => _item.ImageTransparentColor;
@@ -329,7 +329,7 @@ internal partial class VisualBreadCrumbItemsForm : VisualDesignerCollectionForm
         {
             KryptonBreadCrumbItem? rootItem = null;
 
-            if (Items != null && Items.Length > 0 && Items[0] is KryptonBreadCrumbItem firstItem)
+            if (Items is { Length: > 0 } && Items[0] is KryptonBreadCrumbItem firstItem)
             {
                 rootItem = firstItem.Parent;
                 while (rootItem?.Parent != null)

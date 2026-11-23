@@ -286,7 +286,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
             {
                 buttonInfo.Controller.Click -= OnButtonClick;
                 // Unwire command Execute event if it was wired
-                if (buttonInfo.Command != null && buttonInfo.CommandExecuteHandler != null)
+                if (buttonInfo is { Command: not null, CommandExecuteHandler: not null })
                 {
                     buttonInfo.Command.Execute -= buttonInfo.CommandExecuteHandler;
                 }
@@ -483,17 +483,17 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         }
 
         // Remove button container from docker if it exists
-        if (_buttonContainer != null && _buttonContainer.Parent != null)
+        if (_buttonContainer is { Parent: not null })
         {
             _buttonContainer.Parent = null;
         }
         // Remove button center from container if it exists
-        if (_buttonCenter != null && _buttonCenter.Parent != null)
+        if (_buttonCenter is { Parent: not null })
         {
             _buttonCenter.Parent = null;
         }
         // Remove button stack from center if it exists
-        if (_buttonStack != null && _buttonStack.Parent != null)
+        if (_buttonStack is { Parent: not null })
         {
             _buttonStack.Parent = null;
         }
@@ -503,7 +503,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         {
             buttonInfo.Controller.Click -= OnButtonClick;
             // Unwire command Execute event if it was wired
-            if (buttonInfo.Command != null && buttonInfo.CommandExecuteHandler != null)
+            if (buttonInfo is { Command: not null, CommandExecuteHandler: not null })
             {
                 buttonInfo.Command.Execute -= buttonInfo.CommandExecuteHandler;
             }
@@ -533,7 +533,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         if (_notificationData.ShowActionButtons)
         {
             // Use KryptonCommand if provided, otherwise fall back to ActionButtonTexts
-            if (_notificationData.ActionButtonCommands != null && _notificationData.ActionButtonCommands.Length > 0)
+            if (_notificationData.ActionButtonCommands is { Length: > 0 })
             {
                 for (int i = 0; i < _notificationData.ActionButtonCommands.Length; i++)
                 {
@@ -583,8 +583,8 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
         {
             // Add spacing before close button if there are action buttons
             bool hasActionButtons = _notificationData.ShowActionButtons && 
-                ((_notificationData.ActionButtonCommands != null && _notificationData.ActionButtonCommands.Length > 0) ||
-                 (_notificationData.ActionButtonTexts != null && _notificationData.ActionButtonTexts.Length > 0));
+                (_notificationData.ActionButtonCommands is { Length: > 0 } ||
+                 _notificationData.ActionButtonTexts is { Length: > 0 });
             if (hasActionButtons)
             {
                 _buttonStack.Add(new ViewLayoutSeparator(_buttonSpacing));
@@ -620,7 +620,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
                 _layoutDocker.Add(new ViewLayoutSeparator(_horizontalPadding), ViewDockStyle.Right);
             }
         }
-        else if (_buttonContainer != null && _buttonContainer.Parent != null)
+        else if (_buttonContainer is { Parent: not null })
         {
             // Remove button container if no buttons
             _buttonContainer.Parent = null;
@@ -856,7 +856,7 @@ internal class ViewDrawRibbonNotificationBar : ViewComposite
             _data = data;
         }
 
-        public bool HasContent => _data.ShowIcon && _data.Icon != null;
+        public bool HasContent => _data is { ShowIcon: true, Icon: not null };
 
         public Image? GetImage(PaletteState state) => _data.Icon;
 

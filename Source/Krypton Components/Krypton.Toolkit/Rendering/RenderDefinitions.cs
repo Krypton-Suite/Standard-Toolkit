@@ -913,6 +913,11 @@ public enum RendererMode
     Retro,
 
     /// <summary>
+    /// Specifies the RenderWindowsXPLuna be used (Windows XP visual-style family).
+    /// </summary>
+    WindowsXP,
+
+    /// <summary>
     /// Specifies the RenderAqua be used.
     /// </summary>
     OSXAqua,
@@ -921,6 +926,11 @@ public enum RendererMode
     /// Specifies the RenderMacOS be used.
     /// </summary>
     MacOS,
+
+    /// <summary>
+    /// Specifies the RenderOffice2024 be used.
+    /// </summary>
+    Office2024,
 
     /// <summary>
     /// Specifies a custom renderer be used.

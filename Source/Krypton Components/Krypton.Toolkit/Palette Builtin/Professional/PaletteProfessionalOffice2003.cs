@@ -3124,6 +3124,14 @@ public class PaletteOffice2003Base : PaletteBase
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseMinus : _treeExpandPlus;
 
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
+
     /// <inheritdoc />
     public override Image? GetSizeGripImage(RightToLeft isRtl) => SizeGripStyleResources.Office2003GripStyle;
 
@@ -4089,6 +4097,8 @@ public class PaletteOffice2003Base : PaletteBase
                 return ColorTable.OverflowButtonGradientEnd;
             case PaletteElement.TrackBarPosition:
                 return Color.FromArgb(128, Color.White);
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4127,6 +4137,8 @@ public class PaletteOffice2003Base : PaletteBase
                     PaletteState.Pressed => ColorTable.ButtonPressedBorder,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4165,6 +4177,8 @@ public class PaletteOffice2003Base : PaletteBase
                     PaletteState.Pressed => ControlPaint.Light(ColorTable.ButtonPressedGradientBegin),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4213,6 +4227,8 @@ public class PaletteOffice2003Base : PaletteBase
                     PaletteState.Pressed => ColorTable.ButtonPressedGradientBegin,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4261,6 +4277,8 @@ public class PaletteOffice2003Base : PaletteBase
                     PaletteState.Pressed => ColorTable.ButtonPressedGradientEnd,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);

@@ -43,12 +43,24 @@ internal class KryptonRatingDesigner : ControlDesigner
         }
     }
 
+    private DesignerActionListCollection? _actionLists;
+
     /// <inheritdoc />
-    public override DesignerActionListCollection ActionLists =>
-        new DesignerActionListCollection
+    public override DesignerActionListCollection ActionLists
+    {
+        get
         {
-            new KryptonRatingActionList(this)
-        };
+            if (_actionLists == null)
+            {
+                _actionLists = new DesignerActionListCollection
+                {
+                    new KryptonRatingActionList(this)
+                };
+            }
+
+            return _actionLists;
+        }
+    }
 
     #endregion
 }

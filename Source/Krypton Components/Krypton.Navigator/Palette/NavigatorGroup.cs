@@ -64,7 +64,7 @@ public class NavigatorGroup : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Group back style.")]
-    //[DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
+    [DefaultValue(typeof(PaletteBackStyle), "PanelClient")]
     public PaletteBackStyle GroupBackStyle
     {
         get => _groupBackStyle;
@@ -86,7 +86,7 @@ public class NavigatorGroup : Storage
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Group border style.")]
-    //[DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
+    [DefaultValue(typeof(PaletteBorderStyle), "ControlClient")]
     public PaletteBorderStyle GroupBorderStyle
     {
         get => _groupBorderStyle;

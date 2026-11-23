@@ -157,8 +157,7 @@ internal sealed class NavigatorCaptionDragPageNotify : IDragPageNotify, IDisposa
             void TryCloseEmptySource()
             {
                 if (capturedForm is { IsDisposed: false }
-                    && capturedSourceNavigator is { IsDisposed: false }
-                    && capturedSourceNavigator.Pages.Count == 0
+                    && capturedSourceNavigator is { IsDisposed: false, Pages.Count: 0 }
                     && capturedForm.Visible)
                 {
                     capturedForm.Close();

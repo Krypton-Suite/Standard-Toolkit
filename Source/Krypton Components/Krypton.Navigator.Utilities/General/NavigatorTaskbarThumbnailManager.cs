@@ -33,7 +33,7 @@ internal sealed class NavigatorTaskbarThumbnailManager : IDisposable
         }
 
         Form? resolved = null;
-        if (_owner.Enabled && _owner.Navigator != null && !_owner.Navigator.IsDisposed)
+        if (_owner is { Enabled: true, Navigator.IsDisposed: false })
         {
             resolved = NavigatorTaskbarHostCoordinator.ResolveTaskbarHost(_owner.Navigator.FindForm());
         }

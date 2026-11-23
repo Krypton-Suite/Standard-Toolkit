@@ -7,17 +7,22 @@
 #
 # Runs only when code is pushed to the Canary branch (or when triggered manually).
 # Does not run on a schedule.
+#
+# NUGET: Trusted publishing via NuGet/login. Secret NUGET_USER is the nuget.org profile name.
+# nuget.org needs a policy for this workflow file, Krypton-Suite/Standard-Toolkit, environment production.
 
 name: Canary Release
 
 on:
   push:
     branches:
-      - Canary
+      - master
+      - canary
   workflow_dispatch:  # Allow manual triggering
 
 permissions:
-  contents: read
+  contents: write
+  id-token: write
 
 jobs:
   canary:
@@ -69,7 +74,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           # This workflow is for the Canary branch only (push to Canary or manual run from Canary)
-          if ($env:GITHUB_REF -ne 'refs/heads/Canary') {
+          if ($env:GITHUB_REF -ne 'refs/heads/canary') {
             Write-Error "Security: Canary release only runs from branch Canary. Current ref: '$env:GITHUB_REF'. For manual run, select branch 'Canary' in the workflow dispatch."
             exit 1
           }
@@ -79,7 +84,7 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
         with:
-          ref: Canary
+          ref: canary
           fetch-depth: 0
 
       # Canary always builds Canary; the workflow file may land before Populate-WebView2.ps1 is merged to Canary.
@@ -113,32 +118,34 @@ jobs:
           Copy-Item -LiteralPath $src -Destination $dest -Force
           Write-Host 'Copied WebView2 CI script from workflow ref onto Canary checkout.'
 
-      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
-      - name: Setup .NET (9 and 10)
+      # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10 and 11)
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            9.0.x
             10.0.x
+            11.0.x
 
-      - name: Setup .NET 11 (stable)
-        id: setup_dotnet11_stable_canary_yml
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable_canary_yml
         continue-on-error: true
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        # Skip setup-dotnet preview if USE_DOTNET_PREVIEW=false (repo variable).
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 11 (preview fallback)
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_canary_yml.outcome == 'failure'
+      - name: Setup .NET Preview (preview fallback)
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_canary_yml.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
       # Preview .NET SDK. DOTNET_PREVIEW_* : repo Variables (same as build.yml / build-testform.yml).
-      # USE_DOTNET_PREVIEW=false skips preview SDK install; global.json uses stable SDK below.
+      # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) and preview SDK; global.json uses stable SDK below.
       - name: Setup .NET Preview
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
@@ -166,14 +173,17 @@ jobs:
           $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
           $sdkVersion = $null
           if (-not $usePreview) {
-            $sdkVersion = Get-ListedSdkVersion '11.0'
+            $sdkVersion = Get-ListedSdkVersion '12.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
-            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
               Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '12.0'
+            }
             if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '11.0'
             }
@@ -183,6 +193,9 @@ jobs:
           }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"
@@ -215,9 +228,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      # Prerelease WebView2 required for net11.0-windows; stable packages do not support .NET 11 yet.
-      - name: Resolve WebView2 version
+      - name: Resolve Krypton toolkit major version
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Canary
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      # WebView2 when toolkit major >= WEBVIEW2_MINIMUM_SUPPORTED_VERSION (default 110).
+      - name: Resolve WebView2 version
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         id: webview2_version
         shell: pwsh
         run: |
@@ -226,7 +250,7 @@ jobs:
           & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
 
       - name: Restore WebView2 cache
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         id: webview2_cache_restore
         uses: actions/cache/restore@v6
         continue-on-error: true
@@ -237,7 +261,7 @@ jobs:
             webview2-${{ runner.os }}-
 
       - name: Populate WebView2 (Preview)
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         shell: pwsh
         env:
           WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
@@ -247,7 +271,7 @@ jobs:
           & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
 
       - name: Save WebView2 cache
-        if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true'
+        if: success() && steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         uses: actions/cache/save@v6
         continue-on-error: true
         with:
@@ -267,18 +291,7 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         run: msbuild /m "Scripts/Build/canary.proj" /t:Pack /restore /p:Configuration=Canary /p:Platform="Any CPU" /p:UseArtifactsOutput=true
 
-      # Verify Krypton.Interop is present in the NuGet packages (V110+ only)
-      - name: Resolve Krypton toolkit major version
-        if: steps.canary_release_kill_switch.outputs.enabled == 'true'
-        id: krypton_major_version
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
-          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
-          $major = Get-KryptonToolkitMajorVersion -Configuration Canary
-          echo "major=$major" >> $env:GITHUB_OUTPUT
-
+      # Verify Krypton.Interop is present in the NuGet packages (V110+ only; major resolved earlier for WebView2 gate)
       - name: Verify Krypton.Interop in NuGet packages
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
         shell: pwsh
@@ -305,16 +318,28 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
 
+      - name: NuGet login (OIDC)
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit'
+        id: nuget_login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push NuGet Packages to nuget.org
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         id: push_nuget
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          if (-not $env:NUGET_API_KEY) {
-            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Warning "NuGet trusted publishing is only configured for Krypton-Suite/Standard-Toolkit - skipping NuGet push"
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
+          }
+
+          if (-not $env:NUGET_API_KEY) {
+            Write-Error "NuGet trusted publishing did not provide an API key. Set the NUGET_USER secret to the nuget.org profile name."
+            exit 1
           }
 
           $packageCandidates = @(
@@ -357,7 +382,7 @@ jobs:
 
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
           STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
@@ -410,26 +435,39 @@ jobs:
 
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
-            $version = "100.25.1.1"
+            $version = "120.27.1.1"
           }
 
           Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-canary" >> $env:GITHUB_OUTPUT
 
+      - name: Publish Visual Studio templates
+        id: publish_templates
+        if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        uses: ./.github/actions/publish-templates
+        with:
+          channel: canary
+          source-branch: ${{ github.ref_name }}
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
+
       - name: Announce Canary Release on Discord
         # Kill switch check
         if: steps.canary_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
-          if (-not $env:DISCORD_WEBHOOK_CANARY) {
-            Write-Warning "DISCORD_WEBHOOK_CANARY not set - skipping Discord notification"
+          if (-not $env:DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK) {
+            Write-Warning "DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK not set - skipping Discord notification"
             exit 0
           }
 
           $sha = (git rev-parse HEAD).Trim()
           $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
           $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+          $templatesUrl = '${{ steps.publish_templates.outputs.release_url }}'.Trim()
+          if ([string]::IsNullOrWhiteSpace($templatesUrl)) {
+            $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'canary' | Select-Object -Last 1).ToString().Trim()
+          }
 
           $payload = @{
             embeds = @(
@@ -455,8 +493,13 @@ jobs:
                     inline = $false
                   }
                   @{
+                    name = "🧩 Visual Studio Templates"
+                    value = "[Latest templates release]($templatesUrl)"
+                    inline = $false
+                  }
+                  @{
                     name = "🎯 Target Frameworks"
-                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0`n• .NET 11.0"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 10.0`n• .NET 11.0"
                     inline = $false
                   }
                   @{
@@ -473,6 +516,6 @@ jobs:
             )
           } | ConvertTo-Json -Depth 10
 
-          Invoke-RestMethod -Uri "${{ secrets.DISCORD_WEBHOOK_CANARY }}" -Method Post -Body $payload -ContentType "application/json"
+          Invoke-RestMethod -Uri "${{ secrets.DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK }}" -Method Post -Body $payload -ContentType "application/json"
         env:
-          DISCORD_WEBHOOK_CANARY: ${{ secrets.DISCORD_WEBHOOK_CANARY }}
+          DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK: ${{ secrets.DISCORD_CANARY_ANNOUNCEMENT_WEBHOOK }}

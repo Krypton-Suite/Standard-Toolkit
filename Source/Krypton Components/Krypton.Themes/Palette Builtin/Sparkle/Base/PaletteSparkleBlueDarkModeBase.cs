@@ -100,12 +100,12 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
 
     private static readonly Color _disabledText = Color.FromArgb(160, 160, 160);
-    private static readonly Color _disabledBack = Color.FromArgb(224, 224, 224);
+    private static readonly Color _disabledBack = Color.FromArgb(48, 48, 48);
     private static readonly Color _disabledBack2 = Color.FromArgb(240, 240, 240);
-    private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
+    private static readonly Color _disabledBorder = Color.FromArgb(96, 96, 96);
     private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
     private static readonly Color _disabledGlyphLight = Color.FromArgb(237, 237, 237);
-    private static readonly Color _contextGroupFrameTop = Color.FromArgb(200, 249, 249, 249);
+    private static readonly Color _contextGroupFrameTop = Color.FromArgb(200, 48, 48, 48);
     private static readonly Color _contextGroupFrameBottom = Color.FromArgb(249, 249, 249);
     private static readonly Color _ribbonFrameBack4 = Color.White;
     private static readonly Color _toolTipBack1 = Color.FromArgb(255, 255, 234);
@@ -149,7 +149,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTableSparkle? _table;
     private readonly Color[] _sparkleColors;
     private readonly Color[] _appButtonNormal;
@@ -163,7 +163,7 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
     protected PaletteSparkleBlueDarkModeBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
@@ -178,10 +178,9 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         ThemeName = nameof(PaletteSparkleBlueDarkModeBase);
 
         // Save colors for use in the color table
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
         _sparkleColors = sparkleColors;
         _appButtonNormal = appButtonNormal;
         _appButtonTrack = appButtonTrack;
@@ -193,7 +192,6 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
         // Get the font settings from the system
         DefineFonts();
 
-        BaseColors = scheme;
 
         SetTrackBarColors();
     }
@@ -2973,6 +2971,14 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
+
     /// <inheritdoc />
     public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
 
@@ -4209,6 +4215,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                 return _ribbonColors![(int)SchemeBaseColors.TrackBarTopTrack];
             case PaletteElement.TrackBarPosition:
                 return _ribbonColors![(int)SchemeBaseColors.TrackBarOutsidePosition];
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4245,6 +4253,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Normal or PaletteState.Tracking or PaletteState.Pressed => _colorDark00,
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4283,6 +4293,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Pressed => ControlPaint.Light(_sparkleColors[8]),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4331,6 +4343,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Pressed => _sparkleColors[8],
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4372,6 +4386,8 @@ public abstract class PaletteSparkleBlueDarkModeBase : PaletteBase
                     PaletteState.Pressed => _sparkleColors[9],
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);

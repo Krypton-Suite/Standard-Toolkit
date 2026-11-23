@@ -119,13 +119,21 @@ public abstract class HeaderValuesBase : Storage,
             if (_image != value)
             {
                 _image = value;
+                OnImageChanged();
                 PerformNeedPaint(true);
             }
         }
     }
 
     private bool ShouldSerializeImage() => _image != GetImageDefault();
-    protected internal void ResetImage() => _image = GetImageDefault();
+    protected internal void ResetImage() => Image = GetImageDefault();
+
+    /// <summary>
+    /// Called after <see cref="Image"/> changes.
+    /// </summary>
+    protected virtual void OnImageChanged()
+    {
+    }
 
     /// <summary>
     /// Gets the content image.

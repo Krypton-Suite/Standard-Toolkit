@@ -242,6 +242,15 @@ public static class MaterializeSchemeHelper
         scheme.MenuItemText = Color.Black;
         scheme.MenuStripText = Color.Black;
         scheme.ToolStripText = Color.Black;
+        scheme.TransferSpeedGraphPlot = panelClient;
+        scheme.TransferSpeedGraphSeries = header1;
+        scheme.TransferSpeedGraphGrid = buttonBorder;
+        scheme.TransferSpeedGraphBorder = buttonBorder;
+        scheme.TransferSpeedGraphLabel = Color.Black;
+        scheme.ProgressBarValue = header1;
+        scheme.ProgressBarLow = Color.Red;
+        scheme.ProgressBarMedium = Color.Orange;
+        scheme.ProgressBarHigh = header1;
     }
 
     /// <summary>
@@ -575,6 +584,15 @@ public static class MaterializeSchemeHelper
         scheme.TrackBarFillTrack = borderAccent;
         scheme.TrackBarOutsidePosition = Color.FromArgb(64, lightText);
         scheme.TrackBarBorderPosition = borderMuted;
+        scheme.TransferSpeedGraphPlot = panelDeep;
+        scheme.TransferSpeedGraphSeries = panelAccent;
+        scheme.TransferSpeedGraphGrid = borderMuted;
+        scheme.TransferSpeedGraphBorder = borderMuted;
+        scheme.TransferSpeedGraphLabel = lightText;
+        scheme.ProgressBarValue = panelAccent;
+        scheme.ProgressBarLow = Color.Red;
+        scheme.ProgressBarMedium = Color.Orange;
+        scheme.ProgressBarHigh = panelAccent;
     }
 
     private static void GetLightRamp(MaterializeAccentKind kind,

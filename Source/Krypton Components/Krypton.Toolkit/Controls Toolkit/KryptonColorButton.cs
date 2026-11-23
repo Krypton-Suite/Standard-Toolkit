@@ -22,7 +22,7 @@ namespace Krypton.Toolkit;
 [Designer("Krypton.Toolkit.KryptonColorButtonDesigner, " + KryptonWinFormsDesignerSdk.AssemblyName)]
 [DesignerCategory(@"code")]
 [Description(@"Raises an event when the user clicks it.")]
-public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValues
+public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValues, IKryptonColorLivePreview
 {
     #region Instance Fields
     private readonly ViewDrawButton _drawButton;
@@ -49,6 +49,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     private KryptonColorButtonCustomColorPreviewShape _customColorPreviewShape;
     private ThemeColorSortMode _themeColorSortMode;
     private readonly InputPulsingBorderViewIntegration _pulsingBorder;
+    private readonly KryptonColorLivePreviewSession _colorLivePreview = new KryptonColorLivePreviewSession();
 
     // Context menu items
     private readonly KryptonContextMenu? _kryptonContextMenu;
@@ -108,6 +109,13 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     [Category(@"Action")]
     [Description(@"Occurs when user selects the more colors option.")]
     public event CancelEventHandler? MoreColors;
+
+    /// <summary>
+    /// Occurs when the live preview starts, updates, commits, or cancels.
+    /// </summary>
+    [Category(@"Action")]
+    [Description(@"Occurs when the live preview starts, updates, commits, or cancels.")]
+    public event EventHandler<KryptonColorLivePreviewEventArgs>? ColorPreview;
     #endregion
 
     #region Identity
@@ -242,6 +250,8 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
 
         // Listen for palette switches so we can refresh dynamic theme colors
         KryptonManager.GlobalPaletteChanged += OnGlobalPaletteChangedForThemeColors;
+
+        _colorLivePreview.PreviewChanged += OnColorLivePreviewChanged;
     }
     #endregion
 
@@ -474,6 +484,37 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     [Description(@"Should recent colors be automatically updated.")]
     [DefaultValue(true)]
     public bool AutoRecentColors { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether highlighting a swatch previews that colour before it is committed.
+    /// </summary>
+    /// <remarks>
+    /// When false, <see cref="SelectedColor"/> changes only when the user chooses a colour, and <see cref="TrackingColor"/> is unchanged.
+    /// When true, the colour bar follows the highlight and <see cref="ColorPreview"/> reports preview, revert, commit, and cancel.
+    /// <see cref="SelectedColor"/> and the recent-colour list still change only when the user chooses a colour.
+    /// </remarks>
+    [Category(@"Behavior")]
+    [Description(@"Preview a highlighted swatch before it is committed to SelectedColor.")]
+    [DefaultValue(false)]
+    public bool LivePreview
+    {
+        get => _colorLivePreview.Enabled;
+        set => _colorLivePreview.Enabled = value;
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether a swatch colour is currently shown in place of <see cref="SelectedColor"/>.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool IsColorPreviewActive => _colorLivePreview.IsPreviewing;
+
+    /// <summary>
+    /// Gets the colour to paint: the highlighted swatch while <see cref="IsColorPreviewActive"/> is true, otherwise <see cref="SelectedColor"/>.
+    /// </summary>
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public Color DisplayColor => _colorLivePreview.IsPreviewing ? _colorLivePreview.DisplayColor : _selectedColor;
 
     /// <summary>
     /// Gets and sets the color scheme for the themes color set.
@@ -1251,6 +1292,12 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     protected virtual void OnMoreColors(CancelEventArgs e) => MoreColors?.Invoke(this, e);
 
     /// <summary>
+    /// Raises the <see cref="ColorPreview"/> event.
+    /// </summary>
+    /// <param name="e">Preview stage and colours.</param>
+    protected virtual void OnColorPreview(KryptonColorLivePreviewEventArgs e) => ColorPreview?.Invoke(this, e);
+
+    /// <summary>
     /// Raises the KryptonCommandChanged event.
     /// </summary>
     /// <param name="e">An EventArgs containing the event data.</param>
@@ -1467,7 +1514,10 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
 
                 // Show relative to the screen rectangle
                 cpma.KryptonContextMenu.Closed += OnKryptonContextMenuClosed;
-                cpma.KryptonContextMenu.Show(this, screenRect, cpma.PositionH, cpma.PositionV);
+                if (cpma.KryptonContextMenu.Show(this, screenRect, cpma.PositionH, cpma.PositionV))
+                {
+                    _colorLivePreview.Open(_selectedColor);
+                }
             }
         }
 
@@ -1498,6 +1548,7 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
     {
         var kcm =sender as KryptonContextMenu ?? ThrowHelper.ThrowArgumentNullException(sender as KryptonContextMenu, nameof(sender));
         kcm.Closed -= OnKryptonContextMenuClosed;
+        _colorLivePreview.Cancel();
         ContextMenuClosed();
 
         // Unhook from item events
@@ -1728,14 +1779,29 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
         visible.Visible = previous;
     }
 
-    private void OnColumnsTrackingColor(object? sender, ColorEventArgs e) => OnTrackingColor(new ColorEventArgs(e.Color));
+    private void OnColumnsTrackingColor(object? sender, ColorEventArgs e)
+    {
+        OnTrackingColor(new ColorEventArgs(e.Color));
+        _colorLivePreview.Track(e.Color);
+    }
 
-    private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e) => SelectedColor = e.Color;
+    private void OnColumnsSelectedColorChanged(object? sender, ColorEventArgs e)
+    {
+        SelectedColor = e.Color;
+        _colorLivePreview.Commit(e.Color);
+    }
 
-    private void OnClickNoColor(object? sender, EventArgs e) => SelectedColor = SharedStaticVariables.EMPTY_COLOR;
+    private void OnClickNoColor(object? sender, EventArgs e)
+    {
+        SelectedColor = SharedStaticVariables.EMPTY_COLOR;
+        _colorLivePreview.Commit(SharedStaticVariables.EMPTY_COLOR);
+    }
 
     private void OnClickMoreColors(object? sender, EventArgs e)
     {
+        // The Win32 colour dialog has no hover callback. Drop any swatch preview before it opens.
+        _colorLivePreview.Cancel();
+
         // Give user a chance to cancel showing the Krypton more colors dialog
         var cea = new CancelEventArgs();
         OnMoreColors(cea);
@@ -1756,6 +1822,14 @@ public class KryptonColorButton : VisualSimpleBase, IButtonControl, IContentValu
                 SelectedColor = cd.Color;
             }
         }
+    }
+
+    private void OnColorLivePreviewChanged(object? sender, KryptonColorLivePreviewEventArgs e)
+    {
+        // SelectedColor may already match a clicked swatch, so the setter will not repaint a bar that still shows the preview.
+        Values.SelectedColor = e.Color;
+        PerformNeedPaint(true);
+        OnColorPreview(e);
     }
 
     private void SetCustomColorPreviewShape(KryptonColorButtonCustomColorPreviewShape customShape)

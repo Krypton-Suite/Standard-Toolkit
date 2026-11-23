@@ -19,6 +19,36 @@ public partial class PropertyGridTest : KryptonForm
         InitializeComponent();
     }
 
+    private void kbtnApplyThemedToolbarIcons_Click(object sender, EventArgs e)
+    {
+        // App-wide overrides via KryptonManager.Images (palette can still override per control).
+        KryptonManager.Images.PropertyGridImages.Alphabetical = CreateToolbarGlyph(Color.OrangeRed, "A");
+        KryptonManager.Images.PropertyGridImages.Categorized = CreateToolbarGlyph(Color.ForestGreen, "C");
+        KryptonManager.Images.PropertyGridImages.PropertyPages = CreateToolbarGlyph(Color.DodgerBlue, "P");
+        KryptonManager.Images.PropertyGridImages.Events = CreateToolbarGlyph(Color.Gold, "E");
+        kpgExample.PerformNeedPaint(true);
+    }
+
+    private void kbtnClearThemedToolbarIcons_Click(object sender, EventArgs e)
+    {
+        KryptonManager.Images.PropertyGridImages.Reset();
+        kpgExample.PerformNeedPaint(true);
+    }
+
+    private static Image CreateToolbarGlyph(Color fill, string marker)
+    {
+        var bitmap = new Bitmap(16, 16);
+        using (var g = Graphics.FromImage(bitmap))
+        {
+            g.Clear(fill);
+            using var font = new Font("Segoe UI", 7f, FontStyle.Bold);
+            TextRenderer.DrawText(g, marker, font, new Rectangle(0, 0, 16, 16), Color.White,
+                TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+        }
+
+        return bitmap;
+    }
+
     private void kbtnStressTest_Click(object sender, EventArgs e)
     {
         const int Iterations = 200;

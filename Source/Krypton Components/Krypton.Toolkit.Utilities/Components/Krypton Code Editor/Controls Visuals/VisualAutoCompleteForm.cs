@@ -56,7 +56,7 @@ internal class VisualAutoCompleteForm : KryptonForm
                 _editor.RichTextBox.Focus();
                 e.Handled = true;
             }
-            else if (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)
+            else if (e.KeyCode is Keys.Up or Keys.Down)
             {
                 // Let listbox handle navigation
                 e.Handled = false;
@@ -149,7 +149,7 @@ internal class VisualAutoCompleteForm : KryptonForm
         if (_listBox.SelectedIndex >= 0)
         {
             var selected = _listBox.SelectedItem?.ToString();
-            if (selected != null && selected.Length > 0)
+            if (selected is { Length: > 0 })
             {
                 // Use stored prefix instead of calling GetCurrentWord again - less flicker
                 var rtb = _editor.RichTextBox;

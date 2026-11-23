@@ -28,6 +28,7 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
     #region Instance Fields
     private readonly KryptonRibbon _ribbon;
     private readonly KryptonRibbonGroupTriple _ribbonTriple;
+    private readonly bool _showOnlyOverflow;
     private ViewDrawRibbonDesignGroupTriple _viewAddItem;
     private readonly NeedPaintHandler _needPaint;
     private GroupItemSize _currentSize;
@@ -58,6 +59,7 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _ribbonTriple = ribbonTriple ?? ThrowHelper.ThrowArgumentNullException(ribbonTriple);
         _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyOverflow = _ribbon.CompactOverflowCapture;
 
         // Associate the component with this view element for design time selection
         Component = _ribbonTriple;
@@ -73,7 +75,11 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
 
         // Hook into changes in the ribbon triple definition
         _ribbonTriple!.PropertyChanged += OnTriplePropertyChanged;
-        _ribbonTriple.TripleView = this;
+        // Only the on-ribbon view owns the design-time back reference.
+        if (!_showOnlyOverflow)
+        {
+            _ribbonTriple.TripleView = this;
+        }
 
         // At design time we want to track the mouse and show feedback
         if (_ribbon!.InDesignMode)
@@ -261,7 +267,9 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
             {
                 if (child is IRibbonViewGroupItemView item)
                 {
-                    item.GetGroupKeyTips(keyTipList, IndexOf(child) + 1);
+                    // Compact items share one row, so every key tip uses the single-line anchor.
+                    var line = _ribbon.CompactMode ? 2 : IndexOf(child) + 1;
+                    item.GetGroupKeyTips(keyTipList, line);
                 }
             }
         }
@@ -283,10 +291,19 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         var results = new List<ItemSizeWidth>();
 
         // Are we allowed to be in the large size?
+        // Compact mode has no tall image-over-text layout. Measure the icon-and-text row instead.
         if (_ribbonTriple.ItemSizeMaximum == GroupItemSize.Large)
         {
-            ApplySize(GroupItemSize.Large);
-            results.Add(new ItemSizeWidth(GroupItemSize.Large, GetPreferredSize(context).Width));
+            if (_ribbon.CompactMode)
+            {
+                ApplySize(GroupItemSize.Medium);
+                results.Add(new ItemSizeWidth(GroupItemSize.Medium, GetPreferredSize(context).Width));
+            }
+            else
+            {
+                ApplySize(GroupItemSize.Large);
+                results.Add(new ItemSizeWidth(GroupItemSize.Large, GetPreferredSize(context).Width));
+            }
         }
 
         // Are we allowed to be in the medium size?
@@ -393,9 +410,10 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         SyncChildrenToRibbonGroupItems();
 
         var preferredSize = Size.Empty;
+        Rectangle area = context.DisplayRectangle;
 
-        // Are we sizing horizontal or vertical?
-        var horizontal = _currentSize == GroupItemSize.Large;
+        // Compact mode places every size on one row. Classic large is the only horizontal size.
+        var horizontal = _currentSize == GroupItemSize.Large || _ribbon.CompactMode;
 
         // Find total width and maximum height across all child elements
         for (var i = 0; i < Count; i++)
@@ -406,6 +424,7 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
             if (child!.Visible)
             {
                 // Cache preferred size of the child
+                context.DisplayRectangle = area;
                 Size childSize = child.GetPreferredSize(context);
 
                 // Add into the size cache for use in layout code
@@ -470,8 +489,8 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         // Store the provided client area
         ClientRectangle = context!.DisplayRectangle;
 
-        // Are we sizing horizontal or vertical?
-        var horizontal = _currentSize == GroupItemSize.Large;
+        // Compact mode places every size on one row. Classic large is the only horizontal size.
+        var horizontal = _currentSize == GroupItemSize.Large || _ribbon.CompactMode;
         var widest = _currentSize == GroupItemSize.Small ? _smallWidest : _mediumWidest;
 
         // Are there any children to layout?
@@ -591,11 +610,16 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
     #region Implementation
     private void ApplySize(GroupItemSize size)
     {
+        // A compact large child would be the tall button. Cap it at icon-and-text.
+        var childSize = _ribbon.CompactMode && size == GroupItemSize.Large
+            ? GroupItemSize.Medium
+            : size;
+
         foreach (ViewBase item in this)
         {
             if (item is IRibbonViewGroupItemView viewItem)
             {
-                viewItem.SetGroupItemSize(size);
+                viewItem.SetGroupItemSize(childSize);
             }
         }
 
@@ -635,6 +659,12 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
         // Add a view element for each group item
         foreach (IRibbonGroupItem item in _ribbonTriple.Items!)
         {
+            // The popup builds views only for commands that did not fit.
+            if (_showOnlyOverflow && _ribbon.CompactOverflowHides(item, true))
+            {
+                continue;
+            }
+
             ViewBase itemView;
 
             // Do we already have a view for this item definition
@@ -648,11 +678,14 @@ internal class ViewLayoutRibbonGroupTriple : ViewComposite,
             else
             {
                 // Ask the item definition to return an appropriate view
-                itemView = item.CreateView(_ribbon, _needPaint);
+                itemView = _ribbon.CreateCompactOverflowView(_showOnlyOverflow, () => item.CreateView(_ribbon, _needPaint));
             }
 
             // Update the visible state of the item
-            itemView.Visible = _ribbon.InDesignHelperMode || item.Visible;
+            // Update the visible state of the item.
+            // Overflow hiding is layout-only and does not change the item Visible property.
+            itemView.Visible = (_ribbon.InDesignHelperMode || item.Visible) &&
+                               !_ribbon.CompactOverflowHides(item, _showOnlyOverflow);
 
             // We need to keep this association
             regenerate.Add(item, itemView);

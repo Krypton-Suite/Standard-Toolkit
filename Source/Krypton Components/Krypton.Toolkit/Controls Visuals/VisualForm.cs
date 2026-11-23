@@ -297,10 +297,10 @@ public abstract class VisualForm : Form,
 							// Remove any theme that is currently drawing chrome
 							PI.SetWindowTheme(Handle, string.Empty, string.Empty);
 
-#if NET10_0_OR_GREATER
+							// Disable DWM non-client rendering so Win11 does not paint the system
+							// caption while custom chrome is active (issues #2922 / #4584).
 							PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
 								(int)PI.Dwm.DWMNCRENDERINGPOLICY.Disabled);
-#endif
 
 							// Call virtual method for initializing own chrome
 							WindowChromeStart();
@@ -319,10 +319,8 @@ public abstract class VisualForm : Form,
 						// Restore the application to previous theme setting
 						PI.SetWindowTheme(Handle, null, null);
 
-#if NET10_0_OR_GREATER
 						PI.Dwm.WindowSetAttribute(Handle, PI.Dwm.DWMWINDOWATTRIBUTE.NCRenderingPolicy,
 							(int)PI.Dwm.DWMNCRENDERINGPOLICY.UseWindowStyle);
-#endif
 
 						// Call virtual method to reverse own chrome setup
 						WindowChromeEnd();
@@ -747,10 +745,44 @@ public abstract class VisualForm : Form,
 	}
 
 	/// <summary>
+	/// True when this instance allows themed custom chrome (overridden by <see cref="KryptonForm"/>).
+	/// </summary>
+	protected virtual bool AllowCustomChromeForInstance => true;
+
+	/// <summary>
+	/// True when custom chrome must be prepared before the first paint so the system caption
+	/// cannot flash (issues #2922 / #4584).
+	/// </summary>
+	protected bool ShouldPrepareCustomChromeBeforeFirstPaint
+	{
+		get
+		{
+			if (DesignMode)
+			{
+				return false;
+			}
+
+			// Borderless / MDI: always prepare early (#2922).
+			if (FormBorderStyle == FormBorderStyle.None || MdiParent != null)
+			{
+				return true;
+			}
+
+			// Bordered dialogs (#4584): cloak / apply chrome early only when managers + palette agree.
+			if (!AllowCustomChromeForInstance || !KryptonManager.UseThemeFormChromeBorderWidth)
+			{
+				return false;
+			}
+
+			var palette = GetResolvedPalette() ?? KryptonManager.CurrentGlobalPalette;
+			return palette != null && palette.UseThemeFormChromeBorderWidth == InheritBool.True;
+		}
+	}
+
+	/// <summary>
 	/// True when DWM composition should hide this window until custom chrome is applied.
 	/// </summary>
-	protected bool ShouldCloakUntilChromeReady =>
-		!DesignMode && (FormBorderStyle == FormBorderStyle.None || MdiParent != null);
+	protected bool ShouldCloakUntilChromeReady => ShouldPrepareCustomChromeBeforeFirstPaint;
 
 	/// <summary>
 	/// Cloaks the window (and disables DWM NC rendering / transitions) so the system frame
@@ -1384,7 +1416,7 @@ public abstract class VisualForm : Form,
 	/// <summary>
 	/// Gets whether automatic fade-in should run for this show.
 	/// </summary>
-	protected bool CanAutoFadeIn => !DesignMode && FadeValues.FadingEnabled && FadeValues.FadeIn;
+	protected bool CanAutoFadeIn => !DesignMode && FadeValues is { FadingEnabled: true, FadeIn: true };
 
 	private static bool IsImmediateCloseReason(CloseReason closeReason) =>
 		closeReason is CloseReason.WindowsShutDown or CloseReason.TaskManagerClosing or CloseReason.ApplicationExitCall;

@@ -74,7 +74,7 @@ public abstract class ButtonSpecNavFixed : ButtonSpec
     [Category(@"Behavior")]
     [Description(@"Defines header location for the button.")]
     [RefreshProperties(RefreshProperties.All)]
-    //[DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
+    [DefaultValue(typeof(HeaderLocation), "PrimaryHeader")]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
     public HeaderLocation HeaderLocation
     {

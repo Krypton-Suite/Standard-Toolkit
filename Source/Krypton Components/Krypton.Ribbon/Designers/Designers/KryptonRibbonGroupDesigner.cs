@@ -26,6 +26,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
     private DesignerVerb _moveLastVerb;
     private DesignerVerb _addTripleVerb;
     private DesignerVerb _addLinesVerb;
+    private DesignerVerb _addStackVerb;
     private DesignerVerb _addSepVerb;
     private DesignerVerb _addGalleryVerb;
     private DesignerVerb _clearItemsVerb;
@@ -42,6 +43,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
     private ToolStripMenuItem _moveToTabMenu;
     private ToolStripMenuItem _addTripleMenu;
     private ToolStripMenuItem _addLinesMenu;
+    private ToolStripMenuItem _addStackMenu;
     private ToolStripMenuItem _addSeparatorMenu;
     private ToolStripMenuItem _addGalleryMenu;
     private ToolStripMenuItem _clearItemsMenu;
@@ -75,6 +77,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         {
             _ribbonGroup.DesignTimeAddTriple += OnAddTriple;
             _ribbonGroup.DesignTimeAddLines += OnAddLines;
+            _ribbonGroup.DesignTimeAddStack += OnAddStack;
             _ribbonGroup.DesignTimeAddSeparator += OnAddSep;
             _ribbonGroup.DesignTimeAddGallery += OnAddGallery;
             _ribbonGroup.DesignTimeContextMenu += OnContextMenu;
@@ -133,6 +136,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 // Unhook from events
                 _ribbonGroup.DesignTimeAddTriple -= OnAddTriple;
                 _ribbonGroup.DesignTimeAddLines -= OnAddLines;
+                _ribbonGroup.DesignTimeAddStack -= OnAddStack;
                 _ribbonGroup.DesignTimeAddSeparator -= OnAddSep;
                 _ribbonGroup.DesignTimeAddGallery -= OnAddGallery;
                 _ribbonGroup.DesignTimeContextMenu -= OnContextMenu;
@@ -162,12 +166,13 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
             _moveLastVerb = new DesignerVerb(@"Move Group Last", OnMoveLast);
             _addTripleVerb = new DesignerVerb(@"Add Triple", OnAddTriple);
             _addLinesVerb = new DesignerVerb(@"Add Lines", OnAddLines);
+            _addStackVerb = new DesignerVerb(@"Add Stack", OnAddStack);
             _addSepVerb = new DesignerVerb(@"Add Separator", OnAddSep);
             _addGalleryVerb = new DesignerVerb(@"Add Gallery", OnAddGallery);
             _clearItemsVerb = new DesignerVerb(@"Clear Items", OnClearItems);
             _deleteGroupVerb = new DesignerVerb(@"Delete Group", OnDeleteGroup);
             _verbs.AddRange(new[] { _toggleHelpersVerb, _moveFirstVerb, _movePrevVerb, _moveNextVerb, _moveLastVerb,
-                _addTripleVerb, _addLinesVerb, _addSepVerb, _addGalleryVerb, _clearItemsVerb, _deleteGroupVerb });
+                _addTripleVerb, _addLinesVerb, _addStackVerb, _addSepVerb, _addGalleryVerb, _clearItemsVerb, _deleteGroupVerb });
         }
 
         var moveFirst = false;
@@ -423,6 +428,47 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
         }
     }
 
+    private void OnAddStack(object? sender, EventArgs e)
+    {
+        if ((_ribbonGroup.Ribbon is not null)
+            && _ribbonGroup.RibbonTab is not null
+            && _ribbonGroup.RibbonTab.Groups.Contains(_ribbonGroup))
+        {
+            DesignerTransaction transaction = _designerHost.CreateTransaction(@"KryptonRibbonGroup AddStack");
+
+            try
+            {
+                MemberDescriptor? propertyItems = TypeDescriptor.GetProperties(_ribbonGroup)[@"Items"];
+
+                RaiseComponentChanging(propertyItems);
+
+                var stack = (KryptonRibbonGroupStack)_designerHost.CreateComponent(typeof(KryptonRibbonGroupStack)) ?? ThrowHelper.ThrowNullReferenceException<KryptonRibbonGroupStack>(SharedStaticFunctions.VariableCannotBeNull("stack"));
+                _ribbonGroup.Items.Add(stack);
+
+                MemberDescriptor? propertyStackItems = TypeDescriptor.GetProperties(stack)[@"Items"];
+
+                RaiseComponentChanging(propertyStackItems);
+
+                // Six buttons show the two-column layout immediately.
+                if (stack.Items is not null)
+                {
+                    for (var i = 0; i < 6; i++)
+                    {
+                        var button = (KryptonRibbonGroupButton)_designerHost.CreateComponent(typeof(KryptonRibbonGroupButton));
+                        stack.Items.Add(button);
+                    }
+                }
+
+                RaiseComponentChanged(propertyStackItems, null, null);
+                RaiseComponentChanged(propertyItems, null, null);
+            }
+            finally
+            {
+                transaction?.Commit();
+            }
+        }
+    }
+
     private void OnAddSep(object? sender, EventArgs e)
     {
         if ((_ribbonGroup.Ribbon is not null) 
@@ -629,6 +675,7 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                 _moveToTabMenu = new ToolStripMenuItem("Move Group To Tab");
                 _addTripleMenu = new ToolStripMenuItem("Add Triple", GenericImageResources.KryptonRibbonGroupTriple, OnAddTriple);
                 _addLinesMenu = new ToolStripMenuItem("Add Lines", GenericImageResources.KryptonRibbonGroupLines, OnAddLines);
+                _addStackMenu = new ToolStripMenuItem("Add Stack", GenericImageResources.KryptonRibbonGroupStack, OnAddStack);
                 _addSeparatorMenu = new ToolStripMenuItem("Add Separator", GenericImageResources.KryptonRibbonGroupSeparator, OnAddSep);
                 _addGalleryMenu = new ToolStripMenuItem("Add Gallery", GenericImageResources.KryptonGallery, OnAddGallery);
                 _clearItemsMenu = new ToolStripMenuItem("Clear Items", null, OnClearItems);
@@ -637,12 +684,13 @@ internal class KryptonRibbonGroupDesigner : ComponentDesigner
                     _visibleMenu, _collapsableMenu, _dialogLauncherMenu, new ToolStripSeparator(),
                     _moveFirstMenu, _movePreviousMenu, _moveNextMenu, _moveLastMenu, new ToolStripSeparator(),
                     _moveToTabMenu, new ToolStripSeparator(),
-                    _addTripleMenu, _addLinesMenu, _addSeparatorMenu, _addGalleryMenu, new ToolStripSeparator(),
+                    _addTripleMenu, _addLinesMenu, _addStackMenu, _addSeparatorMenu, _addGalleryMenu, new ToolStripSeparator(),
                     _clearItemsMenu, new ToolStripSeparator(),
                     _deleteGroupMenu });
 
                 _addTripleMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
                 _addLinesMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
+                _addStackMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
                 _addSeparatorMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
                 _addGalleryMenu.ImageTransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             }

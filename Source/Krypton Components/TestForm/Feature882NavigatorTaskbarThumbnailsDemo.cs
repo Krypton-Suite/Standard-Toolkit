@@ -422,7 +422,7 @@ public partial class Feature882NavigatorTaskbarThumbnailsDemo : KryptonForm
             }
         }
 
-        if (_secondaryNavigator != null && _secondaryNavigator.Visible)
+        if (_secondaryNavigator is { Visible: true })
         {
             foreach (KryptonPage page in _secondaryNavigator.Pages)
             {

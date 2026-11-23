@@ -38,6 +38,9 @@ internal partial class VisualExceptionDialogForm : KryptonForm
     {
         InitializeComponent();
 
+        krtbExceptionDetails.ScrollBars = RichTextBoxScrollBars.Both;
+        KryptonDialogLayout.EnableResizable(this);
+
         SetInheritedControlOverride();
 
         _showCopyButton = showCopyButton ?? false;
@@ -95,7 +98,20 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         {
             GeneralToolkitUtilities.AdjustFormDimensions(this, 1108, 687);
         }
+
+        PackButtons();
     }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        // Pack again after scaling. A hidden Report Bug button otherwise leaves its designer slot between Copy and OK.
+        PackButtons();
+    }
+
+    private void PackButtons() => KryptonDialogLayout.PackButtonsRight(kryptonPanel1, kbtnCopy, kbtnReportBug, kbtnOk);
 
     private string? FormatExceptionDetails(Exception exception) =>
         // Format exception details

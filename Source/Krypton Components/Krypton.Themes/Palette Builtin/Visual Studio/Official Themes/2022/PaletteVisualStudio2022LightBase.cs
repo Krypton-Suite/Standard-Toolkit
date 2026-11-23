@@ -14,12 +14,6 @@ namespace Krypton.Themes;
 /// </summary>
 public abstract class PaletteVisualStudio2022LightBase : PaletteVisualStudioBase
 {
-    protected PaletteVisualStudio2022LightBase(Color[] schemeColors, ImageList checkBoxList, ImageList galleryButtonList, Image?[] radioButtonArray, Color[] trackBarColors)
-        : base(schemeColors, checkBoxList, galleryButtonList, radioButtonArray, trackBarColors)
-    {
-        ThemeName = nameof(PaletteVisualStudio2022LightBase);
-    }
-
     protected PaletteVisualStudio2022LightBase(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,

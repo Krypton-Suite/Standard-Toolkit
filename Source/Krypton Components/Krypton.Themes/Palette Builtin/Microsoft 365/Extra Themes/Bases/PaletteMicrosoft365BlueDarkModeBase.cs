@@ -53,8 +53,8 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
         RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color4, Color.FromArgb(110, 150, 240));
         RegisterColor<AppButtonTrackColor>(AppButtonTrackColor.Color5, Color.FromArgb(115, 155, 245));
 
-        RegisterColor<ButtonBackColor>(ButtonBackColor.Color1, Color.FromArgb(221, 221, 221));
-        RegisterColor<ButtonBackColor>(ButtonBackColor.Color2, Color.FromArgb(236, 236, 236));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color1, Color.FromArgb(70, 110, 168));
+        RegisterColor<ButtonBackColor>(ButtonBackColor.Color2, Color.FromArgb(90, 130, 186));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color3, Color.FromArgb(167, 199, 241));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color4, Color.FromArgb(115, 150, 196));
         RegisterColor<ButtonBackColor>(ButtonBackColor.Color5, Color.FromArgb(96, 150, 220));
@@ -178,9 +178,9 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
 
     private static readonly Color _gridTextColor = Color.Black;
     private static readonly Color _disabledText2 = Color.FromArgb(51, 51, 51);
-    private static readonly Color _disabledText = Color.FromArgb(150, 143, 134);
-    private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
-    private static readonly Color _disabledBorder = Color.FromArgb(212, 212, 212);
+    private static readonly Color _disabledText = Color.FromArgb(220, 232, 248);
+    private static readonly Color _disabledBack = Color.FromArgb(70, 104, 156);
+    private static readonly Color _disabledBorder = Color.FromArgb(40, 72, 120);
     private static readonly Color _disabledGlyphDark = Color.FromArgb(183, 183, 183);
     private static readonly Color _disabledGlyphLight = Color.FromArgb(237, 237, 237);
     private static readonly Color _contextCheckedTabBorder1 = Color.FromArgb(223, 119, 0);
@@ -422,7 +422,7 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                         return style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _disabledBack;
 
                     case PaletteState.Normal:
-                        return style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : SystemColors.Window;
+                        return style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : Color.FromArgb(168, 196, 230);
 
                     case PaletteState.Pressed:
                     case PaletteState.Tracking:
@@ -432,7 +432,7 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                             PaletteBackStyle.TabHighProfile => state == PaletteState.Tracking
                                 ? GetArrayColor<ButtonBackColor>(ButtonBackColor.Color3)
                                 : GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
-                            _ => SystemColors.Window
+                            _ => Color.FromArgb(168, 196, 230)
                         };
 
                     case PaletteState.CheckedNormal:
@@ -451,7 +451,7 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                         }
                         else
                         {
-                            return SystemColors.Window;
+                            return Color.FromArgb(168, 196, 230);
                         }
 
                     default:
@@ -463,7 +463,7 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                 return state switch
                 {
                     PaletteState.Disabled => _disabledBack,
-                    PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.Tracking => SystemColors.Window,
+                    PaletteState.Normal or PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking or PaletteState.Pressed or PaletteState.Tracking => Color.FromArgb(168, 196, 230),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
 
@@ -717,8 +717,8 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                 {
                     PaletteState.Disabled => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : _disabledBack,
                     PaletteState.Normal => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : BaseColors!.ButtonNormalBack2,
-                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : SystemColors.Window,
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
+                    PaletteState.Tracking or PaletteState.Pressed => style == PaletteBackStyle.TabLowProfile ? SharedStaticVariables.EMPTY_COLOR : Color.FromArgb(168, 196, 230),
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => Color.FromArgb(168, 196, 230),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDock:
@@ -727,7 +727,7 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                     PaletteState.Disabled => _disabledBack,
                     PaletteState.Normal => BaseColors!.HeaderDockInactiveBack1,
                     PaletteState.Tracking or PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
-                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => SystemColors.Window,
+                    PaletteState.CheckedNormal or PaletteState.CheckedPressed or PaletteState.CheckedTracking => Color.FromArgb(168, 196, 230),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
             case PaletteBackStyle.TabDockAutoHidden:
@@ -3117,6 +3117,14 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
+
     /// <inheritdoc />
     public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
 
@@ -4156,6 +4164,8 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                     PaletteState.Disabled => SharedStaticVariables.EMPTY_COLOR,
                     _ => BaseColors!.TrackBarOutsidePosition
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4194,6 +4204,8 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4235,6 +4247,8 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
 
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4283,6 +4297,8 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4331,6 +4347,8 @@ public abstract class PaletteMicrosoft365BlueDarkModeBase : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color6),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);

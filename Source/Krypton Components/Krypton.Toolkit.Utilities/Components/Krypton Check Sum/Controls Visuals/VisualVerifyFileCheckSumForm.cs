@@ -47,6 +47,7 @@ public partial class VisualVerifyFileCheckSumForm : KryptonForm
     public VisualVerifyFileCheckSumForm()
     {
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
 
         CancelButton = kbtnCancel;
 

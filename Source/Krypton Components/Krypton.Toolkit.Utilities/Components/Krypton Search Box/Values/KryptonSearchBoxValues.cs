@@ -22,6 +22,7 @@ public class KryptonSearchBoxValues : Storage
     private int _suggestionMaxCount;
     private SearchSuggestionDisplayType _suggestionDisplayType;
     private int _minimumSearchLength;
+    private int _suggestionUpdateDelay;
     private bool _enableSearchHistory;
     private int _searchHistoryMaxCount;
     private bool _clearOnEscape;
@@ -46,6 +47,7 @@ public class KryptonSearchBoxValues : Storage
         _suggestionMaxCount = 10;
         _suggestionDisplayType = SearchSuggestionDisplayType.ListBox;
         _minimumSearchLength = 0;
+        _suggestionUpdateDelay = 75;
         // History defaults
         _enableSearchHistory = false;
         _searchHistoryMaxCount = 10;
@@ -66,6 +68,7 @@ public class KryptonSearchBoxValues : Storage
                                       SuggestionMaxCount == 10 &&
                                       SuggestionDisplayType == SearchSuggestionDisplayType.ListBox &&
                                       MinimumSearchLength == 0 &&
+                                      SuggestionUpdateDelay == 75 &&
                                       !EnableSearchHistory &&
                                       SearchHistoryMaxCount == 10 &&
                                       ClearOnEscape &&
@@ -194,6 +197,30 @@ public class KryptonSearchBoxValues : Storage
             {
                 _minimumSearchLength = value;
                 _owner?.OnSearchBoxValuesChanged();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the delay in milliseconds before suggestion filtering runs after text changes.
+    /// Use <c>0</c> for immediate updates (no debounce).
+    /// </summary>
+    [Category(@"Suggestions")]
+    [Description(@"Delay in milliseconds before suggestion filtering runs after text changes. Zero means immediate.")]
+    [DefaultValue(75)]
+    public int SuggestionUpdateDelay
+    {
+        get => _suggestionUpdateDelay;
+        set
+        {
+            if (value < 0)
+            {
+                value = 0;
+            }
+            if (_suggestionUpdateDelay != value)
+            {
+                _suggestionUpdateDelay = value;
+                _owner?.OnSuggestionUpdateDelayChanged();
             }
         }
     }
@@ -356,6 +383,7 @@ public class KryptonSearchBoxValues : Storage
         SuggestionMaxCount = 10;
         SuggestionDisplayType = SearchSuggestionDisplayType.ListBox;
         MinimumSearchLength = 0;
+        SuggestionUpdateDelay = 75;
         EnableSearchHistory = false;
         SearchHistoryMaxCount = 10;
         ClearOnEscape = true;

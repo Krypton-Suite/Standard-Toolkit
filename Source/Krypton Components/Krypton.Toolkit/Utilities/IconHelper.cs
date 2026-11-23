@@ -44,7 +44,7 @@ internal static class IconHelper
 
         using (var ms2 = new MemoryStream())
         {
-            if (newSize.Height > 256 && newSize.Height > 256)
+            if (newSize.Height is > 256 and > 256)
             {
                 newSize = new Size(0, 0);
             }

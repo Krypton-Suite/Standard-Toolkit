@@ -23,6 +23,11 @@ internal partial class VisualChangeLogForm : KryptonForm
     {
         InitializeComponent();
 
+        // The change-log view was absolutely positioned, so resizing the form left it behind.
+        kryptonPanel2.Padding = new Padding(12);
+        kwbChangeLog.Dock = DockStyle.Fill;
+        KryptonDialogLayout.EnableResizable(this);
+
         _toolkitType = toolkitType;
     }
 

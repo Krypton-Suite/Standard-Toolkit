@@ -401,12 +401,9 @@ public partial class KryptonRibbon : IRibbonTranslationIdentity
             foreach (var reference in _liveRibbons)
             {
                 if (reference.TryGetTarget(out var ribbon) &&
-                    ribbon != null &&
-                    !ribbon.IsDisposed &&
-                    !ribbon._importingTranslations &&
+                    ribbon is { IsDisposed: false, _importingTranslations: false } &&
                     AutoDiscoverTranslations &&
-                    ribbon.EnableAutoDiscoverTranslations &&
-                    !ribbon.DesignMode)
+                    ribbon is { EnableAutoDiscoverTranslations: true, DesignMode: false })
                 {
                     snapshot.Add(ribbon);
                 }

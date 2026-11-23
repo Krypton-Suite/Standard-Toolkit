@@ -27,8 +27,9 @@ public class ButtonSpecNavContext : ButtonSpecNavFixed
     {
         // Provide a context menu so that the button looks fixed when pressed
         // and the menu is shown. We add an items child so it has some content
-        KryptonContextMenu = new KryptonContextMenu();
-        KryptonContextMenu.Items.Add(new KryptonContextMenuItems());
+        KryptonContextMenu menu = new KryptonContextMenu();
+        menu.Items.Add(new KryptonContextMenuItems());
+        SetFactoryKryptonContextMenu(menu);
     }
 
     /// <inheritdoc/>

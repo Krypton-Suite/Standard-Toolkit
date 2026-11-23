@@ -254,4 +254,21 @@ public sealed class PaletteOffice2010Black_BaseScheme : KryptonColorSchemeBase
     public override Color TrackBarFillTrack                { get; set; } = Color.FromArgb(131, 132, 132);
     public override Color TrackBarOutsidePosition          { get; set; } = Color.FromArgb(64, Color.White);
     public override Color TrackBarBorderPosition           { get; set; } = Color.FromArgb(35, 35, 35);
+    public override Color TransferSpeedGraphPlot           { get; set; } = Color.FromArgb(113, 113, 113);
+    public override Color TransferSpeedGraphSeries         { get; set; } = Color.FromArgb(91, 91, 91);
+    public override Color TransferSpeedGraphGrid           { get; set; } = Color.FromArgb(46, 46, 46);
+    public override Color TransferSpeedGraphBorder         { get; set; } = Color.FromArgb(46, 46, 46);
+    public override Color TransferSpeedGraphLabel          { get; set; } = Color.FromArgb(70, 70, 70);
+    public override Color EqualizerFace                    { get; set; } = Color.FromArgb(113, 113, 113);
+    public override Color EqualizerLabel                   { get; set; } = Color.FromArgb(70, 70, 70);
+    public override Color EqualizerLow                     { get; set; } = Color.FromArgb(70, 70, 70);
+    public override Color EqualizerMid                     { get; set; } = Color.FromArgb(70, 70, 70);
+    public override Color EqualizerHigh                    { get; set; } = Color.Black;
+    public override Color EqualizerOff                     { get; set; } = Color.FromArgb(106, 106, 106);
+    public override Color EqualizerPeak                    { get; set; } = Color.FromArgb(137, 137, 137);
+    public override Color EqualizerThumb                   { get; set; } = Color.FromArgb(189, 189, 189);
+    public override Color ProgressBarValue                 { get; set; } = SharedStaticVariables.EMPTY_COLOR;
+    public override Color ProgressBarLow                   { get; set; } = Color.Red;
+    public override Color ProgressBarMedium                { get; set; } = Color.Orange;
+    public override Color ProgressBarHigh                  { get; set; } = SharedStaticVariables.EMPTY_COLOR;
 }

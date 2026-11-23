@@ -17,6 +17,7 @@ on:
       - canary
       - gold
       - V105-LTS
+      - V115
     paths-ignore: ['.git*', '.vscode']
   workflow_dispatch:
 
@@ -29,29 +30,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # .NET 9 and 10 always; .NET 11 — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (stable attempt, then preview).
-      - name: Setup .NET (9 and 10)
+      # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10 and 11)
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            9.0.x
             10.0.x
+            11.0.x
 
-      - name: Setup .NET 11 (stable)
-        id: setup_dotnet11_stable
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable
         continue-on-error: true
+        # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 11 (preview fallback)
-        if: steps.setup_dotnet11_stable.outcome == 'failure'
+      - name: Setup .NET Preview (preview fallback)
+        # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
-      # Optional extra preview SDK (repo variable). USE_DOTNET_PREVIEW=false skips; global.json pins latest installed band below.
+      # Optional extra preview SDK (repo variable). USE_DOTNET_PREVIEW=false skips next-band (.NET 12) and preview SDK; global.json pins latest installed band below.
       - name: Setup .NET Preview
         if: vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
@@ -59,7 +63,7 @@ jobs:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # Pin sdk.version to newest installed 11.x / 10.x / 9.x for reproducible CI (must support all TargetFrameworks).
+      # Pin sdk.version to newest installed 11.x / 10.x / 12.x for reproducible CI (must support all TargetFrameworks).
       - name: Pin SDK via global.json
         run: |
           $ErrorActionPreference = 'Stop'
@@ -70,11 +74,14 @@ jobs:
             if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
             return (($line -split '\s+', 2)[0])
           }
-          $sdkVersion = Get-ListedSdkVersion '11.0'
+          $sdkVersion = Get-ListedSdkVersion '12.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
           if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
-          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"
@@ -102,10 +109,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
-      # Prerelease WebView2 required for net11.0-windows on alpha/canary; stable packages do not support .NET 11 yet.
+      - name: Resolve Krypton toolkit major version
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Release
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      # Prerelease WebView2 when toolkit major >= WEBVIEW2_MINIMUM_SUPPORTED_VERSION (default 110); skip V105-LTS.
       - name: Resolve WebView2 version
-        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        if: github.ref != 'refs/heads/V105-LTS' && github.base_ref != 'V105-LTS' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         id: webview2_version
         shell: pwsh
         run: |
@@ -114,7 +130,7 @@ jobs:
           & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
 
       - name: Restore WebView2 cache
-        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        if: github.ref != 'refs/heads/V105-LTS' && github.base_ref != 'V105-LTS' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         id: webview2_cache_restore
         uses: actions/cache/restore@v6
         continue-on-error: true
@@ -125,7 +141,7 @@ jobs:
             webview2-${{ runner.os }}-
 
       - name: Populate WebView2 (Preview)
-        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        if: github.ref != 'refs/heads/V105-LTS' && github.base_ref != 'V105-LTS' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         shell: pwsh
         env:
           WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
@@ -135,7 +151,7 @@ jobs:
           & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
 
       - name: Save WebView2 cache
-        if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
+        if: success() && github.ref != 'refs/heads/V105-LTS' && github.base_ref != 'V105-LTS' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         uses: actions/cache/save@v6
         continue-on-error: true
         with:
@@ -160,29 +176,32 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # .NET 9 and 10 always; .NET 11 — DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x (same resolution as build job).
-      - name: Setup .NET (9 and 10)
+      # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false (same as build job).
+      - name: Setup .NET (10 and 11)
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            9.0.x
             10.0.x
+            11.0.x
 
-      - name: Setup .NET 11 (stable)
-        id: setup_dotnet11_stable_release
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable_release
         continue-on-error: true
+        # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 11 (preview fallback)
-        if: steps.setup_dotnet11_stable_release.outcome == 'failure'
+      - name: Setup .NET Preview (preview fallback)
+        # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_release.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
-      # Pin sdk.version to newest installed 11.x / 10.x / 9.x for reproducible CI (must support all TargetFrameworks).
+      # Pin sdk.version to newest installed 11.x / 10.x / 12.x for reproducible CI (must support all TargetFrameworks).
       - name: Pin SDK via global.json
         run: |
           $ErrorActionPreference = 'Stop'
@@ -193,11 +212,14 @@ jobs:
             if ($line -match '^(\d+\.\d+\.\d+)\s') { return $Matches[1] }
             return (($line -split '\s+', 2)[0])
           }
-          $sdkVersion = Get-ListedSdkVersion '11.0'
+          $sdkVersion = Get-ListedSdkVersion '12.0'
+          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
           if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
-          if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"
@@ -225,10 +247,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      # TODO: Remove the step-level `if` below in November 2026 so WebView2 runs on all branches.
-      # Prerelease WebView2 required for net11.0-windows on alpha/canary; stable packages do not support .NET 11 yet.
+      - name: Resolve Krypton toolkit major version
+        id: krypton_major_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
+          $major = Get-KryptonToolkitMajorVersion -Configuration Release
+          echo "major=$major" >> $env:GITHUB_OUTPUT
+
+      # Prerelease WebView2 when toolkit major >= WEBVIEW2_MINIMUM_SUPPORTED_VERSION (default 110); skip V105-LTS.
       - name: Resolve WebView2 version
-        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        if: github.ref != 'refs/heads/V105-LTS' && github.base_ref != 'V105-LTS' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         id: webview2_version_release
         shell: pwsh
         run: |
@@ -237,7 +268,7 @@ jobs:
           & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -ResolveVersionOnly -WriteGitHubOutputVersion
 
       - name: Restore WebView2 cache
-        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        if: github.ref != 'refs/heads/V105-LTS' && github.base_ref != 'V105-LTS' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         id: webview2_cache_restore_release
         uses: actions/cache/restore@v6
         continue-on-error: true
@@ -248,7 +279,7 @@ jobs:
             webview2-${{ runner.os }}-
 
       - name: Populate WebView2 (Preview)
-        if: github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary'
+        if: github.ref != 'refs/heads/V105-LTS' && github.base_ref != 'V105-LTS' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         shell: pwsh
         env:
           WEBVIEW2_VERSION: ${{ steps.webview2_version_release.outputs.version }}
@@ -258,7 +289,7 @@ jobs:
           & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Prerelease -Version $env:WEBVIEW2_VERSION
 
       - name: Save WebView2 cache
-        if: success() && (github.ref == 'refs/heads/alpha' || github.ref == 'refs/heads/canary' || github.head_ref == 'alpha' || github.head_ref == 'canary')
+        if: success() && github.ref != 'refs/heads/V105-LTS' && github.base_ref != 'V105-LTS' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
         uses: actions/cache/save@v6
         continue-on-error: true
         with:
@@ -270,7 +301,7 @@ jobs:
         run: dotnet restore "Source/Krypton Components/Krypton Toolkit Suite 2022 - VS2022.slnx" -p:Configuration=Release -p:TFMs=all -p:UseArtifactsOutput=true
 
       # Fail early if Restore did not write assets under artifacts/obj (would surface later as NETSDK1005 in Pack).
-      - name: Debug: list artifacts/obj
+      - name: "Debug: list artifacts/obj"
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
@@ -294,17 +325,7 @@ jobs:
       - name: Pack Release
         run: msbuild /m "Scripts/Build/build.proj" /t:Pack /p:Configuration=Release /p:Platform="Any CPU" /p:UseArtifactsOutput=true /p:TFMs=all /p:Restore=false
 
-      # Verify Krypton.Interop in NuGet packages (V110+ only)
-      - name: Resolve Krypton toolkit major version
-        id: krypton_major_version
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
-          . (Join-Path $repoRoot 'Scripts/CI/Test-KryptonInteropInPackages.ps1')
-          $major = Get-KryptonToolkitMajorVersion -Configuration Release
-          echo "major=$major" >> $env:GITHUB_OUTPUT
-
+      # Verify Krypton.Interop in NuGet packages (V110+ only; major resolved earlier for WebView2 gate)
       - name: Verify Krypton.Interop in NuGet packages
         if: steps.krypton_major_version.outputs.major >= 110
         shell: pwsh
@@ -384,7 +405,7 @@ jobs:
           }
 
           if (-not $version) {
-            $version = "100.25.1.1"  # Fallback version
+            $version = vars.FALLBACK_LTS_VERSION  # Fallback version
           }
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version" >> $env:GITHUB_OUTPUT

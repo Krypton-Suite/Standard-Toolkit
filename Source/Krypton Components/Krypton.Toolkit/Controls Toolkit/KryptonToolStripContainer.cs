@@ -210,7 +210,7 @@ public class KryptonToolStripContainer : ToolStripContainer
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
     public PaletteBack StateCommon => _stateCommon?.Back ?? ThrowHelper.ThrowObjectDisposedException<PaletteBack>(nameof(KryptonToolStripContainer));
 
-    private bool ShouldSerializeStateCommon() => _stateCommon != null && !_stateCommon.Back.IsDefault;
+    private bool ShouldSerializeStateCommon() => _stateCommon is { Back.IsDefault: false };
 
     /// <summary>
     /// Gets access to the disabled container appearance.
@@ -220,7 +220,7 @@ public class KryptonToolStripContainer : ToolStripContainer
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 public PaletteBack StateDisabled => _stateDisabled?.Back ?? ThrowHelper.ThrowObjectDisposedException<PaletteBack>(nameof(KryptonToolStripContainer));
 
-    private bool ShouldSerializeStateDisabled() => _stateDisabled != null && !_stateDisabled.Back.IsDefault;
+    private bool ShouldSerializeStateDisabled() => _stateDisabled is { Back.IsDefault: false };
 
     /// <summary>
     /// Gets access to the normal container appearance.
@@ -230,7 +230,7 @@ public PaletteBack StateDisabled => _stateDisabled?.Back ?? ThrowHelper.ThrowObj
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
 public PaletteBack StateNormal => _stateNormal?.Back ?? ThrowHelper.ThrowObjectDisposedException<PaletteBack>(nameof(KryptonToolStripContainer));
 
-    private bool ShouldSerializeStateNormal() => _stateNormal != null && !_stateNormal.Back.IsDefault;
+    private bool ShouldSerializeStateNormal() => _stateNormal is { Back.IsDefault: false };
 
     /// <summary>
     /// Fix the control to a particular palette state.

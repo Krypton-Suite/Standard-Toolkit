@@ -21,6 +21,7 @@ public class FontAwesomeIconPickerDialog : KryptonForm
     public FontAwesomeIconPickerDialog()
     {
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
         LoadIcons();
         SelectedIcon = FontAwesomeIcon.Home;
     }

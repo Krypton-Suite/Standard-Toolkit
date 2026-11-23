@@ -511,8 +511,7 @@ public class ViewDrawSplitCanvas : ViewComposite
         RenderBackground(context, ClientRectangle);
 
         if (DrawCanvas && PaletteBorder != null &&
-            ClientRectangle.Width > 0 &&
-            ClientRectangle.Height > 0)
+            ClientRectangle is { Width: > 0, Height: > 0 })
         {
             // Do we draw the border before the children?
             if (!DrawBorderLast)
@@ -528,7 +527,7 @@ public class ViewDrawSplitCanvas : ViewComposite
             var draw = PaletteBorder.GetBorderDraw(State);
             var edges = PaletteBorder.GetBorderDrawBorders(State);
             var width = PaletteBorder.GetBorderWidth(State);
-            if (!ThemeChangeCoordinator.InProgress && rect.Width > 0 && rect.Height > 0 && draw == InheritBool.True && CommonHelper.HasABorder(edges) && width > 0)
+            if (!ThemeChangeCoordinator.InProgress && rect is { Width: > 0, Height: > 0 } && draw == InheritBool.True && CommonHelper.HasABorder(edges) && width > 0)
             {
                 // Remember the current clipping region
                 _clipRegion = context.Graphics.Clip.Clone();
@@ -573,8 +572,7 @@ public class ViewDrawSplitCanvas : ViewComposite
         }
 
         if (DrawCanvas && PaletteBorder != null &&
-            ClientRectangle.Width > 0 &&
-            ClientRectangle.Height > 0)
+            ClientRectangle is { Width: > 0, Height: > 0 })
         {
             // Do we draw the border after the children?
             if (DrawBorderLast)

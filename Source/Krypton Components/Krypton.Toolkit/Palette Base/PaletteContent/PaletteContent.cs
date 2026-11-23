@@ -759,7 +759,6 @@ public class PaletteContent : Storage,
     [KryptonPersist(false)]
     [Category(@"Visuals")]
     [Description(@"Spacing gap between adjacent content items.")]
-    [DefaultValue(-1)]
     [RefreshProperties(RefreshProperties.All)]
     public virtual int AdjacentGap
     {

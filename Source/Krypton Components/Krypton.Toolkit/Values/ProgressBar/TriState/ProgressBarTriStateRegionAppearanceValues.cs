@@ -16,7 +16,7 @@ public class ProgressBarTriStateRegionAppearanceValues : Storage
     #region Instance Fields
 
     private readonly ProgressBarTriStateValues _parent;
-    private readonly Color _defaultBackColor;
+    private Color _defaultBackColor;
     private readonly ProgressBarTriStateRegionStateValues _stateCommon;
     private readonly ProgressBarTriStateRegionStateValues _stateNormal;
     private readonly ProgressBarTriStateRegionStateValues _stateDisabled;
@@ -178,6 +178,16 @@ public class ProgressBarTriStateRegionAppearanceValues : Storage
     #region Internal
 
     /// <summary>
+    /// Updates StateCommon's factory fill from a scheme slot (leaves user overrides alone).
+    /// </summary>
+    /// <param name="color">New factory / scheme default.</param>
+    internal void ApplySchemeFactoryColor(Color color)
+    {
+        _defaultBackColor = color;
+        _stateCommon.SetFactoryBackColor1(color);
+    }
+
+    /// <summary>
     /// Called when a state property changes. Notifies the parent.
     /// </summary>
     internal void OnStateChanged(ProgressBarTriStateRegionStateValues state)
@@ -192,5 +202,5 @@ public class ProgressBarTriStateRegionAppearanceValues : Storage
     /// <inheritdoc />
     public override string ToString() => !IsDefault ? "Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
-    #endregion#
+    #endregion
 }

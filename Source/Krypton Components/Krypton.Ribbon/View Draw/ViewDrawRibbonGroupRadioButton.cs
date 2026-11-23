@@ -25,6 +25,7 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
     private readonly Padding _largeImagePadding; // = new Padding(3, 2, 3, 3);
     private readonly Padding _smallImagePadding; // = new Padding(3);
     private readonly KryptonRibbon _ribbon;
+    private bool? _overflowCopy;
     private ViewLayoutRibbonRadioButton _viewLarge;
     private ViewDrawRibbonGroupRadioButtonImage _viewLargeImage;
     private ViewDrawRibbonGroupRadioButtonText _viewLargeText1;
@@ -107,7 +108,10 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
                 GroupRadioButton.PropertyChanged -= OnRadioButtonPropertyChanged;
 
                 // Remove association with definition
-                GroupRadioButton.RadioButtonView = null!;
+                if (_overflowCopy == false)
+                {
+                    GroupRadioButton.RadioButtonView = null!;
+                }
                 GroupRadioButton = null!;
             }
         }
@@ -213,12 +217,19 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
             switch (_currentSize)
             {
                 case GroupItemSize.Large:
+                    if (_ribbon.CompactMode)
+                    {
+                        screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, 2);
+                        controller = _viewMediumSmallController;
+                        break;
+                    }
+
                     screenPt = new Point(viewRect.Left + (viewRect.Width / 2), viewRect.Bottom);
                     controller = _viewLargeController;
                     break;
                 case GroupItemSize.Medium:
                 case GroupItemSize.Small:
-                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, lineHint);
+                    screenPt = _ribbon.CalculatedValues.KeyTipRectToPoint(viewRect, _ribbon.CompactMode ? 2 : lineHint);
                     controller = _viewMediumSmallController;
                     break;
             }
@@ -250,7 +261,7 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
         // Get the preferred size of radio button view
         Size preferredSize = base.GetPreferredSize(context);
 
-        preferredSize.Height = _currentSize == GroupItemSize.Large
+        preferredSize.Height = _currentSize == GroupItemSize.Large && !_ribbon.CompactMode
             ? _ribbon.CalculatedValues.GroupTripleHeight
             : _ribbon.CalculatedValues.GroupLineHeight;
 
@@ -389,7 +400,10 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
         Add(view);
 
         // Provide back reference to the radio button definition
-        GroupRadioButton.RadioButtonView = view;
+        if (_ribbon.ShouldClaimRibbonItemView(ref _overflowCopy))
+        {
+            GroupRadioButton.RadioButtonView = view;
+        }
     }
 
     private void UpdateEnabledState()
@@ -428,7 +442,7 @@ internal class ViewDrawRibbonGroupRadioButton : ViewComposite,
                 DefineRootView(_viewMediumSmall);
                 break;
             case GroupItemSize.Large:
-                DefineRootView(_viewLarge);
+                DefineRootView(_ribbon.CompactMode ? _viewMediumSmall : _viewLarge);
                 break;
         }
     }

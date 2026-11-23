@@ -107,7 +107,7 @@ internal sealed class KryptonCheckBoxExtendedAccessibleObject : Control.ControlA
     /// <inheritdoc />
     public override void DoDefaultAction()
     {
-        if (_owner.Enabled && _owner.Visible)
+        if (_owner is { Enabled: true, Visible: true })
         {
             _owner.PerformAccessibilityClick();
         }

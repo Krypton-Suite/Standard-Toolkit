@@ -1,13 +1,4 @@
-﻿#region BSD License
-/*
- *
- *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege, KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
- *
- */
-#endregion
-
-namespace TestForm
+﻿namespace TestForm
 {
     partial class PaletteCollectionEditorDemo
     {
@@ -56,7 +47,7 @@ namespace TestForm
             this.kwlblInfo.Location = new System.Drawing.Point(16, 16);
             this.kwlblInfo.Name = "kwlblInfo";
             this.kwlblInfo.Size = new System.Drawing.Size(608, 88);
-            this.kwlblInfo.Text = "Issue #2117: KryptonPaletteCollectionEditor (Krypton.Toolkit.Utilities) adds .kthemex files to a .ktheme collection and removes named themes. Create a sample collection (two themes plus a spare .kthemex), then open the editor. Add Collection - Violet.kthemex, then Remove it. The last theme cannot be removed.";
+            this.kwlblInfo.Text = "Issue #2117: KryptonPaletteCollectionEditor (Krypton.Toolkit.Utilities) adds .kthemex files to a .ktheme collection and removes named themes. Create a sample collection (two themes plus a spare .kthemex), then open the editor. Add Collection-Violet.kthemex, then Remove it. The last theme cannot be removed.";
             //
             // kbtnCreateSample
             //

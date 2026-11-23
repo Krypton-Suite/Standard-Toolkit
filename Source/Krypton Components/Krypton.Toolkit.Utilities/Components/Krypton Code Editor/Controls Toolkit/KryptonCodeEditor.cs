@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -597,7 +597,7 @@ public class KryptonCodeEditor : VisualPanel,
 
     private static void BeginRedraw(Control control)
     {
-        if (control != null && control.IsHandleCreated)
+        if (control is { IsHandleCreated: true })
         {
             PI.SendMessage(control.Handle, PI.SETREDRAW, IntPtr.Zero, IntPtr.Zero);
         }
@@ -605,7 +605,7 @@ public class KryptonCodeEditor : VisualPanel,
 
     private static void EndRedraw(Control control)
     {
-        if (control != null && control.IsHandleCreated)
+        if (control is { IsHandleCreated: true })
         {
             PI.SendMessage(control.Handle, PI.SETREDRAW, (IntPtr)1, IntPtr.Zero);
             control.Invalidate();
@@ -678,7 +678,7 @@ public class KryptonCodeEditor : VisualPanel,
     private void OnRichTextBoxKeyDown(object? sender, KeyEventArgs e)
     {
         // Handle Tab key for indentation
-        if (e.KeyCode == Keys.Tab && !e.Control && !e.Alt)
+        if (e is { KeyCode: Keys.Tab, Control: false, Alt: false })
         {
             if (_richTextBox.SelectionLength > 0)
             {
@@ -1438,7 +1438,7 @@ public class KryptonCodeEditor : VisualPanel,
         int indent = 0;
         foreach (char c in line)
         {
-            if (c == ' ' || c == '\t')
+            if (c is ' ' or '\t')
             {
                 indent++;
             }
@@ -1468,7 +1468,7 @@ public class KryptonCodeEditor : VisualPanel,
         return _language switch
         {
             Language.CSharp or Language.Cpp => trimmed == "}",
-            Language.VbNet => trimmed == "End Sub" || trimmed == "End Function" || trimmed == "End If" || trimmed == "End For" || trimmed == "End While",
+            Language.VbNet => trimmed is "End Sub" or "End Function" or "End If" or "End For" or "End While",
             Language.Python => GetIndentLevel(line) == 0 && !string.IsNullOrWhiteSpace(line),
             _ => false
         };
@@ -1578,7 +1578,7 @@ public class KryptonCodeEditor : VisualPanel,
         {
             // If the auto-complete popup is already visible, update it in-place.
             // Re-running ShowAutoComplete() on every keypress causes noticeable flashing.
-            if (_autoCompleteForm != null && _autoCompleteForm.Visible)
+            if (_autoCompleteForm is { Visible: true })
             {
                 _autoCompleteForm.UpdateFilter(e.KeyChar);
                 return;
@@ -1589,7 +1589,7 @@ public class KryptonCodeEditor : VisualPanel,
             {
                 ShowAutoComplete();
             }
-            else if (e.KeyChar == '.' || e.KeyChar == '(')
+            else if (e.KeyChar is '.' or '(')
             {
                 ShowAutoComplete();
             }

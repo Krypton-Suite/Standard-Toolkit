@@ -40,7 +40,7 @@ internal partial class InternalDesignerImageIndexDropDown
 
         BorderStyle = BorderStyle.FixedSingle;
         Controls.Add(_listBox);
-        Name = nameof(InternalDesignerImageIndexDropDown);
+        Name = "InternalDesignerImageIndexDropDown";
     }
 
     #endregion

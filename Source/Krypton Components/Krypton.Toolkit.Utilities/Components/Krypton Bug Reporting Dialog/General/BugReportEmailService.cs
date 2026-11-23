@@ -143,7 +143,7 @@ public class BugReportEmailService
             sb.AppendLine();
         }
 
-        if (attachmentPaths != null && attachmentPaths.Length > 0)
+        if (attachmentPaths is { Length: > 0 })
         {
             sb.AppendLine(strings.Attachments);
             sb.AppendLine(@"-----------");

@@ -35,6 +35,7 @@ internal partial class VisualAboutBoxForm : KryptonForm
     public VisualAboutBoxForm(KryptonAboutBoxData aboutBoxData, KryptonAboutToolkitData aboutToolkitData)
     {
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
 
         _aboutBoxData = aboutBoxData;
         _aboutToolkitData = string.IsNullOrEmpty(aboutToolkitData.HeaderText)

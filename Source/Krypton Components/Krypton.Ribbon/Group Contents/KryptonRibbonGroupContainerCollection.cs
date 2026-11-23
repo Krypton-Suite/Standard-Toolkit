@@ -22,6 +22,7 @@ public class KryptonRibbonGroupContainerCollection : TypedRestrictCollection<Kry
     [
         typeof(KryptonRibbonGroupLines),
         typeof(KryptonRibbonGroupTriple),
+        typeof(KryptonRibbonGroupStack),
         typeof(KryptonRibbonGroupSeparator),
         typeof(KryptonRibbonGroupGallery)
     ];

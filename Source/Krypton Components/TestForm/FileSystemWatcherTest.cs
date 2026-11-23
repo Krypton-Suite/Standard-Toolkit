@@ -264,7 +264,7 @@ public partial class FileSystemWatcherTest : KryptonForm
 
     private void ktxtFilter_TextChanged(object sender, EventArgs e)
     {
-        if (_watcher != null && !_watcher.EnableRaisingEvents)
+        if (_watcher is { EnableRaisingEvents: false })
         {
             _watcher.Filter = ktxtFilter.Text;
             UpdateUIState();
@@ -273,7 +273,7 @@ public partial class FileSystemWatcherTest : KryptonForm
 
     private void kchkIncludeSubdirs_CheckedChanged(object sender, EventArgs e)
     {
-        if (_watcher != null && !_watcher.EnableRaisingEvents)
+        if (_watcher is { EnableRaisingEvents: false })
         {
             _watcher.IncludeSubdirectories = kchkIncludeSubdirs.Checked;
             UpdateUIState();
@@ -313,7 +313,7 @@ public partial class FileSystemWatcherTest : KryptonForm
 
     private void knudBufferSize_ValueChanged(object sender, EventArgs e)
     {
-        if (_watcher != null && !_watcher.EnableRaisingEvents)
+        if (_watcher is { EnableRaisingEvents: false })
         {
             var bufferSize = (int)knudBufferSize.Value;
             // Round to nearest multiple of 4096

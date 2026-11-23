@@ -76,6 +76,13 @@ public class KryptonRibbonGroup : Component, IRibbonTranslationIdentity
     public event EventHandler? DesignTimeAddLines;
 
     /// <summary>
+    /// Occurs when the design time wants to add a stack.
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [Browsable(false)]
+    public event EventHandler? DesignTimeAddStack;
+
+    /// <summary>
     /// Occurs when the design time wants to add a separator.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -523,6 +530,8 @@ public class KryptonRibbonGroup : Component, IRibbonTranslationIdentity
     internal void OnDesignTimeAddTriple() => DesignTimeAddTriple?.Invoke(this, EventArgs.Empty);
 
     internal void OnDesignTimeAddLines() => DesignTimeAddLines?.Invoke(this, EventArgs.Empty);
+
+    internal void OnDesignTimeAddStack() => DesignTimeAddStack?.Invoke(this, EventArgs.Empty);
 
     internal void OnDesignTimeAddSeparator() => DesignTimeAddSeparator?.Invoke(this, EventArgs.Empty);
 

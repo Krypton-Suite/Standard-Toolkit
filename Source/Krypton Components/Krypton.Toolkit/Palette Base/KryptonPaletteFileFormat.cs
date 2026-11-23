@@ -411,14 +411,14 @@ public static partial class KryptonPaletteFile
     /// </summary>
     /// <remarks>
     /// Writes <c>HKCU\Software\Classes</c> only (no admin). Safe to call more than once. Failures are
-    /// ignored so restricted designer hosts still work. Does not replace an existing Open verb that
-    /// already points at an application executable.
+    /// ignored so restricted designer hosts still work. Does not replace existing Open/Edit verbs that
+    /// already point at an application executable.
     /// </remarks>
     public static void EnsureShellAssociations() => EnsureShellAssociations(null);
 
     /// <summary>
     /// Registers per-user Explorer icons and, when <paramref name="openWithExecutable"/> is a
-    /// reachable <c>.exe</c>, the Open verb for <c>.ktheme</c> and <c>.kthemex</c>.
+    /// reachable <c>.exe</c>, Open and Edit verbs for <c>.ktheme</c> and <c>.kthemex</c>.
     /// </summary>
     /// <param name="openWithExecutable">
     /// Full path to the application that should open these files (typically Palette Designer).
@@ -430,8 +430,12 @@ public static partial class KryptonPaletteFile
     /// Layout (example for <c>.kthemex</c>):
     /// <c>HKCU\Software\Classes\.kthemex</c> default = <see cref="XmlProgId"/>;
     /// <c>HKCU\Software\Classes\kthemexfile\DefaultIcon</c>;
-    /// <c>HKCU\Software\Classes\kthemexfile\shell\open\command</c> = <c>"exe" "%1"</c>.
+    /// <c>HKCU\Software\Classes\kthemexfile\shell\open</c> = Open with Palette Designer,
+    /// command <c>"exe" "%1"</c>;
+    /// <c>HKCU\Software\Classes\kthemexfile\shell\edit</c> = Edit with Palette Designer,
+    /// same command; both verbs set <c>Icon</c> to a copied Designer <c>.ico</c>.
     /// The same pattern uses <see cref="BinaryProgId"/> for <c>.ktheme</c>.
+    /// Unreleased <c>.kpal</c> / <c>.kpalx</c> extensions are not registered.
     /// </remarks>
     public static void EnsureShellAssociations(string? openWithExecutable)
     {
@@ -454,12 +458,16 @@ public static partial class KryptonPaletteFile
                 iconValue = ExtractShellIconFile();
             }
 
-            RegisterExtension(Extension, XmlProgId, @"Krypton Theme XML", iconValue, openWith, replaceOpenCommand);
-            RegisterExtension(BinaryExtension, BinaryProgId, @"Krypton Theme Container", iconValue, openWith, replaceOpenCommand);
+            var verbIcon = replaceOpenCommand ? ExtractVerbIconFile(openWith!) : null;
+            RegisterExtension(Extension, XmlProgId, @"Krypton Theme XML", iconValue, openWith, replaceOpenCommand, verbIcon);
+            RegisterExtension(BinaryExtension, BinaryProgId, @"Krypton Theme Container", iconValue, openWith, replaceOpenCommand, verbIcon);
             DeleteProgId(@"Krypton.Toolkit.PaletteXml");
             DeleteProgId(@"Krypton.Toolkit.PaletteBinary");
             UnregisterUnreleasedExtension(@"kpal", @"Krypton.Toolkit.PaletteBinary");
+            UnregisterUnreleasedExtension(@"kpal", BinaryProgId);
             UnregisterUnreleasedExtension(@"kpalx", @"Krypton.Toolkit.PaletteXmlLegacy");
+            UnregisterUnreleasedExtension(@"kpalx", @"Krypton.Toolkit.PaletteXml");
+            UnregisterUnreleasedExtension(@"kpalx", XmlProgId);
             NotifyAssociationsChanged();
             Interlocked.Exchange(ref _shellAssociationsState, 1);
         }
@@ -491,6 +499,8 @@ public static partial class KryptonPaletteFile
     }
 
     private const string ShellIconResourceName = @"Krypton.Toolkit.Resources.KryptonPalette.ico";
+    private const string ShellOpenWithPaletteDesigner = @"Open with Palette Designer";
+    private const string ShellEditWithPaletteDesigner = @"Edit with Palette Designer";
     private static int _shellAssociationsState;
 
     private static string ExtractShellIconFile()
@@ -505,7 +515,7 @@ public static partial class KryptonPaletteFile
             ThrowHelper.ThrowInvalidOperationException(@"Embedded palette file icon is missing.");
         }
 
-        var bytes = new byte[stream!.Length];
+        var bytes = new byte[stream.Length];
         var read = 0;
         while (read < bytes.Length)
         {
@@ -524,6 +534,33 @@ public static partial class KryptonPaletteFile
         }
 
         return iconPath;
+    }
+
+    private static string ExtractVerbIconFile(string executable)
+    {
+        var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Krypton-Suite");
+        Directory.CreateDirectory(folder);
+        var iconPath = Path.Combine(folder, @"PaletteDesignerVerb.ico");
+        try
+        {
+            using (var icon = Icon.ExtractAssociatedIcon(executable))
+            {
+                if (icon != null)
+                {
+                    using (var stream = new FileStream(iconPath, FileMode.Create, FileAccess.Write, FileShare.Read))
+                    {
+                        icon.Save(stream);
+                    }
+
+                    return iconPath;
+                }
+            }
+        }
+        catch (Exception)
+        {
+        }
+
+        return ExtractShellIconFile();
     }
 
     private static void RejectJsonPalettePath(string path, string paramName)
@@ -561,7 +598,8 @@ public static partial class KryptonPaletteFile
         string friendlyName,
         string iconValue,
         string? openWithExecutable,
-        bool replaceOpenCommand)
+        bool replaceOpenCommand,
+        string? verbIcon)
     {
         using (var extKey = Registry.CurrentUser.CreateSubKey(@"Software\Classes\." + extensionWithoutDot))
         {
@@ -589,9 +627,28 @@ public static partial class KryptonPaletteFile
                 return;
             }
 
-            using var commandKey = progKey.CreateSubKey(@"shell\open\command");
-            commandKey?.SetValue(null, QuotePath(openWithExecutable!) + @" ""%1""");
+            var command = QuotePath(openWithExecutable!) + @" ""%1""";
+            var menuIcon = verbIcon ?? ExtractVerbIconFile(openWithExecutable!);
+            RegisterShellVerb(progKey, @"open", ShellOpenWithPaletteDesigner, command, menuIcon);
+            RegisterShellVerb(progKey, @"edit", ShellEditWithPaletteDesigner, command, menuIcon);
         }
+    }
+
+    private static void RegisterShellVerb(RegistryKey progKey, string verb, string displayName, string command, string iconValue)
+    {
+        using var verbKey = progKey.CreateSubKey(@"shell\" + verb);
+        if (verbKey == null)
+        {
+            return;
+        }
+
+        verbKey.SetValue(null, displayName);
+        verbKey.SetValue(@"MUIVerb", displayName);
+        // Explorer context-menu glyphs prefer a .ico path (or unquoted exe,0). Quoted DefaultIcon
+        // strings are ignored on the verb Icon value.
+        verbKey.SetValue(@"Icon", iconValue);
+        using var commandKey = verbKey.CreateSubKey(@"command");
+        commandKey?.SetValue(null, command);
     }
 
     private static bool ShouldWriteDefaultIcon(string? existing, bool replaceOpenCommand)
@@ -638,10 +695,15 @@ public static partial class KryptonPaletteFile
             : null;
     }
 
-    private static string QuotePath(string path) =>
-        path.Length >= 2 && path[0] == '"' && path[path.Length - 1] == '"'
-            ? path
-            : @"""" + path + @"""";
+    private static string QuotePath(string path)
+    {
+        if (path.Length >= 2 && path[0] == '"' && path[path.Length - 1] == '"')
+        {
+            return path;
+        }
+
+        return @"""" + path + @"""";
+    }
 
     private static void DeleteProgId(string progId)
     {

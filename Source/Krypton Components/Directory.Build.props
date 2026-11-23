@@ -27,7 +27,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" />
+		<!-- net4x only. Modern TFMs ship this assembly in the shared framework; an explicit
+		     PackageReference there warns NU1510. $(PkgSystem_Resources_Extensions) stays available
+		     for Framework pack and copy targets. -->
+		<PackageReference Include="System.Resources.Extensions" Version="9.0.10" GeneratePathProperty="true" Condition="$(TargetFramework.StartsWith('net4'))" />
 		<PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="4.14.0" PrivateAssets="all" Condition="'$(ExcludeModernTargetFrameworks)' == 'true'" />
 	</ItemGroup>
 
@@ -36,9 +39,9 @@
 		<When Condition="'$(Configuration)' == 'Nightly' Or '$(Configuration)' == 'Canary' Or '$(Configuration)' == 'Debug'">
 			<PropertyGroup>
 				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</When>
 		<!-- When SkipNetFramework is true, only build for .NET 8+ (used for testing/CI scenarios) -->
@@ -54,14 +57,14 @@
 		<Otherwise>
 			<PropertyGroup>
 				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' == 'true'">net48;net481</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net48;net481;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net48;net481;net10.0-windows;net11.0-windows</TargetFrameworks>
 				<!-- When TFMs=all, include .NET Framework 4.7.2 as well -->
 				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows</TargetFrameworks>
-				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net8.0-windows;net9.0-windows;net10.0-windows;net11.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' == 'true'">net472;net48;net481</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' == 'true'">net472;net48;net481;net10.0-windows</TargetFrameworks>
+				<TargetFrameworks Condition="'$(TFMs)' == 'all' And '$(ExcludeModernTargetFrameworks)' != 'true' And '$(ExcludeVs2022UnsupportedTargetFrameworks)' != 'true' And '$(ExcludeNet11)' != 'true'">net472;net48;net481;net10.0-windows;net11.0-windows</TargetFrameworks>
 			</PropertyGroup>
 		</Otherwise>
 	</Choose>
@@ -77,7 +80,7 @@
 		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 		<NeutralLanguage>en</NeutralLanguage>
 		<Authors>Phil Wright (A.K.A ComponentFactory), Peter Wagner (A.K.A Wagnerp), Simon Coghlan (A.K.A Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege</Authors>
-		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2025. All rights reserved.</Copyright>
+		<Copyright>© Component Factory Pty Ltd, 2006 - 2016. Then modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, Lesandro and tobitege et al. 2017 - 2027. All rights reserved.</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -155,7 +158,7 @@
 			</PropertyGroup>
 		</When>
 
-		<When Condition="'$(Configuration)' == 'RC'">
+		<When Condition="'$(Configuration)' == 'ReleaseCandidate'">
 			<ItemGroup>
 				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton RC.png" Link="Icon.png" Pack="true" PackagePath="" />
 			</ItemGroup>
@@ -168,6 +171,27 @@
 				<!-- common package data -->
 				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
 				<PackageIcon>Krypton RC.png</PackageIcon>
+				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
+				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
+				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+				<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+				<PackageTags>Krypton ComponentFactory WinForms Themes Controls DataGrid Ribbon Workspace Tabs .NET Toolkit</PackageTags>
+				<PackageReleaseNotes>Get updates here: https://github.com/Krypton-Suite/Standard-Toolkit</PackageReleaseNotes>
+				<RepositoryURL>https://github.com/Krypton-Suite/Standard-Toolkit</RepositoryURL>
+				<PublishRepositoryUrl>true</PublishRepositoryUrl>
+				<EmbedUntrackedSources>true</EmbedUntrackedSources>
+			</PropertyGroup>
+		</When>
+
+		<When Condition="'$(Configuration)' == 'LTS'">
+			<ItemGroup>
+				<None Include="../../../Assets/PNG/NuGet Package Icons/Krypton LTS.png" Link="Icon.png" Pack="true" PackagePath="" />
+			</ItemGroup>
+
+			<PropertyGroup>
+				<!-- common package data -->
+				<PackageProjectUrl>https://github.com/Krypton-Suite/Standard-Toolkit</PackageProjectUrl>
+				<PackageIcon>Krypton LTS.png</PackageIcon>
 				<Authors>Peter William Wagner &amp; Simon Coghlan &amp; Giduac &amp; Ahmed Abdelhameed &amp; Lesandro &amp; tobitege &amp; Thomas Bolon</Authors>
 				<!--<PackageLicenseFile>License.md</PackageLicenseFile>-->
 				<PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>

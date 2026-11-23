@@ -209,9 +209,8 @@ public class PaletteInputControlContentStates : Storage,
     /// </summary>
     [KryptonPersist(false)]
     [Category(@"Visuals")]
-    [Description(@"Relative horizontal Content text alignment\nIn order to get this into the designer.cs you must also modify another value in this area!")]
+    [Description(@"Relative horizontal Content text alignment.")]
     [RefreshProperties(RefreshProperties.All)]
-    [DefaultValue(PaletteRelativeAlign.Inherit)]
     public PaletteRelativeAlign TextH
     {
         get => _shortTextH;

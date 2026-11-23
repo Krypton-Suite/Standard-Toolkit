@@ -161,7 +161,7 @@ internal static class KryptonAboutBoxUtilities
 
                 stream.Seek(lfanew + 8, SeekOrigin.Begin);
                 uint stamp = reader.ReadUInt32();
-                if (stamp == 0 || stamp == uint.MaxValue)
+                if (stamp is 0 or uint.MaxValue)
                 {
                     return null;
                 }
@@ -216,7 +216,7 @@ internal static class KryptonAboutBoxUtilities
         }
 
         bool isCustom = requested.Start != defaultArea.Start || requested.Length != defaultArea.Length;
-        if (isCustom && requested.Start >= 0 && requested.Length > 0 && requested.Start + requested.Length <= text.Length)
+        if (isCustom && requested is { Start: >= 0, Length: > 0 } && requested.Start + requested.Length <= text.Length)
         {
             return requested;
         }
@@ -349,7 +349,7 @@ internal static class KryptonAboutBoxUtilities
         try
         {
             Version? version = assembly.GetName().Version;
-            if (version == null || (version.Major == 0 && version.Minor == 0))
+            if (version == null || version is { Major: 0, Minor: 0 })
             {
                 nvc.Add("Version", "(unknown)");
             }

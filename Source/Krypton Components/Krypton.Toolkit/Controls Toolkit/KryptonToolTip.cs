@@ -14,6 +14,10 @@ using Timer = System.Windows.Forms.Timer;
 /// <summary>
 /// Provides themed Krypton tooltips for arbitrary <see cref="Control"/> instances (designer-extended title/body/image, optional hosted controls, and palette settings reuse <see cref="VisualPopupToolTip"/>).
 /// </summary>
+/// <remarks>
+/// A multi-frame GIF assigned with <see cref="SetKryptonToolTipImage"/> plays until the tooltip closes.
+/// GDI+ stores the active frame on that <see cref="Image"/> instance, so another control painting the same instance can show a later frame the next time it paints.
+/// </remarks>
 [ToolboxItem(true)]
 [ToolboxBitmap(typeof(ToolTip), "ToolboxBitmaps.KryptonToolTip.bmp")]
 [DefaultProperty(nameof(ToolTipValues))]
@@ -523,11 +527,14 @@ public class KryptonToolTip : Component, IExtenderProvider
     }
 
     /// <summary>
-    /// Gets heading image displayed for this control tooltip.
+    /// Gets the image displayed for this control tooltip.
     /// </summary>
+    /// <remarks>
+    /// A multi-frame GIF plays until the tooltip closes. The active frame is stored on the <see cref="Image"/> instance.
+    /// </remarks>
     [ExtenderProvidedProperty]
     [Category(@"ToolTip")]
-    [Description(@"Optional tooltip image.")]
+    [Description(@"Optional tooltip image. Multi-frame GIFs play while the tooltip is open.")]
     [DefaultValue(null)]
     public Image? GetKryptonToolTipImage(Control control) =>
         _associations.TryGetValue(control, out ToolTipAssociation? a)
@@ -1153,7 +1160,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     private static bool IsDesignMode(Control? control)
     {
         Control? walker = control;
-        while (walker != null && !walker.IsDisposed)
+        while (walker is { IsDisposed: false })
         {
             if (walker.Site?.DesignMode == true)
             {
@@ -1170,7 +1177,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     {
         Control? dpiSource = _hoverControl ?? ContainerControl;
 
-        float dpiFactor = dpiSource is Control c && c.IsDisposed == false ? c.DeviceDpi / 96f : 96f / 96f;
+        float dpiFactor = dpiSource is Control { IsDisposed: false } c ? c.DeviceDpi / 96f : 96f / 96f;
 
         return dpiFactor;
     }
@@ -1218,8 +1225,7 @@ public class KryptonToolTip : Component, IExtenderProvider
     private Rectangle GetFallbackPlacementRect(Control control)
     {
         if (_placementRectangles.TryGetValue(control, out PlacementRectangleAssociation association)
-            && !association.IsScreenCoordinates
-            && !association.Rectangle.IsEmpty)
+            && association is { IsScreenCoordinates: false, Rectangle.IsEmpty: false })
         {
             return association.Rectangle;
         }

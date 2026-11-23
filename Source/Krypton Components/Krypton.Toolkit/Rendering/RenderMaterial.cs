@@ -112,7 +112,7 @@ public class RenderMaterial : RenderOffice2010
 
         // For crisp Material rectangles, avoid anti-alias corner artifacts when rounding is zero
         var rounding = palette.GetBorderRounding(state);
-        if (rounding <= 0.0001f && rect.Width > 0 && rect.Height > 0)
+        if (rounding <= 0.0001f && rect is { Width: > 0, Height: > 0 })
         {
             var g = context.Graphics;
             var oldSmoothing = g.SmoothingMode;

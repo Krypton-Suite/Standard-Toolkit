@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Krypton.Workspace</RootNamespace>
     <AssemblyName>Krypton.Workspace</AssemblyName>
-    <!-- Set the CheckEolTargetFramework property to false to fix the warning -->
+    <!-- Disable CheckEolTargetFramework to suppress this warning. -->
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>StrongKrypton.snk</AssemblyOriginatorKeyFile>
@@ -15,7 +15,7 @@
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <NeutralLanguage>en</NeutralLanguage>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-    <Configurations>Debug;Release;Installer;Nightly;Canary;RC</Configurations>
+    <Configurations>Debug;Release;Installer;Nightly;Canary;RC;LTS</Configurations>
     <Nullable>enable</Nullable>
     <!--https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/compiler-messages/warning-waves-->
     <WarningLevel>8</WarningLevel>

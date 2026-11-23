@@ -183,6 +183,12 @@ internal class BackstageNavigationList : Control
             return;
         }
 
+        if (IsOffice2024Navigation())
+        {
+            PaintOffice2024(g);
+            return;
+        }
+
         // Calculate column width
         var columnWidth = _columns > 1 ? Math.Max(Width / _columns, 1) : Width;
         var rowsPerColumn = (int)Math.Ceiling((double)_items.Count / _columns);
@@ -325,6 +331,19 @@ internal class BackstageNavigationList : Control
 
     private int GetItemIndexAtPoint(Point point)
     {
+        if (IsOffice2024Navigation())
+        {
+            foreach (NavSlot slot in BuildOffice2024Slots())
+            {
+                if (slot.ItemRect.Contains(point))
+                {
+                    return slot.Index;
+                }
+            }
+
+            return -1;
+        }
+
         if (_columns <= 1)
         {
             // Single column: use original logic
@@ -476,6 +495,227 @@ internal class BackstageNavigationList : Control
         using Graphics g = CreateGraphics();
         _dpiFactorX = g.DpiX / 96f;
         _dpiFactorY = g.DpiY / 96f;
+    }
+
+    private bool IsOffice2024Navigation() => _parentView?.IsOffice2024Navigation == true;
+
+    private void PaintOffice2024(Graphics g)
+    {
+        int footerLineY = -1;
+        List<NavSlot> slots = BuildOffice2024Slots(ref footerLineY);
+        Color back = _parentView?.GetNavigationBackgroundColor() ?? BackColor;
+        if (footerLineY >= 0)
+        {
+            int inset = Math.Max(8, (int)Math.Round(12f * GetDpiFactorX()));
+            using var pen = new Pen(ShiftColor(back, IsDark(back) ? 40 : -28));
+            g.DrawLine(pen, inset, footerLineY, Math.Max(inset, Width - inset), footerLineY);
+        }
+
+        foreach (NavSlot slot in slots)
+        {
+            if (slot.HasSeparator)
+            {
+                int inset = Math.Max(8, (int)Math.Round(12f * GetDpiFactorX()));
+                using var pen = new Pen(ShiftColor(back, IsDark(back) ? 40 : -28));
+                g.DrawLine(pen, inset, slot.SeparatorY, Math.Max(inset, Width - inset), slot.SeparatorY);
+            }
+
+            var isSelected = slot.Index == _selectedIndex;
+            var isHover = slot.Index == _hoverIndex && !isSelected;
+            DrawOffice2024Item(g, slot.ItemRect, _items[slot.Index], isSelected, isHover);
+        }
+    }
+
+    private List<NavSlot> BuildOffice2024Slots()
+    {
+        int ignored = -1;
+        return BuildOffice2024Slots(ref ignored);
+    }
+
+    private List<NavSlot> BuildOffice2024Slots(ref int footerLineY)
+    {
+        var slots = new List<NavSlot>();
+        footerLineY = -1;
+        int row = Math.Max(24, (int)Math.Round(32f * GetDpiFactorY()));
+        int gap = Math.Max(8, (int)Math.Round(14f * GetDpiFactorY()));
+        int pad = Math.Max(4, (int)Math.Round(8f * GetDpiFactorY()));
+        var main = new List<int>();
+        var footer = new List<int>();
+        for (var i = 0; i < _items.Count; i++)
+        {
+            if (IsPlaceAtBottom(_items[i]))
+            {
+                footer.Add(i);
+            }
+            else
+            {
+                main.Add(i);
+            }
+        }
+
+        var y = pad;
+        foreach (int index in main)
+        {
+            AddOffice2024Slot(slots, index, ref y, row, gap);
+        }
+
+        if (footer.Count == 0)
+        {
+            return slots;
+        }
+
+        var footerBlock = pad + gap;
+        foreach (int index in footer)
+        {
+            footerBlock += row;
+            if (HasSeparator(_items[index]))
+            {
+                footerBlock += gap;
+            }
+        }
+
+        var fy = Math.Max(y, Height - footerBlock);
+        footerLineY = fy + (gap / 2);
+        fy += gap;
+        foreach (int index in footer)
+        {
+            AddOffice2024Slot(slots, index, ref fy, row, gap);
+        }
+
+        return slots;
+    }
+
+    private void AddOffice2024Slot(List<NavSlot> slots, int index, ref int y, int row, int gap)
+    {
+        var slot = new NavSlot { Index = index };
+        if (HasSeparator(_items[index]))
+        {
+            slot.HasSeparator = true;
+            slot.SeparatorY = y + (gap / 2);
+            y += gap;
+        }
+
+        slot.ItemRect = new Rectangle(0, y, Width, row);
+        y += row;
+        slots.Add(slot);
+    }
+
+    private void DrawOffice2024Item(Graphics g, Rectangle rect, object item, bool isSelected, bool isHover)
+    {
+        Color back = _parentView?.GetNavigationBackgroundColor() ?? BackColor;
+        if (isSelected || isHover)
+        {
+            int insetX = Math.Max(6, (int)Math.Round(8f * GetDpiFactorX()));
+            int insetY = Math.Max(2, (int)Math.Round(3f * GetDpiFactorY()));
+            var pill = new Rectangle(rect.X + insetX, rect.Y + insetY, Math.Max(1, rect.Width - (insetX * 2)), Math.Max(1, rect.Height - (insetY * 2)));
+            Color fill = isSelected && _parentView != null && _parentView.TryGetCustomSelectedHighlight(out Color custom)
+                ? custom
+                : ShiftColor(back, IsDark(back) ? (isSelected ? 32 : 16) : (isSelected ? -22 : -10));
+            Color border = ShiftColor(back, IsDark(back) ? 56 : -40);
+            SmoothingMode smoothing = g.SmoothingMode;
+            g.SmoothingMode = SmoothingMode.AntiAlias;
+            using (GraphicsPath path = Office2024PillPath(pill))
+            {
+                using var brush = new SolidBrush(fill);
+                g.FillPath(brush, path);
+                using var pen = new Pen(border);
+                g.DrawPath(pen, path);
+            }
+
+            g.SmoothingMode = smoothing;
+        }
+
+        var image = GetItemImage(item);
+        var text = GetItemText(item);
+        var imageSize = Math.Max(12, (int)Math.Round(16f * GetDpiFactorX()));
+        var imagePadding = Math.Max(8, (int)Math.Round(12f * GetDpiFactorX()));
+        var textPadding = image != null ? imageSize + (imagePadding * 2) : imagePadding;
+        if (image != null)
+        {
+            var imageRect = new Rectangle(rect.X + imagePadding, rect.Y + ((rect.Height - imageSize) / 2), imageSize, imageSize);
+            g.DrawImage(image, imageRect);
+        }
+
+        if (string.IsNullOrEmpty(text))
+        {
+            return;
+        }
+
+        var textRect = rect;
+        textRect.X += textPadding;
+        textRect.Width -= textPadding + imagePadding;
+        Color textColor = _parentView?.GetNavigationTextColor() ?? ForeColor;
+        if (isSelected && _parentView != null && _parentView.TryGetCustomSelectedHighlight(out Color highlight))
+        {
+            textColor = _parentView.GetTextColorForBackground(highlight);
+        }
+
+        using var textBrush = new SolidBrush(textColor);
+        using var format = new StringFormat
+        {
+            Alignment = StringAlignment.Near,
+            LineAlignment = StringAlignment.Center,
+            Trimming = StringTrimming.EllipsisCharacter,
+            FormatFlags = StringFormatFlags.NoWrap
+        };
+        g.DrawString(text, Font, textBrush, textRect, format);
+    }
+
+    private static GraphicsPath Office2024PillPath(Rectangle rect)
+    {
+        var path = new GraphicsPath();
+        if (rect.Width <= rect.Height)
+        {
+            path.AddEllipse(rect);
+            return path;
+        }
+
+        float diameter = rect.Height;
+        var bounds = new RectangleF(rect.X, rect.Y, rect.Width, rect.Height);
+        path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 90f, 180f);
+        path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270f, 180f);
+        path.CloseFigure();
+        return path;
+    }
+
+    private static bool IsPlaceAtBottom(object item) =>
+        item switch
+        {
+            KryptonBackstagePage page => page.PlaceAtBottom,
+            KryptonBackstageCommand command => command.PlaceAtBottom,
+            _ => false
+        };
+
+    private static bool HasSeparator(object item) =>
+        item switch
+        {
+            KryptonBackstagePage page => page.SeparatorBefore,
+            KryptonBackstageCommand command => command.SeparatorBefore,
+            _ => false
+        };
+
+    private static bool IsDark(Color color) =>
+        ((0.2126 * color.R) + (0.7152 * color.G) + (0.0722 * color.B)) / 255.0 < 0.5;
+
+    private static Color ShiftColor(Color color, int delta) =>
+        Color.FromArgb(ClampChannel(color.R + delta), ClampChannel(color.G + delta), ClampChannel(color.B + delta));
+
+    private static int ClampChannel(int channel)
+    {
+        if (channel < 0)
+        {
+            return 0;
+        }
+
+        return channel > 255 ? 255 : channel;
+    }
+
+    private struct NavSlot
+    {
+        public int Index;
+        public Rectangle ItemRect;
+        public bool HasSeparator;
+        public int SeparatorY;
     }
 
     #endregion

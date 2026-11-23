@@ -470,6 +470,8 @@ internal class KryptonRibbonGroupComboBoxDesigner : ComponentDesigner, IKryptonD
                     return triple.Items;
                 case KryptonRibbonGroupLines lines:
                     return lines.Items;
+                case KryptonRibbonGroupStack stack:
+                    return stack.Items;
                 default:
                     // Should never happen!
                     Debug.Assert(false);

@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
@@ -727,6 +727,13 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="expanded">Is the node expanded</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => _target?.GetTreeViewImage(expanded);
+
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => _target?.GetPropertyGridImage(image);
 
     /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.

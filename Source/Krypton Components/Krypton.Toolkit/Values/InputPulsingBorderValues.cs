@@ -194,7 +194,6 @@ public class InputPulsingBorderValues : Storage
     /// </summary>
     [Category(@"Glowing Border")]
     [Description(@"Gets and sets when the pulsing border is shown.")]
-    [DefaultValue(InputPulsingBorderShowWhen.Focused)]
     public InputPulsingBorderShowWhen ShowWhen
     {
         get => GetInherited(_showWhen, values => values.ShowWhen, _defaultShowWhen);
@@ -218,7 +217,6 @@ public class InputPulsingBorderValues : Storage
     /// </summary>
     [Category(@"Glowing Border")]
     [Description(@"Gets and sets whether the glow follows the bottom edge only or the entire border.")]
-    [DefaultValue(InputPulsingBorderStyle.Bottom)]
     public InputPulsingBorderStyle Style
     {
         get => GetInherited(_style, values => values.Style, _defaultStyle);

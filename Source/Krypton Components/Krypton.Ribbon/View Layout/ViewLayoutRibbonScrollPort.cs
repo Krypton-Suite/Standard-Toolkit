@@ -478,6 +478,16 @@ internal class ViewLayoutRibbonScrollPort : ViewComposite
         if (ViewLayoutControl.ChildControl is { IsDisposed: false })
         {
             using var ccc = new CorrectContextControl(context, ViewLayoutControl.ChildControl);
+
+            // Compact commands use a trailing ellipsis instead of scrolling the row.
+            if (_ribbon.CompactMode &&
+                !_ribbon.InDesignHelperMode &&
+                (_viewFiller is ViewLayoutRibbonGroups) &&
+                (Orientation == Orientation.Horizontal))
+            {
+                context.DisplayRectangle = ClientRectangle;
+            }
+
             _viewFiller.Layout(context);
         }
 

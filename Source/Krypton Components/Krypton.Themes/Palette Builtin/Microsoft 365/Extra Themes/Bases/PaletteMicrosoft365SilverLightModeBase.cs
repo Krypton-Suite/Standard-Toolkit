@@ -3162,6 +3162,14 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
 
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
+
     /// <inheritdoc />
     public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
 
@@ -4212,6 +4220,8 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                     PaletteState.Disabled => SharedStaticVariables.EMPTY_COLOR,
                     _ => BaseColors!.TrackBarOutsidePosition
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4250,6 +4260,8 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4291,6 +4303,8 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
 
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4340,6 +4354,8 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
 
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4389,6 +4405,8 @@ public abstract class PaletteMicrosoft365SilverLightModeBase : PaletteBase
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
 
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);

@@ -152,7 +152,7 @@ internal static class SystemInformationWmi
     /// <summary>Formats a WMI property value for display.</summary>
     public static string FormatValue(object? value)
     {
-        if (value == null || value is DBNull)
+        if (value is null or DBNull)
         {
             return string.Empty;
         }
@@ -236,6 +236,5 @@ internal static class SystemInformationWmi
     }
 
     private static bool IsAccessDenied(ManagementException ex) =>
-        ex.ErrorCode == ManagementStatus.AccessDenied ||
-        ex.ErrorCode == ManagementStatus.PrivilegeNotHeld;
+        ex.ErrorCode is ManagementStatus.AccessDenied or ManagementStatus.PrivilegeNotHeld;
 }

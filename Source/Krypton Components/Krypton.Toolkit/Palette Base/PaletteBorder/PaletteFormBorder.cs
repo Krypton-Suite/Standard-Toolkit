@@ -100,7 +100,9 @@ public class PaletteFormBorder : PaletteBorder
     /// <returns>Border rounding.</returns>
     public override float GetBorderRounding(PaletteState state)
     {
-        if (Draw == InheritBool.False || Rounding == -1F)
+        // Inherit stays square except Office 2024, which uses the Office 2007/2010 radius.
+        // An explicit Rounding value still wins.
+        if (Draw == InheritBool.False || (Rounding == -1F && !UsesOffice2024FormRounding()))
         {
             return 0;
         }
@@ -111,13 +113,24 @@ public class PaletteFormBorder : PaletteBorder
     /// <inheritdoc />
     public override PaletteCornerRounding GetBorderCornerRounding(PaletteState state)
     {
-        if (Draw == InheritBool.False || Rounding == -1F)
+        if (Draw == InheritBool.False)
         {
             return PaletteCornerRounding.Uniform(0f);
         }
 
-        return base.GetBorderCornerRounding(state);
+        if (Rounding != -1F || UsesOffice2024FormRounding())
+        {
+            return base.GetBorderCornerRounding(state);
+        }
+
+        // Inherit stays square unless the palette supplies its own form corners, such as Luna's rounded caption.
+        PaletteCornerRounding inherited = InheritedBorderCornerRounding(state);
+        return inherited.HasRounding ? inherited : PaletteCornerRounding.Uniform(0f);
     }
+
+    private bool UsesOffice2024FormRounding() =>
+        _ownerForm.GetResolvedPalette() is { } palette
+        && palette.GetRibbonShape() == PaletteRibbonShape.Office2024;
 
     /// <summary>
     /// Gets the graphics hint for drawing the border.

@@ -18,6 +18,8 @@ public class KryptonImageStorage : Storage
 
     public static ToolBarImageStorage ToolbarImageStorage { get; } = new ToolBarImageStorage();
 
+    public static PropertyGridImageStorage PropertyGridImageStorage { get; } = new PropertyGridImageStorage();
+
     #endregion
 
     #region Public
@@ -44,6 +46,17 @@ public class KryptonImageStorage : Storage
     private bool ShouldSerializeToolbarImages() => !ToolbarImageStorage.IsDefault;
     private void ResetToolbarImages() => ToolbarImageStorage.Reset();
 
+    /// <summary>Gets the property grid toolbar images.</summary>
+    [Category(@"Visuals")]
+    [Description(@"A collection of images used for KryptonPropertyGrid toolbar buttons.")]
+    [MergableProperty(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+    [Localizable(true)]
+    public PropertyGridImageStorage PropertyGridImages => PropertyGridImageStorage;
+
+    private bool ShouldSerializePropertyGridImages() => !PropertyGridImageStorage.IsDefault;
+    private void ResetPropertyGridImages() => PropertyGridImageStorage.Reset();
+
     #endregion
 
     #region Identity
@@ -62,7 +75,8 @@ public class KryptonImageStorage : Storage
     [EditorBrowsable(EditorBrowsableState.Never)]
     [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
     public override bool IsDefault => !ShouldSerializeGenericToolkitImages() &&
-                                      !ShouldSerializeToolbarImages();
+                                      !ShouldSerializeToolbarImages() &&
+                                      !ShouldSerializePropertyGridImages();
 
     #endregion
 
@@ -73,6 +87,8 @@ public class KryptonImageStorage : Storage
         ResetGenericToolkitImages();
 
         ResetToolbarImages();
+
+        ResetPropertyGridImages();
     }
 
     #endregion

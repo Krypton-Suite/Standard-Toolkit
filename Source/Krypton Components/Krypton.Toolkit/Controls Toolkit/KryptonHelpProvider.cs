@@ -246,7 +246,7 @@ public class KryptonHelpProvider : Component, IExtenderProvider
         }
     }
 
-    private bool ShouldSerializeToolTipValues() => _toolTipValues != null && !_toolTipValues.IsDefault;
+    private bool ShouldSerializeToolTipValues() => _toolTipValues is { IsDefault: false };
 
     private void ResetToolTipValues() => _toolTipValues?.Reset();
 

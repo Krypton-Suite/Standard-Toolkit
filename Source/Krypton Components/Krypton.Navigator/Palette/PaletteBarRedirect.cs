@@ -86,7 +86,7 @@ public class PaletteBarRedirect : PaletteMetricRedirect
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Padding used around the bar when displaying tabs.")]
-    //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+    [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
     [RefreshProperties(RefreshProperties.All)]
     public Padding BarPaddingTabs
     {
@@ -114,7 +114,7 @@ public class PaletteBarRedirect : PaletteMetricRedirect
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Padding used around the bar when placed inside the group.")]
-    //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+    [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
     [RefreshProperties(RefreshProperties.All)]
     public Padding BarPaddingInside
     {
@@ -142,7 +142,7 @@ public class PaletteBarRedirect : PaletteMetricRedirect
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Padding used around the bar when placed outside the group.")]
-    //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+    [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
     [RefreshProperties(RefreshProperties.All)]
     public Padding BarPaddingOutside
     {
@@ -170,7 +170,7 @@ public class PaletteBarRedirect : PaletteMetricRedirect
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Padding used around the bar when placed on its own.")]
-    //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+    [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
     [RefreshProperties(RefreshProperties.All)]
     public Padding BarPaddingOnly
     {
@@ -198,7 +198,7 @@ public class PaletteBarRedirect : PaletteMetricRedirect
     /// </summary>
     [Category(@"Visuals")]
     [Description(@"Padding used around each button on the button bar.")]
-    //[DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
+    [DefaultValue(typeof(Padding), "-1,-1,-1,-1")]
     [RefreshProperties(RefreshProperties.All)]
     public Padding ButtonPadding
     {

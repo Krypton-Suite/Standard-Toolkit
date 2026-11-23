@@ -195,7 +195,10 @@ public static class PaletteImageDrawing
 
             try
             {
-                graphics.DrawImage(image, drawRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attribs);
+                // Attached tooltip GIFs are copied to the active frame first. DrawImage with
+                // ImageAttributes otherwise stays on frame 0 after SelectActiveFrame.
+                TooltipAnimatedImage.DrawFrame(image, drawImage =>
+                    graphics.DrawImage(drawImage, drawRect, 0, 0, drawImage.Width, drawImage.Height, GraphicsUnit.Pixel, attribs));
             }
             catch (ArgumentException)
             {

@@ -194,7 +194,7 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 	/// Fix:3203 Ribbon: QATLocation=Hidden does not hide QAT
 	public void UpdateVisible() => Visible = !_integrated &&
 											 ((_ribbon.QATLocation == QATLocation.Above) ||
-											  (_ribbon.ShowTabHeaders && _ribbon.RibbonContexts.Count > 0));
+											  _ribbon is { ShowTabHeaders: true, RibbonContexts.Count: > 0 });
 	#endregion
 
 	#region VisibleQAT
@@ -536,6 +536,7 @@ internal class ViewDrawRibbonCaptionArea : ViewDrawDocker
 									  && _ribbon.RibbonShape is PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS
 										  or PaletteRibbonShape.Office2010 or PaletteRibbonShape.VisualStudio2010
 										  or PaletteRibbonShape.Office2013 or PaletteRibbonShape.Microsoft365
+										  or PaletteRibbonShape.Office2024
 										  or PaletteRibbonShape.VisualStudio);
 
 		if (_kryptonForm.AllowIconDisplay != newAllowIconDisplay)

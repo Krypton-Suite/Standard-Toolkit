@@ -229,7 +229,7 @@ public abstract class PaletteOffice2007Base : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     private KryptonColorTable2007? _table;
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -240,43 +240,43 @@ public abstract class PaletteOffice2007Base : PaletteBase
     #region Identity
 
     /// <summary>
-    /// Initialize a new instance of the PaletteOffice2007Base class.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
     /// <param name="themeName">The name of the theme.</param>
-    /// <param name="schemeColors">Array of palette specific colors.</param>
+    /// <param name="scheme">Typed color scheme for this palette.</param>
     /// <param name="checkBoxList">List of images for check box.</param>
     /// <param name="galleryButtonList">List of images for gallery buttons.</param>
     /// <param name="radioButtonArray">Array of images for radio button.</param>
-    /// <param name="trackBarColors">Array of track bar specific colors.</param>
-    protected PaletteOffice2007Base(string themeName,
-        [DisallowNull] Color[] schemeColors,
+    protected PaletteOffice2007Base(
+        string themeName,
+        [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
         [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
+        [DisallowNull] Image?[] radioButtonArray)
     {
-        Debug.Assert(schemeColors != null);
+        Debug.Assert(scheme != null);
         Debug.Assert(checkBoxList != null);
         Debug.Assert(galleryButtonList != null);
         Debug.Assert(radioButtonArray != null);
 
-        // Remember incoming sets of values
         ThemeName = string.IsNullOrWhiteSpace(themeName)
             ? @"PaletteOffice2007Base"
             : themeName;
 
-        if (schemeColors != null)
-        {
-            _ribbonColors = schemeColors;
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
+
         if (checkBoxList != null)
         {
             _checkBoxList = checkBoxList;
         }
+
         if (galleryButtonList != null)
         {
             _galleryButtonList = galleryButtonList;
         }
+
         if (radioButtonArray != null)
         {
             _radioButtonArray = radioButtonArray;
@@ -284,27 +284,6 @@ public abstract class PaletteOffice2007Base : PaletteBase
 
         // Get the font settings from the system
         DefineFonts();
-    }
-
-    /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
-    /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
-    protected PaletteOffice2007Base(
-        string themeName,
-        [DisallowNull] KryptonColorSchemeBase scheme,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray)
-        : this(themeName,
-               scheme.ToArray(),
-               checkBoxList,
-               galleryButtonList,
-               radioButtonArray,
-               scheme.ToTrackBarArray())
-    {
-        BaseColors = scheme;
     }
 
     #endregion
@@ -3756,6 +3735,14 @@ public abstract class PaletteOffice2007Base : PaletteBase
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeMinus : _treePlus;
 
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
+
     /// <inheritdoc />
     public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
 
@@ -5020,6 +5007,8 @@ public abstract class PaletteOffice2007Base : PaletteBase
                     PaletteState.Disabled => SharedStaticVariables.EMPTY_COLOR,
                     _ => BaseColors!.TrackBarOutsidePosition
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -5060,6 +5049,8 @@ public abstract class PaletteOffice2007Base : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -5102,6 +5093,8 @@ public abstract class PaletteOffice2007Base : PaletteBase
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
 
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -5151,6 +5144,8 @@ public abstract class PaletteOffice2007Base : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -5200,6 +5195,8 @@ public abstract class PaletteOffice2007Base : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color6),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);

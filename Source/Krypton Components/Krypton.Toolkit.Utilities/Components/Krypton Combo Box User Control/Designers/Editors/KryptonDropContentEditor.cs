@@ -115,7 +115,7 @@ internal class KryptonDropContentEditor : UITypeEditor
             {
                 string s => s,
                 Type t => $"[New] {t.Name} ({t.Namespace ?? "<global>"})",
-                Component c when c.Site != null && !string.IsNullOrEmpty(c.Site.Name) =>
+                Component { Site: not null } c when !string.IsNullOrEmpty(c.Site.Name) =>
                     $"{c.Site.Name} ({c.GetType().Name})",
                 _ => e.ListItem?.GetType().Name ?? string.Empty
             };
@@ -180,10 +180,7 @@ internal class KryptonDropContentEditor : UITypeEditor
 
     /// <summary>Decide whether <paramref name="item"/> can be selected as a final value.</summary>
     private static bool CanCommitItem(object? item) =>
-        item is null
-        || (item is string s && s == NoneEntry)
-        || item is Control
-        || item is Type;
+        item is null or string and NoneEntry or Control or Type;
 
     /// <summary>Resolve the picked item to a <see cref="Control"/> instance (or <see langword="null"/>).</summary>
     private static object? ResolveCommittedValue(object? selected, IDesignerHost host, object? fallback)
@@ -192,7 +189,7 @@ internal class KryptonDropContentEditor : UITypeEditor
         {
             case null:
                 return fallback;
-            case string s when s == NoneEntry:
+            case string and NoneEntry:
                 return null;
             case Control c:
                 return c;

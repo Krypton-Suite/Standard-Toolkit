@@ -70,7 +70,9 @@ public class KryptonPaletteControls : Storage
                                       ControlToolTip.IsDefault &&
                                       ControlRibbon.IsDefault &&
                                       ControlRibbonAppMenu.IsDefault &&
-                                      ControlCustom1.IsDefault;
+                                      ControlCustom1.IsDefault &&
+                                      ControlCustom2.IsDefault &&
+                                      ControlCustom3.IsDefault;
 
     #endregion
 

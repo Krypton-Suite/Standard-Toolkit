@@ -35,6 +35,7 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
     private readonly KryptonRibbonGroup _ribbonGroup;
     private ViewDrawRibbonDesignGroupContainer _viewAddContainer;
     private readonly NeedPaintHandler _needPaint;
+    private readonly bool _showOnlyCompactOverflow;
     private ContainerToView _containerToView;
     private List<ItemSizeWidth[]> _listWidths;
     private int[]? _containerWidths;
@@ -47,9 +48,11 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
     /// <param name="ribbon">Owning ribbon control instance.</param>
     /// <param name="ribbonGroup">The ribbon group this layout is used to display.</param>
     /// <param name="needPaint">Delegate for notifying paint requests.</param>
+    /// <param name="showOnlyCompactOverflow">True when only overflowed commands are shown.</param>
     public ViewLayoutRibbonGroupContent([DisallowNull] KryptonRibbon? ribbon,
         [DisallowNull] KryptonRibbonGroup? ribbonGroup,
-        [DisallowNull] NeedPaintHandler? needPaint)
+        [DisallowNull] NeedPaintHandler? needPaint,
+        bool showOnlyCompactOverflow = false)
     {
         Debug.Assert(ribbon is not null);
         Debug.Assert(ribbonGroup is not null);
@@ -59,6 +62,7 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
         _ribbon = ribbon ?? ThrowHelper.ThrowArgumentNullException(ribbon);
         _ribbonGroup = ribbonGroup ?? ThrowHelper.ThrowArgumentNullException(ribbonGroup);
         _needPaint = needPaint ?? ThrowHelper.ThrowArgumentNullException(needPaint);
+        _showOnlyCompactOverflow = showOnlyCompactOverflow;
 
         // Use hashtable to store relationships
         _containerToView = new ContainerToView();
@@ -356,6 +360,7 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
 
         // Get the permutations available for each child container
         _listWidths = [];
+        Rectangle area = context.DisplayRectangle;
 
         // Scan all child containers
         var pixelGaps = 0;
@@ -367,6 +372,7 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
                )
             {
                 // Find list of possible sizes for this container
+                context.DisplayRectangle = area;
                 var widths = container.GetPossibleSizes(context);
 
                 // Track how many extra pixels are needed for inter container gaps
@@ -576,6 +582,7 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
         SyncChildrenToRibbonGroupItems();
 
         var preferredSize = Size.Empty;
+        Rectangle area = context.DisplayRectangle;
 
         // Find total width and maximum height across all child elements
         for (int i = 0, j = 0; i < Count; i++)
@@ -587,12 +594,16 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
             {
                 Size childSize;
 
-                if ((_containerWidths != null) && (child is IRibbonViewGroupContainerView))
+                // Compact overflow changes which commands are visible, so the cached solution width is stale.
+                if (!_ribbon.CompactMode &&
+                    (_containerWidths != null) &&
+                    (child is IRibbonViewGroupContainerView))
                 {
                     childSize = new Size(_containerWidths[j++], _ribbon.CalculatedValues.GroupTripleHeight);
                 }
                 else
                 {
+                    context.DisplayRectangle = area;
                     childSize = child.GetPreferredSize(context);
                 }
 
@@ -649,7 +660,9 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
                 {
                     Size childSize;
 
-                    if ((_containerWidths != null) && (child is IRibbonViewGroupContainerView))
+                    if (!_ribbon.CompactMode &&
+                        (_containerWidths != null) &&
+                        (child is IRibbonViewGroupContainerView))
                     {
                         childSize = new Size(_containerWidths[j++], _ribbon.CalculatedValues.GroupTripleHeight);
                     }
@@ -690,10 +703,12 @@ internal class ViewLayoutRibbonGroupContent : ViewComposite,
             // Do we already have a view for this container definition
             ViewBase containerView = _containerToView.TryGetValue(container, out ViewBase? value)
                 ? value
-                : container.CreateView(_ribbon, _needPaint);
+                : _ribbon.CreateCompactOverflowView(_showOnlyCompactOverflow, () => container.CreateView(_ribbon, _needPaint));
 
-            // Update the visible state of the item
-            containerView.Visible = container.Visible || _ribbon.InDesignHelperMode;
+            // Update the visible state of the item.
+            // Overflow hiding is layout-only and does not change the container Visible property.
+            containerView.Visible = (container.Visible || _ribbon.InDesignHelperMode) &&
+                                    !_ribbon.CompactOverflowHides(container, _showOnlyCompactOverflow);
                 
             // We need to keep this association
             regenerate.Add(container, containerView);

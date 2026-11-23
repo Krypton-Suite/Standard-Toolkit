@@ -278,7 +278,7 @@ public partial class KryptonTaskDialogElementCommandLinkButtons : KryptonTaskDia
                     _flp.Controls.Add(Buttons[i]);
                 }
             }
-            else if (e.Action == NotifyCollectionChangedAction.Add && e.NewItems is not null)
+            else if (e is { Action: NotifyCollectionChangedAction.Add, NewItems: not null })
             {
                 for (int i = 0; i < e.NewItems.Count; i++)
                 {

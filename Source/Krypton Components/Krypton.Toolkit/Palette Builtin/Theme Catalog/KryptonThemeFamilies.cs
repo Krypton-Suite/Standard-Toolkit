@@ -41,8 +41,14 @@ public static class KryptonThemeFamilies
     /// <summary>Retro palettes.</summary>
     public const string Retro = @"Retro";
 
+    /// <summary>Windows XP visual-style palettes (Luna, Royale, Zune, Embedded).</summary>
+    public const string WindowsXP = @"WindowsXP";
+
     /// <summary>macOS and Mac OS X Aqua palettes.</summary>
     public const string MacOS = @"MacOS";
+
+    /// <summary>Office 2024 Fluent ribbon (White, Light Gray, Dark Gray, Black).</summary>
+    public const string Office2024 = @"Office2024";
 
     /// <summary>High contrast and colour-vision palettes.</summary>
     public const string Accessibility = @"Accessibility";

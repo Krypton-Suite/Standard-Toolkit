@@ -230,8 +230,10 @@ public class KryptonDockingFloatspace : KryptonDockingSpace
         }
 
         if (FloatspaceControl.CellVisibleCount == 0
-            && GetParentType(typeof(KryptonDockingFloatingWindow)) is KryptonDockingFloatingWindow window
-            && !window.FloatingWindow.IsDisposed)
+            && GetParentType(typeof(KryptonDockingFloatingWindow)) is KryptonDockingFloatingWindow
+            {
+                FloatingWindow.IsDisposed: false
+            } window)
         {
             window.FloatingWindow.Visible = false;
         }

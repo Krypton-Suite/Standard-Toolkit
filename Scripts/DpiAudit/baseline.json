@@ -1,0 +1,33 @@
+﻿{
+  "failures": [
+    "Krypton.Docking.KryptonDockableNavigator|scale-ignored",
+    "Krypton.Navigator.KryptonNavigator|scale-ignored",
+    "Krypton.Ribbon.KryptonRibbon|scale-ignored",
+    "Krypton.Toolkit.KryptonBorderEdge|scale-ignored",
+    "Krypton.Toolkit.KryptonCalcInput|scale-ignored",
+    "Krypton.Toolkit.KryptonDataGridViewCustomEditingControl|scale-ignored",
+    "Krypton.Toolkit.KryptonDataGridViewDomainUpDownEditingControl|scale-ignored",
+    "Krypton.Toolkit.KryptonDataGridViewMaskedTextBoxEditingControl|scale-ignored",
+    "Krypton.Toolkit.KryptonDataGridViewNumericUpDownEditingControl|scale-ignored",
+    "Krypton.Toolkit.KryptonDataGridViewProgressEditingControl|scale-ignored",
+    "Krypton.Toolkit.KryptonDataGridViewTextBoxEditingControl|scale-ignored",
+    "Krypton.Toolkit.KryptonDomainUpDown|scale-ignored",
+    "Krypton.Toolkit.KryptonForm|scale-threw|ArgumentException",
+    "Krypton.Toolkit.KryptonMaskedTextBox|scale-ignored",
+    "Krypton.Toolkit.KryptonMenuStrip|scale-ignored",
+    "Krypton.Toolkit.KryptonNumericUpDown|scale-ignored",
+    "Krypton.Toolkit.KryptonStatusStrip|scale-ignored",
+    "Krypton.Toolkit.KryptonTaskDialogKryptonForm|scale-threw|ArgumentException",
+    "Krypton.Toolkit.KryptonTextBox|scale-ignored",
+    "Krypton.Toolkit.KryptonToolStrip|scale-ignored",
+    "Krypton.Toolkit.KryptonTrackBar|scale-ignored",
+    "Krypton.Toolkit.ModalWaitDialog|scale-threw|ArgumentException",
+    "Krypton.Toolkit.PercentageEditingControl|scale-ignored",
+    "Krypton.Toolkit.SeparatorController+SeparatorIndicator|scale-threw|ArgumentException",
+    "Krypton.Toolkit.VisualInputBoxForm|scale-threw|ArgumentException",
+    "Krypton.Toolkit.VisualPopupShadow|scale-threw|ArgumentException",
+    "Krypton.Utilities.FontAwesomeIconPickerDialog|scale-threw|ArgumentException",
+    "Krypton.Utilities.KryptonSearchBox|scale-ignored",
+    "Krypton.Workspace.KryptonWorkspaceCell|scale-ignored"
+  ]
+}

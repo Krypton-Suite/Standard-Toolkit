@@ -77,7 +77,7 @@ public class LoadingCircleValues : Storage
     /// </remarks>
     [Category(@"LoadingCircle")]
     [Description(@"Spoke colour. Empty uses the active palette content colour.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     public Color Color
     {
         get => _color;
@@ -119,6 +119,10 @@ public class LoadingCircleValues : Storage
         }
     }
 
+    private bool ShouldSerializeOuterCircleRadius() => _outerCircleRadius is not (0 or DEFAULT_OUTER_CIRCLE_RADIUS);
+
+    private void ResetOuterCircleRadius() => OuterCircleRadius = 0;
+
     /// <summary>
     /// Gets or sets the inner circle radius.
     /// </summary>
@@ -141,6 +145,10 @@ public class LoadingCircleValues : Storage
             _owner.Invalidate();
         }
     }
+
+    private bool ShouldSerializeInnerCircleRadius() => _innerCircleRadius is not (0 or DEFAULT_INNER_CIRCLE_RADIUS);
+
+    private void ResetInnerCircleRadius() => InnerCircleRadius = 0;
 
     /// <summary>
     /// Gets or sets the number of spokes.
@@ -169,6 +177,10 @@ public class LoadingCircleValues : Storage
             }
         }
     }
+
+    private bool ShouldSerializeNumberSpoke() => _numberSpoke is not (0 or DEFAULT_NUMBER_OF_SPOKE);
+
+    private void ResetNumberSpoke() => NumberSpoke = 0;
 
     /// <summary>
     /// Gets or sets a value indicating whether the spinner is active.
@@ -212,6 +224,10 @@ public class LoadingCircleValues : Storage
         }
     }
 
+    private bool ShouldSerializeSpokeThickness() => _spokeThickness is not (<= 0 or DEFAULT_SPOKE_THICKNESS);
+
+    private void ResetSpokeThickness() => SpokeThickness = 0;
+
     /// <summary>
     /// Gets or sets the rotation speed. Higher is slower.
     /// </summary>
@@ -228,6 +244,10 @@ public class LoadingCircleValues : Storage
             }
         }
     }
+
+    private bool ShouldSerializeRotationSpeed() => _owner.TimerInterval != 100;
+
+    private void ResetRotationSpeed() => RotationSpeed = 100;
 
     /// <summary>
     /// Quickly sets the style to one of the presets, or a custom style if desired.

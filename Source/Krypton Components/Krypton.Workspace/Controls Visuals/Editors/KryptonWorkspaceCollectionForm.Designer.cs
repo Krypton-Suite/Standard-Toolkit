@@ -55,7 +55,7 @@ internal partial class KryptonWorkspaceCollectionForm
                             | AnchorStyles.Left)
                            | AnchorStyles.Right;
         _treeView.Location = new Point(12, 32);
-        _treeView.Name = nameof(_treeView);
+        _treeView.Name = "_treeView";
         _treeView.Size = new Size(251, 339);
         _treeView.TabIndex = 1;
         _treeView.HideSelection = false;
@@ -66,7 +66,7 @@ internal partial class KryptonWorkspaceCollectionForm
         ConfigureToolbarButton(_buttonMoveUp, GeneralImageResources.arrow_up_blue, "Move Up", buttonMoveUp_Click);
         _buttonMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         _buttonMoveUp.Location = new Point(272, 32);
-        _buttonMoveUp.Name = nameof(_buttonMoveUp);
+        _buttonMoveUp.Name = "_buttonMoveUp";
         _buttonMoveUp.Size = new Size(95, 28);
         _buttonMoveUp.TabIndex = 2;
         // 
@@ -75,7 +75,7 @@ internal partial class KryptonWorkspaceCollectionForm
         ConfigureToolbarButton(_buttonMoveDown, GeneralImageResources.arrow_down_blue, "Move Down", buttonMoveDown_Click);
         _buttonMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         _buttonMoveDown.Location = new Point(272, 66);
-        _buttonMoveDown.Name = nameof(_buttonMoveDown);
+        _buttonMoveDown.Name = "_buttonMoveDown";
         _buttonMoveDown.Size = new Size(95, 28);
         _buttonMoveDown.TabIndex = 3;
         // 
@@ -84,7 +84,7 @@ internal partial class KryptonWorkspaceCollectionForm
         ConfigureToolbarButton(_buttonDelete, GeneralImageResources.Delete, "Delete Item", buttonDelete_Click);
         _buttonDelete.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         _buttonDelete.Location = new Point(272, 234);
-        _buttonDelete.Name = nameof(_buttonDelete);
+        _buttonDelete.Name = "_buttonDelete";
         _buttonDelete.Size = new Size(95, 28);
         _buttonDelete.TabIndex = 5;
         // 
@@ -94,7 +94,7 @@ internal partial class KryptonWorkspaceCollectionForm
                                | AnchorStyles.Right;
         _propertyGrid.HelpVisible = false;
         _propertyGrid.Location = new Point(376, 32);
-        _propertyGrid.Name = nameof(_propertyGrid);
+        _propertyGrid.Name = "_propertyGrid";
         _propertyGrid.Size = new Size(246, 339);
         _propertyGrid.TabIndex = 7;
         _propertyGrid.ToolbarVisible = false;
@@ -104,7 +104,7 @@ internal partial class KryptonWorkspaceCollectionForm
         _labelItemProperties.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         _labelItemProperties.AutoSize = true;
         _labelItemProperties.Location = new Point(370, 13);
-        _labelItemProperties.Name = nameof(_labelItemProperties);
+        _labelItemProperties.Name = "_labelItemProperties";
         _labelItemProperties.Size = new Size(81, 13);
         _labelItemProperties.TabIndex = 6;
         _labelItemProperties.Text = "Item Properties";
@@ -113,7 +113,7 @@ internal partial class KryptonWorkspaceCollectionForm
         // 
         _labelWorkspaceCollection.AutoSize = true;
         _labelWorkspaceCollection.Location = new Point(12, 13);
-        _labelWorkspaceCollection.Name = nameof(_labelWorkspaceCollection);
+        _labelWorkspaceCollection.Name = "_labelWorkspaceCollection";
         _labelWorkspaceCollection.Size = new Size(142, 13);
         _labelWorkspaceCollection.TabIndex = 0;
         _labelWorkspaceCollection.Text = "Workspace Collection";
@@ -123,7 +123,7 @@ internal partial class KryptonWorkspaceCollectionForm
         ConfigureToolbarButton(_buttonAddPage, GeneralImageResources.add, "Page", buttonAddPage_Click);
         _buttonAddPage.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         _buttonAddPage.Location = new Point(272, 114);
-        _buttonAddPage.Name = nameof(_buttonAddPage);
+        _buttonAddPage.Name = "_buttonAddPage";
         _buttonAddPage.Size = new Size(95, 28);
         _buttonAddPage.TabIndex = 4;
         // 
@@ -132,7 +132,7 @@ internal partial class KryptonWorkspaceCollectionForm
         ConfigureToolbarButton(_buttonAddCell, GeneralImageResources.add, "Cell", buttonAddCell_Click);
         _buttonAddCell.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         _buttonAddCell.Location = new Point(272, 148);
-        _buttonAddCell.Name = nameof(_buttonAddCell);
+        _buttonAddCell.Name = "_buttonAddCell";
         _buttonAddCell.Size = new Size(95, 28);
         _buttonAddCell.TabIndex = 9;
         // 
@@ -141,7 +141,7 @@ internal partial class KryptonWorkspaceCollectionForm
         ConfigureToolbarButton(_buttonAddSequence, GeneralImageResources.add, "Sequence", buttonAddSequence_Click);
         _buttonAddSequence.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         _buttonAddSequence.Location = new Point(272, 182);
-        _buttonAddSequence.Name = nameof(_buttonAddSequence);
+        _buttonAddSequence.Name = "_buttonAddSequence";
         _buttonAddSequence.Size = new Size(95, 28);
         _buttonAddSequence.TabIndex = 9;
 
@@ -177,7 +177,7 @@ internal partial class KryptonWorkspaceCollectionForm
         VisibleChanged += OnVisibleChanged;
         Font = new Font("Tahoma", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
         MinimumSize = new Size(501, 394);
-        Name = nameof(KryptonWorkspaceCollectionForm);
+        Name = "KryptonWorkspaceCollectionForm";
         Text = "Workspace Collection Editor";
         ((ISupportInitialize)kpnlContent).EndInit();
         kpnlContent.ResumeLayout(false);

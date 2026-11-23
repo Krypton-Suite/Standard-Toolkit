@@ -1,13 +1,16 @@
 # New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
 # Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac et al. 2026 - 2026. All rights reserved.
 #
-# KILL-SWITCH: To disable this workflow, set repository variable RC_DISABLED=true
+# KILL-SWITCH: To disable this workflow, set repository variable RELEASE_CANDIDATE_DISABLED=true
 # Location: Repository Settings → Secrets and variables → Actions → Variables tab
-# To re-enable: Set RC_DISABLED=false or delete the variable
+# To re-enable: Set RELEASE_CANDIDATE_DISABLED=false or delete the variable
 #
 # Publishes release-candidate NuGet packages (stable package IDs, -rc version suffix)
 # from the gold branch only. Gated by the production environment (approval) and a
 # branch check. Do not pack Configuration=Release from gold.
+#
+# NUGET: Trusted publishing via NuGet/login. Secret NUGET_USER is the nuget.org profile name.
+# nuget.org needs a policy for this workflow file, Krypton-Suite/Standard-Toolkit, environment production.
 
 name: Release Candidate Release
 
@@ -18,15 +21,16 @@ on:
   workflow_dispatch:  # Allow manual triggering from gold
 
 permissions:
-  contents: read
+  contents: write
+  id-token: write
 
 jobs:
-  rc:
+  release-candidate:
     runs-on: windows-2025-vs2026
     environment: production  # Requires approval before publishing
 
     concurrency:
-      group: rc-gold
+      group: release-candidate-gold
       cancel-in-progress: true
 
     steps:
@@ -36,11 +40,11 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $disabled = '${{ vars.RC_DISABLED }}'
+          $disabled = '${{ vars.RELEASE_CANDIDATE_DISABLED }}'
 
           if ($disabled -eq 'true') {
-            Write-Host "::warning:: Release Candidate Release workflow is currently DISABLED via kill switch (RC_DISABLED=true)"
-            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set RC_DISABLED to 'false'."
+            Write-Host "::warning:: Release Candidate Release workflow is currently DISABLED via kill switch (RELEASE_CANDIDATE_DISABLED=true)"
+            Write-Host "To re-enable: Go to Repository Settings -> Secrets and Variables -> Actions -> Variables -> Set RELEASE_CANDIDATE_DISABLED to 'false'."
             echo "enabled=false" >> $env:GITHUB_OUTPUT
           } else {
             Write-Host "Release Candidate Release kill switch check has passed, continuing..."
@@ -114,32 +118,34 @@ jobs:
           Copy-Item -LiteralPath $src -Destination $dest -Force
           Write-Host 'Copied WebView2 CI script from workflow ref onto gold checkout.'
 
-      # .NET 9 and 10; .NET 11 for net11.0-windows (DOTNET_PREVIEW_SETUP_VERSION when set, else 11.0.x).
-      - name: Setup .NET (9 and 10)
+      # .NET 10 required; .NET 11 with preview fallback. .NET 12 when USE_DOTNET_PREVIEW != false.
+      - name: Setup .NET (10 and 11)
         if: steps.rc_release_kill_switch.outputs.enabled == 'true'
         uses: actions/setup-dotnet@v6
         with:
           dotnet-version: |
-            9.0.x
             10.0.x
+            11.0.x
 
-      - name: Setup .NET 11 (stable)
-        id: setup_dotnet11_stable_rc_yml
+      - name: Setup .NET Preview (stable)
+        id: setup_dotnetpreview_stable_rc_yml
         continue-on-error: true
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
 
-      - name: Setup .NET 11 (preview fallback)
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_stable_rc_yml.outcome == 'failure'
+      - name: Setup .NET Preview (preview fallback)
+        # Kill switch + USE_DOTNET_PREVIEW=false skips next-band (.NET 12) install
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false' && steps.setup_dotnetpreview_stable_rc_yml.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '11.0.x' }}
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
       # Preview .NET SDK. DOTNET_PREVIEW_* : repo Variables (same as build.yml / build-testform.yml).
-      # USE_DOTNET_PREVIEW=false skips preview SDK install; global.json uses stable SDK below.
+      # USE_DOTNET_PREVIEW=false skips next-band (.NET 12) and preview SDK; global.json uses stable SDK below.
       - name: Setup .NET Preview
         if: steps.rc_release_kill_switch.outputs.enabled == 'true' && vars.USE_DOTNET_PREVIEW != 'false'
         uses: actions/setup-dotnet@v6
@@ -147,7 +153,7 @@ jobs:
           dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION }}
           dotnet-quality: preview
 
-      # Pin sdk.version for CI; preview band follows USE_DOTNET_PREVIEW; stable path prefers .NET 11 for net11.0-windows TFMs.
+      # Pin sdk.version for CI; preview band follows USE_DOTNET_PREVIEW; stable path prefers .NET 12 for net12.0-windows TFMs.
       - name: Pin SDK via global.json
         if: steps.rc_release_kill_switch.outputs.enabled == 'true'
         env:
@@ -167,14 +173,17 @@ jobs:
           $usePreview = $env:USE_DOTNET_PREVIEW -ne 'false'
           $sdkVersion = $null
           if (-not $usePreview) {
-            $sdkVersion = Get-ListedSdkVersion '11.0'
+            $sdkVersion = Get-ListedSdkVersion '12.0'
+            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '11.0' }
             if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '10.0' }
-            if (-not $sdkVersion) { $sdkVersion = Get-ListedSdkVersion '9.0' }
           } else {
             if (-not $env:DOTNET_PREVIEW_SDK_BAND) {
               Write-Error 'DOTNET_PREVIEW_SDK_BAND is not set (repository variable).'
             }
             $sdkVersion = Get-ListedSdkVersion $env:DOTNET_PREVIEW_SDK_BAND
+            if (-not $sdkVersion) {
+              $sdkVersion = Get-ListedSdkVersion '12.0'
+            }
             if (-not $sdkVersion) {
               $sdkVersion = Get-ListedSdkVersion '11.0'
             }
@@ -184,6 +193,9 @@ jobs:
           }
           if (-not $sdkVersion) {
             Write-Error 'Could not resolve an SDK version for global.json.'
+          }
+          if ($sdkVersion -notmatch '^(1[1-9]|[2-9]\d)\.') {
+            Write-Error "Pinned SDK $sdkVersion cannot target net11.0-windows. Install/select .NET 11+ before build."
           }
           Write-Host "Using SDK $sdkVersion"
           @"
@@ -216,59 +228,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      # Stable WebView2 (gold is a ship candidate). Master release uses the same policy.
-      - name: Resolve WebView2 version
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        id: webview2_version
-        shell: pwsh
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
-          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -ResolveVersionOnly -WriteGitHubOutputVersion
-
-      - name: Restore WebView2 cache
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        id: webview2_cache_restore
-        uses: actions/cache/restore@v6
-        continue-on-error: true
-        with:
-          path: ${{ runner.temp }}/webview2
-          key: webview2-${{ runner.os }}-${{ steps.webview2_version.outputs.version }}
-          restore-keys: |
-            webview2-${{ runner.os }}-
-
-      - name: Populate WebView2 (Latest)
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        shell: pwsh
-        env:
-          WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
-        run: |
-          $ErrorActionPreference = 'Stop'
-          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
-          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Version $env:WEBVIEW2_VERSION
-
-      - name: Save WebView2 cache
-        if: success() && steps.rc_release_kill_switch.outputs.enabled == 'true'
-        uses: actions/cache/save@v6
-        continue-on-error: true
-        with:
-          path: ${{ runner.temp }}/webview2
-          key: ${{ steps.webview2_cache_restore.outputs.cache-primary-key }}
-
-      # /m: multi-processor MSBuild (all runner CPUs). rc.proj packs lite + all like stable, with -rc versions.
-      - name: Restore
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/rc.proj" /t:Restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
-
-      - name: Build RC
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/rc.proj" /t:Build /restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
-
-      - name: Pack RC
-        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
-        run: msbuild /m "Scripts/Build/rc.proj" /t:Pack /restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
-
-      # Verify Krypton.Interop is present in the NuGet packages (V110+ only)
       - name: Resolve Krypton toolkit major version
         if: steps.rc_release_kill_switch.outputs.enabled == 'true'
         id: krypton_major_version
@@ -280,6 +239,59 @@ jobs:
           $major = Get-KryptonToolkitMajorVersion -Configuration RC
           echo "major=$major" >> $env:GITHUB_OUTPUT
 
+      # WebView2 when toolkit major >= WEBVIEW2_MINIMUM_SUPPORTED_VERSION (default 110).
+      - name: Resolve WebView2 version
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
+        id: webview2_version
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -ResolveVersionOnly -WriteGitHubOutputVersion
+
+      - name: Restore WebView2 cache
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
+        id: webview2_cache_restore
+        uses: actions/cache/restore@v6
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: webview2-${{ runner.os }}-${{ steps.webview2_version.outputs.version }}
+          restore-keys: |
+            webview2-${{ runner.os }}-
+
+      - name: Populate WebView2 (Latest)
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
+        shell: pwsh
+        env:
+          WEBVIEW2_VERSION: ${{ steps.webview2_version.outputs.version }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $repoRoot = if ($env:GITHUB_WORKSPACE) { $env:GITHUB_WORKSPACE } else { (Get-Location).Path }
+          & (Join-Path $repoRoot 'Scripts/CI/Populate-WebView2.ps1') -Version $env:WEBVIEW2_VERSION
+
+      - name: Save WebView2 cache
+        if: success() && steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= (vars.WEBVIEW2_MINIMUM_SUPPORTED_VERSION || 110)
+        uses: actions/cache/save@v6
+        continue-on-error: true
+        with:
+          path: ${{ runner.temp }}/webview2
+          key: ${{ steps.webview2_cache_restore.outputs.cache-primary-key }}
+
+      # /m: multi-processor MSBuild (all runner CPUs). releasecandidate.proj packs lite + all like stable, with -rc versions.
+      - name: Restore
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
+        run: msbuild /m "Scripts/Build/releasecandidate.proj" /t:Restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      - name: Build RC
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
+        run: msbuild /m "Scripts/Build/releasecandidate.proj" /t:Build /restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      - name: Pack RC
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true'
+        run: msbuild /m "Scripts/Build/releasecandidate.proj" /t:Pack /restore /p:Configuration=RC /p:Platform="Any CPU" /p:UseArtifactsOutput=true
+
+      # Verify Krypton.Interop is present in the NuGet packages (V110+ only; major resolved earlier for WebView2 gate)
       - name: Verify Krypton.Interop in NuGet packages
         if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.krypton_major_version.outputs.major >= 110
         shell: pwsh
@@ -306,16 +318,28 @@ jobs:
           path: ~/.nuget/packages
           key: ${{ steps.nuget_cache_restore.outputs.cache-primary-key }}
 
+      - name: NuGet login (OIDC)
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && github.repository == 'Krypton-Suite/Standard-Toolkit'
+        id: nuget_login
+        uses: NuGet/login@v1
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push NuGet Packages to nuget.org
         if: steps.rc_release_kill_switch.outputs.enabled == 'true'
         id: push_nuget
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          if (-not $env:NUGET_API_KEY) {
-            Write-Warning "NUGET_API_KEY not set - skipping NuGet push"
+          if ($env:GITHUB_REPOSITORY -ne 'Krypton-Suite/Standard-Toolkit') {
+            Write-Warning "NuGet trusted publishing is only configured for Krypton-Suite/Standard-Toolkit - skipping NuGet push"
             echo "packages_published=false" >> $env:GITHUB_OUTPUT
             exit 0
+          }
+
+          if (-not $env:NUGET_API_KEY) {
+            Write-Error "NuGet trusted publishing did not provide an API key. Set the NUGET_USER secret to the nuget.org profile name."
+            exit 1
           }
 
           $packageCandidates = @(
@@ -358,7 +382,7 @@ jobs:
 
           echo "packages_published=$publishedAny" >> $env:GITHUB_OUTPUT
         env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+          NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
           STANDARD_TOOLKIT_MIN_NUPKG_MB: ${{ vars.STANDARD_TOOLKIT_MIN_NUPKG_MB }}
 
       - name: Get Version
@@ -411,25 +435,38 @@ jobs:
 
           if (-not $version) {
             Write-Warning "Version not found, using fallback."
-            $version = "100.25.1.1"
+            $version = "120.27.1.1"
           }
 
           Write-Host "Final determined version: $version"
           echo "version=$version" >> $env:GITHUB_OUTPUT
           echo "tag=v$version-rc" >> $env:GITHUB_OUTPUT
 
+      - name: Publish Visual Studio templates
+        id: publish_templates
+        if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
+        uses: ./.github/actions/publish-templates
+        with:
+          channel: rc
+          source-branch: ${{ github.ref_name }}
+          release-disabled: ${{ vars.TEMPLATES_RELEASE_DISABLED }}
+
       - name: Announce Release Candidate Release on Discord
         if: steps.rc_release_kill_switch.outputs.enabled == 'true' && steps.push_nuget.outputs.packages_published == 'True'
         shell: pwsh
         run: |
-          if (-not $env:DISCORD_WEBHOOK_RC) {
-            Write-Warning "DISCORD_WEBHOOK_RC not set - skipping Discord notification"
+          if (-not $env:DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK) {
+            Write-Warning "DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK not set - skipping Discord notification"
             exit 0
           }
 
           $sha = (git rev-parse HEAD).Trim()
           $shortSha = $sha.Substring(0, [Math]::Min(7, $sha.Length))
           $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$sha"
+          $templatesUrl = '${{ steps.publish_templates.outputs.release_url }}'.Trim()
+          if ([string]::IsNullOrWhiteSpace($templatesUrl)) {
+            $templatesUrl = (& "$env:GITHUB_WORKSPACE/Scripts/CI/Get-TemplatesReleaseUrl.ps1" -Channel 'rc' | Select-Object -Last 1).ToString().Trim()
+          }
 
           $payload = @{
             embeds = @(
@@ -455,8 +492,13 @@ jobs:
                     inline = $false
                   }
                   @{
+                    name = "🧩 Visual Studio Templates"
+                    value = "[Latest templates release]($templatesUrl)"
+                    inline = $false
+                  }
+                  @{
                     name = "🎯 Target Frameworks"
-                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 8.0`n• .NET 9.0`n• .NET 10.0`n• .NET 11.0"
+                    value = "• .NET Framework 4.7.2`n• .NET Framework 4.8`n• .NET Framework 4.8.1`n• .NET 10.0`n• .NET 11.0"
                     inline = $false
                   }
                   @{
@@ -473,6 +515,6 @@ jobs:
             )
           } | ConvertTo-Json -Depth 10
 
-          Invoke-RestMethod -Uri $env:DISCORD_WEBHOOK_RC -Method Post -Body $payload -ContentType "application/json"
+          Invoke-RestMethod -Uri $env:DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK -Method Post -Body $payload -ContentType "application/json"
         env:
-          DISCORD_WEBHOOK_RC: ${{ secrets.DISCORD_WEBHOOK_RC }}
+          DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK: ${{ secrets.DISCORD_RELEASE_CANDIDATE_ANNOUNCEMENT_WEBHOOK }}

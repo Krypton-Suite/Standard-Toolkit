@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupMaskedTextBox : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the masked text box definition
-        GroupMaskedTextBox.MaskedTextBoxView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupMaskedTextBox.MaskedTextBoxView = this;
 
         // Give paint delegate to masked textbox so its palette changes are redrawn
-        GroupMaskedTextBox.ViewPaintDelegate = needPaint;
+            GroupMaskedTextBox.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupMaskedTextBox.MaskedTextBox);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupMaskedTextBox : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupMaskedTextBox.MouseEnterControl -= OnMouseEnterControl;
                 GroupMaskedTextBox.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupMaskedTextBox.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupMaskedTextBox.MaskedTextBoxView, this))
+                {
+                    GroupMaskedTextBox.ViewPaintDelegate = null;
+                }
                 GroupMaskedTextBox.PropertyChanged -= OnMaskedTextBoxPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupMaskedTextBox.MaskedTextBoxView = null; 
+                if (ReferenceEquals(GroupMaskedTextBox.MaskedTextBoxView, this))
+                {
+                    GroupMaskedTextBox.MaskedTextBoxView = null;
+                } 
                 GroupMaskedTextBox = null;
             }
         }

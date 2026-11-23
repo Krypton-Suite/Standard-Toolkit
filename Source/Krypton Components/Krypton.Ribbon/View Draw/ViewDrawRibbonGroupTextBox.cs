@@ -75,10 +75,11 @@ internal class ViewDrawRibbonGroupTextBox : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the text box definition
-        GroupTextBox.TextBoxView = this;
-
-        // Give paint delegate to textbox so its palette changes are redrawn
-        GroupTextBox.ViewPaintDelegate = needPaint;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupTextBox.TextBoxView = this;
+            GroupTextBox.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupTextBox.TextBox);
@@ -110,13 +111,14 @@ internal class ViewDrawRibbonGroupTextBox : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupTextBox.MouseEnterControl -= OnMouseEnterControl;
                 GroupTextBox.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupTextBox.ViewPaintDelegate = null;
                 GroupTextBox.PropertyChanged -= OnTextBoxPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
-
-                // Remove association with definition
-                GroupTextBox.TextBoxView = null; 
+                if (ReferenceEquals(GroupTextBox.TextBoxView, this))
+                {
+                    GroupTextBox.ViewPaintDelegate = null;
+                    GroupTextBox.TextBoxView = null;
+                }
                 GroupTextBox = null;
             }
         }

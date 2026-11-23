@@ -91,6 +91,7 @@ public class KryptonListItem : Component,
         Color imageTransparentColor)
     {
         _shortText = shortText;
+        _factoryShortText = shortText;
         _longText = longText;
         _image = image;
         _imageTransparentColor = imageTransparentColor;
@@ -125,7 +126,11 @@ public class KryptonListItem : Component,
         }
     }
 
-    private bool ShouldSerializeShortText() => !string.IsNullOrEmpty(_shortText);
+    private readonly string _factoryShortText = string.Empty;
+
+    private bool ShouldSerializeShortText() => _shortText != _factoryShortText;
+
+    private void ResetShortText() => ShortText = _factoryShortText;
 
     #endregion
 

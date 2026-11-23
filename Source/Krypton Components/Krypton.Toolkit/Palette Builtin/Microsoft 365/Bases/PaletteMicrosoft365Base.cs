@@ -114,61 +114,87 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
     #region Images
 
-    private static readonly Image? _treeExpandWhite = TreeItemImageResources.TreeExpandWhite;
-    private static readonly Image? _treeCollapseBlack = TreeItemImageResources.TreeCollapseBlack;
+    // A plain form paints caption glyphs from the derived palette. These strips wait until a caller asks.
+    private static Image? _treeExpandWhiteCache;
+    private static Image? _treeExpandWhite => _treeExpandWhiteCache ??= TreeItemImageResources.TreeExpandWhite;
+    private static Image? _treeCollapseBlackCache;
+    private static Image? _treeCollapseBlack => _treeCollapseBlackCache ??= TreeItemImageResources.TreeCollapseBlack;
 
-    private static readonly Image? _disabledDropDown = DropDownArrowImageResources.DisabledDropDownButton;
-    private static readonly Image _buttonSpecClose = ProfessionalButtonSpecResources.ProfessionalCloseButton;
-    private static readonly Image _buttonSpecContext = GenericProfessionalImageResources.ProfessionalContextButton;
-    private static readonly Image _buttonSpecNext = GenericProfessionalImageResources.ProfessionalNextButton;
-    private static readonly Image _buttonSpecPrevious = GenericProfessionalImageResources.ProfessionalPreviousButton;
-    private static readonly Image _buttonSpecArrowLeft = GenericProfessionalImageResources.ProfessionalArrowLeftButton;
-    private static readonly Image _buttonSpecArrowRight = GenericProfessionalImageResources.ProfessionalArrowRightButton;
-    private static readonly Image _buttonSpecArrowUp = GenericProfessionalImageResources.ProfessionalArrowUpButton;
-    private static readonly Image _buttonSpecArrowDown = GenericProfessionalImageResources.ProfessionalArrowDownButton;
-    private static readonly Image _buttonSpecDropDown = GenericProfessionalImageResources.ProfessionalDropDownButton;
-    private static readonly Image _buttonSpecPinVertical = ProfessionalPinImageResources.ProfessionalPinVerticalButton;
-    private static readonly Image _buttonSpecPinHorizontal = ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
-    private static readonly Image _buttonSpecPendantClose = Office2010MDIImageResources.Office2010ButtonMDIClose;
-    private static readonly Image _buttonSpecPendantMin = Office2010MDIImageResources.Office2010ButtonMDIMin;
-    private static readonly Image _buttonSpecPendantRestore = Office2010MDIImageResources.Office2010ButtonMDIRestore;
-    private static readonly Image _buttonSpecWorkspaceMaximize = ProfessionalControlBoxResources.ProfessionalMaximize;
-    private static readonly Image _buttonSpecWorkspaceRestore = GenericProfessionalImageResources.ProfessionalRestore;
-    private static readonly Image _buttonSpecRibbonMinimize = RibbonArrowImageResources.RibbonUp2010;
-    private static readonly Image _buttonSpecRibbonExpand = RibbonArrowImageResources.RibbonDown2010;
-    private static readonly Image? _contextMenuChecked = GenericOffice2007ImageResources.Office2007Checked;
-    private static readonly Image? _contextMenuIndeterminate = GenericOffice2007ImageResources.Office2007Indeterminate;
-    private static readonly Image? _contextMenuSubMenu = Office2010ArrowResources.Office2010BlueContextMenuSub;
+    private static Image? _disabledDropDownCache;
+    private static Image? _disabledDropDown => _disabledDropDownCache ??= DropDownArrowImageResources.DisabledDropDownButton;
+    private static Image? _buttonSpecCloseCache;
+    private static Image _buttonSpecClose => _buttonSpecCloseCache ??= ProfessionalButtonSpecResources.ProfessionalCloseButton;
+    private static Image? _buttonSpecContextCache;
+    private static Image _buttonSpecContext => _buttonSpecContextCache ??= GenericProfessionalImageResources.ProfessionalContextButton;
+    private static Image? _buttonSpecNextCache;
+    private static Image _buttonSpecNext => _buttonSpecNextCache ??= GenericProfessionalImageResources.ProfessionalNextButton;
+    private static Image? _buttonSpecPreviousCache;
+    private static Image _buttonSpecPrevious => _buttonSpecPreviousCache ??= GenericProfessionalImageResources.ProfessionalPreviousButton;
+    private static Image? _buttonSpecArrowLeftCache;
+    private static Image _buttonSpecArrowLeft => _buttonSpecArrowLeftCache ??= GenericProfessionalImageResources.ProfessionalArrowLeftButton;
+    private static Image? _buttonSpecArrowRightCache;
+    private static Image _buttonSpecArrowRight => _buttonSpecArrowRightCache ??= GenericProfessionalImageResources.ProfessionalArrowRightButton;
+    private static Image? _buttonSpecArrowUpCache;
+    private static Image _buttonSpecArrowUp => _buttonSpecArrowUpCache ??= GenericProfessionalImageResources.ProfessionalArrowUpButton;
+    private static Image? _buttonSpecArrowDownCache;
+    private static Image _buttonSpecArrowDown => _buttonSpecArrowDownCache ??= GenericProfessionalImageResources.ProfessionalArrowDownButton;
+    private static Image? _buttonSpecDropDownCache;
+    private static Image _buttonSpecDropDown => _buttonSpecDropDownCache ??= GenericProfessionalImageResources.ProfessionalDropDownButton;
+    private static Image? _buttonSpecPinVerticalCache;
+    private static Image _buttonSpecPinVertical => _buttonSpecPinVerticalCache ??= ProfessionalPinImageResources.ProfessionalPinVerticalButton;
+    private static Image? _buttonSpecPinHorizontalCache;
+    private static Image _buttonSpecPinHorizontal => _buttonSpecPinHorizontalCache ??= ProfessionalPinImageResources.ProfessionalPinHorizontalButton;
+    private static Image? _buttonSpecPendantCloseCache;
+    private static Image _buttonSpecPendantClose => _buttonSpecPendantCloseCache ??= Office2010MDIImageResources.Office2010ButtonMDIClose;
+    private static Image? _buttonSpecPendantMinCache;
+    private static Image _buttonSpecPendantMin => _buttonSpecPendantMinCache ??= Office2010MDIImageResources.Office2010ButtonMDIMin;
+    private static Image? _buttonSpecPendantRestoreCache;
+    private static Image _buttonSpecPendantRestore => _buttonSpecPendantRestoreCache ??= Office2010MDIImageResources.Office2010ButtonMDIRestore;
+    private static Image? _buttonSpecWorkspaceMaximizeCache;
+    private static Image _buttonSpecWorkspaceMaximize => _buttonSpecWorkspaceMaximizeCache ??= ProfessionalControlBoxResources.ProfessionalMaximize;
+    private static Image? _buttonSpecWorkspaceRestoreCache;
+    private static Image _buttonSpecWorkspaceRestore => _buttonSpecWorkspaceRestoreCache ??= GenericProfessionalImageResources.ProfessionalRestore;
+    private static Image? _buttonSpecRibbonMinimizeCache;
+    private static Image _buttonSpecRibbonMinimize => _buttonSpecRibbonMinimizeCache ??= RibbonArrowImageResources.RibbonUp2010;
+    private static Image? _buttonSpecRibbonExpandCache;
+    private static Image _buttonSpecRibbonExpand => _buttonSpecRibbonExpandCache ??= RibbonArrowImageResources.RibbonDown2010;
+    private static Image? _contextMenuCheckedCache;
+    private static Image? _contextMenuChecked => _contextMenuCheckedCache ??= GenericOffice2007ImageResources.Office2007Checked;
+    private static Image? _contextMenuIndeterminateCache;
+    private static Image? _contextMenuIndeterminate => _contextMenuIndeterminateCache ??= GenericOffice2007ImageResources.Office2007Indeterminate;
+    private static Image? _contextMenuSubMenuCache;
+    private static Image? _contextMenuSubMenu => _contextMenuSubMenuCache ??= Office2010ArrowResources.Office2010BlueContextMenuSub;
 
     #region Integrated Tool Bar Images
 
-    private static readonly Image _integratedToolbarNewNormal = Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
-
-    private static readonly Image _integratedToolbarOpenNormal = Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
-
-    private static readonly Image _integratedToolbarSaveAllNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
-
-    private static readonly Image _integratedToolbarSaveAsNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
-
-    private static readonly Image _integratedToolbarSaveNormal = Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
-
-    private static readonly Image _integratedToolbarCutNormal = Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
-
-    private static readonly Image _integratedToolbarCopyNormal = Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
-
-    private static readonly Image _integratedToolbarPasteNormal = Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
-
-    private static readonly Image _integratedToolbarUndoNormal = Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
-
-    private static readonly Image _integratedToolbarRedoNormal = Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
-
-    private static readonly Image _integratedToolbarPageSetupNormal = Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
-
-    private static readonly Image _integratedToolbarPrintPreviewNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
-
-    private static readonly Image _integratedToolbarPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
-
-    private static readonly Image _integratedToolbarQuickPrintNormal = Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
+    private static Image? _integratedToolbarNewNormalCache;
+    private static Image _integratedToolbarNewNormal => _integratedToolbarNewNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarNewNormal;
+    private static Image? _integratedToolbarOpenNormalCache;
+    private static Image _integratedToolbarOpenNormal => _integratedToolbarOpenNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarOpenNormal;
+    private static Image? _integratedToolbarSaveAllNormalCache;
+    private static Image _integratedToolbarSaveAllNormal => _integratedToolbarSaveAllNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarSaveAllNormal;
+    private static Image? _integratedToolbarSaveAsNormalCache;
+    private static Image _integratedToolbarSaveAsNormal => _integratedToolbarSaveAsNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarSaveAsNormal;
+    private static Image? _integratedToolbarSaveNormalCache;
+    private static Image _integratedToolbarSaveNormal => _integratedToolbarSaveNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarSaveNormal;
+    private static Image? _integratedToolbarCutNormalCache;
+    private static Image _integratedToolbarCutNormal => _integratedToolbarCutNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarCutNormal;
+    private static Image? _integratedToolbarCopyNormalCache;
+    private static Image _integratedToolbarCopyNormal => _integratedToolbarCopyNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarCopyNormal;
+    private static Image? _integratedToolbarPasteNormalCache;
+    private static Image _integratedToolbarPasteNormal => _integratedToolbarPasteNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarPasteNormal;
+    private static Image? _integratedToolbarUndoNormalCache;
+    private static Image _integratedToolbarUndoNormal => _integratedToolbarUndoNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarUndoNormal;
+    private static Image? _integratedToolbarRedoNormalCache;
+    private static Image _integratedToolbarRedoNormal => _integratedToolbarRedoNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarRedoNormal;
+    private static Image? _integratedToolbarPageSetupNormalCache;
+    private static Image _integratedToolbarPageSetupNormal => _integratedToolbarPageSetupNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarPageSetupNormal;
+    private static Image? _integratedToolbarPrintPreviewNormalCache;
+    private static Image _integratedToolbarPrintPreviewNormal => _integratedToolbarPrintPreviewNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarPrintPreviewNormal;
+    private static Image? _integratedToolbarPrintNormalCache;
+    private static Image _integratedToolbarPrintNormal => _integratedToolbarPrintNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarPrintNormal;
+    private static Image? _integratedToolbarQuickPrintNormalCache;
+    private static Image _integratedToolbarQuickPrintNormal => _integratedToolbarQuickPrintNormalCache ??= Office2019ToolbarImageResources.Office2019ToolbarQuickPrintNormal;
 
     #endregion
 
@@ -177,7 +203,10 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     #region Colors
 
     private static readonly Color _gridTextColor = Color.Black;
-    private static readonly Color _disabledText3 = Color.GhostWhite; // For Black themes
+    /// <summary>
+    /// Disabled caption glyph on Microsoft 365 Black. Light themes use <see cref="FormButtonDisabledText"/>.
+    /// </summary>
+    protected static readonly Color _disabledText3 = Color.GhostWhite;
     private static readonly Color _disabledText2 = Color.FromArgb(128, 128, 128);
     private static readonly Color _disabledText = Color.FromArgb(167, 167, 167);
     private static readonly Color _disabledBack = Color.FromArgb(235, 235, 235);
@@ -228,7 +257,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
 
     protected KryptonColorTable365? Table { get; set; }
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
 
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -240,11 +269,8 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     #region Constructor
 
     /// <summary>
-    /// Overload that accepts any KryptonColorSchemeBase implementation.
-    /// Converts it to a Color[] and forwards to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteMicrosoft365Base(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -256,54 +282,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
         Debug.Assert(galleryButtonList != null);
         Debug.Assert(radioButtonArray != null);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
 
-        if (checkBoxList != null)
-        {
-            _checkBoxList = checkBoxList;
-        }
-
-        if (galleryButtonList != null)
-        {
-            _galleryButtonList = galleryButtonList;
-        }
-
-        if (radioButtonArray != null)
-        {
-            _radioButtonArray = radioButtonArray;
-        }
-
-        DefineFonts();
-        BaseColors = scheme;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="PaletteMicrosoft365Base"/> class.
-    /// </summary>
-    /// <param name="schemeColors">The scheme colours.</param>
-    /// <param name="checkBoxList">The check box list.</param>
-    /// <param name="galleryButtonList">The gallery button list.</param>
-    /// <param name="radioButtonArray">The radio button array.</param>
-    /// <param name="trackBarColors">The track bar colours.</param>
-    protected PaletteMicrosoft365Base(
-        [DisallowNull] Color[] schemeColors,
-        [DisallowNull] ImageList checkBoxList,
-        [DisallowNull] ImageList galleryButtonList,
-        [DisallowNull] Image?[] radioButtonArray,
-        Color[] trackBarColors)
-    {
-        Debug.Assert(schemeColors != null);
-        Debug.Assert(checkBoxList != null);
-        Debug.Assert(galleryButtonList != null);
-        Debug.Assert(radioButtonArray != null);
-
-        if (schemeColors != null)
-        {
-            _ribbonColors = schemeColors;
-        }
+        _ribbonColors = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -2162,6 +2143,16 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     }
 
     /// <summary>
+    /// Gets the disabled glyph colour for caption buttons
+    /// (<see cref="PaletteContentStyle.ButtonForm"/> and <see cref="PaletteContentStyle.ButtonFormClose"/>).
+    /// </summary>
+    /// <remarks>
+    /// The button fill stays empty so the caption shows through.
+    /// <see cref="PaletteMicrosoft365Black"/> overrides this with <see cref="_disabledText3"/>.
+    /// </remarks>
+    protected virtual Color FormButtonDisabledText => Color.FromArgb(205, 205, 205);
+
+    /// <summary>
     /// Gets the first back color for the short text.
     /// </summary>
     /// <param name="style">Content style.</param>
@@ -2216,7 +2207,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
             (style != PaletteContentStyle.ButtonInputControl) &&
-            (style != PaletteContentStyle.ButtonCalendarDay))
+            (style != PaletteContentStyle.ButtonCalendarDay) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2256,6 +2249,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -2302,7 +2296,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
             (style != PaletteContentStyle.ButtonInputControl) &&
-            (style != PaletteContentStyle.ButtonCalendarDay))
+            (style != PaletteContentStyle.ButtonCalendarDay) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2341,6 +2337,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -2709,7 +2706,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom1) &&
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
-            (style != PaletteContentStyle.ButtonInputControl))
+            (style != PaletteContentStyle.ButtonInputControl) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2742,6 +2741,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -2787,7 +2787,9 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom1) &&
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
-            (style != PaletteContentStyle.ButtonInputControl))
+            (style != PaletteContentStyle.ButtonInputControl) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2819,6 +2821,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -3240,6 +3243,14 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
     /// <param name="expanded">Is the node expanded</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
+
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
 
     /// <inheritdoc />
     public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
@@ -4290,6 +4301,8 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     PaletteState.Disabled => SharedStaticVariables.EMPTY_COLOR,
                     _ => BaseColors!.TrackBarOutsidePosition
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4328,6 +4341,8 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4369,6 +4384,8 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
 
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4417,6 +4434,8 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4465,6 +4484,8 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color6),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4524,7 +4545,7 @@ public abstract class PaletteMicrosoft365Base : PaletteBase
             {
                 _ribbonColors[idx] = newColor;
             }
-            BaseColors?.ButtonTextTracking = newColor;
+            BaseColors.ButtonTextTracking = newColor;
         }
         base.OnSchemeExtraColorChanged(index, newColor);
     }

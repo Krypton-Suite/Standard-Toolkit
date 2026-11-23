@@ -368,7 +368,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
         context.DisplayRectangle = ClientRectangle;
         _spareCaptionRect = fillerRect;
         _spareCaptionRects.Clear();
-        if (fillerRect.Width > 8 && fillerRect.Height > 0)
+        if (fillerRect is { Width: > 8, Height: > 0 })
         {
             _spareCaptionRects.Add(fillerRect);
         }
@@ -1008,7 +1008,7 @@ internal sealed class ViewLayoutNavigatorCaptionTabs : ViewLayoutDocker
 
         // Whole-group caption drag moves contiguous members as a block when possible.
         var moving = new List<KryptonPage>();
-        if (_draggingPages != null && _draggingPages.Count > 1)
+        if (_draggingPages is { Count: > 1 })
         {
             foreach (KryptonPage page in _draggingPages)
             {

@@ -58,7 +58,7 @@ internal partial class VisualBreadCrumbItemsForm
 
         // treeView1
         treeView1.Dock = DockStyle.Fill;
-        treeView1.Name = nameof(treeView1);
+        treeView1.Name = "treeView1";
         treeView1.TabIndex = 1;
         treeView1.HideSelection = false;
         treeView1.AfterSelect += treeView1_AfterSelect;
@@ -66,41 +66,41 @@ internal partial class VisualBreadCrumbItemsForm
         // propertyGrid1
         propertyGrid1.Dock = DockStyle.Fill;
         propertyGrid1.HelpVisible = false;
-        propertyGrid1.Name = nameof(propertyGrid1);
+        propertyGrid1.Name = "propertyGrid1";
         propertyGrid1.TabIndex = 7;
         propertyGrid1.ToolbarVisible = false;
 
         // groupBoxItems
         groupBoxItems.Dock = DockStyle.Fill;
-        groupBoxItems.Name = nameof(groupBoxItems);
+        groupBoxItems.Name = "groupBoxItems";
         groupBoxItems.Values.Heading = @"BreadCrumbItems Collection";
         groupBoxItems.Panel.Controls.Add(treeView1);
 
         // groupBoxProperties
         groupBoxProperties.Dock = DockStyle.Fill;
-        groupBoxProperties.Name = nameof(groupBoxProperties);
+        groupBoxProperties.Name = "groupBoxProperties";
         groupBoxProperties.Values.Heading = @"Item Properties";
         groupBoxProperties.Panel.Controls.Add(propertyGrid1);
 
         // Navigation buttons
         ConfigureToolbarButton(buttonMoveUp, BlueArrowResources.arrow_up_blue, @"Move Up", buttonMoveUp_Click);
-        buttonMoveUp.Name = nameof(buttonMoveUp);
+        buttonMoveUp.Name = "buttonMoveUp";
         buttonMoveUp.TabIndex = 2;
 
         ConfigureToolbarButton(buttonMoveDown, BlueArrowResources.arrow_down_blue, @"Move Down", buttonMoveDown_Click);
-        buttonMoveDown.Name = nameof(buttonMoveDown);
+        buttonMoveDown.Name = "buttonMoveDown";
         buttonMoveDown.TabIndex = 3;
 
         ConfigureToolbarButton(buttonAddItem, GenericImageResources.add, @"Add Sibling", buttonAddSibling_Click);
-        buttonAddItem.Name = nameof(buttonAddItem);
+        buttonAddItem.Name = "buttonAddItem";
         buttonAddItem.TabIndex = 4;
 
         ConfigureToolbarButton(buttonAddChild, GenericImageResources.add, @"Add Child", buttonAddChild_Click);
-        buttonAddChild.Name = nameof(buttonAddChild);
+        buttonAddChild.Name = "buttonAddChild";
         buttonAddChild.TabIndex = 5;
 
         ConfigureToolbarButton(buttonDelete, GenericImageResources.delete, @"Delete Item", buttonDelete_Click);
-        buttonDelete.Name = nameof(buttonDelete);
+        buttonDelete.Name = "buttonDelete";
         buttonDelete.TabIndex = 6;
 
         var navPanel = new FlowLayoutPanel

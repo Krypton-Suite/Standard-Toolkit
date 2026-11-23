@@ -443,7 +443,7 @@ goto mainmenu
 cls
 
 
-call "%VS_SCRIPTS_DIR%\build-rc.cmd" CreateRCZip
+call "%VS_SCRIPTS_DIR%\build-release-candidate.cmd" CreateReleaseCandidateZip
 
 
 pause
@@ -454,7 +454,7 @@ goto mainmenu
 cls
 
 
-call "%VS_SCRIPTS_DIR%\build-rc.cmd" CreateRCTar
+call "%VS_SCRIPTS_DIR%\build-release-candidate.cmd" CreateReleaseCandidateTar
 
 
 pause
@@ -465,7 +465,7 @@ goto mainmenu
 cls
 
 
-call "%VS_SCRIPTS_DIR%\build-rc.cmd" CreateAllRCArchives
+call "%VS_SCRIPTS_DIR%\build-release-candidate.cmd" CreateAllReleaseCandidateArchives
 
 
 pause
@@ -544,7 +544,7 @@ goto buildmenu
 cls
 
 
-call "%VS_SCRIPTS_DIR%\build-rc.cmd"
+call "%VS_SCRIPTS_DIR%\build-release-candidate.cmd"
 goto buildmenu
 
 
@@ -591,7 +591,7 @@ goto packmenu
 cls
 
 
-call "%VS_SCRIPTS_DIR%\build-rc.cmd" Pack
+call "%VS_SCRIPTS_DIR%\build-release-candidate.cmd" Pack
 goto packmenu
 
 :packinstaller
@@ -822,7 +822,7 @@ cls
 
 echo Step 2: Build and pack
 
-call "%VS_SCRIPTS_DIR%\build-rc.cmd" Pack
+call "%VS_SCRIPTS_DIR%\build-release-candidate.cmd" Pack
 
 pause
 
@@ -928,7 +928,7 @@ goto mainmenu
 cls
 
 
-call "%VS_SCRIPTS_DIR%\build-rc.cmd" Pack
+call "%VS_SCRIPTS_DIR%\build-release-candidate.cmd" Pack
 
 pause
 

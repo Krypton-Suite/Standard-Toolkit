@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupRichTextBox : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the rich text box definition
-        GroupRichTextBox.RichTextBoxView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupRichTextBox.RichTextBoxView = this;
 
         // Give paint delegate to richtextbox so its palette changes are redrawn
-        GroupRichTextBox.ViewPaintDelegate = needPaint;
+            GroupRichTextBox.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupRichTextBox.RichTextBox);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupRichTextBox : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupRichTextBox.MouseEnterControl -= OnMouseEnterControl;
                 GroupRichTextBox.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupRichTextBox.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupRichTextBox.RichTextBoxView, this))
+                {
+                    GroupRichTextBox.ViewPaintDelegate = null;
+                }
                 GroupRichTextBox.PropertyChanged -= OnRichTextBoxPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupRichTextBox.RichTextBoxView = null;
+                if (ReferenceEquals(GroupRichTextBox.RichTextBoxView, this))
+                {
+                    GroupRichTextBox.RichTextBoxView = null;
+                }
                 GroupRichTextBox = null;
             }
         }

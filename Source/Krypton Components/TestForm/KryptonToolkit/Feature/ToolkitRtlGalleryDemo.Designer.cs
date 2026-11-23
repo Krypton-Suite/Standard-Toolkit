@@ -14,10 +14,6 @@ namespace TestForm;
 partial class ToolkitRtlGalleryDemo
 {
     private IContainer components = null!;
-    private KryptonPanel kpanelTop;
-    private KryptonLabel klblInstructions;
-    private KryptonCheckBox kchkDualRtl;
-    private KryptonNavigator kryptonNavigator;
 
     protected override void Dispose(bool disposing)
     {
@@ -102,4 +98,9 @@ partial class ToolkitRtlGalleryDemo
     }
 
     #endregion
+
+    private KryptonPanel kpanelTop;
+    private KryptonLabel klblInstructions;
+    private KryptonCheckBox kchkDualRtl;
+    private KryptonNavigator kryptonNavigator;
 }

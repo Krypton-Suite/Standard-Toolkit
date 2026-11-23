@@ -51,7 +51,11 @@ Default output folder: `Bin\Debug\net472`.
 | Script | Purpose | Marker |
 |--------|---------|--------|
 | `Invoke-AllUnitTests.ps1` | Discovers markers, runs every `include` script in STA children | (entry point) |
-| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 toolbox drop: core controls must not report designer `Modified` storage (`IsDefault` false) | `include` |
+| `UnitTest-DesignerSerializationDefaults.ps1` | #4325 / #4559 toolbox drop: every toolbox control must not report designer `Modified` storage (`IsDefault` false). #4466 factory strings and empty colours must not `ShouldSerialize`. #4557 a fresh ribbon `NotificationBar` is blank, then `Modified` after an edit. Focused checks: ribbon back colours, progress-bar green, scrollbar border, menu-bar background. Also run alone by `.github/workflows/designer-serialization-defaults.yml` | `include` |
+| `Invoke-NotificationBarModifiedScreenshot.ps1` | #4557 hosts `Bug4557NotificationBarModifiedDemo` and captures the fresh (blank) and edited (`Modified`) property-grid states | `exclude` |
+| `UnitTest-ButtonSpecCollectionEditorDisplayText.ps1` | #4536 ButtonSpec collection editor lists the designer component name (`buttonSpecAny1`); `Name` edits that name; `UniqueName` stays the persistence key | `include` |
+| `UnitTest-CollectionEditorTaskbar.ps1` | #4547 collection editor dialogs set `ShowInTaskbar` false so the window omits `WS_EX_APPWINDOW` | `include` |
+| `UnitTest-DialogDpiLayout.ps1` | #4465 fixed dialog chrome becomes sizable, oversized windows clamp to the working area, and a long input prompt grows the client | `include` |
 | `UnitTest-KryptonSplitButton.ps1` | #4366 `KryptonSplitButton` always-on splitter, not a `KryptonButton`, `AccessibleRole.SplitButton`, `Values.IsDefault` | `include` |
 | `UnitTest-UnitTestInfrastructure.ps1` | Shared helpers + CI marker discovery smoke assert | `include` |
 | `UnitTest-ThemePreview.ps1` | #3870 `KryptonThemePreview` mock-up size, `AssignGeneratedThumbnail`, `.kthemex` Thumbnail round-trip | `include` |
@@ -63,19 +67,28 @@ Default output folder: `Bin\Debug\net472`.
 | `UnitTest-NavigatorCaptionTabRemerge.ps1` | #925 tear-out / remerge into a single window (in-process; no mouse) | `include` |
 | `UnitTest-AsyncFormApis.ps1` | #4177 async dialog API gating (absent on net472; present on net9+ via `pwsh`) | `include` |
 | `UnitTest-SystemInformationApi.ps1` | #3176 `KryptonSystemInformation` type/API smoke (no UI) | `include` |
+| `Invoke-ColorLivePreviewScreenshot.ps1` | Hosts `KryptonColorButtonDemo` (#4691) and writes light/dark `Documents/PR/4691-color-live-preview-default-*.png` | `exclude` |
+| `Invoke-ColorLivePreviewDemosGallery.ps1` | Hosts the Demos colour-button example and writes `live-preview-light.png` / `live-preview-dark.png` into that project folder | `exclude` |
 | `UnitTest-SystemInformationUi.ps1` | #3176 host the viewer and wait for System Summary rows (WMI) | `include` |
 | `UnitTest-InteractiveToolTips.ps1` | #4192 hosted-control tooltip / HTML helper / NotifyIcon popup API surface | `include` |
+| `UnitTest-TooltipAnimatedGif.ps1` | #4379 tooltip popup plays a multi-frame GIF: two PrintWindow captures must differ | `exclude` |
 | `UnitTest-SplashScreenManager.ps1` | #4180 splash manager API: defaults, Show/SetStatus/Close, Run(steps), throwing step | `include` |
 | `UnitTest-KryptonLogProtect.ps1` | #4270 / #4269 `KryptonLog` redacts `{Password}` before file storage | `include` |
 | `UnitTest-BugReportEmailBody.ps1` | #4271 bug-report email body omits stack traces and SMTP password; `KryptonTextBox` password masking still works | `include` |
 | `UnitTest-CommandLinkArrow.ps1` | #4264 default command-link arrow: helper returns 32x32 image; Windows 7 embedded resource is packaged | `include` |
+| `UnitTest-ResourcesFallback.ps1` | Missing `Krypton.Resources.dll`: Toolkit still loads, control text is readable, palette schema strings resolve, and image accessors draw named fallback glyphs | `include` |
+| `UnitTest-StartupTiming.ps1` | #4249 prints milliseconds for the first `KryptonManager` touch, an optional `-PaletteMode` switch before the form, and a minimal `KryptonForm` until `Shown`, plus whether `Krypton.Themes.dll` loaded at init, inside `Shown`, and after one idle pump | `exclude` |
 | `UnitTest-RibbonOverflowGlyph.ps1` | #4253 overflow glyph: `GetCachedRibbonOverflowImage` 16x16; `ViewLayoutRibbonGroups.IsOverflow` / `DisplayOverflowButton` | `include` |
 | `UnitTest-RibbonTranslations.ps1` | #4369 RibbonTranslations.xml/JSON round-trip plus Auto Discover of `RibbonTranslations.de.xml` | `include` |
+| `UnitTest-ToolkitTranslationsCoverage.ps1` | #4370 stale `ToolkitTranslations.xml` coverage, Merge Missing, tolerant vs strict import, CSV report | `include` |
+| `UnitTest-CustomTranslationsCoverage.ps1` | #4370 custom typed-set coverage, Merge Missing, `ToolkitVersion` stamp, strict import | `include` |
 | `UnitTest-CustomPaletteBasePaletteMode.ps1` | #1870 `KryptonCustomPaletteBase.BasePaletteMode` inherits the builtin colour table; builtin `BasePalette` keeps catalog mode | `include` |
 | `UnitTest-PaletteBinary.ps1` | #2117 custom palette `.kthemex` / `.ktheme` round-trip, `Convert`, `UpgradeXmlToKthemex` / `ConvertFile` (file and `KryptonCustomPaletteBase`), collections, `AddToCollection` / `RemoveFromCollection`, directory collections, and Utilities `FromDirectory` | `include` |
 | `UnitTest-KryptonFormRtl.ps1` | #2103 `KryptonForm` RTL: `ScreenToWindow` stays physical; Close hit-tests on the right in LTR and the left with `RightToLeftLayout`; window region includes both physical left and right chrome | `include` |
 | `UnitTest-WorkspaceRtlLayout.ps1` | #2383 `KryptonWorkspace` logical RTL: horizontal cells pack from the right when both flags are set; nested vertical order is unchanged; XML Children order is stable | `include` |
 | `UnitTest-BorderlessFormCaption.ps1` | #2922 borderless `KryptonForm`: top-level and MDI `Dock.Fill` child have no `WS_CAPTION` after `Show`; `MdiChildActivate` still fires | `include` |
+| `UnitTest-ShowDialogFormChrome.ps1` | #4584 bordered `KryptonForm` applies VisualForm custom chrome on handle create (before `ShowDialog`); Sizable and FixedDialog | `include` |
+| `Invoke-ShowDialogFormChromeScreenshot.ps1` | #4584 hosts `Bug4584KryptonFormShowDialogFlickerDemo` and writes host/dialog PNGs plus an open GIF under `Documents/PR/` | `exclude` |
 | `UnitTest-ContextMenuSubMenuImage.ps1` | #4252 Light Gray Office 2007/2010/Microsoft 365 `GetContextMenuSubMenuImage` returns an image; all catalog palettes must not throw | `include` |
 | `UnitTest-TagInput.ps1` | `KryptonTagInput` and `KryptonTagInputControl` API: defaults, add/remove, duplicates, max tags, events, category colours | `include` |
 | `UnitTest-TagInput.ps1` | `KryptonTagInputControl` API: defaults, add/remove, duplicates, max tags, events, category colours | `include` |
@@ -88,13 +101,34 @@ Default output folder: `Bin\Debug\net472`.
 | `Get-NavigatorTabGroupColourShot.ps1` | Tab-group colour screenshot | n/a |
 | `Start-RadialMenuDemoHost.ps1` | Hosts `RadialMenuDemo` (#4172) | n/a |
 | `Invoke-4412LabelAlternateScreenshot.ps1` | Hosts Normal vs Alternate labels (#4412) and writes `Documents/PR/4412-label-alternate-status-strip-text-demo.png` | `exclude` |
+| `UnitTest-DisabledCaptionGlyph.ps1` | #4413 disabled caption glyph colours and empty close fill for Office 2010 / 2013 / Microsoft 365 | `include` |
+| `Invoke-4413DisabledCaptionScreenshot.ps1` | Hosts `Bug4413DisabledCaptionGlyphDemo` (#4413) and writes `Documents/PR/4413-disabled-caption-glyph-demo.png` | `exclude` |
 | `Invoke-RadialMenuScreenshot.ps1` | Opens radial menu and writes `Documents/PR/4172-radial-menu-native.png` | `exclude` |
+| `Invoke-TimelineScreenshot.ps1` | Hosts `TimelineDemo` (#4218) and writes the default, custom style-colour, vertical, vis-style, and drag PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-4406MultilineEditorScreenshot.ps1` | Hosts `Feature3851RenderingDpiDemo`, opens the themed multiline text editor (#4406), and writes `Documents/PR/4406-multiline-string-editor.png` | `exclude` |
+| `Invoke-TableLayoutStyleEditorScreenshot.ps1` | Opens the themed Column and Row Styles dialog, checks insert/delete, Cancel, and OK, and writes `Documents/PR/table-layout-style-editor.png` | `exclude` |
+| `Invoke-SvgPictureBoxScreenshot.ps1` | Hosts `KryptonSVGPictureBoxDemo` (#4657) and writes `Documents/PR/4657-krypton-svg-picture-box.png`. | `exclude` |
+| `Invoke-FileOperationDialogScreenshot.ps1` | #4672 copies, conflicts, and deletes through `KryptonFileOperation`, and writes light (`Microsoft365Blue`) / dark (`Microsoft365BlackDarkMode`) progress, conflict, confirmation, and demo PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-ApplicationUpdaterScreenshot.ps1` | Hosts `ApplicationUpdaterDemo` (#4669), captures the update prompt and the up-to-date notes window, and checks a local zip extract | `exclude` |
+| `Invoke-ApplicationUpdaterRecoveryScreenshot.ps1` | Shows the updater progress window after an interrupted download (#4669) and writes light/dark `Documents/PR/4669-application-updater-recovery-*.png` | `exclude` |
+| `Invoke-ApplicationUpdaterWindowScreenshot.ps1` | Captures the compact update prompt, release notes, remind-later dialog, and expanded progress footer (#4669) in Microsoft 365 Blue / Black Dark Mode | `exclude` |
+| `Invoke-UpdateManifestEditorScreenshot.ps1` | Hosts the update manifest editor and writes light/dark `Documents/PR/4669-update-manifest-editor-*.png` | `exclude` |
+| `Invoke-SnapLayoutOverlayScreenshot.ps1` | Compiles a net472 host beside the Debug `Krypton.Toolkit` build, shows a `KryptonForm`, opens the palette snap menu (#4579), and writes `Documents/PR/4579-snap-layout-overlay.png`. `-CustomCard` adds a 70/30 card and writes `Documents/PR/custom-snap-layouts-menu.png`. `-Ghost` enables `ShowPreviewGhost` and writes `Documents/PR/4579-snap-preview-ghost.png` | `exclude` |
+| `Invoke-SnapGroupsAssistScreenshot.ps1` | Two `KryptonForm`s: registers a half/half group and captures the menu + `Group | …` caption; then captures the Assist peer picker. Writes `Documents/PR/4579-snap-groups-assist-group.png` and `…-assist.png` | `exclude` |
+| `Invoke-SearchBoxPerformanceScreenshot.ps1` | Hosts `KryptonSearchBoxPerformanceDemo` (#4580) and writes `Documents/PR/4580-searchbox-performance-demo.png` | `exclude` || `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
+| `Invoke-CaptionTextBoxScreenshot.ps1` | Hosts CaptionTextBoxDemo and writes the caption search and text-box PNGs | `exclude` |
+| `Invoke-DialogDpiScreenshot.ps1` | #4465 captures the long input prompt and exception dialog with `Save-UnitTestWindowPng` | `exclude` |
 | `Invoke-TextBoxInputModeScreenshot.ps1` | Opens `TextBoxInputModeDemo` (#4417) and writes `Documents/PR/4417-textbox-input-mode-demo.png` | `exclude` |
 | `Invoke-ToastDpiScreenshot.ps1` | Shows basic toasts with/without close box and writes `Documents/PR/4419-toast-dpi-*.png` (#4419) | `exclude` |
 | `Invoke-SplitButtonScreenshot.ps1` | Hosts `KryptonSplitButtonDemo` (#4366) and writes `Documents/PR/4366-krypton-split-button-default.png` | `exclude` |
+| `Invoke-ElevatedClickScreenshot.ps1` | Hosts the #4648 ElevatedClick shield as an overlay on a content image, without clicking (no UAC prompt), and writes `Documents/PR/4648-elevated-click-demo.png` | `exclude` |
+| `Invoke-FormClientBackColorScreenshot.ps1` | Hosts `FormClientBackColorDemo` (#4685) under Microsoft 365 Blue / Black Dark Mode and writes `Documents/PR/4685-form-client-backcolor-default-light.png` and `…-dark.png` | `exclude` |
+| `Invoke-CommandLinkElevatedClickScreenshot.ps1` | Hosts the #4648 command-link ElevatedClick shield on the arrow, without clicking, and writes `Documents/PR/4648-command-link-elevated-click-demo.png` | `exclude` |
 | `Invoke-ButtonSpecFillHeightScreenshot.ps1` | Hosts `Bug4432ButtonSpecFillHeightDemo` (#4432) and writes `Documents/PR/4432-buttonspec-fillheight-default.png` | `exclude` |
 | `Probe-ButtonSpecFillHeight.ps1` | Prints TextBox ButtonSpec client rectangles for #4432 FillHeight vs centred | `exclude` |
 | `Invoke-WinFormsDesignerSdkScreenshot.ps1` | Hosts `WinFormsDesignerSdkDemo` (#593) and writes `Documents/PR/593-winforms-designer-sdk-host.png` | `exclude` |
+| `Invoke-WindowsXPThemesScreenshot.ps1` | Hosts `WindowsXPThemesDemo` and writes Luna Blue, Olive, Silver, and an open-combo highlight PNG under `Documents/PR/` | `exclude` |
+| `Invoke-CustomRendererScreenshot.ps1` | Hosts `CustomRendererDemo` and writes the Luna renderer and stripe renderer PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-ThemeListViewHoverScreenshot.ps1` | Hosts `ThemeCatalogDemo` (#3870), applies a list-view hover preview, writes PNG stills under `Documents/PR/` | `exclude` |
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-PaletteBinaryScreenshot.ps1` | Hosts `PaletteBinaryDemo` (#2117) and writes `Documents/PR/2117-bulk-xml-upgrade-demo.png` | `exclude` |
@@ -106,6 +140,9 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-SchemeStripTextScreenshot.ps1` | Hosts `SchemeStripTextDemo` (#1100) and writes default/contrast PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonRtlScreenshot.ps1` | Hosts `RibbonRtlDemo` (#2382) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
 | `Invoke-RibbonTranslationsScreenshot.ps1` | Hosts `RibbonTranslationsDemo` (#4369) and writes default/German PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-Office2024RibbonScreenshot.ps1` | Hosts `Office2024RibbonDemo` (#4496, #4533) and writes the Office 2024 themes, Microsoft 365 Blue, a hovered tab, pill lines, a static glowing line and a glowing pill, a Blue Dark bevel, a wider bevel, a selected context tab, a Blue Dark group gap, the Office 2024 File backstage, and compact ribbon classic, single-row, arrow placement, narrow, ellipsis, overflow popup, and Microsoft 365 states, plus GIFs of the height animation and the overflow popup opening and closing, under `Documents/PR/` | `exclude` |
+| `Invoke-RibbonGroupStackScreenshot.ps1` | Hosts `RibbonGroupStackDemo` (#4560) and writes wide and narrow PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-BackstageFileDoubleClick.ps1` | Hosts `Office2024RibbonDemo` (#4552), writes the File backstage PNG, and checks that a File double-click closes the form for Office 2024 and Office 2010 without showing the backstage | `exclude` |
 | `Invoke-ToolkitRtlScreenshot.ps1` | Hosts `RTLControlsTest` (#2379) and writes LTR/RTL PNGs under `Documents/PR/`. Also: `-Demo ToolkitRtlGalleryDemo -WindowTitle 'Toolkit RTL Gallery (#2379)' -OutputStem 2379-toolkit-rtl-gallery -SingleCapture` | `exclude` |
 | `Invoke-PropertyGridRtlScreenshot.ps1` | Hosts `ToolkitRtlGalleryDemo` on the PropertyGrid tab (#2379) and writes `Documents/PR/2379-toolkit-rtl-propertygrid.png` | `exclude` |
 | `Invoke-WorkspaceRtlScreenshot.ps1` | Hosts `WorkspaceRtlDemo` (#2383) and writes LTR/RTL PNGs under `Documents/PR/` | `exclude` |
@@ -116,6 +153,9 @@ Default output folder: `Bin\Debug\net472`.
 | `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/3927-tag-input-default.png` | `exclude` |
 | `Invoke-TagInputScreenshot.ps1` | Hosts `KryptonTagInputDemo` and writes `Documents/PR/tag-input-default.png` | `exclude` |
 | `Invoke-ToolStripTextContrastScreenshot.ps1` | Hosts `Bug4373ToolStripTextContrastDemo` (#4373) and writes Office White/Black ToolStrip PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-ProgressBarSchemeScreenshot.ps1` | Hosts `ProgressBarTest` (#4684) and writes light/dark scheme-slot PNGs under `Documents/PR/` | `exclude` |
+| `Invoke-ProgressBarDemosGalleryScreenshot.ps1` | Builds Demos `KryptonProgressbar Examples` and writes `example-light.png` / `example-dark.png` into that project folder (#4684 gallery) | `exclude` |
+| `Invoke-ProgressBarMaterializeSmoke.ps1` | Asserts Materialize `ProgressBarValue`/`High` are accent-driven (#4684), not Green | `exclude` |
 | `Invoke-BorderlessMdiScreenshot.ps1` | Hosts `BorderlessMdiHostDemo` (#2922) with a Dock.Fill child and writes `Documents/PR/2922-borderless-mdi-dockfill.png` | `exclude` |
 | `Invoke-TabbedFloatingToolbarScreenshot.ps1` | Hosts a tabbed `FloatingToolbarGroup` (#4410) and writes `Documents/PR/4410-tabbed-floating-toolbar-page-content.png` | `exclude` |
 
@@ -132,6 +172,14 @@ The invoker prints `[PASS]` / `[FAIL]` / `[SKIP]` banners and a summary table. O
 
 ```powershell
 gh workflow run "Unit Tests" -f configuration=Debug -f target_framework=net472 -f timeout_seconds=600 -f notify_discord=true
+```
+
+## Typical usage (#4249 startup timing)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-StartupTiming.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-StartupTiming.ps1 -PaletteMode Office2007Blue
 ```
 
 ## Typical usage (#925 caption tabs)
@@ -181,12 +229,63 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Uni
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonTranslationsScreenshot.ps1
 ```
 
+## Typical usage (#4560 ribbon group stack)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-RibbonGroupStackScreenshot.ps1
+```
+
+## Typical usage (#4496 Office 2024 ribbon)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-Office2024RibbonScreenshot.ps1
+```
+
+## Typical usage (#4552 backstage File double-click)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-BackstageFileDoubleClick.ps1
+```
+
 ## Typical usage (#4271 bug-report email body)
 
 ```powershell
 dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
 powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-BugReportEmailBody.ps1
 ```
+
+## Typical usage (#4655 VU meter)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-VuMeterScreenshot.ps1
+```
+
+Writes `Documents/PR/4655-vu-meter-*.png` and `4655-vu-meter.gif` (local PR assets; do not commit). That capture leaves Play music off.
+
+### Analogue gauges (#4656)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net472
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-AnalogueGaugeScreenshot.ps1
+```
+
+Writes `Documents/PR/4656-analogue-gauges-default-light.png` and `…-dark.png` (Microsoft 365 Blue / Black Dark Mode; local PR assets; do not commit).
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-EqualizerScreenshot.ps1
+```
+
+Writes `Documents/PR/4660-krypton-equalizer-default-light.png` and `…-dark.png` (local PR assets; do not commit).
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\UnitTest-VuMeterMusic.ps1
+```
+
+Selects a 30-second length, then turns on Play music and the stereo file. The stereo pass checks that the Left and Right analog meters follow different channels, then stops the loop.
 
 ## Typical usage (#1100 scheme strip text)
 
@@ -206,4 +305,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Inv
 ```
 
 Writes `Documents/PR/3859-ribbon-caption-palette-*.png` (local PR assets; do not commit).
+
+## Typical usage (#4483 dark mode themes)
+
+```powershell
+dotnet build ".\Source\Krypton Components\TestForm\TestForm.csproj" -c Debug -f net8.0-windows
+powershell -NoProfile -ExecutionPolicy Bypass -STA -File .\Scripts\UnitTests\Invoke-DarkModeThemeScreenshots.ps1 -TargetFramework net8.0-windows
+```
+
+Writes `Documents/PR/4483-dark-*.png` (local PR assets; do not commit).
 

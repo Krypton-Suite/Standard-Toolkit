@@ -1,0 +1,9 @@
+﻿<Project>
+	<!-- Nearest Directory.Build.props wins. Import the Krypton Components props, then isolate NuGet assets per TFM. -->
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)..\'))" />
+
+	<!-- Set before Microsoft.Common.props reads BaseIntermediateOutputPath. Parallel Toolkit TFMs each restore this project. -->
+	<PropertyGroup Condition="'$(KryptonFallbackSingleTargetFramework)' != ''">
+		<BaseIntermediateOutputPath>$(MSBuildProjectDirectory)\obj\fallback-assets\$(KryptonFallbackSingleTargetFramework)\</BaseIntermediateOutputPath>
+	</PropertyGroup>
+</Project>

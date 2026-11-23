@@ -115,6 +115,10 @@ internal class ViewDrawRibbonGroupImage : ViewLeaf
                 _viewSize = _viewSize2010;
                 _offsetY = _imageOffsetY2010;
                 break;
+            case PaletteRibbonShape.Office2024:
+                _viewSize = _viewSize2007;
+                _offsetY = _imageOffsetY2007;
+                break;
         }
 
         return _viewSize;

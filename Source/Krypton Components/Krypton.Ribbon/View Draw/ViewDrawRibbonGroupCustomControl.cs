@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupCustomControl : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Provide back reference to the custom control definition
-        GroupCustomControl.CustomControlView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupCustomControl.CustomControlView = this;
 
         // Give paint delegate to label so its palette changes are redrawn
-        GroupCustomControl.ViewPaintDelegate = needPaint;
+            GroupCustomControl.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupCustomControl.CustomControl);
@@ -110,13 +113,19 @@ internal class ViewDrawRibbonGroupCustomControl : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupCustomControl.MouseEnterControl -= OnMouseEnterControl;
                 GroupCustomControl.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupCustomControl.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupCustomControl.CustomControlView, this))
+                {
+                    GroupCustomControl.ViewPaintDelegate = null;
+                }
                 GroupCustomControl.PropertyChanged -= OnCustomPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupCustomControl.CustomControlView = null!;
+                if (ReferenceEquals(GroupCustomControl.CustomControlView, this))
+                {
+                    GroupCustomControl.CustomControlView = null!;
+                }
                 GroupCustomControl = null;
             }
         }

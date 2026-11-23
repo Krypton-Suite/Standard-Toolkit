@@ -77,6 +77,7 @@ public class KryptonVScrollBar : Control
     #region Context Menu Items
 
     private KryptonContextMenu? _kryptonContextMenu;
+    private KryptonContextMenu? _factoryKryptonContextMenu;
     private KryptonContextMenuItem _kcmScrollHere;
     private KryptonContextMenuSeparator _kcmSeparator1;
     private KryptonContextMenuItem _kcmTop;
@@ -426,7 +427,6 @@ public class KryptonVScrollBar : Control
     /// </summary>
     [Category(@"Behavior")]
     [Description(@"The KryptonContextMenu to show when the user right-clicks the control.")]
-    [DefaultValue(null)]
     public KryptonContextMenu? KryptonContextMenu
     {
         get => _kryptonContextMenu;
@@ -449,6 +449,10 @@ public class KryptonVScrollBar : Control
             }
         }
     }
+
+    private bool ShouldSerializeKryptonContextMenu() => !ReferenceEquals(_kryptonContextMenu, _factoryKryptonContextMenu);
+
+    private void ResetKryptonContextMenu() => KryptonContextMenu = _factoryKryptonContextMenu;
 
     private void OnKryptonContextMenuDisposed(object? sender, EventArgs e) => _kryptonContextMenu = null;
 
@@ -566,7 +570,7 @@ public class KryptonVScrollBar : Control
 
         // Apply clipping to round the control corners if rounding is specified
         Region? originalClip = null;
-        if (borderRounding > 0 && ClientRectangle.Width > 0 && ClientRectangle.Height > 0)
+        if (borderRounding > 0 && ClientRectangle is { Width: > 0, Height: > 0 })
         {
             originalClip = e.Graphics.Clip?.Clone();
             using GraphicsPath roundedPath = CommonHelper.RoundedRectanglePath(ClientRectangle, (int)Math.Round(borderRounding));
@@ -1470,6 +1474,7 @@ public class KryptonVScrollBar : Control
                 _kcmSmallDown
             }
         };
+        _factoryKryptonContextMenu = _kryptonContextMenu;
     }
 
     /// <summary>

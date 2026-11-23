@@ -155,6 +155,11 @@ internal class AppTabController : GlobalId,
                 Keyboard = false;
                 OnClick(new MouseEventArgs(MouseButtons.Left, 1, pt.X, pt.Y, 0));
             }
+            else if (_fixedPressed && _ribbon.Enabled)
+            {
+                // Second press of a double-click. Cancel a deferred backstage open before it paints.
+                _ribbon.TabsArea?.CancelPendingBackstageOpen();
+            }
         }
 
         return false;

@@ -140,6 +140,7 @@ internal class Animator2D : IAnimator
     /// <summary>
     ///     Gets the currently active path.
     /// </summary>
+    [SuppressMessage("Microsoft.WinForms.Analyzers", "WFO2000:Property returns a newly constructed reference type", Justification = "ActivePath is a live projection of the horizontal and vertical animator paths.")]
     public Path2D ActivePath => new(HorizontalAnimator.ActivePath!, VerticalAnimator.ActivePath!);
 
     /// <summary>
@@ -237,7 +238,7 @@ internal class Animator2D : IAnimator
     /// </summary>
     public virtual void Pause()
     {
-        if (CurrentStatus == AnimatorStatus.OnHold || CurrentStatus == AnimatorStatus.Playing)
+        if (CurrentStatus is AnimatorStatus.OnHold or AnimatorStatus.Playing)
         {
             HorizontalAnimator.Pause();
             VerticalAnimator.Pause();

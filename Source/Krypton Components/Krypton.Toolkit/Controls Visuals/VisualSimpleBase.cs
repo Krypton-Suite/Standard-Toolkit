@@ -90,7 +90,7 @@ public abstract class VisualSimpleBase : VisualControlBase
                 && (retSize.Width <= 0 || retSize.Height <= 0))
             {
                 Size baseSize = base.GetPreferredSize(new Size(int.MaxValue, int.MaxValue));
-                if (baseSize.Width > 0 && baseSize.Height > 0)
+                if (baseSize is { Width: > 0, Height: > 0 })
                 {
                     retSize.Width = Math.Max(retSize.Width, baseSize.Width);
                     retSize.Height = Math.Max(retSize.Height, baseSize.Height);
@@ -148,7 +148,7 @@ public abstract class VisualSimpleBase : VisualControlBase
 
             // Only apply sensible calculated sizes to avoid unstable initialization values.
             // Use the OS virtual screen size as the baseline instead of a hard-coded pixel limit.
-            if (preferredSize.Width > 0 && preferredSize.Height > 0
+            if (preferredSize is { Width: > 0, Height: > 0 }
                 && preferredSize.Width <= maxSensibleWidth && preferredSize.Height <= maxSensibleHeight)
             {
                 if (GetAutoSizeMode() == AutoSizeMode.GrowAndShrink)

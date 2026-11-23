@@ -195,6 +195,7 @@ public class KryptonThemeListView : KryptonListView, IKryptonThemeSelectorBase
     {
         KryptonManager.GlobalPaletteChanged += KryptonManagerGlobalPaletteChanged;
         ThemeManager.RegisteredThemesChanged += ThemeManagerRegisteredThemesChanged;
+        KryptonThemeCatalog.DiscoverThemes(Site);
         base.OnHandleCreated(e);
         EnsureDetailsColumn();
     }

@@ -170,13 +170,10 @@ public static class FocusLostMenuHelper
                             return;
                         }
                     }
-                    else if (toolStrip.Items[j] is ToolStripMenuItem menuItem)
+                    else if (toolStrip.Items[j] is ToolStripMenuItem { DropDown.Visible: true } menuItem)
                     {
-                        if (menuItem.DropDown.Visible)
-                        {
-                            menuItem.DropDown.Close(ToolStripDropDownCloseReason.AppFocusChange);
-                            return;
-                        }
+                        menuItem.DropDown.Close(ToolStripDropDownCloseReason.AppFocusChange);
+                        return;
                     }
                 }
             }

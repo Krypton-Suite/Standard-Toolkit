@@ -386,7 +386,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         }
     }
 
-    private bool ShouldSerializeToolTipValues() => _toolTipValues != null && !_toolTipValues.IsDefault;
+    private bool ShouldSerializeToolTipValues() => _toolTipValues is { IsDefault: false };
 
     private void ResetToolTipValues() => _toolTipValues?.Reset();
 
@@ -850,7 +850,7 @@ public class KryptonErrorProvider : Component, IExtenderProvider
         foreach (var kvp in _errorMessages)
         {
             Control control = kvp.Key;
-            if (control != null && control.Visible && !string.IsNullOrEmpty(kvp.Value))
+            if (control is { Visible: true } && !string.IsNullOrEmpty(kvp.Value))
             {
                 Rectangle iconBounds = GetErrorIconBounds(control);
                 if (!iconBounds.IsEmpty && iconBounds.Contains(e.Location))

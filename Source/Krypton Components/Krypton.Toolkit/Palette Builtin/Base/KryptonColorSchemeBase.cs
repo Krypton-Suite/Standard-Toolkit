@@ -256,6 +256,23 @@ public abstract class KryptonColorSchemeBase
     public abstract Color TrackBarFillTrack                { get; set; }
     public abstract Color TrackBarOutsidePosition          { get; set; }
     public abstract Color TrackBarBorderPosition           { get; set; }
+    public abstract Color TransferSpeedGraphPlot           { get; set; }
+    public abstract Color TransferSpeedGraphSeries         { get; set; }
+    public abstract Color TransferSpeedGraphGrid           { get; set; }
+    public abstract Color TransferSpeedGraphBorder         { get; set; }
+    public abstract Color TransferSpeedGraphLabel          { get; set; }
+    public abstract Color EqualizerFace                    { get; set; }
+    public abstract Color EqualizerLabel                   { get; set; }
+    public abstract Color EqualizerLow                     { get; set; }
+    public abstract Color EqualizerMid                     { get; set; }
+    public abstract Color EqualizerHigh                    { get; set; }
+    public abstract Color EqualizerOff                     { get; set; }
+    public abstract Color EqualizerPeak                    { get; set; }
+    public abstract Color EqualizerThumb                   { get; set; }
+    public abstract Color ProgressBarValue                 { get; set; }
+    public abstract Color ProgressBarLow                   { get; set; }
+    public abstract Color ProgressBarMedium                { get; set; }
+    public abstract Color ProgressBarHigh                  { get; set; }
 
     #endregion
 }

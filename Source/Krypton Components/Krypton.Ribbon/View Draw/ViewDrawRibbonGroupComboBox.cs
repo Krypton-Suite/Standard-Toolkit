@@ -75,10 +75,13 @@ internal class ViewDrawRibbonGroupComboBox : ViewComposite,
         _ribbon.ViewRibbonManager.LayoutAfter += OnLayoutAction;
 
         // Define back reference to view for the combo box definition
-        GroupComboBox.ComboBoxView = this;
+        if (!_ribbon.CompactOverflowCapture)
+        {
+            GroupComboBox.ComboBoxView = this;
 
         // Give paint delegate to combobox so its palette changes are redrawn
-        GroupComboBox.ViewPaintDelegate = needPaint;
+            GroupComboBox.ViewPaintDelegate = needPaint;
+        }
 
         // Update all views to reflect current state
         UpdateEnabled(GroupComboBox.ComboBox);
@@ -111,13 +114,19 @@ internal class ViewDrawRibbonGroupComboBox : ViewComposite,
                 // Must unhook to prevent memory leaks
                 GroupComboBox.MouseEnterControl -= OnMouseEnterControl;
                 GroupComboBox.MouseLeaveControl -= OnMouseLeaveControl;
-                GroupComboBox.ViewPaintDelegate = null;
+                if (ReferenceEquals(GroupComboBox.ComboBoxView, this))
+                {
+                    GroupComboBox.ViewPaintDelegate = null;
+                }
                 GroupComboBox.PropertyChanged -= OnComboBoxPropertyChanged;
                 _ribbon.ViewRibbonManager!.LayoutAfter -= OnLayoutAction;
                 _ribbon.ViewRibbonManager.LayoutBefore -= OnLayoutAction;
 
                 // Remove association with definition
-                GroupComboBox.ComboBoxView = null; 
+                if (ReferenceEquals(GroupComboBox.ComboBoxView, this))
+                {
+                    GroupComboBox.ComboBoxView = null;
+                } 
                 GroupComboBox = null;
             }
         }

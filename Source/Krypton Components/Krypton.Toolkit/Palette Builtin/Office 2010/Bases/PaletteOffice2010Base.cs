@@ -220,7 +220,7 @@ public abstract class PaletteOffice2010Base : PaletteBase
     protected override Color[] SchemeColors => _ribbonColors;
     private readonly Color[] _ribbonColors;
 
-    protected readonly KryptonColorSchemeBase? BaseColors;
+    protected readonly KryptonColorSchemeBase BaseColors;
     protected KryptonColorTable2010? Table { get; set; }
     private readonly ImageList _checkBoxList;
     private readonly ImageList _galleryButtonList;
@@ -229,10 +229,8 @@ public abstract class PaletteOffice2010Base : PaletteBase
 
     #region Identity
     /// <summary>
-    /// Overload that accepts a KryptonColorSchemeBase instance and forwards colours to the main constructor.
+    /// Initializes a new instance using a strongly-typed <see cref="KryptonColorSchemeBase"/> scheme.
     /// </summary>
-    // TODO this should be merged into main constructor once all palettes
-    // have their own KryptonColorSchemeBase-derived class
     protected PaletteOffice2010Base(
         [DisallowNull] KryptonColorSchemeBase scheme,
         [DisallowNull] ImageList checkBoxList,
@@ -247,10 +245,9 @@ public abstract class PaletteOffice2010Base : PaletteBase
         // Remember incoming sets of values
         ThemeName = nameof(PaletteOffice2010Base);
 
-        if (scheme != null)
-        {
-            _ribbonColors = scheme.ToArray();
-        }
+        BaseColors = scheme!;
+
+        _ribbonColors = scheme!.ToArray();
 
         if (checkBoxList != null)
         {
@@ -268,7 +265,6 @@ public abstract class PaletteOffice2010Base : PaletteBase
         }
 
         DefineFonts();
-        BaseColors = scheme;
     }
 
     #endregion
@@ -603,7 +599,7 @@ public abstract class PaletteOffice2010Base : PaletteBase
             case PaletteBackStyle.ButtonFormClose:
                 return state switch
                 {
-                    // TODO: Change disabled colour for all 2010, 2013 & 365 themes
+                    // Fill stays empty; the disabled glyph colour is FormButtonDisabledText.
                     PaletteState.Disabled or PaletteState.Normal or PaletteState.NormalDefaultOverride => SharedStaticVariables.EMPTY_COLOR,
                     PaletteState.CheckedNormal => _formCloseChecked1,
                     PaletteState.Tracking => _formCloseTracking1,
@@ -2402,6 +2398,15 @@ public abstract class PaletteOffice2010Base : PaletteBase
     }
 
     /// <summary>
+    /// Gets the disabled glyph colour for caption buttons
+    /// (<see cref="PaletteContentStyle.ButtonForm"/> and <see cref="PaletteContentStyle.ButtonFormClose"/>).
+    /// </summary>
+    /// <remarks>
+    /// The button fill stays empty so the caption shows through. Dark themes override this.
+    /// </remarks>
+    protected virtual Color FormButtonDisabledText => Color.FromArgb(205, 205, 205);
+
+    /// <summary>
     /// Gets the first back color for the short text.
     /// </summary>
     /// <param name="style">Content style.</param>
@@ -2461,7 +2466,9 @@ public abstract class PaletteOffice2010Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
             (style != PaletteContentStyle.ButtonInputControl) &&
-            (style != PaletteContentStyle.ButtonCalendarDay))
+            (style != PaletteContentStyle.ButtonCalendarDay) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2518,6 +2525,7 @@ public abstract class PaletteOffice2010Base : PaletteBase
                 },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed or PaletteState.CheckedNormal
                     => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
@@ -2566,7 +2574,9 @@ public abstract class PaletteOffice2010Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
             (style != PaletteContentStyle.ButtonInputControl) &&
-            (style != PaletteContentStyle.ButtonCalendarDay))
+            (style != PaletteContentStyle.ButtonCalendarDay) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -2599,6 +2609,7 @@ public abstract class PaletteOffice2010Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -2967,7 +2978,9 @@ public abstract class PaletteOffice2010Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom1) &&
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
-            (style != PaletteContentStyle.ButtonInputControl))
+            (style != PaletteContentStyle.ButtonInputControl) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -3000,6 +3013,7 @@ public abstract class PaletteOffice2010Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -3045,7 +3059,9 @@ public abstract class PaletteOffice2010Base : PaletteBase
             (style != PaletteContentStyle.InputControlCustom1) &&
             (style != PaletteContentStyle.InputControlCustom2) &&
             (style != PaletteContentStyle.InputControlCustom3) &&
-            (style != PaletteContentStyle.ButtonInputControl))
+            (style != PaletteContentStyle.ButtonInputControl) &&
+            (style != PaletteContentStyle.ButtonForm) &&
+            (style != PaletteContentStyle.ButtonFormClose))
         {
             return _disabledText;
         }
@@ -3077,6 +3093,7 @@ public abstract class PaletteOffice2010Base : PaletteBase
             },
             PaletteContentStyle.ButtonForm or PaletteContentStyle.ButtonFormClose => state switch
             {
+                PaletteState.Disabled => FormButtonDisabledText,
                 PaletteState.Tracking or PaletteState.CheckedTracking => _ribbonColors[(int)SchemeBaseColors.TextButtonFormTracking],
                 PaletteState.Pressed or PaletteState.CheckedPressed => _ribbonColors[(int)SchemeBaseColors.TextButtonFormPressed],
                 _ => _ribbonColors[(int)SchemeBaseColors.TextButtonFormNormal]
@@ -3496,6 +3513,14 @@ public abstract class PaletteOffice2010Base : PaletteBase
     /// <param name="expanded">Is the node expanded</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => expanded ? _treeCollapseBlack : _treeExpandWhite;
+
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null to use the stock WinForms image.</returns>
+    // TODO: PropertyGrid toolbar artwork — supply shared images via PropertyGridImageResources, or override with family-specific 16×16 art; null falls back to manager then stock WinForms.
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => GetBuiltinPropertyGridImage(image);
 
     /// <inheritdoc />
     public override Image? GetSizeGripImage(RightToLeft isRtl) => null;
@@ -4537,6 +4562,8 @@ public abstract class PaletteOffice2010Base : PaletteBase
                     PaletteState.Disabled => SharedStaticVariables.EMPTY_COLOR,
                     _ => BaseColors!.TrackBarOutsidePosition
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(1, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4575,6 +4602,8 @@ public abstract class PaletteOffice2010Base : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBorderColor>(ButtonBorderColor.Color4),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(2, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4616,6 +4645,8 @@ public abstract class PaletteOffice2010Base : PaletteBase
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
 
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(3, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4664,6 +4695,8 @@ public abstract class PaletteOffice2010Base : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color5),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(4, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);
@@ -4712,6 +4745,8 @@ public abstract class PaletteOffice2010Base : PaletteBase
                     PaletteState.Pressed => GetArrayColor<ButtonBackColor>(ButtonBackColor.Color6),
                     _ => throw DebugTools.NotImplemented(state.ToString())
                 };
+            case PaletteElement.TransferSpeedGraph:
+                return GetTransferSpeedGraphElementColor(5, state);
             default:
                 // Should never happen!
                 Debug.Assert(false);

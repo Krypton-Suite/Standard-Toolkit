@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -76,7 +76,7 @@ public class CheckBoxExtendedSubtextLinkValues : Storage
     /// </summary>
     [Category(@"Link")]
     [Description(@"The color used to render linked subtext.")]
-    [DefaultValue(typeof(Color), "Empty")]
+    [KryptonDefaultColor]
     public Color LinkColor
     {
         get => _linkColor;
