@@ -84,7 +84,7 @@ jobs:
         if: steps.canary_release_kill_switch.outputs.enabled == 'true'
         uses: actions/checkout@v7
         with:
-          ref: Canary
+          ref: canary
           fetch-depth: 0
 
       # Canary always builds Canary; the workflow file may land before Populate-WebView2.ps1 is merged to Canary.
