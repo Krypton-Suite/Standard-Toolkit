@@ -7,7 +7,10 @@
 
 namespace Krypton.Toolkit;
 
-[Category(@"code"), ToolboxBitmap(typeof(PictureBox)), Description(@""), ToolboxItem(true)]
+[Category(@"code")]
+[ToolboxBitmap(typeof(PictureBox), "ToolboxBitmaps.KryptonPictureBox.bmp")]
+[Description(@"")]
+[ToolboxItem(true)]
 public class KryptonPictureBox : PictureBox
 {
     #region Instance Fields

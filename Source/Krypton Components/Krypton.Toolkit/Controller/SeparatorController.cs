@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -94,7 +94,7 @@ public class SeparatorController : ButtonController,
             MinimizeBox = false;
             ShowInTaskbar = false;
             BackColor = Color.Black;
-            TransparencyKey = GlobalStaticValues.TRANSPARENCY_KEY_COLOR;
+            TransparencyKey = SharedStaticVariables.TRANSPARENCY_KEY_COLOR;
             Opacity = 0.5;
         }
 
@@ -202,7 +202,7 @@ public class SeparatorController : ButtonController,
     {
         Debug.Assert(source is not null);
 
-        _source = source ?? throw new ArgumentNullException(nameof(source));
+        _source = source ?? ThrowHelper.ThrowArgumentNullException(source);
         _splitCursors = splitCursors;
         _drawIndicator = drawIndicator;
         
@@ -402,7 +402,7 @@ public class SeparatorController : ButtonController,
         // Validate reference parameter
         if (e == null)
         {
-            throw new ArgumentNullException(nameof(e));
+            ThrowHelper.ThrowArgumentNullException(nameof(e));
         }
 
         // If the user pressed the escape key
@@ -700,7 +700,7 @@ internal class SeparatorMessageFilter : IMessageFilter
     {
         Debug.Assert(controller is not null);
 
-        _controller = controller ?? throw new ArgumentNullException(nameof(controller));
+        _controller = controller ?? ThrowHelper.ThrowArgumentNullException(controller);
     }
     #endregion
 

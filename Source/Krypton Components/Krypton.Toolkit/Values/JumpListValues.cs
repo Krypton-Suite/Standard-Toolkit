@@ -1,8 +1,8 @@
-﻿#region BSD License
+#region BSD License
 /*
  *  
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -80,6 +80,18 @@ public class JumpListValues : Storage
             if (_appId != value)
             {
                 _appId = value ?? string.Empty;
+                // Set process AppUserModelID for jump list association (must be called early, before any jump list usage)
+                if (!string.IsNullOrEmpty(_appId))
+                {
+                    try
+                    {
+                        PI.SetCurrentProcessExplicitAppUserModelID(_appId);
+                    }
+                    catch
+                    {
+                        // Ignore on older Windows versions
+                    }
+                }
                 PerformNeedPaint(true);
                 JumpListChanged?.Invoke();
             }
@@ -114,6 +126,15 @@ public class JumpListValues : Storage
     {
         _userTasks.Clear();
         PerformNeedPaint(true);
+        JumpListChanged?.Invoke();
+    }
+
+    /// <summary>
+    /// Applies the current jump list state to the Windows shell.
+    /// Call this after modifying UserTasks or Categories directly (e.g. UserTasks.Add, UserTasks.Clear).
+    /// </summary>
+    public void Apply()
+    {
         JumpListChanged?.Invoke();
     }
 

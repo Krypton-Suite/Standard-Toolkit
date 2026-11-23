@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Import Project="..\Krypton.Shared\Krypton.WinFormsDesignerSdk.props" />
+
+	<PropertyGroup>
+		<RootNamespace>Krypton.Toolkit.Design.Protocol</RootNamespace>
+		<AssemblyName>Krypton.Toolkit.Design.Protocol</AssemblyName>
+		<Description>Shared JSON-RPC DTOs and editor/endpoint name constants used by the Visual Studio WinForms designer client and DesignToolsServer for Krypton type editors.</Description>
+		<!--
+		  Design.Client is unconditionally net472. Directory.Build.props omits net472 for Release
+		  unless TFMs=all (PackLite passes TFMs=lite), so restoring the client ProjectReference
+		  fails with NU1201. Always offer net472 in addition to the inherited frameworks.
+		-->
+		<TargetFrameworks Condition="'$(TargetFrameworks)' != '' And !$([System.String]::Copy('$(TargetFrameworks)').Contains('net472'))">net472;$(TargetFrameworks)</TargetFrameworks>
+	</PropertyGroup>
+
+</Project>

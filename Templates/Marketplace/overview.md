@@ -6,8 +6,10 @@ Item and project templates for the [Krypton Standard Toolkit](https://github.com
 
 - **Krypton Form** — item template that adds a `KryptonForm`.
 - **Krypton Ribbon Form** — item template that adds a `KryptonForm` with a `KryptonRibbon`.
+- **Krypton Caption Form** — item template that adds a `KryptonCaptionForm` for title-bar hosted controls.
 - **Krypton WinForms App** — project template for a WinForms app that starts on a `KryptonForm`.
 - **Krypton Ribbon WinForms App** — project template for a WinForms app with a ribbon on the main form.
+- **Krypton Caption WinForms App** — project template for a WinForms app that starts on a `KryptonCaptionForm`.
 
 ## Use
 

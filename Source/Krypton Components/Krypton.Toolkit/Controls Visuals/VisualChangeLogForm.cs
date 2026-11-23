@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV) & Giduac, et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV) & Giduac, et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -22,6 +22,11 @@ internal partial class VisualChangeLogForm : KryptonForm
     public VisualChangeLogForm(ToolkitSupportType toolkitType)
     {
         InitializeComponent();
+
+        // The change-log view was absolutely positioned, so resizing the form left it behind.
+        kryptonPanel2.Padding = new Padding(12);
+        kwbChangeLog.Dock = DockStyle.Fill;
+        KryptonDialogLayout.EnableResizable(this);
 
         _toolkitType = toolkitType;
     }

@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2025 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner(aka Wagnerp), Simon Coghlan(aka Smurf-IV), Giduac, et al. 2025 - 2025. All rights reserved.
  *
  */
 #endregion
@@ -49,6 +49,7 @@ internal partial class VisualConversionForm : KryptonForm
     public VisualConversionForm()
     {
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
     }
 
     #endregion
@@ -101,7 +102,7 @@ internal partial class VisualConversionForm : KryptonForm
 
     private void VisualConversionForm_FormClosing(object sender, FormClosingEventArgs e)
     {
-        if (ConversionWorker != null && ConversionWorker.IsBusy)
+        if (ConversionWorker is { IsBusy: true })
         {
             try
             {

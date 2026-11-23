@@ -1,10 +1,10 @@
-#region BSD License
+﻿#region BSD License
 /*
  * Original BSD 3-Clause License (https://github.com/ComponentFactory/Krypton/blob/master/LICENSE)
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  */
 #endregion
 
@@ -32,6 +32,7 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="target">Initial palette target for redirection.</param>
     /// <remarks>target can be null when performing a drag-drop operation (Amongst other usages !!)</remarks>
     public PaletteRedirect(PaletteBase? target)
+        : base(attachUserPreferenceChanged: false)
     {
         Id = CommonHelper.NextId;
         // Remember incoming target
@@ -238,6 +239,15 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="state">Palette value should be applicable to this state.</param>
     /// <returns>Float rounding.</returns>
     public override float GetBorderRounding(PaletteBorderStyle style, PaletteState state) => _target!.GetBorderRounding(style, state);
+
+    /// <summary>
+    /// Gets the border corner rounding for each corner.
+    /// </summary>
+    /// <param name="style">Border style.</param>
+    /// <param name="state">Palette value should be applicable to this state.</param>
+    /// <returns>Per-corner rounding radii.</returns>
+    public override PaletteCornerRounding GetBorderCornerRounding(PaletteBorderStyle style, PaletteState state) =>
+        _target!.GetBorderCornerRounding(style, state);
 
     /// <summary>
     /// Gets a border image.
@@ -717,6 +727,13 @@ public class PaletteRedirect : PaletteBase, IGlobalId
     /// <param name="expanded">Is the node expanded</param>
     /// <returns>Appropriate image for drawing; otherwise null.</returns>
     public override Image? GetTreeViewImage(bool expanded) => _target?.GetTreeViewImage(expanded);
+
+    /// <summary>
+    /// Gets a property grid toolbar image.
+    /// </summary>
+    /// <param name="image">Which toolbar image is required.</param>
+    /// <returns>Appropriate image for drawing; otherwise null.</returns>
+    public override Image? GetPropertyGridImage(PropertyGridToolImage image) => _target?.GetPropertyGridImage(image);
 
     /// <summary>
     /// Gets a sizing grip image appropriate for the provided orientation.

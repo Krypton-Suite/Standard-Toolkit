@@ -1,4 +1,4 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
@@ -30,8 +30,6 @@ internal partial class VisualExceptionDialogForm : KryptonForm
 
     private readonly Action<Exception>? _bugReportCallback;
 
-    private List<KryptonTreeNode> _originalNodes = new List<KryptonTreeNode>();
-
     #endregion
 
     #region Identity
@@ -39,6 +37,9 @@ internal partial class VisualExceptionDialogForm : KryptonForm
     public VisualExceptionDialogForm(bool? showCopyButton, bool? showSearchBox, Color? highlightColor, Exception exception, Action<Exception>? bugReportCallback = null)
     {
         InitializeComponent();
+
+        krtbExceptionDetails.ScrollBars = RichTextBoxScrollBars.Both;
+        KryptonDialogLayout.EnableResizable(this);
 
         SetInheritedControlOverride();
 
@@ -87,11 +88,6 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         if (_exception is not null)
         {
             isbSearchArea.Populate(_exception);
-
-            foreach (KryptonTreeNode node in isbSearchArea.Tree.Nodes)
-            {
-                _originalNodes.Add((KryptonTreeNode)node.Clone());
-            }
         }
 
         if (GeneralToolkitUtilities.GetCurrentScreenSize() == new Point(1080, 720))
@@ -102,7 +98,20 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         {
             GeneralToolkitUtilities.AdjustFormDimensions(this, 1108, 687);
         }
+
+        PackButtons();
     }
+
+    /// <inheritdoc />
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        // Pack again after scaling. A hidden Report Bug button otherwise leaves its designer slot between Copy and OK.
+        PackButtons();
+    }
+
+    private void PackButtons() => KryptonDialogLayout.PackButtonsRight(kryptonPanel1, kbtnCopy, kbtnReportBug, kbtnOk);
 
     private string? FormatExceptionDetails(Exception exception) =>
         // Format exception details
@@ -151,6 +160,14 @@ internal partial class VisualExceptionDialogForm : KryptonForm
         using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception, bugReportCallback);
 
         ved.ShowDialog();
+    }
+
+    internal static async Task ShowAsync(Exception exception, Color? highlightColor, bool? showCopyButton, bool? showSearchBox, Action<Exception>? bugReportCallback = null)
+    {
+        using var ved = new VisualExceptionDialogForm(showCopyButton, showSearchBox, highlightColor, exception, bugReportCallback);
+
+        // Await required so using does not dispose the form before the dialog completes.
+        await KryptonFormAsync.ShowDialogAsync(ved).ConfigureAwait(false);
     }
 
     #endregion

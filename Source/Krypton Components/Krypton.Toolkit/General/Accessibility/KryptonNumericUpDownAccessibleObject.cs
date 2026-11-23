@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -129,6 +129,23 @@ internal class KryptonNumericUpDownAccessibleObject : Control.ControlAccessibleO
 
             // Fall back to control's text
             return _owner.Text;
+        }
+
+        set
+        {
+            if (decimal.TryParse(value, out decimal result))
+            {
+                if (result < _owner.Minimum)
+                {
+                    result = _owner.Minimum;
+                }
+                else if (result > _owner.Maximum)
+                {
+                    result = _owner.Maximum;
+                }
+
+                _owner.Value = result;
+            }
         }
     }
 

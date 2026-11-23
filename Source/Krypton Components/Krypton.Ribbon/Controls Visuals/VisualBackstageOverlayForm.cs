@@ -1,8 +1,8 @@
-#region BSD License
+﻿#region BSD License
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & tobitege et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -70,7 +70,7 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
     /// <param name="ribbon">Reference to the ribbon for below-ribbon mode calculations.</param>
     internal VisualBackstageOverlayForm(Form ownerForm, BackstageOverlayMode overlayMode = BackstageOverlayMode.FullClient, KryptonRibbon? ribbon = null)
     {
-        _ownerForm = ownerForm ?? throw new ArgumentNullException(nameof(ownerForm));
+        _ownerForm = ownerForm ?? ThrowHelper.ThrowArgumentNullException(ownerForm);
 
         _overlayMode = overlayMode;
 
@@ -178,6 +178,8 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
             _content.Visible = true;
             _contentHost.Controls.Add(_content);
         }
+
+        UpdateOffice2024Header();
     }
 
     /// <summary>
@@ -295,7 +297,7 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
             _content.Dock = _originalDock;
             _content.Visible = _originalVisible;
 
-            if (_originalParent != null && !_originalParent.IsDisposed)
+            if (_originalParent is { IsDisposed: false })
             {
                 _originalParent.Controls.Add(_content);
 
@@ -315,6 +317,12 @@ internal sealed class VisualBackstageOverlayForm : KryptonForm
     /// Back button requests close (actual close orchestration is owned by <see cref="KryptonRibbon"/>).
     /// </summary>
     private void OnBackButtonClick(object? sender, EventArgs e) => BackRequested?.Invoke(this, EventArgs.Empty);
+
+    /// <summary>
+    /// Office 2024 backstage has no separate Back strip. Esc still closes the overlay.
+    /// </summary>
+    private void UpdateOffice2024Header() =>
+        _header.Visible = !(_content is KryptonBackstageView view && view.IsOffice2024Navigation);
 
     /// <summary>
     /// Handle ESC as a request to close the overlay.

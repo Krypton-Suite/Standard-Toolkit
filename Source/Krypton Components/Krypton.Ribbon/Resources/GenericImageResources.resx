@@ -199,6 +199,9 @@
   <data name="KryptonRibbonGroupLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ToolboxBitmaps\KryptonRibbonGroupLines.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="KryptonRibbonGroupStack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ToolboxBitmaps\KryptonRibbonGroupStack.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="KryptonRibbonGroupMaskedTextBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ToolboxBitmaps\KryptonRibbonGroupMaskedTextBox.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

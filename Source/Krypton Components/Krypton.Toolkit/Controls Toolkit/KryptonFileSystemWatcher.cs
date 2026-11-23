@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2026 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2026 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// Listens to the file system change notifications and raises events when a directory, or file in a directory, changes with Krypton integration.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(FileSystemWatcher))]
+[ToolboxBitmap(typeof(FileSystemWatcher), "ToolboxBitmaps.KryptonFileSystemWatcher.bmp")]
 [DefaultEvent(nameof(Created))]
 [DefaultProperty(nameof(Path))]
 [DesignerCategory(@"code")]
@@ -158,6 +158,7 @@ public class KryptonFileSystemWatcher : Component
     [Category(@"Behavior")]
     [Description(@"The path of the directory to watch.")]
     [DefaultValue("")]
+    // ToDo V120 LTS: Migrate designer editor to a Krypton-themed equivalent (replaces System.Windows.Forms.Design.FolderNameEditor).
     [Editor(typeof(FolderNameEditor), typeof(UITypeEditor))]
     public string Path
     {

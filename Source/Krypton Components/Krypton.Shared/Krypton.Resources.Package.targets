@@ -1,0 +1,35 @@
+﻿<Project>
+	<!--
+	  Include Krypton.Resources.dll in packable Krypton module packages.
+	  Must use TargetsForTfmSpecificContentInPackage — BeforeTargets="_GetPackageFiles" does not
+	  feed TfmSpecificPackageFile into NuGet's _GetTfmSpecificContentForPackage walk.
+	  Krypton.Standard.Toolkit has its own explicit inclusion target.
+	  Krypton.Resources is not published as a separate NuGet package (IsPackable=false).
+	-->
+	<PropertyGroup Condition="'$(IsPackable)' != 'false' And '$(PackageId)' != '' And !$(PackageId.StartsWith('Krypton.Standard.Toolkit'))">
+		<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);KryptonIncludeResourcesInPackage</TargetsForTfmSpecificContentInPackage>
+	</PropertyGroup>
+
+	<Target Name="KryptonIncludeResourcesInPackage">
+		<PropertyGroup>
+			<_KryptonResourcesLibDir>$(KryptonBuildOutputRoot)$(Configuration)\$(TargetFramework)\</_KryptonResourcesLibDir>
+			<!-- Match NuGet Windows TFM folder naming (lib\netX.0-windows7.0\). -->
+			<_KryptonResourcesLibFolderName Condition="'$(_KryptonPackageLibFolder)' != ''">$(_KryptonPackageLibFolder)</_KryptonResourcesLibFolderName>
+			<_KryptonResourcesLibFolderName Condition="'$(_KryptonResourcesLibFolderName)' == ''">$(TargetFramework)</_KryptonResourcesLibFolderName>
+		</PropertyGroup>
+		<ItemGroup>
+			<TfmSpecificPackageFile Include="$(_KryptonResourcesLibDir)Krypton.Resources.dll" Condition="Exists('$(_KryptonResourcesLibDir)Krypton.Resources.dll')">
+				<PackagePath>lib\$(_KryptonResourcesLibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll" Condition="!Exists('$(_KryptonResourcesLibDir)Krypton.Resources.dll') And Exists('..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.dll')">
+				<PackagePath>lib\$(_KryptonResourcesLibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="$(_KryptonResourcesLibDir)Krypton.Resources.pdb" Condition="'$(IncludeSymbols)' == 'true' And Exists('$(_KryptonResourcesLibDir)Krypton.Resources.pdb')">
+				<PackagePath>lib\$(_KryptonResourcesLibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+			<TfmSpecificPackageFile Include="..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.pdb" Condition="'$(IncludeSymbols)' == 'true' And !Exists('$(_KryptonResourcesLibDir)Krypton.Resources.pdb') And Exists('..\Krypton.Resources\bin\$(Configuration)\$(TargetFramework)\Krypton.Resources.pdb')">
+				<PackagePath>lib\$(_KryptonResourcesLibFolderName)\</PackagePath>
+			</TfmSpecificPackageFile>
+		</ItemGroup>
+	</Target>
+</Project>

@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -110,7 +110,7 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Grab the required size for the content images
@@ -129,12 +129,12 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
 
         if (context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
 
@@ -165,7 +165,7 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     {
         if (context.Renderer is null)
         {
-            throw new ArgumentNullException(nameof(context.Renderer));
+            ThrowHelper.ThrowArgumentNullException(nameof(context.Renderer));
         }
 
         // Reduce background to fit inside the border
@@ -264,39 +264,26 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     public virtual Image? GetImage(PaletteState state)
     {
         // Find the correct collection of images
-        GalleryButtonImages? images = null;
-        switch (_button)
+        GalleryButtonImages? images = _button switch
         {
-            case PaletteRibbonGalleryButton.Up:
-                images = _images.Up;
-                break;
-            case PaletteRibbonGalleryButton.Down:
-                images = _images.Down;
-                break;
-            case PaletteRibbonGalleryButton.DropDown:
-                images = _images.DropDown;
-                break;
-        }
+            PaletteRibbonGalleryButton.Up => _images.Up,
+            PaletteRibbonGalleryButton.Down => _images.Down,
+            PaletteRibbonGalleryButton.DropDown => _images.DropDown,
+            _ => null
+        };
 
         // Get image based on state
         Image? image = null;
         if (images != null)
         {
-            switch (State)
+            image = State switch
             {
-                case PaletteState.Disabled:
-                    image = images.Disabled;
-                    break;
-                case PaletteState.Normal:
-                    image = images.Normal;
-                    break;
-                case PaletteState.Tracking:
-                    image = images.Tracking;
-                    break;
-                case PaletteState.Pressed:
-                    image = images.Pressed;
-                    break;
-            }
+                PaletteState.Disabled => images.Disabled,
+                PaletteState.Normal => images.Normal,
+                PaletteState.Tracking => images.Tracking,
+                PaletteState.Pressed => images.Pressed,
+                _ => image
+            };
             // If no image then get the common image
             image ??= images.Common;
         }
@@ -334,7 +321,7 @@ internal class ViewDrawRibbonGalleryButton : ViewLeaf, IContentValues
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

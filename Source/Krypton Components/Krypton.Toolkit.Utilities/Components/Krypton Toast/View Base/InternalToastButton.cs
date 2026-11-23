@@ -1,0 +1,231 @@
+﻿#region BSD License
+/*
+ *
+ *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2023 - 2026. All rights reserved.
+ *
+ */
+#endregion
+
+namespace Krypton.Toolkit.Utilities;
+
+internal class InternalToastButton : KryptonButton
+{
+    #region Instance Fields
+
+    private bool _isActionButton;
+
+    private bool _isDismissButton;
+
+    private string _processPath;
+
+    private VisualToastBaseForm? _owner;
+
+    private KryptonToastResult _notificationResult;
+
+    #endregion
+
+    #region Public
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool IsActionButton
+    {
+        get => _isActionButton;
+
+        set
+        {
+            _isActionButton = value;
+
+            Invalidate();
+        }
+    }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public bool IsDismissButton
+    {
+        get => _isDismissButton;
+
+        set
+        {
+            _isDismissButton = value;
+
+            Invalidate();
+        }
+    }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public string ProcessPath
+    {
+        get => _processPath;
+
+        set => _processPath = value;
+    }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public VisualToastBaseForm? Owner
+    {
+        get => _owner;
+
+        set => _owner = value;
+    }
+
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public KryptonToastResult Result
+    {
+        get => _notificationResult;
+
+        set => _notificationResult = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new AnchorStyles Anchor
+    {
+        get => base.Anchor;
+
+        set => base.Anchor = value;
+    }
+
+    [Browsable(false)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public new DialogResult DialogResult
+    {
+        get => base.DialogResult;
+
+        set => base.DialogResult = value;
+    }
+
+    #endregion
+
+    #region Identity
+
+    /// <summary>Initializes a new instance of the <see cref="InternalToastButton" /> class.</summary>
+    public InternalToastButton()
+    {
+        _isActionButton = false;
+
+        _isDismissButton = false;
+
+        _processPath = string.Empty;
+
+        _owner = null;
+
+        _notificationResult = KryptonToastResult.None;
+
+        Text = @"{0} ({1})";
+
+        // TableLayoutPanel owns placement; do not pin with Anchor (it collapses cell margins).
+        Anchor = AnchorStyles.None;
+
+        AutoSize = true;
+    }
+
+    #endregion
+
+    #region Protected
+
+    /// <inheritdoc />
+    protected override void OnHandleCreated(EventArgs e)
+    {
+        base.OnHandleCreated(e);
+
+        // Scale button margin once the handle exists so LogicalToDeviceUnits uses the correct DPI.
+        var pad = LogicalToDeviceUnits(SharedStaticConstants.DEFAULT_PADDING);
+        Margin = new Padding(pad);
+    }
+
+    protected override void OnPaint(PaintEventArgs? e)
+    {
+        if (_isDismissButton)
+        {
+            _isActionButton = false;
+
+            if (_owner is not null)
+            {
+                _owner.AcceptButton = this;
+            }
+        }
+
+        base.OnPaint(e);
+    }
+
+    protected override void OnClick(EventArgs e)
+    {
+        if (_isDismissButton && _owner != null)
+        {
+            _owner.Close();
+        }
+
+        if (_isActionButton && _owner != null)
+        {
+            if (!string.IsNullOrEmpty(_processPath))
+            {
+                LaunchProcess(_processPath);
+            }
+            else
+            {
+                _owner.Close();
+            }
+        }
+
+        base.OnClick(e);
+    }
+
+    #endregion
+
+    #region Public Overrides
+
+    [Browsable(false)]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public override IKryptonCommand? KryptonCommand { get; set; }
+
+    #endregion
+
+    #region Protected Overrides
+
+    protected override void OnMouseClick(MouseEventArgs e)
+    {
+        if (_isDismissButton && _owner != null)
+        {
+            _owner.Close();
+        }
+
+        if (_isActionButton && _owner != null)
+        {
+            if (!string.IsNullOrEmpty(_processPath))
+            {
+                LaunchProcess(_processPath);
+            }
+            else
+            {
+                _owner.Close();
+            }
+        }
+
+        base.OnMouseClick(e);
+    }
+
+    protected override void OnNeedPaint(object? sender, NeedLayoutEventArgs e)
+    {
+        base.OnNeedPaint(sender, e);
+    }
+
+    #endregion
+
+    #region Implementation
+
+    private void LaunchProcess(string processPath)
+    {
+        try
+        {
+            Process.Start(processPath);
+        }
+        catch (Exception e)
+        {
+            KryptonExceptionHandler.CaptureException(e, showStackTrace: SharedStaticConstants.DEFAULT_USE_STACK_TRACE);
+        }
+    }
+
+    #endregion
+}

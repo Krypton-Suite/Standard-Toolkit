@@ -19,7 +19,7 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
 
     private Dictionary<string, FileVersionInfo> _fileVersionInfos = new Dictionary<string, FileVersionInfo>();
 
-    private static readonly FileVersionInfo[] _fileVersionInfoCache = new FileVersionInfo[GlobalStaticValues.TOOLKIT_DLL_NAMES.Length];
+    private static readonly FileVersionInfo[] _fileVersionInfoCache = new FileVersionInfo[SharedStaticVariables.TOOLKIT_DLL_NAMES.Length];
 
     private readonly ToolkitSupportType _toolkitType;
 
@@ -38,6 +38,7 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
         //SetInheritedControlOverride(); // Disabled as part of issue #2296. See the issue for details.
 
         InitializeComponent();
+        KryptonDialogLayout.EnableResizable(this);
 
         _toolkitType = toolkitType;
 
@@ -111,9 +112,9 @@ internal partial class VisualToolkitBinaryInformationForm : KryptonForm
 
     private void DisplayFileInformation()
     {
-        for (int i = 0; i < GlobalStaticValues.TOOLKIT_DLL_NAMES.Length; i++)
+        for (int i = 0; i < SharedStaticVariables.TOOLKIT_DLL_NAMES.Length; i++)
         {
-            string path = Path.Combine(_applicationBaseInstallPath, GlobalStaticValues.TOOLKIT_DLL_NAMES[i]);
+            string path = Path.Combine(_applicationBaseInstallPath, SharedStaticVariables.TOOLKIT_DLL_NAMES[i]);
 
             _fileVersionInfoCache[i] = (GetFileVersionInfo(path) ?? null)!;
         }

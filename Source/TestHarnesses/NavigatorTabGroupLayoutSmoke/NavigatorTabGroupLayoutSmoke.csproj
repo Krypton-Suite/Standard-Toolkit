@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <AssemblyName>NavigatorTabGroupLayoutSmoke</AssemblyName>
+    <RootNamespace>NavigatorTabGroupLayoutSmoke</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Platforms>AnyCPU</Platforms>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Interop\Krypton.Interop.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Toolkit\Krypton.Toolkit 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Navigator\Krypton.Navigator 2022.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Navigator.Utilities\Krypton.Navigator.Utilities.csproj" />
+    <ProjectReference Include="..\..\Krypton Components\Krypton.Workspace\Krypton.Workspace 2022.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

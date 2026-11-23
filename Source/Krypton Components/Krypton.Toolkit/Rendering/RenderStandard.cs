@@ -20,6 +20,8 @@ public class RenderStandard : RenderBase
 	#region Static Fields
 	// Constants
 	private const int DRAG_ARROW_WIDTH = 13;
+	// Extra pixels around the crisp mark. Half of this is the bloom above and below the line.
+	private const int RibbonTabGlowSpread2024 = 8;
 	private const int DRAG_ARROW_HEIGHT = 7;
 	private const int DRAG_ARROW_GAP = 4;
 	private const int SPACING_TAB_DOCK_OUTSIZE = 3;
@@ -349,21 +351,21 @@ public class RenderStandard : RenderBase
 
 		_gridSortOrder = new ImageList
 		{
-			TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR,
+			TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR,
 			ImageSize = new Size(17, 11)
 		};
 		_gridSortOrder.Images.AddStrip(GridImageResources.GridSortOrder);
 
 		_gridRowIndicators = new ImageList
 		{
-			TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR,
+			TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR,
 			ImageSize = new Size(19, 13)
 		};
 		_gridRowIndicators.Images.AddStrip(GridImageResources.GridRowIndicators);
 
 		_gridErrorIcon = new ImageList
 		{
-			TransparentColor = GlobalStaticValues.TRANSPARENCY_KEY_COLOR,
+			TransparentColor = SharedStaticVariables.TRANSPARENCY_KEY_COLOR,
 			ImageSize = new Size(18, 17)
 		};
 		_gridErrorIcon.Images.AddStrip(GenericImageResources.GridErrorIcon);
@@ -382,7 +384,7 @@ public class RenderStandard : RenderBase
 		// Validate incoming parameter
 		if (colorPalette == null)
 		{
-			throw new ArgumentNullException(nameof(colorPalette));
+			ThrowHelper.ThrowArgumentNullException(nameof(colorPalette));
 		}
 
 		// Use the professional renderer but pull colors from the palette
@@ -415,7 +417,7 @@ public class RenderStandard : RenderBase
 		// Validate parameter reference
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		PaletteDrawBorders borders = palette.GetBorderDrawBorders(state);
@@ -475,18 +477,20 @@ public class RenderStandard : RenderBase
 	/// <param name="palette">Palette used for drawing.</param>
 	/// <param name="state">State associated with rendering.</param>
 	/// <param name="orientation">Visual orientation of the border.</param>
+	/// <param name="borderOuterSize">When width and height are positive, corner rounding is clamped to fit these bounds the same way as when building the rounded border path, so layout matches drawing and clipping (GitHub #3381).</param>
 	/// <exception cref="ArgumentNullException"></exception>
 	/// <returns>Padding structure detailing all four edges.</returns>
 	public override Padding GetBorderDisplayPadding(IPaletteBorder? palette,
 		PaletteState state,
-		VisualOrientation orientation)
+		VisualOrientation orientation,
+		Size borderOuterSize)
 	{
 		Debug.Assert(palette != null);
 
 		// Validate parameter reference
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		PaletteDrawBorders borders = palette.GetBorderDrawBorders(state);
@@ -495,10 +499,17 @@ public class RenderStandard : RenderBase
 		if (CommonHelper.HasABorder(borders))
 		{
 			var borderWidth = palette.GetBorderWidth(state);
+			PaletteCornerRounding paletteCorners = CommonHelper.OrientateCornerRounding(
+				palette.GetBorderCornerRounding(state), orientation);
+			float roundingForPaddingTop = Math.Max(paletteCorners.TopLeft, paletteCorners.TopRight);
+			float roundingForPaddingRight = Math.Max(paletteCorners.TopRight, paletteCorners.BottomRight);
+			float roundingForPaddingBottom = Math.Max(paletteCorners.BottomLeft, paletteCorners.BottomRight);
+			float roundingForPaddingLeft = Math.Max(paletteCorners.TopLeft, paletteCorners.BottomLeft);
 
-			// Divide the rounding effect by PI to get the actual pixel distance needed
-			// for offsetting. But add 2, so it starts indenting on a rounding of just 1.
-			int roundPadding = Convert.ToInt16((palette.GetBorderRounding(state) + borderWidth + 2) / Math.PI);
+			int roundPaddingTop = ComputeRoundPadding(roundingForPaddingTop, borderWidth, borderOuterSize);
+			int roundPaddingRight = ComputeRoundPadding(roundingForPaddingRight, borderWidth, borderOuterSize);
+			int roundPaddingBottom = ComputeRoundPadding(roundingForPaddingBottom, borderWidth, borderOuterSize);
+			int roundPaddingLeft = ComputeRoundPadding(roundingForPaddingLeft, borderWidth, borderOuterSize);
 
 			// If not involving rounding then padding for an edge is just the border width
 			var squarePadding = borderWidth;
@@ -507,14 +518,32 @@ public class RenderStandard : RenderBase
 			if (borderWidth > 1)
 			{
 				var halfExtra = borderWidth / 2;
-				roundPadding += halfExtra;
+				roundPaddingTop += halfExtra;
+				roundPaddingRight += halfExtra;
+				roundPaddingBottom += halfExtra;
+				roundPaddingLeft += halfExtra;
 			}
 
 			// Enforce the width of the border as the minimum to ensure
 			// it still works as expected for small values of rounding
-			if (roundPadding < borderWidth)
+			if (roundPaddingTop < borderWidth)
 			{
-				roundPadding = borderWidth;
+				roundPaddingTop = borderWidth;
+			}
+
+			if (roundPaddingRight < borderWidth)
+			{
+				roundPaddingRight = borderWidth;
+			}
+
+			if (roundPaddingBottom < borderWidth)
+			{
+				roundPaddingBottom = borderWidth;
+			}
+
+			if (roundPaddingLeft < borderWidth)
+			{
+				roundPaddingLeft = borderWidth;
 			}
 
 			switch (borders)
@@ -522,11 +551,11 @@ public class RenderStandard : RenderBase
 				case PaletteDrawBorders.Bottom:
 					return new Padding(0, 0, 0, squarePadding);
 				case PaletteDrawBorders.BottomLeft:
-					return new Padding(roundPadding, 0, 0, roundPadding);
+					return new Padding(roundPaddingLeft, 0, 0, roundPaddingBottom);
 				case PaletteDrawBorders.BottomLeftRight:
-					return new Padding(roundPadding, 0, roundPadding, roundPadding);
+					return new Padding(roundPaddingLeft, 0, roundPaddingRight, roundPaddingBottom);
 				case PaletteDrawBorders.BottomRight:
-					return new Padding(0, 0, roundPadding, roundPadding);
+					return new Padding(0, 0, roundPaddingRight, roundPaddingBottom);
 				case PaletteDrawBorders.Left:
 					return new Padding(squarePadding, 0, 0, 0);
 				case PaletteDrawBorders.LeftRight:
@@ -538,17 +567,17 @@ public class RenderStandard : RenderBase
 				case PaletteDrawBorders.TopBottom:
 					return new Padding(0, squarePadding, 0, squarePadding);
 				case PaletteDrawBorders.TopBottomLeft:
-					return new Padding(roundPadding, roundPadding, 0, roundPadding);
+					return new Padding(roundPaddingLeft, roundPaddingTop, 0, roundPaddingBottom);
 				case PaletteDrawBorders.TopBottomRight:
-					return new Padding(0, roundPadding, roundPadding, roundPadding);
+					return new Padding(0, roundPaddingTop, roundPaddingRight, roundPaddingBottom);
 				case PaletteDrawBorders.TopLeft:
-					return new Padding(roundPadding, roundPadding, 0, 0);
+					return new Padding(roundPaddingLeft, roundPaddingTop, 0, 0);
 				case PaletteDrawBorders.TopLeftRight:
-					return new Padding(roundPadding, roundPadding, roundPadding, 0);
+					return new Padding(roundPaddingLeft, roundPaddingTop, roundPaddingRight, 0);
 				case PaletteDrawBorders.TopRight:
-					return new Padding(0, roundPadding, roundPadding, 0);
+					return new Padding(0, roundPaddingTop, roundPaddingRight, 0);
 				case PaletteDrawBorders.All:
-					return new Padding(roundPadding);
+					return new Padding(roundPaddingLeft, roundPaddingTop, roundPaddingRight, roundPaddingBottom);
 				default:
 					// Should never happen!
 					Debug.Assert(false);
@@ -583,12 +612,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -598,7 +627,7 @@ public class RenderStandard : RenderBase
 		return CreateBorderBackPath(true, false, rect,
 			CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
 			palette.GetBorderWidth(state),
-			palette.GetBorderRounding(state),
+			CommonHelper.OrientateCornerRounding(palette.GetBorderCornerRounding(state), orientation),
 			0);
 	}
 
@@ -624,12 +653,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -647,7 +676,7 @@ public class RenderStandard : RenderBase
 			rect,
 			CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
 			palette.GetBorderWidth(state),
-			palette.GetBorderRounding(state),
+			CommonHelper.OrientateCornerRounding(palette.GetBorderCornerRounding(state), orientation),
 			0);
 	}
 
@@ -673,12 +702,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -692,13 +721,13 @@ public class RenderStandard : RenderBase
 
 		// Use helper to create a border path in middle of the pen
 		var isForm = context.Control as KryptonForm;
-		var forBorder = isForm != null && isForm.MdiParent == null;
+		var forBorder = isForm is { MdiParent: null };
 		return CreateBorderBackPath(forBorder,
 			!forBorder,
 			rect,
 			CommonHelper.OrientateDrawBorders(palette.GetBorderDrawBorders(state), orientation),
 			palette.GetBorderWidth(state),
-			palette.GetBorderRounding(state),
+			CommonHelper.OrientateCornerRounding(palette.GetBorderCornerRounding(state), orientation),
 			0);
 	}
 
@@ -723,12 +752,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteBorder == null)
 		{
-			throw new ArgumentNullException(nameof(paletteBorder));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteBorder));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -750,7 +779,7 @@ public class RenderStandard : RenderBase
 				using var clip = new Clipping(context.Graphics, rect);
 				// We always create the first border path variant
 				using GraphicsPath borderPath0 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
-					paletteBorder.GetBorderRounding(state), 0);
+					CommonHelper.OrientateCornerRounding(paletteBorder.GetBorderCornerRounding(state), orientation), 0);
 
 				GraphicsPath? borderPath1 = null;
 
@@ -758,7 +787,7 @@ public class RenderStandard : RenderBase
 				if (borders is PaletteDrawBorders.TopBottom or PaletteDrawBorders.LeftRight)
 				{
 					borderPath1 = CreateBorderBackPath(true, true, rect, borders, borderWidth,
-						paletteBorder.GetBorderRounding(state), 1);
+						CommonHelper.OrientateCornerRounding(paletteBorder.GetBorderCornerRounding(state), orientation), 1);
 				}
 
 				// Get the rectangle to use when dealing with gradients
@@ -848,15 +877,15 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 		if (path == null)
 		{
-			throw new ArgumentNullException(nameof(path));
+			ThrowHelper.ThrowArgumentNullException(nameof(path));
 		}
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1056,17 +1085,17 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context is null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette is null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		if (values is null)
 		{
-			throw new ArgumentNullException(nameof(values));
+			ThrowHelper.ThrowArgumentNullException(nameof(values));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1160,17 +1189,17 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		if (values == null)
 		{
-			throw new ArgumentNullException(nameof(values));
+			ThrowHelper.ThrowArgumentNullException(nameof(values));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1331,12 +1360,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1358,10 +1387,7 @@ public class RenderStandard : RenderBase
 		}
 
 		// Draw overlay image if present
-		if (standard.DrawOverlayImage && standard.OverlayImage != null &&
-			!standard.OverlayImageRect.IsEmpty &&
-			standard.OverlayImageRect.Width > 0 &&
-			standard.OverlayImageRect.Height > 0)
+		if (standard is { DrawOverlayImage: true, OverlayImage: not null, OverlayImageRect: { IsEmpty: false, Width: > 0, Height: > 0 } })
 		{
 			DrawImageHelper(context,
 				standard.OverlayImage,
@@ -1735,7 +1761,7 @@ public class RenderStandard : RenderBase
 		// Validate parameter reference
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		// Get the width of the border
@@ -1774,62 +1800,48 @@ public class RenderStandard : RenderBase
 				// Calculate the extra needed for the outsize variant
 				var x = tabBorderStyle == TabBorderStyle.SlantOutsizeNear ? SPACING_TAB_OUTSIZE_PADDING : 0;
 
-				switch (orientation)
+				ret = orientation switch
 				{
-					case VisualOrientation.Top:
-						ret = rtl
-							? new Padding(borderWidth + x, borderWidth + x,
-								borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0)
-							: new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x,
-								borderWidth + x, 0);
-
-						break;
-					case VisualOrientation.Left:
-						ret = new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x, 0);
-						break;
-					case VisualOrientation.Right:
-						ret = new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0);
-						break;
-					case VisualOrientation.Bottom:
-						ret = rtl
-							? new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x,
-								borderWidth + x, 0)
-							: new Padding(borderWidth + x, borderWidth + x,
-								borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0);
-
-						break;
-				}
+					VisualOrientation.Top => rtl
+						? new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1,
+							0)
+						: new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x,
+							0),
+					VisualOrientation.Left => new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1,
+						borderWidth + x, borderWidth + x, 0),
+					VisualOrientation.Right => new Padding(borderWidth + x, borderWidth + x,
+						borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, 0),
+					VisualOrientation.Bottom => rtl
+						? new Padding(borderWidth + x + SPACING_TAB_SLANT_PADDING - 1, borderWidth + x, borderWidth + x,
+							0)
+						: new Padding(borderWidth + x, borderWidth + x, borderWidth + x + SPACING_TAB_SLANT_PADDING - 1,
+							0),
+					_ => ret
+				};
 				break;
 			case TabBorderStyle.SlantEqualFar:
 			case TabBorderStyle.SlantOutsizeFar:
 				// Calculate the extra needed for the outsize variant
 				var y = tabBorderStyle == TabBorderStyle.SlantOutsizeFar ? SPACING_TAB_OUTSIZE_PADDING : 0;
 
-				switch (orientation)
+				ret = orientation switch
 				{
-					case VisualOrientation.Top:
-						ret = rtl
-							? new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y,
-								borderWidth + y, 0)
-							: new Padding(borderWidth + y, borderWidth + y,
-								borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0);
-
-						break;
-					case VisualOrientation.Left:
-						ret = new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0);
-						break;
-					case VisualOrientation.Right:
-						ret = new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y, 0);
-						break;
-					case VisualOrientation.Bottom:
-						ret = rtl
-							? new Padding(borderWidth + y, borderWidth + y,
-								borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0)
-							: new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y,
-								borderWidth + y, 0);
-
-						break;
-				}
+					VisualOrientation.Top => rtl
+						? new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y,
+							0)
+						: new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1,
+							0),
+					VisualOrientation.Left => new Padding(borderWidth + y, borderWidth + y,
+						borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, 0),
+					VisualOrientation.Right => new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1,
+						borderWidth + y, borderWidth + y, 0),
+					VisualOrientation.Bottom => rtl
+						? new Padding(borderWidth + y, borderWidth + y, borderWidth + y + SPACING_TAB_SLANT_PADDING - 1,
+							0)
+						: new Padding(borderWidth + y + SPACING_TAB_SLANT_PADDING - 1, borderWidth + y, borderWidth + y,
+							0),
+					_ => ret
+				};
 				break;
 			case TabBorderStyle.SlantEqualBoth:
 			case TabBorderStyle.SlantOutsizeBoth:
@@ -1849,27 +1861,18 @@ public class RenderStandard : RenderBase
 				var bp = selected ? SPACING_TAB_ONE_NOTE_BPS : SPACING_TAB_ONE_NOTE_BPI;
 				var rp = selected ? SPACING_TAB_ONE_NOTE_RPS : SPACING_TAB_ONE_NOTE_RPI;
 
-				switch (orientation)
+				ret = orientation switch
 				{
-					case VisualOrientation.Top:
-						ret = rtl
-							? new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp)
-							: new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp);
-
-						break;
-					case VisualOrientation.Left:
-						ret = new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp);
-						break;
-					case VisualOrientation.Right:
-						ret = new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp);
-						break;
-					case VisualOrientation.Bottom:
-						ret = rtl
-							? new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp)
-							: new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp);
-
-						break;
-				}
+					VisualOrientation.Top => rtl
+						? new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp)
+						: new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp),
+					VisualOrientation.Left => new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp),
+					VisualOrientation.Right => new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp),
+					VisualOrientation.Bottom => rtl
+						? new Padding(borderWidth + lp, borderWidth + tp, borderWidth + rp, bp)
+						: new Padding(borderWidth + rp, borderWidth + tp, borderWidth + lp, bp),
+					_ => ret
+				};
 				break;
 			case TabBorderStyle.SmoothEqual:
 				ret = new Padding(borderWidth + SPACING_TAB_SMOOTH_LRE, borderWidth + SPACING_TAB_SMOOTH_TE, borderWidth + SPACING_TAB_SMOOTH_LRE, 0);
@@ -1911,12 +1914,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1951,12 +1954,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -1990,12 +1993,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -2183,6 +2186,23 @@ public class RenderStandard : RenderBase
 				return DrawRibbonTabSelected2010(context, rect, state, palette, orientation, memento, false);
 			case PaletteRibbonColorStyle.RibbonTabContextSelected:
 				return DrawRibbonTabContextSelected(shape, context, rect, state, palette, orientation, memento);
+			case PaletteRibbonColorStyle.RibbonTabSelected2024:
+				memento?.Dispose();
+				DrawRibbonTabUnderline2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
+			case PaletteRibbonColorStyle.RibbonTabTracking2024:
+				memento?.Dispose();
+				DrawRibbonTabUnderline2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
+			case PaletteRibbonColorStyle.RibbonTabSelected2024Pill:
+			case PaletteRibbonColorStyle.RibbonTabTracking2024Pill:
+				memento?.Dispose();
+				DrawRibbonTabPill2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
+			case PaletteRibbonColorStyle.RibbonGroupArea2024:
+				memento?.Dispose();
+				DrawRibbonGroupArea2024(context, rect, palette.GetRibbonBackColor1(state));
+				break;
 			default:
 				// Should never happen!
 				Debug.Assert(false);
@@ -2191,6 +2211,505 @@ public class RenderStandard : RenderBase
 		}
 
 		return null;
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 selected-tab underline. Color 1 is the stroke; the tab outline is omitted.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="underline">Underline color.</param>
+	protected static void DrawRibbonTabUnderline2024(RenderContext context, Rectangle rect, Color underline)
+	{
+		if (underline.IsEmpty || !TryGetRibbonTabMark2024(context, rect, false, false, out Rectangle mark))
+		{
+			return;
+		}
+
+		using var brush = new SolidBrush(underline);
+		context.Graphics.FillRectangle(brush, mark);
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 tab mark as a straight line or a pill-shaped line under the label.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="color">Mark colour.</param>
+	/// <param name="marker">Straight line, or a pill-shaped line.</param>
+	internal static void DrawRibbonTabMarker2024(RenderContext context, Rectangle rect, Color color, PaletteRibbonTabMarker marker) =>
+		DrawRibbonTabMarker2024(context, rect, color, marker, false);
+
+	/// <summary>
+	/// Draw the Office 2024 tab mark as a straight line or a pill-shaped line under the label.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="color">Mark colour.</param>
+	/// <param name="marker">Straight line, or a pill-shaped line.</param>
+	/// <param name="glow">True to draw a soft halo behind the mark.</param>
+	internal static void DrawRibbonTabMarker2024(RenderContext context, Rectangle rect, Color color, PaletteRibbonTabMarker marker, bool glow)
+	{
+		bool pill = marker == PaletteRibbonTabMarker.Pill;
+		if (color.IsEmpty || !TryGetRibbonTabMark2024(context, rect, pill, glow, out Rectangle mark))
+		{
+			return;
+		}
+
+		if (glow)
+		{
+			DrawRibbonTabGlow2024(context, mark, color);
+		}
+
+		if (pill)
+		{
+			FillRibbonTabPill2024(context, mark, color);
+		}
+		else
+		{
+			using var brush = new SolidBrush(color);
+			context.Graphics.FillRectangle(brush, mark);
+		}
+
+		if (glow)
+		{
+			DrawRibbonTabShine2024(context, mark, color, pill);
+		}
+	}
+
+	/// <summary>
+	/// Static bloom behind an Office 2024 tab line. The crisp mark is drawn afterwards.
+	/// </summary>
+	private static void DrawRibbonTabGlow2024(RenderContext context, Rectangle mark, Color color)
+	{
+		if (mark.Width <= 2 || mark.Height <= 0)
+		{
+			return;
+		}
+
+		Graphics g = context.Graphics;
+		using var antiAlias = new AntiAlias(g);
+		float dpi = g.DpiX / 96f;
+		float spread = Math.Max(RibbonTabGlowSpread2024, RibbonTabGlowSpread2024 * dpi);
+		DrawRibbonTabGlowHalo2024(g, mark, color, spread);
+
+		using GraphicsPath path = RibbonTabGlowLinePath(mark);
+		using var haloPen = new Pen(Color.FromArgb(130, color), mark.Height + (spread * 0.65f))
+		{
+			LineJoin = LineJoin.Round,
+			StartCap = LineCap.Round,
+			EndCap = LineCap.Round
+		};
+		g.DrawPath(haloPen, path);
+	}
+
+	/// <summary>
+	/// Bright centre on the crisp line. The ends stay the mark colour. It does not animate.
+	/// </summary>
+	private static void DrawRibbonTabShine2024(RenderContext context, Rectangle mark, Color color, bool pill)
+	{
+		if (mark.Width <= 4 || mark.Height <= 0)
+		{
+			return;
+		}
+
+		Graphics g = context.Graphics;
+		Color highlight = BlendTowardWhite(color, 0.92f);
+		using var brush = new LinearGradientBrush(
+			new PointF(mark.Left, mark.Top),
+			new PointF(mark.Right - 1f, mark.Top),
+			Color.Transparent,
+			Color.Transparent);
+		brush.InterpolationColors = new ColorBlend(5)
+		{
+			Colors = new[]
+			{
+				Color.FromArgb(0, highlight),
+				Color.FromArgb(0, highlight),
+				Color.FromArgb(255, highlight),
+				Color.FromArgb(0, highlight),
+				Color.FromArgb(0, highlight)
+			},
+			Positions = new[] { 0f, 0.32f, 0.5f, 0.68f, 1f }
+		};
+
+		if (!pill)
+		{
+			SmoothingMode smoothing = g.SmoothingMode;
+			g.SmoothingMode = SmoothingMode.None;
+			g.FillRectangle(brush, mark);
+			g.SmoothingMode = smoothing;
+			return;
+		}
+
+		using var antiAlias = new AntiAlias(g);
+		using GraphicsPath path = PillLinePath(mark);
+		g.FillPath(brush, path);
+	}
+
+	private static Color BlendTowardWhite(Color color, float amount)
+	{
+		int channel = (int)Math.Round(255f * amount);
+		return Color.FromArgb(
+			255,
+			color.R + ((255 - color.R) * channel / 255),
+			color.G + ((255 - color.G) * channel / 255),
+			color.B + ((255 - color.B) * channel / 255));
+	}
+
+	/// <summary>
+	/// Centerline of the mark, inset so the round caps stay inside the line.
+	/// </summary>
+	private static GraphicsPath RibbonTabGlowLinePath(Rectangle mark)
+	{
+		var path = new GraphicsPath();
+		float radius = mark.Height / 2f;
+		float y = mark.Top + radius;
+		float left = mark.Left + radius;
+		float right = mark.Right - radius;
+		if (right <= left)
+		{
+			path.AddEllipse(mark);
+			return path;
+		}
+
+		path.AddLine(left, y, right, y);
+		return path;
+	}
+
+	/// <summary>
+	/// Elliptical bloom centred on the line. It extends into the gap under the label without moving the line down.
+	/// </summary>
+	private static void DrawRibbonTabGlowHalo2024(Graphics g, Rectangle mark, Color color, float spread)
+	{
+		float ellipseWidth = mark.Width * 0.92f;
+		float ellipseHeight = mark.Height + spread;
+		var ellipseRect = new RectangleF(
+			mark.Left + ((mark.Width - ellipseWidth) / 2f),
+			mark.Top + ((mark.Height - ellipseHeight) / 2f),
+			ellipseWidth,
+			ellipseHeight);
+		if (ellipseRect.Width <= 0f || ellipseRect.Height <= 0f)
+		{
+			return;
+		}
+
+		using var ellipsePath = new GraphicsPath();
+		ellipsePath.AddEllipse(ellipseRect);
+		using var glowBrush = new PathGradientBrush(ellipsePath)
+		{
+			CenterColor = Color.FromArgb(160, color),
+			CenterPoint = new PointF(ellipseRect.Left + (ellipseRect.Width / 2f), ellipseRect.Top + (ellipseRect.Height / 2f))
+		};
+		glowBrush.SurroundColors = new[] { Color.Transparent };
+		g.FillPath(glowBrush, ellipsePath);
+	}
+
+	/// <summary>
+	/// Fill a pill-shaped Office 2024 tab line.
+	/// </summary>
+	private static void FillRibbonTabPill2024(RenderContext context, Rectangle mark, Color fill)
+	{
+		using GraphicsPath path = PillLinePath(mark);
+		using var brush = new SolidBrush(fill);
+		SmoothingMode smoothing = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		context.Graphics.FillPath(brush, path);
+		context.Graphics.SmoothingMode = smoothing;
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 tab mark as a capsule under the label. Color 1 is the stroke.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Tab bounds.</param>
+	/// <param name="fill">Pill line colour.</param>
+	protected static void DrawRibbonTabPill2024(RenderContext context, Rectangle rect, Color fill)
+	{
+		if (fill.IsEmpty || !TryGetRibbonTabMark2024(context, rect, true, false, out Rectangle mark))
+		{
+			return;
+		}
+
+		FillRibbonTabPill2024(context, mark, fill);
+	}
+
+	/// <summary>
+	/// Office 2024 underline bounds. A pill is taller so the rounded ends read as a capsule.
+	/// </summary>
+	private static bool TryGetRibbonTabMark2024(RenderContext context, Rectangle rect, bool pill, bool glow, out Rectangle mark)
+	{
+		mark = Rectangle.Empty;
+		if (rect.Width <= 4 || rect.Height <= 2)
+		{
+			return false;
+		}
+
+		int inset = Math.Min(10, Math.Max(4, rect.Width / 6));
+		float dpi = context.Graphics.DpiX / 96f;
+		int thickness = RibbonTabMarkThickness2024(dpi, pill);
+		int width = rect.Width - (inset * 2);
+		if (width <= thickness)
+		{
+			return false;
+		}
+
+		// Keep the lower curve, and the halo when it is on, inside the tab.
+		int y = rect.Bottom - thickness - RibbonTabMarkBelow2024(dpi, pill, glow);
+		if (y < rect.Y)
+		{
+			y = rect.Y;
+		}
+
+		mark = new Rectangle(rect.X + inset, y, width, thickness);
+		return true;
+	}
+
+	/// <summary>
+	/// Height Office 2024 tabs should leave under the label so the line and its glow stay clear of the text.
+	/// </summary>
+	/// <param name="dpiY">Vertical DPI scale, where 1 is 96 DPI.</param>
+	/// <param name="pill">True when the mark is a pill-shaped line.</param>
+	/// <param name="glow">True when the soft halo is enabled.</param>
+	/// <returns>Bottom padding in pixels.</returns>
+	internal static int RibbonTabMarkBand2024(float dpiY, bool pill, bool glow)
+	{
+		float dpi = dpiY <= 0f ? 1f : dpiY;
+		int thickness = RibbonTabMarkThickness2024(dpi, pill);
+		int below = RibbonTabMarkBelow2024(dpi, pill, glow);
+		int gap = Math.Max(4, (int)Math.Round(4f * dpi));
+		return thickness + below + gap;
+	}
+
+	private static int RibbonTabMarkBelow2024(float dpi, bool pill, bool glow)
+	{
+		int below = pill ? Math.Max(1, (int)Math.Round(dpi)) : 0;
+		if (!glow)
+		{
+			return below;
+		}
+
+		// Room under the line for the lower half of the bloom. The gap above the line stays put.
+		int haloBelow = Math.Max(RibbonTabGlowSpread2024 / 2, (int)Math.Round((RibbonTabGlowSpread2024 / 2f) * dpi));
+		return haloBelow > below ? haloBelow : below;
+	}
+
+	private static int RibbonTabMarkThickness2024(float dpi, bool pill)
+	{
+		int thickness = pill
+			? Math.Max(8, (int)Math.Round(10f * dpi))
+			: Math.Max(2, (int)Math.Round(3f * dpi));
+		if (pill && (thickness & 1) == 1)
+		{
+			thickness++;
+		}
+
+		return thickness;
+	}
+
+	/// <summary>
+	/// Stadium path. <see cref="CommonHelper.RoundedRectanglePath"/> flattens a radius of half the height.
+	/// </summary>
+	private static GraphicsPath PillLinePath(Rectangle mark)
+	{
+		var path = new GraphicsPath();
+		var bounds = new RectangleF(mark.X, mark.Y, mark.Width, mark.Height);
+		if (mark.Width <= mark.Height)
+		{
+			path.AddEllipse(bounds);
+			return path;
+		}
+
+		float diameter = mark.Height;
+		path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 90f, 180f);
+		path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270f, 180f);
+		path.CloseFigure();
+		return path;
+	}
+
+	/// <summary>
+	/// Draw the Office 2024 group area as its own rounded card, inset from the ribbon edges.
+	/// Color 1 is the fill. All four corners are rounded. The tab strip is painted separately and stays square.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Group-area bounds.</param>
+	/// <param name="body">Ribbon body color.</param>
+	protected static void DrawRibbonGroupArea2024(RenderContext context, Rectangle rect, Color body)
+	{
+		if (body.IsEmpty || rect.Width <= 8 || rect.Height <= 8)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int inset = Math.Max(3, (int)(6 * dpi));
+		int radius = Math.Max(6, (int)(10 * dpi));
+		var rounded = new Rectangle(rect.X + inset, rect.Y + inset, Math.Max(0, rect.Width - (inset * 2)), Math.Max(0, rect.Height - (inset * 2)));
+		if (rounded.Width <= radius || rounded.Height <= radius)
+		{
+			return;
+		}
+
+		SmoothingMode previous = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		using (GraphicsPath path = RoundedRectanglePath(rounded, radius))
+		using (var brush = new SolidBrush(body))
+		{
+			context.Graphics.FillPath(brush, path);
+		}
+
+		context.Graphics.SmoothingMode = previous;
+	}
+
+	/// <summary>
+	/// Gets the inset rounded card used by <see cref="DrawRibbonGroupArea2024"/>.
+	/// </summary>
+	/// <param name="rect">Group-area bounds.</param>
+	/// <param name="dpi">Horizontal DPI scale (1 at 96 DPI).</param>
+	/// <param name="card">Inset card, when the area is large enough to round.</param>
+	/// <returns><see langword="true"/> when <paramref name="card"/> can be drawn.</returns>
+	internal static bool TryGetRibbonGroupArea2024Card(Rectangle rect, float dpi, out Rectangle card)
+	{
+		int inset = Math.Max(3, (int)(6 * dpi));
+		int radius = Math.Max(6, (int)(10 * dpi));
+		card = new Rectangle(rect.X + inset, rect.Y + inset, Math.Max(0, rect.Width - (inset * 2)), Math.Max(0, rect.Height - (inset * 2)));
+		return rect.Width > 8 && rect.Height > 8 && card.Width > radius && card.Height > radius;
+	}
+
+	/// <summary>
+	/// Draw one Office 2024 group card. <paramref name="card"/> is the final bounds and is not inset again.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="card">Card bounds.</param>
+	/// <param name="body">Ribbon body color.</param>
+	/// <param name="bevel"><see langword="true"/> to stroke a light top-left and dark bottom-right edge.</param>
+	/// <param name="light">Light edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="dark">Dark edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="bevelSize">Visible bevel width in pixels at 96 DPI.</param>
+	internal static void DrawRibbonGroupArea2024Exact(RenderContext context, Rectangle card, Color body, bool bevel, Color light, Color dark, int bevelSize)
+	{
+		if (body.IsEmpty || card.Width <= 4 || card.Height <= 4)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int radius = Math.Max(6, (int)(10 * dpi));
+		if (card.Width <= radius || card.Height <= radius)
+		{
+			return;
+		}
+
+		SmoothingMode previous = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		using (GraphicsPath path = RoundedRectanglePath(card, radius))
+		using (var brush = new SolidBrush(body))
+		{
+			context.Graphics.FillPath(brush, path);
+		}
+
+		context.Graphics.SmoothingMode = previous;
+		if (bevel)
+		{
+			DrawRibbonGroupArea2024BevelOnCard(context, card, radius, dpi, body, light, dark, bevelSize);
+		}
+	}
+
+	/// <summary>
+	/// Draw the optional Office 2024 group-area bevel on the same rounded card as <see cref="DrawRibbonGroupArea2024"/>.
+	/// Empty light or dark colours are derived from <paramref name="body"/>.
+	/// </summary>
+	/// <param name="context">Rendering context.</param>
+	/// <param name="rect">Group-area bounds.</param>
+	/// <param name="body">Ribbon body color.</param>
+	/// <param name="light">Light top-left edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="dark">Dark bottom-right edge. Empty derives one from <paramref name="body"/>.</param>
+	/// <param name="bevelSize">Visible bevel width in pixels at 96 DPI.</param>
+	internal static void DrawRibbonGroupArea2024Bevel(RenderContext context, Rectangle rect, Color body, Color light, Color dark, int bevelSize)
+	{
+		if (body.IsEmpty || rect.Width <= 8 || rect.Height <= 8)
+		{
+			return;
+		}
+
+		float dpi = context.Graphics.DpiX / 96f;
+		int inset = Math.Max(3, (int)(6 * dpi));
+		int radius = Math.Max(6, (int)(10 * dpi));
+		var rounded = new Rectangle(rect.X + inset, rect.Y + inset, Math.Max(0, rect.Width - (inset * 2)), Math.Max(0, rect.Height - (inset * 2)));
+		if (rounded.Width <= radius || rounded.Height <= radius)
+		{
+			return;
+		}
+
+		DrawRibbonGroupArea2024BevelOnCard(context, rounded, radius, dpi, body, light, dark, bevelSize);
+	}
+
+	private static void DrawRibbonGroupArea2024BevelOnCard(RenderContext context, Rectangle rounded, int radius, float dpi, Color body, Color light, Color dark, int bevelSize)
+	{
+		Color lightEdge = light.IsEmpty ? ShiftColor(body, 56) : light;
+		Color darkEdge = dark.IsEmpty ? ShiftColor(body, -48) : dark;
+		// Half the stroke is clipped away, so the pen is twice the visible width.
+		int size = bevelSize < 1 ? 1 : bevelSize;
+		float thickness = Math.Max(1f, size * 2f * dpi);
+		SmoothingMode previous = context.Graphics.SmoothingMode;
+		context.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+		using (GraphicsPath path = RoundedRectanglePath(rounded, radius))
+		using (var lightPen = new Pen(lightEdge, thickness))
+		using (var darkPen = new Pen(darkEdge, thickness))
+		{
+			GraphicsState state = context.Graphics.Save();
+			context.Graphics.SetClip(path, CombineMode.Intersect);
+			using (var clip = new GraphicsPath())
+			{
+				clip.AddPolygon(new[]
+				{
+					new Point(rounded.Left - 2, rounded.Top - 2),
+					new Point(rounded.Right + 2, rounded.Top - 2),
+					new Point(rounded.Left - 2, rounded.Bottom + 2)
+				});
+				context.Graphics.SetClip(clip, CombineMode.Intersect);
+				context.Graphics.DrawPath(lightPen, path);
+			}
+
+			context.Graphics.Restore(state);
+			state = context.Graphics.Save();
+			context.Graphics.SetClip(path, CombineMode.Intersect);
+			using (var clip = new GraphicsPath())
+			{
+				clip.AddPolygon(new[]
+				{
+					new Point(rounded.Right + 2, rounded.Top - 2),
+					new Point(rounded.Right + 2, rounded.Bottom + 2),
+					new Point(rounded.Left - 2, rounded.Bottom + 2)
+				});
+				context.Graphics.SetClip(clip, CombineMode.Intersect);
+				context.Graphics.DrawPath(darkPen, path);
+			}
+
+			context.Graphics.Restore(state);
+		}
+
+		context.Graphics.SmoothingMode = previous;
+	}
+
+	private static Color ShiftColor(Color color, int delta) =>
+		Color.FromArgb(color.A,
+			ClampChannel(color.R + delta),
+			ClampChannel(color.G + delta),
+			ClampChannel(color.B + delta));
+
+	private static int ClampChannel(int channel) => channel < 0 ? 0 : channel > 255 ? 255 : channel;
+
+	private static GraphicsPath RoundedRectanglePath(Rectangle rect, int radius)
+	{
+		var path = new GraphicsPath();
+		int diameter = Math.Min(radius * 2, Math.Min(rect.Width, rect.Height));
+		path.AddArc(rect.Left, rect.Top, diameter, diameter, 180f, 90f);
+		path.AddArc(rect.Right - diameter, rect.Top, diameter, diameter, 270f, 90f);
+		path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0f, 90f);
+		path.AddArc(rect.Left, rect.Bottom - diameter, diameter, diameter, 90f, 90f);
+		path.CloseFigure();
+		return path;
 	}
 
 	/// <summary>
@@ -2295,17 +2814,17 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteBack == null)
 		{
-			throw new ArgumentNullException(nameof(paletteBack));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteBack));
 		}
 
 		if (paletteBorder == null)
 		{
-			throw new ArgumentNullException(nameof(paletteBorder));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteBorder));
 		}
 
 		Debug.Assert(context.Control != null);
@@ -2368,12 +2887,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		// Grab an image appropriate to the state
@@ -2421,12 +2940,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		// Grab an image appropriate to the state
@@ -2517,12 +3036,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
 		// Grab an image appropriate to the state
@@ -2565,9 +3084,11 @@ public class RenderStandard : RenderBase
 		PaletteState state,
 		VisualOrientation orientation)
 	{
-		var square = Math.Min(context.DisplayRectangle.Width, context.DisplayRectangle.Height);
-		square = Math.Min(square, 16);
-		square = (int)(square * context.Graphics.DpiY / 96f);
+		var square = DropDownArrowGlyphMetrics.ResolvePixelSize(
+			context.Graphics.DpiY,
+			context.DisplayRectangle,
+			context.Control,
+			state);
 
 		return new Size(square, square);
 	}
@@ -2593,80 +3114,23 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (palette == null)
 		{
-			throw new ArgumentNullException(nameof(palette));
+			ThrowHelper.ThrowArgumentNullException(nameof(palette));
 		}
 
-		var translateX = 0;
-		var translateY = 0;
-		var rotation = 0f;
-
-		// Perform any transformations needed for orientation
-		switch (orientation)
+		var direction = orientation switch
 		{
-			case VisualOrientation.Bottom:
-				// Translate to opposite side of origin, so the rotate can
-				// then bring it back to original position but mirror image
-				translateX = (displayRect.X * 2) + displayRect.Width;
-				translateY = (displayRect.Y * 2) + displayRect.Height;
-				rotation = 180f;
-				break;
+			VisualOrientation.Bottom => DropDownArrowGlyphDirection.Up,
+			VisualOrientation.Left => DropDownArrowGlyphDirection.Right,
+			VisualOrientation.Right => DropDownArrowGlyphDirection.Left,
+			_ => DropDownArrowGlyphDirection.Down
+		};
 
-			case VisualOrientation.Left:
-				// Invert the dimensions of the rectangle for drawing upwards
-				displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
-				// Translate back from a quarter left turn to the original place
-				translateX = displayRect.X - displayRect.Y;
-				translateY = displayRect.X + displayRect.Y + displayRect.Width;
-				rotation = -90f;
-				break;
-
-			case VisualOrientation.Right:
-				// Invert the dimensions of the rectangle for drawing upwards
-				displayRect = displayRect with { Width = displayRect.Height, Height = displayRect.Width };
-				// Translate back from a quarter right turn to the original place
-				translateX = displayRect.X + displayRect.Y + displayRect.Height;
-				translateY = -(displayRect.X - displayRect.Y);
-				rotation = 90f;
-				break;
-		}
-
-		try
-		{
-			// Apply the transforms if we have any to apply
-			if ((translateX != 0) || (translateY != 0))
-			{
-				context.Graphics.TranslateTransform(translateX, translateY);
-			}
-
-			if (rotation != 0f)
-			{
-				context.Graphics.RotateTransform(rotation);
-			}
-
-			// Finally, just draw the image and let the transforms do the rest
-			DrawInputControlDropDownGlyph(context, displayRect, palette, state);
-		}
-		catch (ArgumentException)
-		{
-		}
-		finally
-		{
-			if (rotation != 0f)
-			{
-				context.Graphics.RotateTransform(-rotation);
-			}
-
-			// Remove the applied transforms
-			if ((translateX != 0) | (translateY != 0))
-			{
-				context.Graphics.TranslateTransform(-translateX, -translateY);
-			}
-		}
+		DrawInputControlDropDownGlyph(context, displayRect, palette, state, direction);
 	}
 
 	/// <summary>
@@ -2688,29 +3152,18 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteContent == null)
 		{
-			throw new ArgumentNullException(nameof(paletteContent));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteContent));
 		}
 
-		Color c1 = paletteContent.GetContentShortTextColor1(state);
-		Color c2 = paletteContent.GetContentShortTextColor2(state);
+        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
 
-		// Find the top left starting position for drawing lines
-		var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-		var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
-
-		using var darkPen = new Pen(c1);
-		context.Graphics.DrawLine(darkPen, xStart, yStart + 3, xStart + 4, yStart + 3);
-		context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 2, xStart + 3, yStart + 2);
-		context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-		using var lightPen = new Pen(c2);
-		context.Graphics.DrawLine(lightPen, xStart + 2, yStart, xStart + 4, yStart + 2);
-		context.Graphics.DrawLine(lightPen, xStart + 2, yStart, xStart, yStart + 2);
-	}
+        DropDownArrowGlyphCache.Draw(context.Graphics, cellRect, outline, fill, DropDownArrowGlyphDirection.Up, context.Control);
+    }
 
 	/// <summary>
 	/// Draw a numeric down button image appropriate for an input control.
@@ -2731,29 +3184,18 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteContent == null)
 		{
-			throw new ArgumentNullException(nameof(paletteContent));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteContent));
 		}
 
-		Color c1 = paletteContent.GetContentShortTextColor1(state);
-		Color c2 = paletteContent.GetContentShortTextColor2(state);
+        (Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
 
-		// Find the top left starting position for drawing lines
-		var xStart = cellRect.Left + ((cellRect.Right - cellRect.Left - 4) / 2);
-		var yStart = cellRect.Top + ((cellRect.Bottom - cellRect.Top - 3) / 2);
-
-		using var darkPen = new Pen(c1);
-		context.Graphics.DrawLine(darkPen, xStart, yStart, xStart + 4, yStart);
-		context.Graphics.DrawLine(darkPen, xStart + 1, yStart + 1, xStart + 3, yStart + 1);
-		context.Graphics.DrawLine(darkPen, xStart + 2, yStart + 2, xStart + 2, yStart + 1);
-		using var lightPen = new Pen(c2);
-		context.Graphics.DrawLine(lightPen, xStart, yStart + 1, xStart + 2, yStart + 3);
-		context.Graphics.DrawLine(lightPen, xStart + 2, yStart + 3, xStart + 4, yStart + 1);
-	}
+        DropDownArrowGlyphCache.Draw(context.Graphics, cellRect, outline, fill, DropDownArrowGlyphDirection.Down, context.Control);
+    }
 
 	/// <summary>
 	/// Draw a drop-down grid appropriate for an input control.
@@ -2767,6 +3209,13 @@ public class RenderStandard : RenderBase
 		Rectangle cellRect,
 		[DisallowNull] IPaletteContent paletteContent,
 		PaletteState state)
+		=> DrawInputControlDropDownGlyph(context, cellRect, paletteContent, state, DropDownArrowGlyphDirection.Down);
+
+	private static void DrawInputControlDropDownGlyph(RenderContext context,
+		Rectangle cellRect,
+		IPaletteContent paletteContent,
+		PaletteState state,
+		DropDownArrowGlyphDirection direction)
 	{
 		Debug.Assert(context != null);
 		Debug.Assert(paletteContent != null);
@@ -2774,48 +3223,17 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteContent == null)
 		{
-			throw new ArgumentNullException(nameof(paletteContent));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteContent));
 		}
 
-		Color c1 = paletteContent.GetContentShortTextColor1(state);
-		Color c2 = paletteContent.GetContentShortTextColor2(state);
-		if (c2 == Color.Empty
-			|| c2 == Color.Transparent)
-		{
-			c2 = Color.FromArgb(64, c1.R, c1.G, c1.B);
-		}
+		(Color outline, Color fill) = DropDownArrowGlyphColors.Resolve(context, paletteContent, state);
 
-		// Find the top left starting position for drawing lines
-		float xOffset = cellRect.Width / 4f;
-		float yOffset = cellRect.Height / 4f;
-		float xStart = cellRect.Left + xOffset;
-		float yStart = cellRect.Top + yOffset;
-
-		//using Pen darkPen = new Pen(c1),
-		//    lightPen = new Pen(c2);
-
-		using var path = new GraphicsPath();
-		// Define path with the geometry information only
-		path.AddLines([
-			new PointF(xStart, yStart),
-			new PointF(xStart + 2 * xOffset, yStart),
-			new PointF(xStart + xOffset, yStart + 2 * yOffset)
-		]);
-		path.CloseFigure();
-
-		using var aa = new AntiAlias(context.Graphics);
-		// Fill Triangle
-		using var brush = new SolidBrush(c2);
-		context.Graphics.FillPath(brush, path);
-
-		// Draw Triangle
-		using Pen darkPen = new Pen(c1);
-		context.Graphics.DrawPath(darkPen, path);
+		DropDownArrowGlyphCache.Draw(context.Graphics, cellRect, outline, fill, direction, context.Control);
 	}
 
 	/// <summary>
@@ -2839,12 +3257,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		switch (shape)
@@ -2881,6 +3299,9 @@ public class RenderStandard : RenderBase
 			}
 				break;
 			case PaletteRibbonShape.Office2010:
+			case PaletteRibbonShape.OSXAqua:
+			case PaletteRibbonShape.MacOS:
+			case PaletteRibbonShape.Office2024:
 			{
 				var dialogBrush = new LinearGradientBrush(
 					new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
@@ -2928,12 +3349,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		Color darkColor = state == PaletteState.Disabled ? paletteGeneral.GetRibbonDisabledDark(state) :
@@ -2963,7 +3384,10 @@ public class RenderStandard : RenderBase
 				break;
 
 			case PaletteRibbonShape.Office2010:
-			{
+			case PaletteRibbonShape.OSXAqua:
+			case PaletteRibbonShape.MacOS:
+			case PaletteRibbonShape.Office2024:
+				{
 				using var fillBrush = new LinearGradientBrush(
 					new RectangleF(displayRect.X - 1, displayRect.Y - 1, displayRect.Width + 2,
 						displayRect.Height + 2), lightColor, darkColor, 45f);
@@ -2977,6 +3401,160 @@ public class RenderStandard : RenderBase
 				break;
 		}
 	}
+
+	#region Ribbon Glyph Metrics
+
+	/// <summary>
+	/// Per-theme geometry for the two horizontal separator lines at the top of the ribbon
+	/// context arrow glyph. The only shape-dependent difference is how far those lines extend
+	/// on each side; every other offset is shared and DPI scaled at draw time. Storing the
+	/// insets here replaces the previous hard-coded per-shape branch (see issue #3851).
+	/// </summary>
+	private readonly struct RibbonContextArrowTopLine
+	{
+		public RibbonContextArrowTopLine(int leftInset, int rightInset)
+		{
+			LeftInset = leftInset;
+			RightInset = rightInset;
+		}
+
+		/// <summary>Base (96 DPI) horizontal inset applied to the left end of the top lines.</summary>
+		public int LeftInset { get; }
+
+		/// <summary>Base (96 DPI) horizontal inset applied to the right end of the top lines.</summary>
+		public int RightInset { get; }
+	}
+
+	/// <summary>
+	/// Returns the per-theme top separator geometry for the ribbon context arrow glyph.
+	/// </summary>
+	/// <param name="shape">Ribbon shape.</param>
+	private static RibbonContextArrowTopLine GetRibbonContextArrowTopLine(PaletteRibbonShape shape) =>
+		shape switch
+		{
+			// Office2010 / OSXAqua / MacOS bleed one pixel to the left and fill to the right edge.
+			PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS => new RibbonContextArrowTopLine(-1, 0),
+			// Office2007 / 2013 / 365 sit flush on the left and stop one pixel short on the right.
+			_ => new RibbonContextArrowTopLine(0, -1)
+		};
+
+	/// <summary>
+	/// Per-theme 96-DPI geometry for the pair of QAT overflow chevrons. Every shape currently
+	/// shares the same offsets; Office 2010 / OSX Aqua / macOS unify the dark and light pens
+	/// so the glyph reads as a single colour. Metrics live here so future theme tweaks are
+	/// data, not another inline <c>DrawLine</c> branch (issue #4253).
+	/// </summary>
+	private readonly struct RibbonOverflowChevronMetrics
+	{
+		public RibbonOverflowChevronMetrics(bool unifyDarkLightColor)
+			: this(4, 1, 3, 1, 2, 2, 2, 1, 3, 4, unifyDarkLightColor)
+		{
+		}
+
+		public RibbonOverflowChevronMetrics(int secondChevronGap,
+			int darkStemTop,
+			int darkStemBottom,
+			int darkDiagonalX,
+			int darkDiagonalY,
+			int lightPeakX,
+			int lightPeakY,
+			int lightBaseStartX,
+			int lightBaseStartY,
+			int lightTipY,
+			bool unifyDarkLightColor)
+		{
+			SecondChevronGap = secondChevronGap;
+			DarkStemTop = darkStemTop;
+			DarkStemBottom = darkStemBottom;
+			DarkDiagonalX = darkDiagonalX;
+			DarkDiagonalY = darkDiagonalY;
+			LightPeakX = lightPeakX;
+			LightPeakY = lightPeakY;
+			LightBaseStartX = lightBaseStartX;
+			LightBaseStartY = lightBaseStartY;
+			LightTipY = lightTipY;
+			UnifyDarkLightColor = unifyDarkLightColor;
+		}
+
+		/// <summary>Base (96 DPI) horizontal gap between the first and second chevron.</summary>
+		public int SecondChevronGap { get; }
+
+		/// <summary>Base (96 DPI) top of the dark vertical stem.</summary>
+		public int DarkStemTop { get; }
+
+		/// <summary>Base (96 DPI) bottom of the dark vertical stem (also the dark diagonal end).</summary>
+		public int DarkStemBottom { get; }
+
+		/// <summary>Base (96 DPI) horizontal offset of the dark diagonal start.</summary>
+		public int DarkDiagonalX { get; }
+
+		/// <summary>Base (96 DPI) vertical offset of the dark diagonal start.</summary>
+		public int DarkDiagonalY { get; }
+
+		/// <summary>Base (96 DPI) horizontal offset of the light peak end.</summary>
+		public int LightPeakX { get; }
+
+		/// <summary>Base (96 DPI) vertical offset of the light peak end.</summary>
+		public int LightPeakY { get; }
+
+		/// <summary>Base (96 DPI) horizontal offset of the light base start.</summary>
+		public int LightBaseStartX { get; }
+
+		/// <summary>Base (96 DPI) vertical offset of the light base start.</summary>
+		public int LightBaseStartY { get; }
+
+		/// <summary>Base (96 DPI) vertical offset of the light tip (base end).</summary>
+		public int LightTipY { get; }
+
+		/// <summary>
+		/// When <see langword="true"/> the light pen uses the dark colour so both chevron
+		/// halves paint as one tone (Office 2010 / OSX Aqua / macOS).
+		/// </summary>
+		public bool UnifyDarkLightColor { get; }
+	}
+
+	/// <summary>
+	/// Returns the per-theme overflow chevron geometry. Line offsets are shared; only
+	/// <see cref="RibbonOverflowChevronMetrics.UnifyDarkLightColor"/> differs today.
+	/// </summary>
+	/// <param name="shape">Ribbon shape.</param>
+	private static RibbonOverflowChevronMetrics GetRibbonOverflowChevronMetrics(PaletteRibbonShape shape) =>
+		new RibbonOverflowChevronMetrics(shape is PaletteRibbonShape.Office2010
+			or PaletteRibbonShape.OSXAqua
+			or PaletteRibbonShape.MacOS);
+
+	/// <summary>
+	/// Scales a 96-DPI ribbon glyph offset. Uses <see cref="MidpointRounding.AwayFromZero"/>
+	/// so 125% still grows 2px design values rather than banker's-rounding them back
+	/// (matches <c>ViewDrawRibbonQATExtraButton</c>, issues #3851 / #4253 / #4254).
+	/// </summary>
+	/// <param name="value96">Offset designed at 96 DPI.</param>
+	/// <param name="factor">Device scale factor (<c>Dpi / 96</c>).</param>
+	private static int ScaleRibbonGlyph(int value96, float factor) =>
+		(int)Math.Round(value96 * factor, MidpointRounding.AwayFromZero);
+
+	/// <summary>
+	/// Draws one overflow chevron at <paramref name="left"/> using the supplied 96-DPI metrics.
+	/// </summary>
+	private static void DrawRibbonOverflowChevron(Graphics graphics,
+		Pen darkPen,
+		Pen lightPen,
+		int left,
+		int top,
+		float dpiX,
+		float dpiY,
+		RibbonOverflowChevronMetrics metrics)
+	{
+		int Sx(int value) => ScaleRibbonGlyph(value, dpiX);
+		int Sy(int value) => ScaleRibbonGlyph(value, dpiY);
+
+		graphics.DrawLine(darkPen, left, top + Sy(metrics.DarkStemTop), left, top + Sy(metrics.DarkStemBottom));
+		graphics.DrawLine(darkPen, left + Sx(metrics.DarkDiagonalX), top + Sy(metrics.DarkDiagonalY), left, top + Sy(metrics.DarkStemBottom));
+		graphics.DrawLine(lightPen, left, top, left + Sx(metrics.LightPeakX), top + Sy(metrics.LightPeakY));
+		graphics.DrawLine(lightPen, left + Sx(metrics.LightBaseStartX), top + Sy(metrics.LightBaseStartY), left, top + Sy(metrics.LightTipY));
+	}
+
+	#endregion
 
 	/// <summary>
 	/// Perform drawing of a ribbon context arrow glyph.
@@ -2999,12 +3577,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		Color c1 = paletteGeneral.GetRibbonQATButtonDark(state);
@@ -3019,24 +3597,31 @@ public class RenderStandard : RenderBase
 
 		using var darkPen = new Pen(c1);
 		using var lightPen = new Pen(c2);
-		// TODO: WagnerP - please provide a better way of doing this for Various themes and dpi's
-		if (shape == PaletteRibbonShape.Office2010)
-		{
-			context.Graphics.DrawLine(darkPen, displayRect.Left - 1, displayRect.Top, displayRect.Right, displayRect.Top);
-			context.Graphics.DrawLine(lightPen, displayRect.Left - 1, displayRect.Top + 1, displayRect.Right, displayRect.Top + 1);
-		}
-		else
-		{
-			context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top, displayRect.Right - 1 , displayRect.Top);
-			context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top + 1, displayRect.Right - 1, displayRect.Top + 1);
-		}
 
-		context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 3, displayRect.Right -1, displayRect.Top + 3);
-		
-		context.Graphics.DrawLine(darkPen, displayRect.Right - 2, displayRect.Top + 4, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 5);
-		context.Graphics.DrawLine(darkPen, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 5, displayRect.Left + 1, displayRect.Top + 4);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + 7, displayRect.Top + 5, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + displayRect.Width / 2, displayRect.Bottom - 4, displayRect.Right - 8, displayRect.Top + 5);
+		// Scale the base (96 DPI) offsets so the glyph stays aligned across themes and DPI settings (issue #3851).
+		var dpiX = context.Graphics.DpiX / 96f;
+		var dpiY = context.Graphics.DpiY / 96f;
+		int Sx(int value) => ScaleRibbonGlyph(value, dpiX);
+		int Sy(int value) => ScaleRibbonGlyph(value, dpiY);
+
+		int left = displayRect.Left;
+		int top = displayRect.Top;
+		int right = displayRect.Right;
+		int bottom = displayRect.Bottom;
+		int midX = left + (displayRect.Width / 2);
+
+		// Per-theme top separator lines (only the horizontal extent differs between shapes)
+		RibbonContextArrowTopLine topLine = GetRibbonContextArrowTopLine(shape);
+		context.Graphics.DrawLine(darkPen, left + Sx(topLine.LeftInset), top, right + Sx(topLine.RightInset), top);
+		context.Graphics.DrawLine(lightPen, left + Sx(topLine.LeftInset), top + Sy(1), right + Sx(topLine.RightInset), top + Sy(1));
+
+		// Shared underline plus the downward chevron
+		context.Graphics.DrawLine(darkPen, left, top + Sy(3), right + Sx(-1), top + Sy(3));
+
+		context.Graphics.DrawLine(darkPen, right + Sx(-2), top + Sy(4), midX, bottom + Sy(-5));
+		context.Graphics.DrawLine(darkPen, midX, bottom + Sy(-5), left + Sx(1), top + Sy(4));
+		context.Graphics.DrawLine(lightPen, left + Sx(7), top + Sy(5), midX, bottom + Sy(-4));
+		context.Graphics.DrawLine(lightPen, midX, bottom + Sy(-4), right + Sx(-8), top + Sy(5));
 	}
 
 	/// <summary>
@@ -3060,19 +3645,19 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		Color c1 = paletteGeneral.GetRibbonQATButtonDark(state);
 		Color c2 = paletteGeneral.GetRibbonQATButtonLight(state);
 
-		// Office 2010 uses the same color for both parts
-		if (shape == PaletteRibbonShape.Office2010)
+		RibbonOverflowChevronMetrics metrics = GetRibbonOverflowChevronMetrics(shape);
+		if (metrics.UnifyDarkLightColor)
 		{
 			c2 = c1;
 		}
@@ -3086,16 +3671,17 @@ public class RenderStandard : RenderBase
 
 		using var darkPen = new Pen(c1);
 		using var lightPen = new Pen(c2);
-		// TODO: WagnerP - please provide a better way of doing this for Various themes and dpi's
-		context.Graphics.DrawLine(darkPen, displayRect.Left, displayRect.Top + 1, displayRect.Left, displayRect.Top + 3);
-		context.Graphics.DrawLine(darkPen, displayRect.Left + 1, displayRect.Top + 2, displayRect.Left, displayRect.Top + 3);
-		context.Graphics.DrawLine(lightPen, displayRect.Left, displayRect.Top, displayRect.Left + 2, displayRect.Top + 2);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + 1, displayRect.Top + 3, displayRect.Left, displayRect.Top + 4);
 
-		context.Graphics.DrawLine(darkPen, displayRect.Left + 4, displayRect.Top + 1, displayRect.Left + 4, displayRect.Top + 3);
-		context.Graphics.DrawLine(darkPen, displayRect.Left + 5, displayRect.Top + 2, displayRect.Left + 4, displayRect.Top + 3);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + 4, displayRect.Top, displayRect.Left + 6, displayRect.Top + 2);
-		context.Graphics.DrawLine(lightPen, displayRect.Left + 5, displayRect.Top + 3, displayRect.Left + 4, displayRect.Top + 4);
+		// Scale the base (96 DPI) offsets so the two chevrons stay aligned across themes and DPI settings (issues #3851 / #4253).
+		var dpiX = context.Graphics.DpiX / 96f;
+		var dpiY = context.Graphics.DpiY / 96f;
+
+		int top = displayRect.Top;
+		int firstLeft = displayRect.Left;
+		int secondLeft = displayRect.Left + ScaleRibbonGlyph(metrics.SecondChevronGap, dpiX);
+
+		DrawRibbonOverflowChevron(context.Graphics, darkPen, lightPen, firstLeft, top, dpiX, dpiY, metrics);
+		DrawRibbonOverflowChevron(context.Graphics, darkPen, lightPen, secondLeft, top, dpiX, dpiY, metrics);
 	}
 
 	/// <summary>
@@ -3119,12 +3705,12 @@ public class RenderStandard : RenderBase
 		// Validate parameter references
 		if (context == null)
 		{
-			throw new ArgumentNullException(nameof(context));
+			ThrowHelper.ThrowArgumentNullException(nameof(context));
 		}
 
 		if (paletteGeneral == null)
 		{
-			throw new ArgumentNullException(nameof(paletteGeneral));
+			ThrowHelper.ThrowArgumentNullException(nameof(paletteGeneral));
 		}
 
 		var x = displayRect.X + ((displayRect.Width - 2) / 2);
@@ -3143,7 +3729,13 @@ public class RenderStandard : RenderBase
 			}
 				break;
 
+			case PaletteRibbonShape.Office2024:
+				// Groups are separated by spacing only.
+				break;
+
 			case PaletteRibbonShape.Office2010:
+            case PaletteRibbonShape.OSXAqua:
+			case PaletteRibbonShape.MacOS:
 			{
 				using var darkBrush = new LinearGradientBrush(
 					new Rectangle(displayRect.X, displayRect.Y - 1, displayRect.Width,
@@ -3246,23 +3838,15 @@ public class RenderStandard : RenderBase
 		Debug.Assert(paletteContent is not null);
 
 		// Get the appropriate each to draw
-		Image? rowImage = null;
 
-		switch (rowGlyph)
+		Image? rowImage = rowGlyph switch
 		{
-			case GridRowGlyph.ArrowStar:
-				rowImage = _gridRowIndicators.Images[rtl ? 4 : 0];
-				break;
-			case GridRowGlyph.Star:
-				rowImage = _gridRowIndicators.Images[rtl ? 5 : 1];
-				break;
-			case GridRowGlyph.Pencil:
-				rowImage = _gridRowIndicators.Images[rtl ? 6 : 2];
-				break;
-			case GridRowGlyph.Arrow:
-				rowImage = _gridRowIndicators.Images[rtl ? 7 : 3];
-				break;
-		}
+			GridRowGlyph.ArrowStar => _gridRowIndicators.Images[rtl ? 4 : 0],
+			GridRowGlyph.Star => _gridRowIndicators.Images[rtl ? 5 : 1],
+			GridRowGlyph.Pencil => _gridRowIndicators.Images[rtl ? 6 : 2],
+			GridRowGlyph.Arrow => _gridRowIndicators.Images[rtl ? 7 : 3],
+			_ => null
+		};
 
 		// Is there enough room to draw the image?
 		if ((rowImage != null) &&
@@ -3332,7 +3916,7 @@ public class RenderStandard : RenderBase
 
 			if (state == PaletteState.Disabled)
 			{
-				ControlPaint.DrawImageDisabled(context!.Graphics, errorImage, x, y, GlobalStaticValues.EMPTY_COLOR);
+				ControlPaint.DrawImageDisabled(context!.Graphics, errorImage, x, y, SharedStaticVariables.EMPTY_COLOR);
 			}
 			else
 			{
@@ -3488,7 +4072,7 @@ public class RenderStandard : RenderBase
 			else
 			{
 				// If there is rounding causing transparent corners
-				if (paletteBorder.GetBorderRounding(state) > 0)
+				if (paletteBorder.GetBorderCornerRounding(state).HasRounding)
 				{
 					return true;
 				}
@@ -3936,22 +4520,24 @@ public class RenderStandard : RenderBase
 		Rectangle rect,
 		PaletteDrawBorders borders,
 		int borderWidth,
-		float borderRounding,
+		PaletteCornerRounding borderCornerRounding,
 		int variant)
 	{
 		var borderPath = new GraphicsPath();
-		if (borderRounding < 0.1f
+		if (borderCornerRounding.MaxRadius < 0.1f
+			&& middle
 			&& CommonHelper.HasABorder(borders)
 		   )
 		{   // Deal with issues arrising within https://github.com/Krypton-Suite/Standard-Toolkit/issues/1871
-			borderRounding = 0.1f;
+			// Only nudge the pen-centred path; the outside path is used as a window region
+			// (see KryptonForm.CheckViewLayout) and must enclose the whole rectangle, otherwise
+			// the right and bottom borders are clipped away (issue #4132).
+			borderCornerRounding = PaletteCornerRounding.Uniform(0.1f);
 		}
 
 		if (rect is { Width: > 0, Height: > 0 })
 		{
-			// Only use a rounding that will fit inside the rect
-			var rounding = Math.Min(borderRounding, Math.Min(rect.Width / 2f, rect.Height / 2f) - borderWidth);
-
+			var arcs = RoundedPathHelper.CornerArcLengths.FromCornerRounding(borderCornerRounding, rect, borderWidth);
 
 			if (middle)
 			{
@@ -3981,16 +4567,14 @@ public class RenderStandard : RenderBase
 				{
 					rect.Width -= halfBorderWidthTL;
 				}
-			}
 
-			// Find the width/height of the arc box
-			var arcLength = rounding * 2;
-			var arcLength1 = arcLength + 1;
+				arcs = RoundedPathHelper.CornerArcLengths.FromCornerRounding(borderCornerRounding, rect, borderWidth);
+			}
 
 			// If drawing all the four borders use a single routine
 			if (CommonHelper.HasAllBorders(borders))
 			{
-				CreateAllBorderBackPath(middle, borderPath, rect, borderWidth, rounding, forBorder, arcLength, arcLength1);
+				CreateAllBorderBackPath(middle, borderPath, rect, borderWidth, arcs, forBorder);
 			}
 			else
 			{
@@ -4003,9 +4587,9 @@ public class RenderStandard : RenderBase
 					{
 						// If rounding is used we need to use a path so that corner rounding is honored but
 						// because this is going to be used as a region we need to close the path as well.
-						if (rounding > 0)
+						if (arcs.HasAnyRounding)
 						{
-							CreateBorderBackPathOnlyClosed(middle, borders, borderPath, rect, arcLength, variant);
+							CreateBorderBackPathOnlyClosed(middle, borders, borderPath, rect, arcs, variant);
 						}
 						else
 						{
@@ -4017,9 +4601,9 @@ public class RenderStandard : RenderBase
 					{
 						// We are calculating the middle of the border as the brush will then draw the entire
 						// border from the middle outwards.
-						if (rounding > 0)
+						if (arcs.HasAnyRounding)
 						{
-							CreateBorderBackPathOnly(middle, borders, borderPath, rect, arcLength, variant);
+							CreateBorderBackPathOnly(middle, borders, borderPath, rect, arcs, variant);
 						}
 						else
 						{
@@ -4031,9 +4615,9 @@ public class RenderStandard : RenderBase
 				{
 					// Calculating a complete path for the entire area and not just the specified borders
 					// If there is rounding we need to calculate a path that honors the rounding at corners
-					if (rounding > 0)
+					if (arcs.HasAnyRounding)
 					{
-						CreateBorderBackPathComplete(middle, borders, borderPath, rect, arcLength);
+						CreateBorderBackPathComplete(middle, borders, borderPath, rect, arcs);
 					}
 					else
 					{
@@ -4049,15 +4633,15 @@ public class RenderStandard : RenderBase
 
 	private static void CreateAllBorderBackPath(bool middle,
 		GraphicsPath borderPath,
-		RectangleF rectF,
+		Rectangle rect,
 		int width,
-		float rounding,
-		bool forBorder,
-		float arcLength,
-		float arcLength1)
+		RoundedPathHelper.CornerArcLengths arcs,
+		bool forBorder)
 	{
+		var rectF = (RectangleF)rect;
+
 		// If there is no room for any rounding effect...
-		if (rounding <= 0)
+		if (!arcs.HasAnyRounding)
 		{
 			//// If the width is an odd number then need to reduce by 1 in each dimension
 			if (forBorder && middle && ((width % 2) == 1))
@@ -4071,26 +4655,39 @@ public class RenderStandard : RenderBase
 		}
 		else
 		{
-			// If trying to get the outside edge then perform some offsetting so that
-			// when converted to a region it draws nicely inside the path outline
-			//if (!middle && ((width % 2) == 1))
-			//{
-			//    rectF.X -= 0.25f;
-			//    rectF.Y -= 0.25f;
-			//    rectF.Width += 0.75f;
-			//    rectF.Height += 0.75f;
-			//}
-
-			// The border is made of up a quarter of a circle arc, in each corner
-			borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-			borderPath.AddArc(rectF.Right - arcLength1, rectF.Top, arcLength, arcLength, 270f, 90f);
-			borderPath.AddArc(rectF.Right - arcLength1, rectF.Bottom - arcLength1, arcLength, arcLength, 0f, 90f);
-			borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength1, arcLength, arcLength, 90f, 90f);
-
-			// Make the last and first arc join up
-			borderPath.CloseFigure();
+			RoundedPathHelper.AppendRoundedRectangle(borderPath, rectF, arcs, true);
 		}
 	}
+
+	private static int ComputeRoundPadding(float paletteRounding, int borderWidth, Size borderOuterSize)
+	{
+		float roundingForPadding = paletteRounding;
+
+		// Match CreateBorderBackPath: rounding must fit inside the outer rectangle
+		if (borderOuterSize is { Width: > 0, Height: > 0 })
+		{
+			float maxRounding = Math.Min(borderOuterSize.Width / 2f, borderOuterSize.Height / 2f) - borderWidth;
+			if (maxRounding < 0f)
+			{
+				maxRounding = 0f;
+			}
+
+			roundingForPadding = Math.Min(paletteRounding, maxRounding);
+		}
+
+		// Divide the rounding effect by PI to get the actual pixel distance needed
+		// for offsetting. But add 2, so it starts indenting on a rounding of just 1.
+		return Convert.ToInt16((roundingForPadding + borderWidth + 2) / Math.PI);
+	}
+
+	private static GraphicsPath CreateBorderBackPath(bool forBorder,
+		bool middle,
+		Rectangle rect,
+		PaletteDrawBorders borders,
+		int borderWidth,
+		float borderRounding,
+		int variant) =>
+		CreateBorderBackPath(forBorder, middle, rect, borders, borderWidth, PaletteCornerRounding.Uniform(borderRounding), variant);
 
 	private static void CreateBorderBackPathOnly(PaletteDrawBorders borders,
 		GraphicsPath borderPath,
@@ -4180,9 +4777,18 @@ public class RenderStandard : RenderBase
 		PaletteDrawBorders borders,
 		GraphicsPath borderPath,
 		RectangleF rectF,
-		float arcLength,
+		RoundedPathHelper.CornerArcLengths arcs,
 		int variant)
 	{
+		float arcTL = arcs.TopLeft;
+		float arcTR = arcs.TopRight;
+		float arcBR = arcs.BottomRight;
+		float arcBL = arcs.BottomLeft;
+		float arcTRX = arcTR > 0f ? arcTR + 1f : 0f;
+		float arcBRX = arcBR > 0f ? arcBR + 1f : 0f;
+		float arcBLY = arcBL > 0f ? arcBL + 1f : 0f;
+		float arcBRY = arcBR > 0f ? arcBR + 1f : 0f;
+
 		// Reduce the width and height by 1 pixel for drawing into rectangle
 		// Fixes the issue as displayed here: https://github.com/Krypton-Suite/Standard-Toolkit/issues/1871#issuecomment-2503893001
 		rectF.Width--;
@@ -4238,48 +4844,48 @@ public class RenderStandard : RenderBase
 
 				break;
 			case PaletteDrawBorders.TopLeft:
-				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right + 1, rectF.Top);
+				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right + 1, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopRight:
-				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom + 1);
+				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom + 1);
 				break;
 			case PaletteDrawBorders.BottomRight:
-				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
+				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.BottomLeft:
-				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top - 1);
+				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top - 1);
 				break;
 			case PaletteDrawBorders.TopBottomLeft:
-				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right + 1, rectF.Top);
+				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right + 1, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopBottomRight:
-				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
+				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopLeftRight:
-				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom + 1);
+				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom + 1);
 				break;
 			case PaletteDrawBorders.BottomLeftRight:
-				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top - 1);
+				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top - 1);
 				break;
 		}
 	}
@@ -4288,9 +4894,18 @@ public class RenderStandard : RenderBase
 		PaletteDrawBorders borders,
 		GraphicsPath borderPath,
 		RectangleF rectF,
-		float arcLength,
+		RoundedPathHelper.CornerArcLengths arcs,
 		int variant)
 	{
+		float arcTL = arcs.TopLeft;
+		float arcTR = arcs.TopRight;
+		float arcBR = arcs.BottomRight;
+		float arcBL = arcs.BottomLeft;
+		float arcTRX = arcTR > 0f ? arcTR + 1f : 0f;
+		float arcBRX = arcBR > 0f ? arcBR + 1f : 0f;
+		float arcBLY = arcBL > 0f ? arcBL + 1f : 0f;
+		float arcBRY = arcBR > 0f ? arcBR + 1f : 0f;
+
 		// If trying to get the outside edge then perform some offsetting so that
 		// when converted to a region it draws nicely inside the path outline
 		//if (!middle)
@@ -4318,52 +4933,52 @@ public class RenderStandard : RenderBase
 				borderPath.AddRectangle(rectF);
 				break;
 			case PaletteDrawBorders.TopLeft:
-				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right + 1, rectF.Top);
+				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right + 1, rectF.Top);
 				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopRight:
-				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom + 1);
+				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom + 1);
 				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.BottomRight:
-				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
+				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
 				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top);
 				break;
 			case PaletteDrawBorders.BottomLeft:
-				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top - 1);
+				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top - 1);
 				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopBottomLeft:
-				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right + 1, rectF.Top);
+				borderPath.AddLine(rectF.Right + 1, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right + 1, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopBottomRight:
-				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
+				borderPath.AddLine(rectF.Left - 1, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left - 1, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopLeftRight:
-				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom + 1);
+				borderPath.AddLine(rectF.Left, rectF.Bottom + 1, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom + 1);
 				break;
 			case PaletteDrawBorders.BottomLeftRight:
-				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top - 1);
+				borderPath.AddLine(rectF.Right, rectF.Top - 1, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top - 1);
 				break;
 		}
 	}
@@ -4372,8 +4987,17 @@ public class RenderStandard : RenderBase
 		PaletteDrawBorders borders,
 		GraphicsPath borderPath,
 		RectangleF rectF,
-		float arcLength)
+		RoundedPathHelper.CornerArcLengths arcs)
 	{
+		float arcTL = arcs.TopLeft;
+		float arcTR = arcs.TopRight;
+		float arcBR = arcs.BottomRight;
+		float arcBL = arcs.BottomLeft;
+		float arcTRX = arcTR > 0f ? arcTR + 1f : 0f;
+		float arcBRX = arcBR > 0f ? arcBR + 1f : 0f;
+		float arcBLY = arcBL > 0f ? arcBL + 1f : 0f;
+		float arcBRY = arcBR > 0f ? arcBR + 1f : 0f;
+
 		// If trying to get the outside edge then perform some offsetting so that
 		// when converted to a region it draws nicely inside the path outline
 		//if (!middle)
@@ -4397,16 +5021,16 @@ public class RenderStandard : RenderBase
 				borderPath.AddRectangle(rectF);
 				break;
 			case PaletteDrawBorders.TopLeft:
-				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right, rectF.Top);
+				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right, rectF.Top);
 				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom);
 				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopRight:
-				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom);
+				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom);
 				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left, rectF.Bottom);
 				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top);
 				break;
@@ -4415,9 +5039,9 @@ public class RenderStandard : RenderBase
 				rectF.Width -= 1;
 				rectF.Height -= 1;
 
-				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left, rectF.Bottom);
+				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left, rectF.Bottom);
 				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top);
 				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right, rectF.Top);
 				break;
@@ -4427,17 +5051,17 @@ public class RenderStandard : RenderBase
 				rectF.Width -= 1;
 				rectF.Height -= 1;
 
-				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddLine(rectF.Left, rectF.Bottom - arcLength, rectF.Left, rectF.Top);
+				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddLine(rectF.Left, rectF.Bottom - arcBLY, rectF.Left, rectF.Top);
 				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right, rectF.Top);
 				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopBottomLeft:
-				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left + arcLength, rectF.Bottom);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddLine(rectF.Left + arcLength, rectF.Top, rectF.Right, rectF.Top);
+				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left + arcBL, rectF.Bottom);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddLine(rectF.Left + arcTL, rectF.Top, rectF.Right, rectF.Top);
 				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.TopBottomRight:
@@ -4445,17 +5069,17 @@ public class RenderStandard : RenderBase
 				rectF.Width -= 1;
 				rectF.Height -= 1;
 
-				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right - arcLength, rectF.Top);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddLine(rectF.Right - arcLength, rectF.Bottom, rectF.Left, rectF.Bottom);
+				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right - arcTRX, rectF.Top);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddLine(rectF.Right - arcBRX, rectF.Bottom, rectF.Left, rectF.Bottom);
 				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top);
 				break;
 			case PaletteDrawBorders.TopLeftRight:
-				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top + arcLength);
-				borderPath.AddArc(rectF.Left, rectF.Top, arcLength, arcLength, 180f, 90f);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Top, arcLength, arcLength, -90f, 90f);
-				borderPath.AddLine(rectF.Right, rectF.Top + arcLength, rectF.Right, rectF.Bottom);
+				borderPath.AddLine(rectF.Left, rectF.Bottom, rectF.Left, rectF.Top + arcTL);
+				borderPath.AddArc(rectF.Left, rectF.Top, arcTL, arcTL, 180f, 90f);
+				borderPath.AddArc(rectF.Right - arcTRX, rectF.Top, arcTR, arcTR, -90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top + arcTR, rectF.Right, rectF.Bottom);
 				borderPath.AddLine(rectF.Right, rectF.Bottom, rectF.Left, rectF.Bottom);
 				break;
 			case PaletteDrawBorders.BottomLeftRight:
@@ -4464,9 +5088,9 @@ public class RenderStandard : RenderBase
 				rectF.Width -= 1;
 				rectF.Height -= 1;
 
-				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom - arcLength);
-				borderPath.AddArc(rectF.Right - arcLength, rectF.Bottom - arcLength, arcLength, arcLength, 0f, 90f);
-				borderPath.AddArc(rectF.Left, rectF.Bottom - arcLength, arcLength, arcLength, 90f, 90f);
+				borderPath.AddLine(rectF.Right, rectF.Top, rectF.Right, rectF.Bottom - arcBRY);
+				borderPath.AddArc(rectF.Right - arcBRX, rectF.Bottom - arcBRY, arcBR, arcBR, 0f, 90f);
+				borderPath.AddArc(rectF.Left, rectF.Bottom - arcBLY, arcBL, arcBL, 90f, 90f);
 				borderPath.AddLine(rectF.Left, rectF.Top, rectF.Right, rectF.Top);
 				break;
 		}
@@ -5418,7 +6042,7 @@ public class RenderStandard : RenderBase
 			default:
 				// Should never happen!
 				Debug.Assert(false);
-				throw new ArgumentOutOfRangeException(nameof(imageStyle));
+				return ThrowHelper.ThrowArgumentOutOfRangeException<Brush>(nameof(imageStyle));
 		}
 
 		return brush;
@@ -5823,11 +6447,14 @@ public class RenderStandard : RenderBase
 					|| (displayRect.Height < memento.Image.Height)
 				   )
 				{
-					var ratio = 1.0f * Math.Min(memento.Image.Width, memento.Image.Height) / Math.Max(memento.Image.Width, memento.Image.Height);
+					float ratio = Math.Min(displayRect.Width / (float)memento.Image.Width,
+						displayRect.Height / (float)memento.Image.Height);
+
+					bool avoidPurple = memento.ImageTransparentColor != SharedStaticVariables.EMPTY_COLOR;
 
 					// Resize image to fit display area
-					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, displayRect.Width * ratio,
-						displayRect.Height * ratio, false);
+					memento.Image = CommonHelper.ScaleImageForSizedDisplay(memento.Image, memento.Image.Width * ratio,
+						memento.Image.Height * ratio, avoidPurple);
 				}
 
 				if (memento.Image != null)
@@ -5871,6 +6498,7 @@ public class RenderStandard : RenderBase
 			memento.OverlayImageScaleMode = contentValues.GetOverlayImageScaleMode(state);
 			memento.OverlayImageScaleFactor = contentValues.GetOverlayImageScaleFactor(state);
 			memento.OverlayImageFixedSize = contentValues.GetOverlayImageFixedSize(state);
+			memento.OverlayImageRightToLeft = rtl;
 
 			if (memento.OverlayImage != null)
 			{
@@ -6065,7 +6693,7 @@ public class RenderStandard : RenderBase
 			default:
 				// Should never happen!
 				Debug.Assert(false);
-				throw new ArgumentOutOfRangeException(nameof(align));
+				return ThrowHelper.ThrowArgumentOutOfRangeException<int>(nameof(align));
 		}
 	}
 
@@ -6360,7 +6988,7 @@ public class RenderStandard : RenderBase
 			memento.ImageRect.Location = PositionCellContent(rtl, posHImage, drawVImage, memento.ImageRect.Size, spacingGap, ref cellRect);
 
 			// Recalculate overlay image position now that main image location is set
-			if (memento.DrawOverlayImage && memento.OverlayImage != null)
+			if (memento is { DrawOverlayImage: true, OverlayImage: not null })
 			{
 				try
 				{
@@ -6398,16 +7026,13 @@ public class RenderStandard : RenderBase
 		// If drawing from right to left...
 		if (rtl == RightToLeft.Yes)
 		{
-			switch (drawH)
+			drawH = drawH switch
 			{
 				// Then invert the near and far positioning
-				case PaletteRelativeAlign.Near:
-					drawH = PaletteRelativeAlign.Far;
-					break;
-				case PaletteRelativeAlign.Far:
-					drawH = PaletteRelativeAlign.Near;
-					break;
-			}
+				PaletteRelativeAlign.Near => PaletteRelativeAlign.Far,
+				PaletteRelativeAlign.Far => PaletteRelativeAlign.Near,
+				_ => drawH
+			};
 		}
 
 		switch (drawH)
@@ -6711,8 +7336,8 @@ public class RenderStandard : RenderBase
 			new RectangleF(drawRect.X - 1, drawRect.Y - 1, drawRect.Width + 2, drawRect.Height + 1);
 		var rectInside =
 			new Rectangle(drawRect.X + 2, drawRect.Y + 2, drawRect.Width - 4, drawRect.Height - 4);
-		using GraphicsPath borderPath = CreateBorderBackPath(true, true, drawRect, PaletteDrawBorders.All, 1, rounding, 0),
-			insidePath = CreateBorderBackPath(true, true, rectInside, PaletteDrawBorders.All, 1, rounding - 1, 0);
+		using GraphicsPath borderPath = CreateBorderBackPath(true, true, drawRect, PaletteDrawBorders.All, 1, PaletteCornerRounding.Uniform(rounding), 0),
+			insidePath = CreateBorderBackPath(true, true, rectInside, PaletteDrawBorders.All, 1, PaletteCornerRounding.Uniform(rounding - 1), 0);
 		using (var borderBrush = new SolidBrush(Color.FromArgb(196, Color.White)))
 		{
 			context.Graphics.FillPath(borderBrush, borderPath);
@@ -6838,12 +7463,12 @@ public class RenderStandard : RenderBase
 	{
 		if (g == null)
 		{
-			throw new ArgumentNullException(nameof(g));
+			ThrowHelper.ThrowArgumentNullException(nameof(g));
 		}
 
 		if (dragData == null)
 		{
-			throw new ArgumentNullException(nameof(dragData));
+			ThrowHelper.ThrowArgumentNullException(nameof(dragData));
 		}
 
 		Color start = Color.FromArgb(190, 190, 190);
@@ -6990,7 +7615,7 @@ public class RenderStandard : RenderBase
 	{
 		if (g == null)
 		{
-			throw new ArgumentNullException(nameof(g));
+			ThrowHelper.ThrowArgumentNullException(nameof(g));
 		}
 
 		Color borderColour = ControlPaint.Dark(activeColor);
@@ -8201,7 +8826,7 @@ public class RenderStandard : RenderBase
 				cache.Dispose();
 
 				// If c5 has a colour then use that to highlight the tab
-				if (c5 != GlobalStaticValues.EMPTY_COLOR)
+				if (c5 != SharedStaticVariables.EMPTY_COLOR)
 				{
 					if (!standard)
 					{
@@ -8478,7 +9103,7 @@ public class RenderStandard : RenderBase
 				cache.Dispose();
 
 				// If c5 has a colour then use that to highlight the tab
-				if (c5 != GlobalStaticValues.EMPTY_COLOR)
+				if (c5 != SharedStaticVariables.EMPTY_COLOR)
 				{
 					c1 = c5;
 					c2 = CommonHelper.MergeColors(c2, 0.8f, ControlPaint.Light(c5), 0.2f);
@@ -9405,7 +10030,7 @@ public class RenderStandard : RenderBase
 				cache.Dispose();
 
 				// If we have a context color to use then modify the drawing colors
-				if (c5 != GlobalStaticValues.EMPTY_COLOR)
+				if (c5 != SharedStaticVariables.EMPTY_COLOR)
 				{
 					if (!standard)
 					{
@@ -9437,7 +10062,7 @@ public class RenderStandard : RenderBase
 
 			context.Graphics.FillPath(cache.CenterBrush!, cache.OutsidePath!);
 
-			if (c5 != GlobalStaticValues.EMPTY_COLOR)
+			if (c5 != SharedStaticVariables.EMPTY_COLOR)
 			{
 				context.Graphics.FillPath(cache.InsideBrush!, cache.InsidePath!);
 			}
@@ -10458,7 +11083,7 @@ public class RenderStandard : RenderBase
 			Color topDark = palette.GetRibbonBackColor3(state);
 			Color bottomLight = palette.GetRibbonBackColor4(state);
 			Color bottomMedium = palette.GetRibbonBackColor5(state);
-			Color bottomDark = CommonHelper.MergeColors(topDark, 0.78f, GlobalStaticValues.EMPTY_COLOR, 0.22f);
+			Color bottomDark = CommonHelper.MergeColors(topDark, 0.78f, SharedStaticVariables.EMPTY_COLOR, 0.22f);
 
 			var generate = true;
 			MementoRibbonAppButton cache;
@@ -10955,7 +11580,7 @@ public class RenderStandard : RenderBase
 					90f);
 
 				cache.PressedFillBrush = new LinearGradientBrush(new RectangleF(rect.X - 1, rect.Y - 1, rect.Width + 2, rect.Height + 2),
-					Color.FromArgb((dark ? GlobalStaticValues.EMPTY_COLOR : _whiten10).A, cache.C4),
+					Color.FromArgb((dark ? SharedStaticVariables.EMPTY_COLOR : _whiten10).A, cache.C4),
 					Color.FromArgb((dark ? _darken38 : _darken16).A, cache.C5),
 					90f);
 				cache.TrackFillBrush.Blend = _linear50Blend;
@@ -11503,6 +12128,27 @@ public class RenderStandard : RenderBase
 	}
 
 	/// <summary>
+	/// True when Office 2007 QAT minibar chrome should be mirrored (orb-side tail on the right).
+	/// </summary>
+	private static bool IsQatMinibarRtl(RenderContext context) =>
+		CommonHelper.IsRightToLeftLayout(context.Control)
+		|| CommonHelper.IsRightToLeftLayout(context.TopControl);
+
+	/// <summary>
+	/// Horizontally mirrors QAT minibar paths around <paramref name="rect"/> without flipping child glyphs.
+	/// </summary>
+	private static void MirrorQatMinibarPaths(Rectangle rect,
+		GraphicsPath borderPath,
+		GraphicsPath topRight1,
+		GraphicsPath bottomLeft1)
+	{
+		using var mirror = new Matrix(-1f, 0f, 0f, 1f, rect.Left + rect.Right, 0f);
+		borderPath.Transform(mirror);
+		topRight1.Transform(mirror);
+		bottomLeft1.Transform(mirror);
+	}
+
+	/// <summary>
 	/// Internal rendering method.
 	/// </summary>
 	protected virtual IDisposable? DrawRibbonQATMinibarSingle(RenderContext context,
@@ -11518,6 +12164,7 @@ public class RenderStandard : RenderBase
 			Color c3 = palette.GetRibbonBackColor3(state);
 			Color c4 = palette.GetRibbonBackColor4(state);
 			Color c5 = palette.GetRibbonBackColor5(state);
+			var isRtl = IsQatMinibarRtl(context);
 
 			var generate = true;
 			MementoRibbonQATMinibar cache;
@@ -11526,13 +12173,16 @@ public class RenderStandard : RenderBase
 			if (memento is MementoRibbonQATMinibar minibar)
 			{
 				cache = minibar;
-				generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
+				generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, isRtl);
 			}
 			else
 			{
 				memento?.Dispose();
 
-				cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5);
+				cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5)
+				{
+					Rtl = isRtl
+				};
 				memento = cache;
 			}
 
@@ -11592,6 +12242,11 @@ public class RenderStandard : RenderBase
 				cache.InnerBrush = new LinearGradientBrush(gradientRect, c2, c3, 90f);
 				cache.InnerBrush.SetSigmaBellShape(0.5f);
 
+				if (isRtl)
+				{
+					MirrorQatMinibarPaths(rect, borderPath, topRight1, bottomLeft1);
+				}
+
 				cache.BorderPath = borderPath;
 				cache.TopRight1 = topRight1;
 				cache.BottomLeft1 = bottomLeft1;
@@ -11609,10 +12264,18 @@ public class RenderStandard : RenderBase
 			context.Graphics.FillPath(cache.InnerBrush!, cache.BorderPath!);
 			context.Graphics.DrawPath(cache.BorderPen!, cache.BorderPath!);
 
-			// Overdraw top for lighter effect
+			// Overdraw top for lighter effect (insets follow the orb-side tail).
 			context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 10, rect.Top + 2, rect.Right - 10, rect.Top + 2);
-			context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
-			context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
+			if (isRtl)
+			{
+				context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 8, rect.Top + 3, rect.Right - 12, rect.Top + 3);
+				context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 7, rect.Top + 4, rect.Right - 14, rect.Top + 4);
+			}
+			else
+			{
+				context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 12, rect.Top + 3, rect.Right - 8, rect.Top + 3);
+				context.Graphics.DrawLine(cache.WhitenPen!, rect.Left + 14, rect.Top + 4, rect.Right - 7, rect.Top + 4);
+			}
 		}
 
 		return memento;
@@ -11634,6 +12297,7 @@ public class RenderStandard : RenderBase
 			Color c3 = palette.GetRibbonBackColor3(state);
 			Color c4 = palette.GetRibbonBackColor4(state);
 			Color c5 = palette.GetRibbonBackColor5(state);
+			var isRtl = IsQatMinibarRtl(context);
 
 			var generate = true;
 			MementoRibbonQATMinibar cache;
@@ -11642,13 +12306,16 @@ public class RenderStandard : RenderBase
 			if (memento is MementoRibbonQATMinibar minibar)
 			{
 				cache = minibar;
-				generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5);
+				generate = !cache.UseCachedValues(rect, c1, c2, c3, c4, c5, isRtl);
 			}
 			else
 			{
 				memento?.Dispose();
 
-				cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5);
+				cache = new MementoRibbonQATMinibar(rect, c1, c2, c3, c4, c5)
+				{
+					Rtl = isRtl
+				};
 				memento = cache;
 			}
 
@@ -11708,6 +12375,11 @@ public class RenderStandard : RenderBase
 				gradientRect.Height *= 1.25f;
 				cache.InnerBrush = new LinearGradientBrush(gradientRect, c2, c3, 90f);
 				cache.InnerBrush.SetSigmaBellShape(0.5f);
+
+				if (isRtl)
+				{
+					MirrorQatMinibarPaths(rect, borderPath, topRight1, bottomLeft1);
+				}
 
 				cache.BorderPath = borderPath;
 				cache.TopRight1 = topRight1;
@@ -12187,7 +12859,7 @@ public class RenderStandard : RenderBase
 			context.Graphics.FillRectangle(cache.BackBrush!, rect);
 
 			using var aa = new AntiAlias(context.Graphics);
-			if (shape == PaletteRibbonShape.Office2010)
+			if (shape is PaletteRibbonShape.Office2010 or PaletteRibbonShape.OSXAqua or PaletteRibbonShape.MacOS)
 			{
 				context.Graphics.DrawPolygon(cache.BorderPen!, new[]{
 					new Point(rect.Left + 1, rect.Top), new Point(rect.Right - 2, rect.Top),
@@ -12233,6 +12905,7 @@ public class RenderStandard : RenderBase
 		public OverlayImageScaleMode OverlayImageScaleMode;
 		public float OverlayImageScaleFactor;
 		public Size OverlayImageFixedSize;
+		public RightToLeft OverlayImageRightToLeft;
 		public PaletteTextTrim ShortTextTrimming;
 		public AccurateTextMemento? ShortTextMemento;
 		public Rectangle ShortTextRect;
@@ -12255,6 +12928,7 @@ public class RenderStandard : RenderBase
 			OverlayImageScaleMode = OverlayImageScaleMode.None;
 			OverlayImageScaleFactor = 0.5f;
 			OverlayImageFixedSize = new Size(16, 16);
+			OverlayImageRightToLeft = RightToLeft.No;
 		}
 
 		/// <summary>
@@ -12444,7 +13118,7 @@ public class RenderStandard : RenderBase
 					float propTargetSize = propMainImageMinDim * OverlayImageScaleFactor;
 
 					// Validate target size and overlay dimensions before division
-					if (propTargetSize > 0 && originalOverlaySize.Width > 0 && originalOverlaySize.Height > 0)
+					if (propTargetSize > 0 && originalOverlaySize is { Width: > 0, Height: > 0 })
 					{
 						// Calculate scale to fit target size while maintaining aspect ratio
 						float propScale = Math.Min(
@@ -12463,11 +13137,25 @@ public class RenderStandard : RenderBase
 			// Ensure minimum size of 1x1
 			overlaySize = new Size(Math.Max(1, overlaySize.Width), Math.Max(1, overlaySize.Height));
 
+			// Mirror Left/Right corners when the host control is right-to-left.
+			OverlayImagePosition position = OverlayImagePosition;
+			if (OverlayImageRightToLeft == RightToLeft.Yes)
+			{
+				position = position switch
+				{
+					OverlayImagePosition.TopLeft => OverlayImagePosition.TopRight,
+					OverlayImagePosition.TopRight => OverlayImagePosition.TopLeft,
+					OverlayImagePosition.BottomLeft => OverlayImagePosition.BottomRight,
+					OverlayImagePosition.BottomRight => OverlayImagePosition.BottomLeft,
+					_ => position
+				};
+			}
+
 			// Calculate position based on main image rectangle and overlay position
 			int overlayX = 0;
 			int overlayY = 0;
 
-			switch (OverlayImagePosition)
+			switch (position)
 			{
 				case OverlayImagePosition.TopLeft:
 					overlayX = mainImageRect.Left;

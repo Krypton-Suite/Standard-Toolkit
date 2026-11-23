@@ -224,12 +224,12 @@ public class ProgressBarTriStateValues : Storage
         {
             if (_autoCalculateThresholds)
             {
-                throw new InvalidOperationException(@"LowThreshold cannot be set when AutoCalculateThresholds is enabled.");
+                ThrowHelper.ThrowInvalidOperationException(@"LowThreshold cannot be set when AutoCalculateThresholds is enabled.");
             }
 
             if (value < 0 || (_owner != null && value > _owner.Maximum))
             {
-                throw new ArgumentOutOfRangeException(nameof(LowThreshold), value, @"LowThreshold must be between 0 and Maximum.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(LowThreshold), value, @"LowThreshold must be between 0 and Maximum.");
             }
 
             if (_lowThreshold == value)
@@ -278,12 +278,12 @@ public class ProgressBarTriStateValues : Storage
         {
             if (_autoCalculateThresholds)
             {
-                throw new InvalidOperationException(@"HighThreshold cannot be set when AutoCalculateThresholds is enabled.");
+                ThrowHelper.ThrowInvalidOperationException(@"HighThreshold cannot be set when AutoCalculateThresholds is enabled.");
             }
 
             if (value < 0 || (_owner != null && value > _owner.Maximum))
             {
-                throw new ArgumentOutOfRangeException(nameof(HighThreshold), value, @"HighThreshold must be between 0 and Maximum.");
+                ThrowHelper.ThrowArgumentOutOfRangeException(nameof(HighThreshold), value, @"HighThreshold must be between 0 and Maximum.");
             }
 
             if (_highThreshold == value)

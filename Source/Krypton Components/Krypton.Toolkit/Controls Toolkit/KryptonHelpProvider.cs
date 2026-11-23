@@ -15,7 +15,7 @@ using Timer = System.Windows.Forms.Timer;
 /// Provides pop-up or online Help for controls.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(HelpProvider))]
+[ToolboxBitmap(typeof(HelpProvider), "ToolboxBitmaps.KryptonHelpProvider.bmp")]
 [DefaultEvent(nameof(HelpRequested))]
 [DefaultProperty(nameof(HelpNamespace))]
 [DesignerCategory(@"code")]
@@ -246,7 +246,7 @@ public class KryptonHelpProvider : Component, IExtenderProvider
         }
     }
 
-    private bool ShouldSerializeToolTipValues() => _toolTipValues != null && !_toolTipValues.IsDefault;
+    private bool ShouldSerializeToolTipValues() => _toolTipValues is { IsDefault: false };
 
     private void ResetToolTipValues() => _toolTipValues?.Reset();
 

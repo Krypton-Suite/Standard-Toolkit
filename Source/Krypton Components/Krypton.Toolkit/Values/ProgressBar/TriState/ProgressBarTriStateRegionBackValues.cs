@@ -16,6 +16,7 @@ public class ProgressBarTriStateRegionBackValues : Storage
     #region Instance Fields
 
     private readonly ProgressBarTriStateRegionStateValues _parent;
+    private readonly Color _factoryColor1;
     private Color _color1;
     private Color _color2;
     private PaletteColorStyle _colorStyle;
@@ -37,6 +38,7 @@ public class ProgressBarTriStateRegionBackValues : Storage
     public ProgressBarTriStateRegionBackValues(ProgressBarTriStateRegionStateValues parent, Color defaultColor1)
     {
         _parent = parent;
+        _factoryColor1 = defaultColor1;
         _color1 = defaultColor1;
         _color2 = Color.Empty;
         _colorStyle = PaletteColorStyle.Inherit;
@@ -68,8 +70,6 @@ public class ProgressBarTriStateRegionBackValues : Storage
 
     [Category(@"Visuals")]
     [Description(@"First background color.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
-    [KryptonDefaultColor]
     public Color Color1
     {
         get => _color1;
@@ -85,9 +85,15 @@ public class ProgressBarTriStateRegionBackValues : Storage
         }
     }
 
+    private bool ShouldSerializeColor1() => _color1 != _factoryColor1;
+
+    /// <summary>
+    /// Resets the <see cref="Color1"/> property to its default value.
+    /// </summary>
+    public void ResetColor1() => Color1 = _factoryColor1;
+
     [Category(@"Visuals")]
     [Description(@"Second background color. Empty uses default.")]
-    [DefaultValue(typeof(Color), nameof(Color.Empty))]
     [KryptonDefaultColor]
     public Color Color2
     {
@@ -161,6 +167,7 @@ public class ProgressBarTriStateRegionBackValues : Storage
     [Category(@"Visuals")]
     [Description(@"Background image. Null uses default.")]
     [DefaultValue(null)]
+    [Editor(KryptonWinFormsDesignerSdk.ImageEditor, typeof(UITypeEditor))]
     public Image? Image
     {
         get => _image;
@@ -233,7 +240,7 @@ public class ProgressBarTriStateRegionBackValues : Storage
     #region Public Overrides
 
     /// <inheritdoc />
-    public override string ToString() => !IsDefault ? "Modified" : GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public override string ToString() => !IsDefault ? "Modified" : SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     #endregion
 }

@@ -15,7 +15,7 @@ namespace Krypton.Toolkit;
 /// Implements a timer that raises an event at user-defined intervals with Krypton integration.
 /// </summary>
 [ToolboxItem(true)]
-[ToolboxBitmap(typeof(Timer))]
+[ToolboxBitmap(typeof(Timer), "ToolboxBitmaps.KryptonTimer.bmp")]
 [DefaultEvent(nameof(Tick))]
 [DefaultProperty(nameof(Interval))]
 [DesignerCategory(@"code")]

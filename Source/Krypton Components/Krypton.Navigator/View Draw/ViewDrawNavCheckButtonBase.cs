@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
@@ -116,7 +116,7 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
     {
         Debug.Assert(navigator is not null);
 
-        Navigator = navigator ?? throw new ArgumentNullException(nameof(navigator));
+        Navigator = navigator ?? ThrowHelper.ThrowArgumentNullException(navigator);
         _page = page;
         _lastClick = DateTime.Now.AddDays(-1);
 
@@ -143,6 +143,7 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
         // Push values into the base class
         SetPalettes(_overrideDisabled, _overrideNormal, _overrideTracking, _overridePressed);
         SetCheckedPalettes(_overrideSelected, _overrideSelected, _overrideSelected);
+        UpdateBadgeMapping();
 
         // Are we allowed to add button specs to the button?
         if (AllowButtonSpecs)
@@ -271,6 +272,8 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
                     _overridePressed.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StatePressed.CheckButton);
                     _overrideSelected.SetPalettes(Navigator.OverrideFocus.CheckButton, Navigator.StateSelected.CheckButton);
                 }
+
+                UpdateBadgeMapping();
             }
         }
     }
@@ -348,7 +351,7 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public virtual Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public virtual Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.
@@ -544,5 +547,13 @@ internal abstract class ViewDrawNavCheckButtonBase : ViewDrawButton,
     private void OnButtonDragRectangle(object? sender, ButtonDragRectangleEventArgs e) => ButtonDragRectangle?.Invoke(this, e);
 
     private void OnButtonDragOffset(object? sender, ButtonDragOffsetEventArgs e) => ButtonDragOffset?.Invoke(this, e);
+
+    private void UpdateBadgeMapping()
+    {
+        if (_page != null)
+        {
+            SetBadgeValues(_page.BadgeValues, Navigator);
+        }
+    }
     #endregion
 }

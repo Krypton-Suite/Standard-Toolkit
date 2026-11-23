@@ -16,6 +16,13 @@ public partial class ButtonsTest : KryptonForm
         InitializeComponent();
         kcbColorScheme.SelectedItem = "OfficeThemes";
         kcbSortMode.Enabled = false;
+
+        // #1673 sample: progress bar in the shared UAC drop-down context menu
+        kryptonContextMenuItems1.Items.Insert(0, new KryptonContextMenuProgressBar
+        {
+            MinimumWidth = 200,
+            Value = 42
+        });
     }
 
     private void kcbtnDropDown_SelectedColorChanged(object sender, ColorEventArgs e)
@@ -37,10 +44,11 @@ public partial class ButtonsTest : KryptonForm
     private void kryptonCommand1_Execute(object sender, EventArgs e)
     {
         var typeName = sender.GetType().FullName;
-        var item = sender as KryptonContextMenuItem;
-        var paramText = item?.CommandParameter is string s ? s : "<no param>";
+        var parameter = e is KryptonCommandExecuteEventArgs executeArgs
+            ? executeArgs.Parameter?.ToString() ?? "<no param>"
+            : KryptonCommandContext.GetCommandParameter(sender)?.ToString() ?? "<no param>";
 
-        KryptonMessageBox.Show($"Command executed by:\nType: {typeName}\nParam: {paramText}", "Context Item Called");
+        KryptonMessageBox.Show($"Command executed by:\nType: {typeName}\nParam: {parameter}", "Context Item Called");
     }
 
     private void kcbSortMode_SelectedIndexChanged(object sender, EventArgs e)
@@ -67,7 +75,7 @@ public partial class ButtonsTest : KryptonForm
 
     private void KryptonCalcInput1_ButtonSpecClicked(object sender, ButtonSpecEventArgs e)
     {
-        if (e.ButtonSpec is ButtonSpecAny any && any.Type == PaletteButtonSpecStyle.Close)
+        if (e.ButtonSpec is ButtonSpecAny { Type: PaletteButtonSpecStyle.Close })
         {
             KryptonCalcInput1.Value = 0m;
         }

@@ -5,12 +5,10 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, (Version 4.5.0.0) All rights reserved.
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  */
 #endregion
-
-using Timer = System.Windows.Forms.Timer;
 
 namespace Krypton.Docking;
 
@@ -25,7 +23,6 @@ public class DockingDragManager : DragManager,
     private readonly KryptonDockingManager _manager;
     private Point _offset;
     private Point _screenPt;
-    private readonly Timer _moveTimer;
     private bool _addedFilter;
     private bool _monitorMouse;
     #endregion
@@ -40,16 +37,6 @@ public class DockingDragManager : DragManager,
     {
         _manager = manager;
         _offset = Point.Empty;
-
-        // Timer is kept for backward compatibility but no longer used for position updates
-        // Position updates now happen immediately in DragMove for responsive dragging
-        // Use timer to ensure we do not update the display too quickly which then causes tearing
-        // TODO: Remove in a future version
-        _moveTimer = new Timer
-        {
-            Interval = 10
-        };
-        _moveTimer.Tick += OnFloatingWindowMove;
     }
 
     /// <summary>
@@ -62,11 +49,6 @@ public class DockingDragManager : DragManager,
 
         // Remove any temporary pages created during the dragging process that are used to prevent cells being removed 
         _manager.PropogateAction(DockingPropogateAction.ClearStoredPages, new[] { "TemporaryPage" });
-
-        // Remember to unhook event and dispose timer to prevent resource leak
-        _moveTimer.Tick -= OnFloatingWindowMove;
-        _moveTimer.Stop();
-        _moveTimer.Dispose();
 
         base.Dispose(disposing);
     }
@@ -141,14 +123,6 @@ public class DockingDragManager : DragManager,
                 FloatingWindow.Height,
                 BoundsSpecified.Location);
         }
-    }
-
-    private void OnFloatingWindowMove(object? sender, EventArgs e)
-    {
-        _moveTimer.Stop();
-
-        // This method is no longer used but kept for backward compatibility
-        // Position updates now happen immediately in DragMove
     }
 
     /// <summary>

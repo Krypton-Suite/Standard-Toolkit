@@ -2,7 +2,7 @@
 /*
  *
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner(aka Wagnerp) & Simon Coghlan(aka Smurf-IV), et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *
  */
 #endregion
@@ -68,8 +68,8 @@ public class InternalCommandLinkImageValues : Storage, IContentValues
             }
         }
     }
-    private bool ShouldSerializeImageTransparentColor() => _transparencyKey != GlobalStaticValues.EMPTY_COLOR;
-    private void ResetImageTransparentColor() => ImageTransparentColor = GlobalStaticValues.EMPTY_COLOR;
+    private bool ShouldSerializeImageTransparentColor() => _transparencyKey != SharedStaticVariables.EMPTY_COLOR;
+    private void ResetImageTransparentColor() => ImageTransparentColor = SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>The UAC image.</summary>
     [Category("Visuals")]
@@ -117,10 +117,10 @@ public class InternalCommandLinkImageValues : Storage, IContentValues
     public Color GetImageTransparentColor(PaletteState state) => ImageTransparentColor;
 
     /// <inheritdoc />
-    public string GetShortText() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public string GetShortText() => SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     /// <inheritdoc />
-    public string GetLongText() => GlobalStaticValues.DEFAULT_EMPTY_STRING;
+    public string GetLongText() => SharedStaticVariables.DEFAULT_EMPTY_STRING;
 
     /// <summary>
     /// Gets the overlay image.
@@ -134,7 +134,7 @@ public class InternalCommandLinkImageValues : Storage, IContentValues
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

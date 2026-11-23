@@ -1,5 +1,3 @@
 @echo off
 
-cd ..
-
-run.cmd
+call "%~dp0..\run.cmd"

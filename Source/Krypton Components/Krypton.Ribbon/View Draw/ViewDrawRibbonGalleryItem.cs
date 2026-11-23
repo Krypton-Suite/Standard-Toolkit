@@ -5,7 +5,7 @@
  *  © Component Factory Pty Ltd, 2006 - 2016, All rights reserved.
  * 
  *  New BSD 3-Clause License (https://github.com/Krypton-Suite/Standard-Toolkit/blob/master/LICENSE)
- *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac & Ahmed Abdelhameed et al. 2017 - 2026. All rights reserved.
+ *  Modifications by Peter Wagner (aka Wagnerp), Simon Coghlan (aka Smurf-IV), Giduac, Ahmed Abdelhameed, tobitege,  KamaniAR, Lesandro Gotardo (aka lesandrog), Jorge A. Avilés (aka mcpbcs) et al. 2017 - 2026. All rights reserved.
  *  
  *  Modified: Monday 12th April, 2021 @ 18:00 GMT
  *
@@ -164,22 +164,19 @@ internal class ViewDrawRibbonGalleryItem : ViewDrawButton,
 
         if ( context is null)
         {
-            throw new ArgumentNullException(nameof(context));
+            ThrowHelper.ThrowArgumentNullException(nameof(context));
         }
 
         // If this item is being tracked, then show as tracking
         PaletteState tempState = ElementState;
         if (_gallery.TrackingIndex == _imageIndex)
         {
-            switch (tempState)
+            ElementState = tempState switch
             {
-                case PaletteState.Normal:
-                    ElementState = PaletteState.Tracking;
-                    break;
-                case PaletteState.CheckedNormal:
-                    ElementState = PaletteState.CheckedTracking;
-                    break;
-            }
+                PaletteState.Normal => PaletteState.Tracking,
+                PaletteState.CheckedNormal => PaletteState.CheckedTracking,
+                _ => ElementState
+            };
         }
 
         // Let base class draw using the temp state, then put back to original
@@ -234,7 +231,7 @@ internal class ViewDrawRibbonGalleryItem : ViewDrawButton,
     /// </summary>
     /// <param name="state">The state for which the overlay image is needed.</param>
     /// <returns>Color value.</returns>
-    public Color GetOverlayImageTransparentColor(PaletteState state) => GlobalStaticValues.EMPTY_COLOR;
+    public Color GetOverlayImageTransparentColor(PaletteState state) => SharedStaticVariables.EMPTY_COLOR;
 
     /// <summary>
     /// Gets the position of the overlay image relative to the main image.

@@ -57,6 +57,11 @@
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\..\ItemTemplates\KryptonCaptionForm\**\*">
+      <Link>ItemTemplates\CSharp\1033\KryptonCaptionForm\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\..\ProjectTemplates\KryptonWinFormsApp\**\*" Exclude="..\..\ProjectTemplates\KryptonWinFormsApp\**\bin\**;..\..\ProjectTemplates\KryptonWinFormsApp\**\obj\**">
       <Link>ProjectTemplates\CSharp\1033\KryptonWinFormsApp\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
@@ -64,6 +69,11 @@
     </Content>
     <Content Include="..\..\ProjectTemplates\KryptonRibbonWinFormsApp\**\*" Exclude="..\..\ProjectTemplates\KryptonRibbonWinFormsApp\**\bin\**;..\..\ProjectTemplates\KryptonRibbonWinFormsApp\**\obj\**">
       <Link>ProjectTemplates\CSharp\1033\KryptonRibbonWinFormsApp\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <IncludeInVSIX>true</IncludeInVSIX>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\ProjectTemplates\KryptonCaptionWinFormsApp\**\*" Exclude="..\..\ProjectTemplates\KryptonCaptionWinFormsApp\**\bin\**;..\..\ProjectTemplates\KryptonCaptionWinFormsApp\**\obj\**">
+      <Link>ProjectTemplates\CSharp\1033\KryptonCaptionWinFormsApp\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <IncludeInVSIX>true</IncludeInVSIX>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>

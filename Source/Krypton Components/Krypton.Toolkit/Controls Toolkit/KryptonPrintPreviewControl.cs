@@ -452,7 +452,7 @@ public class KryptonPrintPreviewControl : VisualControlBase
                 Rectangle fillRect = _layoutFill.FillRect;
 
                 // Position the internal print preview control to fill the available space
-                if (fillRect.Width > 0 && fillRect.Height > 0)
+                if (fillRect is { Width: > 0, Height: > 0 })
                 {
                     _previewControl.SetBounds(fillRect.X, fillRect.Y, fillRect.Width, fillRect.Height);
                 }
