@@ -121,12 +121,18 @@ body:
       description: Select all that apply.
       multiple: false
       options:
+        - Charting
+        - Dialogs
         - Docking
         - Docking Utilities
+        - Drawing
+        - Gauges
         - Navigator
         - Navigator Utilities
         - Ribbon
         - Ribbon Utilities
+        - Shared
+        - Themes
         - Toolkit
         - Toolkit Utilities
         - Workspace

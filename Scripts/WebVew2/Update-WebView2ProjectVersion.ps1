@@ -2,7 +2,7 @@
 # Script to update the project file with the latest WebView2 SDK version
 
 param(
-    [string]$ProjectPath = "Source/Krypton Components/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj",
+    [string]$ProjectPath = "Source/Krypton Components/Utilities/Krypton.Toolkit.Utilities/Krypton.Toolkit.Utilities.csproj",
     [switch]$WhatIf = $false
 )
 

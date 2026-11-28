@@ -98,9 +98,15 @@ jobs:
             // Map area names to label search patterns
             // The workflow will dynamically find matching labels from the repository
             const areaToLabelPattern = {
+              'Charting': 'area:charting',
+              'Dialogs': 'area:dialogs',
               'Docking': 'area:docking',
+              'Drawing': 'area:drawing',
+              'Gauges': 'area:gauges',
               'Navigator': 'area:navigator',
               'Ribbon': 'area:ribbon',
+              'Shared': 'area:shared',
+              'Themes': 'area:themes',
               'Toolkit': 'area:toolkit',
               'Toolkit Utilities': 'area:toolkit-utilities',
               'Navigator Utilities': 'area:navigator-utilities',

@@ -31,7 +31,7 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 $utilitiesDll = Join-Path $bin 'Krypton.Toolkit.Utilities.dll'
 if (Test-Path -LiteralPath $utilitiesDll) {
@@ -206,7 +206,7 @@ try {
         return 0
     }
 
-    $currentSchema = [Krypton.Interop.SharedStaticConstants]::CURRENT_SUPPORTED_PALETTE_VERSION
+    $currentSchema = [Krypton.Shared.SharedStaticConstants]::CURRENT_SUPPORTED_PALETTE_VERSION
     Assert-True ((Get-PaletteXmlVersion $xmlPath) -eq $currentSchema) 'Fresh XML export uses the current schema version'
 
     $schema21Xml = Join-Path $temp 'schema-21.xml'

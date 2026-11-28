@@ -76,12 +76,12 @@ jobs:
 
       - name: Restore TestForm
         run: >
-          dotnet restore "Source/Krypton Components/TestForm/TestForm.csproj"
+          dotnet restore "Source/TestHarnesses/TestForm/TestForm.csproj"
           -p:Configuration=Debug
 
       - name: Build TestForm
         run: >
-          dotnet build "Source/Krypton Components/TestForm/TestForm.csproj"
+          dotnet build "Source/TestHarnesses/TestForm/TestForm.csproj"
           -c Debug
           -f net472
           --no-restore

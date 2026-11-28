@@ -24,7 +24,7 @@ $bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -Tar
 Register-UnitTestAssemblyResolver -BinDir $bin
 
 Add-Type -AssemblyName System.Windows.Forms
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 
 $failed = New-Object System.Collections.Generic.List[string]

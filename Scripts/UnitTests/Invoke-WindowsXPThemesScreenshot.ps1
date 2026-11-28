@@ -29,7 +29,7 @@ $bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration $Configuration -Tar
 Register-UnitTestAssemblyResolver -BinDir $bin
 Initialize-UnitTestNativeInput
 
-foreach ($name in @('Krypton.Interop.dll', 'Krypton.Resources.dll', 'Krypton.Toolkit.dll', 'Krypton.Themes.dll')) {
+foreach ($name in @('Krypton.Shared.dll', 'Krypton.Resources.dll', 'Krypton.Toolkit.dll', 'Krypton.Themes.dll')) {
     $path = Join-Path $bin $name
     if (-not (Test-Path -LiteralPath $path)) {
         throw "Missing $path - build Krypton.Themes Debug $TargetFramework first."

@@ -1,15 +1,15 @@
-# Accessibility audit
+﻿# Accessibility audit
 
 Scores WCAG contrast for every built-in theme and smoke-tests the accessible object of every public Krypton control that has a parameterless constructor.
 
 `PaletteMode.Custom` and `PaletteMode.ProfessionalSystem` are not contrast-scored. Disabled palette states are reported and do not fail the run. The ten controls with a custom accessible object must report their expected role even when other misses are listed in the baseline. Text-entry controls report `Text`, combo box reports `ComboBox`, lists report `List`, the link label reports `Link`, and the up-down controls report `SpinButton` (the role of the inner control on .NET 10).
 
-The audit sets `KRYPTON_HEADLESS=1`. That tells `DebugTools.NotImplemented` to skip its modal dialog and return `ArgumentOutOfRangeException`, which the audit records as a skipped palette pair.
+The audit sets `KRYPTON_HEADLESS=1`. That tells `Shared.DebugTools.NotImplemented` to skip its modal dialog and return `ArgumentOutOfRangeException`, which the audit records as a skipped palette pair.
 
 From the repository root:
 
 ```cmd
-dotnet build "Source/TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj" -c Debug -f net10.0-windows -m:1 -p:BuildInParallel=false
+dotnet build "Source/TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj" -c Debug -f net10.0-windows -m:1 -p:BuildInParallel=false -p:Platform=AnyCPU
 Source\TestHarnesses\AccessibilityAudit\bin\Debug\net10.0-windows\AccessibilityAudit.exe --baseline Scripts\Accessibility\baseline.json --report accessibility-report.md
 ```
 

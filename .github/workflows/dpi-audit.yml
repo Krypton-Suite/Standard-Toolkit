@@ -86,11 +86,11 @@ jobs:
         with:
           dotnet-version: 11.0.x
 
-      - name: Setup .NET (11 preview fallback)
+      - name: Setup .NET (preview fallback)
         if: steps.kill_switch.outputs.enabled == 'true' && steps.setup_dotnet11_dpi.outcome == 'failure'
         uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 11.0.x
+          dotnet-version: ${{ vars.DOTNET_PREVIEW_SETUP_VERSION != '' && vars.DOTNET_PREVIEW_SETUP_VERSION || '12.0.x' }}
           dotnet-quality: preview
 
       # Toolkit graphs include net12.0-windows when USE_DOTNET_PREVIEW != false; restore needs a 12.x SDK (NETSDK1045 otherwise).
@@ -114,6 +114,7 @@ jobs:
         run: >
           dotnet restore "Source/TestHarnesses/AccessibilityAudit/AccessibilityAudit.csproj"
           -p:Configuration=Debug
+          -p:Platform=AnyCPU
 
       - name: Build AccessibilityAudit
         if: steps.kill_switch.outputs.enabled == 'true'
@@ -124,6 +125,7 @@ jobs:
           --no-restore
           -m:1
           -p:BuildInParallel=false
+          -p:Platform=AnyCPU
 
       - name: Run DPI audit
         id: audit

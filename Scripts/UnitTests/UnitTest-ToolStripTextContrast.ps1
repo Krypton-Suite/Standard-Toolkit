@@ -3,7 +3,7 @@
     Asserts #4373 ToolStrip item text contrasts with the strip background on every catalog theme.
 
 .DESCRIPTION
-    Loads Debug Krypton.Interop + Krypton.Toolkit + Krypton.Themes and checks
+    Loads Debug Krypton.Shared + Krypton.Toolkit + Krypton.Themes and checks
     ColorTable.ToolStripText against ToolStripGradientBegin (WCAG AA 4.5:1).
     Also asserts the themes from the issue screenshot (Office White, Office 2007 Black,
     Visual Studio 2010 variations) no longer use an unreadable historic alias.
@@ -32,7 +32,7 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 $themesDll = Join-Path $bin 'Krypton.Themes.dll'
 if (Test-Path -LiteralPath $themesDll) {

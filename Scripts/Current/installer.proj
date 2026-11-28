@@ -10,6 +10,9 @@
 	<Target Name="Clean">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Core\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Design\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Utilities\Krypton.*\*.csproj" />
 		</ItemGroup>
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true;Restore=true;RestoreForce=true" Targets="Restore" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Clean" />
@@ -18,6 +21,9 @@
 	<Target Name="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Core\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Design\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Utilities\Krypton.*\*.csproj" />
 		</ItemGroup>
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true;Restore=true;RestoreForce=true" Targets="Restore" />
 	</Target>
@@ -25,6 +31,9 @@
 	<Target Name="Build" DependsOnTargets="Restore">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Core\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Design\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Utilities\Krypton.*\*.csproj" />
 		</ItemGroup>
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" />
 	</Target>
@@ -39,12 +48,27 @@
 	<Target Name="PackAll">
 		<ItemGroup>
 			<Projects Include="..\..\Source\Krypton Components\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Core\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Design\Krypton.*\*.csproj" />
+			<Projects Include="..\..\Source\Krypton Components\Utilities\Krypton.*\*.csproj" />
 		</ItemGroup>
 		<ItemGroup>
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.json" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Core\Krypton.*\obj\*.json" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Design\Krypton.*\obj\*.json" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Utilities\Krypton.*\obj\*.json" />
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.cache" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Core\Krypton.*\obj\*.cache" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Design\Krypton.*\obj\*.cache" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Utilities\Krypton.*\obj\*.cache" />
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.targets" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Core\Krypton.*\obj\*.g.targets" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Design\Krypton.*\obj\*.g.targets" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Utilities\Krypton.*\obj\*.g.targets" />
 			<NugetAssets Include="..\..\Source\Krypton Components\Krypton.*\obj\*.g.props" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Core\Krypton.*\obj\*.g.props" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Design\Krypton.*\obj\*.g.props" />
+			<NugetAssets Include="..\..\Source\Krypton Components\Utilities\Krypton.*\obj\*.g.props" />
 		</ItemGroup>
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true;Restore=true;RestoreForce=true" Targets="Restore" />
 		<MSBuild Projects="@(Projects)" Properties="Configuration=$(Configuration);TFMs=all;ExcludeNet11=true" Targets="Clean" />

@@ -38,7 +38,7 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 Initialize-UnitTestNativeInput
-foreach ($name in @('Krypton.Interop.dll', 'Krypton.Resources.dll', 'Krypton.Toolkit.dll', 'Krypton.Themes.dll', 'Krypton.Toolkit.Utilities.dll', 'Krypton.Dialogs.dll')) {
+foreach ($name in @('Krypton.Shared.dll', 'Krypton.Resources.dll', 'Krypton.Toolkit.dll', 'Krypton.Themes.dll', 'Krypton.Toolkit.Utilities.dll', 'Krypton.Dialogs.dll')) {
     $path = Join-Path $bin $name
     if (Test-Path -LiteralPath $path) {
         [void][System.Reflection.Assembly]::LoadFrom($path)

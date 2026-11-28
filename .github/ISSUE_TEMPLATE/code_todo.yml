@@ -37,7 +37,7 @@ body:
     attributes:
       label: "Source location"
       description: "File path and line number, or a link to the source line on GitHub."
-      placeholder: "Source/Krypton Components/Krypton.Toolkit/Controls Toolkit/KryptonComboBox.cs:2666"
+      placeholder: "Source/Krypton Components/Core/Krypton.Toolkit/Controls Toolkit/KryptonComboBox.cs:2666"
     validations:
       required: true
 

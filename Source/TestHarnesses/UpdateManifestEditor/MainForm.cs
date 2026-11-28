@@ -50,13 +50,13 @@ namespace UpdateManifestEditor
                 editor.RowStyles.RemoveAt(editor.RowStyles.Count - 1);
             }
 
-            for (var index = 0; index < 9; index++)
+            for (var index = 0; index < 10; index++)
             {
                 editor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
             }
 
             editor.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            editor.RowCount = 25;
+            editor.RowCount = 26;
 
             lblBannerText = CreateEditorLabel("Banner text");
             txtBannerText = CreateEditorTextBox();
@@ -76,6 +76,8 @@ namespace UpdateManifestEditor
             cmbPulseStyle = CreateEditorCombo(new object[] { "default", "All", "Bottom" });
             lblPulseSpeed = CreateEditorLabel("Pulse speed");
             txtPulseSpeed = CreateEditorTextBox();
+            lblProgressDisplay = CreateEditorLabel("Progress");
+            cmbProgressDisplay = CreateEditorCombo(new object[] { "default", "progressBar", "transferSpeedGraph" });
 
             editor.Controls.Add(lblBannerText, 0, 15);
             editor.Controls.Add(txtBannerText, 1, 15);
@@ -95,8 +97,10 @@ namespace UpdateManifestEditor
             editor.Controls.Add(cmbPulseStyle, 1, 22);
             editor.Controls.Add(lblPulseSpeed, 0, 23);
             editor.Controls.Add(txtPulseSpeed, 1, 23);
-            editor.Controls.Add(lblNotes, 0, 24);
-            editor.Controls.Add(txtNotes, 1, 24);
+            editor.Controls.Add(lblProgressDisplay, 0, 24);
+            editor.Controls.Add(cmbProgressDisplay, 1, 24);
+            editor.Controls.Add(lblNotes, 0, 25);
+            editor.Controls.Add(txtNotes, 1, 25);
             editor.ResumeLayout();
         }
 
@@ -366,6 +370,7 @@ namespace UpdateManifestEditor
             txtPulseColor.Text = package.PulseColor;
             SelectCombo(cmbPulseStyle, string.IsNullOrWhiteSpace(package.PulseStyle) ? "default" : package.PulseStyle, "default");
             txtPulseSpeed.Text = package.PulseSpeed;
+            SelectCombo(cmbProgressDisplay, string.IsNullOrWhiteSpace(package.ProgressDisplay) ? "default" : package.ProgressDisplay, "default");
             txtNotes.Text = package.ReleaseNotes;
             _loading = false;
         }
@@ -396,6 +401,7 @@ namespace UpdateManifestEditor
             txtPulseColor.Text = string.Empty;
             cmbPulseStyle.SelectedIndex = -1;
             txtPulseSpeed.Text = string.Empty;
+            cmbProgressDisplay.SelectedIndex = -1;
             txtNotes.Text = string.Empty;
             _loading = false;
         }
@@ -432,6 +438,8 @@ namespace UpdateManifestEditor
             var style = cmbPulseStyle.SelectedItem as string;
             package.PulseStyle = style == null || style == "default" ? string.Empty : style;
             package.PulseSpeed = txtPulseSpeed.Text.Trim();
+            var progress = cmbProgressDisplay.SelectedItem as string;
+            package.ProgressDisplay = progress == null || progress == "default" ? string.Empty : progress;
             package.ReleaseNotes = txtNotes.Text;
         }
 
@@ -623,5 +631,7 @@ namespace UpdateManifestEditor
         private KryptonComboBox cmbPulseStyle;
         private KryptonLabel lblPulseSpeed;
         private KryptonTextBox txtPulseSpeed;
+        private KryptonLabel lblProgressDisplay;
+        private KryptonComboBox cmbProgressDisplay;
     }
 }

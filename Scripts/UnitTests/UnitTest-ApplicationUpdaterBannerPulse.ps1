@@ -13,7 +13,7 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Get-UnitTestRepoRoot
 $bin = Get-UnitTestBinDir -RepoRoot $repoRoot -Configuration Debug -TargetFramework net472
 Register-UnitTestAssemblyResolver -BinDir $bin
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Resources.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 $utilities = [System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.Utilities.dll'))

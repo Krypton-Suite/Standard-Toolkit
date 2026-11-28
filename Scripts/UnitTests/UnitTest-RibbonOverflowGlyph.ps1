@@ -3,7 +3,7 @@
     Asserts #4253 QAT overflow chevrons paint for Office 2007 and Office 2010 at 96/144/192 DPI.
 
 .DESCRIPTION
-    Loads Debug Krypton.Interop + Krypton.Toolkit and draws DrawRibbonOverflow into bitmaps
+    Loads Debug Krypton.Shared + Krypton.Toolkit and draws DrawRibbonOverflow into bitmaps
     whose resolution is 96, 144, and 192 DPI. Both the two-tone (Office 2007) and unified-colour
     (Office 2010) paths must produce opaque pixels, and the painted width must grow with DPI.
 
@@ -28,7 +28,7 @@ Register-UnitTestAssemblyResolver -BinDir $bin
 Add-Type -AssemblyName System.Drawing
 Add-Type -AssemblyName System.Windows.Forms
 
-[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Interop.dll'))
+[void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Shared.dll'))
 [void][System.Reflection.Assembly]::LoadFrom((Join-Path $bin 'Krypton.Toolkit.dll'))
 
 $failed = New-Object System.Collections.Generic.List[string]
